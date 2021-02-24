@@ -2,6 +2,12 @@
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
     "jsx": "react-native",
+    "baseUrl": "./" ,
+    "paths": {
+      "/*": [
+        "./src/*"
+      ]
+    },
     "lib": ["dom", "esnext"],
     "moduleResolution": "node",
     "noEmit": true,
