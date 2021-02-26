@@ -1,55 +1,42 @@
-import { StatusBar } from 'expo-status-bar';
+import 'react-native-gesture-handler';
 import React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack' ;
-
-function HomeScreen({ navigation }:any) {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Home Screen</Text>
-      <Button
-        title="Go to Details"
-        onPress={() => navigation.navigate('Details')}
-      />
-    </View>
-  );
-}
-
-function DetailsScreen({ navigation }:any) {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Details Screen</Text>
-      <Button
-        title="Go to Details... again"
-        onPress={() => navigation.push('Details')}
-      />
-      <Button title="Go to Home" onPress={() => navigation.navigate('Home')} />
-      <Button title="Go back" onPress={() => navigation.goBack()} />
-    </View>
-  );
-}
+import { createStackNavigator } from '@react-navigation/stack';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { useColorScheme } from 'react-native-appearance';
+import { Home } from '/screens'; 
+import { darkTheme, lightTheme } from '/lib/themeColor';
+import { ThemeProvider } from 'styled-components';
 
 const Stack = createStackNavigator();
 
 
-export default function App() {
-  
+const Detail = () => {
   return (
-    <NavigationContainer >
-      <Stack.Navigator>
-        <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'Overview' }} />
-        <Stack.Screen name="Details" component={DetailsScreen} options={{ title: 'Detail' }} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <>
+    </>
+  )
+}
+//FlatList
+export default function App() {
+
+  const scheme = useColorScheme();
+
+  return (
+    <ThemeProvider 
+      theme={scheme === 'dark' ? darkTheme : lightTheme}
+    >
+      <SafeAreaProvider>
+        <NavigationContainer>
+          <Stack.Navigator
+            headerMode='none'
+          >
+            <Stack.Screen name="Home" component={Home} />
+            <Stack.Screen name="Detail" component={Detail} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </SafeAreaProvider>
+    </ThemeProvider>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
