@@ -22,6 +22,7 @@ export default function App() {
 
   const scheme = useColorScheme();
 
+  
   return (
     <ThemeProvider 
       theme={scheme === 'dark' ? darkTheme : lightTheme}

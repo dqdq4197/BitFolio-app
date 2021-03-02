@@ -80,9 +80,9 @@ type TabLabelProps = {
 const TabBarContainer = styled.View`
   flex-direction: row;
   height: 70px;
-  background-color: ${({theme}) => theme.colors.background_100};
+  background-color: ${({theme}) => theme.base.background[100]};
   border-top-width:1px;
-  border-top-color:${({theme}) => theme.colors.background_300};
+  border-top-color:${({theme}) => theme.base.background[300]};
 `
 const EachTabWrap = styled.TouchableOpacity`
   align-items: center;
@@ -90,5 +90,5 @@ const EachTabWrap = styled.TouchableOpacity`
   flex: 1;
 `
 const TabLabel = styled.Text<TabLabelProps>`
-  color: ${(props) => props.isFocused ? props.theme.colors.text_100 : props.theme.colors.text_300}
+  color: ${(props) => props.isFocused ? props.theme.base.text[100] : props.theme.base.text[400]}
 `

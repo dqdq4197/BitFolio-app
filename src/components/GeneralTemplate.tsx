@@ -10,7 +10,7 @@ type TemplateProps = {
 const GeneralTemplate = ({ children }: TemplateProps) => {
 
   const scheme = useColorScheme();
-
+  
   return (
     <Container>
       <StatusBar
@@ -27,7 +27,7 @@ const GeneralTemplate = ({ children }: TemplateProps) => {
 const Container = styled.SafeAreaView`
   height: 100%;
   background-color: ${({theme}) => {
-    return theme.colors.background_100;
+    return theme.base.background[100];
   }}
 `
 
