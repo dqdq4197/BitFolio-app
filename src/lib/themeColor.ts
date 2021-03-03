@@ -20,8 +20,18 @@ export const darkTheme: DefaultTheme = {
   colors: {
     ...pallete,
   },
+  size: {
+    font_xxxl: 48,
+    font_xxl: 32,
+    font_xl: 24,
+    font_l: 20,
+    font_ml: 16,
+    font_m: 14,
+    font_s: 12,
+    font_xs: 10
+  },
   content: {
-    padding: '16px'
+    padding: '20px'
   }
 }
 
@@ -42,6 +52,16 @@ export const lightTheme: DefaultTheme = {
   },
   colors: {
     ...pallete
+  },
+  size: {
+    font_xxxl: 48,
+    font_xxl: 32,
+    font_xl: 24,
+    font_l: 20,
+    font_ml: 16,
+    font_m: 14,
+    font_s: 12,
+    font_xs: 10
   },
   content: {
     padding: '16px'

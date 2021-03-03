@@ -16,6 +16,16 @@ declare module 'styled-components/native' {
         '400': string
       }
     },
+    size: {
+      font_xxxl: number,
+      font_xxl: number,
+      font_xl: number,
+      font_l: number,
+      font_ml: number,
+      font_m: number,
+      font_s: number,
+      font_xs: number
+    },
     colors: ColorsType,
     content: {
       padding: string,
