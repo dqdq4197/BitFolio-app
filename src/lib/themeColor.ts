@@ -12,7 +12,7 @@ export const darkTheme: DefaultTheme = {
     },
     text: {
       '100': 'white',
-      '200': 'rgba(0,0,0.96)',
+      '200': 'rgb(255, 255, 255)',
       '300': 'rgb(233, 236, 239)',
       '400': 'rgb(134, 142, 150)'
     },
@@ -21,14 +21,14 @@ export const darkTheme: DefaultTheme = {
     ...pallete,
   },
   size: {
-    font_xxxl: 48,
-    font_xxl: 32,
-    font_xl: 24,
-    font_l: 20,
-    font_ml: 16,
-    font_m: 14,
-    font_s: 12,
-    font_xs: 10
+    font_xxxl: '48px',
+    font_xxl: '32px',
+    font_xl: '24px',
+    font_l: '20px',
+    font_ml: '16px',
+    font_m: '14px',
+    font_s: '12px',
+    font_xs: '10px'
   },
   content: {
     padding: '20px'
@@ -45,7 +45,7 @@ export const lightTheme: DefaultTheme = {
     },
     text: {
       '100': 'white',
-      '200': 'rgba(0,0,0.96)',
+      '200': 'rgb(0,0,0.96)',
       '300': 'rgb(233, 236, 239)',
       '400': 'rgb(134, 142, 150)'
     }
@@ -54,14 +54,14 @@ export const lightTheme: DefaultTheme = {
     ...pallete
   },
   size: {
-    font_xxxl: 48,
-    font_xxl: 32,
-    font_xl: 24,
-    font_l: 20,
-    font_ml: 16,
-    font_m: 14,
-    font_s: 12,
-    font_xs: 10
+    font_xxxl: '48px',
+    font_xxl: '32px',
+    font_xl: '24px',
+    font_l: '20px',
+    font_ml: '16px',
+    font_m: '14px',
+    font_s: '12px',
+    font_xs: '10px'
   },
   content: {
     padding: '16px'

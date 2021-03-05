@@ -3,7 +3,7 @@ import { RefreshControl } from 'react-native';
 
 
 type ControlProps = {
-  todo: () => void;
+  todo?: () => void;
 }
 
 const wait = (timeout:number) => {
@@ -16,7 +16,8 @@ const CustomRefreshControl = ({todo}:ControlProps) => {
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     wait(2000).then(() => {
-      todo();
+      if(todo)
+       todo();
       setRefreshing(false);
     });
   }, []);

@@ -29,3 +29,9 @@ export type CoinMarketReturn = {
   last_updated: string;
   price_change_percentage_1h_in_currency?: number;
 }
+
+export type CharDataReturn = {
+  prices: [number[]],
+  market_caps: [number[]],
+  total_volumes: [number[]]
+}

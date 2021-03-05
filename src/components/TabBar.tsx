@@ -1,11 +1,8 @@
 import React from 'react';
-import { BottomTabBarProps, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Portfolio, Quote, News} from '/screens';
+import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import styled from 'styled-components/native';
+import { TABBAR_HEIGHT } from '/lib/constant';
 
-const Tab = createBottomTabNavigator();
-
-type HomeProps = {}
 
 const TabBar = ({descriptors, state, navigation}: BottomTabBarProps) => {
   const { routes, index } = state;
@@ -57,21 +54,8 @@ const TabBar = ({descriptors, state, navigation}: BottomTabBarProps) => {
     </TabBarContainer>
   )
 }
-const Home = ({}:HomeProps) => {
 
-  return (
-    <>
-      <Tab.Navigator tabBar={props => <TabBar {...props}/>} initialRouteName="Quote">
-        <Tab.Screen name="Quote" options={{title:'시세'}} component={Quote} />
-        <Tab.Screen name="Portfolio" options={{title: '포트폴리오'}} component={Portfolio} />
-        <Tab.Screen name="News" options={{title: '뉴스'}} component={News} />
-      </Tab.Navigator>
-    </>
-  )
-}
-
-export default Home;
-
+export default TabBar;
 
 type TabLabelProps = {
   isFocused: boolean,
@@ -79,7 +63,7 @@ type TabLabelProps = {
 
 const TabBarContainer = styled.View`
   flex-direction: row;
-  height: 70px;
+  height: ${TABBAR_HEIGHT + 'px'};
   background-color: ${({theme}) => theme.base.background[100]};
   border-top-width:1px;
   border-top-color:${({theme}) => theme.base.background[300]};

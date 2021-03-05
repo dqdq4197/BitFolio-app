@@ -1,4 +1,3 @@
-export { default as Home } from './Home';
-export { default as Quote } from './Quote';
-export { default as Portfolio } from './Portfolio'; 
-export { default as News } from './News'; 
+export { default as CoinMarketStackScreen } from './coinMarket/CoinMarketStackScreen';
+export { default as PortfolioStackScreen } from './portfolio/PortfolioStackScreen'; 
+export { default as NewsStackScreen } from './news/NewsStackScreen'; 

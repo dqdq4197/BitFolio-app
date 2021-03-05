@@ -1,5 +1,5 @@
 import React from 'react';
-import { StatusBar } from 'react-native';
+import { StatusBar, Platform } from 'react-native';
 import { useColorScheme } from 'react-native-appearance';
 import styled from 'styled-components/native';
 
@@ -14,21 +14,22 @@ const GeneralTemplate = ({ children }: TemplateProps) => {
   return (
     <Container>
       <StatusBar
+        translucent={true}
         animated={true}
         backgroundColor='transparent'
-        barStyle={scheme === 'dark' ? 'light-content' : 'dark-content'}
+        barStyle={scheme === 'dark' ? 'light-content' : 'light-content'}
       />
         {children}
     </Container>
   )
 }
 
-
 const Container = styled.SafeAreaView`
-  height: 100%;
+  flex: 1;
   background-color: ${({theme}) => {
     return theme.base.background[100];
-  }}
+  }};
+  padding-top: ${Platform.OS === 'android' ? StatusBar.currentHeight + 'px' : 0};
 `
 
 export default GeneralTemplate;

@@ -1,7 +1,7 @@
 import useSWR, { ConfigInterface, responseInterface } from 'swr'
 import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios'
 
-export type GetRequest = AxiosRequestConfig | null
+export type RequestType = AxiosRequestConfig | null
 
 interface Return<Data, Error>
   extends Pick<
@@ -21,7 +21,7 @@ export interface Config<Data = unknown, Error = unknown>
 }
 
 export default function useRequest<Data = unknown, Error = unknown>(
-  request: GetRequest,
+  request: RequestType,
   { initialData, ...config }: Config<Data, Error> = {}
 ): Return<Data, Error> {
   const { data: response, error, isValidating, revalidate, mutate } = useSWR<

@@ -17,14 +17,14 @@ declare module 'styled-components/native' {
       }
     },
     size: {
-      font_xxxl: number,
-      font_xxl: number,
-      font_xl: number,
-      font_l: number,
-      font_ml: number,
-      font_m: number,
-      font_s: number,
-      font_xs: number
+      font_xxxl: string,
+      font_xxl: string,
+      font_xl: string,
+      font_l: string,
+      font_ml: string,
+      font_m: string,
+      font_s: string,
+      font_xs: string
     },
     colors: ColorsType,
     content: {

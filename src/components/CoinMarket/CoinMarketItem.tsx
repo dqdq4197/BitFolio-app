@@ -1,26 +1,32 @@
 import React from 'react';
-import { Image } from 'react-native';
+import { View, Dimensions } from 'react-native';
 import styled from 'styled-components/native';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { CoinMarketReturn } from '/lib/api/CoinGeckoReturnType';
 
 type ItemProps = {
   item: CoinMarketReturn,
   index: number,
+  onPressItem: (id:string) => void;
 }
-const CoinMarketItem = ({item, index}:ItemProps) => {
-
-  const { price_change_percentage_24h, id, current_price } = item;
+const CoinMarketItem = ({item, index, onPressItem }:ItemProps) => {
+  const { price_change_percentage_24h, id, current_price,  symbol} = item;
 
   return (
-    <ItemContainer>
+    <>
+    <ItemContainer onPress={() => onPressItem(item.id)}>
       <ItemColumn column={1}>
-        <ItemSymborWrap>
-          <ItemLogo source={{uri: item.image}} />
-          <Text numberOfLines={1} ellipsizeMode='tail'>
-            {id}
-          </Text>
-        </ItemSymborWrap>
+        <ItemLogo source={{uri: item.image}} />
+        <View>
+          <NameText
+            numberOfLines={1} 
+            ellipsizeMode='tail'
+          >
+            {id.charAt(0).toUpperCase() + id.slice(1)}
+          </NameText>
+          <SymbolText>
+            {symbol.toUpperCase()}
+          </SymbolText>
+        </View>
       </ItemColumn>
       <ItemColumn column={1}>
         <FigureText isRising={price_change_percentage_24h > 0}>
@@ -37,6 +43,7 @@ const CoinMarketItem = ({item, index}:ItemProps) => {
         </Text>
       </ItemColumn>
     </ItemContainer>
+    </>
   )
 }
 
@@ -51,16 +58,37 @@ type FigureTextProps = {
 }
 
 const ItemContainer = styled.TouchableOpacity`
-  flex-direction: row;
+  width: ${Dimensions.get('window').width}px;
   height: 60px;
+  flex-direction: row;
   margin-left: auto;
   margin-right: auto;
   padding-left: ${({theme}) => theme.content.padding};
   padding-right: ${({theme}) => theme.content.padding};
 `
 
-const ItemSymborWrap = styled.View`
+const ItemColumn = styled.View<ColumnProps>`
+  flex: 1;
   flex-direction: row;
+  height: 100%;
+  align-items: center;
+`   
+
+const Text = styled.Text`
+  width: 100%;
+  color:  ${({theme}) => theme.base.text[300]};
+  text-align: right;
+  font-size: ${({theme}) => theme.size.font_ml};
+`
+
+
+const NameText = styled(Text)`
+  text-align: left;
+`
+
+const SymbolText = styled(NameText)`
+  font-size: ${({theme}) => theme.size.font_m};
+  color: ${({theme}) => theme.base.text[400]};
 `
 
 const ItemLogo = styled.Image`
@@ -69,19 +97,6 @@ const ItemLogo = styled.Image`
   height: 30px;
   margin-right: 10px;
 `
-
-const ItemColumn = styled.View<ColumnProps>`
-  flex: ${({column}) => column};
-  justify-content: center;
-`
-
-const Text = styled.Text`
-  height: 100%;
-  color: white;
-  text-align: right;
-  font-size: ${({theme}) => theme.size.font_ml};
-`
-
 const FigureText = styled(Text)<FigureTextProps>`
   color: ${(props) => props.isRising ? props.theme.colors.green.a400 : props.theme.colors.red[500]};
 `

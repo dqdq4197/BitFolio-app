@@ -1,16 +1,16 @@
 import React, { Suspense } from 'react';
-import { View, Text, StatusBar } from 'react-native';
-import styled, {css} from 'styled-components/native';
+import { Text, View } from 'react-native';
 import GeneralTemplate from '/components/GeneralTemplate';
-import CoinMarketList from '/components/CoinMarket/CoinMarketList';
+import ItemDetail from '/components/CoinMarket/ItemDetail';
 import { ErrorBoundary, FallbackProps } from 'react-error-boundary';
 
 
-type QuoteProps = {}
 
-const Quote = ({}:QuoteProps) => {
+const CoinMarketDetailScreen = () => {
+
 
   function ErrorFallback({error, resetErrorBoundary}:FallbackProps) {
+    
     return (
       <View>
         <Text>Something went wrong:</Text>
@@ -19,16 +19,25 @@ const Quote = ({}:QuoteProps) => {
     )
   }
 
+  function SuspenseFallback() {
+    return (
+      <View>
+        <Text style={{color:'white', flex: 1, alignItems:'center', justifyContent: 'center'}}>Loading..</Text>
+      </View>
+    )
+  }
+
   return (
     <GeneralTemplate>
       <ErrorBoundary FallbackComponent={ErrorFallback}>
-        <Suspense fallback={<View><Text>Loading..</Text></View>}>
-          <CoinMarketList />
+        <Suspense 
+          fallback={<SuspenseFallback/>}
+        >
+          <ItemDetail />
         </Suspense>
       </ErrorBoundary>
     </GeneralTemplate>
   )
 }
 
-
-export default Quote;
+export default CoinMarketDetailScreen;
