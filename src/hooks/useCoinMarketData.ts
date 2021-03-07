@@ -11,7 +11,7 @@ export default ({
   page, 
   price_change_percentage,
   order,
-  sparkline = false,
+  sparkline = true,
   ids
 }: CoinMarketsParams) => {
 
@@ -24,7 +24,7 @@ export default ({
       page: pageIndex + 1,
       order,
       per_page,
-      sparkline: false
+      sparkline: true
     })
   }
 

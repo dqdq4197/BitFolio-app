@@ -3,6 +3,15 @@ import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios'
 
 export type RequestType = AxiosRequestConfig | null
 
+interface Return<Data, Error>
+  extends Pick<
+    SWRInfiniteResponseInterface<AxiosResponse<Data>, AxiosError<Error>>,
+    'isValidating' | 'revalidate' | 'error' | 'mutate' | 'size' | 'setSize'
+  > {
+  data: Data[] | undefined
+  response: AxiosResponse<Data>[] | undefined
+}
+
 export interface Config<Data = unknown, Error = unknown>
   extends Omit<
     SWRInfiniteConfigInterface<AxiosResponse<Data>, AxiosError<Error>>,
@@ -18,7 +27,7 @@ export default function useRequestInfinite<Data = unknown, Error = unknown>(
     previousPageData: AxiosResponse<Data> | null
   ) => RequestType,
   { initialData, ...config }: Config<Data, Error> = {}
-) {
+): Return<Data, Error> {
   const { 
     data: response,
     size,
@@ -47,7 +56,7 @@ export default function useRequestInfinite<Data = unknown, Error = unknown>(
   )
 
   return {
-    data: response && response.map((res) => res.data).flat(),
+    data: response && response.map((res) => res.data),
     size,
     setSize,
     mutate,

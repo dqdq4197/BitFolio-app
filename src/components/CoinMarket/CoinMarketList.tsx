@@ -1,13 +1,15 @@
 import React, { useRef, useState, useCallback } from 'react';
-import { Animated, View, Dimensions, FlatList, Platform, RefreshControl } from 'react-native';
+import { Animated, Dimensions, FlatList, RefreshControl } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import CoinMarketItem from '/components/CoinMarket/CoinMarketItem'
 import useCoinMarketData from '/hooks/useCoinMarketData';
-import { TABBAR_HEIGHT } from '/lib/constant';
 import MarketListHeader from './MarketListHeader';
 
+const HEADER_MAX_HEIGHT = 240;
+const HEADER_MIN_HEIGHT = 150;
+
 const CoinMarketList = () => {
-  const ref = useRef(null);
+  const scrollY = useRef(new Animated.Value(0)).current;
   const [refreshing, setRefreshing] = useState(false);
 
   let { data, size, setSize, mutate } = useCoinMarketData({
@@ -15,7 +17,6 @@ const CoinMarketList = () => {
     per_page: 20,
     order: 'market_cap_rank'
   });
-
 
   const navigation = useNavigation();
 
@@ -33,15 +34,23 @@ const CoinMarketList = () => {
 
   return (
     <>
-      <MarketListHeader/>
+      <MarketListHeader 
+        {...{ HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT, scrollY } }
+      />
+      
       <FlatList 
-        data={data}
+        data={data?.flat()}
         keyExtractor={item => item.id +'asd'}
         renderItem={({item, index}) => <CoinMarketItem item={item} index={index} onPressItem={handlePressItem}/>}
-        contentContainerStyle={Platform.OS === 'android' ? {paddingBottom: TABBAR_HEIGHT} : {}}
+        contentContainerStyle={{paddingTop: HEADER_MAX_HEIGHT - 32}}
         scrollEventThrottle={16}
-        ref={ref}
         style={{height: Dimensions.get('window').height}}
+        onScroll={Animated.event(
+          [
+            { nativeEvent: { contentOffset: { y: scrollY } } }
+          ], 
+          { useNativeDriver: false }
+        )}
         refreshControl={
           <RefreshControl
             onRefresh={onRefresh}
@@ -58,3 +67,5 @@ const CoinMarketList = () => {
 }
 
 export default CoinMarketList;
+
+

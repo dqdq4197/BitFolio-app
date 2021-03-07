@@ -2,12 +2,16 @@ import React from 'react';
 import { View, Dimensions } from 'react-native';
 import styled from 'styled-components/native';
 import { CoinMarketReturn } from '/lib/api/CoinGeckoReturnType';
+import SparkLine from './SparkLine';
 
 type ItemProps = {
   item: CoinMarketReturn,
   index: number,
   onPressItem: (id:string) => void;
 }
+
+const { width } = Dimensions.get('window');
+
 const CoinMarketItem = ({item, index, onPressItem }:ItemProps) => {
   const { price_change_percentage_24h, id, current_price,  symbol} = item;
 
@@ -15,8 +19,10 @@ const CoinMarketItem = ({item, index, onPressItem }:ItemProps) => {
     <>
     <ItemContainer onPress={() => onPressItem(item.id)}>
       <ItemColumn column={1}>
-        <ItemLogo source={{uri: item.image}} />
-        <View>
+        <ImageWrap>
+          <ItemLogo source={{uri: item.image}} />
+        </ImageWrap>
+        <NameWrap>
           <NameText
             numberOfLines={1} 
             ellipsizeMode='tail'
@@ -26,21 +32,26 @@ const CoinMarketItem = ({item, index, onPressItem }:ItemProps) => {
           <SymbolText>
             {symbol.toUpperCase()}
           </SymbolText>
+        </NameWrap>
+      </ItemColumn>
+      <ItemColumn column={1}>
+        <SparkLine
+          prices={item.sparkline_in_7d.price}
+        />
+      </ItemColumn>
+      <ItemColumn column={1}>
+        <View style={{width: '100%'}}>
+          <Text>
+            {current_price}
+          </Text>
+          <FigureText isRising={price_change_percentage_24h > 0}>
+            {
+              price_change_percentage_24h > 0 
+              ? `+${price_change_percentage_24h.toFixed(2)}` 
+              : price_change_percentage_24h.toFixed(2)
+            }%
+          </FigureText>
         </View>
-      </ItemColumn>
-      <ItemColumn column={1}>
-        <FigureText isRising={price_change_percentage_24h > 0}>
-          {
-            price_change_percentage_24h > 0 
-            ? `+${price_change_percentage_24h.toFixed(2)}` 
-            : price_change_percentage_24h.toFixed(2)
-          }%
-        </FigureText>
-      </ItemColumn>
-      <ItemColumn column={1}>
-        <Text>
-          {current_price}
-        </Text>
       </ItemColumn>
     </ItemContainer>
     </>
@@ -58,29 +69,32 @@ type FigureTextProps = {
 }
 
 const ItemContainer = styled.TouchableOpacity`
-  width: ${Dimensions.get('window').width}px;
+  width: ${({theme}) => width - parseInt(theme.content.spacing) * 2}px;
   height: 60px;
   flex-direction: row;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: ${({theme}) => theme.content.padding};
-  padding-right: ${({theme}) => theme.content.padding};
+  margin: 0 auto 6px;
+  padding-left: ${({theme}) => theme.content.spacing};
+  padding-right: ${({theme}) => theme.content.spacing};
+  border-radius: 3px;
 `
 
 const ItemColumn = styled.View<ColumnProps>`
-  flex: 1;
+  flex: ${props => props.column};
   flex-direction: row;
-  height: 100%;
   align-items: center;
+  justify-content: center;
 `   
 
+const NameWrap = styled.View`
+  /* 전체 넓이 - spacing를 3등분후 - 이미지 넓이 + 이미지 margin right*/
+  width: ${({theme}) => (width - parseInt(theme.content.spacing) * 2) / 3 - 40}px;
+`
+
 const Text = styled.Text`
-  width: 100%;
   color:  ${({theme}) => theme.base.text[300]};
   text-align: right;
   font-size: ${({theme}) => theme.size.font_ml};
 `
-
 
 const NameText = styled(Text)`
   text-align: left;
@@ -91,11 +105,16 @@ const SymbolText = styled(NameText)`
   color: ${({theme}) => theme.base.text[400]};
 `
 
-const ItemLogo = styled.Image`
-  border-radius: 3px;
+const ImageWrap = styled.View`
   width: 30px;
   height: 30px;
   margin-right: 10px;
+  border-radius: 3px;
+  overflow: hidden;
+`
+const ItemLogo = styled.Image`
+  width: 100%;
+  height: 100%;
 `
 const FigureText = styled(Text)<FigureTextProps>`
   color: ${(props) => props.isRising ? props.theme.colors.green.a400 : props.theme.colors.red[500]};

@@ -28,6 +28,9 @@ export type CoinMarketReturn = {
   roi: null;
   last_updated: string;
   price_change_percentage_1h_in_currency?: number;
+  sparkline_in_7d: {
+    price: number[]
+  }
 }
 
 export type CharDataReturn = {

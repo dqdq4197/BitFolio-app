@@ -28,7 +28,7 @@ declare module 'styled-components/native' {
     },
     colors: ColorsType,
     content: {
-      padding: string,
+      spacing: string,
     }
   }
 }

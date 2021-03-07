@@ -31,7 +31,7 @@ export const darkTheme: DefaultTheme = {
     font_xs: '10px'
   },
   content: {
-    padding: '20px'
+    spacing: '16px'
   }
 }
 
@@ -64,7 +64,7 @@ export const lightTheme: DefaultTheme = {
     font_xs: '10px'
   },
   content: {
-    padding: '16px'
+    spacing: '16px'
   }
 }
 
