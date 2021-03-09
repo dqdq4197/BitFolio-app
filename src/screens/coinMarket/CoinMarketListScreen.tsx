@@ -3,6 +3,7 @@ import { View, Text } from 'react-native';
 import GeneralTemplate from '/components/GeneralTemplate';
 import CoinMarketList from '/components/CoinMarket/CoinMarketList';
 import { ErrorBoundary, FallbackProps } from 'react-error-boundary';
+import MarketListSkeleton from '/components/skeletonPlaceholder/MarketListSkeleton';
 
 
 const CoinMarketListScreen = ({}) => {
@@ -30,7 +31,7 @@ const CoinMarketListScreen = ({}) => {
     <GeneralTemplate>
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <Suspense 
-          fallback={<SuspenseFallback/>}
+          fallback={<MarketListSkeleton/>}
         >
           <CoinMarketList />
         </Suspense>

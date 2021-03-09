@@ -1,36 +1,40 @@
-import React from 'react';
-import { Text, View, StyleSheet, Dimensions } from "react-native";
-// import Animated, {
-//   useAnimatedProps,
-//   useAnimatedStyle,
-//   useSharedValue,
-//   withTiming,
-// } from "react-native-reanimated";
-// // import { TouchableWithoutFeedback } from "react-native-gesture-handler";
-// import Svg, { Path } from "react-native-svg";
-// import { mixPath, useVector } from "react-native-redash";
-import { CharDataReturn } from '/lib/api/CoinGeckoReturnType';
+import React from "react";
+import { StyleSheet, View } from "react-native";
+import {VictoryBar,VictoryTooltip,VictoryVoronoiContainer,VictoryCursorContainer,VictoryScatter,VictoryLine, VictoryChart, VictoryTheme } from "victory-native";
 
-// // const { width } = Dimensions.get("window");
-// const AnimatedPath = Animated.createAnimatedComponent(Path);
 
-type LineChartProps = {
-  data: CharDataReturn
-}
-const LineChart = ({ data }: LineChartProps) => {
-  // const translation = useVector();
-  // const transition = useSharedValue(0);
-  // const previous = useSharedValue(0);
-  // const current = useSharedValue(0);
-  console.log(data);
-  // const animateProps = useAnimatedProps(() => {
-  //   const previosPath = 
-  // })
 
+const LineChart = ({data}:any) => {
+
+  
   return (
-    <>
-    </>
-  )
+    <View>
+      <VictoryChart 
+        style={{
+
+        }}
+        containerComponent={
+          <VictoryVoronoiContainer
+            labels={({ datum }) => `${datum[1]}`}
+          />
+        }
+      >
+        <VictoryLine 
+          style={{
+            data: {
+              stroke: 'white',
+            }
+          }}
+          
+          animate 
+          data={data.prices.slice(-8)} 
+          x={0}
+          y={1}
+          interpolation="natural"
+        />
+      </VictoryChart>
+    </View>
+  );
 }
 
 export default LineChart;

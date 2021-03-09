@@ -11,10 +11,11 @@ import { NewsStackScreen, CoinMarketStackScreen, PortfolioStackScreen } from '/s
 import { store, persistor } from '/store';
 import { Provider } from 'react-redux';
 import { PersistGate } from "redux-persist/integration/react";
+import { connectActionSheet, ActionSheetProvider } from '@expo/react-native-action-sheet'
 
 const Tab = createBottomTabNavigator();
 
-export default function App() {
+function App() {
 
   const scheme = useColorScheme();
 
@@ -42,3 +43,13 @@ const RootNavigation = () => (
     </Tab.Navigator>
   </NavigationContainer>
 )
+
+const ConnectedApp = connectActionSheet(App);
+
+export default function AppContainer() {
+  return (
+    <ActionSheetProvider>
+        <ConnectedApp/>
+    </ActionSheetProvider>
+  )
+};

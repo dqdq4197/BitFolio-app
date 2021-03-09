@@ -11,6 +11,7 @@
     "devtools": "react-devtools"
   },
   "dependencies": {
+    "@expo/react-native-action-sheet": "^3.8.0",
     "@react-native-community/async-storage": "^1.12.1",
     "@react-native-community/masked-view": "0.1.10",
     "@react-navigation/bottom-tabs": "^5.11.8",
@@ -38,13 +39,15 @@
     "react-native-safe-area-context": "3.1.9",
     "react-native-safe-area-view": "^1.1.1",
     "react-native-screens": "~2.15.2",
+    "react-native-skeleton-placeholder": "^3.0.4",
     "react-native-svg": "^12.1.0",
     "react-native-web": "~0.13.12",
     "react-redux": "^7.2.2",
     "redux-devtools-extension": "^2.13.9",
     "redux-persist": "^6.0.0",
     "styled-components": "^5.2.1",
-    "swr": "^0.4.2"
+    "swr": "^0.4.2",
+    "victory-native": "^35.3.1"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",

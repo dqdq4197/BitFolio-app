@@ -32,6 +32,12 @@ export const darkTheme: DefaultTheme = {
   },
   content: {
     spacing: '16px'
+  },
+  border: {
+    's': '3px',
+    'm': '6px',
+    'ml': '12px',
+    'xl': '20px',
   }
 }
 
@@ -65,6 +71,12 @@ export const lightTheme: DefaultTheme = {
   },
   content: {
     spacing: '16px'
+  },
+  border: {
+    's': '3px',
+    'm': '6px',
+    'ml': '12px',
+    'xl': '20px',
   }
 }
 

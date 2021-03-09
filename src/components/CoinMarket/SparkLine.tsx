@@ -5,8 +5,9 @@ import styled from 'styled-components/native';
 
 type SparkLineProps = {
   prices: number[],
+  isRising: boolean,
 }
-const SparkLine = ({prices}:SparkLineProps) => {
+const SparkLine = ({prices, isRising}:SparkLineProps) => {
   const { path, XSIZE, YSIEZE } = Model({prices});
 
   return (
@@ -14,7 +15,7 @@ const SparkLine = ({prices}:SparkLineProps) => {
       <Svg height={YSIEZE} width={XSIZE}>
         <Path 
           d={path}
-          stroke='white'
+          stroke={isRising ? '#00e676' : '#f44336'}
           fill='transparent'
         />
       </Svg>

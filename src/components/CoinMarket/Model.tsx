@@ -1,6 +1,5 @@
 import * as shape from "d3-shape";
 import { scaleLinear } from "d3-scale";
-import { parse } from "react-native-redash";
 
 export const XSIZE = 80;
 export const YSIEZE = 40;

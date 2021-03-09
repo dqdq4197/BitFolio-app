@@ -22,8 +22,11 @@
 ### Markets
 --------------------------------
     Coin Rank순 정렬, Market Cap순 정렬, volume순 정렬
-    Coin 즐겨 찾기
+    Coin 즐겨 찾기, 즐겨 찾기 보기
     category별로 보기?..
+    Coin 검색
+    
+
 
 
 

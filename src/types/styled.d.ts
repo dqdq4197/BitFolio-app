@@ -29,6 +29,12 @@ declare module 'styled-components/native' {
     colors: ColorsType,
     content: {
       spacing: string,
+    },
+    border: {
+      's': string,
+      'm': string,
+      'ml': string,
+      'xl': string,
     }
   }
 }

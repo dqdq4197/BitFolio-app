@@ -1,18 +1,19 @@
 import useRequest from './useRequest';
 import { CoinGecko } from '/lib/api/CoinGeckoClient';
 import { CharDataReturn } from '/lib/api/CoinGeckoReturnType';
+import { useAppSelector } from './useRedux';
 
 type ChartDataProps = {
   id: string,
-  vsCurrency: 'usd' | 'krw' | 'eur',
   days: number,
   interval?: 'daily'
 }
 
-export default ({id, vsCurrency, days, interval}:ChartDataProps) => {
+export default ({id, days, interval}:ChartDataProps) => {
+  const { currency } = useAppSelector(state => state.baseSettingReducer);
 
   const getKey = CoinGecko.coin.marketChart(id, {
-    vs_currency: vsCurrency,
+    vs_currency: currency,
     days,
     interval
   })

@@ -3,6 +3,7 @@ import { View, Dimensions } from 'react-native';
 import styled from 'styled-components/native';
 import { CoinMarketReturn } from '/lib/api/CoinGeckoReturnType';
 import SparkLine from './SparkLine';
+import useCurrencyFormat from '/hooks/useCurrencyFormat';
 
 type ItemProps = {
   item: CoinMarketReturn,
@@ -14,11 +15,18 @@ const { width } = Dimensions.get('window');
 
 const CoinMarketItem = ({item, index, onPressItem }:ItemProps) => {
   const { price_change_percentage_24h, id, current_price,  symbol} = item;
-
+  const price = useCurrencyFormat(current_price);
+  const isRising = price_change_percentage_24h > 0;
+  
   return (
     <>
     <ItemContainer onPress={() => onPressItem(item.id)}>
-      <ItemColumn column={1}>
+      <ItemColumn 
+        column={1.3}
+        style={{
+          justifyContent: 'flex-start'
+        }}
+      >
         <ImageWrap>
           <ItemLogo source={{uri: item.image}} />
         </ImageWrap>
@@ -36,17 +44,18 @@ const CoinMarketItem = ({item, index, onPressItem }:ItemProps) => {
       </ItemColumn>
       <ItemColumn column={1}>
         <SparkLine
+          isRising={isRising}
           prices={item.sparkline_in_7d.price}
         />
       </ItemColumn>
       <ItemColumn column={1}>
         <View style={{width: '100%'}}>
           <Text>
-            {current_price}
+            {price}
           </Text>
-          <FigureText isRising={price_change_percentage_24h > 0}>
+          <FigureText isRising={isRising}>
             {
-              price_change_percentage_24h > 0 
+              isRising
               ? `+${price_change_percentage_24h.toFixed(2)}` 
               : price_change_percentage_24h.toFixed(2)
             }%
@@ -73,9 +82,8 @@ const ItemContainer = styled.TouchableOpacity`
   height: 60px;
   flex-direction: row;
   margin: 0 auto 6px;
-  padding-left: ${({theme}) => theme.content.spacing};
-  padding-right: ${({theme}) => theme.content.spacing};
-  border-radius: 3px;
+  border-bottom-width: 1px;
+  border-bottom-color: ${({theme}) => theme.base.background[300]};
 `
 
 const ItemColumn = styled.View<ColumnProps>`
@@ -86,8 +94,8 @@ const ItemColumn = styled.View<ColumnProps>`
 `   
 
 const NameWrap = styled.View`
-  /* 전체 넓이 - spacing를 3등분후 - 이미지 넓이 + 이미지 margin right*/
-  width: ${({theme}) => (width - parseInt(theme.content.spacing) * 2) / 3 - 40}px;
+  /* 전체 넓이 - spacing를 3.3등분 * 1.3 후 - 이미지 넓이 + 이미지 margin right*/
+  width: ${({theme}) => (width - parseInt(theme.content.spacing) * 2) / 3.3 * 1.3 - 40}px;
 `
 
 const Text = styled.Text`
@@ -118,6 +126,7 @@ const ItemLogo = styled.Image`
 `
 const FigureText = styled(Text)<FigureTextProps>`
   color: ${(props) => props.isRising ? props.theme.colors.green.a400 : props.theme.colors.red[500]};
+  font-size: ${({theme}) => theme.size.font_m};
 `
 
 
