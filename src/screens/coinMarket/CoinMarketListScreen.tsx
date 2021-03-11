@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react';
 import { View, Text } from 'react-native';
 import GeneralTemplate from '/components/GeneralTemplate';
-import CoinMarketList from '/components/CoinMarket/CoinMarketList';
+import CoinMarketList from '../../components/CoinMarket/CoinMarketList';
 import { ErrorBoundary, FallbackProps } from 'react-error-boundary';
 import MarketListSkeleton from '/components/skeletonPlaceholder/MarketListSkeleton';
 
@@ -14,7 +14,7 @@ const CoinMarketListScreen = ({}) => {
     return (
       <View>
         <Text>Something went wrong:</Text>
-        <Text>{error.message}</Text>
+        <Text style={{color:'white'}}>{error.message}</Text>
       </View>
     )
   }

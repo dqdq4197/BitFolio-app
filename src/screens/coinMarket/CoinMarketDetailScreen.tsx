@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react';
 import { Text, View } from 'react-native';
 import GeneralTemplate from '/components/GeneralTemplate';
-import ItemDetail from '/components/CoinMarket/ItemDetail';
+import ItemDetail from '../../components/CoinMarket/ItemDetail';
 import { ErrorBoundary, FallbackProps } from 'react-error-boundary';
 
 

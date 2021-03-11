@@ -1,7 +1,11 @@
-import React, { useLayoutEffect } from 'react';
+import React, { useState, useLayoutEffect, useCallback } from 'react';
 import { useRoute, RouteProp, useNavigation } from '@react-navigation/native';
 import LineChart from './LineChart';
 import useMarketChartData from '/hooks/useMarketChartData';
+import { useAppSelector } from '/hooks/useRedux';
+import { CoordinatesPropType, CallbackArgs } from "victory-core";
+import styled from 'styled-components/native';
+
 
 type ParamList = {
   CoinMarketDetail: {
@@ -12,15 +16,17 @@ type ParamList = {
 const ItemDetail = () => {
 
   const { params } = useRoute<RouteProp<ParamList, 'CoinMarketDetail'>>();
+  const { detailOption } = useAppSelector(state => state.baseSettingReducer);
+  const [cursorValue, setCursorValue] = useState({
+    value: 1000,
+    time: 1000
+  });
+  const {  } = useState();
   const navigation = useNavigation();
   const { data, mutate, isValidating } = useMarketChartData({
     id: params.id,
     days: 1,
   })
-
-  React.useEffect(() => {
-    console.log(data);
-  }, [])
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -28,15 +34,40 @@ const ItemDetail = () => {
     })
   }, [params.id])
   
+  // const handleCursorChange = useCallback((value, props) => {
+  //   setCursorValue({
+  //     value: datum.y,
+  //     time: datum.x
+  //   })
+  //   return ``;
+  // }, [])
+
   if(!data) return <></>;
 
   return (
-    <>
-      <LineChart 
-        data={data}
+    <Container>
+      <Text 
       />
-    </>
+    {detailOption === 'ohlc' 
+      ? <>
+        </>
+      : <LineChart 
+          data={data[detailOption]}
+          // onCursorChange={handleCursorChange}
+        />
+    }
+      
+    </Container>
   )
 }
 
 export default ItemDetail;
+
+const Container = styled.View`
+
+`
+
+const Text = styled.Text`
+  font-size: ${({theme}) => theme.size.font_ml};
+  color: ${({theme}) => theme.base.text[300]};
+`
