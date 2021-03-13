@@ -1,11 +1,10 @@
-import React, { useRef, useState, useCallback, useEffect } from 'react';
-import { Animated, Dimensions, FlatList, RefreshControl, ScrollView } from 'react-native';
+import React, { useRef, useState, useCallback } from 'react';
+import { Animated, Dimensions, FlatList } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import CoinMarketItem from './CoinMarketItem'
 import useCoinMarketData from '/hooks/useCoinMarketData';
 import MarketListHeader from './MarketListHeader';
 import FlatListHeader from './FlatListHeader';
-import { useHeaderHeight } from '@react-navigation/stack';
 import MarketListSkeleton from '/components/skeletonPlaceholder/MarketListSkeleton';
 import CustomRefreshControl from '/components/common/CustomRefreshControl';
 
@@ -33,7 +32,7 @@ const CoinMarketList = () => {
   }, []);
 
   const handlePressItem = useCallback((id:string) => {
-    navigation.navigate('CoinMarketDetail', {id})
+    navigation.navigate('CoinMarketDetail', { id })
   }, [])
 
   return (

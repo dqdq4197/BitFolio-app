@@ -17,11 +17,6 @@ const ItemDetail = () => {
 
   const { params } = useRoute<RouteProp<ParamList, 'CoinMarketDetail'>>();
   const { detailOption } = useAppSelector(state => state.baseSettingReducer);
-  const [cursorValue, setCursorValue] = useState({
-    value: 1000,
-    time: 1000
-  });
-  const {  } = useState();
   const navigation = useNavigation();
   const { data, mutate, isValidating } = useMarketChartData({
     id: params.id,
