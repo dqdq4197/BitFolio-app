@@ -1,15 +1,17 @@
-import React, {useState, useRef} from "react";
+import React, { useState } from "react";
 import { View, StyleSheet, Dimensions, Text } from "react-native";
-import { PanGestureHandler, State } from "react-native-gesture-handler";
+import { PanGestureHandler } from "react-native-gesture-handler";
 import Animated, {
   useAnimatedGestureHandler,
   runOnJS,
-  interpolate,
 } from "react-native-reanimated";
 import * as d3 from 'd3';
-import { getYForX, interpolatePath, parse  } from "react-native-redash";
+import { ScaleTime } from 'd3-scale';
+import { getYForX, parse  } from "react-native-redash";
+import { setDatum } from '/store/coinMarketDetail';
+import { useAppDispatch } from '/hooks/useRedux';
 
-const { height, width } = Dimensions.get('window');
+const { height } = Dimensions.get('window');
 const CURSOR = 10;
 const styles = StyleSheet.create({
   cursor: {
@@ -19,7 +21,6 @@ const styles = StyleSheet.create({
     borderRadius: CURSOR / 2,
     borderWidth: 1,
     borderColor: 'white',
-    // backgroundColor: "white",
     justifyContent: "center",
     alignItems: "center",
   },
@@ -34,49 +35,23 @@ const styles = StyleSheet.create({
     height: height,
     width: 1,
     backgroundColor: 'white',
-  },
-  tooltip: {
-    position:'relative',
-    
-  },
-  text: {
-    position:'absolute',
-    color: 'white',
-    fontSize: 14,
-    width: 200,
-    height:100
-  },
-  text2: {
-    marginTop: 20,
-    position:'absolute',
-    color: 'white',
-    fontSize: 14,
-    width: 200,
-    height:100
   }
 });
 
 
 interface CursorProps {
   path: string,
-  valueX: [number, number],
-  valueY: [number, number]
+  scaleX: ScaleTime<number, number, never>,
+  data: [number[]],
 }
 
-const Cursor = ({ path, valueX, valueY, scaleX, data }: any) => {
+const Cursor = ({ path, scaleX, data }: CursorProps) => {
   const svgPath = parse(path);
-  const [translateX, setTranslateX] = useState(0);
-  const [translateY, setTranslateY] = useState(0);
+  const [translateX, setTranslateX] = useState(-100);
+  const [translateY, setTranslateY] = useState(-100);
   const [isActive, setIsActive] = useState(false);
-  const [datum, setDatum] = useState({
-    x: 0,
-    y: 0
-  })
+  const dispatch = useAppDispatch();
 
-  // const price = useDerivedValue(() => {
-    
-  //   return `$ ${round(p, 2).toLocaleString("en-US", { currency: "USD" })}`;
-  // });
   const bisect = d3.bisector((d: number[]) => {
     return d[0]
   }).left;
@@ -88,10 +63,12 @@ const Cursor = ({ path, valueX, valueY, scaleX, data }: any) => {
     const selectedData = data[i];
     setTranslateX(x);
     setTranslateY(y);
-    setDatum({
-      x: selectedData[0],
-      y: selectedData[1]
-    })
+    dispatch(
+      setDatum({
+        x: selectedData[0], 
+        y: selectedData[1]}
+      )
+    )
   }
 
   const onChangeActive = (state:boolean) => {
@@ -99,6 +76,12 @@ const Cursor = ({ path, valueX, valueY, scaleX, data }: any) => {
     if(!state) {
       setTranslateX(-100);
       setTranslateY(0);
+      dispatch(
+        setDatum({
+          x: 0,
+          y: 0
+        })
+      )
     }
   }
   
@@ -116,7 +99,9 @@ const Cursor = ({ path, valueX, valueY, scaleX, data }: any) => {
 
   return (
     <View style={StyleSheet.absoluteFill}>
-      <PanGestureHandler {...{ onGestureEvent }}>
+      <PanGestureHandler
+        {...{ onGestureEvent }}
+      >
         <Animated.View style={StyleSheet.absoluteFill}>
           <Animated.View 
             style={[styles.cursor, { 
@@ -127,14 +112,6 @@ const Cursor = ({ path, valueX, valueY, scaleX, data }: any) => {
               ]
             }]}
           >
-            <View style={styles.tooltip}>
-              <Text style={styles.text}>
-                {Math.floor(datum.y).toLocaleString("en-US", { currency: "KRW" })}
-              </Text>
-              <Text style={styles.text2}>
-                {new Date(datum.x).getHours()}
-              </Text>
-            </View>
             <View style={styles.line}/>
             <View style={styles.cursorBody} />
           </Animated.View>

@@ -53,7 +53,7 @@ const MarketListHeader = ({ HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT, scrollY }:Head
         // elevation: viewZIndex
       }}
     >
-      <SearchInput />
+      {/* <SearchInput /> */}
     </StyledView>
   )
 }

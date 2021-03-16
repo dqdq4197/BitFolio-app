@@ -25,7 +25,7 @@ function App() {
         <ThemeProvider 
           theme={scheme === 'dark' ? darkTheme : lightTheme}
         >
-          <SafeAreaProvider>
+          <SafeAreaProvider >
             <RootNavigation/>
           </SafeAreaProvider>
         </ThemeProvider>
@@ -49,7 +49,7 @@ const ConnectedApp = connectActionSheet(App);
 export default function AppContainer() {
   return (
     <ActionSheetProvider>
-        <ConnectedApp/>
+      <ConnectedApp/>
     </ActionSheetProvider>
   )
 };

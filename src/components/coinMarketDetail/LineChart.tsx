@@ -1,61 +1,36 @@
 import React from "react";
-import { Dimensions } from "react-native";
-import { scaleTime, scaleLinear } from "d3-scale";
-import * as shape from "d3-shape";
-import { Svg, Path } from 'react-native-svg';
 import Cursor from './Cursor';
 import styled from 'styled-components/native';
+import { Dimensions } from 'react-native';
 import { 
-  VictoryCursorContainer,
   VictoryChart, 
   VictoryLine, 
   VictoryAxis,
 } from 'victory-native';
+import useLineChartModel from '/hooks/useLineChartModel';
+import GlobalIndicator from '/components/common/GlobalIndicator';
 
-import { CoordinatesPropType } from 'victory-core';
-
-interface ChartProps {
-  data: [number[]]
-}
 
 const φ = (1 + Math.sqrt(5)) / 2;
 const { width, height: wHeight } = Dimensions.get("window");
 const height = (1 - 1 / φ) * wHeight;
-const cursorR = 5;  // Cursor 반지름
 const padding = 25 // 차트 padding
+const cursorR = 5;  // Cursor 반지름
 
-const getDomain = (domain: number[]) => [
-  Math.min(...domain),
-  Math.max(...domain)
-];
+interface ChartProps {
+  data: [number[]];
+  isValidating: boolean;
+}
 
-const LineChart = ({ data }: ChartProps) => {
-  const scaleX = scaleTime()
-    .domain(getDomain(data.map(d => d[0])))
-    .range([0, width]);
-  const scaleY = scaleLinear()
-    .domain(getDomain(data.map(d => d[1])))
-    .range([height + cursorR, 0]);
-  const d = 
-    shape
-    .line<number[]>()
-    .x(p => scaleX(p[0]))
-    .y(p => scaleY(p[1]))
-    .curve(shape.curveBasis)(data) as string
+const LineChart = ({ data, isValidating }: ChartProps) => {
   
-  const handleCursorChange = (event:CoordinatesPropType, props:any) => {
-    console.log(event);
-  }
+  const { scaleX, d } = useLineChartModel({data, width, height, cursorR});
+
   return (
     <ChartContainer>
-      {/* <Svg>
-        <Path 
-          d={d}
-          fill='transparent'
-          stroke={'white'}
-        />
-      </Svg> */}
-      
+      {isValidating &&
+        <GlobalIndicator size='large'/>
+      }
       <VictoryChart 
         width={width + padding}
         height={height + padding + cursorR}
@@ -64,11 +39,6 @@ const LineChart = ({ data }: ChartProps) => {
           bottom: padding
         }}
         scale={{x: "time", y: 'linear'}}
-        containerComponent={
-          <VictoryCursorContainer
-            onCursorChange={handleCursorChange}
-          />
-        }
       >
         <VictoryLine 
           style={{
@@ -118,8 +88,6 @@ const LineChart = ({ data }: ChartProps) => {
       <CursorContainer>
         <Cursor
           path={d}
-          valueX={getDomain(data.map(d => d[0]))}
-          valueY={getDomain(data.map(d => d[1]))}
           scaleX={scaleX}
           data={data}
         />
@@ -130,10 +98,9 @@ const LineChart = ({ data }: ChartProps) => {
 
 export default LineChart;
 
-
 const ChartContainer = styled.View`
   overflow: hidden;
-  margin-top: 100px;
+  margin-top: 30px;
   width: ${width + padding}px;
   height: ${height + padding + cursorR}px;
 `
@@ -143,4 +110,7 @@ const CursorContainer = styled.View`
   overflow: hidden;
   width: ${width + padding}px;
   height: ${height + cursorR}px;
+  z-index: 121;
 `
+
+

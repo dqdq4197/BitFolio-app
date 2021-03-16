@@ -1,28 +1,18 @@
 import React, { Suspense } from 'react';
 import { View, Text } from 'react-native';
 import GeneralTemplate from '/components/GeneralTemplate';
-import CoinMarketList from '../../components/CoinMarket/CoinMarketList';
+import CoinMarketList from '/components/coinMarket/CoinMarketList';
 import { ErrorBoundary, FallbackProps } from 'react-error-boundary';
 import MarketListSkeleton from '/components/skeletonPlaceholder/MarketListSkeleton';
 
 
 const CoinMarketListScreen = ({}) => {
 
-
   function ErrorFallback({error, resetErrorBoundary}:FallbackProps) {
-    
     return (
       <View>
-        <Text>Something went wrong:</Text>
+        <Text style={{color:'white'}}>Something went wrong:</Text>
         <Text style={{color:'white'}}>{error.message}</Text>
-      </View>
-    )
-  }
-
-  function SuspenseFallback() {
-    return (
-      <View>
-        <Text style={{color:'white', flex: 1, alignItems:'center', justifyContent: 'center'}}>Loading..</Text>
       </View>
     )
   }

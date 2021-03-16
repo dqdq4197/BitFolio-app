@@ -10,11 +10,11 @@ type ChartDataProps = {
 }
 
 export default ({id, days, interval}:ChartDataProps) => {
-  const { currency } = useAppSelector(state => state.baseSettingReducer);
+  const { currency, chartTimeFrame } = useAppSelector(state => state.baseSettingReducer);
 
   const getKey = CoinGecko.coin.marketChart(id, {
     vs_currency: currency,
-    days,
+    days: chartTimeFrame,
     interval
   })
 

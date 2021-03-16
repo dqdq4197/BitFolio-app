@@ -33,6 +33,7 @@ declare module 'styled-components/native' {
     border: {
       's': string,
       'm': string,
+      'l': string,
       'ml': string,
       'xl': string,
     }

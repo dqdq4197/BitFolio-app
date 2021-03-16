@@ -11,7 +11,6 @@ type StackProps = {}
 
 const Stack = createStackNavigator()
 
-
 const CoinMarketStackScreen = ({}:StackProps) => {
 
   const scheme = useColorScheme();
@@ -26,6 +25,7 @@ const CoinMarketStackScreen = ({}:StackProps) => {
       headerRight: () => (
         <Ionicons name="md-settings-outline" size={24} color="white" />
       ),
+      headerBackTitleVisible: false,
       headerRightContainerStyle: {
         paddingRight: 16
       },

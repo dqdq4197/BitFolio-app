@@ -1,10 +1,9 @@
 import React, { useRef, useState, useCallback } from 'react';
-import { Animated, Dimensions, FlatList } from 'react-native';
+import { Animated, View, FlatList, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import CoinMarketItem from './CoinMarketItem'
 import useCoinMarketData from '/hooks/useCoinMarketData';
 import MarketListHeader from './MarketListHeader';
-import FlatListHeader from './FlatListHeader';
 import MarketListSkeleton from '/components/skeletonPlaceholder/MarketListSkeleton';
 import CustomRefreshControl from '/components/common/CustomRefreshControl';
 
@@ -37,17 +36,18 @@ const CoinMarketList = () => {
 
   return (
     <>
-      <MarketListHeader 
+      {/* <MarketListHeader 
         {...{ HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT, scrollY } }
-      />
+      /> */}
+      <Text style={{color:'white'}}>
+        asda
+      </Text>
       <FlatList 
         data={data?.flat()}
         keyExtractor={item => item.id + item.symbol}
         renderItem={({item, index}) => <CoinMarketItem item={item} index={index} onPressItem={handlePressItem}/>}
         scrollEventThrottle={16}
-        style={{height: Dimensions.get('window').height}}
         contentContainerStyle={{backgroundColor: '#1B1B1B'}}
-        ListHeaderComponent={isValidating ? FlatListHeader : <></>}
         ListFooterComponent={MarketListSkeleton}
         onScroll={Animated.event(
           [
@@ -55,12 +55,12 @@ const CoinMarketList = () => {
           ], 
           { useNativeDriver: false }
         )}
-        refreshControl={
-          <CustomRefreshControl
-            onRefresh={onRefresh}
-            refreshing={refreshing}
-          />
-        }
+        // refreshControl={
+        //   <CustomRefreshControl
+        //     onRefresh={onRefresh}
+        //     refreshing={refreshing}
+        //   />
+        // }
         onEndReached={() => {
           setSize(size + 1)
         }}
@@ -71,5 +71,3 @@ const CoinMarketList = () => {
 }
 
 export default CoinMarketList;
-
-

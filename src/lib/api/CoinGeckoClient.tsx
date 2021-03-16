@@ -12,7 +12,7 @@ export type CoinMarketsParams = {
 
 type MarketChartParams = {
   vs_currency: 'usd' | 'krw' | 'eur',
-  days: number,
+  days: number | 'max',
   interval?: 'daily' // 90일 이전 설정하더라도 daily 간격 출력
 }
 
@@ -30,6 +30,15 @@ type MarketChartRangeParams = {
 type HistoricalOhlcParams = {
   vs_currency:'usd' | 'krw' | 'eur',
   days: number, //Data up to number of days ago (1/7/14/30/90/180/365/max)
+}
+
+type CoinDetailParams = {
+  localization: boolean,
+  tickers: boolean,
+  market_data: boolean,
+  community_data: boolean,
+  developer_data: boolean,
+  sparkline: boolean
 }
 
 export const CoinGecko = {
@@ -57,6 +66,12 @@ export const CoinGecko = {
         params
       }
     },
+    coinDetail: (id:string, params:CoinDetailParams) => {
+      return {
+        url: `${COINGECKO_PATH_PREFIX}/coins/${id}`,
+        params
+      }
+    },
     historySnapshot: (id:string, params:HistorySnapshotParams) => {
       return {
         url: `${COINGECKO_PATH_PREFIX}/coins/${id}/history`,
@@ -80,6 +95,6 @@ export const CoinGecko = {
         url: `${COINGECKO_PATH_PREFIX}/coins/${id}/ohlc`,
         params
       }
-    }    
+    },   
   }
 } 

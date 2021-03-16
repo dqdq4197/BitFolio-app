@@ -1,6 +1,6 @@
 import { useState, useLayoutEffect } from 'react';
 import { useAppSelector } from '/hooks/useRedux';
-import krwFormat from '/lib/func/krwFormat';
+import krwFormat from '/lib/utils/krwFormat';
 
 
 
@@ -9,15 +9,18 @@ const useCurrencyFormat = (currentPrice: number):string => {
   const { currency } = useAppSelector(state => state.baseSettingReducer);
   const [price, setPrice] = useState<number | string>('');
   
+  const toFixed = (num: number) => {
+    return Math.floor(num * 100) / 100
+  }
   useLayoutEffect(() => {
     if(currency === 'krw') {
-      setPrice('₩' + krwFormat(currentPrice as number))
+      setPrice('₩' + krwFormat(toFixed(currentPrice as number)))
     } else if(currency === 'usd') {
-      setPrice('$' + krwFormat(currentPrice as number))
+      setPrice('$' + krwFormat(toFixed(currentPrice as number)))
     } else if(currency === 'eur') {
-      setPrice('€' + krwFormat(currentPrice as number))
+      setPrice('€' + krwFormat(toFixed(currentPrice as number)))
     }
-  }, [currency])
+  }, [currency, currentPrice])
 
   return price as string;
 }

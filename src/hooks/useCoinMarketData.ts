@@ -7,7 +7,7 @@ import { useAppSelector } from './useRedux';
 
 
 export default ({
-  per_page = 1, 
+  per_page = 30, 
   price_change_percentage,
   order,
   ids

@@ -12,16 +12,20 @@ import {
 } from 'redux-persist'
 import AsyncStorage from '@react-native-community/async-storage';
 import baseSettingReducer from './baseSetting';
+import marketDetailReducer from './coinMarketDetail';
 
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
   whitelist: [], 
-  blacklist: [] // persist에 저장하지 않을 reducer들 
+  blacklist: [
+    'marketDetail'
+  ] // persist에 저장하지 않을 reducer들 
 }
 
 const rootReducer = combineReducers({
   baseSettingReducer,
+  marketDetailReducer
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
