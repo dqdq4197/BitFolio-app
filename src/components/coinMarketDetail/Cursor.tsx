@@ -10,6 +10,7 @@ import { ScaleTime } from 'd3-scale';
 import { getYForX, parse  } from "react-native-redash";
 import { setDatum } from '/store/coinMarketDetail';
 import { useAppDispatch } from '/hooks/useRedux';
+import useLineChartModel from '/hooks/useLineChartModel';
 
 const { height } = Dimensions.get('window');
 const CURSOR = 10;
@@ -40,17 +41,19 @@ const styles = StyleSheet.create({
 
 
 interface CursorProps {
-  path: string,
-  scaleX: ScaleTime<number, number, never>,
   data: [number[]],
+  width: number,
+  height: number,
+  cursorR: number,
 }
 
-const Cursor = ({ path, scaleX, data }: CursorProps) => {
-  const svgPath = parse(path);
+const Cursor = ({ data, width, height, cursorR }: CursorProps) => {
   const [translateX, setTranslateX] = useState(-100);
   const [translateY, setTranslateY] = useState(-100);
   const [isActive, setIsActive] = useState(false);
   const dispatch = useAppDispatch();
+  const { scaleX, d } = useLineChartModel({data, width, height, cursorR});
+  const svgPath = parse(d);
 
   const bisect = d3.bisector((d: number[]) => {
     return d[0]

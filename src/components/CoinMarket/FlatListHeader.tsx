@@ -17,6 +17,6 @@ const Container = styled.View`
   width: ${wp('100%')}px;
   margin: 0 auto;
   padding: 0 ${({theme}) => theme.content.spacing};
-  height: 40px;
+  height: 30px;
   background-color: ${({theme}) => theme.base.background[300]};
 `

@@ -1,62 +1,43 @@
-import React from "react";
-import Cursor from './Cursor';
-import styled from 'styled-components/native';
+import React from 'react';
 import { Dimensions } from 'react-native';
-import { 
-  VictoryChart, 
-  VictoryLine, 
-  VictoryAxis,
-  VictoryBar,
-} from 'victory-native';
+import { VictoryChart, VictoryTheme, VictoryAxis, VictoryCandlestick, VictoryZoomContainer } from 'victory-native';
+import useCandlesticChartData from '/hooks/useCandlesticChartData';
 import GlobalIndicator from '/components/common/GlobalIndicator';
-import useMarketLineChartData from '/hooks/useMarketLineChartData';
+import styled from 'styled-components/native';
 
-
+interface ChartProps {
+  id: string,
+}
 const φ = (1 + Math.sqrt(5)) / 2;
 const { width, height: wHeight } = Dimensions.get("window");
 const height = (1 - 1 / φ) * wHeight;
 const padding = 25 // 차트 padding
 const cursorR = 5;  // Cursor 반지름
+const CandlesticChart = ({ id }:ChartProps) => {
 
-interface ChartProps {
-  id: string,
-  chartOption: "prices" | "total_volumes" | "market_caps"
-}
+  const { data, isValidating } = useCandlesticChartData({ id });
 
-const LineChart = ({id, chartOption}: ChartProps) => {
-  
-  const { data, isValidating } = useMarketLineChartData({ id })
 
   if(!data) return <></>
-
   return (
     <ChartContainer>
-      {isValidating &&
-        <GlobalIndicator size='large'/>
-      }
-      <VictoryChart 
+      {isValidating && <GlobalIndicator/>}
+      <VictoryChart
+        theme={VictoryTheme.material}
         width={width + padding}
         height={height + padding + cursorR}
         padding={{
           right: padding,
           bottom: padding
         }}
-        scale={{x: "time", y: 'linear'}}
+        domainPadding={{ x: 25 }}
+        scale={{ x: "time" }}
+        containerComponent={
+          <VictoryZoomContainer
+            zoomDimension="x"
+            allowZoom={true} />
+        }
       >
-        <VictoryLine 
-          style={{
-            data: {
-              stroke: 'red',
-            }
-          }}
-          animate={{
-            duration: 300
-          }}
-          data={data[chartOption]} 
-          x={0}
-          y={1}
-          interpolation="basis"
-        />
         <VictoryAxis 
           style={{ 
             axis: {
@@ -65,13 +46,14 @@ const LineChart = ({id, chartOption}: ChartProps) => {
             },
             ticks: {
               stroke: "transparent",
-              fill: 'white'
             },
             tickLabels: {
               fill:'white',
-              fontSize: 13,
-            },  
-          }} 
+            },
+            grid: {
+              stroke: 'transparent'
+            }  
+          }}
         />
         <VictoryAxis 
           dependentAxis
@@ -90,20 +72,21 @@ const LineChart = ({id, chartOption}: ChartProps) => {
             }
           }} 
         />
-      </VictoryChart>
-      <CursorContainer>
-        <Cursor
-          data={data[chartOption]}
-          width={width}
-          height={height}
-          cursorR={cursorR}
+        <VictoryCandlestick
+          x={0}
+          open={1}
+          high={2}
+          low={3}
+          close={4}
+          data={data as any}
+          candleColors={{ positive: "green", negative: "#c43a31" }}
         />
-      </CursorContainer>
+      </VictoryChart>
     </ChartContainer>
-  );
-};
+  )
+}
 
-export default LineChart;
+export default CandlesticChart;
 
 const ChartContainer = styled.View`
   overflow: hidden;
@@ -111,13 +94,3 @@ const ChartContainer = styled.View`
   width: ${width + padding}px;
   height: ${height + padding + cursorR}px;
 `
-
-const CursorContainer = styled.View`
-  position: absolute;
-  overflow: hidden;
-  width: ${width + padding}px;
-  height: ${height + cursorR}px;
-  z-index: 2;
-`
-
-

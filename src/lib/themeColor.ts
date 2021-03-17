@@ -9,6 +9,7 @@ export const darkTheme: DefaultTheme = {
       '100': '#100F10',
       '200': '#1B1B1B',
       '300': '#242424',
+      '400': '#616161'
     },
     text: {
       '100': 'white',
@@ -49,6 +50,7 @@ export const lightTheme: DefaultTheme = {
       '100': '#100F10',
       '200': '#1B1B1B',
       '300': '#242424',
+      '400': '#616161'
     },
     text: {
       '100': 'white',

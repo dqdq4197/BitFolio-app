@@ -5,8 +5,8 @@ import styled from 'styled-components/native';
 
 
 interface TextStyleProps extends TextProps {
-  margin?: number,
-  padding?: number,
+  margin?: string,
+  padding?: string,
   color?: string,
   color100?: boolean,  
   color300?: boolean,  
@@ -25,7 +25,7 @@ interface TextStyleProps extends TextProps {
   black?: boolean,
   center?: boolean, 
   right?: boolean,
-  children:  JSX.Element | JSX.Element[] | string | number | Date,
+  children:  any,
 }
 
 export default function TextStyle ({ ...props }:TextStyleProps) {

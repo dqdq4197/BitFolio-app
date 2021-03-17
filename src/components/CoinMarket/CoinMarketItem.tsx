@@ -69,7 +69,7 @@ const CoinMarketItem = ({item, index, onPressItem }:ItemProps) => {
   )
 }
 
-export default CoinMarketItem;
+export default React.memo(CoinMarketItem);
 
 type ColumnProps = {
   column: number,

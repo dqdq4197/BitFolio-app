@@ -6,6 +6,7 @@ import useCoinMarketData from '/hooks/useCoinMarketData';
 import MarketListHeader from './MarketListHeader';
 import MarketListSkeleton from '/components/skeletonPlaceholder/MarketListSkeleton';
 import CustomRefreshControl from '/components/common/CustomRefreshControl';
+import FlatListHeader from './FlatListHeader';
 
 
 const HEADER_MAX_HEIGHT = 150;
@@ -36,12 +37,7 @@ const CoinMarketList = () => {
 
   return (
     <>
-      {/* <MarketListHeader 
-        {...{ HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT, scrollY } }
-      /> */}
-      <Text style={{color:'white'}}>
-        asda
-      </Text>
+      <MarketListHeader/>
       <FlatList 
         data={data?.flat()}
         keyExtractor={item => item.id + item.symbol}
@@ -49,18 +45,20 @@ const CoinMarketList = () => {
         scrollEventThrottle={16}
         contentContainerStyle={{backgroundColor: '#1B1B1B'}}
         ListFooterComponent={MarketListSkeleton}
+        ListHeaderComponent={<FlatListHeader/>}
+        stickyHeaderIndices={[0]}
         onScroll={Animated.event(
           [
             { nativeEvent: { contentOffset: { y: scrollY } } }
           ], 
           { useNativeDriver: false }
         )}
-        // refreshControl={
-        //   <CustomRefreshControl
-        //     onRefresh={onRefresh}
-        //     refreshing={refreshing}
-        //   />
-        // }
+        refreshControl={
+          <CustomRefreshControl
+            onRefresh={onRefresh}
+            refreshing={refreshing}
+          />
+        }
         onEndReached={() => {
           setSize(size + 1)
         }}

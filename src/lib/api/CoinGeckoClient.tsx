@@ -29,10 +29,10 @@ type MarketChartRangeParams = {
 
 type HistoricalOhlcParams = {
   vs_currency:'usd' | 'krw' | 'eur',
-  days: number, //Data up to number of days ago (1/7/14/30/90/180/365/max)
+  days: number | 'max', //Data up to number of days ago (1/7/14/30/90/180/365/max)
 }
 
-type CoinDetailParams = {
+export type DetailInfoParams = {
   localization: boolean,
   tickers: boolean,
   market_data: boolean,
@@ -66,7 +66,7 @@ export const CoinGecko = {
         params
       }
     },
-    coinDetail: (id:string, params:CoinDetailParams) => {
+    DetailInfo: (id:string, params:DetailInfoParams) => {
       return {
         url: `${COINGECKO_PATH_PREFIX}/coins/${id}`,
         params

@@ -6,18 +6,15 @@ import { useAppSelector } from './useRedux';
 type ChartDataProps = {
   id: string,
   days?: number,
-  interval?: 'daily'
 }
 
-export default ({ id, days, interval }:ChartDataProps) => {
+export default ({ id, days }:ChartDataProps) => {
   const { currency, chartTimeFrame } = useAppSelector(state => state.baseSettingReducer);
-
   
-  const getKey = CoinGecko.coin.marketChart(id, {
+  const getKey = CoinGecko.coin.historicalOhlc(id, {
     vs_currency: currency,
     days: chartTimeFrame,
-    interval
   })
 
-  return useRequest<CharDataReturn>(getKey, { suspense: true })
+  return useRequest<CharDataReturn>(getKey)
 }

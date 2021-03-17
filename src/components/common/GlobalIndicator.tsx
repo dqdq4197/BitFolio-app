@@ -6,9 +6,9 @@ import styled from 'styled-components/native';
 const { width } = Dimensions.get('window')
 
 interface IndicatorType {
-  size: 'large' | 'small'
+  size?: 'large' | 'small'
 }
-export default function GlobalIndicator({size}:IndicatorType) {
+export default function GlobalIndicator({ size="large" }:IndicatorType) {
   return (
     <IndicatorWrap>
       <ActivityIndicator size={size} color="white"/>
