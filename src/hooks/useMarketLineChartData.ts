@@ -19,5 +19,5 @@ export default ({ id, days, interval }:ChartDataProps) => {
     interval
   })
 
-  return useRequest<CharDataReturn>(getKey, { suspense: true })
+  return useRequest<CharDataReturn>(getKey)
 }

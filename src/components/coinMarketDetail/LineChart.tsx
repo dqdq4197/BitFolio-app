@@ -6,10 +6,11 @@ import {
   VictoryChart, 
   VictoryLine, 
   VictoryAxis,
-  VictoryBar,
+  VictoryCursorContainer,
 } from 'victory-native';
 import GlobalIndicator from '/components/common/GlobalIndicator';
 import useMarketLineChartData from '/hooks/useMarketLineChartData';
+import { CONTENT_SPACING } from '/lib/constant';
 
 
 const φ = (1 + Math.sqrt(5)) / 2;
@@ -28,14 +29,13 @@ const LineChart = ({id, chartOption}: ChartProps) => {
   const { data, isValidating } = useMarketLineChartData({ id })
 
   if(!data) return <></>
-
   return (
     <ChartContainer>
-      {isValidating &&
+      {isValidating && 
         <GlobalIndicator size='large'/>
       }
       <VictoryChart 
-        width={width + padding}
+        width={width + padding - CONTENT_SPACING * 2}
         height={height + padding + cursorR}
         padding={{
           right: padding,
@@ -44,6 +44,7 @@ const LineChart = ({id, chartOption}: ChartProps) => {
         scale={{x: "time", y: 'linear'}}
       >
         <VictoryLine 
+          
           style={{
             data: {
               stroke: 'red',
@@ -92,12 +93,14 @@ const LineChart = ({id, chartOption}: ChartProps) => {
         />
       </VictoryChart>
       <CursorContainer>
-        <Cursor
-          data={data[chartOption]}
-          width={width}
-          height={height}
-          cursorR={cursorR}
-        />
+        {data &&
+          <Cursor
+            data={data[chartOption]}
+            width={width - CONTENT_SPACING * 2}
+            height={height}
+            cursorR={cursorR}
+          />
+        }
       </CursorContainer>
     </ChartContainer>
   );
@@ -110,14 +113,20 @@ const ChartContainer = styled.View`
   margin-top: 30px;
   width: ${width + padding}px;
   height: ${height + padding + cursorR}px;
+  align-items: center;
 `
 
 const CursorContainer = styled.View`
   position: absolute;
   overflow: hidden;
-  width: ${width + padding}px;
+  width: ${width + padding - CONTENT_SPACING * 2}px;
   height: ${height + cursorR}px;
   z-index: 2;
+  align-items: center;
+`
+
+const Skeleton = styled.View`
+
 `
 
 
