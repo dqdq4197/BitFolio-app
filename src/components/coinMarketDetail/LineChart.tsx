@@ -29,6 +29,7 @@ const LineChart = ({id, chartOption}: ChartProps) => {
   const { data, isValidating } = useMarketLineChartData({ id })
 
   if(!data) return <></>
+  
   return (
     <ChartContainer>
       {isValidating && 

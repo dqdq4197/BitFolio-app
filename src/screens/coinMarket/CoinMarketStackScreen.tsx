@@ -1,4 +1,5 @@
 import React from 'react';
+import { Dimensions } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import CoinMarketListScreen from './CoinMarketListScreen';
 import CoinMarketDetailScreen from './CoinMarketDetailScreen';
@@ -10,7 +11,7 @@ import { Ionicons } from '@expo/vector-icons';
 type StackProps = {}
 
 const Stack = createStackNavigator()
-
+const { width } = Dimensions.get("window");
 const CoinMarketStackScreen = ({}:StackProps) => {
 
   const scheme = useColorScheme();
@@ -26,12 +27,18 @@ const CoinMarketStackScreen = ({}:StackProps) => {
         <Ionicons name="md-settings-outline" size={24} color="white" />
       ),
       headerBackTitleVisible: false,
+      headerLeftContainerStyle: {
+        paddingLeft: 10,
+      },
       headerRightContainerStyle: {
         paddingRight: 16
       },
       headerTitleStyle: {
         fontSize: 20
-      }
+      },
+      gestureResponseDistance: {
+        horizontal: width
+      },
     }
   }
 

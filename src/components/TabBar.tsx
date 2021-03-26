@@ -3,7 +3,6 @@ import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import styled from 'styled-components/native';
 import { TABBAR_HEIGHT } from '/lib/constant';
 
-
 const TabBar = ({descriptors, state, navigation}: BottomTabBarProps) => {
   const { routes, index } = state;
 

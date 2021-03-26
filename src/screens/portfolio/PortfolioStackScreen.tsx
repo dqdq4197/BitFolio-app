@@ -7,8 +7,8 @@ type PortfolioProps = {
 }
 const Portfolio = ({ }: PortfolioProps) => {
   return (
-    <GeneralTemplate>
-    </GeneralTemplate>
+    <>
+    </>
   )
 }
 

@@ -40,22 +40,30 @@ const ChartTab = () => {
   }
   return (
     <ChartTabWrap>
-      <ChartTimeSelectorWrap horizontal={true}>
-        {timeFrame.map((v) => {
-          return (
-            <TimeSelector 
-              key={v.value} 
-              onPress={() => handleTimeSelectorPress(v.value)}
-              isSelected={v.value === chartTimeFrame}
-            >
-              <Text fontL color={v.value === chartTimeFrame ? '#eeeeee' : '#bdbdbd'}>
-                {v.label}
-              </Text>
-            </TimeSelector>
-          )
-        })}
+      <ChartTimeSelectorWrap horizontal>
+        <View style={{
+          shadowColor: 'white',
+          shadowOffset: { width: 0, height: 3 },
+          shadowOpacity: 0.5,
+          shadowRadius: 5,  
+          elevation: 5
+        }}>
+          {timeFrame.map((v) => {
+            return (
+              <TimeSelector 
+                key={v.value} 
+                onPress={() => handleTimeSelectorPress(v.value)}
+                isSelected={v.value === chartTimeFrame}
+              >
+                <Text fontL color={v.value === chartTimeFrame ? '#eeeeee' : '#bdbdbd'}>
+                  {v.label}
+                </Text>
+              </TimeSelector>
+            )
+          })}
+        </View>
       </ChartTimeSelectorWrap>
-      <ChartSelectorWrap>
+      <ChartSelectorWrap >
         <ChartSelector onPress={() => handleChartSelectorPress('prices')}>
           <MaterialCommunityIcons name="chart-line-variant" size={24} color="white" />
         </ChartSelector>
@@ -74,6 +82,10 @@ interface TimeSelectorProps {
   isSelected: boolean
 }
 
+const View = styled.View`
+  flex: 2.5;
+  flex-direction: row;
+`
 const ChartTabWrap = styled.View`
   flex-direction: row;
   justify-content: space-around;
