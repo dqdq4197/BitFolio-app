@@ -6,6 +6,12 @@ import { TABBAR_HEIGHT } from '/lib/constant';
 const TabBar = ({descriptors, state, navigation}: BottomTabBarProps) => {
   const { routes, index } = state;
 
+  const focusedOptions = descriptors[routes[index].key].options;
+
+  if(focusedOptions.tabBarVisible === false) {
+    return null;
+  }
+
   return (
     <TabBarContainer>
       {routes.map((route, idx) => {

@@ -1,9 +1,8 @@
 import 'react-native-gesture-handler';
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useColorScheme } from 'react-native-appearance';
 import { darkTheme, lightTheme } from '/lib/themeColor';
 import { ThemeProvider } from 'styled-components';
@@ -14,7 +13,7 @@ import { Provider } from 'react-redux';
 import { PersistGate } from "redux-persist/integration/react";
 import { connectActionSheet, ActionSheetProvider } from '@expo/react-native-action-sheet'
 
-const Tab = createMaterialTopTabNavigator();
+const Tab = createBottomTabNavigator();
 
 function App() {
 
@@ -37,7 +36,7 @@ function App() {
 
 const RootNavigation = () => (
   <NavigationContainer>
-    <Tab.Navigator tabBarPosition='bottom' tabBar={props => <TabBar {...props}/>} initialRouteName="CoinMarket">
+    <Tab.Navigator tabBar={props => <TabBar {...props}/>} initialRouteName="CoinMarket">
       <Tab.Screen name="Portfolio" options={{title: '포트폴리오'}} component={PortfolioStackScreen} />
       <Tab.Screen name="CoinMarket" options={{title:'시세'}} component={CoinMarketStackScreen} />
       <Tab.Screen name="News" options={{title: '뉴스'}} component={NewsStackScreen} />
