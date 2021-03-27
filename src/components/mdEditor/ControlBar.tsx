@@ -10,31 +10,32 @@ import { Octicons } from '@expo/vector-icons';
 
 const { width } = Dimensions.get('window');
 const CONTROLBAR_HEIGHT = 45;
+
 const ControlBar = () => {
 
   return (
-    <Container behavior={Platform.OS === "ios" ? "padding" : "height"}>
+    <Container behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset={45}>
       <View>
         <UtilsWrap flex={5}>
           <UtilBtn>
-            <MaterialIcons name="text-fields" size={24} color="white" />
+            <MaterialIcons name="text-fields" size={24} color="rgba(255,255,255, .7)" />
           </UtilBtn>
           <UtilBtn>
-            <FontAwesome name="quote-left" size={20} color="white" />
+            <FontAwesome name="quote-left" size={20} color="rgba(255,255,255, .7)" />
           </UtilBtn>
           <UtilBtn>
-            <FontAwesome5 name="list-ul" size={20} color="white" />
+            <FontAwesome5 name="list-ul" size={20} color="rgba(255,255,255, .7)" />
           </UtilBtn>
           <UtilBtn>
-            <Ionicons name="ellipsis-horizontal" size={24} color="white" />
+            <Ionicons name="ellipsis-horizontal" size={24} color="rgba(255,255,255, .7)" />
           </UtilBtn>
           <UtilBtn>
-            <Octicons name="mention" size={24} color="white" />
+            <Octicons name="mention" size={24} color="rgba(255,255,255, .7)" />
           </UtilBtn>
         </UtilsWrap>
         <UtilsWrap flex={1}>
           <UtilBtn>
-            <Ionicons name="md-image" size={24} color="white" />
+            <Ionicons name="md-image" size={24} color="rgba(255,255,255, .7)" />
           </UtilBtn>
         </UtilsWrap>
       </View>
@@ -54,8 +55,10 @@ const Container = styled.KeyboardAvoidingView`
   height: ${CONTROLBAR_HEIGHT}px;
   align-items: center;
   bottom: 0;
-  padding: ${CONTROLBAR_HEIGHT}px;
+  /* padding: ${CONTROLBAR_HEIGHT}px; */
+  /* padding: 0; */
   background-color: ${({theme}) => theme.base.background[200]};
+  /* background-color: white; */
 `
 const View = styled.View`
   position: absolute;
