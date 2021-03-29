@@ -1,7 +1,7 @@
 import React from 'react';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import styled from 'styled-components/native';
-import { TABBAR_HEIGHT } from '/lib/constant';
+import { TAB_BAR_HEIGHT } from '/lib/constant';
 
 const TabBar = ({descriptors, state, navigation}: BottomTabBarProps) => {
   const { routes, index } = state;
@@ -68,7 +68,7 @@ type TabLabelProps = {
 
 const TabBarContainer = styled.View`
   flex-direction: row;
-  height: ${TABBAR_HEIGHT + 'px'};
+  height: ${TAB_BAR_HEIGHT + 'px'};
   background-color: ${({theme}) => theme.base.background[100]};
   border-top-width:1px;
   border-top-color:${({theme}) => theme.base.background[300]};

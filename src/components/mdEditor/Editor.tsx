@@ -1,173 +1,112 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { TextInput, Platform, Dimensions, Keyboard, EmitterSubscription } from 'react-native';
+import { 
+  TextInput, 
+  NativeSyntheticEvent, 
+  TextInputSelectionChangeEventData
+} from 'react-native';
 import { useColorScheme } from 'react-native-appearance';
 import styled from 'styled-components/native';
 import ControlBar from './ControlBar';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import KeyboardAwareScrollView from './KeyboardAwareScrollView';
+// import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 
 // const UL_BULLET = "\u2022";
 
-const { height } = Dimensions.get('screen');
-const TOPTOSCROLL = 50;
-const TEXTINPUT_HEIGHT = 50;
 const CONTROL_BAR_HEIGHT = 45;
-
 
 const Editor = () => {
 
   const textInputRef = useRef<TextInput>(null);
-  const scrollViewRef = useRef<any>(null);
-  const scrollRef = useRef<any>();
-  const [focusState, setFocusState] = useState('');
-  const [contentStorage, setContentStorage] = useState(
-    [
-      {
-        type: "text",
-        payload: {
-          text: "",
-          styles: [
-            'NORMAL',
-          ]
-        }
+  const [focusState, setFocusState] = useState({
+    index: 0,
+    behavior: ''
+  });
+  const [contentStorage, setContentStorage] = useState([
+    {
+      type: "text",
+      payload: {
+        text: "",
+        styles: [
+          'NORMAL',
+        ]
       }
-    ]
-  )
-  const [cursorPosition, setCursorPosition] = useState({
+    },
+    {
+      type: "text",
+      payload: {
+        text: "",
+        styles: [
+          'NORMAL',
+        ]
+      }
+    }
+  ])
+  const [selection, setSelection] = useState({
     start: 0,
     end: 0
   })
-  const [focusIndex, setFocusIndex] = useState(0);
-  const [keyboardHeight, setKeyboardHeight] = useState(CONTROL_BAR_HEIGHT);
   const scheme = useColorScheme();
-
-  useEffect(() => {
-    let keyboardWillShowEvent: EmitterSubscription;
-    let keyboardWillHideEvent: EmitterSubscription;
-
-    if(Platform.OS === 'android') {
-      keyboardWillShowEvent = Keyboard.addListener(
-        'keyboardDidShow', 
-        (event) => {
-          setKeyboardHeight(event.endCoordinates.height + CONTROL_BAR_HEIGHT)
-        }
-      )
-
-      keyboardWillHideEvent = Keyboard.addListener(
-        'keyboardDidHide', 
-        (event) => {
-          setKeyboardHeight(CONTROL_BAR_HEIGHT);
-        }
-      )
-    } else {
-      keyboardWillShowEvent = Keyboard.addListener(
-        'keyboardWillShow', 
-        (event) => {
-          setKeyboardHeight(event.endCoordinates.height + CONTROL_BAR_HEIGHT)
-        }
-      )
-
-      keyboardWillHideEvent = Keyboard.addListener(
-        'keyboardWillHide', 
-        (event) => {
-          setKeyboardHeight(CONTROL_BAR_HEIGHT);
-        }
-      )
-    }
-    
-    return () => {
-      // keyboard event 해제
-      keyboardWillShowEvent.remove();
-      keyboardWillHideEvent.remove();
-    }
-  }, [])
 
   useEffect(() => {
     if(textInputRef.current) {
       textInputRef.current.focus();
-      if(focusState === 'enter') {
-        console.log('enter cursor')
-        textInputRef.current.setNativeProps({
-          selection: {
-            start: 0,
-            end: 0
-          }
-        })
-      } else if(focusState === 'backspace') {
-        console.log('backspace cursor')
-        textInputRef.current.setNativeProps({
-          selection: {
-            start: cursorPosition.start,
-            end: cursorPosition.end
-          }
-        })
-      } else if(focusState === 'pop' && focusIndex !== 0) {
-        console.log('pop cursor:', contentStorage[focusIndex].payload.text.length);
-        textInputRef.current.setNativeProps({
-          selection: {
-            start: contentStorage[focusIndex].payload.text.length,
-            end: contentStorage[focusIndex].payload.text.length
-          }
-        })
+      if(focusState.behavior === 'enter' || focusState.behavior === 'backspace' || (focusState.behavior === 'pop' && focusState.index !== 0)) {
+        textInputRef.current.setNativeProps({ selection })
       }
     }
 
-    textInputRef.current?.measure((fy:number ,pageY:number) => {
-      const offsetToTop = pageY - scrollRef.current;
-      const offsetToKeyboard = offsetToTop - keyboardHeight;
-      if(offsetToTop < TEXTINPUT_HEIGHT) {
-        // scrollViewRef.current.scrollToPosition(0, pageY - TOPTOSCROLL)
-        scrollViewRef.current?.scrollTo({
-          x: 0,
-          y: pageY - TOPTOSCROLL
-        })
-      }
-      if(offsetToKeyboard > 0) {
-        scrollViewRef.current?.scrollTo({
-          x: 0,
-          y: pageY - (height - keyboardHeight) + 175
-        })
-      }
-    })
-  }, [focusIndex])
+  }, [focusState.index])
 
-  const handleInputChangeText = (text:string, index: number) => {
-    var match = /\r|\n/.exec(text);
-    if (match) {
+
+  const updateCursorPosition = (index:number, behavior:string, selectionEnd: number) => {
+    setFocusState({ index, behavior })
+    setSelection({
+      start: selectionEnd,
+      end: selectionEnd
+    })
+  }
+
+  const handleInputChangeText = (text:string, index:number) => {
+    const lineBreak = /\r|\n/.exec(text);
+    if (lineBreak) {
       return ;
     }
-    const temp = contentStorage[index];
-    temp.payload.text = text;
+    const currentContext = contentStorage[index];
+    currentContext.payload.text = text;
     
     setContentStorage((prev) => [
       ...prev.slice(0, index),
-      temp,
+      currentContext,
       ...prev.slice(index + 1, contentStorage.length)
     ])
-    setFocusState('pushpop')
+
+    if(focusState.behavior !== 'reset')
+      setFocusState(prevState => ({
+        ...prevState,
+        behavior: 'reset'
+      }))
   }
 
   // backspace remove input text
   const handleInputKeyPress = (event:any, index:number) => {
-    const { key } = event.nativeEvent;
-    const targetText = contentStorage[index].payload.text;
+    if(focusState.index !== index) return ;
 
+    const { key } = event.nativeEvent;
+    
     if(key === 'Backspace' && index !== 0) {
-      if(targetText === "") {
+      const currentText = contentStorage[index].payload.text;
+      const prevContext = contentStorage[index - 1];
+      const prevText = prevContext.payload.text;
+
+      if(currentText === "") {
         setContentStorage((prev) => [
           ...prev.slice(0, index),
           ...prev.slice(index + 1, prev.length)
         ])
-        setFocusIndex(index - 1);
-        setFocusState('pop');
-        setCursorPosition({
-          start: contentStorage[index - 1].payload.text.length,
-          end: contentStorage[index - 1].payload.text.length
-        })
-      } else if(cursorPosition.end === 0) {
-        const prevContext = contentStorage[index - 1];
-        const prevText = prevContext.payload.text;
-        const editedText = prevText + targetText;
+        updateCursorPosition(index - 1, 'pop', prevText.length)
+      } else if(selection.end === 0) {
+        const editedText = prevText + currentText;
         prevContext.payload.text = editedText;
         setContentStorage(
           (prev) => [
@@ -176,12 +115,7 @@ const Editor = () => {
             ...prev.slice(index + 1, prev.length)
           ]
         )
-        setFocusIndex(index - 1);
-        setFocusState('backspace');
-        setCursorPosition({
-          start: prevText.length,
-          end: prevText.length
-        })
+        updateCursorPosition(index - 1, 'backspace', prevText.length)
       }
     }
   }
@@ -190,13 +124,13 @@ const Editor = () => {
   const handleInputSubmitEditing = (index:number) => {
     const oldContext = contentStorage[index];
     const text = oldContext.payload.text;
-    const editedText = text.slice(0, cursorPosition.start);
+    const editedText = text.slice(0, selection.start);
     oldContext.payload.text = editedText
 
     let newContext = {
       type:"text",
       payload: {
-        text: text.slice(cursorPosition.end, text.length),
+        text: text.slice(selection.end, text.length),
         styles: []
       }
     }
@@ -208,53 +142,61 @@ const Editor = () => {
         ...prev.slice(index + 1, prev.length)
       ]
     )
-    setFocusIndex(index + 1);
-    setCursorPosition({
-      start: 0,
-      end: 0
-    })
-    setFocusState('enter');
+    updateCursorPosition(index + 1, 'enter', 0)
+  }
+  const handleSelectionChange = (
+    event: NativeSyntheticEvent<TextInputSelectionChangeEventData>,
+    index: number
+  ) => {
+    const { selection } = event.nativeEvent;
+    const { index: focusIndex, behavior } = focusState;
+
+    if( focusIndex === index) {
+      if(behavior === 'enter') {
+        setSelection({
+          start: 0,
+          end: 0
+        })
+      } else if(behavior === 'pop') {
+        // todo when behavior is pop
+      } else if(behavior === 'backspace') {
+        // todo when behavior is backspace
+      } else {
+        setSelection(selection)
+      }
+    }
   }
 
   const InputArea = () => (
     contentStorage.map((content, index) => {
       const { type, payload } = content;
+      
       if(type === 'text' || type === 'quote') {
         return (
+          <>
           <StyledTextInput
             key={'input' + index} 
-            returnKeyType='next'
-            spellCheck={false}
             keyboardAppearance={scheme === 'dark' ? 'dark' : 'light'}
-            ref={focusIndex === index ? textInputRef : null}
+            ref={focusState.index === index ? textInputRef : null}
+            value={payload.text}
+            multiline
+            returnKeyType='next'
+            blurOnSubmit={false}
+            spellCheck={false}
+            scrollEnabled={false}
             onSubmitEditing={() => handleInputSubmitEditing(index)}
             onChangeText={(text) => handleInputChangeText(text, index)} 
             onKeyPress={(event) => handleInputKeyPress(event, index)}
-            value={payload.text}
+            onSelectionChange={event => handleSelectionChange(event, index)}
             onFocus={() => {
-              setFocusIndex(index)
-              setFocusState('touch')
+              setFocusState({
+                index,
+                behavior: 'reset'
+              })
             }}
-            onSelectionChange={
-              ({ nativeEvent: { selection } }) => {
-                if(focusIndex === index) {
-                  if(focusState === 'enter') {
-                    setCursorPosition({
-                      start: 0,
-                      end: 0
-                    })
-                  } else if(focusState === 'pop') {
-                  } else if(focusState === 'backspace') {
-                  } else {
-                    setCursorPosition(selection)
-                  }
-                }
-              }
-            }
-            multiline
-            scrollEnabled={false}
-            blurOnSubmit={false}
+            style={contentStorage.length - 1 === index && { display: 'none' }}
           />
+          </>
         )
       } else {
       }
@@ -263,21 +205,12 @@ const Editor = () => {
 
   return (
     <>
-      <Container
-        contentInset={{bottom: keyboardHeight}}
-        onScroll={(event) => {
-          scrollRef.current = event.nativeEvent.contentOffset.y;
-        }}
-        ref={scrollViewRef}
-        scrollEventThrottle={16}
-        onContentSizeChange={(w, y) => {
-          scrollRef.current = y;
-        }}
-        keyboardShouldPersistTaps={'always'}
-        keyboardDismissMode={Platform.OS === 'ios' ? "interactive" : "on-drag"}
+      <KeyboardAwareScrollView
+        autoScrollDependency={focusState.index}
+        extraScrollHeight={CONTROL_BAR_HEIGHT}
       >
         {InputArea()}
-      </Container>
+      </KeyboardAwareScrollView>
       <ControlBar/>
     </>
   )
@@ -285,14 +218,11 @@ const Editor = () => {
 
 export default Editor;
 
-const Container = styled.ScrollView`
-  flex: 1;
-`
 const StyledTextInput = styled.TextInput`
   padding: 5px 15px;
   font-size: 22px;
   color: white;
   font-weight: bold;
-  background-color: rgba(255,255,255, .2);
+  /* background-color: rgba(255,255,255, .2); */
   margin: 5px 0;
 `
