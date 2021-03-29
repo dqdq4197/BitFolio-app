@@ -31,7 +31,7 @@ const ItemDetail = () => {
   if(!data) return <></>
   return (
     <Container>
-        <PriceAndDetail 
+        {/* <PriceAndDetail 
           id={params.id}
           currentPrice={data?.market_data.current_price[currency]}
         />
@@ -44,7 +44,7 @@ const ItemDetail = () => {
             chartOption={chartOption}
           />
       }
-      <ChartTab />
+      <ChartTab /> */}
     </Container>
   )
 }
