@@ -3,33 +3,26 @@ import { TextInput, Platform, Dimensions, Keyboard, EmitterSubscription } from '
 import { useColorScheme } from 'react-native-appearance';
 import styled from 'styled-components/native';
 import ControlBar from './ControlBar';
-import { useHeaderHeight } from '@react-navigation/stack';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 
-const UL_BULLET = "\u2022";
+// const UL_BULLET = "\u2022";
+
 const { height } = Dimensions.get('screen');
 const TOPTOSCROLL = 50;
 const TEXTINPUT_HEIGHT = 50;
 const CONTROL_BAR_HEIGHT = 45;
+
+
 const Editor = () => {
 
   const textInputRef = useRef<TextInput>(null);
   const scrollViewRef = useRef<any>(null);
   const scrollRef = useRef<any>();
-  const headerHeight = useHeaderHeight();
-  const [scrollViewHeight, setScrollViewHeight] = useState(0);
+  const [focusState, setFocusState] = useState('');
   const [contentStorage, setContentStorage] = useState(
     [
       {
-        type: "text",
-        payload: {
-          text: "",
-          styles: [
-            'NORMAL',
-          ]
-        }
-      }, {
         type: "text",
         payload: {
           text: "",
@@ -44,7 +37,6 @@ const Editor = () => {
     start: 0,
     end: 0
   })
-  const [cursorFx, setCursorFx] = useState(0);
   const [focusIndex, setFocusIndex] = useState(0);
   const [keyboardHeight, setKeyboardHeight] = useState(CONTROL_BAR_HEIGHT);
   const scheme = useColorScheme();
@@ -93,13 +85,36 @@ const Editor = () => {
   useEffect(() => {
     if(textInputRef.current) {
       textInputRef.current.focus();
+      if(focusState === 'enter') {
+        console.log('enter cursor')
+        textInputRef.current.setNativeProps({
+          selection: {
+            start: 0,
+            end: 0
+          }
+        })
+      } else if(focusState === 'backspace') {
+        console.log('backspace cursor')
+        textInputRef.current.setNativeProps({
+          selection: {
+            start: cursorPosition.start,
+            end: cursorPosition.end
+          }
+        })
+      } else if(focusState === 'pop' && focusIndex !== 0) {
+        console.log('pop cursor:', contentStorage[focusIndex].payload.text.length);
+        textInputRef.current.setNativeProps({
+          selection: {
+            start: contentStorage[focusIndex].payload.text.length,
+            end: contentStorage[focusIndex].payload.text.length
+          }
+        })
+      }
     }
 
     textInputRef.current?.measure((fy:number ,pageY:number) => {
       const offsetToTop = pageY - scrollRef.current;
       const offsetToKeyboard = offsetToTop - keyboardHeight;
-      console.log(offsetToTop, keyboardHeight, offsetToKeyboard)
-      console.log(height);
       if(offsetToTop < TEXTINPUT_HEIGHT) {
         // scrollViewRef.current.scrollToPosition(0, pageY - TOPTOSCROLL)
         scrollViewRef.current?.scrollTo({
@@ -129,6 +144,7 @@ const Editor = () => {
       temp,
       ...prev.slice(index + 1, contentStorage.length)
     ])
+    setFocusState('pushpop')
   }
 
   // backspace remove input text
@@ -143,6 +159,11 @@ const Editor = () => {
           ...prev.slice(index + 1, prev.length)
         ])
         setFocusIndex(index - 1);
+        setFocusState('pop');
+        setCursorPosition({
+          start: contentStorage[index - 1].payload.text.length,
+          end: contentStorage[index - 1].payload.text.length
+        })
       } else if(cursorPosition.end === 0) {
         const prevContext = contentStorage[index - 1];
         const prevText = prevContext.payload.text;
@@ -155,11 +176,15 @@ const Editor = () => {
             ...prev.slice(index + 1, prev.length)
           ]
         )
-          setFocusIndex(index - 1);
-        }
+        setFocusIndex(index - 1);
+        setFocusState('backspace');
+        setCursorPosition({
+          start: prevText.length,
+          end: prevText.length
+        })
+      }
     }
   }
-
 
   // enter key 
   const handleInputSubmitEditing = (index:number) => {
@@ -167,6 +192,7 @@ const Editor = () => {
     const text = oldContext.payload.text;
     const editedText = text.slice(0, cursorPosition.start);
     oldContext.payload.text = editedText
+
     let newContext = {
       type:"text",
       payload: {
@@ -183,6 +209,11 @@ const Editor = () => {
       ]
     )
     setFocusIndex(index + 1);
+    setCursorPosition({
+      start: 0,
+      end: 0
+    })
+    setFocusState('enter');
   }
 
   const InputArea = () => (
@@ -198,15 +229,31 @@ const Editor = () => {
             ref={focusIndex === index ? textInputRef : null}
             onSubmitEditing={() => handleInputSubmitEditing(index)}
             onChangeText={(text) => handleInputChangeText(text, index)} 
-            // onChange={(event) => console.log('asdqwe',event.nativeEvent)}
             onKeyPress={(event) => handleInputKeyPress(event, index)}
             value={payload.text}
-            onFocus={() => setFocusIndex(index)}
-            onSelectionChange={(event) => setCursorPosition(event.nativeEvent.selection)}
+            onFocus={() => {
+              setFocusIndex(index)
+              setFocusState('touch')
+            }}
+            onSelectionChange={
+              ({ nativeEvent: { selection } }) => {
+                if(focusIndex === index) {
+                  if(focusState === 'enter') {
+                    setCursorPosition({
+                      start: 0,
+                      end: 0
+                    })
+                  } else if(focusState === 'pop') {
+                  } else if(focusState === 'backspace') {
+                  } else {
+                    setCursorPosition(selection)
+                  }
+                }
+              }
+            }
             multiline
             scrollEnabled={false}
             blurOnSubmit={false}
-            style={ index === contentStorage.length - 1 ? {display: 'none'} : null}
           />
         )
       } else {
@@ -219,15 +266,12 @@ const Editor = () => {
       <Container
         contentInset={{bottom: keyboardHeight}}
         onScroll={(event) => {
-          // console.log(event.nativeEvent.contentOffset);
           scrollRef.current = event.nativeEvent.contentOffset.y;
         }}
         ref={scrollViewRef}
         scrollEventThrottle={16}
         onContentSizeChange={(w, y) => {
           scrollRef.current = y;
-          setScrollViewHeight(y);
-          // console.log(y);
         }}
         keyboardShouldPersistTaps={'always'}
         keyboardDismissMode={Platform.OS === 'ios' ? "interactive" : "on-drag"}
