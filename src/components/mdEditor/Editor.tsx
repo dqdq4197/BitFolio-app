@@ -8,10 +8,11 @@ import { useColorScheme } from 'react-native-appearance';
 import styled from 'styled-components/native';
 import ControlBar from './ControlBar';
 import KeyboardAwareScrollView from './KeyboardAwareScrollView';
+import { TEXT_BOLD_UNICODE, TYPE_PARAGRAPH, TEXT_ITALIC_UNICODE, TEXT_MARKER_UNICODE, TEXT_LINK_UNICODE } from './constants';
+import RenderText from './RenderText';
+// import Text from '/components/common/Text';
 // import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
-
-// const UL_BULLET = "\u2022";
 
 const CONTROL_BAR_HEIGHT = 45;
 
@@ -20,20 +21,24 @@ const Editor = () => {
   const textInputRef = useRef<TextInput>(null);
   const [focusState, setFocusState] = useState({
     index: 0,
-    behavior: ''
+    action: ''
   });
   const [contentStorage, setContentStorage] = useState([
     {
-      type: "text",
+      type: TYPE_PARAGRAPH,
       payload: {
-        text: "",
+        text: `
+          ${TEXT_MARKER_UNICODE}hello${TEXT_MARKER_UNICODE} 
+          ${TEXT_LINK_UNICODE}${TEXT_ITALIC_UNICODE}${TEXT_BOLD_UNICODE}hi${TEXT_BOLD_UNICODE}${TEXT_ITALIC_UNICODE}${TEXT_LINK_UNICODE} 
+          how are ${TEXT_BOLD_UNICODE}you${TEXT_BOLD_UNICODE}?
+        `,
         styles: [
           'NORMAL',
         ]
       }
     },
     {
-      type: "text",
+      type: TYPE_PARAGRAPH,
       payload: {
         text: "",
         styles: [
@@ -51,7 +56,7 @@ const Editor = () => {
   useEffect(() => {
     if(textInputRef.current) {
       textInputRef.current.focus();
-      if(focusState.behavior === 'enter' || focusState.behavior === 'backspace' || (focusState.behavior === 'pop' && focusState.index !== 0)) {
+      if(focusState.action === 'enter' || focusState.action === 'backspace' || (focusState.action === 'pop' && focusState.index !== 0)) {
         textInputRef.current.setNativeProps({ selection })
       }
     }
@@ -59,12 +64,26 @@ const Editor = () => {
   }, [focusState.index])
 
 
-  const updateCursorPosition = (index:number, behavior:string, selectionEnd: number) => {
-    setFocusState({ index, behavior })
+  const updateCursorPosition = (index:number, action:string, selectionEnd: number) => {
+    setFocusState({ index, action })
     setSelection({
       start: selectionEnd,
       end: selectionEnd
     })
+  }
+
+  const FocusActionReset = (index?: number) => {
+    if(index) {
+      setFocusState({
+        index,
+        action: 'reset'
+      })
+    } else if(focusState.action !== 'reset') {
+      setFocusState(prevState => ({
+        ...prevState,
+        action: 'reset'
+      }))
+    }
   }
 
   const handleInputChangeText = (text:string, index:number) => {
@@ -73,25 +92,24 @@ const Editor = () => {
       return ;
     }
     const currentContext = contentStorage[index];
+
+    if(currentContext.payload.text === "" && text === "") {
+      return FocusActionReset();
+    }
     currentContext.payload.text = text;
-    
+
     setContentStorage((prev) => [
       ...prev.slice(0, index),
       currentContext,
       ...prev.slice(index + 1, contentStorage.length)
     ])
 
-    if(focusState.behavior !== 'reset')
-      setFocusState(prevState => ({
-        ...prevState,
-        behavior: 'reset'
-      }))
+    FocusActionReset();
   }
 
   // backspace remove input text
   const handleInputKeyPress = (event:any, index:number) => {
     if(focusState.index !== index) return ;
-
     const { key } = event.nativeEvent;
     
     if(key === 'Backspace' && index !== 0) {
@@ -100,12 +118,14 @@ const Editor = () => {
       const prevText = prevContext.payload.text;
 
       if(currentText === "") {
+        //onPress backspace remove current line
         setContentStorage((prev) => [
           ...prev.slice(0, index),
           ...prev.slice(index + 1, prev.length)
         ])
         updateCursorPosition(index - 1, 'pop', prevText.length)
       } else if(selection.end === 0) {
+        //onPress backspace merge previous line
         const editedText = prevText + currentText;
         prevContext.payload.text = editedText;
         setContentStorage(
@@ -128,7 +148,7 @@ const Editor = () => {
     oldContext.payload.text = editedText
 
     let newContext = {
-      type:"text",
+      type: TYPE_PARAGRAPH,
       payload: {
         text: text.slice(selection.end, text.length),
         styles: []
@@ -149,37 +169,61 @@ const Editor = () => {
     index: number
   ) => {
     const { selection } = event.nativeEvent;
-    const { index: focusIndex, behavior } = focusState;
+    const { index: focusIndex, action } = focusState;
 
     if( focusIndex === index) {
-      if(behavior === 'enter') {
+      if(action === 'enter') {
         setSelection({
           start: 0,
           end: 0
         })
-      } else if(behavior === 'pop') {
-        // todo when behavior is pop
-      } else if(behavior === 'backspace') {
-        // todo when behavior is backspace
+      } else if(action === 'pop') {
+        // todo when action is pop
+      } else if(action === 'backspace') {
+        // todo when action is backspace
       } else {
         setSelection(selection)
       }
     }
   }
 
+  const replaceRange = (
+    s: string,
+    start: number,
+    end: number,
+    substitute: string
+  ) => {
+    return s.substring(0, start) + substitute + s.substring(start, end) + substitute + s.substring(end);
+  }
+
+  const handleBoldPress = () => {
+    const { index } = focusState;
+    const currentContext = contentStorage[index]
+    const currentText = currentContext.payload.text;
+    const editedText = replaceRange(currentText, selection.start, selection.end, TEXT_BOLD_UNICODE)
+    
+    currentContext.payload.text = editedText;
+
+    setContentStorage(
+      (prev) => [
+        ...prev.slice(0, index),
+        currentContext,
+        ...prev.slice(index + 1, prev.length)
+      ]
+    )
+  }
   const InputArea = () => (
     contentStorage.map((content, index) => {
       const { type, payload } = content;
       
-      if(type === 'text' || type === 'quote') {
+      if(type === TYPE_PARAGRAPH || type === 'quote') {
         return (
-          <>
           <StyledTextInput
             key={'input' + index} 
             keyboardAppearance={scheme === 'dark' ? 'dark' : 'light'}
             ref={focusState.index === index ? textInputRef : null}
-            value={payload.text}
             multiline
+            value={''}
             returnKeyType='next'
             blurOnSubmit={false}
             spellCheck={false}
@@ -188,21 +232,18 @@ const Editor = () => {
             onChangeText={(text) => handleInputChangeText(text, index)} 
             onKeyPress={(event) => handleInputKeyPress(event, index)}
             onSelectionChange={event => handleSelectionChange(event, index)}
-            onFocus={() => {
-              setFocusState({
-                index,
-                behavior: 'reset'
-              })
-            }}
+            onFocus={() => FocusActionReset(index)}
             style={contentStorage.length - 1 === index && { display: 'none' }}
-          />
-          </>
+          >
+            <RenderText 
+              paragraph={payload.text}
+            />
+          </StyledTextInput>
         )
       } else {
       }
     })
   )
-
   return (
     <>
       <KeyboardAwareScrollView
@@ -211,7 +252,10 @@ const Editor = () => {
       >
         {InputArea()}
       </KeyboardAwareScrollView>
-      <ControlBar/>
+      <ControlBar 
+        selecting
+        onBoldPress={handleBoldPress}
+      />
     </>
   )
 }
@@ -222,7 +266,7 @@ const StyledTextInput = styled.TextInput`
   padding: 5px 15px;
   font-size: 22px;
   color: white;
-  font-weight: bold;
-  /* background-color: rgba(255,255,255, .2); */
+  background-color: rgba(255,255,255, .2);
   margin: 5px 0;
 `
+

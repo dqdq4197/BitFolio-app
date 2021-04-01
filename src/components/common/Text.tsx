@@ -25,6 +25,8 @@ interface TextStyleProps extends TextProps {
   black?: boolean,
   center?: boolean, 
   right?: boolean,
+  underline?: boolean,
+  italic?: boolean,
   children:  any,
 }
 
@@ -101,6 +103,17 @@ const Text = styled.Text<TextStyleProps>`
 
       default:
         return `text-align: left`;
+    }
+  }}
+
+  ${({ italic, underline }) => {
+    switch (true) {
+      case italic:
+        return `font-style: italic`;
+      case underline:
+        return `text-decoration-line: underline`;  
+      default:
+        return ;
     }
   }}
 `
