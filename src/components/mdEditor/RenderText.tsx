@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Text from '/components/common/Text';
-import {
-  TEXT_BOLD_UNICODE,
-  TEXT_ITALIC_UNICODE,
-  TEXT_LINK_UNICODE,
-  TEXT_MARKER_UNICODE
-} from './constants';
+import { unicodes } from './constants';
 import reactStringReplace from 'react-string-replace';
 import styled from 'styled-components/native';
+import 'react-native-get-random-values';
+import { v4 as uuidv4 } from 'uuid';
 // import * as babel from 'babel-core';
 
 
@@ -15,53 +12,55 @@ interface RenderTextProps {
   paragraph: string,
 }
 
+interface TextProps {
+  child: string
+}
+
 const makeRegex = (unicode:string) => {
   return new RegExp(`${unicode}(.*?)${unicode}`, "g");
 }
 
 const stringToMarker = (child: string) => {
-  return reactStringReplace(child, makeRegex(TEXT_MARKER_UNICODE), (match, i) => (
-    <MarkerText child={match} />
+  return reactStringReplace(child, makeRegex(unicodes.TEXT_MARKER), (match, i) => (
+    <MarkerText key={uuidv4()} child={match} />
   ))
 }
 const stringToLink = (child:string) => {
-  return reactStringReplace(child, makeRegex(TEXT_LINK_UNICODE), (match, i) => (
-    <LinkText child={match} />
+  return reactStringReplace(child, makeRegex(unicodes.TEXT_LINK), (match, i) => (
+    <LinkText key={uuidv4()} child={match} />
   ))
 }
 const stringToItalic = (child: string) => {
-  return reactStringReplace(child, makeRegex(TEXT_ITALIC_UNICODE), (match, i) => (
-    <ItalicText child={match} />
+  return reactStringReplace(child, makeRegex(unicodes.TEXT_ITALIC), (match, i) => (
+    <ItalicText key={uuidv4()} child={match} />
   ))
 }
 const stringToBold = (child: string) => {
-  return reactStringReplace(child, makeRegex(TEXT_BOLD_UNICODE), (match, i) => (
-    <BoldText child={match} />
+  return reactStringReplace(child, makeRegex(unicodes.TEXT_BOLD), (match, i) => (
+    <BoldText key={uuidv4()} child={match} />
   ))
 }
 
-
-
-const MarkerText = ({ child }: any) => {
-  let content = stringToLink(child);
+const MarkerText = ({ child }: TextProps) => {
+  let content = stringToLink(unicodes.TEXT_MARKER + child + unicodes.TEXT_MARKER);
 
   return <Marker fontXL>{content}</Marker>
 }
 
-const LinkText = ({ child }: any) => {
-  let content = stringToItalic(child);
+const LinkText = ({ child }: TextProps) => {
+  let content = stringToItalic(unicodes.TEXT_LINK + child + unicodes.TEXT_LINK);
   
   return <Text fontXL underline>{content}</Text>
 }
 
-const ItalicText = ({ child }: any) => {
-  let content = stringToBold(child);
+const ItalicText = ({ child }: TextProps) => {
+  let content = stringToBold(unicodes.TEXT_ITALIC + child + unicodes.TEXT_ITALIC);
 
   return <Text fontXL italic>{content}</Text>
 }
 
-const BoldText = ({ child }: any) => {
-  return <Text fontXL bold>{child}</Text>
+const BoldText = ({ child }: TextProps) => {
+  return <Text fontXL bold>{unicodes.TEXT_BOLD + child + unicodes.TEXT_BOLD}</Text>
 }
 
 // todo 
@@ -72,7 +71,6 @@ const BoldText = ({ child }: any) => {
 const RenderText = ({ paragraph }: RenderTextProps) => {
   
   const [content, setContent] = useState<React.ReactNodeArray | null>(null)
-
 
   useEffect(() => {
     let i = 0;
@@ -97,8 +95,6 @@ const RenderText = ({ paragraph }: RenderTextProps) => {
 
     setContent(context);
   }, [paragraph])
-
-  
   
   return (
     <Text fontXL>

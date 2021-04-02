@@ -1,22 +1,29 @@
 
+const unicodes = {
+  TEXT_BOLD:   "<b>"   ,  //"\u200B",
+  TEXT_ITALIC: "<i>"   ,  //"\u2006",
+  TEXT_MARKER: "<mark>",  //"\u2005",
+  TEXT_LINK:   "<link>",  //"\uFEFF",
+  UL_BULLET:   "\u2022",
+}
 
+const types = {
+  PARAGRAPH: "paragraph",
+  HEADER: "header",
+  LIST: "list",
+  QUOTE: "quote",
+}
 
-const TEXT_BOLD_UNICODE = "<b>" //"\u200B"
-const TEXT_ITALIC_UNICODE = "<i>" //"\u2006"
-const TEXT_MARKER_UNICODE = "<mark>" //"\u2005"
-const TEXT_LINK_UNICODE = "<link>" //"\uFEFF"
-const UL_BULLET = "\u2022";
-
-const TYPE_PARAGRAPH = "paragraph";
-const TYPE_HEADER = "header";
-const TYPE_LIST = "list";
+const actions = {
+  ENTER: "enter",
+  BACKSPACE: "backspace",
+  TYPING: "typing",
+  TOUCH: "touch",
+  LINEPOP: "linepop"
+}
 
 export {
-  TEXT_BOLD_UNICODE,
-  TEXT_ITALIC_UNICODE,
-  TEXT_MARKER_UNICODE,
-  TEXT_LINK_UNICODE,
-  TYPE_PARAGRAPH,
-  TYPE_HEADER,
-  TYPE_LIST
+  unicodes,
+  types,
+  actions
 }

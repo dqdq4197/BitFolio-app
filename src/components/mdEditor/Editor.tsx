@@ -8,7 +8,7 @@ import { useColorScheme } from 'react-native-appearance';
 import styled from 'styled-components/native';
 import ControlBar from './ControlBar';
 import KeyboardAwareScrollView from './KeyboardAwareScrollView';
-import { TEXT_BOLD_UNICODE, TYPE_PARAGRAPH, TEXT_ITALIC_UNICODE, TEXT_MARKER_UNICODE, TEXT_LINK_UNICODE } from './constants';
+import { unicodes, types, actions } from './constants';
 import RenderText from './RenderText';
 // import Text from '/components/common/Text';
 // import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
@@ -25,20 +25,16 @@ const Editor = () => {
   });
   const [contentStorage, setContentStorage] = useState([
     {
-      type: TYPE_PARAGRAPH,
+      type: types.PARAGRAPH,
       payload: {
-        text: `
-          ${TEXT_MARKER_UNICODE}hello${TEXT_MARKER_UNICODE} 
-          ${TEXT_LINK_UNICODE}${TEXT_ITALIC_UNICODE}${TEXT_BOLD_UNICODE}hi${TEXT_BOLD_UNICODE}${TEXT_ITALIC_UNICODE}${TEXT_LINK_UNICODE} 
-          how are ${TEXT_BOLD_UNICODE}you${TEXT_BOLD_UNICODE}?
-        `,
+        text: `${unicodes.TEXT_MARKER}hello${unicodes.TEXT_MARKER}${unicodes.TEXT_LINK}${unicodes.TEXT_ITALIC}${unicodes.TEXT_BOLD}hi${unicodes.TEXT_BOLD}${unicodes.TEXT_ITALIC}${unicodes.TEXT_LINK}how are ${unicodes.TEXT_BOLD}you${unicodes.TEXT_BOLD}?`,
         styles: [
           'NORMAL',
         ]
       }
     },
     {
-      type: TYPE_PARAGRAPH,
+      type: types.PARAGRAPH,
       payload: {
         text: "",
         styles: [
@@ -56,7 +52,7 @@ const Editor = () => {
   useEffect(() => {
     if(textInputRef.current) {
       textInputRef.current.focus();
-      if(focusState.action === 'enter' || focusState.action === 'backspace' || (focusState.action === 'pop' && focusState.index !== 0)) {
+      if(focusState.action === actions.ENTER || focusState.action === actions.BACKSPACE || (focusState.action === actions.LINEPOP && focusState.index !== 0)) {
         textInputRef.current.setNativeProps({ selection })
       }
     }
@@ -76,12 +72,12 @@ const Editor = () => {
     if(index) {
       setFocusState({
         index,
-        action: 'reset'
+        action: actions.TYPING
       })
-    } else if(focusState.action !== 'reset') {
+    } else if(focusState.action !== actions.TYPING) {
       setFocusState(prevState => ({
         ...prevState,
-        action: 'reset'
+        action: actions.TYPING
       }))
     }
   }
@@ -112,7 +108,7 @@ const Editor = () => {
     if(focusState.index !== index) return ;
     const { key } = event.nativeEvent;
     
-    if(key === 'Backspace' && index !== 0) {
+    if(key === "Backspace" && index !== 0) {
       const currentText = contentStorage[index].payload.text;
       const prevContext = contentStorage[index - 1];
       const prevText = prevContext.payload.text;
@@ -123,7 +119,7 @@ const Editor = () => {
           ...prev.slice(0, index),
           ...prev.slice(index + 1, prev.length)
         ])
-        updateCursorPosition(index - 1, 'pop', prevText.length)
+        updateCursorPosition(index - 1, actions.LINEPOP, prevText.length)
       } else if(selection.end === 0) {
         //onPress backspace merge previous line
         const editedText = prevText + currentText;
@@ -135,20 +131,22 @@ const Editor = () => {
             ...prev.slice(index + 1, prev.length)
           ]
         )
-        updateCursorPosition(index - 1, 'backspace', prevText.length)
+        updateCursorPosition(index - 1, actions.BACKSPACE, prevText.length)
       }
     }
   }
 
+  console.log(contentStorage);
   // enter key 
   const handleInputSubmitEditing = (index:number) => {
+    console.log('enter')
     const oldContext = contentStorage[index];
     const text = oldContext.payload.text;
     const editedText = text.slice(0, selection.start);
     oldContext.payload.text = editedText
 
     let newContext = {
-      type: TYPE_PARAGRAPH,
+      type: types.PARAGRAPH,
       payload: {
         text: text.slice(selection.end, text.length),
         styles: []
@@ -162,7 +160,7 @@ const Editor = () => {
         ...prev.slice(index + 1, prev.length)
       ]
     )
-    updateCursorPosition(index + 1, 'enter', 0)
+    updateCursorPosition(index + 1, actions.ENTER, 0)
   }
   const handleSelectionChange = (
     event: NativeSyntheticEvent<TextInputSelectionChangeEventData>,
@@ -172,14 +170,14 @@ const Editor = () => {
     const { index: focusIndex, action } = focusState;
 
     if( focusIndex === index) {
-      if(action === 'enter') {
+      if(action === actions.ENTER) {
         setSelection({
           start: 0,
           end: 0
         })
-      } else if(action === 'pop') {
+      } else if(action === actions.LINEPOP) {
         // todo when action is pop
-      } else if(action === 'backspace') {
+      } else if(action === actions.BACKSPACE) {
         // todo when action is backspace
       } else {
         setSelection(selection)
@@ -200,7 +198,7 @@ const Editor = () => {
     const { index } = focusState;
     const currentContext = contentStorage[index]
     const currentText = currentContext.payload.text;
-    const editedText = replaceRange(currentText, selection.start, selection.end, TEXT_BOLD_UNICODE)
+    const editedText = replaceRange(currentText, selection.start, selection.end, unicodes.TEXT_BOLD)
     
     currentContext.payload.text = editedText;
 
@@ -216,7 +214,7 @@ const Editor = () => {
     contentStorage.map((content, index) => {
       const { type, payload } = content;
       
-      if(type === TYPE_PARAGRAPH || type === 'quote') {
+      if(type === types.PARAGRAPH || type === types.QUOTE) {
         return (
           <StyledTextInput
             key={'input' + index} 
@@ -225,10 +223,13 @@ const Editor = () => {
             multiline
             value={''}
             returnKeyType='next'
+            returnKeyLabel="next"
             blurOnSubmit={false}
             spellCheck={false}
             scrollEnabled={false}
+            contextMenuHidden={true}
             onSubmitEditing={() => handleInputSubmitEditing(index)}
+            onEndEditing={() => console.log('enter')}
             onChangeText={(text) => handleInputChangeText(text, index)} 
             onKeyPress={(event) => handleInputKeyPress(event, index)}
             onSelectionChange={event => handleSelectionChange(event, index)}
