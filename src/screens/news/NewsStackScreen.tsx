@@ -1,6 +1,5 @@
 import React from 'react';
 import { Dimensions } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
 import { darkTheme, lightTheme } from '/lib/themeColor';
@@ -14,9 +13,7 @@ const { width } = Dimensions.get("window");
 
 const News = () => {
   
-  const navigation = useNavigation();
   const scheme = useColorScheme();
-  navigation.setOptions({tabBarVisible: false});
 
   const NavigationOptions = (title?: string) => {
     return {
@@ -50,7 +47,7 @@ const News = () => {
       <Stack.Screen 
         name="Editor" 
         component={EditorScreen}
-        options={NavigationOptions('')}
+        options={NavigationOptions('Editor')}
       />
     </Stack.Navigator>
   )

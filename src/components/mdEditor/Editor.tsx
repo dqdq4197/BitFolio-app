@@ -2,7 +2,8 @@ import React, { useRef, useEffect, useState } from 'react';
 import { 
   TextInput, 
   NativeSyntheticEvent, 
-  TextInputSelectionChangeEventData
+  TextInputSelectionChangeEventData,
+  TextInputKeyPressEventData
 } from 'react-native';
 import { useColorScheme } from 'react-native-appearance';
 import styled from 'styled-components/native';
@@ -103,13 +104,39 @@ const Editor = () => {
     FocusActionReset();
   }
 
-  // backspace remove input text
-  const handleInputKeyPress = (event:any, index:number) => {
+  const handleInputKeyPress = (
+    event:NativeSyntheticEvent<TextInputKeyPressEventData>, 
+    index:number
+  ) => {
     if(focusState.index !== index) return ;
     const { key } = event.nativeEvent;
+    const currentContext = contentStorage[index];
+    const currentText = currentContext.payload.text;
+
+    // enter key 
+    if(key === 'Enter') {
+      const editedText = currentText.slice(0, selection.start);
+      currentContext.payload.text = editedText;
+
+      let newContext = {
+        type: types.PARAGRAPH,
+        payload: {
+          text: currentText.slice(selection.end, currentText.length),
+          styles: [],
+        }
+      }
+      setContentStorage(
+        (prev) => [
+          ...prev.slice(0, index),
+          currentContext,
+          newContext,
+          ...prev.slice(index + 1, prev.length)
+        ]
+      )
+      updateCursorPosition(index + 1, actions.ENTER, 0)
+    }
     
     if(key === "Backspace" && index !== 0) {
-      const currentText = contentStorage[index].payload.text;
       const prevContext = contentStorage[index - 1];
       const prevText = prevContext.payload.text;
 
@@ -136,32 +163,6 @@ const Editor = () => {
     }
   }
 
-  console.log(contentStorage);
-  // enter key 
-  const handleInputSubmitEditing = (index:number) => {
-    console.log('enter')
-    const oldContext = contentStorage[index];
-    const text = oldContext.payload.text;
-    const editedText = text.slice(0, selection.start);
-    oldContext.payload.text = editedText
-
-    let newContext = {
-      type: types.PARAGRAPH,
-      payload: {
-        text: text.slice(selection.end, text.length),
-        styles: []
-      }
-    }
-    setContentStorage(
-      (prev) => [
-        ...prev.slice(0, index),
-        oldContext,
-        newContext,
-        ...prev.slice(index + 1, prev.length)
-      ]
-    )
-    updateCursorPosition(index + 1, actions.ENTER, 0)
-  }
   const handleSelectionChange = (
     event: NativeSyntheticEvent<TextInputSelectionChangeEventData>,
     index: number
@@ -228,8 +229,6 @@ const Editor = () => {
             spellCheck={false}
             scrollEnabled={false}
             contextMenuHidden={true}
-            onSubmitEditing={() => handleInputSubmitEditing(index)}
-            onEndEditing={() => console.log('enter')}
             onChangeText={(text) => handleInputChangeText(text, index)} 
             onKeyPress={(event) => handleInputKeyPress(event, index)}
             onSelectionChange={event => handleSelectionChange(event, index)}
