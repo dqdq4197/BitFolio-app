@@ -19,59 +19,64 @@ const CONTROLBAR_HEIGHT = 45;
 interface ControlBarProps {
   selecting: boolean,
   onBoldPress: () => void,
+  onQuotePress: () => void,
+  onHeaderPress: () => void,
+  onDelimiterPress: () => void,
 }
 
-const ControlBar = ({ selecting, onBoldPress }:ControlBarProps ) => {
+const ControlBar = ({ 
+  selecting, 
+  onBoldPress, 
+  onQuotePress, 
+  onHeaderPress,
+  onDelimiterPress
+}:ControlBarProps ) => {
 
 
   const SelectionContorlBar = () => (
-    <Container behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset={45}>
-      <SelectingView>
-        <UtilBtn onPress={onBoldPress}>
-          <Foundation name="bold" size={24} color="white" />
-        </UtilBtn>
-        <UtilBtn>
-          <MaterialIcons name="format-italic" size={24} color="white" />
-        </UtilBtn>
-        <UtilBtn>
-          <MaterialCommunityIcons name="marker" size={20} color="white" />
-        </UtilBtn>
-      </SelectingView>
-    </Container>
+    <SelectingView>
+      <UtilBtn onPress={onBoldPress}>
+        <Foundation name="bold" size={24} color="white" />
+      </UtilBtn>
+      <UtilBtn>
+        <MaterialIcons name="format-italic" size={24} color="white" />
+      </UtilBtn>
+      <UtilBtn>
+        <MaterialCommunityIcons name="marker" size={20} color="white" />
+      </UtilBtn>
+    </SelectingView>
   )
 
   return (
-    <>
-    {!selecting 
+    <Container behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset={45}>
+    {selecting 
       ? <SelectionContorlBar/>
-      : <Container behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset={45}>
-          <View>
-            <UtilsWrap flex={5}>
-              <UtilBtn onPress={onBoldPress}>
-                <MaterialIcons name="text-fields" size={24} color="rgba(255,255,255, .7)" />
-              </UtilBtn>
-              <UtilBtn>
-                <FontAwesome name="quote-left" size={20} color="rgba(255,255,255, .7)" />
-              </UtilBtn>
-              <UtilBtn>
-                <FontAwesome5 name="list-ul" size={20} color="rgba(255,255,255, .7)" />
-              </UtilBtn>
-              <UtilBtn>
-                <Ionicons name="ellipsis-horizontal" size={24} color="rgba(255,255,255, .7)" />
-              </UtilBtn>
-              <UtilBtn>
-                <Octicons name="mention" size={24} color="rgba(255,255,255, .7)" />
-              </UtilBtn>
-            </UtilsWrap>
-            <UtilsWrap flex={1}>
-              <UtilBtn>
-                <Ionicons name="md-image" size={24} color="rgba(255,255,255, .7)" />
-              </UtilBtn>
-            </UtilsWrap>
-          </View>
-        </Container>
+      : <View>
+          <UtilsWrap flex={5}>
+            <UtilBtn onPress={onHeaderPress}>
+              <MaterialIcons name="text-fields" size={24} color="rgba(255,255,255, .7)" />
+            </UtilBtn>
+            <UtilBtn onPress={onQuotePress}>
+              <FontAwesome name="quote-left" size={20} color="rgba(255,255,255, .7)" />
+            </UtilBtn>
+            <UtilBtn>
+              <FontAwesome5 name="list-ul" size={20} color="rgba(255,255,255, .7)" />
+            </UtilBtn>
+            <UtilBtn onPress={onDelimiterPress}>
+              <Ionicons name="ellipsis-horizontal" size={24} color="rgba(255,255,255, .7)" />
+            </UtilBtn>
+            <UtilBtn>
+              <Octicons name="mention" size={24} color="rgba(255,255,255, .7)" />
+            </UtilBtn>
+          </UtilsWrap>
+          <UtilsWrap flex={1}>
+            <UtilBtn>
+              <Ionicons name="md-image" size={24} color="rgba(255,255,255, .7)" />
+            </UtilBtn>
+          </UtilsWrap>
+        </View>
     }
-    </>
+    </Container>
 
     
   )

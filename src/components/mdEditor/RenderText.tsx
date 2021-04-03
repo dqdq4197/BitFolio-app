@@ -1,20 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import Text from '/components/common/Text';
-import { unicodes } from './constants';
+import React, { useState, useEffect, createContext, useContext } from 'react';
 import reactStringReplace from 'react-string-replace';
-import styled from 'styled-components/native';
+import styled, { css } from 'styled-components/native';
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
+import Text from '/components/common/Text';
+import { unicodes, types } from './constants';
+
 // import * as babel from 'babel-core';
 
 
 interface RenderTextProps {
+  type: string,
   paragraph: string,
 }
 
 interface TextProps {
   child: string
 }
+
+
+const TypeContext = createContext<string | null>(null);
 
 const makeRegex = (unicode:string) => {
   return new RegExp(`${unicode}(.*?)${unicode}`, "g");
@@ -42,33 +47,34 @@ const stringToBold = (child: string) => {
 }
 
 const MarkerText = ({ child }: TextProps) => {
+  const type = useContext(TypeContext);
   let content = stringToLink(unicodes.TEXT_MARKER + child + unicodes.TEXT_MARKER);
 
-  return <Marker fontXL>{content}</Marker>
+  return <Marker type={type as string}>{content}</Marker>
 }
 
 const LinkText = ({ child }: TextProps) => {
+  const type = useContext(TypeContext);
   let content = stringToItalic(unicodes.TEXT_LINK + child + unicodes.TEXT_LINK);
   
-  return <Text fontXL underline>{content}</Text>
+  return <DefaultText type={type as string} underline>{content}</DefaultText>
 }
 
 const ItalicText = ({ child }: TextProps) => {
+  const type = useContext(TypeContext);
   let content = stringToBold(unicodes.TEXT_ITALIC + child + unicodes.TEXT_ITALIC);
 
-  return <Text fontXL italic>{content}</Text>
+  return <DefaultText type={type as string} italic>{content}</DefaultText>
 }
 
 const BoldText = ({ child }: TextProps) => {
-  return <Text fontXL bold>{unicodes.TEXT_BOLD + child + unicodes.TEXT_BOLD}</Text>
+  const type = useContext(TypeContext);
+  return <DefaultText type={type as string} bold>{unicodes.TEXT_BOLD + child + unicodes.TEXT_BOLD}</DefaultText>
 }
-
-// todo 
-// key값 넣기(uuid), 
 
 // priority:
 // link > code > i > b  
-const RenderText = ({ paragraph }: RenderTextProps) => {
+const RenderText = ({ type, paragraph }: RenderTextProps) => {
   
   const [content, setContent] = useState<React.ReactNodeArray | null>(null)
 
@@ -95,17 +101,41 @@ const RenderText = ({ paragraph }: RenderTextProps) => {
 
     setContent(context);
   }, [paragraph])
-  
+
   return (
-    <Text fontXL>
-      {content}
-    </Text>
+    <TypeContext.Provider value={type}>
+      <DefaultText type={type}>
+        {content}
+      </DefaultText>
+    </TypeContext.Provider>
+
   )
 }
 
 export default RenderText;
 
+interface TextWrapProps {
+  type: string,
+}
+const DefaultText = styled(Text)`
+  ${(props: TextWrapProps) => {
+    switch(props.type) {
+      case types.HEADER:
+        return StyledHeader;
+      default:
+        return StyleParagraph;
+    }
+  }}
+`
 
-const Marker = styled(Text)`
+const StyleParagraph = css`
+  font-size: ${({theme}) => theme.size.font_l};
+`
+
+const StyledHeader = css`
+  font-size: ${({theme}) => theme.size.font_xxl};
+`
+
+const Marker = styled(DefaultText)`
   background-color: ${({theme}) => theme.colors.green[900]};
 `

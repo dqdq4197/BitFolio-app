@@ -10,11 +10,14 @@ import { useHeaderHeight } from '@react-navigation/stack';
 type TemplateProps = {
   children: React.ReactNode
 }
+
+const STATUSBAR_DEFAULT_HEIGHT = 20;
+
 const GeneralTemplate = ({ children }: TemplateProps) => {
 
   const scheme = useColorScheme();
   const headerHeight = useHeaderHeight();
-  
+
   return (
     <Container 
       as={SafeAreaView}
@@ -34,6 +37,8 @@ const GeneralTemplate = ({ children }: TemplateProps) => {
 interface ContainerProps {
   navHeight: number
 }
+
+// status bar 높이 빼주자 padding-top에  
 const Container = styled.SafeAreaView<ContainerProps>`
   flex: 1;
   background-color: ${({theme}) => {
@@ -42,7 +47,7 @@ const Container = styled.SafeAreaView<ContainerProps>`
   padding-top: ${
     (props) => Platform.OS === 'android' 
       ? StatusBar.currentHeight as number + 'px' 
-      : props.navHeight + 'px'
+      : props.navHeight - STATUSBAR_DEFAULT_HEIGHT + 'px'
   };
 `
 

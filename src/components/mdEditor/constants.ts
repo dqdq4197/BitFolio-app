@@ -12,6 +12,7 @@ const types = {
   HEADER: "header",
   LIST: "list",
   QUOTE: "quote",
+  DELIMITER: "delimiter",
 }
 
 const actions = {
