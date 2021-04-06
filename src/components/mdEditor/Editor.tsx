@@ -1,9 +1,11 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { 
   TextInput, 
+  findNodeHandle,
   NativeSyntheticEvent, 
   TextInputSelectionChangeEventData,
-  TextInputKeyPressEventData
+  TextInputKeyPressEventData,
+  TextInputFocusEventData
 } from 'react-native';
 import { useColorScheme } from 'react-native-appearance';
 import styled, { css } from 'styled-components/native';
@@ -25,12 +27,13 @@ interface ContentType {
 }
 
 const Editor = () => {
-
+  const scheme = useColorScheme();
   const textInputRef = useRef<TextInput>(null);
   const [focusState, setFocusState] = useState({
     index: 0,
     action: ''
   });
+  const [isTextRendered, setIsTextRendered] = useState(true);
   const [contentStorage, setContentStorage] = useState<ContentType[]>([
     {
       type: types.PARAGRAPH,
@@ -55,18 +58,28 @@ const Editor = () => {
     start: 0,
     end: 0
   })
-  const scheme = useColorScheme();
 
   useEffect(() => {
-    if(textInputRef.current) {
-      textInputRef.current.focus();
-      if(focusState.action === actions.ENTER || focusState.action === actions.BACKSPACE || (focusState.action === actions.LINEPOP && focusState.index !== 0)) {
+    if(textInputRef.current && isTextRendered) {
+      const { action, index } = focusState;
+      const { ENTER, BACKSPACE, LINEPOP } = actions;
+      
+      if(action !== LINEPOP)
+        textInputRef.current?.focus();
+
+      if(action === ENTER || action === BACKSPACE || (action === LINEPOP && index !== 0)) {
         textInputRef.current.setNativeProps({ selection })
-        console.log('하하', selection, focusState.action);
       }
     }
+  }, [focusState.index, isTextRendered])
 
-  }, [focusState.index])
+  const onTextRendering = useCallback((bool:boolean) => {
+    const { action } = focusState;
+    const { ENTER, BACKSPACE, LINEPOP } = actions;
+
+    if(action === ENTER || action === BACKSPACE || action === LINEPOP)
+      setIsTextRendered(bool);
+  }, [focusState.action])
 
   const updateFocusState = (index:number, action:string, selectionEnd: number) => {
     setFocusState({ index, action })
@@ -76,8 +89,7 @@ const Editor = () => {
     })
   }
 
-  const FocusActionReset = (index?: number) => {
-
+  const focusActionReset = (index?: number) => {
     if(index !== undefined) {
       setFocusState({
         index,
@@ -91,19 +103,19 @@ const Editor = () => {
     }
   }
 
-  console.log(focusState.action, selection);
-
   const handleInputChangeText = (text:string, index:number) => {
     const lineBreak = /\r|\n/.exec(text);
     let { action } = focusState;
+    
     if (lineBreak) {
       return ;
     }
-    if(action === actions.LINEPOP || action === actions.BACKSPACE) {
-      // return FocusActionReset();
-    }
-    const currentContext = contentStorage[index];
 
+    if(action === actions.LINEPOP || action === actions.BACKSPACE) {
+      return ;
+    }
+
+    const currentContext = contentStorage[index];
     currentContext.payload.text = text;
 
     setContentStorage((prev) => [
@@ -112,7 +124,7 @@ const Editor = () => {
       ...prev.slice(index + 1, contentStorage.length)
     ])
 
-    // FocusActionReset();
+    focusActionReset();
   }
 
   const handleInputKeyPress = (
@@ -123,7 +135,6 @@ const Editor = () => {
     const { key } = event.nativeEvent;
     const currentContext = contentStorage[index];
     const currentText = currentContext.payload.text as string;
-
     // enter key 
     if(key === 'Enter') {
       const editedText = currentText.slice(0, selection.start);
@@ -136,6 +147,8 @@ const Editor = () => {
           styles: [],
         }
       }
+
+      setIsTextRendered(false);
       setContentStorage(
         (prev) => [
           ...prev.slice(0, index),
@@ -151,11 +164,8 @@ const Editor = () => {
       const prevContext = contentStorage[index - 1];
       const prevText = prevContext.payload.text as string;
 
-
       if(selection.end === 0) {
         if(prevContext.type === types.DELIMITER) {
-          console.log('3')
-
           setContentStorage(
             (prev) => [
               ...prev.slice(0, index - 1),
@@ -166,8 +176,6 @@ const Editor = () => {
         } else {
           if(currentText === "") {
             //onPress backspace remove current line
-            console.log('2')
-
             setContentStorage(
               (prev) => [
               ...prev.slice(0, index),
@@ -175,11 +183,15 @@ const Editor = () => {
               ]
             )
             updateFocusState(index - 1, actions.LINEPOP, prevText.length)
+            setTimeout(() => {
+              textInputRef.current?.focus();
+            }, 0)
           } else {
             //onPress backspace merge previous line
-            console.log('1')
             const editedText = prevText + currentText;
             prevContext.payload.text = editedText;
+
+            setIsTextRendered(false);
             setContentStorage(
               (prev) => [
                 ...prev.slice(0, index - 1),
@@ -193,8 +205,6 @@ const Editor = () => {
       }
     }
   }
-
-  console.log(contentStorage)
 
   const replaceRange = (
     s: string,
@@ -291,6 +301,21 @@ const Editor = () => {
     updateFocusState(index + 2, actions.TYPING, 0);
   }
 
+  const handleFocus = (
+    event:NativeSyntheticEvent<TextInputFocusEventData>, 
+    index:number,
+  ) => {
+    const { text, target } = event.nativeEvent;
+
+    if(text === "") {
+      setSelection({
+        start: 0,
+        end: 0
+      })
+    }
+    focusActionReset(index);
+  }
+
   const handleSelectionChange = (
     event: NativeSyntheticEvent<TextInputSelectionChangeEventData>,
     index: number
@@ -309,6 +334,7 @@ const Editor = () => {
       } else if(action === actions.BACKSPACE) {
         // todo when action is backspace
       } else {
+        console.log(selection);
         setSelection(selection)
       }
     }
@@ -326,25 +352,23 @@ const Editor = () => {
             keyboardAppearance={scheme === 'dark' ? 'dark' : 'light'}
             ref={focusState.index === index ? textInputRef : null}
             multiline
-            value={''}
-            returnKeyType='next'
-            returnKeyLabel="next"
+            value={""}
             blurOnSubmit={false}
             spellCheck={false}
             scrollEnabled={false}
-            contextMenuHidden={true}
             onChangeText={(text) => handleInputChangeText(text, index)} 
             onKeyPress={(event) => handleInputKeyPress(event, index)}
             onSelectionChange={event => handleSelectionChange(event, index)}
-            onFocus={() => { 
-                FocusActionReset(index)}
-            }
+            onFocus={(event) => handleFocus(event, index)}
+            textAlignVertical="center"
             style={contentStorage.length - 1 === index && { display: 'none' }}
             type={type}
           >
             <RenderText 
               type={type}
               paragraph={payload.text as string}
+              onTextRendering={onTextRendering}
+              index={index}
             />
           </StyledTextInput>
         )

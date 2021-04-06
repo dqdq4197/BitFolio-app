@@ -1,4 +1,4 @@
-import React, { useState, useEffect, createContext, useContext } from 'react';
+import React, { useState, useLayoutEffect, createContext, useContext } from 'react';
 import reactStringReplace from 'react-string-replace';
 import styled, { css } from 'styled-components/native';
 import 'react-native-get-random-values';
@@ -12,6 +12,8 @@ import { unicodes, types } from './constants';
 interface RenderTextProps {
   type: string,
   paragraph: string,
+  onTextRendering: (bool:boolean) => void,
+  index:number
 }
 
 interface TextProps {
@@ -74,38 +76,39 @@ const BoldText = ({ child }: TextProps) => {
 
 // priority:
 // link > code > i > b  
-const RenderText = ({ type, paragraph }: RenderTextProps) => {
+const RenderText = ({ type, paragraph, onTextRendering, index }: RenderTextProps) => {
   
   const [content, setContent] = useState<React.ReactNodeArray | null>(null)
-
-  useEffect(() => {
+  
+  useLayoutEffect(() => {
     let i = 0;
     let context = stringToMarker(paragraph);
 
     while(i++ < 3) {
-      context = context.map(res => {
-        if(typeof res === 'string') {
+      context = context.map(text => {
+        if(typeof text === 'string') {
           if(i === 1) 
-            return stringToLink(res)
+            return stringToLink(text)
           if(i === 2)
-            return stringToItalic(res)
+            return stringToItalic(text)
           if(i === 3) {
-            return stringToBold(res)
+            return stringToBold(text)
           }
         } else {
-          return res
+          return text
         }
       })
       context = context.flat();
     }
-
     setContent(context);
-  }, [paragraph])
-
+    onTextRendering(true);
+  }, [paragraph, index])
+  
   return (
     <TypeContext.Provider value={type}>
       <DefaultText type={type}>
-        {content}
+        {/* {paragraph} */}
+        { content }
       </DefaultText>
     </TypeContext.Provider>
 
