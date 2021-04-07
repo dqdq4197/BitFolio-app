@@ -16,6 +16,7 @@ import { unicodes, types, actions } from './constants';
 import RenderText from './RenderText';
 import Text from '/components/common/Text';
 import YoutubePlayer from "react-native-youtube-iframe";
+import PlainTextInput from './PlainTextInput';
 
 
 const CONTROL_BAR_HEIGHT = 45;
@@ -40,8 +41,15 @@ type EmbedType = {
     caption: string,
   }
 }
+type ListType = {
+  type: string,
+  payload: {
+    style: "ordered" | "unordered",
+    items: string[]
+  }
+}
 
-type ContentType = ParagraphType | EmbedType | DelimiterType
+type ContentType = ParagraphType | EmbedType | DelimiterType | ListType
 
 const Editor = () => {
   const scheme = useColorScheme();
@@ -133,8 +141,10 @@ const Editor = () => {
     }
   }
   
-  console.log(contentStorage);
+  // console.log(contentStorage);
+  console.log(selection, focusState)
   const handleInputChangeText = (text:string, index:number) => {
+    console.log(text);
     const lineBreak = /\r|\n/.exec(text);
     const { action } = focusState;
     
@@ -428,6 +438,8 @@ const Editor = () => {
     index:number,
   ) => {
     const { text, target } = event.nativeEvent;
+    const { ENTER, BACKSPACE, LINEPOP } = actions;
+    const { action } = focusState;
 
     if(text === "") {
       setSelection({
@@ -435,6 +447,15 @@ const Editor = () => {
         end: 0
       })
     }
+
+    if(action !== ENTER && action !== BACKSPACE && action !== LINEPOP)
+      textInputRef.current?.setNativeProps({
+        selection: {
+          start: text.length,
+          end: text.length
+        }
+      })
+
     focusActionReset(index);
   }
 
@@ -444,19 +465,20 @@ const Editor = () => {
   ) => {
     const { selection } = event.nativeEvent;
     const { index: focusIndex, action } = focusState;
+    const { ENTER, LINEPOP, BACKSPACE } = actions;
 
     if(focusIndex === index) {
-      if(action === actions.ENTER) {
+      if(action === ENTER) {
         setSelection({
           start: 0,
           end: 0
         })
-      } else if(action === actions.LINEPOP) {
+      } else if(action === LINEPOP) {
         // todo when action is pop
-      } else if(action === actions.BACKSPACE) {
+      } else if(action === BACKSPACE) {
         // todo when action is backspace
       } else {
-        console.log(selection);
+        console.log('mmmm', selection);
         setSelection(selection)
       }
     }
@@ -465,9 +487,11 @@ const Editor = () => {
   const InputArea = () => (
     contentStorage.map((content, index) => {
       const { type } = content;
+      const { PARAGRAPH, QUOTE, HEADER, DUMMY, DELIMITER, EMBED, LIST } = types;
       
-      if(type === types.PARAGRAPH || type === types.QUOTE || type === types.HEADER || type === types.DUMMY) {
+      if(type === PARAGRAPH || type === QUOTE || type === HEADER || type === DUMMY) {
         const { payload } = content as ParagraphType;
+        const isLastIndex = contentStorage.length - 1 === index;
         return (
           <StyledTextInput
             key={'input' + index} 
@@ -483,7 +507,7 @@ const Editor = () => {
             onSelectionChange={event => handleSelectionChange(event, index)}
             onFocus={(event) => handleFocus(event, index)}
             textAlignVertical="center"
-            style={contentStorage.length - 1 === index && { display: 'none' }}
+            style={isLastIndex && { display: 'none' }}
             type={type}
           >
             <RenderText 
@@ -494,7 +518,7 @@ const Editor = () => {
             />
           </StyledTextInput>
         )
-      } else if(type === types.DELIMITER) {
+      } else if(type === DELIMITER) {
         return (
           <StyledDelimiter key={'input' + index}> 
             <Text fontXXXL>
@@ -502,7 +526,7 @@ const Editor = () => {
             </Text>
           </StyledDelimiter>
         )
-      } else if(type === types.EMBED) {
+      } else if(type === EMBED) {
         const { payload } = content as EmbedType;
 
         return (
@@ -526,6 +550,8 @@ const Editor = () => {
             />
           </EmbedView>
         )
+      } else if(type === LIST) {
+        
       }
     })
   )
@@ -542,7 +568,7 @@ const Editor = () => {
         onBoldPress={handleBoldPress}
         onQuotePress={handleQuotePress}
         onHeaderPress={handleHeaderPress}
-        onDelimiterPress = {handleDelimiterPress}
+        onDelimiterPress={handleDelimiterPress}
       />
     </>
   )
