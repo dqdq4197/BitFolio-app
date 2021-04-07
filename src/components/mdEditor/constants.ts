@@ -13,6 +13,8 @@ const types = {
   LIST: "list",
   QUOTE: "quote",
   DELIMITER: "delimiter",
+  EMBED: "embed",
+  DUMMY: "dummy"
 }
 
 const actions = {
