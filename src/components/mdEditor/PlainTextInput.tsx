@@ -24,16 +24,16 @@ interface PlainTextInputProps {
   },
   type: string,
   isLastIndex: boolean,
-  handleInputChangeText: (text:string, index:number) => void,
-  handleInputKeyPress: (
+  onInputChangeText: (text:string, index:number) => void,
+  onInputKeyPress: (
     event: NativeSyntheticEvent<TextInputKeyPressEventData>, 
     index: number
   ) => void,
-  handleSelectionChange: (
+  onSelectionChange: (
     event: NativeSyntheticEvent<TextInputSelectionChangeEventData>, 
     index: number
   ) => void,
-  handleFocus: (
+  onFocus: (
     event: NativeSyntheticEvent<TextInputFocusEventData>, 
     index: number
   ) => void,
@@ -47,17 +47,16 @@ const PlainTextInput = forwardRef<TextInput, PlainTextInputProps>(
     type,
     isLastIndex,
     payload,
-    handleInputChangeText,
-    handleInputKeyPress,
-    handleSelectionChange,
-    handleFocus,
+    onInputChangeText,
+    onInputKeyPress,
+    onSelectionChange,
+    onFocus,
     onTextRendering,
   }, textInputRef) => {
   const scheme = useColorScheme();
 
   return (
     <StyledTextInput
-      key={'input' + index} 
       keyboardAppearance={scheme === 'dark' ? 'dark' : 'light'}
       ref={focusState.index === index ? textInputRef : null}
       multiline
@@ -65,10 +64,10 @@ const PlainTextInput = forwardRef<TextInput, PlainTextInputProps>(
       blurOnSubmit={false}
       spellCheck={false}
       scrollEnabled={false}
-      onChangeText={(text) => console.log(focusState.index, index)} 
-      onKeyPress={(event) => handleInputKeyPress(event, index)}
-      onSelectionChange={event => handleSelectionChange(event, index)}
-      onFocus={(event) => handleFocus(event, index)}
+      onChangeText={(text) => onInputChangeText(text, index)} 
+      onKeyPress={(event) => onInputKeyPress(event, index)}
+      onSelectionChange={event => onSelectionChange(event, index)}
+      onFocus={(event) => onFocus(event, index)}
       textAlignVertical="center"
       style={isLastIndex && { display: 'none' }}
       type={type}
@@ -90,7 +89,7 @@ interface TextInputProps {
 }
 const StyledTextInput = styled.TextInput<TextInputProps>`
   color: white;
-  background-color: rgba(255,255,255, .2);
+  /* background-color: rgba(255,255,255, .2); */
 
   ${(props) => { 
     switch(props.type) {
@@ -102,7 +101,6 @@ const StyledTextInput = styled.TextInput<TextInputProps>`
         return StyledParagraph
     }
   }}
-  margin-top: 5px;
 `
 
 const StyledParagraph = css`
@@ -118,15 +116,4 @@ const StyledQuote = css`
 
 const StyledHeader = css`
   padding: 10px 20px;
-`
-
-const StyledDelimiter = styled.View`
-  height: 50px;
-  width: 100%;
-  justify-content: center;
-  align-items: center;
-`
-
-const EmbedView = styled.View`
-  margin-bottom: 10px;
 `

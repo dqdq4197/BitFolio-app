@@ -17,6 +17,7 @@ import RenderText from './RenderText';
 import Text from '/components/common/Text';
 import YoutubePlayer from "react-native-youtube-iframe";
 import PlainTextInput from './PlainTextInput';
+import ListTextInput from './ListTextInput';
 
 
 const CONTROL_BAR_HEIGHT = 45;
@@ -67,6 +68,18 @@ const Editor = () => {
         styles: [
           'NORMAL',
         ]
+      }
+    }, {
+      type: types.LIST,
+      payload: {
+        items: ['fsd', '2index'],
+        style: "unordered"
+      }
+    }, {
+      type: types.LIST,
+      payload: {
+        items: ['fsd', '2index'],
+        style: "ordered"
       }
     }, {
       type: types.DUMMY,
@@ -143,8 +156,7 @@ const Editor = () => {
   
   // console.log(contentStorage);
   console.log(selection, focusState)
-  const handleInputChangeText = (text:string, index:number) => {
-    console.log(text);
+  const handleInputChangeText = useCallback((text:string, index:number) => {
     const lineBreak = /\r|\n/.exec(text);
     const { action } = focusState;
     
@@ -215,9 +227,9 @@ const Editor = () => {
   
       focusActionReset();
     }
-  }
+  }, [contentStorage, focusState, selection])
 
-  const handleInputKeyPress = (
+  const handleInputKeyPress = useCallback((
     event:NativeSyntheticEvent<TextInputKeyPressEventData>, 
     index:number
   ) => {
@@ -240,7 +252,7 @@ const Editor = () => {
           styles: [],
         }
       }
-
+      
       setIsTextRendered(false);
       setContentStorage(
         (prev) => [
@@ -298,7 +310,7 @@ const Editor = () => {
         }
       }
     }
-  }
+  }, [contentStorage, focusState, selection])
 
   const handleCaptionChange = (text:string, index:number) => {
     const currentContext = contentStorage[index] as EmbedType;
@@ -437,7 +449,7 @@ const Editor = () => {
     event:NativeSyntheticEvent<TextInputFocusEventData>, 
     index:number,
   ) => {
-    const { text, target } = event.nativeEvent;
+    const { text } = event.nativeEvent;
     const { ENTER, BACKSPACE, LINEPOP } = actions;
     const { action } = focusState;
 
@@ -483,7 +495,7 @@ const Editor = () => {
       }
     }
   }
-
+  console.log(contentStorage);
   const InputArea = () => (
     contentStorage.map((content, index) => {
       const { type } = content;
@@ -493,30 +505,20 @@ const Editor = () => {
         const { payload } = content as ParagraphType;
         const isLastIndex = contentStorage.length - 1 === index;
         return (
-          <StyledTextInput
-            key={'input' + index} 
-            keyboardAppearance={scheme === 'dark' ? 'dark' : 'light'}
-            ref={focusState.index === index ? textInputRef : null}
-            multiline
-            value={""}
-            blurOnSubmit={false}
-            spellCheck={false}
-            scrollEnabled={false}
-            onChangeText={(text) => handleInputChangeText(text, index)} 
-            onKeyPress={(event) => handleInputKeyPress(event, index)}
-            onSelectionChange={event => handleSelectionChange(event, index)}
-            onFocus={(event) => handleFocus(event, index)}
-            textAlignVertical="center"
-            style={isLastIndex && { display: 'none' }}
+          <PlainTextInput 
+            key={index}
+            ref={textInputRef}
+            index={index}
+            focusState={focusState}
             type={type}
-          >
-            <RenderText 
-              type={type}
-              paragraph={payload.text}
-              onTextRendering={onTextRendering}
-              index={index}
-            />
-          </StyledTextInput>
+            isLastIndex={isLastIndex}
+            payload={payload}
+            onInputChangeText={handleInputChangeText}
+            onInputKeyPress={handleInputKeyPress}
+            onSelectionChange={handleSelectionChange}
+            onFocus={handleFocus}
+            onTextRendering={onTextRendering}
+          />
         )
       } else if(type === DELIMITER) {
         return (
@@ -551,7 +553,19 @@ const Editor = () => {
           </EmbedView>
         )
       } else if(type === LIST) {
-        
+        const { items, style } = (content as ListType).payload;
+
+        return items.map((item, listIndex) => {
+          return (
+            <ListTextInput 
+              key={listIndex}
+              text={item}
+              style={style}
+              listIndex={listIndex}
+            />
+          )
+        })
+          
       }
     })
   )
@@ -576,41 +590,6 @@ const Editor = () => {
 
 export default Editor;
 
-
-interface TextInputProps {
-  type: string,
-}
-const StyledTextInput = styled.TextInput<TextInputProps>`
-  color: white;
-  /* background-color: rgba(255,255,255, .2); */
-
-  ${(props) => { 
-    switch(props.type) {
-      case types.QUOTE: 
-        return StyledQuote
-      case types.HEADER:
-        return StyledHeader
-      default:
-        return StyledParagraph
-    }
-  }}
-`
-
-const StyledParagraph = css`
-  font-size:${({theme}) => theme.size.font_l};
-  padding: 5px 15px;
-`
-
-const StyledQuote = css`
-  padding: 5px 20px;
-  border-left-width: 5px;
-  border-left-color: white;
-`
-
-const StyledHeader = css`
-  padding: 10px 20px;
-`
-
 const StyledDelimiter = styled.View`
   height: 50px;
   width: 100%;
@@ -631,7 +610,5 @@ const CaptionTextInput = styled.TextInput`
   border-width: 2px;
   border-style: solid;
   margin-top: 5px;
-  /* border-bottom-color: ${({theme}) => theme.colors.grey['800']};
-  border-bottom-width: 2px;
-  border-style: solid; */
 `
+
