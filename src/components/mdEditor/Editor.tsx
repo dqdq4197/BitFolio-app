@@ -75,11 +75,11 @@ const Editor = () => {
         items: ['fsd', '2index'],
         style: "unordered"
       }
-    }, {
+    },{
       type: types.LIST,
       payload: {
         items: ['fsd', '2index'],
-        style: "ordered"
+        style: "unordered"
       }
     }, {
       type: types.DUMMY,
