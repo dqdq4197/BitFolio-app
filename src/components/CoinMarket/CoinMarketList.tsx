@@ -37,7 +37,7 @@ const CoinMarketList = () => {
 
   return (
     <>
-      <MarketListHeader/>
+      {/* <MarketListHeader/> */}
       <FlatList 
         data={data?.flat()}
         keyExtractor={item => item.id + item.symbol}
@@ -45,8 +45,8 @@ const CoinMarketList = () => {
         scrollEventThrottle={16}
         contentContainerStyle={{backgroundColor: '#1B1B1B'}}
         ListFooterComponent={MarketListSkeleton}
-        ListHeaderComponent={<FlatListHeader/>}
-        stickyHeaderIndices={[0]}
+        // ListHeaderComponent={<FlatListHeader/>}
+        // stickyHeaderIndices={[0]}
         onScroll={Animated.event(
           [
             { nativeEvent: { contentOffset: { y: scrollY } } }

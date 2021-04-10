@@ -3,9 +3,7 @@ import { Dimensions } from 'react-native';
 import styled from 'styled-components/native';
 import { useColorScheme } from 'react-native-appearance';
 import RenderText from './RenderText';
-import { unicodes } from './constants';
-
-
+import { unicodes } from '/lib/constant';
 
 
 interface ListTProps {
@@ -37,7 +35,6 @@ const ListTextInput = ({
       >
 
       </StyledTextInput>
-
     </ListView>
   )
 }
