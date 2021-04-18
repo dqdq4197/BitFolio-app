@@ -33,7 +33,7 @@ const CoinMarketDetailScreen = () => {
         <Suspense 
           fallback={<SuspenseFallback/>}
         >
-          <ItemDetail />
+          {/* <ItemDetail /> */}
         </Suspense>
       </ErrorBoundary>
     </GeneralTemplate>

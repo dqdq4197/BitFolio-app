@@ -112,6 +112,7 @@ const KeyboardAwareScrollView = forwardRef(({
       contentInset={{ bottom: keyboardSpace }}
       scrollEventThrottle={1}
       onScroll={handleOnScroll}
+      keyboardShouldPersistTaps="handled"
     >
       {children}
     </ScrollView>

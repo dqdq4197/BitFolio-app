@@ -4,15 +4,14 @@ import styled, { css } from 'styled-components/native';
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
 import Text from '/components/common/Text';
-import { unicodes, types } from './constants';
-
+import { unicodes, types, actions } from '/lib/constant';
+import { useMdEditorDispatch, useMdEditorState } from '/hooks/useMdEditorContext';
 // import * as babel from 'babel-core';
 
 
 interface RenderTextProps {
   type: string,
-  paragraph: string,
-  onTextRendering: (bool:boolean) => void,
+  children: string,
   index:number
 }
 
@@ -76,13 +75,17 @@ const BoldText = ({ child }: TextProps) => {
 
 // priority:
 // link > code > i > b  
-const RenderText = ({ type, paragraph, onTextRendering, index }: RenderTextProps) => {
+const RenderText = ({ type, children, index }: RenderTextProps) => {
   
   const [content, setContent] = useState<React.ReactNodeArray | null>(null)
-  
+  const { focusState } = useMdEditorState();
+  const handlers = useMdEditorDispatch();
+
   useLayoutEffect(() => {
     let i = 0;
-    let context = stringToMarker(paragraph);
+    let context = stringToMarker(children);
+    const { action } = focusState;
+    const { ENTER, BACKSPACE, LINEPOP } = actions;
 
     while(i++ < 3) {
       context = context.map(text => {
@@ -101,13 +104,15 @@ const RenderText = ({ type, paragraph, onTextRendering, index }: RenderTextProps
       context = context.flat();
     }
     setContent(context);
-    onTextRendering(true);
-  }, [paragraph, index])
+
+    if(action === ENTER || action === BACKSPACE || action === LINEPOP)
+      handlers.setIsTextRendered(true);
+  }, [children, index])
   
   return (
     <TypeContext.Provider value={type}>
       <DefaultText type={type}>
-        {/* {paragraph} */}
+        {/* {children} */}
         { content }
       </DefaultText>
     </TypeContext.Provider>
