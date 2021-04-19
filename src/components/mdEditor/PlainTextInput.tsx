@@ -13,7 +13,6 @@ import {
   useMdEditorState,
   ParagraphType,
   EmbedType,
-  ContentsType,
   ListType
 } from '/hooks/useMdEditorContext';
 import RenderText from './RenderText';
@@ -26,14 +25,13 @@ interface PlainTextInputProps {
     text: string,
   },
   type: string,
-  isLastIndex: boolean,
 }
 
-const PlainTextInput = ({ index, type, isLastIndex, payload }: PlainTextInputProps ) => {
+const PlainTextInput = ({ index, type, payload }: PlainTextInputProps ) => {
   const scheme = useColorScheme();
   const handlers = useMdEditorDispatch();
-  const { contentStorage, isTextRendered, selection, focusState } = useMdEditorState();
   const textInputRef = useRef<TextInput | null>(null);
+  const { contentStorage, isTextRendered, selection, focusState } = useMdEditorState();
 
   useEffect(() => {
     if(textInputRef.current && isTextRendered) {
@@ -57,6 +55,7 @@ const PlainTextInput = ({ index, type, isLastIndex, payload }: PlainTextInputPro
     const regExp = /(?:http(?:s)?:\/\/)?(?:www\.)?(?:m\.)?(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
     let match = text.match(regExp);
     
+    // youtube video unique id length => 11
     if (match && match[1].length == 11) {
       return {
         source: match[0],
@@ -67,9 +66,10 @@ const PlainTextInput = ({ index, type, isLastIndex, payload }: PlainTextInputPro
     }
   }
 
-  const handleInputChangeText = (text:string, index:number) => {
+  const handleInputChangeText = (text:string) => {
     const lineBreak = /\r|\n/.exec(text);
     const { action } = focusState;
+    const { PARAGRAPH, EMBED } = types;
     if (lineBreak) {
       return ;
     }
@@ -89,7 +89,7 @@ const PlainTextInput = ({ index, type, isLastIndex, payload }: PlainTextInputPro
 
       let newContext: (EmbedType | ParagraphType)[] = [
         {
-          type: types.EMBED,
+          type: EMBED,
           payload: {
             source,
             id,
@@ -100,7 +100,7 @@ const PlainTextInput = ({ index, type, isLastIndex, payload }: PlainTextInputPro
 
       if(beforeURL !== "") {
         newContext.unshift({
-          type: types.PARAGRAPH,
+          type: PARAGRAPH,
           payload: {
             text: beforeURL,
           }
@@ -108,9 +108,9 @@ const PlainTextInput = ({ index, type, isLastIndex, payload }: PlainTextInputPro
         focusIndex += 1;
       } 
       
-      if(afterURL !== "" || nextContext.type !== types.PARAGRAPH) {
+      if(afterURL !== "" || nextContext?.type !== PARAGRAPH) {
         newContext.push({
-          type: types.PARAGRAPH,
+          type: PARAGRAPH,
           payload: {
             text: afterURL,
           }
@@ -133,27 +133,25 @@ const PlainTextInput = ({ index, type, isLastIndex, payload }: PlainTextInputPro
 
   const handleInputKeyPress = (
     event:NativeSyntheticEvent<TextInputKeyPressEventData>, 
-    index:number
   ) => {
     if(focusState.index !== index) return ;
     const { key } = event.nativeEvent;
-    const { PARAGRAPH, DELIMITER, EMBED, LIST, LISTSTYLE } = types;
+    const { PARAGRAPH, DELIMITER, EMBED, LIST } = types;
     const { BACKSPACE, ENTER, LINEPOP } = actions;
+    const { start, end } = selection;
     const currentContext = contentStorage[index] as ParagraphType;
     const currentText = currentContext.payload.text;
-    console.log('enter')
     
-    // enter key 
     if(key === 'Enter') {
-      const editedText = currentText.slice(0, selection.start);
+      const editedText = currentText.slice(0, start);
       currentContext.payload.text = editedText;
 
-      let newContext = [
+      const newContext = [
         currentContext,
         {
           type: PARAGRAPH,
           payload: {
-            text: currentText.slice(selection.end, currentText.length)
+            text: currentText.slice(end, currentText.length)
           }
         }
       ]
@@ -165,20 +163,22 @@ const PlainTextInput = ({ index, type, isLastIndex, payload }: PlainTextInputPro
         end: 0
       })
     }
-    if(key === "Backspace" && index !== 0) {
+
+    if(key === "Backspace" && index !== 0 && end === 0) {
       const prevContext = contentStorage[index - 1];
       const nextContext = contentStorage[index + 1];
-      const { type } = prevContext;
 
-      if(selection.end === 0) {
-        if(type === DELIMITER || type === EMBED) {
+      switch(prevContext.type) {
+        case DELIMITER:
+        case EMBED:
           handlers.removePreviousLine(index);
           handlers.updateFocusState(index - 1, BACKSPACE);
           handlers.updateSelection({
             start: 0,
             end: 0
           })
-        } else if(type === LIST) {
+          return ;
+        case LIST:
           const { payload: { items: prevItems, style: prevStyle } } = prevContext as ListType;
           let newContext = {
             ...prevContext,
@@ -190,7 +190,7 @@ const PlainTextInput = ({ index, type, isLastIndex, payload }: PlainTextInputPro
               ]
             }
           }
-          if(nextContext.type === LIST) {
+          if(nextContext?.type === LIST) {
             const { payload: { items: nextItems, style: nextStyle } } = nextContext as ListType;
             if(prevStyle === nextStyle) {
               newContext.payload.items.push(...nextItems)
@@ -201,17 +201,16 @@ const PlainTextInput = ({ index, type, isLastIndex, payload }: PlainTextInputPro
           } else {
             handlers.mergePreviousLineWithCurrentLine([newContext], index);
           }
-          
           handlers.updateFocusState(index - 1, BACKSPACE)
           handlers.updateListFocusIndex(prevItems.length - 1);
           handlers.updateSelection({
             start: prevItems[prevItems.length - 1].length,
             end: prevItems[prevItems.length - 1].length
           })
-        } else if(type === PARAGRAPH) {
+          return ;
+        default:
           const { payload } = prevContext as ParagraphType;
           const prevText = payload.text;
-
           if(currentText === "") {
             //onPress backspace remove current line
             handlers.removeCurrentLine(index);
@@ -224,7 +223,6 @@ const PlainTextInput = ({ index, type, isLastIndex, payload }: PlainTextInputPro
             //onPress backspace merge previous line
             const editedText = prevText + currentText;
             (prevContext as ParagraphType).payload.text = editedText;
-
             handlers.setIsTextRendered(false);
             handlers.mergePreviousLineWithCurrentLine([prevContext as ParagraphType], index);
             handlers.updateFocusState(index - 1, BACKSPACE);
@@ -233,7 +231,7 @@ const PlainTextInput = ({ index, type, isLastIndex, payload }: PlainTextInputPro
               end: prevText.length
             });
           }
-        }
+          return ;
       }
     }
   }
@@ -241,7 +239,6 @@ const PlainTextInput = ({ index, type, isLastIndex, payload }: PlainTextInputPro
 
   const handleSelectionChange = (
     event: NativeSyntheticEvent<TextInputSelectionChangeEventData>,
-    index: number
   ) => {
     const { selection } = event.nativeEvent;
     const { index: focusIndex, action } = focusState;
@@ -266,7 +263,6 @@ const PlainTextInput = ({ index, type, isLastIndex, payload }: PlainTextInputPro
 
   const handleFocus = (
     event:NativeSyntheticEvent<TextInputFocusEventData>, 
-    index:number,
   ) => {
     const { text } = event.nativeEvent;
     const { ENTER, BACKSPACE, LINEPOP } = actions;
@@ -286,7 +282,6 @@ const PlainTextInput = ({ index, type, isLastIndex, payload }: PlainTextInputPro
           end: text.length
         }
       })
-    console.log('focus Reset', index)
     handlers.focusActionReset(index);
     handlers.updateListFocusIndex(-1);
   }
@@ -297,14 +292,12 @@ const PlainTextInput = ({ index, type, isLastIndex, payload }: PlainTextInputPro
       textAlignVertical="center"
       multiline
       value={""}
-      returnKeyType = "none"
       spellCheck={false}
       scrollEnabled={false}
-      onChangeText={(text) => handleInputChangeText(text, index)} 
-      onKeyPress={(event) => handleInputKeyPress(event, index)}
-      onSelectionChange={event => handleSelectionChange(event, index)}
-      onFocus={(event) => handleFocus(event, index)}
-      style={isLastIndex && { display: 'none' }}
+      onChangeText={handleInputChangeText} 
+      onKeyPress={handleInputKeyPress}
+      onSelectionChange={handleSelectionChange}
+      onFocus={handleFocus}
       type={type}
     >
       <RenderText 
@@ -336,7 +329,6 @@ const StyledTextInput = styled.TextInput<TextInputProps>`
         return StyledParagraph
     }
   }}
-  margin-top: 5px;
 `
 
 const StyledParagraph = css`

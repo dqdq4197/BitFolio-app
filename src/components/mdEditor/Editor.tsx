@@ -36,28 +36,27 @@ const InputArea = () => {
           case QUOTE:
           case HEADER:
           case DUMMY:
-            const isLastIndex = contentStorage.length - 1 === index;
             const { payload } = content as ParagraphType;
             return (
               <PlainTextInput 
                 key={index}
                 index={index}
                 type={type}
-                isLastIndex={isLastIndex}
                 payload={payload}
               />
             )
           case DELIMITER:
             return (
               <StyledDelimiter key={'input' + index}> 
-                <Text fontXXXL>
+                <DelimiterText fontXXXL>
                   * * *
-                </Text>
+                </DelimiterText>
               </StyledDelimiter>
             )
           case EMBED:
             return (
               <EmbedArea 
+                key={index}
                 content={content as EmbedType} 
                 index={index}
               />
@@ -103,12 +102,15 @@ const Editor = () => {
 export default Editor;
 
 const StyledDelimiter = styled.View`
-  height: 50px;
   width: 100%;
   justify-content: center;
   align-items: center;
 `
 
+const DelimiterText = styled(Text)`
+  height: 30px;
+  font-size: 36px;
+`
 
 
 

@@ -88,12 +88,6 @@ const initialState:InitailState = {
         style: "ordered"
       }
     }
-    , {
-      type: types.DUMMY,
-      payload: {
-        text: "dummy"
-      }
-    }
   ],
   focusState: {
     index: 0,

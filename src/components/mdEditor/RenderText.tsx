@@ -73,6 +73,7 @@ const BoldText = ({ child }: TextProps) => {
   return <DefaultText type={type as string} bold>{unicodes.TEXT_BOLD + child + unicodes.TEXT_BOLD}</DefaultText>
 }
 
+
 // priority:
 // link > code > i > b  
 const RenderText = ({ type, children, index }: RenderTextProps) => {
@@ -86,7 +87,7 @@ const RenderText = ({ type, children, index }: RenderTextProps) => {
     let context = stringToMarker(children);
     const { action } = focusState;
     const { ENTER, BACKSPACE, LINEPOP } = actions;
-
+    console.log(index, ':',type);
     while(i++ < 3) {
       context = context.map(text => {
         if(typeof text === 'string') {
@@ -104,15 +105,16 @@ const RenderText = ({ type, children, index }: RenderTextProps) => {
       context = context.flat();
     }
     setContent(context);
+    console.log(index,children)
 
     if(action === ENTER || action === BACKSPACE || action === LINEPOP)
       handlers.setIsTextRendered(true);
   }, [children, index])
   
+  
   return (
     <TypeContext.Provider value={type}>
       <DefaultText type={type}>
-        {/* {children} */}
         { content }
       </DefaultText>
     </TypeContext.Provider>
@@ -142,6 +144,7 @@ const StyleParagraph = css`
 
 const StyledHeader = css`
   font-size: ${({theme}) => theme.size.font_xxl};
+  font-weight: bold;
 `
 
 const Marker = styled(DefaultText)`

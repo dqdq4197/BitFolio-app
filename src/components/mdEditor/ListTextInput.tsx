@@ -46,9 +46,10 @@ const ListTextInput = ({
   const handleInputChangeText = (text: string) => {
     const lineBreak = /\r|\n/.exec(text);
     if (lineBreak) {
+      console.log('ewqeqr')
       return ;
     }
-
+    console.log('sdfdfg')
     const currentContext = contentStorage[contentIndex] as ListType;
     currentContext.payload.items[listIndex] = text;
     handlers.updateCurrentLine(currentContext, contentIndex);
@@ -175,7 +176,7 @@ const ListTextInput = ({
         ref={contentIndex === focusState.index && listIndex === listFocusIndex ? textInputRef : null}
         keyboardAppearance={scheme === 'dark' ? 'dark' : 'light'}
         multiline
-        value={text}
+        value=""
         blurOnSubmit={false}
         spellCheck={false}
         scrollEnabled={false}
@@ -184,7 +185,12 @@ const ListTextInput = ({
         onFocus={handleFocus}
         onSelectionChange={handleSelectionChange}
       >
-
+        <RenderText 
+          type={types.LIST}
+          index={contentIndex}
+        >
+          { text }
+        </RenderText>
       </StyledTextInput>
     </ListView>
   )
@@ -195,16 +201,14 @@ export default ListTextInput;
 const ListView = styled.View`
   flex-direction: row;
   width: 100%;
-  align-items: flex-start;
   padding: 5px 15px;
 `
 
 const ListMark = styled.Text`
+  width: 30px;
   color: white;
   /* background-color: rgba(255,255,255, .2); */
   font-size:${({theme}) => theme.size.font_l};
-  align-items: flex-start;
-  padding: 3px 15px 0 0;
 `
 
 const StyledTextInput = styled.TextInput`
@@ -212,5 +216,5 @@ const StyledTextInput = styled.TextInput`
   /* background-color: rgba(255,255,255, .2); */
   font-size:${({theme}) => theme.size.font_l};
   color:white;
-  padding-right: 15px;
+  padding: 0 15px 0 0;
 `

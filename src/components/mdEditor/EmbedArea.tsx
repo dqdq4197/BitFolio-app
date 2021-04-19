@@ -19,13 +19,13 @@ const EmbedArea = ({ content, index }:EmbedAreaProps) => {
   const scheme = useColorScheme();
 
 
-  const handleCaptionChange = (text:string, index:number) => {
+  const handleCaptionChange = (text:string) => {
     const currentContext = contentStorage[index] as EmbedType;
     currentContext.payload.caption = text;
     handlers.updateCurrentLine(currentContext, index);
   }
 
-  const handleCaptionSubmitEditing = (index: number) => {
+  const handleCaptionSubmitEditing = () => {
     const newContext = [{
       type: types.PARAGRAPH,
       payload: {
@@ -41,12 +41,12 @@ const EmbedArea = ({ content, index }:EmbedAreaProps) => {
     })
   }
 
-  const handleFocus = (index:number) => { 
+  const handleFocus = () => { 
     return handlers.focusActionReset(index);
   }
 
   return (
-    <EmbedView key={'input' + index}>
+    <EmbedView>
       <YoutubePlayer
         height={211}
         videoId={payload.id}
@@ -60,9 +60,9 @@ const EmbedArea = ({ content, index }:EmbedAreaProps) => {
         textAlignVertical="center"
         placeholder={"Enter a caption"}
         placeholderTextColor="rgba(201,201,204,.48)" 
-        onChangeText={(text) => handleCaptionChange(text, index)}
-        onFocus={() => handleFocus(index)}
-        onSubmitEditing={() => handleCaptionSubmitEditing(index)}
+        onChangeText={handleCaptionChange}
+        onFocus={handleFocus}
+        onSubmitEditing={handleCaptionSubmitEditing}
       />
     </EmbedView>
   )
@@ -76,11 +76,8 @@ const EmbedView = styled.View`
 
 const CaptionTextInput = styled.TextInput`
   color: white;
-  padding: 5px 15px;
+  background-color: ${({theme}) => theme.colors.grey['900']};
+  padding: 7px 15px;
   font-size: ${({theme}) => theme.size.font_l};
   font-style: italic;
-  border-color: ${({theme}) => theme.colors.grey['800']};
-  border-width: 2px;
-  border-style: solid;
-  margin-top: 5px;
 `

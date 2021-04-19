@@ -37,7 +37,7 @@ export default function TextStyle ({ ...props }:TextStyleProps) {
 const Text = styled.Text<TextStyleProps>`
   margin: ${(props) => props.margin ?? 0};
   padding: ${(props) => props.padding ?? 0};
-
+  
   ${({ color, color100, color300, color400, theme }) => {
     if(color) return `color: ${color}`
     switch (true) {
