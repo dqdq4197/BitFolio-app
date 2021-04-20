@@ -58,7 +58,8 @@
     "svg-path-properties": "^1.0.11",
     "swr": "^0.4.2",
     "uuid": "^8.3.2",
-    "victory-native": "^35.3.1"
+    "victory-native": "^35.3.1",
+    "expo-image-picker": "~9.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.9.6",

@@ -1,21 +1,22 @@
 import React from 'react';
-import styled from 'styled-components/native';
 import ControlBar from './ControlBar';
 import KeyboardAwareScrollView from './KeyboardAwareScrollView';
-import { types } from '/lib/constant';
-import Text from '/components/common/Text';
-import PlainTextInput from './PlainTextInput';
-import ListTextInput from './ListTextInput';
-import EmbedArea from './EmbedArea';
+import PlainTextBlock from './PlainTextBlock';
+import ListTextBlock from './ListTextBlock';
+import EmbedBlock from './EmbedBlock';
+import ImageBlock from './ImageBlock';
+import DelimiterBlock from './DelimiterBlock';
 import { 
   useMdEditorState,
   ParagraphType,
   EmbedType,
-  ListType 
+  ListType,
+  ImageType
 } from '/hooks/useMdEditorContext';
+import { types } from '/lib/constant';
+
 
 const CONTROL_BAR_HEIGHT = 45;
-
 
 const InputArea = () => {
   const { contentStorage, focusState, listFocusIndex, selection } = useMdEditorState();
@@ -29,7 +30,7 @@ const InputArea = () => {
     {
       contentStorage.map((content, index) => {
         const { type } = content;
-        const { PARAGRAPH, QUOTE, HEADER, DUMMY, DELIMITER, EMBED, LIST } = types;
+        const { PARAGRAPH, QUOTE, HEADER, DUMMY, DELIMITER, EMBED, LIST, IMAGE } = types;
 
         switch(type) {
           case PARAGRAPH:
@@ -38,7 +39,7 @@ const InputArea = () => {
           case DUMMY:
             const { payload } = content as ParagraphType;
             return (
-              <PlainTextInput 
+              <PlainTextBlock 
                 key={index}
                 index={index}
                 type={type}
@@ -47,15 +48,11 @@ const InputArea = () => {
             )
           case DELIMITER:
             return (
-              <StyledDelimiter key={'input' + index}> 
-                <DelimiterText fontXXXL>
-                  * * *
-                </DelimiterText>
-              </StyledDelimiter>
+              <DelimiterBlock key={index} />
             )
           case EMBED:
             return (
-              <EmbedArea 
+              <EmbedBlock 
                 key={index}
                 content={content as EmbedType} 
                 index={index}
@@ -65,7 +62,7 @@ const InputArea = () => {
             const { items, style } = (content as ListType).payload;
             return items.map((item, listIndex) => {
               return (
-                <ListTextInput 
+                <ListTextBlock 
                   key={listIndex}
                   text={item}
                   style={style}
@@ -74,6 +71,17 @@ const InputArea = () => {
                 />
               )
             })
+          case IMAGE:
+            const { file: { uri, width, height } } = (content as ImageType).payload;
+            return (
+              <ImageBlock
+                key={index}
+                index={index}
+                uri={uri}
+                width={width}
+                height={height}
+              />
+            )
         }
       })
     }
@@ -100,18 +108,3 @@ const Editor = () => {
 }
 
 export default Editor;
-
-const StyledDelimiter = styled.View`
-  width: 100%;
-  justify-content: center;
-  align-items: center;
-`
-
-const DelimiterText = styled(Text)`
-  height: 30px;
-  font-size: 36px;
-`
-
-
-
-

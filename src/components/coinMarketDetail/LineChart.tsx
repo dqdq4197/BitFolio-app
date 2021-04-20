@@ -32,9 +32,7 @@ const LineChart = ({id, chartOption}: ChartProps) => {
   
   return (
     <ChartContainer>
-      {isValidating && 
-        <GlobalIndicator size='large'/>
-      }
+      <GlobalIndicator isLoaded={isValidating}/>
       <VictoryChart 
         width={width + padding - CONTENT_SPACING * 2}
         height={height + padding + cursorR}

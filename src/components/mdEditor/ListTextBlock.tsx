@@ -13,19 +13,19 @@ import { useMdEditorState, useMdEditorDispatch, ListType, ParagraphType } from '
 import RenderText from './RenderText';
 
 
-interface ListTProps {
+interface ListProps {
   text: string,
   style: 'ordered' | 'unordered',
   listIndex: number,
   contentIndex: number,
 }
 
-const ListTextInput = ({
+const ListTextBlock = ({
   text,
   style,
   listIndex,
   contentIndex,
-}:ListTProps) => {
+}:ListProps) => {
   const scheme = useColorScheme();
   const { listFocusIndex, contentStorage, focusState, selection } = useMdEditorState();
   const { ENTER, BACKSPACE, LINEPOP } = actions;
@@ -151,16 +151,18 @@ const ListTextInput = ({
   ) => {
     const { text } = event.nativeEvent;
 
-    if(text === "") {
-      handlers.updateSelection({
-        start: 0,
-        end: 0
-      })
-    } else {
-      handlers.updateSelection({
-        start: text.length,
-        end: text.length
-      })
+    if(focusState.action !== ENTER) {
+      if(text === "") {
+        handlers.updateSelection({
+          start: 0,
+          end: 0
+        })
+      } else {
+        handlers.updateSelection({
+          start: text.length,
+          end: text.length
+        })
+      }
     }
 
     handlers.focusActionReset(contentIndex);
@@ -196,7 +198,7 @@ const ListTextInput = ({
   )
 }
 
-export default ListTextInput;
+export default ListTextBlock;
 
 const ListView = styled.View`
   flex-direction: row;

@@ -29,6 +29,17 @@ export type ListType = {
     items: string[]
   }
 }
+export type ImageType = {
+  type: string,
+  payload: {
+    file: {
+      uri: string,
+      width: number,
+      height: number
+    },
+    caption: string
+  }
+}
 
 export type FocusStateType = {
   index: number,
@@ -39,7 +50,9 @@ export type SelectionType = {
   end: number
 }
 
-export type ContentsType = ParagraphType | DelimiterType | EmbedType | ListType | HeaderType;
+export type ContentsType = 
+  | ParagraphType | DelimiterType | EmbedType 
+  | ListType | HeaderType | ImageType;
 
 type Action =
   | { type: 'UPDATE_CURRENT_LINE'; context: ContentsType; focusIndex: number }

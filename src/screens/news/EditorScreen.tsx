@@ -3,8 +3,6 @@ import { useNavigation } from '@react-navigation/native';
 import GeneralTemplate from '/components/GeneralTemplate';
 import Editor from '/components/mdEditor/Editor';
 import { MdEditorProvider } from '/hooks/useMdEditorContext';
-import Tee from './Tee';
-import TT from './TT';
 
 const EditorScreen = () => {
   const navigation = useNavigation();
@@ -18,7 +16,6 @@ const EditorScreen = () => {
     <GeneralTemplate>
       <MdEditorProvider>
         <Editor/>
-        {/* <TT /> */}
       </MdEditorProvider>
     </GeneralTemplate>
   )

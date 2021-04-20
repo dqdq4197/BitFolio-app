@@ -21,7 +21,7 @@ const CandlesticChart = ({ id }:ChartProps) => {
   if(!data) return <></>
   return (
     <ChartContainer>
-      {isValidating && <GlobalIndicator/>}
+      {<GlobalIndicator isLoaded={isValidating}/>}
       <VictoryChart
         theme={VictoryTheme.material}
         width={width + padding}

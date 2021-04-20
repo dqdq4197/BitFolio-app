@@ -7,11 +7,17 @@ const { width } = Dimensions.get('window')
 
 interface IndicatorType {
   size?: 'large' | 'small'
+  isLoaded: boolean,
 }
-export default function GlobalIndicator({ size="large" }:IndicatorType) {
+export default function GlobalIndicator({ size="large", isLoaded }:IndicatorType) {
+
+  if(isLoaded) return <></>;
   return (
     <IndicatorWrap>
-      <ActivityIndicator size={size} color="white"/>
+      <ActivityIndicator 
+        size={size} 
+        color="white"
+      />
     </IndicatorWrap>
   )
 }

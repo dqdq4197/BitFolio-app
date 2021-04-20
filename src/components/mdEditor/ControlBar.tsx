@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { 
   Dimensions, 
   Platform, 
@@ -6,8 +6,11 @@ import {
   EmitterSubscription, 
   Animated, 
   KeyboardEvent,
+  StatusBar 
 } from 'react-native';
 import styled from 'styled-components/native';
+import * as ImagePicker from 'expo-image-picker';
+import { useActionSheet } from '@expo/react-native-action-sheet';
 import { MaterialIcons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
@@ -73,11 +76,11 @@ const SelectionContorlBar = () => {
 }
 
 const DefaultControlBar = () => {
-
   const { focusState: { index }, contentStorage, listFocusIndex } = useMdEditorState();
-  const { QUOTE, PARAGRAPH, LIST, EMBED, HEADER, DELIMITER, LISTSTYLE: { UL, OL } } = types;
+  const { QUOTE, PARAGRAPH, LIST, EMBED, HEADER, DELIMITER, LISTSTYLE: { UL, OL }, IMAGE } = types;
   const handlers = useMdEditorDispatch();
-
+  const [image, setImage] = useState<any>(null);
+  const { showActionSheetWithOptions } = useActionSheet();
 
   const convertListToOther = (otherContext: ContentsType) => {
     const currentContext = contentStorage[index] as ListType;
@@ -322,7 +325,7 @@ const DefaultControlBar = () => {
   }
 
   const handleDelimiterPress = () => {
-    const { type } = contentStorage[index + 1];
+    const nextContext = contentStorage[index + 1];
 
     let newContext = [{
       type: DELIMITER,
@@ -330,12 +333,11 @@ const DefaultControlBar = () => {
     }]
 
     // if not plaintext
-    if(type !== HEADER && type !== PARAGRAPH && type !== QUOTE) {
+    if(nextContext?.type !== HEADER && nextContext?.type !== PARAGRAPH && nextContext?.type !== QUOTE) {
       newContext.push({
         type: PARAGRAPH,
         payload: {
           text: "",
-          styles: []
         }
       })
     }
@@ -346,6 +348,68 @@ const DefaultControlBar = () => {
       start: 0,
       end: 0
     })
+  }
+
+  const handleImagePress = async() => {
+    const options = ['Take photo', 'Choose from library', 'Cancel'];
+    const cancelButtonIndex = 2;
+
+    showActionSheetWithOptions(
+      {
+        options,
+        cancelButtonIndex,
+        textStyle: {color: 'black'}
+      },
+      async (buttonIndex) => {
+        // Do something here depending on the button index selected
+        if(buttonIndex === 0) {
+          (async () => {
+            if (Platform.OS !== 'web') {
+              const { status } = await ImagePicker.requestCameraPermissionsAsync();
+              if (status === 'granted') {
+                let result = await ImagePicker.launchCameraAsync({
+                  allowsEditing: true,
+                })
+              } else {
+                alert('Sorry, we need camera roll permissions to make this work!');
+              }
+            }
+          })();
+        }
+        if(buttonIndex === 1) {
+          (async () => {
+            if (Platform.OS !== 'web') {
+              const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+              if (status === 'granted') {
+                let result = await ImagePicker.launchImageLibraryAsync({
+                  mediaTypes: ImagePicker.MediaTypeOptions.All,
+                  // aspect: [4, 3],
+                  // quality: 1,
+                });
+                console.log(result);
+                if (!result.cancelled) {
+                  const { uri, width, height } = result;
+                  const newContext = {
+                    type: IMAGE,
+                    payload: {
+                      file: {
+                        uri,
+                        width,
+                        height
+                      },
+                      caption: ""
+                    }
+                  }
+                  handlers.insertNewLineAfter([newContext], index)
+                }
+              } else {
+                alert('Sorry, we need camera roll permissions to make this work!');
+              }
+            }
+          })();
+        }
+      },
+    );
   }
 
   return (
@@ -368,7 +432,7 @@ const DefaultControlBar = () => {
         </UtilBtn>
       </UtilsWrap>
       <UtilsWrap flex={1}>
-        <UtilBtn>
+        <UtilBtn onPress={handleImagePress}>
           <Ionicons name="md-image" size={24} color="rgba(255,255,255, .7)" />
         </UtilBtn>
       </UtilsWrap>
@@ -377,7 +441,6 @@ const DefaultControlBar = () => {
 }
 
 const ControlBar = ({ selecting }:ControlBarProps ) => {
-
   const topValue = useRef(new Animated.Value(0)).current;
   useEffect(() => {
     let keyboardWillShowEvent: EmitterSubscription;

@@ -23,10 +23,11 @@ const types = {
   DELIMITER: "delimiter",
   EMBED: "embed",
   DUMMY: "dummy",
+  IMAGE: "image",
   LISTSTYLE: {
     OL: 'ordered',
     UL: 'unordered'
-  }
+  },
 }
 
 const actions = {

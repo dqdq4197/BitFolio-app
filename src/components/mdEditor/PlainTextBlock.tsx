@@ -19,7 +19,7 @@ import RenderText from './RenderText';
 import { types, actions } from '/lib/constant';
 
 
-interface PlainTextInputProps {
+interface PlainTextProps {
   index: number,
   payload: {
     text: string,
@@ -27,7 +27,7 @@ interface PlainTextInputProps {
   type: string,
 }
 
-const PlainTextInput = ({ index, type, payload }: PlainTextInputProps ) => {
+const PlainTextBlock = ({ index, type, payload }: PlainTextProps ) => {
   const scheme = useColorScheme();
   const handlers = useMdEditorDispatch();
   const textInputRef = useRef<TextInput | null>(null);
@@ -136,7 +136,7 @@ const PlainTextInput = ({ index, type, payload }: PlainTextInputProps ) => {
   ) => {
     if(focusState.index !== index) return ;
     const { key } = event.nativeEvent;
-    const { PARAGRAPH, DELIMITER, EMBED, LIST } = types;
+    const { PARAGRAPH, DELIMITER, EMBED, LIST, IMAGE } = types;
     const { BACKSPACE, ENTER, LINEPOP } = actions;
     const { start, end } = selection;
     const currentContext = contentStorage[index] as ParagraphType;
@@ -170,6 +170,7 @@ const PlainTextInput = ({ index, type, payload }: PlainTextInputProps ) => {
 
       switch(prevContext.type) {
         case DELIMITER:
+        case IMAGE:
         case EMBED:
           handlers.removePreviousLine(index);
           handlers.updateFocusState(index - 1, BACKSPACE);
@@ -310,7 +311,7 @@ const PlainTextInput = ({ index, type, payload }: PlainTextInputProps ) => {
   )
 }
 
-export default PlainTextInput;
+export default PlainTextBlock;
 
 interface TextInputProps {
   type: string,
