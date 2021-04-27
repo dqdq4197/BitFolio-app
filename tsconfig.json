@@ -2,17 +2,21 @@
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
     "jsx": "react-native",
-    "baseUrl": "./" ,
+    "baseUrl": "./",
     "paths": {
       "/*": [
         "./src/*"
       ]
     },
-    "lib": ["dom", "esnext"],
+    "lib": [
+      "dom",
+      "esnext"
+    ],
     "moduleResolution": "node",
     "noEmit": true,
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "strict": true
-  }
+  },
+  "extends": "expo/tsconfig.base"
 }
