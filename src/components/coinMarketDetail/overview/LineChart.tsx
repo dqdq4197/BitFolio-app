@@ -6,7 +6,6 @@ import {
   VictoryChart, 
   VictoryLine, 
   VictoryAxis,
-  VictoryCursorContainer,
 } from 'victory-native';
 import GlobalIndicator from '/components/common/GlobalIndicator';
 import useMarketLineChartData from '/hooks/useMarketLineChartData';
@@ -28,69 +27,71 @@ const LineChart = ({id, chartOption}: ChartProps) => {
   
   const { data, isValidating } = useMarketLineChartData({ id })
 
-  if(!data) return <></>
+  
   
   return (
     <ChartContainer>
-      <GlobalIndicator isLoaded={isValidating}/>
-      <VictoryChart 
-        width={width + padding - CONTENT_SPACING * 2}
-        height={height + padding + cursorR}
-        padding={{
-          right: padding,
-          bottom: padding
-        }}
-        scale={{x: "time", y: 'linear'}}
-      >
-        <VictoryLine 
-          
-          style={{
-            data: {
-              stroke: 'red',
-            }
+      <GlobalIndicator isLoaded={!isValidating}/>
+      {data && 
+        <VictoryChart 
+          width={width + padding - CONTENT_SPACING * 2}
+          height={height + padding + cursorR}
+          padding={{
+            right: padding,
+            bottom: padding
           }}
-          animate={{
-            duration: 300
-          }}
-          data={data[chartOption]} 
-          x={0}
-          y={1}
-          interpolation="basis"
-        />
-        <VictoryAxis 
-          style={{ 
-            axis: {
-              stroke: "transparent",
-              fill: 'white'
-            },
-            ticks: {
-              stroke: "transparent",
-              fill: 'white'
-            },
-            tickLabels: {
-              fill:'white',
-              fontSize: 13,
-            },  
-          }} 
-        />
-        <VictoryAxis 
-          dependentAxis
-          orientation="right"
-          style={{ 
-            tickLabels: {
-              zIndex: 3,
-              fill: '#bdbdbd',
-              transform: 'translate(-37, 0)',
-            },
-            axis: {
-              stroke: 'transparent'
-            },
-            grid: {
-              stroke: 'rgba(255,255,255,.1)'
-            }
-          }} 
-        />
-      </VictoryChart>
+          scale={{x: "time", y: 'linear'}}
+        >
+          <VictoryLine 
+            style={{
+              data: {
+                stroke: 'red',
+                strokeWidth: 2
+              }
+            }}
+            animate={{
+              duration: 300
+            }}
+            data={data[chartOption]} 
+            x={0}
+            y={1}
+            interpolation="basis"
+          />
+          <VictoryAxis 
+            style={{ 
+              axis: {
+                stroke: "transparent",
+                fill: 'white'
+              },
+              ticks: {
+                stroke: "transparent",
+                fill: 'white'
+              },
+              tickLabels: {
+                fill:'white',
+                fontSize: 13,
+              },  
+            }} 
+          />
+          <VictoryAxis 
+            dependentAxis
+            orientation="right"
+            style={{ 
+              tickLabels: {
+                zIndex: 3,
+                fill: '#bdbdbd',
+                transform: 'translate(-37, 0)',
+              },
+              axis: {
+                stroke: 'transparent'
+              },
+              grid: {
+                stroke: 'rgba(255,255,255,.1)'
+              }
+            }} 
+          />
+        </VictoryChart>
+      }
       <CursorContainer>
         {data &&
           <Cursor

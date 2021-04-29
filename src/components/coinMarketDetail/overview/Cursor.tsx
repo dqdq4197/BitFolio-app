@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
-import { LongPressGestureHandler, LongPressGestureHandlerGestureEvent } from "react-native-gesture-handler";
+import { 
+  LongPressGestureHandler, 
+  LongPressGestureHandlerGestureEvent
+} from "react-native-gesture-handler";
 import Animated, {
   useAnimatedGestureHandler,
   runOnJS,
@@ -42,7 +45,7 @@ const Cursor = ({ data, width, height, cursorR }: CursorProps) => {
     const i = bisect(data, x0, 1);
     const currentPoint = data[i];
     setTranslateX(x);
-    setTranslateY(y);
+    setTranslateY(y as number);
     setPrevPoint(i);
     if(prevPoint !== i) {
       Haptics.selectionAsync();
@@ -83,7 +86,7 @@ const Cursor = ({ data, width, height, cursorR }: CursorProps) => {
   return (
     <View style={StyleSheet.absoluteFill}>
       <LongPressGestureHandler
-        {...{onGestureEvent}}
+        {...{ onGestureEvent }}
         minDurationMs={300}
       >
         <Animated.View style={StyleSheet.absoluteFill}>

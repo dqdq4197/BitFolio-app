@@ -15,7 +15,8 @@ declare module 'styled-components/native' {
         '200': string,
         '300': string,
         '400': string
-      }
+      },
+      primaryColor: string,
     },
     size: {
       font_xxxl: string,

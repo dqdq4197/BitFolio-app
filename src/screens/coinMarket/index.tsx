@@ -1,8 +1,8 @@
 import React from 'react';
 import { Dimensions } from 'react-native';
-import { createStackNavigator } from '@react-navigation/stack';
-import CoinMarketListScreen from './CoinMarketListScreen';
-import CoinMarketDetailScreen from './CoinMarketDetailScreen';
+import { createStackNavigator, StackNavigationOptions  } from '@react-navigation/stack';
+import DetailTab from './detail';
+import ListScreen from './list';
 import { darkTheme, lightTheme } from '/lib/themeColor';
 import { useColorScheme } from 'react-native-appearance';
 import { Ionicons } from '@expo/vector-icons';
@@ -12,10 +12,10 @@ type StackProps = {}
 
 const Stack = createStackNavigator()
 const { width } = Dimensions.get("window");
-const CoinMarketStackScreen = ({}:StackProps) => {
+const CoinMarketStack = ({}:StackProps) => {
 
   const scheme = useColorScheme();
-  const NavigationOptions = (title?: string) => {
+  const NavigationOptions: StackNavigationOptions | any = (title?: string) => {
     return {
       title,
       headerTransparent: true,
@@ -34,30 +34,30 @@ const CoinMarketStackScreen = ({}:StackProps) => {
         paddingRight: 16
       },
       headerTitleStyle: {
-        fontSize: 20
+        fontSize: 20,
       },
-      gestureResponseDistance: {
-        horizontal: width
-      },
+      gestureEnabled: false,
+      // gestureResponseDistance: {
+      //   horizontal: width
+      // },
     }
   }
-
 
   return (
     <Stack.Navigator>
       <Stack.Screen 
         name="CoinMarketList" 
-        component={CoinMarketListScreen}
+        component={ListScreen}
         options={NavigationOptions('Market')}
       />
       <Stack.Screen 
         name="CoinMarketDetail" 
-        component={CoinMarketDetailScreen}
-        options={NavigationOptions()}
+        component={DetailTab}
+        options={NavigationOptions('Detail')}
       />
     </Stack.Navigator>
   )
 }
 
 
-export default CoinMarketStackScreen;
+export default CoinMarketStack;

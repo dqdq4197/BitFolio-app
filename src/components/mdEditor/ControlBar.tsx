@@ -386,7 +386,6 @@ const DefaultControlBar = () => {
                   // aspect: [4, 3],
                   // quality: 1,
                 });
-                console.log(result);
                 if (!result.cancelled) {
                   const { uri, width, height } = result;
                   const newContext = {

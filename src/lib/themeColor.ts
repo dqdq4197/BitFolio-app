@@ -17,6 +17,7 @@ export const darkTheme: DefaultTheme = {
       '300': 'rgb(233, 236, 239)',
       '400': 'rgb(134, 142, 150)'
     },
+    primaryColor: '#344955',
   },
   colors: {
     ...pallete,
@@ -57,7 +58,8 @@ export const lightTheme: DefaultTheme = {
       '200': 'rgb(0,0,0.96)',
       '300': 'rgb(233, 236, 239)',
       '400': 'rgb(134, 142, 150)'
-    }
+    },
+    primaryColor: '#34955',
   },
   colors: {
     ...pallete

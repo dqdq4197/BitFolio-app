@@ -32,7 +32,7 @@ const CoinMarketList = () => {
   }, []);
 
   const handlePressItem = useCallback((id:string) => {
-    navigation.navigate('CoinMarketDetail', { id })
+    navigation.navigate('CoinMarketDetail', {param: { id }, screen: 'Overview'})
   }, [])
 
   return (

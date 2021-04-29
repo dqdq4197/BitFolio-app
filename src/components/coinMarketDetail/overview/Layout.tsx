@@ -1,5 +1,4 @@
-import React, { useLayoutEffect } from 'react';
-import { useRoute, RouteProp, useNavigation } from '@react-navigation/native';
+import React, { useContext } from 'react';
 import styled from 'styled-components/native';
 import LineChart from './LineChart';
 import PriceAndDetail from './PriceAndDetail';
@@ -7,40 +6,27 @@ import ChartTab from './ChartTab';
 import { useAppSelector } from '/hooks/useRedux';
 import useCoinDetailInfoData from '/hooks/useCoinDetailInfoData';
 import CandlesticChart from './CandlesticChart';
-
-type ParamList = {
-  CoinMarketDetail: {
-    id: string
-  }
-}
+import { CoinIdContext } from '/screens/coinMarket/detail';
 
 
-const ItemDetail = () => {
+const Layout = () => {
 
-  const { params } = useRoute<RouteProp<ParamList, 'CoinMarketDetail'>>();
+  const coinId = useContext(CoinIdContext) as string;
   const { chartOption, currency } = useAppSelector(state => state.baseSettingReducer);
-  const navigation = useNavigation();
-  const { data } = useCoinDetailInfoData(params.id);
+  const { data } = useCoinDetailInfoData(coinId);
 
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      title: params.id
-    })
-  }, [params.id])
-  
   if(!data) return <></>
   return (
     <Container>
         <PriceAndDetail 
-          id={params.id}
           currentPrice={data?.market_data.current_price[currency]}
         />
       {chartOption === 'ohlc' 
         ? <CandlesticChart
-            id={params.id}
+            id={coinId}
           />
         : <LineChart 
-            id={params.id}
+            id={coinId}
             chartOption={chartOption}
           />
       }
@@ -49,11 +35,11 @@ const ItemDetail = () => {
   )
 }
 
-export default ItemDetail;
-
-
+export default Layout;
 
 const Container = styled.ScrollView`
-  
+  flex: 1;
+  padding-top: 15px;
+  background-color: ${({ theme }) => theme.base.background[100]};
 `
 

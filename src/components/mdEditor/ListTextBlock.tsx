@@ -46,10 +46,8 @@ const ListTextBlock = ({
   const handleInputChangeText = (text: string) => {
     const lineBreak = /\r|\n/.exec(text);
     if (lineBreak) {
-      console.log('ewqeqr')
       return ;
     }
-    console.log('sdfdfg')
     const currentContext = contentStorage[contentIndex] as ListType;
     currentContext.payload.items[listIndex] = text;
     handlers.updateCurrentLine(currentContext, contentIndex);

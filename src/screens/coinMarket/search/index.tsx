@@ -1,12 +1,11 @@
 import React, { Suspense } from 'react';
 import { View, Text } from 'react-native';
 import GeneralTemplate from '/components/GeneralTemplate';
-import CoinMarketList from '/components/coinMarket/CoinMarketList';
 import { ErrorBoundary, FallbackProps } from 'react-error-boundary';
 import MarketListSkeleton from '/components/skeletonPlaceholder/MarketListSkeleton';
 
 
-const CoinMarketListScreen = ({}) => {
+const SearchStack = ({}) => {
 
   function ErrorFallback({error, resetErrorBoundary}:FallbackProps) {
     return (
@@ -23,11 +22,10 @@ const CoinMarketListScreen = ({}) => {
         <Suspense 
           fallback={<MarketListSkeleton/>}
         >
-          <CoinMarketList />
         </Suspense>
       </ErrorBoundary>
     </GeneralTemplate>
   )
 }
 
-export default CoinMarketListScreen;
+export default SearchStack;

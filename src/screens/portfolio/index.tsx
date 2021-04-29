@@ -3,9 +3,9 @@ import GeneralTemplate from '/components/GeneralTemplate';
 
 
 type PortfolioProps = {
-
 }
-const Portfolio = ({ }: PortfolioProps) => {
+
+const PortfolioScreen = ({ }: PortfolioProps) => {
   return (
     <>
     </>
@@ -13,4 +13,4 @@ const Portfolio = ({ }: PortfolioProps) => {
 }
 
 
-export default Portfolio;
+export default PortfolioScreen;

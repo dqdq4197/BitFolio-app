@@ -25,7 +25,6 @@ const SparkLine = ({prices, isRising}:SparkLineProps) => {
 
 export default SparkLine;
 
-
 type WrapProps = {
   width: number,
 }

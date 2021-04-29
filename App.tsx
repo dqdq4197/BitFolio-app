@@ -7,7 +7,7 @@ import { useColorScheme } from 'react-native-appearance';
 import { darkTheme, lightTheme } from '/lib/themeColor';
 import { ThemeProvider } from 'styled-components';
 import TabBar from '/components/TabBar'
-import { NewsStackScreen, CoinMarketStackScreen, PortfolioStackScreen } from '/screens';
+import { NewsStackScreen, CoinMarketStack, PortfolioScreen } from '/screens';
 import { store, persistor } from '/store';
 import { Provider } from 'react-redux';
 import { PersistGate } from "redux-persist/integration/react";
@@ -37,8 +37,8 @@ function App() {
 const RootNavigation = () => (
   <NavigationContainer>
     <Tab.Navigator tabBar={props => <TabBar {...props}/>} initialRouteName="CoinMarket">
-      <Tab.Screen name="Portfolio" options={{title: '포트폴리오'}} component={PortfolioStackScreen} />
-      <Tab.Screen name="CoinMarket" options={{title:'시세'}} component={CoinMarketStackScreen} />
+      <Tab.Screen name="Portfolio" options={{title: '포트폴리오'}} component={PortfolioScreen} />
+      <Tab.Screen name="CoinMarket" options={{title:'시세'}} component={CoinMarketStack} />
       <Tab.Screen name="News" options={{title: '뉴스'}} component={NewsStackScreen} />
     </Tab.Navigator>
   </NavigationContainer>

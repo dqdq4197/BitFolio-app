@@ -1,18 +1,22 @@
 import React from 'react';
 import { Dimensions } from 'react-native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
+import { createStackNavigator, StackNavigationProp,  } from '@react-navigation/stack';
+import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import { darkTheme, lightTheme } from '/lib/themeColor';
 import { useColorScheme } from 'react-native-appearance';
 import EditorScreen from './EditorScreen';
 
 
+type RootStackParamList = {
+  Editor: undefined;
+};
 
-const Stack = createStackNavigator()
+const Stack = createStackNavigator<RootStackParamList>()
 const { width } = Dimensions.get("window");
 
 const News = () => {
-  
   const scheme = useColorScheme();
 
   const NavigationOptions = (title?: string) => {
