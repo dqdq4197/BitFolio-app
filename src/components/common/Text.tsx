@@ -80,7 +80,6 @@ const Text = styled.Text<TextStyleProps>`
     }
   }}
 
-
   ${({ light, bold, heavy, black }) => {
     switch (true) {
       case light:

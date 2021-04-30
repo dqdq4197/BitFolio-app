@@ -1,6 +1,6 @@
 import React from 'react';
+import { Dimensions } from 'react-native';
 import styled from 'styled-components/native';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import Text from '/components/common/Text';
 import { useAppDispatch, useAppSelector } from '/hooks/useRedux';
 import { changeChartTimeFrame, changeChartOption } from '/store/baseSetting';
@@ -9,6 +9,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 
 type TimeFrameType = 1 | 7 | 30 | 365 | 'max';
+const { width } = Dimensions.get('window');
 const timeFrame = [{
   label: '1D',
   value: 1,
@@ -28,7 +29,7 @@ const timeFrame = [{
 
 const ChartTab = () => {
 
-  const { chartTimeFrame, chartOption } = useAppSelector(state => state.baseSettingReducer);
+  const { chartTimeFrame } = useAppSelector(state => state.baseSettingReducer);
   const dispatch = useAppDispatch();
 
   const handleTimeSelectorPress = (value: number | string) => {
@@ -38,6 +39,7 @@ const ChartTab = () => {
   const handleChartSelectorPress = (value: 'prices' | 'ohlc') => {
     dispatch(changeChartOption(value))
   }
+
   return (
     <ChartTabWrap>
       <ChartTimeSelectorWrap horizontal>
@@ -83,7 +85,7 @@ const View = styled.View`
 const ChartTabWrap = styled.View`
   flex-direction: row;
   justify-content: space-around;
-  width: ${wp('100%')}px;
+  width: ${ width }px;
   margin-top: 20px;
   padding: 0 ${({theme}) => theme.content.spacing};
 `

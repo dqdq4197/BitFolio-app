@@ -11,11 +11,11 @@ import styled from 'styled-components/native';
 import { shallowEqual } from '/hooks/useRedux';
 
 interface PriceAndDetailProsp {
-  currentPrice: number,
-  currentDate: string,
+  lastUpdatedPrice: number,
+  lastUpdatedDate: string,
 }
 
-const PriceAndDetail = ({ currentPrice, currentDate }: PriceAndDetailProsp) => {
+const PriceAndDetail = ({ lastUpdatedPrice, lastUpdatedDate }: PriceAndDetailProsp) => {
   const { datum, currency } = useAppSelector(state => ({
     datum: state.marketDetailReducer.datum,
     currency: state.baseSettingReducer.currency,
@@ -23,15 +23,15 @@ const PriceAndDetail = ({ currentPrice, currentDate }: PriceAndDetailProsp) => {
     shallowEqual
   );
 
-  const price = useCurrencyFormat(Math.floor(datum.y) || Math.floor(currentPrice), false);
-  const date = datum.x || Date.parse(currentDate);
+  const price = useCurrencyFormat(Math.floor(datum.y) || Math.floor(lastUpdatedPrice), false);
+  const date = datum.x || Date.parse(lastUpdatedDate);
   
   return (
     <Container>
       <DetailView>
         <PriceWrap>
           <Text fontXL margin="0 5px 0 0" bold>
-            {currencySymbol(currency)}
+            { currencySymbol(currency) }
           </Text>
           <Text fontXXL bold>
             { price }
@@ -39,13 +39,13 @@ const PriceAndDetail = ({ currentPrice, currentDate }: PriceAndDetailProsp) => {
           <Text fontML margin="0 0 4px 0" bold>
             { 
               datum.y === 0
-              ? getOnlyDecimal(currentPrice, 2) && '.' + getOnlyDecimal(currentPrice, 2)
+              ? getOnlyDecimal(lastUpdatedPrice, 2) && '.' + getOnlyDecimal(lastUpdatedPrice, 2)
               : getOnlyDecimal(datum.y, 2) && '.' + getOnlyDecimal(datum.y, 2)
             }
           </Text>
         </PriceWrap>
         <Text fontML color400>
-          {timestampToDate(date)}
+          { timestampToDate(date) }
         </Text>
       </DetailView>
     </Container>

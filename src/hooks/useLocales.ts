@@ -2,7 +2,7 @@ import { useAppSelector } from './useRedux';
 
 
 const useLocales = () => {
-    const { language, currency } = useAppSelector(state => state.baseSettingReducer);
+  const { language, currency } = useAppSelector(state => state.baseSettingReducer);
 
   return { language, currency }
 }

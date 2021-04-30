@@ -14,7 +14,7 @@ const Tab = forwardRef<TouchableOpacity, ITab>(
   return (
     <TabButton ref={ref} isFocused={isFocused} onPress={onPress} >
       <TabText isFocused={isFocused}>
-        {label}
+        { label }
       </TabText>
     </TabButton>
   );

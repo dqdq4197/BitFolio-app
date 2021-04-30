@@ -29,7 +29,7 @@ const CustomImage = ({ uri, width, height }: ImageType) => {
           height: height * ratio
         }}
         resizeMode='contain'
-        blurRadius={2}
+        blurRadius={ 2 }
       />
       <GlobalIndicator isLoaded={isLoaded}/>
     </StyledImageWrap>

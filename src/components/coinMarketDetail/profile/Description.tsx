@@ -13,7 +13,7 @@ const Description = ({ data }:DescriptionProps) => {
   return (
     <ScrollView>
       <Text fontML>
-        {data}
+        { data }
       </Text>
     </ScrollView>
   )

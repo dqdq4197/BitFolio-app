@@ -19,8 +19,8 @@ const Layout = () => {
   return (
     <Container>
       <PriceAndDetail 
-        currentPrice={data.market_data.current_price[currency]}
-        currentDate={data.last_updated}
+        lastUpdatedPrice={data.market_data.current_price[currency]}
+        lastUpdatedDate={data.last_updated}
       />
       {chartOption === 'ohlc' 
         ? <CandlesticChart

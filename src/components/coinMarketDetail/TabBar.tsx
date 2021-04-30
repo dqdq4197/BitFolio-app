@@ -65,8 +65,10 @@ const TabBar = ({
 
   useEffect(() => {
     if(scrollViewRef.current && measures.length) {
+      const { index } = state;
+      const screenCenterXPos = width / 2 - measures[index].width / 2;
       scrollViewRef.current.scrollTo({ 
-        x: measures[state.index].x - (width / 2 - measures[state.index].width / 2),
+        x: measures[index].x - screenCenterXPos,
         y: 0, 
         animated: true 
       })
@@ -83,8 +85,8 @@ const TabBar = ({
   const translateX = measures.length ? interpolateNode(position, {
     inputRange: inputRange,
     outputRange: measures.map(measure => {
-      let screenCenterX = width / 2 - measure.width / 2
-      let centerPos = measure.x - screenCenterX;
+      let screenCenterXPos = width / 2 - measure.width / 2
+      let centerPos = measure.x - screenCenterXPos;
 
       if(scrollWidth - measure.x <= width / 2) {
         return width - (scrollWidth - measure.x)

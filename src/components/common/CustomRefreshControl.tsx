@@ -1,26 +1,26 @@
 import React, { useState } from 'react';
 import { RefreshControl } from 'react-native';
 import { useColorScheme } from 'react-native-appearance';
-
+import useGlobalTheme from '/hooks/useGlobalTheme';
 
 type ControlProps = {
   onRefresh: () => void,
   refreshing: boolean,
 }
 
-const wait = (timeout:number) => {
-  return new Promise(resolve => setTimeout(resolve, timeout));
-}
-
-const CustomRefreshControl = ({onRefresh, refreshing}:ControlProps) => {
-  
+const CustomRefreshControl = ({ onRefresh, refreshing }:ControlProps) => {
   const scheme = useColorScheme();
+  const theme = useGlobalTheme();
   
   return (
     <RefreshControl
       refreshing={refreshing}
       onRefresh={onRefresh}
-      tintColor={scheme === 'dark' ? 'rgb(233, 236, 239)' : '#1B1B1B'}
+      tintColor={
+        scheme === 'dark' 
+        ? theme.base.text[300] 
+        : theme.base.background['200']
+      }
     />
   )
 }

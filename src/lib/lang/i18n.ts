@@ -1,19 +1,21 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import * as en from './en';
-import * as ko from './ko';
 import translationEn from './en/translation.json';
 import translationKo from './ko/translation.json';
 
-const LocaleEn = {...en};
-console.log(LocaleEn);
 
 export const resources = {
-  en: LocaleEn,
+  en: {
+    translation: translationEn,
+  },
+  ko: {
+    translation: translationKo
+  }
 } as const;
 
 i18n.use(initReactI18next).init({
-  lng: 'en',
+  lng: 'ko',
   fallbackLng: 'ko',
   debug: false,
   resources,
