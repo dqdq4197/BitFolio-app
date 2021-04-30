@@ -9,22 +9,23 @@ import {
 import useCurrencyFormat from '/hooks/useCurrencyFormat';
 import styled from 'styled-components/native';
 import { shallowEqual } from '/hooks/useRedux';
-import { Ionicons } from '@expo/vector-icons';
 
 interface PriceAndDetailProsp {
   currentPrice: number,
+  currentDate: string,
 }
 
-const PriceAndDetail = ({ currentPrice }: PriceAndDetailProsp) => {
-
+const PriceAndDetail = ({ currentPrice, currentDate }: PriceAndDetailProsp) => {
   const { datum, currency } = useAppSelector(state => ({
     datum: state.marketDetailReducer.datum,
     currency: state.baseSettingReducer.currency,
     }),
     shallowEqual
   );
-  const price = useCurrencyFormat(Math.floor(datum.y) || Math.floor(currentPrice), false);
 
+  const price = useCurrencyFormat(Math.floor(datum.y) || Math.floor(currentPrice), false);
+  const date = datum.x || Date.parse(currentDate);
+  
   return (
     <Container>
       <DetailView>
@@ -44,14 +45,9 @@ const PriceAndDetail = ({ currentPrice }: PriceAndDetailProsp) => {
           </Text>
         </PriceWrap>
         <Text fontML color400>
-          {timestampToDate(datum.x)}
+          {timestampToDate(date)}
         </Text>
       </DetailView>
-      <FavoriteBtnView>
-        <FavoriteBtn>
-          <Ionicons name="heart" size={24} color="white" />
-        </FavoriteBtn>
-      </FavoriteBtnView>
     </Container>
   )
 }
@@ -68,20 +64,7 @@ const Container = styled.View`
 const DetailView = styled.View`
   justify-content: space-between;
 `
-const FavoriteBtnView = styled.View`
-  align-content: center;
-  height: 100px;
-`
 
-const FavoriteBtn = styled.TouchableOpacity`
-  width: 36px;
-  height: 36px;
-  border-radius: 18px;
-  border: 1px solid ${({theme}) => 'white'};
-  align-items: center;
-  justify-content: center;
-  padding-top: 2px;
-`
 const PriceWrap = styled.View`
   flex-direction: row;
   align-items: flex-end;

@@ -41,13 +41,7 @@ const ChartTab = () => {
   return (
     <ChartTabWrap>
       <ChartTimeSelectorWrap horizontal>
-        <View style={{
-          shadowColor: 'white',
-          shadowOffset: { width: 0, height: 3 },
-          shadowOpacity: 0.5,
-          shadowRadius: 5,  
-          elevation: 5
-        }}>
+        <View>
           {timeFrame.map((v) => {
             return (
               <TimeSelector 

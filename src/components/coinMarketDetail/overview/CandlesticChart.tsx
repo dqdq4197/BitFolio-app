@@ -14,9 +14,7 @@ const height = (1 - 1 / φ) * wHeight;
 const padding = 25 // 차트 padding
 const cursorR = 5;  // Cursor 반지름
 const CandlesticChart = ({ id }:ChartProps) => {
-
   const { data, isValidating } = useCandlesticChartData({ id });
-
 
   return (
     <ChartContainer>

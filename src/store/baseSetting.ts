@@ -1,12 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface BaseSettingState {
+  language: 'en' | 'ko',
   currency: 'usd' | 'krw' | 'eur',
   chartOption: 'prices' | 'total_volumes' | 'market_caps' | 'ohlc',
   chartTimeFrame: 1 | 7 | 30 | 365 | 'max',
 }
 
 const initialState: BaseSettingState = {
+  language: 'ko',
   currency: 'krw',
   chartOption: 'prices',
   chartTimeFrame: 1

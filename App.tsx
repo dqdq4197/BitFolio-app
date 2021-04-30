@@ -12,6 +12,7 @@ import { store, persistor } from '/store';
 import { Provider } from 'react-redux';
 import { PersistGate } from "redux-persist/integration/react";
 import { connectActionSheet, ActionSheetProvider } from '@expo/react-native-action-sheet'
+import '/lib/lang/i18n';
 
 const Tab = createBottomTabNavigator();
 

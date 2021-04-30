@@ -4,6 +4,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import GeneralTemplate from '/components/GeneralTemplate';
 import OverViewLayout from '/components/coinMarketDetail/overview/Layout';
 import DiscussionLayout from '/components/coinMarketDetail/discussion/Layout';
+import ProfileLayout from '/components/coinMarketDetail/profile/Layout';
 import NewsLayout from '/components/coinMarketDetail/news/Layout';
 import { ErrorBoundary, FallbackProps } from 'react-error-boundary';
 import TabBar from '/components/coinMarketDetail/TabBar';
@@ -55,7 +56,7 @@ const DetailTab = ({ route, navigation }:any) => {
               initialRouteName={screen}
             >
               <Tab.Screen name="Overview" component={OverViewLayout} />
-              <Tab.Screen name="Profile" component={DiscussionLayout} />
+              <Tab.Screen name="Profile" component={ProfileLayout} />
               <Tab.Screen name="News" component={NewsLayout} />
               <Tab.Screen name="Notice" component={DiscussionLayout} />
               <Tab.Screen name="Discussion" component={DiscussionLayout} />

@@ -8,6 +8,7 @@ interface TextStyleProps extends TextProps {
   margin?: string,
   padding?: string,
   color?: string,
+  lineHeight?: number,
   color100?: boolean,  
   color300?: boolean,  
   color400?: boolean, 
@@ -38,6 +39,8 @@ const Text = styled.Text<TextStyleProps>`
   margin: ${(props) => props.margin ?? 0};
   padding: ${(props) => props.padding ?? 0};
   
+  ${(props) => props.lineHeight && `line-height: ${props.lineHeight}px`};
+
   ${({ color, color100, color300, color400, theme }) => {
     if(color) return `color: ${color}`
     switch (true) {

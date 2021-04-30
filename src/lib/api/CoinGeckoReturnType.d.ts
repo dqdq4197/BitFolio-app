@@ -49,8 +49,8 @@ export interface CoinDetailDataReturn {
   categories:                      string[];
   public_notice:                   null;
   additional_notices:              any[];
-  localization:                    { [key: string]: string };
-  description:                     { [key: string]: string };
+  localization:                    { [key in Language]: string };
+  description:                     { [key in Language]: string };
   links:                           Links;
   image:                           Image;
   country_origin:                  string;
@@ -72,6 +72,28 @@ export interface CoinDetailDataReturn {
   last_updated:                    string;
 }
 
+export type Language =
+  | "en"
+  | "de"
+  | "es"
+  | "fr"
+  | "it"
+  | "pl"
+  | "ro"
+  | "hu"
+  | "nl"
+  | "pt"
+  | "sv"
+  | "vi"
+  | "tr"
+  | "ru"
+  | "ja"
+  | "zh"
+  | "zh-tw"
+  | "ko"
+  | "ar"
+  | "th"
+  | "id"
 export interface CommunityData {
   facebook_likes:              null;
   twitter_followers:           number;

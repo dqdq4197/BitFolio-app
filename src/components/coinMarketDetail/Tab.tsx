@@ -9,12 +9,7 @@ interface ITab {
 }
 
 const Tab = forwardRef<TouchableOpacity, ITab>(
-  ({
-    isFocused,
-    label,
-    onPress
-  }, ref) => {
-
+  ({ isFocused, label, onPress }, ref) => {
 
   return (
     <TabButton ref={ref} isFocused={isFocused} onPress={onPress} >
