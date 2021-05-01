@@ -14,7 +14,6 @@ type TemplateProps = {
 const STATUSBAR_DEFAULT_HEIGHT = 20;
 
 const GeneralTemplate = ({ children }: TemplateProps) => {
-
   const scheme = useColorScheme();
   const headerHeight = useHeaderHeight();
 
@@ -24,8 +23,8 @@ const GeneralTemplate = ({ children }: TemplateProps) => {
       navHeight={headerHeight}
     >
       <StatusBar
-        translucent={true}
-        animated={true}
+        translucent
+        animated
         backgroundColor='transparent'
         barStyle={scheme === 'dark' ? 'light-content' : 'light-content'}
       />
@@ -42,7 +41,7 @@ interface ContainerProps {
 const Container = styled.SafeAreaView<ContainerProps>`
   flex: 1;
   background-color: ${({theme}) => {
-    return theme.base.background['surface'];
+    return theme.base.background.surface;
   }};
   padding-top: ${
     (props) => Platform.OS === 'android' 

@@ -2,19 +2,22 @@ import React from 'react';
 import { Dimensions } from 'react-native';
 import { VictoryChart, VictoryTheme, VictoryAxis, VictoryCandlestick, VictoryZoomContainer } from 'victory-native';
 import useCandlesticChartData from '/hooks/useCandlesticChartData';
+import useGlobalTheme from '/hooks/useGlobalTheme';
 import GlobalIndicator from '/components/common/GlobalIndicator';
 import styled from 'styled-components/native';
 
 interface ChartProps {
   id: string,
+  lastUpdatedPrice: number,
 }
 const φ = (1 + Math.sqrt(5)) / 2;
 const { width, height: wHeight } = Dimensions.get("window");
 const height = (1 - 1 / φ) * wHeight;
 const padding = 25 // 차트 padding
 const cursorR = 5;  // Cursor 반지름
-const CandlesticChart = ({ id }:ChartProps) => {
+const CandlesticChart = ({ id, lastUpdatedPrice }:ChartProps) => {
   const { data, isValidating } = useCandlesticChartData({ id });
+  const theme = useGlobalTheme();
 
   return (
     <ChartContainer>
@@ -33,20 +36,21 @@ const CandlesticChart = ({ id }:ChartProps) => {
           containerComponent={
             <VictoryZoomContainer
               zoomDimension="x"
-              allowZoom={true} />
+              allowZoom={true} 
+            />
           }
         >
           <VictoryAxis 
             style={{ 
               axis: {
                 stroke: "transparent",
-                fill: 'white'
+                fill: theme.base.text[200]
               },
               ticks: {
                 stroke: "transparent",
               },
               tickLabels: {
-                fill:'white',
+                fill:theme.base.text[200],
               },
               grid: {
                 stroke: 'transparent'
@@ -60,7 +64,7 @@ const CandlesticChart = ({ id }:ChartProps) => {
               tickLabels: {
                 zIndex: 3,
                 fill: '#bdbdbd',
-                transform: 'translate(-37, 0)',
+                transform: `translate(-${lastUpdatedPrice.toString().length * 4}, 0)`,
               },
               axis: {
                 stroke: 'transparent'
@@ -77,7 +81,7 @@ const CandlesticChart = ({ id }:ChartProps) => {
             low={3}
             close={4}
             data={data as any}
-            candleColors={{ positive: "green", negative: "#c43a31" }}
+            candleColors={{ positive: "#00e676", negative: "#f44336" }}
           />
         </VictoryChart>
       }

@@ -9,10 +9,11 @@ import {
 } from 'victory-native';
 import GlobalIndicator from '/components/common/GlobalIndicator';
 import useMarketLineChartData from '/hooks/useMarketLineChartData';
+import useGlobalTheme from '/hooks/useGlobalTheme';
 import { CONTENT_SPACING } from '/lib/constant';
 
 
-const φ = (1 + Math.sqrt(5)) / 2;
+const φ = 1.6;
 const { width, height: wHeight } = Dimensions.get("window");
 const height = (1 - 1 / φ) * wHeight;
 const padding = 25 // 차트 padding
@@ -20,22 +21,27 @@ const cursorR = 5;  // Cursor 반지름
 
 interface ChartProps {
   id: string,
-  chartOption: "prices" | "total_volumes" | "market_caps"
+  chartOption: "prices" | "total_volumes" | "market_caps",
+  lastUpdatedPrice: number,
+  lastUpdatedPercentage: number,
 }
 
-const LineChart = ({id, chartOption}: ChartProps) => {
-  
+const LineChart = ({ 
+  id,
+  chartOption, 
+  lastUpdatedPrice, 
+  lastUpdatedPercentage 
+}: ChartProps) => {
   const { data, isValidating } = useMarketLineChartData({ id })
+  const theme = useGlobalTheme();
 
-  
-  
   return (
     <ChartContainer>
       <GlobalIndicator isLoaded={!isValidating}/>
       {data && 
         <VictoryChart 
-          width={width + padding - CONTENT_SPACING * 2}
-          height={height + padding + cursorR}
+          width={ width + padding - CONTENT_SPACING * 2 }
+          height={ height + padding + cursorR }
           padding={{
             right: padding,
             bottom: padding
@@ -45,7 +51,11 @@ const LineChart = ({id, chartOption}: ChartProps) => {
           <VictoryLine 
             style={{
               data: {
-                stroke: 'red',
+                stroke: lastUpdatedPercentage > 0 
+                  ? '#00e676' 
+                  : lastUpdatedPercentage === 0 
+                    ? theme.base.background[200]
+                    : '#f44336' ,
                 strokeWidth: 2
               }
             }}
@@ -61,15 +71,15 @@ const LineChart = ({id, chartOption}: ChartProps) => {
             style={{ 
               axis: {
                 stroke: "transparent",
-                fill: 'white'
+                fill: theme.base.text[200]
               },
               ticks: {
                 stroke: "transparent",
-                fill: 'white'
+                fill: theme.base.text[200]
               },
               tickLabels: {
-                fill:'white',
-                fontSize: 13,
+                fill: theme.base.text[200],
+                fontSize: theme.size.font_ml,
               },  
             }} 
           />
@@ -80,13 +90,14 @@ const LineChart = ({id, chartOption}: ChartProps) => {
               tickLabels: {
                 zIndex: 3,
                 fill: '#bdbdbd',
-                transform: 'translate(-37, 0)',
+                transform: `translate(-${lastUpdatedPrice.toString().length * 4}, 0)`,
               },
               axis: {
                 stroke: 'transparent'
               },
               grid: {
-                stroke: 'rgba(255,255,255,.1)'
+                stroke: 'rgba(255,255,255,.1)',
+                strokeDasharray: 8,
               }
             }} 
           />
@@ -124,9 +135,3 @@ const CursorContainer = styled.View`
   z-index: 2;
   align-items: center;
 `
-
-const Skeleton = styled.View`
-
-`
-
-

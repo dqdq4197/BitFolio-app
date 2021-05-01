@@ -1,13 +1,13 @@
-import React, { useContext, useEffect } from 'react';
-import { CoinIdContext } from '/screens/coinMarket/detail';
+import React from 'react';
 import useCoinDetailInfoData from '/hooks/useCoinDetailData';
 import useLocales from '/hooks/useLocales';
+import { useCoinIdContext } from '/hooks/useCoinIdContext';
 import ScrollView from '/components/common/ScrollView';
 import Description from './Description';
 import Link from './Link';
 
 const Layout = () => {
-  const coinId = useContext(CoinIdContext) as string;
+  const coinId = useCoinIdContext();
   const { data } = useCoinDetailInfoData(coinId);
   const { language, currency } = useLocales();
 

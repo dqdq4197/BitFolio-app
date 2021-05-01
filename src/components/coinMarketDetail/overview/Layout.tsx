@@ -1,19 +1,19 @@
-import React, { useContext, useState, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import styled from 'styled-components/native';
 import LineChart from './LineChart';
 import PriceAndDate from './PriceAndDate';
 import ChartTab from './ChartTab';
 import { useAppSelector } from '/hooks/useRedux';
 import useCoinDetailData from '/hooks/useCoinDetailData';
+import { useCoinIdContext } from '/hooks/useCoinIdContext';
 import CandlesticChart from './CandlesticChart';
-import { CoinIdContext } from '/screens/coinMarket/detail';
 import CustomRefreshControl from '/components/common/CustomRefreshControl';
 import ScrollView from '/components/common/ScrollView'
-
+import PriceChangePercentage from './PriceChangePercentage';
 
 const Layout = () => {
 
-  const coinId = useContext(CoinIdContext) as string;
+  const coinId = useCoinIdContext();
   const [refreshing, setRefreshing] = useState(false);
   const { chartOption, currency } = useAppSelector(state => state.baseSettingReducer);
   const { data, mutate } = useCoinDetailData(coinId);
@@ -45,14 +45,25 @@ const Layout = () => {
         {chartOption === 'ohlc' 
           ? <CandlesticChart
               id={coinId}
+              lastUpdatedPrice={data.market_data.current_price[currency]}
             />
           : <LineChart 
               id={coinId}
               chartOption={chartOption}
+              lastUpdatedPrice={data.market_data.current_price[currency]}
+              lastUpdatedPercentage={data.market_data.price_change_percentage_24h}
             />
         }
         <ChartTab />
       </ChartArea>
+      <PriceChangePercentage 
+        percentage_24h={data.market_data.price_change_percentage_24h}
+        percentage_7d={data.market_data.price_change_percentage_7d}
+        percentage_30d={data.market_data.price_change_percentage_30d}
+        percentage_200d={data.market_data.price_change_percentage_200d}
+        percentage_1y={data.market_data.price_change_percentage_1y}
+
+      />
     </ScrollView>
   )
 }

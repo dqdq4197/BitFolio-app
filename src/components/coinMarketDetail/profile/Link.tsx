@@ -122,10 +122,10 @@ const Link = ( props : LinkProps) => {
   return (
     <Container>
       <ChapterTitle>
-        <Text fontXL margin="0 10px 0 0">
+        <Text fontL color100 bold margin="0 10px 0 0">
           { t('coinDetail.Link') }
         </Text>
-        <Feather name="external-link" size={24} color={color} />
+        <Feather name="external-link" size={20} color={theme.base.text[100]} />
       </ChapterTitle>
       <HorizontalLine fullWidth/>
       { 
@@ -155,11 +155,11 @@ const Container = styled.View`
 const ChapterTitle = styled.View`
   flex-direction: row;
   align-items: center;
-  padding: 20px 0;
+  padding: 16px 0;
 `
 const RowWrap = styled.View``
 const Row = styled.TouchableOpacity`
-  height: 60px;
+  height: 55px;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;

@@ -25,10 +25,10 @@ const Description = ({ localization, symbol, content }: DescriptionProps) => {
     <Container>
       <ContentWrap>
         <NameWrap>
-          <Text fontXL margin="0 10px 0 0">
+          <Text fontL color100 bold margin="0 10px 0 0">
             { localization }
           </Text>
-          <Text fontXL>
+          <Text fontL color100 bold>
             ({ symbol.toUpperCase() })
           </Text>
         </NameWrap>
@@ -81,7 +81,7 @@ const ContentWrap = styled.View`
 const NameWrap = styled.View`
   flex-direction: row;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 `
 
 const ShowMore = styled.View`

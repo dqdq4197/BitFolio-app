@@ -17,6 +17,10 @@ const options = {
   fallbackLng: 'ko',
   debug: true,
   resources,
+  // react: {
+  //   useSuspense: false,
+  //   wait: false
+  // }
 }
 
 i18n
