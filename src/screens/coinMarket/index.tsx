@@ -1,5 +1,4 @@
 import React from 'react';
-import { Dimensions } from 'react-native';
 import { createStackNavigator, StackNavigationOptions  } from '@react-navigation/stack';
 import DetailTab from './detail';
 import ListScreen from './list';
@@ -11,7 +10,6 @@ import { Ionicons } from '@expo/vector-icons';
 type StackProps = {}
 
 const Stack = createStackNavigator()
-const { width } = Dimensions.get("window");
 const CoinMarketStack = ({}:StackProps) => {
 
   const scheme = useColorScheme();
@@ -36,10 +34,11 @@ const CoinMarketStack = ({}:StackProps) => {
       headerTitleStyle: {
         fontSize: 20,
       },
-      gestureEnabled: false,
-      // gestureResponseDistance: {
-      //   horizontal: width
-      // },
+      cardStyle: {backgroundColor: 'black'},
+      gestureEnabled: true,
+      gestureResponseDistance: {
+        horizontal: 20
+      },
     }
   }
 

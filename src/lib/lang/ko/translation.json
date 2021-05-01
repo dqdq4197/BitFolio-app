@@ -1,8 +1,13 @@
 {
-  "title": "환영합니다.",
-  "description": {
-    "part1": "This is an example without namespaces.",
-    "part2": "In order to infer the appropriate type for t function, you should use type augmentation to override the Resources type.",
-    "part3": "Check out the @types/react-i18next to see an example."
+  "coinDetail": {
+    "Read more": "더보기",
+    "Read less": "감추기",
+    "Link": "링크",
+    "Website": "웹사이트",
+    "Source code": "소스 코드",
+    "Official Forum": "공식 포럼",
+    "Facebook": "페이스북",
+    "Twitter": "트위터",
+    "Reddit": "레딧"
   }
 }

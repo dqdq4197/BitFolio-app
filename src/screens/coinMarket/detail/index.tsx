@@ -26,7 +26,7 @@ const DetailTab = ({ route, navigation }:any) => {
 
   function ErrorFallback({error, resetErrorBoundary}:FallbackProps) {
     return (
-      <View>
+      <View style={{ flex: 1}}>
         <Text>Something went wrong:</Text>
         <Text>{error.message}</Text>
       </View>
@@ -35,7 +35,7 @@ const DetailTab = ({ route, navigation }:any) => {
 
   function SuspenseFallback() {
     return (
-      <View>
+      <View style={{ flex: 1}}>
         <Text style={{color:'white', flex: 1, alignItems:'center', justifyContent: 'center'}}>Loading..</Text>
       </View>
     )

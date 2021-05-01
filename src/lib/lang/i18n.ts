@@ -1,47 +1,34 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import * as en from './en';
-import translationEn from './en/translation.json';
-import translationKo from './ko/translation.json';
-
+import translationEN from './en/translation.json';
+import translationKO from './ko/translation.json';
 
 export const resources = {
   en: {
-    translation: translationEn,
+    translation: translationEN,
   },
   ko: {
-    translation: translationKo
+    translation: translationKO
   }
 } as const;
 
-i18n.use(initReactI18next).init({
+const options = {
   lng: 'ko',
   fallbackLng: 'ko',
-  debug: false,
+  debug: true,
   resources,
-});
+}
 
+i18n
+  .use(initReactI18next)
 
-// import i18n from 'i18next';
-// import { initReactI18next } from 'react-i18next';
+// initialize if not already initialized
+// if (!i18n.isInitialized) {
+  i18n.init(options);
+// }
+
+// const batch = require.context("../foo/", false,  /\.js$/)
+// {t('n.selected', { n: 5 })}
+// "n.selected": "{{n}} 개 선택됨."
+
 // import { Localization } from 'expo-localization';
-// import * as localeKr from './ko';
-// import * as localeEn from './en';
-
-
-// const kr = { ...localeKr };
-// const En = { ...localeEn };
-
-// i18n
-//   .use(initReactI18next)
-//   .init({
-//     lng: 'ko',
-//     fallbackLng: 'ko',
-//     debug: true,
-//     resources: { kr, En },
-//     interpolation: {
-//       escapeValue: false, // not needed for react!!
-//     },
-//   });
-
-// export default i18n;

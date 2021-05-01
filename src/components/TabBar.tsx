@@ -69,7 +69,7 @@ type TabLabelProps = {
 const TabBarContainer = styled.View`
   flex-direction: row;
   height: ${TAB_BAR_HEIGHT + 'px'};
-  background-color: ${({theme}) => theme.base.background[100]};
+  background-color: ${({theme}) => theme.base.background['surface']};
   border-top-width:1px;
   border-top-color:${({theme}) => theme.base.background[300]};
 `

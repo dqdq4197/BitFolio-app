@@ -36,7 +36,7 @@ export default MarketListHeader;
 
 
 const Container = styled.View`
-  background-color: ${({theme}) => theme.base.background[100]};
+  background-color: ${({theme}) => theme.base.background['surface']};
   padding: ${({theme}) => theme.content.spacing};
 `
 const ListFilterWrap = styled.View`

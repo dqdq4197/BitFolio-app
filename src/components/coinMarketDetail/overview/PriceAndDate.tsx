@@ -15,7 +15,7 @@ interface PriceAndDetailProsp {
   lastUpdatedDate: string,
 }
 
-const PriceAndDetail = ({ lastUpdatedPrice, lastUpdatedDate }: PriceAndDetailProsp) => {
+const PriceAndDate = ({ lastUpdatedPrice, lastUpdatedDate }: PriceAndDetailProsp) => {
   const { datum, currency } = useAppSelector(state => ({
     datum: state.marketDetailReducer.datum,
     currency: state.baseSettingReducer.currency,
@@ -52,7 +52,7 @@ const PriceAndDetail = ({ lastUpdatedPrice, lastUpdatedDate }: PriceAndDetailPro
   )
 }
 
-export default PriceAndDetail;
+export default PriceAndDate;
 
 
 const Container = styled.View`

@@ -42,7 +42,7 @@ interface ContainerProps {
 const Container = styled.SafeAreaView<ContainerProps>`
   flex: 1;
   background-color: ${({theme}) => {
-    return theme.base.background[100];
+    return theme.base.background['surface'];
   }};
   padding-top: ${
     (props) => Platform.OS === 'android' 

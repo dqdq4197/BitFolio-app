@@ -12,6 +12,7 @@ import { store, persistor } from '/store';
 import { Provider } from 'react-redux';
 import { PersistGate } from "redux-persist/integration/react";
 import { connectActionSheet, ActionSheetProvider } from '@expo/react-native-action-sheet'
+import useGlobalTheme from '/hooks/useGlobalTheme';
 import '/lib/lang/i18n';
 
 const Tab = createBottomTabNavigator();
@@ -35,15 +36,26 @@ function App() {
   );
 }
 
-const RootNavigation = () => (
-  <NavigationContainer>
-    <Tab.Navigator tabBar={props => <TabBar {...props}/>} initialRouteName="CoinMarket">
-      <Tab.Screen name="Portfolio" options={{title: '포트폴리오'}} component={PortfolioScreen} />
-      <Tab.Screen name="CoinMarket" options={{title:'시세'}} component={CoinMarketStack} />
-      <Tab.Screen name="News" options={{title: '뉴스'}} component={NewsStackScreen} />
-    </Tab.Navigator>
-  </NavigationContainer>
-)
+const RootNavigation = () => {
+
+  const theme = useGlobalTheme();
+
+  return (
+    <NavigationContainer>
+      <Tab.Navigator 
+        tabBar={props => <TabBar {...props}/>} 
+        initialRouteName="CoinMarket" 
+        sceneContainerStyle={{ 
+          backgroundColor: theme.base.background[100]
+        }}
+      >
+        <Tab.Screen name="Portfolio" options={{title: '포트폴리오'}} component={PortfolioScreen} />
+        <Tab.Screen name="CoinMarket" options={{title:'시세'}} component={CoinMarketStack} />
+        <Tab.Screen name="News" options={{title: '뉴스'}} component={NewsStackScreen} />
+      </Tab.Navigator>
+    </NavigationContainer>
+  )
+}
 
 const ConnectedApp = connectActionSheet(App);
 

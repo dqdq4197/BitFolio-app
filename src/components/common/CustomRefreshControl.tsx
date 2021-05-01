@@ -16,10 +16,11 @@ const CustomRefreshControl = ({ onRefresh, refreshing }:ControlProps) => {
     <RefreshControl
       refreshing={refreshing}
       onRefresh={onRefresh}
+      style={{ zIndex: 999 }}
       tintColor={
         scheme === 'dark' 
         ? theme.base.text[300] 
-        : theme.base.background['200']
+        : theme.base.background.surface
       }
     />
   )

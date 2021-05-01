@@ -23,7 +23,7 @@ const CoinMarketList = () => {
 
   const navigation = useNavigation();
 
-  const onRefresh = useCallback(() => {
+  const handleRefresh = useCallback(() => {
     setRefreshing(true);
     mutate()
       .then(() => {
@@ -55,7 +55,7 @@ const CoinMarketList = () => {
         )}
         refreshControl={
           <CustomRefreshControl
-            onRefresh={onRefresh}
+            onRefresh={handleRefresh}
             refreshing={refreshing}
           />
         }

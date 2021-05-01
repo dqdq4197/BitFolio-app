@@ -9,6 +9,8 @@ declare module 'styled-components/native' {
         '200': string,
         '300': string,
         '400': string,
+        'surface': string,
+        'hovered': string,
       },
       text: {
         '100': string,
@@ -17,6 +19,7 @@ declare module 'styled-components/native' {
         '400': string
       },
       primaryColor: string,
+      error: string,
     },
     size: {
       font_xxxl: string,
@@ -31,6 +34,7 @@ declare module 'styled-components/native' {
     colors: ColorsType,
     content: {
       spacing: string,
+      blankSpacing: string,
     },
     border: {
       's': string,
