@@ -1,15 +1,23 @@
 {
   "coinDetail": {
-    "Read more": "Read more",
-    "Read less": "Read less",
+    "Read more": "Read More",
+    "Read less": "Read Less",
     "Link": "Link",
     "Website": "Website",
-    "Source code": "Source code",
+    "Source code": "Source Code",
     "Official Forum": "Official Forum",
     "Facebook": "Facebook",
     "Twitter": "Twitter",
     "Reddit": "Reddit",
-    "price change percentage": "price change(%)"
+    "price change percentage": "Price Change",
+    "stats": "Stats",
+    "rank": "Rank",
+    "market cap": "Market Cap",
+    "algorithm": "Hash Algorithm",
+    "total volume": "Total Vloume",
+    "launched date": "Launched Date",
+    "circulating supply": "Circulating Supply",
+    "max supply": "Max Supply"
   },
   "asd": "asdqwe"
 

@@ -34,6 +34,7 @@ export default function Model({ data, width, height, cursorR }: ModelProps) {
         scaleY,
         d,
     }
+    
   }, [data, width, height, cursorR])
   
 }

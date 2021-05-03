@@ -90,7 +90,7 @@ const Cursor = ({ data, width, height, cursorR }: CursorProps) => {
         minDurationMs={300}
       >
         <Animated.View style={StyleSheet.absoluteFill}>
-          <Animated.View 
+          <View 
             style={[styles.cursor, { 
               transform: [
                 { translateX: translateX - CURSOR / 2 },
@@ -100,7 +100,7 @@ const Cursor = ({ data, width, height, cursorR }: CursorProps) => {
           >
             <View style={styles.line}/>
             <View style={styles.cursorBody} />
-          </Animated.View>
+          </View>
         </Animated.View>
       </LongPressGestureHandler>
     </View>

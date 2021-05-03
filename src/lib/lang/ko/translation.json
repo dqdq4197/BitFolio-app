@@ -9,6 +9,14 @@
     "Facebook": "페이스북",
     "Twitter": "트위터",
     "Reddit": "레딧",
-    "price change percentage": "가격 변동(%)"
+    "price change percentage": "가격 변동",
+    "stats": "통계",
+    "rank": "순위",
+    "market cap": "시가 총액",
+    "algorithm": "해시 알고리즘",
+    "total volume": "총 거래량",
+    "launched date": "출시일",
+    "circulating supply": "현재 공급량",
+    "max supply": "총 공급량"
   }
 }

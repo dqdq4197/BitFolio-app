@@ -163,6 +163,7 @@ const Row = styled.TouchableOpacity`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+
 `
 
 const TitleWrap = styled.View`

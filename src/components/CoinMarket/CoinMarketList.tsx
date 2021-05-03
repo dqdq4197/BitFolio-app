@@ -15,11 +15,7 @@ const HEADER_MIN_HEIGHT = 30;
 const CoinMarketList = () => {
   const scrollY = useRef(new Animated.Value(0)).current;
   const [refreshing, setRefreshing] = useState(false);
-  let { data, size, setSize, mutate, isValidating } = useCoinMarketData({
-    vs_currency: 'krw',
-    per_page: 20,
-    order: 'market_cap_rank'
-  });
+  let { data, size, setSize, mutate } = useCoinMarketData({});
 
   const navigation = useNavigation();
 

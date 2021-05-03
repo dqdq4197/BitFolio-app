@@ -1,11 +1,12 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import styled from 'styled-components/native';
-import { VictoryBar, VictoryChart, VictoryAxis } from 'victory-native';
+import { VictoryBar, VictoryChart, VictoryAxis, VictoryGroup, VictoryLabel } from 'victory-native';
+import { VictoryLabelProps } from 'victory';
 import { useTranslation } from 'react-i18next';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import Text from '/components/common/Text';
 
-const padding = 25;
+const padding = 30;
 
 type ChangePercentageType = {
   percentage_24h: number,
@@ -14,6 +15,23 @@ type ChangePercentageType = {
   percentage_200d: number,
   percentage_1y: number,
 }
+
+const NegativeAwareTickLabel = ({
+  datum, 
+  y,
+  dy, 
+  ...rest
+}: VictoryLabelProps) => {
+  return (
+    <VictoryLabel
+      datum={ datum }
+      y={ 100 } 
+      dy={ Math.sign((datum as {y: number})?.y) >= 0 ? 15 : 0 }
+      {...rest} 
+    />
+  );
+};
+
 const PriceChangePercentage = ({
   percentage_24h,
   percentage_7d,
@@ -23,78 +41,74 @@ const PriceChangePercentage = ({
 } :ChangePercentageType ) => {
   const { t } = useTranslation();
   const theme = useGlobalTheme();
-
+  
   return (
     <Container>
-      <TitleWrap>
+      <Header>
         <Text fontL color100 bold margin="0 10px 0 0">
-          { t('coinDetail.price change percentage') }
+          { t('coinDetail.price change percentage') } (%)
         </Text>
-      </TitleWrap>
+      </Header>
       <VictoryChart
-        height={120}
+        height={ 120 }
         padding={{
           right: padding,
-          bottom: padding
+          bottom: padding,
         }}
-        domainPadding={{ x: 45, y: 50 }}
+        domainPadding={{ x: 45, y: 30 }}
       >
-        <VictoryBar
-          cornerRadius={{ top: 3 }}
+        <VictoryGroup 
+          data={[
+            { x: '24h', y: percentage_24h },
+            { x: '7d', y: percentage_7d },
+            { x: '30d', y: percentage_30d },
+            { x: '200d', y: percentage_200d },
+            { x: '1y', y: percentage_1y }
+          ]}
+        >
+          <VictoryBar
+            cornerRadius={{ top: 3 }}
+            style={{
+              labels: {
+                fill: theme.base.text[200],
+              },
+              data: {
+                strokeLinejoin: "round",
+                strokeWidth: 1,
+                strokeOpacity: 0.3,
+                width: 40,
+                borderRadius: 10,
+                fill: theme.base.text[300]
+              }
+            }}
+            labels={({ datum }) => 
+              `${ Math.floor(datum.y * 100) / 100 }`
+            }
+          />
+          <VictoryBar
+            labels={({ datum }) => `${datum.x}`}
+            style={{
+              data: { 
+                fill: "none" 
+              },
+              labels: {
+                fill: theme.base.text[200],
+                fontWeight: '600',
+              },
+            }}
+            labelComponent={ <NegativeAwareTickLabel /> }
+          />
+        </VictoryGroup>
+        <VictoryAxis 
           style={{
-            labels: {
-              fill: theme.base.text[200]
+            tickLabels: { 
+              fill: "none" 
             },
-            data: {
-              strokeLinejoin: "round",
-              strokeWidth: 1,
-              strokeOpacity: 0.3,
-              width: 40,
-              borderRadius: 10,
-              fill: theme.base.text[300]
+            axis: {
+              stroke: 'transparent'
             }
           }}
-          data={[
-            { x: '24h', y: percentage_24h, y0: 0 },
-            { x: '7d', y: percentage_7d , y0: 0 },
-            { x: '30d', y: percentage_30d, y0: 0 },
-            { x: '200d', y: percentage_200d, y0: 0 },
-            { x: '1y', y: percentage_1y , y0: 0 }
-          ]}
-          labels={({ datum }) => `${Math.floor((datum.y - datum.y0) * 100) / 100}`}
         />
-          <VictoryAxis 
-            offsetY={30}
-            style={{ 
-              axis: {
-                stroke: "transparent",
-                fill: theme.base.text[200],
-                fontWeight: 'bold'
-              },
-              ticks: {
-                stroke: "transparent",
-              },
-              tickLabels: {
-                fill:theme.base.text[200],
-                fontWeight: 500,
-                fontSize: theme.size.font_ml
-              },
-              grid: {
-                stroke: 'transparent'
-              }  
-            }}
-          />
-          <VictoryAxis 
-            dependentAxis
-            style={{ 
-              tickLabels: {
-                fill: 'transparent',
-              },
-              axis: {
-                stroke: 'transparent'
-              }
-            }} 
-          />
       </VictoryChart>
     </Container>
   )
@@ -106,8 +120,8 @@ const Container = styled.View`
   margin-top: ${({ theme }) => theme.content.blankSpacing};
   padding: 0 ${({ theme }) => theme.content.spacing} 20px;
   background-color: ${({ theme }) => theme.base.background.surface};
-  `
+`
 
-const TitleWrap = styled.View`
-  padding: 20px 0
+const Header = styled.View`
+  padding: 20px 0;
 `

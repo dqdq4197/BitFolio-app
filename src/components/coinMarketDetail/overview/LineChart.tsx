@@ -34,7 +34,7 @@ const LineChart = ({
 }: ChartProps) => {
   const { data, isValidating } = useMarketLineChartData({ id })
   const theme = useGlobalTheme();
-
+  
   return (
     <ChartContainer>
       <GlobalIndicator isLoaded={!isValidating}/>

@@ -20,6 +20,8 @@ declare module 'styled-components/native' {
       },
       primaryColor: string,
       error: string,
+      upColor: string,
+      downColor: string,
     },
     size: {
       font_xxxl: string,

@@ -3,21 +3,23 @@ import styled from 'styled-components/native';
 import LineChart from './LineChart';
 import PriceAndDate from './PriceAndDate';
 import ChartTab from './ChartTab';
+import PriceChangePercentage from './PriceChangePercentage';
+import Stats from './Stats';
 import { useAppSelector } from '/hooks/useRedux';
 import useCoinDetailData from '/hooks/useCoinDetailData';
 import { useCoinIdContext } from '/hooks/useCoinIdContext';
+import useLocales from '/hooks/useLocales';
 import CandlesticChart from './CandlesticChart';
 import CustomRefreshControl from '/components/common/CustomRefreshControl';
 import ScrollView from '/components/common/ScrollView'
-import PriceChangePercentage from './PriceChangePercentage';
 
 const Layout = () => {
-
+  
   const coinId = useCoinIdContext();
   const [refreshing, setRefreshing] = useState(false);
-  const { chartOption, currency } = useAppSelector(state => state.baseSettingReducer);
+  const { chartOption } = useAppSelector(state => state.baseSettingReducer);
+  const { currency, language } = useLocales();
   const { data, mutate } = useCoinDetailData(coinId);
-  //genesis_date => 창세기
 
   const handleRefresh = useCallback(() => {
     setRefreshing(true);
@@ -51,18 +53,27 @@ const Layout = () => {
               id={coinId}
               chartOption={chartOption}
               lastUpdatedPrice={data.market_data.current_price[currency]}
-              lastUpdatedPercentage={data.market_data.price_change_percentage_24h}
+              lastUpdatedPercentage={data.market_data.price_change_percentage_24h_in_currency[currency]}
             />
         }
         <ChartTab />
       </ChartArea>
+      <Stats 
+        rank={data.market_data.market_cap_rank}
+        marketcap={data.market_data.market_cap[currency]}
+        totalVolume={data.market_data.total_volume[currency]}
+        genesis_date={data.genesis_date}
+        maxSupply={data.market_data.max_supply}
+        circulatingSupply={data.market_data.circulating_supply}
+        hashingAlgorithm={data.hashing_algorithm}
+        language={language}
+      />
       <PriceChangePercentage 
-        percentage_24h={data.market_data.price_change_percentage_24h}
-        percentage_7d={data.market_data.price_change_percentage_7d}
-        percentage_30d={data.market_data.price_change_percentage_30d}
-        percentage_200d={data.market_data.price_change_percentage_200d}
-        percentage_1y={data.market_data.price_change_percentage_1y}
-
+        percentage_24h={data.market_data.price_change_percentage_24h_in_currency[currency]}
+        percentage_7d={data.market_data.price_change_percentage_7d_in_currency[currency]}
+        percentage_30d={data.market_data.price_change_percentage_30d_in_currency[currency]}
+        percentage_200d={data.market_data.price_change_percentage_200d_in_currency[currency]}
+        percentage_1y={data.market_data.price_change_percentage_1y_in_currency[currency]}
       />
     </ScrollView>
   )

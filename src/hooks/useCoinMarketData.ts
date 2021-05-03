@@ -6,18 +6,21 @@ import { useAppSelector } from './useRedux';
 
 
 
+type ParamsType = {
+  per_page?: number,
+  order?: 
+    | "market_cap_rank" | "market_cap_desc" 
+    | "market_cap_asc" | "volume_asc" | "volume_desc" 
+    | "id_asc" | "id_desc",
+}
 export default ({
   per_page = 30, 
-  price_change_percentage,
-  order,
-  ids
-}: CoinMarketsParams) => {
+  order = 'market_cap_rank',
+}: ParamsType) => {
   const { currency } = useAppSelector(state => state.baseSettingReducer);
-
   const getKey = (pageIndex:number, previousPageData: AxiosResponse<unknown> | null) => {
     return CoinGecko.coin.markets({
       vs_currency: currency,
-      price_change_percentage,
       page: pageIndex + 1,
       order,
       per_page,

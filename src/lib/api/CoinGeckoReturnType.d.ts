@@ -63,6 +63,7 @@ export interface CoinDetailDataReturn {
   liquidity_score:                 number;
   public_interest_score:           number;
   market_data:                     MarketData;
+  tickers: TickersType[] | [];
   community_data:                  CommunityData;
   developer_data:                  DeveloperData;
   public_interest_stats:           PublicInterestStats;
@@ -102,6 +103,38 @@ export interface CommunityData {
   telegram_channel_user_count: null;
 }
 
+export interface TickersType {
+  base: string,
+  target: string,
+  market: {
+    name: string,
+    identifier: string,
+    has_trading_incentive: boolean
+  },
+  last: number,
+  volume: number,
+  converted_last: {
+    btc: number,
+    eth: number,
+    usd: number
+  },
+  converted_volume: {
+    btc: number,
+    eth: number,
+    usd: number
+  },
+  trust_score: string,
+  bid_ask_spread_percentage: number,
+  timestamp:string,
+  last_traded_at:string,
+  last_fetch_at: string,
+  is_anomaly: string,
+  is_stale: string,
+  trade_url: string,
+  token_info_url: string | null,
+  coin_id: string,
+  target_coin_id: string
+}
 export interface DeveloperData {
   forks:                               number;
   stars:                               number;

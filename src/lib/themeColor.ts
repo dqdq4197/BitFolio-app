@@ -19,8 +19,11 @@ export const darkTheme: DefaultTheme = {
       '300': 'rgba(255, 255, 255, 0.38)',
       '400': 'rgb(134, 142, 150)'
     },
-    primaryColor: '#344955',
-    error: '#CF6679'
+    primaryColor: '#3861fb',
+    error: '#CF6679',
+    upColor: '#00e676',
+    downColor: '#ea3943'
+
   },
   colors: {
     ...pallete,
@@ -65,8 +68,10 @@ export const lightTheme: DefaultTheme = {
       '300': 'rgb(233, 236, 239)',
       '400': 'rgb(134, 142, 150)'
     },
-    primaryColor: '#34955',
-    error: '#CF6679'
+    primaryColor: '#3861fb',
+    error: '#CF6679',
+    upColor: '#00e676',
+    downColor: '#ea3943'
   },
   colors: {
     ...pallete
