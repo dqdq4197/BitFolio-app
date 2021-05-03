@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components/native';
 import { useTranslation } from 'react-i18next';
+import * as WebBrowser from 'expo-web-browser';
 import Text from '/components/common/Text';
 import Image from '/components/common/Image';
 import HorizontalLine from '/components/common/HorizontalLine';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import { MaterialIcons } from '@expo/vector-icons';
-
+import reactStringReplace from 'react-string-replace';
 
 type DescriptionProps = {
   localization: string,
@@ -16,11 +17,38 @@ type DescriptionProps = {
 const Description = ({ localization, symbol, content }: DescriptionProps) => {
   const { t } = useTranslation();
   const [isShow, setIsShow] = useState(false);
+  const [conta, setConta] = useState<any>('');
   const theme = useGlobalTheme();
 
   const handleShowMorePress = () => {
     setIsShow((prev) => !prev);
   }
+
+  useEffect(() => {
+    let regExp = new RegExp(/<a[\s]+([^>]+)>((?:.(?!\<\/a\>))*.)<\/a>/, "g");
+    let match = content.split(regExp);
+    let replacedText = [];
+    for(let i = 0; i < match.length; i++) {
+      let href = match[i].match(/href=(["'])(.*?)\1/);
+      if(href) {
+        replacedText.push(
+          <LinkText onPress={() => {
+            if(href)
+            WebBrowser.openBrowserAsync(href[2], {
+              toolbarColor: theme.base.background.surface,
+              enableBarCollapsing: true
+            })
+          }}>
+            <Text bold primaryColor>{ match[++i] }</Text>
+          </LinkText>
+        )
+      } else if(match[i]) {
+        replacedText.push(match[i]);
+      }
+    }
+    setConta(replacedText)
+  }, [])
+ 
   return (
     <Container>
       <ContentWrap>
@@ -33,7 +61,7 @@ const Description = ({ localization, symbol, content }: DescriptionProps) => {
           </Text>
         </NameWrap>
         <Text fontML numberOfLines={isShow ? undefined : 5} lineHeight={22}>
-          { content }
+          { conta }
         </Text>
       </ContentWrap>
       <HorizontalLine />
@@ -50,7 +78,7 @@ const Description = ({ localization, symbol, content }: DescriptionProps) => {
           }}
         >
           <ShowMoreText>
-            <Text fontL>
+            <Text fontML>
               { isShow 
                 ? t('coinDetail.Read less') 
                 : t('coinDetail.Read more')
@@ -85,7 +113,7 @@ const NameWrap = styled.View`
 `
 
 const ShowMore = styled.View`
-  height: 50px;
+  height: 45px;
   align-items: center;
   justify-content: center;
 `
@@ -93,7 +121,7 @@ const ShowMore = styled.View`
 const ShowMoreButton = styled.TouchableHighlight`
   align-items: center;
   justify-content: center;
-  width: 100px;
+  width: 110px;
   height: 35px;
   border-radius: ${({ theme }) => theme.border.s};
 `
@@ -101,4 +129,8 @@ const ShowMoreButton = styled.TouchableHighlight`
 const ShowMoreText = styled.View`
   flex-direction: row;
   align-items: center;
+`
+
+const LinkText = styled.TouchableOpacity`
+
 `

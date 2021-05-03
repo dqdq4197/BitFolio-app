@@ -25,12 +25,11 @@ const Stats = ({
   language
 }: StatsProps) => {
   const { t } = useTranslation();
-  console.log(circulatingSupply)
   return (
     <Container>
       <Header>
         <Text fontL color100 bold margin="0 10px 0 0">
-          { t('coinDetail.stats') }
+          { t('coinDetail.statistic') }
         </Text>
       </Header>
       <Table>

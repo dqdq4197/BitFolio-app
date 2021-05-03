@@ -41,13 +41,13 @@ const RowComponent = ({ url, title, icon, color }: RowComponentProps) => {
     }}>
       <TitleWrap>
         { icon }
-        <Text fontL margin="0 0 0 20px">
+        <Text fontML margin="0 0 0 20px">
           { title }
         </Text>
       </TitleWrap>
       <MaterialIcons 
         name="arrow-forward-ios" 
-        size={24} 
+        size={20} 
         color={color} 
       />
     </Row>
@@ -70,7 +70,7 @@ const Link = ( props : LinkProps) => {
             rows.push({
               url: value[0],
               title: t('coinDetail.Website'),
-              icon: <MaterialCommunityIcons name="web" size={24} color={color} />
+              icon: <MaterialCommunityIcons name="web" size={20} color={color} />
             })
           break;
         case 'githubs':
@@ -78,7 +78,7 @@ const Link = ( props : LinkProps) => {
             rows.push({
               url: value[0],
               title: t('coinDetail.Source code'), 
-              icon: <Entypo name="code" size={24} color={color} />
+              icon: <Entypo name="code" size={20} color={color} />
             })
           break;
         case 'officialForums':
@@ -86,7 +86,7 @@ const Link = ( props : LinkProps) => {
             rows.push({
               url: value[0],
               title: t('coinDetail.Official Forum'), 
-              icon: <MaterialCommunityIcons name="forum" size={24} color={color} />
+              icon: <MaterialCommunityIcons name="forum" size={20} color={color} />
             })
           break;
         case 'facebookUsername':
@@ -94,7 +94,7 @@ const Link = ( props : LinkProps) => {
             rows.push({
               url: `${FACEBOOK_PREFIX}${value}`,
               title: t('coinDetail.Facebook'), 
-              icon: <MaterialIcons name="facebook" size={24} color={color} />
+              icon: <MaterialIcons name="facebook" size={20} color={color} />
             })
             break;
         case 'twitterScreenName':
@@ -102,7 +102,7 @@ const Link = ( props : LinkProps) => {
             rows.push({
               url: `${TWITTER_PREFIX}${value}`,
               title: t('coinDetail.Twitter'), 
-              icon: <MaterialCommunityIcons name="twitter" size={24} color={color} />
+              icon: <MaterialCommunityIcons name="twitter" size={20} color={color} />
             })
           break;
         case 'reddit':
@@ -110,7 +110,7 @@ const Link = ( props : LinkProps) => {
             rows.push({
               url: value as string,
               title: t('coinDetail.Reddit'), 
-              icon: <MaterialCommunityIcons name="reddit" size={24} color={color} />
+              icon: <MaterialCommunityIcons name="reddit" size={20} color={color} />
             })
           break;
       }

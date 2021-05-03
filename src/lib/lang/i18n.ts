@@ -13,7 +13,7 @@ export const resources = {
 } as const;
 
 const options = {
-  lng: 'en',
+  lng: 'ko',
   fallbackLng: 'ko',
   debug: true,
   resources,

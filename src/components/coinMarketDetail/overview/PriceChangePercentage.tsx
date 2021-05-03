@@ -9,11 +9,11 @@ import Text from '/components/common/Text';
 const padding = 30;
 
 type ChangePercentageType = {
-  percentage_24h: number,
-  percentage_7d: number,
-  percentage_30d: number,
-  percentage_200d: number,
-  percentage_1y: number,
+  percentage_24h?: number,
+  percentage_7d?: number | {},
+  percentage_30d?: number | {},
+  percentage_200d?: number | {},
+  percentage_1y?: number | {},
 }
 
 const NegativeAwareTickLabel = ({
@@ -59,11 +59,11 @@ const PriceChangePercentage = ({
       >
         <VictoryGroup 
           data={[
-            { x: '24h', y: percentage_24h },
-            { x: '7d', y: percentage_7d },
-            { x: '30d', y: percentage_30d },
-            { x: '200d', y: percentage_200d },
-            { x: '1y', y: percentage_1y }
+            { x: '24h', y: percentage_24h || 0 },
+            { x: '7d', y: percentage_7d || 0 },
+            { x: '30d', y: percentage_30d || 0 },
+            { x: '200d', y: percentage_200d || 0 },
+            { x: '1y', y: percentage_1y || 0 }
           ]}
         >
           <VictoryBar
