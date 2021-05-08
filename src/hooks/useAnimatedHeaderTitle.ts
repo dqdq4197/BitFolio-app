@@ -4,18 +4,20 @@ import { useNavigation } from '@react-navigation/native';
 
 
 type HeaderTitleProps = {
-  title: string,
+  title?: string,
   triggerPoint: number
 }
-const useAnimatedHeaderTitle = ({ title,  triggerPoint}: HeaderTitleProps) => {
+const useAnimatedHeaderTitle = ({ title,  triggerPoint }: HeaderTitleProps) => {
 
   const scrollY = useRef(new Animated.Value(0)).current;
   const navigation = useNavigation();
 
   useLayoutEffect(() => {
-    navigation.setOptions({
-      title
-    })
+    if(title) {
+      navigation.setOptions({
+        title
+      })
+    }
   }, [title])
 
   useEffect(() => {

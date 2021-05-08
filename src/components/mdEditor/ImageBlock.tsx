@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from 'styled-components/native';
 import Image from '/components/common/Image';
 
 type ImageBlockProps = {

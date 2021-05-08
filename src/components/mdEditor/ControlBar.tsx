@@ -18,7 +18,7 @@ import { Foundation } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { Octicons } from '@expo/vector-icons';
-import { types, actions, unicodes, TAB_BAR_HEIGHT } from '/lib/constant';
+import { TYPES, ACTIONS, unicodes, TAB_BAR_HEIGHT } from '/lib/constant';
 import { 
   useMdEditorState, 
   useMdEditorDispatch, 
@@ -38,7 +38,11 @@ interface ControlBarProps {
 
 const SelectionContorlBar = () => {
 
-  const { focusState: { index, action }, contentStorage, selection: { start, end } } = useMdEditorState();
+  const { 
+    focusState: { index, action }, 
+    contentStorage, 
+    selection: { start, end } 
+  } = useMdEditorState();
   const handlers = useMdEditorDispatch();
 
   const replaceRange = (
@@ -53,6 +57,7 @@ const SelectionContorlBar = () => {
   const handleBoldPress = () => {
     const currentContext = contentStorage[index] as ParagraphType;
     const currentText = currentContext.payload.text;
+    
     const editedText = replaceRange(currentText, start, end, unicodes.TEXT_BOLD)
     
     currentContext.payload.text = editedText;
@@ -77,7 +82,7 @@ const SelectionContorlBar = () => {
 
 const DefaultControlBar = () => {
   const { focusState: { index }, contentStorage, listFocusIndex } = useMdEditorState();
-  const { QUOTE, PARAGRAPH, LIST, EMBED, HEADER, DELIMITER, LISTSTYLE: { UL, OL }, IMAGE } = types;
+  const { QUOTE, PARAGRAPH, LIST, EMBED, HEADER, DELIMITER, LISTSTYLE: { UL, OL }, IMAGE } = TYPES;
   const handlers = useMdEditorDispatch();
   const [image, setImage] = useState<any>(null);
   const { showActionSheetWithOptions } = useActionSheet();
@@ -107,11 +112,11 @@ const DefaultControlBar = () => {
     if(prevRestItems.length && nextRestItems.length) {
       newContext = [prevNewContext, otherContext, nextNewContext]
       handlers.divideCurrentLineAndNewLine(newContext, index);
-      handlers.updateFocusState(index + 1, actions.TYPING)
+      handlers.updateFocusState(index + 1, ACTIONS.TYPING)
     } else if(prevRestItems.length) {
       newContext = [prevNewContext, otherContext]
       handlers.divideCurrentLineAndNewLine(newContext, index);
-      handlers.updateFocusState(index + 1, actions.TYPING)
+      handlers.updateFocusState(index + 1, ACTIONS.TYPING)
     } else if(nextRestItems.length) {
       newContext = [otherContext, nextNewContext]
       handlers.divideCurrentLineAndNewLine(newContext, index);
@@ -199,7 +204,7 @@ const DefaultControlBar = () => {
             }
           }
           handlers.mergePreviousLineWithNextLine(newContext as ListType, index);
-          handlers.updateFocusState(index - 1, actions.TYPING);
+          handlers.updateFocusState(index - 1, ACTIONS.TYPING);
           handlers.updateListFocusIndex(prevItems.length);
         } else if(isPrevStyleOL && listFocusIndex === 0) {
           const { payload: { items: prevItems } } = prevContext as ListType;
@@ -221,7 +226,7 @@ const DefaultControlBar = () => {
             })
           }
           handlers.mergePreviousLineWithCurrentLine(newContext as ListType[], index);
-          handlers.updateFocusState(index - 1, actions.TYPING);
+          handlers.updateFocusState(index - 1, ACTIONS.TYPING);
           handlers.updateListFocusIndex(prevItems.length);
         } else if(isNextStyleOL && listFocusIndex === curItems.length - 1) {
           const { payload: { items: nextItems } } = nextContext as ListType;
@@ -286,7 +291,7 @@ const DefaultControlBar = () => {
         }
         handlers.mergePreviousLineWithNextLine(newContext as ListType, index);
         handlers.updateListFocusIndex(prevItems.length);
-        handlers.updateFocusState(index - 1, actions.TYPING);
+        handlers.updateFocusState(index - 1, ACTIONS.TYPING);
       } else if(isPrevStyleUL) {
         const { payload: { items: prevItems } } = prevContext as ListType;
         const newContext = [{
@@ -298,7 +303,7 @@ const DefaultControlBar = () => {
         }]
         handlers.mergePreviousLineWithCurrentLine(newContext as ListType[], index);
         handlers.updateListFocusIndex(prevItems.length);
-        handlers.updateFocusState(index - 1, actions.TYPING);
+        handlers.updateFocusState(index - 1, ACTIONS.TYPING);
       } else if(isNextStyleUL) {
         const { payload: { items: nextItems } } = nextContext as ListType;
         const newContext = {
@@ -343,7 +348,7 @@ const DefaultControlBar = () => {
     }
 
     handlers.insertNewLineAfter(newContext, index);
-    handlers.updateFocusState(index + 2, actions.TYPING)
+    handlers.updateFocusState(index + 2, ACTIONS.TYPING)
     handlers.updateSelection({
       start: 0,
       end: 0

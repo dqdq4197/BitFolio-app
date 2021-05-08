@@ -3,6 +3,7 @@ import styled from 'styled-components/native';
 import { VictoryBar, VictoryChart, VictoryAxis, VictoryGroup, VictoryLabel } from 'victory-native';
 import { VictoryLabelProps } from 'victory';
 import { useTranslation } from 'react-i18next';
+import { digitToFixed } from '/lib/utils';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import Text from '/components/common/Text';
 
@@ -26,7 +27,7 @@ const NegativeAwareTickLabel = ({
     <VictoryLabel
       datum={ datum }
       y={ 100 } 
-      dy={ Math.sign((datum as {y: number})?.y) >= 0 ? 15 : 0 }
+      dy={ Math.sign((datum as { y: number })?.y) >= 0 ? 15 : 0 }
       {...rest} 
     />
   );
@@ -82,7 +83,7 @@ const PriceChangePercentage = ({
               }
             }}
             labels={({ datum }) => 
-              `${ Math.floor(datum.y * 100) / 100 }`
+              `${ digitToFixed(datum.y, 2) }`
             }
           />
           <VictoryBar

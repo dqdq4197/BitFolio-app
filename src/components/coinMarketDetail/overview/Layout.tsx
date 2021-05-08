@@ -14,7 +14,6 @@ import CustomRefreshControl from '/components/common/CustomRefreshControl';
 import ScrollView from '/components/common/ScrollView'
 
 const Layout = () => {
-  
   const coinId = useCoinIdContext();
   const [refreshing, setRefreshing] = useState(false);
   const { chartOption } = useAppSelector(state => state.baseSettingReducer);

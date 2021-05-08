@@ -1,6 +1,6 @@
 import React from 'react';
 import GeneralTemplate from '/components/GeneralTemplate';
-import CoinMarketList from '/components/coinMarket/CoinMarketList';
+import Layout from '/components/coinMarket/Layout';
 import MarketListSkeleton from '/components/skeletonPlaceholder/MarketListSkeleton';
 import ErrorBoundaryAndSuspense from '/components/common/ErrorBoundaryAndSuspense';
 
@@ -9,7 +9,7 @@ const ListScreen = ({}) => {
   return (
     <GeneralTemplate>
       <ErrorBoundaryAndSuspense skeleton={<MarketListSkeleton />}>
-        <CoinMarketList />
+        <Layout />
       </ErrorBoundaryAndSuspense>
     </GeneralTemplate>
   )

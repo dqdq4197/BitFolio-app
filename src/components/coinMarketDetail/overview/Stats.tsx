@@ -1,5 +1,6 @@
 import React from 'react'
 import styled, { css } from 'styled-components/native';
+import { baseTypes } from 'base-types';
 import Text from '/components/common/Text';
 import { useTranslation } from 'react-i18next';
 import { convertUnits, currencySymbol } from '/lib/utils';
@@ -12,8 +13,9 @@ type StatsProps = {
   maxSupply: number,
   circulatingSupply: number,
   hashingAlgorithm: string,
-  language: 'en' | 'ko'
+  language: baseTypes.Language
 }
+
 const Stats = ({ 
   rank,
   marketcap,

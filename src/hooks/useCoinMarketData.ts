@@ -1,21 +1,19 @@
 import useRequestInfinite from './useRequestInfinite';
-import { CoinGecko, CoinMarketsParams } from '/lib/api/CoinGeckoClient'
+import { CoinGecko } from '/lib/api/CoinGeckoClient'
 import { CoinMarketReturn } from '/lib/api/CoinGeckoReturnType';
 import { AxiosResponse } from 'axios';
 import { useAppSelector } from './useRedux';
+import { ORDER } from '/lib/api/CoinGeckoClient';
 
 
 
 type ParamsType = {
   per_page?: number,
-  order?: 
-    | "market_cap_rank" | "market_cap_desc" 
-    | "market_cap_asc" | "volume_asc" | "volume_desc" 
-    | "id_asc" | "id_desc",
+  order?: ORDER
 }
 export default ({
-  per_page = 30, 
-  order = 'market_cap_rank',
+  per_page = 70, 
+  order = 'market_cap_desc',
 }: ParamsType) => {
   const { currency } = useAppSelector(state => state.baseSettingReducer);
   const getKey = (pageIndex:number, previousPageData: AxiosResponse<unknown> | null) => {

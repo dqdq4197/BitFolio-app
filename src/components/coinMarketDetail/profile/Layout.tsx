@@ -19,6 +19,7 @@ const Layout = () => {
         localization={data.localization[language]}
         symbol={data.symbol}
         content={data.description[language]}
+        imageSrc={data.image.large}
       />
       <Link 
         websites={data.links.homepage}

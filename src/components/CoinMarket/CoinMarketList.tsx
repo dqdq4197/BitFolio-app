@@ -1,22 +1,23 @@
-import React, { useRef, useState, useCallback } from 'react';
-import { Animated, View, FlatList, Text } from 'react-native';
+import React, { useState, useCallback } from 'react';
+import { Animated, FlatList, View, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import CoinMarketItem from './CoinMarketItem'
+import { useHeaderHeight } from '@react-navigation/stack';
+import Item from './Item'
 import useCoinMarketData from '/hooks/useCoinMarketData';
-import MarketListHeader from './MarketListHeader';
+import useAnimatedHeaderTitle from '/hooks/useAnimatedHeaderTitle';
+import useGlobalTheme from '/hooks/useGlobalTheme';
 import MarketListSkeleton from '/components/skeletonPlaceholder/MarketListSkeleton';
 import CustomRefreshControl from '/components/common/CustomRefreshControl';
-import FlatListHeader from './FlatListHeader';
+import PopularList from './PopularList';
 
-
-const HEADER_MAX_HEIGHT = 150;
-const HEADER_MIN_HEIGHT = 30;
+const HEADER_HEIGHT = 100;
 
 const CoinMarketList = () => {
-  const scrollY = useRef(new Animated.Value(0)).current;
+  const navHeaderHeight = useHeaderHeight();
+  const theme = useGlobalTheme();
   const [refreshing, setRefreshing] = useState(false);
-  let { data, size, setSize, mutate } = useCoinMarketData({});
-
+  const { data, size, setSize, mutate } = useCoinMarketData({});
+  const { scrollY } = useAnimatedHeaderTitle({ triggerPoint: 30 });
   const navigation = useNavigation();
 
   const handleRefresh = useCallback(() => {
@@ -28,38 +29,48 @@ const CoinMarketList = () => {
   }, []);
 
   const handlePressItem = useCallback((id:string) => {
-    navigation.navigate('CoinMarketDetail', {param: { id }, screen: 'Overview'})
+    navigation.navigate('CoinDetail', { param: { id }, screen: 'Overview' })
   }, [])
+
+  const handleScroll = Animated.event(
+    [ { nativeEvent: { contentOffset: { y: scrollY } } } ], 
+    { useNativeDriver: false }
+  )
 
   return (
     <>
-      {/* <MarketListHeader/> */}
-      <FlatList 
-        data={data?.flat()}
-        keyExtractor={item => item.id + item.symbol}
-        renderItem={({item, index}) => <CoinMarketItem item={item} index={index} onPressItem={handlePressItem}/>}
-        scrollEventThrottle={16}
-        contentContainerStyle={{backgroundColor: '#1B1B1B'}}
-        ListFooterComponent={MarketListSkeleton}
-        // ListHeaderComponent={<FlatListHeader/>}
-        // stickyHeaderIndices={[0]}
-        onScroll={Animated.event(
-          [
-            { nativeEvent: { contentOffset: { y: scrollY } } }
-          ], 
-          { useNativeDriver: false }
-        )}
-        refreshControl={
-          <CustomRefreshControl
-            onRefresh={handleRefresh}
-            refreshing={refreshing}
+      {/* <ScrollView> */}
+        <PopularList />
+        <View>
+          <FlatList 
+            data={data?.flat()}
+            keyExtractor={item => item.id}
+            contentContainerStyle={{
+              backgroundColor: theme.base.background.surface,
+            }}
+            renderItem={
+              ({ item }) => 
+                <Item 
+                  item={item} 
+                  onPressItem={handlePressItem}
+                />
+            }
+            scrollEventThrottle={16}
+            ListFooterComponent={MarketListSkeleton}
+            // ListHeaderComponent={<FlatListHeader/>}
+            // stickyHeaderIndices={[0]}
+            onScroll={handleScroll}
+            refreshControl={
+              <CustomRefreshControl
+                onRefresh={handleRefresh}
+                refreshing={refreshing}
+              />
+            }
+            onEndReached={() => setSize(size + 1)}
+            onEndReachedThreshold={0.5}
           />
-        }
-        onEndReached={() => {
-          setSize(size + 1)
-        }}
-        onEndReachedThreshold={0.5}
-      />
+        </View>
+      {/* </ScrollView> */}
     </>
   )
 }

@@ -16,6 +16,7 @@ interface TextStyleProps extends TextProps {
   fontXXXL?: boolean, 
   fontXXL?: boolean, 
   fontXL?: boolean, 
+  fontX?: boolean,
   fontL?: boolean, 
   fontML?: boolean, 
   fontM?: boolean, 
@@ -59,7 +60,7 @@ const Text = styled.Text<TextStyleProps>`
     }
   }}
 
-  ${({ fontXXXL, fontXXL, fontXL, fontL, fontML, fontM, fontS, fontXS, theme }) => {
+  ${({ fontXXXL, fontXXL, fontXL, fontX, fontL, fontML, fontM, fontS, fontXS, theme }) => {
     switch (true) {
       case fontXXXL:
         return `font-size: ${theme.size.font_xxxl}`
@@ -67,6 +68,8 @@ const Text = styled.Text<TextStyleProps>`
         return `font-size: ${theme.size.font_xxl}`  
       case fontXL:
         return `font-size: ${theme.size.font_xl}`  
+      case fontX:
+        return `font-size: ${theme.size.font_x}` 
       case fontL:
         return `font-size: ${theme.size.font_l}`  
       case fontML:

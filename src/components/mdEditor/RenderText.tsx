@@ -4,7 +4,7 @@ import styled, { css } from 'styled-components/native';
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
 import Text from '/components/common/Text';
-import { unicodes, types, actions } from '/lib/constant';
+import { unicodes, TYPES, ACTIONS } from '/lib/constant';
 import { useMdEditorDispatch, useMdEditorState } from '/hooks/useMdEditorContext';
 // import * as babel from 'babel-core';
 
@@ -86,7 +86,7 @@ const RenderText = ({ type, children, index }: RenderTextProps) => {
     let i = 0;
     let context = stringToMarker(children);
     const { action } = focusState;
-    const { ENTER, BACKSPACE, LINEPOP } = actions;
+    const { ENTER, BACKSPACE, LINEPOP } = ACTIONS;
     console.log(index, ':',type);
     while(i++ < 3) {
       context = context.map(text => {
@@ -130,7 +130,7 @@ interface TextWrapProps {
 const DefaultText = styled(Text)`
   ${(props: TextWrapProps) => {
     switch(props.type) {
-      case types.HEADER:
+      case TYPES.HEADER:
         return StyledHeader;
       default:
         return StyleParagraph;

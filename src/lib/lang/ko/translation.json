@@ -18,5 +18,8 @@
     "launched date": "출시일",
     "circulating supply": "현재 공급량",
     "max supply": "총 공급량"
+  },
+  "coinMarketHome": {
+    "show all": "모두보기"
   }
 }

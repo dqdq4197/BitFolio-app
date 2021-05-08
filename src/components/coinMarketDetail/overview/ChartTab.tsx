@@ -1,6 +1,7 @@
 import React from 'react';
 import { Dimensions } from 'react-native';
 import styled from 'styled-components/native';
+import { baseTypes } from 'base-types';
 import Text from '/components/common/Text';
 import { useAppDispatch, useAppSelector } from '/hooks/useRedux';
 import { changeChartTimeFrame, changeChartOption } from '/store/baseSetting';
@@ -8,7 +9,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 
 
-type TimeFrameType = 1 | 7 | 30 | 365 | 'max';
+type TimeFrameType = baseTypes.ChartTimeFrame;
 const { width } = Dimensions.get('window');
 const timeFrame = [{
   label: '1D',

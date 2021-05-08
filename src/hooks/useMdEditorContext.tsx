@@ -1,11 +1,17 @@
 import React, { useReducer, useContext, createContext } from 'react';
-import { types, unicodes, actions } from '/lib/constant';
+import { TYPES, unicodes, ACTIONS, style } from '/lib/constant';
 
-
+export type InlineStyleType = {
+  start: number,
+  end: number,
+  styles: string[],
+  url?: string,
+}
 export type ParagraphType = {
   type: string,
   payload: {
     text: string,
+    inlineStyles: InlineStyleType[] | [];
   }
 }
 export interface QuoteType extends ParagraphType {}
@@ -83,19 +89,26 @@ type InitailState = {
 const initialState:InitailState = {
   contentStorage: [
     {
-      type: types.PARAGRAPH,
+      type: TYPES.PARAGRAPH,
       payload: {
-        text: `${unicodes.TEXT_MARKER}hello${unicodes.TEXT_MARKER}${unicodes.TEXT_LINK}${unicodes.TEXT_ITALIC}${unicodes.TEXT_BOLD}hi${unicodes.TEXT_BOLD}${unicodes.TEXT_ITALIC}${unicodes.TEXT_LINK}how are ${unicodes.TEXT_BOLD}you${unicodes.TEXT_BOLD}?`,
+        text: `hello hi, how are you?`,
+        inlineStyles: [
+          {
+            start: 0,
+            end: 5,
+            styles: ['bold']
+          }
+        ]        
       }
     }
     , {
-      type: types.LIST,
+      type: TYPES.LIST,
       payload: {
         items: ['fsd', '2index'],
         style: "unordered"
       }
     }, {
-      type: types.LIST,
+      type: TYPES.LIST,
       payload: {
         items: ['fsd', '2index'],
         style: "ordered"
@@ -200,15 +213,15 @@ function mdEditorReducer(state: InitailState, action:Action): InitailState {
           ...state,
           focusState: {
             index: action.focusIndex,
-            action: actions.TYPING
+            action: ACTIONS.TYPING
           }
         }
-      } else if(state.focusState.action !== actions.TYPING) {
+      } else if(state.focusState.action !== ACTIONS.TYPING) {
         return {
           ...state,
           focusState: {
             ...state.focusState,
-            action: actions.TYPING
+            action: ACTIONS.TYPING
           }
         }
       } else {

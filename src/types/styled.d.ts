@@ -27,6 +27,7 @@ declare module 'styled-components/native' {
       font_xxxl: string,
       font_xxl: string,
       font_xl: string,
+      font_x: string,
       font_l: string,
       font_ml: string,
       font_m: string,
@@ -37,6 +38,7 @@ declare module 'styled-components/native' {
     content: {
       spacing: string,
       blankSpacing: string,
+      surfacePadding: string,
     },
     border: {
       's': string,

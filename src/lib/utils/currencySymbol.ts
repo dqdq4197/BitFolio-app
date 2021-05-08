@@ -1,6 +1,6 @@
+import { baseTypes } from 'base-types';
 
-
-export default function currencySymbol(currency?: string) {
+export default function currencySymbol(currency?: baseTypes.Currency) {
   switch (currency) {
     case 'krw':
       return '₩'

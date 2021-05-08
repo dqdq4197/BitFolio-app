@@ -13,7 +13,7 @@ import {
   ListType,
   ImageType
 } from '/hooks/useMdEditorContext';
-import { types } from '/lib/constant';
+import { TYPES } from '/lib/constant';
 
 
 const CONTROL_BAR_HEIGHT = 45;
@@ -30,7 +30,7 @@ const InputArea = () => {
     {
       contentStorage.map((content, index) => {
         const { type } = content;
-        const { PARAGRAPH, QUOTE, HEADER, DUMMY, DELIMITER, EMBED, LIST, IMAGE } = types;
+        const { PARAGRAPH, QUOTE, HEADER, DUMMY, DELIMITER, EMBED, LIST, IMAGE } = TYPES;
 
         switch(type) {
           case PARAGRAPH:

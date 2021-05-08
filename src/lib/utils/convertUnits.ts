@@ -1,6 +1,7 @@
 import krwFormat from './krwFormat';
+import { baseTypes } from 'base-types';
 
-export default function(num: number, language: 'en' | 'ko') {
+export default function(num: number, language: baseTypes.Language) {
   let numToString = Math.floor(num).toString()
   let numLen = numToString.length;
 

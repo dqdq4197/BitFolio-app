@@ -32,6 +32,7 @@ export const darkTheme: DefaultTheme = {
     font_xxxl: '48px',
     font_xxl: '32px',
     font_xl: '24px',
+    font_x: '21px',
     font_l: '18px',
     font_ml: '15px',
     font_m: '13px',
@@ -41,6 +42,7 @@ export const darkTheme: DefaultTheme = {
   content: {
     spacing: '16px',
     blankSpacing: '16px',
+    surfacePadding: '20px',
   },
   border: {
     's': '3px',
@@ -64,7 +66,7 @@ export const lightTheme: DefaultTheme = {
     },
     text: {
       '100': '#FFFFFF',
-      '200': 'rgb(0,0,0.96)',
+      '200': 'rgba(0, 0, 0, 0.96)',
       '300': 'rgb(233, 236, 239)',
       '400': 'rgb(134, 142, 150)'
     },
@@ -80,6 +82,7 @@ export const lightTheme: DefaultTheme = {
     font_xxxl: '48px',
     font_xxl: '32px',
     font_xl: '24px',
+    font_x: '21px',
     font_l: '18px',
     font_ml: '15px',
     font_m: '13px',
@@ -89,6 +92,7 @@ export const lightTheme: DefaultTheme = {
   content: {
     spacing: '16px',
     blankSpacing: '16px',
+    surfacePadding: '20px'
   },
   border: {
     's': '3px',

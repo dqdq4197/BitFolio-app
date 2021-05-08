@@ -1,26 +1,27 @@
 import React from 'react';
 import { createStackNavigator, StackNavigationOptions  } from '@react-navigation/stack';
-import DetailTab from './detail';
-import ListScreen from './list';
-import { darkTheme, lightTheme } from '/lib/themeColor';
-import { useColorScheme } from 'react-native-appearance';
 import { Ionicons } from '@expo/vector-icons';
-
+import useGlobalTheme from '/hooks/useGlobalTheme';
+import DetailTab from './detail';
+import HomeScreen from './home';
+import NewCoinScreen from './newCoin';
+import highMarketCapScreen from "./highMarketCap";
+import highVolumeScreen from "./highVolume";
 
 type StackProps = {}
 
 const Stack = createStackNavigator()
 const CoinMarketStack = ({}:StackProps) => {
 
-  const scheme = useColorScheme();
-  const NavigationOptions: StackNavigationOptions | any = (title?: string) => {
+  const theme = useGlobalTheme();
+  const NavigationOptions: StackNavigationOptions | any = (title: string) => {
     return {
       title,
-      headerTransparent: true,
-      headerTintColor: 
-        scheme === 'dark'
-        ? darkTheme.base.text[100]
-        : lightTheme.base.text[100],
+      headerStyle: {
+        backgroundColor: theme.base.background.surface,
+        shadowColor: 'transparent'
+      },
+      headerTintColor: theme.base.text[100],
       headerRight: () => (
         <Ionicons name="md-settings-outline" size={24} color="white" />
       ),
@@ -34,7 +35,6 @@ const CoinMarketStack = ({}:StackProps) => {
       headerTitleStyle: {
         fontSize: 20,
       },
-      cardStyle: {backgroundColor: 'black'},
       gestureEnabled: true,
       gestureResponseDistance: {
         horizontal: 20
@@ -43,16 +43,31 @@ const CoinMarketStack = ({}:StackProps) => {
   }
 
   return (
-    <Stack.Navigator>
+    <Stack.Navigator headerMode='screen'>
       <Stack.Screen 
-        name="CoinMarketList" 
-        component={ListScreen}
+        name="CoinMarketHome" 
+        component={HomeScreen}
         options={NavigationOptions('Market')}
       />
       <Stack.Screen 
-        name="CoinMarketDetail" 
+        name="CoinDetail" 
         component={DetailTab}
         options={NavigationOptions('Detail')}
+      />
+      <Stack.Screen 
+        name="NewCoin" 
+        component={NewCoinScreen}
+        options={NavigationOptions('NewCoin')}
+      />
+      <Stack.Screen 
+        name="CoinHighMarketCap" 
+        component={highMarketCapScreen}
+        options={NavigationOptions('CoinHighMarketCap')}
+      />
+      <Stack.Screen 
+        name="CoinHighVolume" 
+        component={highVolumeScreen}
+        options={NavigationOptions('CoinHighVolume')}
       />
     </Stack.Navigator>
   )

@@ -1,11 +1,11 @@
-import { SWRInfiniteConfigInterface, SWRInfiniteResponseInterface, useSWRInfinite } from 'swr'
+import { SWRInfiniteConfiguration, SWRInfiniteResponse, useSWRInfinite } from 'swr'
 import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios'
 
 export type RequestType = AxiosRequestConfig | null
 
 interface Return<Data, Error>
   extends Pick<
-    SWRInfiniteResponseInterface<AxiosResponse<Data>, AxiosError<Error>>,
+    SWRInfiniteResponse<AxiosResponse<Data>, AxiosError<Error>>,
     'isValidating' | 'revalidate' | 'error' | 'mutate' | 'size' | 'setSize'
   > {
   data: Data[] | undefined
@@ -14,7 +14,7 @@ interface Return<Data, Error>
 
 export interface Config<Data = unknown, Error = unknown>
   extends Omit<
-    SWRInfiniteConfigInterface<AxiosResponse<Data>, AxiosError<Error>>,
+    SWRInfiniteConfiguration<AxiosResponse<Data>, AxiosError<Error>>,
     'initialData'
   > {
   initialData?: Data[]

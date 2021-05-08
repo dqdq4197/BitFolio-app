@@ -150,6 +150,7 @@ export default TabBar;
 const Container = styled.View`
   border-bottom-color: rgba(255, 255, 255, .2);
   border-bottom-width: 0.5px;
+  background-color: ${({ theme }) => theme.base.background.surface};
 `;
 
 const TabWrapper = styled.ScrollView`

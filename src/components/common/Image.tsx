@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Image, Dimensions } from 'react-native';
 import styled from 'styled-components/native';
 import GlobalIndicator from './GlobalIndicator';
@@ -7,14 +7,23 @@ type ImageType = {
   uri: string,
   width: number,
   height: number,
+  fullWidth?: boolean,
 }
 
-const window = Dimensions.get('window');
+const { width: win } = Dimensions.get('window');
 
-const CustomImage = ({ uri, width, height }: ImageType) => {
-  const ratio = window.width / width;
+const CustomImage = ({ uri, width, height, fullWidth = false }: ImageType) => {
+  const [updatedWidth, setUpdatedWidth] = useState(width);
+  const [updatedHeight, setUpdatedHeight] = useState(height);
   const [isLoaded, setIsLoaded] = useState(false);
 
+  useEffect(() => {
+    if(fullWidth) {
+      let ratio = win / width;
+      setUpdatedWidth(win);
+      setUpdatedHeight(height * ratio)
+    }
+  }, [])
   const handleLoadEnd = () => {
     setIsLoaded(true);
   }
@@ -25,11 +34,10 @@ const CustomImage = ({ uri, width, height }: ImageType) => {
         source={{ uri }}
         onLoadEnd={handleLoadEnd}
         style={{
-          width: window.width,
-          height: height * ratio
+          width: updatedWidth,
+          height: updatedHeight
         }}
         resizeMode='contain'
-        blurRadius={ 2 }
       />
       <GlobalIndicator isLoaded={isLoaded}/>
     </StyledImageWrap>
@@ -39,5 +47,5 @@ const CustomImage = ({ uri, width, height }: ImageType) => {
 export default CustomImage;
 
 const StyledImageWrap = styled.View`
-  flex: 1;
+
 `

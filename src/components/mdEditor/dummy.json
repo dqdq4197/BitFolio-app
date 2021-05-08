@@ -1,0 +1,417 @@
+{
+  "blocks":[
+     {
+        "key":"a11h3",
+        "text":"thi wil contain bold italic",
+        "type":"unstyled",
+        "depth":0,
+        "inlineStyleRanges":[
+           {
+              "offset":16,
+              "length":2,
+              "style":"BOLD"
+           },
+           {
+            "offset":18,
+            "length":2,
+            "style":"BOLD"
+          },
+           {
+             "offset":18,
+             "length":3,
+             "style":"ITALIC"
+           },
+           {
+            "offset":21,
+            "length":1,
+            "style":"ITALIC"
+          },
+           {
+              "offset":21,
+              "length":6,
+              "style":"BOLD"
+           },
+           {
+              "offset":21,
+              "length":6,
+              "style":"ITALIC"
+           }
+        ],
+        "entityRanges":[
+           
+        ],
+        "data":{
+           
+        }
+     },
+     {
+        "key":"3g7tj",
+        "text":"thi wil contain bold underline",
+        "type":"unstyled",
+        "depth":0,
+        "inlineStyleRanges":[
+           {
+              "offset":16,
+              "length":4,
+              "style":"BOLD"
+           },
+           {
+              "offset":21,
+              "length":9,
+              "style":"UNDERLINE"
+           }
+        ],
+        "entityRanges":[
+           
+        ],
+        "data":{
+           
+        }
+     },
+     {
+        "key":"o4sp",
+        "text":"thi wil contain italic underline",
+        "type":"unstyled",
+        "depth":0,
+        "inlineStyleRanges":[
+           {
+              "offset":16,
+              "length":6,
+              "style":"BOLD"
+           },
+           {
+              "offset":23,
+              "length":9,
+              "style":"UNDERLINE"
+           }
+        ],
+        "entityRanges":[
+           
+        ],
+        "data":{
+           
+        }
+     },
+     {
+        "key":"dtmbt",
+        "text":"thi wil contain bold italic underline",
+        "type":"unstyled",
+        "depth":0,
+        "inlineStyleRanges":[
+           {
+              "offset":16,
+              "length":4,
+              "style":"BOLD"
+           },
+           {
+              "offset":21,
+              "length":6,
+              "style":"ITALIC"
+           },
+           {
+              "offset":28,
+              "length":9,
+              "style":"UNDERLINE"
+           }
+        ],
+        "entityRanges":[
+           
+        ],
+        "data":{
+           
+        }
+     },
+     {
+        "key":"596kp",
+        "text":"",
+        "type":"unstyled",
+        "depth":0,
+        "inlineStyleRanges":[
+           
+        ],
+        "entityRanges":[
+           
+        ],
+        "data":{
+           
+        }
+     },
+     {
+        "key":"8jtu1",
+        "text":"combine bolditalic",
+        "type":"unstyled",
+        "depth":0,
+        "inlineStyleRanges":[
+           {
+              "offset":8,
+              "length":10,
+              "style":"BOLD"
+           },
+           {
+              "offset":12,
+              "length":6,
+              "style":"ITALIC"
+           }
+        ],
+        "entityRanges":[
+           
+        ],
+        "data":{
+           
+        }
+     },
+     {
+        "key":"86phc",
+        "text":"combine boldunderline",
+        "type":"unstyled",
+        "depth":0,
+        "inlineStyleRanges":[
+           {
+              "offset":8,
+              "length":13,
+              "style":"BOLD"
+           },
+           {
+              "offset":12,
+              "length":9,
+              "style":"UNDERLINE"
+           }
+        ],
+        "entityRanges":[
+           
+        ],
+        "data":{
+           
+        }
+     },
+     {
+        "key":"69jv4",
+        "text":"combine italicunderline",
+        "type":"unstyled",
+        "depth":0,
+        "inlineStyleRanges":[
+           {
+              "offset":8,
+              "length":6,
+              "style":"ITALIC"
+           },
+           {
+              "offset":14,
+              "length":9,
+              "style":"UNDERLINE"
+           }
+        ],
+        "entityRanges":[
+           
+        ],
+        "data":{
+           
+        }
+     },
+     {
+        "key":"kpe8",
+        "text":"combine bolditalicunderline",
+        "type":"unstyled",
+        "depth":0,
+        "inlineStyleRanges":[
+           {
+              "offset":8,
+              "length":4,
+              "style":"BOLD"
+           },
+           {
+              "offset":12,
+              "length":6,
+              "style":"ITALIC"
+           },
+           {
+              "offset":18,
+              "length":9,
+              "style":"UNDERLINE"
+           }
+        ],
+        "entityRanges":[
+           
+        ],
+        "data":{
+           
+        }
+     },
+     {
+        "key":"292du",
+        "text":"",
+        "type":"unstyled",
+        "depth":0,
+        "inlineStyleRanges":[
+           
+        ],
+        "entityRanges":[
+           
+        ],
+        "data":{
+           
+        }
+     },
+     {
+        "key":"6g2mu",
+        "text":"test ",
+        "type":"unordered-list-item",
+        "depth":0,
+        "inlineStyleRanges":[
+           {
+              "offset":0,
+              "length":5,
+              "style":"UNDERLINE"
+           }
+        ],
+        "entityRanges":[
+           
+        ],
+        "data":{
+           
+        }
+     },
+     {
+        "key":"a2fp3",
+        "text":"asdasdasda s",
+        "type":"unordered-list-item",
+        "depth":0,
+        "inlineStyleRanges":[
+           {
+              "offset":0,
+              "length":12,
+              "style":"UNDERLINE"
+           }
+        ],
+        "entityRanges":[
+           
+        ],
+        "data":{
+           
+        }
+     },
+     {
+        "key":"4u38f",
+        "text":"asd asd",
+        "type":"unordered-list-item",
+        "depth":0,
+        "inlineStyleRanges":[
+           {
+              "offset":0,
+              "length":7,
+              "style":"UNDERLINE"
+           }
+        ],
+        "entityRanges":[
+           
+        ],
+        "data":{
+           
+        }
+     },
+     {
+        "key":"28gr5",
+        "text":"",
+        "type":"unstyled",
+        "depth":0,
+        "inlineStyleRanges":[
+           
+        ],
+        "entityRanges":[
+           
+        ],
+        "data":{
+           
+        }
+     },
+     {
+        "key":"2tjri",
+        "text":"test ",
+        "type":"ordered-list-item",
+        "depth":0,
+        "inlineStyleRanges":[
+           {
+              "offset":0,
+              "length":5,
+              "style":"UNDERLINE"
+           }
+        ],
+        "entityRanges":[
+           
+        ],
+        "data":{
+           
+        }
+     },
+     {
+        "key":"8oduf",
+        "text":"asda sd",
+        "type":"ordered-list-item",
+        "depth":0,
+        "inlineStyleRanges":[
+           {
+              "offset":0,
+              "length":7,
+              "style":"UNDERLINE"
+           }
+        ],
+        "entityRanges":[
+           
+        ],
+        "data":{
+           
+        }
+     },
+     {
+        "key":"dtld2",
+        "text":"asdasdd ",
+        "type":"ordered-list-item",
+        "depth":0,
+        "inlineStyleRanges":[
+           {
+              "offset":0,
+              "length":8,
+              "style":"UNDERLINE"
+           }
+        ],
+        "entityRanges":[
+           
+        ],
+        "data":{
+           
+        }
+     },
+     {
+        "key":"dhfar",
+        "text":"asd dasd asd",
+        "type":"ordered-list-item",
+        "depth":0,
+        "inlineStyleRanges":[
+           {
+              "offset":0,
+              "length":12,
+              "style":"UNDERLINE"
+           },
+           {
+              "offset":4,
+              "length":4,
+              "style":"ITALIC"
+           },
+           {
+              "offset":10,
+              "length":2,
+              "style":"BOLD"
+           }
+        ],
+        "entityRanges":[
+           
+        ],
+        "data":{
+           
+        }
+     }
+  ],
+  "entityMap":{
+     
+  }
+}

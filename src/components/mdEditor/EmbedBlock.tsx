@@ -3,7 +3,7 @@ import styled from 'styled-components/native';
 import YoutubePlayer from "react-native-youtube-iframe";
 import { useColorScheme } from 'react-native-appearance';
 import { EmbedType, useMdEditorDispatch, useMdEditorState } from '/hooks/useMdEditorContext';
-import { types, actions } from '/lib/constant';
+import { TYPES, ACTIONS } from '/lib/constant';
 
 
 
@@ -27,14 +27,14 @@ const EmbedArea = ({ content, index }:EmbedAreaProps) => {
 
   const handleCaptionSubmitEditing = () => {
     const newContext = [{
-      type: types.PARAGRAPH,
+      type: TYPES.PARAGRAPH,
       payload: {
         text: "",
       }
     }]
 
     handlers.insertNewLineAfter(newContext, index);
-    handlers.updateFocusState(index + 1, actions.ENTER);
+    handlers.updateFocusState(index + 1, ACTIONS.ENTER);
     handlers.updateSelection({
       start: 0,
       end: 0

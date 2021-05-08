@@ -16,7 +16,7 @@ import {
   ListType
 } from '/hooks/useMdEditorContext';
 import RenderText from './RenderText';
-import { types, actions } from '/lib/constant';
+import { TYPES, ACTIONS } from '/lib/constant';
 
 
 interface PlainTextProps {
@@ -36,7 +36,7 @@ const PlainTextBlock = ({ index, type, payload }: PlainTextProps ) => {
   useEffect(() => {
     if(textInputRef.current && isTextRendered) {
       const { action, index } = focusState;
-      const { ENTER, BACKSPACE, LINEPOP } = actions;
+      const { ENTER, BACKSPACE, LINEPOP } = ACTIONS;
       
       if(action === LINEPOP) {
         setTimeout(() => {
@@ -69,12 +69,12 @@ const PlainTextBlock = ({ index, type, payload }: PlainTextProps ) => {
   const handleInputChangeText = (text:string) => {
     const lineBreak = /\r|\n/.exec(text);
     const { action } = focusState;
-    const { PARAGRAPH, EMBED } = types;
+    const { PARAGRAPH, EMBED } = TYPES;
     if (lineBreak) {
       return ;
     }
 
-    if(action === actions.LINEPOP || action === actions.BACKSPACE) {
+    if(action === ACTIONS.LINEPOP || action === ACTIONS.BACKSPACE) {
       return ;
     }
 
@@ -103,6 +103,7 @@ const PlainTextBlock = ({ index, type, payload }: PlainTextProps ) => {
           type: PARAGRAPH,
           payload: {
             text: beforeURL,
+            inlineStyles: []
           }
         })
         focusIndex += 1;
@@ -113,12 +114,13 @@ const PlainTextBlock = ({ index, type, payload }: PlainTextProps ) => {
           type: PARAGRAPH,
           payload: {
             text: afterURL,
+            inlineStyles: []
           }
         })
       }
 
       handlers.divideCurrentLineAndNewLine(newContext, focusState.index);
-      handlers.updateFocusState(focusIndex, actions.TYPING);
+      handlers.updateFocusState(focusIndex, ACTIONS.TYPING);
       handlers.updateSelection({
         start: afterURL.length,
         end: afterURL.length
@@ -136,8 +138,8 @@ const PlainTextBlock = ({ index, type, payload }: PlainTextProps ) => {
   ) => {
     if(focusState.index !== index) return ;
     const { key } = event.nativeEvent;
-    const { PARAGRAPH, DELIMITER, EMBED, LIST, IMAGE } = types;
-    const { BACKSPACE, ENTER, LINEPOP } = actions;
+    const { PARAGRAPH, DELIMITER, EMBED, LIST, IMAGE } = TYPES;
+    const { BACKSPACE, ENTER, LINEPOP } = ACTIONS;
     const { start, end } = selection;
     const currentContext = contentStorage[index] as ParagraphType;
     const currentText = currentContext.payload.text;
@@ -243,7 +245,7 @@ const PlainTextBlock = ({ index, type, payload }: PlainTextProps ) => {
   ) => {
     const { selection } = event.nativeEvent;
     const { index: focusIndex, action } = focusState;
-    const { ENTER, LINEPOP, BACKSPACE } = actions;
+    const { ENTER, LINEPOP, BACKSPACE } = ACTIONS;
 
     if(focusIndex === index) {
       if(action === ENTER) {
@@ -266,7 +268,7 @@ const PlainTextBlock = ({ index, type, payload }: PlainTextProps ) => {
     event:NativeSyntheticEvent<TextInputFocusEventData>, 
   ) => {
     const { text } = event.nativeEvent;
-    const { ENTER, BACKSPACE, LINEPOP } = actions;
+    const { ENTER, BACKSPACE, LINEPOP } = ACTIONS;
     const { action } = focusState;
 
     if(text === "") {
@@ -322,9 +324,9 @@ const StyledTextInput = styled.TextInput<TextInputProps>`
 
   ${(props) => { 
     switch(props.type) {
-      case types.QUOTE: 
+      case TYPES.QUOTE: 
         return StyledQuote
-      case types.HEADER:
+      case TYPES.HEADER:
         return StyledHeader
       default:
         return StyledParagraph

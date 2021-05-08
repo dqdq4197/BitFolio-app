@@ -1,31 +1,39 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
+import { baseTypes } from 'base-types';
 interface BaseSettingState {
-  language: 'en' | 'ko',
-  currency: 'usd' | 'krw' | 'eur',
+  language: baseTypes.Language,
+  currency: baseTypes.Currency,
   chartOption: 'prices' | 'total_volumes' | 'market_caps' | 'ohlc',
-  chartTimeFrame: 1 | 7 | 30 | 365 | 'max',
+  chartTimeFrame: baseTypes.ChartTimeFrame,
+  recentlyViewed: string[],
 }
 
 const initialState: BaseSettingState = {
   language: 'ko',
   currency: 'krw',
   chartOption: 'prices',
-  chartTimeFrame: 1
+  chartTimeFrame: 1,
+  recentlyViewed: [],
 }
 
 export const baseSettingSlice = createSlice({
   name: 'baseSetting',
   initialState,
   reducers: {
-    changeCurrency: (state, action: PayloadAction<'usd' | 'krw' | 'eur'>) => {
+    changeCurrency: (state, action: PayloadAction<baseTypes.Currency>) => {
       state.currency = action.payload
     },
     changeChartOption: (state, action: PayloadAction<'prices' | 'total_volumes' | 'market_caps' | 'ohlc'>) => {
       state.chartOption = action.payload
     },
-    changeChartTimeFrame: (state, action: PayloadAction<1 | 7 | 30 | 365 | 'max'>) => {
+    changeChartTimeFrame: (state, action: PayloadAction<baseTypes.ChartTimeFrame>) => {
       state.chartTimeFrame = action.payload
+    },
+    changeRecentlyViewed: (state, action: PayloadAction<string>) => {
+      let temp = state.recentlyViewed.filter(coinId => coinId !== action.payload);
+      temp.unshift(action.payload);
+      if(temp.length > 10) temp.pop();
+      state.recentlyViewed = temp;
     }
   }
 })
@@ -33,6 +41,7 @@ export const baseSettingSlice = createSlice({
 export const { 
   changeCurrency,
   changeChartOption,
-  changeChartTimeFrame
+  changeChartTimeFrame,
+  changeRecentlyViewed
 } = baseSettingSlice.actions;
 export default baseSettingSlice.reducer;

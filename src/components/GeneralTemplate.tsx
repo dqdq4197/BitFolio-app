@@ -19,13 +19,12 @@ const GeneralTemplate = ({ children }: TemplateProps) => {
 
   return (
     <Container 
-      as={SafeAreaView}
       navHeight={headerHeight}
     >
       <StatusBar
         translucent
         animated
-        backgroundColor='transparent'
+        backgroundColor={'transparent'}
         barStyle={scheme === 'dark' ? 'light-content' : 'light-content'}
       />
       {children}
@@ -41,13 +40,13 @@ interface ContainerProps {
 const Container = styled.SafeAreaView<ContainerProps>`
   flex: 1;
   background-color: ${({theme}) => {
-    return theme.base.background.surface;
+    return theme.base.background[100];
   }};
-  padding-top: ${
+  /* padding-top: ${
     (props) => Platform.OS === 'android' 
       ? StatusBar.currentHeight as number + 'px' 
       : props.navHeight - STATUSBAR_DEFAULT_HEIGHT + 'px'
-  };
+  }; */
 `
 
 export default GeneralTemplate;

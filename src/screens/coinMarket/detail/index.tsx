@@ -1,4 +1,4 @@
-import React, { createContext, useLayoutEffect } from 'react';
+import React, { useLayoutEffect, useEffect } from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import GeneralTemplate from '/components/GeneralTemplate';
 import OverViewLayout from '/components/coinMarketDetail/overview/Layout';
@@ -10,18 +10,25 @@ import useGlobalTheme from '/hooks/useGlobalTheme';
 import ErrorBoundaryAndSuspense from '/components/common/ErrorBoundaryAndSuspense';
 import MarketListSkeleton from '/components/skeletonPlaceholder/MarketListSkeleton';
 import { CoinIdProvider } from '/hooks/useCoinIdContext'
+import { useAppDispatch } from '/hooks/useRedux';
+import { changeRecentlyViewed } from '/store/baseSetting';
 
 const Tab = createMaterialTopTabNavigator();
 
 const DetailTab = ({ route, navigation }:any) => {
   const { param, screen } = route.params;
   const theme = useGlobalTheme();
+  const dispatch = useAppDispatch();
 
   useLayoutEffect(() => {
     const { id } = param;
     navigation.setOptions({
       title: id.charAt(0).toUpperCase() + id.slice(1)
     })
+  }, [])
+
+  useEffect(() => {
+    dispatch(changeRecentlyViewed(param.id));
   }, [])
 
   return (

@@ -1,6 +1,10 @@
 
 
-
+/**
+ * @description 소수점 이하의 값만 반환
+ * @param  {number} num - 변경할 숫자
+ * @param  {number} length - 소수점 몇 자릿수
+ */
 export default function getOnlyDecimal(num:number, length: number) {
   let result = (num % 1).toFixed(length);
   let resultLen = result.length - 2;

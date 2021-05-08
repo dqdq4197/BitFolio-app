@@ -7,17 +7,17 @@ import Image from '/components/common/Image';
 import HorizontalLine from '/components/common/HorizontalLine';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import { MaterialIcons } from '@expo/vector-icons';
-import reactStringReplace from 'react-string-replace';
 
 type DescriptionProps = {
   localization: string,
   symbol: string,
   content: string,
+  imageSrc: string,
 }
-const Description = ({ localization, symbol, content }: DescriptionProps) => {
+const Description = ({ localization, symbol, content, imageSrc }: DescriptionProps) => {
   const { t } = useTranslation();
   const [isShow, setIsShow] = useState(false);
-  const [conta, setConta] = useState<any>('');
+  const [updatedContent, setUpdatedContent] = useState<(string | JSX.Element)[]>([]);
   const theme = useGlobalTheme();
 
   const handleShowMorePress = () => {
@@ -46,14 +46,15 @@ const Description = ({ localization, symbol, content }: DescriptionProps) => {
         replacedText.push(match[i]);
       }
     }
-    setConta(replacedText)
+    setUpdatedContent(replacedText)
   }, [])
  
   return (
     <Container>
       <ContentWrap>
         <NameWrap>
-          <Text fontL color100 bold margin="0 10px 0 0">
+          <Image uri={imageSrc} width={30} height={30}/>
+          <Text fontL color100 bold margin="0 10px 0 10px">
             { localization }
           </Text>
           <Text fontL color100 bold>
@@ -61,7 +62,7 @@ const Description = ({ localization, symbol, content }: DescriptionProps) => {
           </Text>
         </NameWrap>
         <Text fontML numberOfLines={isShow ? undefined : 5} lineHeight={22}>
-          { conta }
+          { updatedContent }
         </Text>
       </ContentWrap>
       <HorizontalLine />

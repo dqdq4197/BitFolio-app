@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { 
   TextInput,
   NativeSyntheticEvent,
@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import styled from 'styled-components/native';
 import { useColorScheme } from 'react-native-appearance';
-import { unicodes, actions, types } from '/lib/constant';
+import { unicodes, ACTIONS, TYPES } from '/lib/constant';
 import { useMdEditorState, useMdEditorDispatch, ListType, ParagraphType } from '/hooks/useMdEditorContext';
 import RenderText from './RenderText';
 
@@ -28,7 +28,7 @@ const ListTextBlock = ({
 }:ListProps) => {
   const scheme = useColorScheme();
   const { listFocusIndex, contentStorage, focusState, selection } = useMdEditorState();
-  const { ENTER, BACKSPACE, LINEPOP } = actions;
+  const { ENTER, BACKSPACE, LINEPOP } = ACTIONS;
   const handlers = useMdEditorDispatch();
   const textInputRef = useRef<TextInput>(null);
   
@@ -85,14 +85,15 @@ const ListTextBlock = ({
         const itemsBeforeFocusIndex = items.slice(0, listIndex);
         const itemsAfterFocusIndex = items.slice(listIndex + 1, items.length);
         let newContext: (ListType | ParagraphType)[] = [{
-          type: types.PARAGRAPH,
+          type: TYPES.PARAGRAPH,
           payload: {
-            text: currentItem
+            text: currentItem,
+            inlineStyles: []
           }
         }]
         if(itemsBeforeFocusIndex.length) {
           newContext.unshift({
-            type: types.LIST,
+            type: TYPES.LIST,
             payload: {
               items: itemsBeforeFocusIndex,
               style
@@ -101,7 +102,7 @@ const ListTextBlock = ({
         }
         if(itemsAfterFocusIndex.length) {
           newContext.push({
-            type: types.LIST,
+            type: TYPES.LIST,
             payload: {
               items: itemsAfterFocusIndex,
               style
@@ -186,7 +187,7 @@ const ListTextBlock = ({
         onSelectionChange={handleSelectionChange}
       >
         <RenderText 
-          type={types.LIST}
+          type={TYPES.LIST}
           index={contentIndex}
         >
           { text }
