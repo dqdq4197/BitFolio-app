@@ -9,15 +9,20 @@ import { ORDER } from '/lib/api/CoinGeckoClient';
 
 type ParamsType = {
   per_page?: number,
-  order?: ORDER
+  order?: ORDER,
+  ids?: string[] | string,
+  suspense?: boolean,
 }
 export default ({
   per_page = 70, 
   order = 'market_cap_desc',
+  ids = [],
+  suspense = true,
 }: ParamsType) => {
   const { currency } = useAppSelector(state => state.baseSettingReducer);
   const getKey = (pageIndex:number, previousPageData: AxiosResponse<unknown> | null) => {
     return CoinGecko.coin.markets({
+      ids,
       vs_currency: currency,
       page: pageIndex + 1,
       order,
@@ -27,6 +32,5 @@ export default ({
   }
 
 
-
-  return useRequestInfinite<CoinMarketReturn>(getKey, { suspense: true })
+  return useRequestInfinite<CoinMarketReturn>(getKey, { suspense })
 }

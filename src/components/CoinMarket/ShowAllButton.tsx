@@ -37,7 +37,7 @@ const ShowAllButton = ({ route }: ButtonProps) => {
           </Text>
           <MaterialIcons 
             name="arrow-forward-ios" 
-            size={ 20 } 
+            size={ 16 } 
             color={ theme.base.text[200] } 
           />
         </ShowAllText>

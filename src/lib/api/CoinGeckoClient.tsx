@@ -13,7 +13,7 @@ export type CoinMarketsParams = {
 }
 type SimplePriceParams = {
   ids: string[] | string,
-  vs_currency: baseTypes.Currency[] | string,
+  vs_currencies: baseTypes.Currency[] | string,
   include_market_cap?: boolean,
   include_24hr_vol?: boolean,
   include_24hr_change?: boolean,
@@ -64,7 +64,7 @@ export const CoinGecko = {
      * @param {boolean} params.sparkline [default: false] - Include sparkline 7 days data (true/false)
      * @returns {ReturnObject}
      */
-    markets: (params: CoinMarketsParams): Object => {
+    markets: (params: CoinMarketsParams) => {
       if(Array.isArray(params.ids)) {
         params.ids = params.ids.join(',');
       }
@@ -78,7 +78,7 @@ export const CoinGecko = {
      * @function coin.simplePrice()
      * @param {object} params - Parameters to pass through to the request
      * @param {array|string} params.ids - (Required) A single id or a list of coin ids to filter if you want specific results. Use coins.list() for a list of coin ids.
-     * @param {array|string} params.ids - List of coin id to filter if you want specific results
+     * @param {array|string} params.vs_currencies - currencies 
      * @param {boolean} params.include_market_cap - is include market cap data?
      * @param {boolean} params.include_24hr_vol - is include 24 volume data?
      * @param {boolean} params.include_24hr_change - is include 24hr change price data?
@@ -89,8 +89,8 @@ export const CoinGecko = {
       if(Array.isArray(params.ids)) {
         params.ids = params.ids.join(',');
       }
-      if(Array.isArray(params.vs_currency)) {
-        params.vs_currency = params.vs_currency.join(',');
+      if(Array.isArray(params.vs_currencies)) {
+        params.vs_currencies = params.vs_currencies.join(',');
       }
       return {
         url: `${COINGECKO_PATH_PREFIX}/simple/price`,

@@ -4,7 +4,7 @@ import useCoinMarketData from '/hooks/useCoinMarketData';
 import { ORDER } from '/lib/constant';
 import Item from './Item';
 import ShowAllButton from './ShowAllButton';
-
+import Text from '/components/common/Text';
 
 type ListProps = {
   onPressItem: (id: string) => void;
@@ -19,7 +19,7 @@ const HighVolumePreview = ({ onPressItem }: ListProps) => {
       {data?.flat().map(res => {
         return (
           <Item 
-            key={ res.id }
+            key={ res.name }
             item={ res }  
             onPressItem={onPressItem}
           />

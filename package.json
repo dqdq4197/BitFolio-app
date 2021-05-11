@@ -63,7 +63,8 @@
     "svg-path-properties": "^1.0.11",
     "swr": "^0.5.5",
     "uuid": "^8.3.2",
-    "victory-native": "^35.3.1"
+    "victory-native": "^35.3.1",
+    "expo-linear-gradient": "~9.1.0"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",

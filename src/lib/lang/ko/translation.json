@@ -20,6 +20,7 @@
     "max supply": "총 공급량"
   },
   "coinMarketHome": {
-    "show all": "모두보기"
+    "show all": "모두보기",
+    "search": "검색하기"
   }
 }

@@ -1,6 +1,5 @@
 import useRequest from './useRequest';
 import { CoinGecko } from '/lib/api/CoinGeckoClient';
-import { useAppSelector } from './useRedux';
 
 
 type ReturnType = {
@@ -10,10 +9,9 @@ type SimplePriceProps = {
   ids: string[] | string,
 }
 export default ({ ids }: SimplePriceProps) => {
-  const { currency } = useAppSelector(state => state.baseSettingReducer);
   const getKey = CoinGecko.coin.simplePrice({
     ids,
-    vs_currency: ['krw', 'usd', 'eur'],
+    vs_currencies: ['krw', 'usd', 'eur'],
     include_market_cap: false,
     include_24hr_vol: false,
     include_24hr_change: true,

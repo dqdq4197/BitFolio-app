@@ -10,7 +10,7 @@ type ListProps = {
   onPressItem: (id: string) => void;
 }
 
-const HighMarketCapPreview = ({ onPressItem }: ListProps) => {
+const HighPricePreview = ({ onPressItem }: ListProps) => {
   const { data } = useCoinMarketData({ order: ORDER.MARKET_CAP_DESC, per_page: 5 });
   
   return (
@@ -29,5 +29,5 @@ const HighMarketCapPreview = ({ onPressItem }: ListProps) => {
   )
 }
 
-export default HighMarketCapPreview;
+export default HighPricePreview;
 

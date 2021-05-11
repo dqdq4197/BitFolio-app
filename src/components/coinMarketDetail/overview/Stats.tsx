@@ -27,6 +27,7 @@ const Stats = ({
   language
 }: StatsProps) => {
   const { t } = useTranslation();
+  console.log(convertUnits(circulatingSupply, language));
   return (
     <Container>
       <Header>
@@ -107,7 +108,7 @@ const Stats = ({
               </Text>
             </Title>
             <Text fontML>
-              { convertUnits(circulatingSupply, language) || '--' }
+              { circulatingSupply !== 0 ? convertUnits(circulatingSupply, language) : '--' }
               { ' / ' } 
               { maxSupply || '--' }
             </Text>

@@ -20,7 +20,8 @@
     "max supply": "Max Supply"
   },
   "coinMarketHome": {
-    "show all": "Show All"
+    "show all": "Show All",
+    "search": "Search"
   }
 
 }

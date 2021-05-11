@@ -1,29 +1,49 @@
 import React from 'react';
-import { createStackNavigator, StackNavigationOptions  } from '@react-navigation/stack';
+import { createStackNavigator, StackNavigationOptions, StackScreenProps } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
+import styled from 'styled-components/native';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import DetailTab from './detail';
 import HomeScreen from './home';
 import NewCoinScreen from './newCoin';
 import highMarketCapScreen from "./highMarketCap";
 import highVolumeScreen from "./highVolume";
+import searchScreen from './search';
 
-type StackProps = {}
+type StackProps = {
+
+}
 
 const Stack = createStackNavigator()
-const CoinMarketStack = ({}:StackProps) => {
+const CoinMarketStack = ({ navigation }:StackScreenProps<any, any>) => {
 
   const theme = useGlobalTheme();
+
+  const handleSearchPress = () => {
+    navigation.navigate('CoinSearch');
+  }
+  
   const NavigationOptions: StackNavigationOptions | any = (title: string) => {
     return {
       title,
       headerStyle: {
         backgroundColor: theme.base.background.surface,
-        shadowColor: 'transparent'
+        shadowColor: theme.base.background[300]
       },
       headerTintColor: theme.base.text[100],
       headerRight: () => (
-        <Ionicons name="md-settings-outline" size={24} color="white" />
+        <IconWrap>
+          <Ionicons 
+            name="search-sharp" 
+            size={28} 
+            color={theme.base.text[200]} 
+            style={{
+              marginRight: 20,
+            }} 
+            onPress={handleSearchPress}
+          />
+          <Ionicons name="md-settings-outline" size={24} color={theme.base.text[200]} />
+        </IconWrap>
       ),
       headerBackTitleVisible: false,
       headerLeftContainerStyle: {
@@ -62,12 +82,17 @@ const CoinMarketStack = ({}:StackProps) => {
       <Stack.Screen 
         name="CoinHighMarketCap" 
         component={highMarketCapScreen}
-        options={NavigationOptions('CoinHighMarketCap')}
+        options={NavigationOptions('')}
       />
       <Stack.Screen 
         name="CoinHighVolume" 
         component={highVolumeScreen}
-        options={NavigationOptions('CoinHighVolume')}
+        options={NavigationOptions('')}
+      />
+      <Stack.Screen 
+        name="CoinSearch" 
+        component={searchScreen}
+        options={NavigationOptions('CoinSearch')}
       />
     </Stack.Navigator>
   )
@@ -75,3 +100,8 @@ const CoinMarketStack = ({}:StackProps) => {
 
 
 export default CoinMarketStack;
+
+const IconWrap = styled.View`
+  flex-direction: row;
+  align-items: center;
+`

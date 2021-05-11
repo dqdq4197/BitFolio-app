@@ -1,6 +1,7 @@
 import { useLayoutEffect, useEffect, useRef } from 'react';
 import { Animated } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import useGlobalTheme from '/hooks/useGlobalTheme';
 
 
 type HeaderTitleProps = {
@@ -8,7 +9,7 @@ type HeaderTitleProps = {
   triggerPoint: number
 }
 const useAnimatedHeaderTitle = ({ title,  triggerPoint }: HeaderTitleProps) => {
-
+  const theme = useGlobalTheme();
   const scrollY = useRef(new Animated.Value(0)).current;
   const navigation = useNavigation();
 
@@ -22,6 +23,11 @@ const useAnimatedHeaderTitle = ({ title,  triggerPoint }: HeaderTitleProps) => {
 
   useEffect(() => {
     navigation.setOptions({
+      headerStyle: {
+        backgroundColor: theme.base.background.surface,
+        shadowColor: theme.base.background[300],
+        shadowOpacity: 1
+      },
       headerTitleStyle: {
         opacity: scrollY.interpolate({
           inputRange: [0, triggerPoint],

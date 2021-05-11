@@ -6,6 +6,7 @@ interface BaseSettingState {
   chartOption: 'prices' | 'total_volumes' | 'market_caps' | 'ohlc',
   chartTimeFrame: baseTypes.ChartTimeFrame,
   recentlyViewed: string[],
+  watchList: string[],
 }
 
 const initialState: BaseSettingState = {
@@ -14,6 +15,7 @@ const initialState: BaseSettingState = {
   chartOption: 'prices',
   chartTimeFrame: 1,
   recentlyViewed: [],
+  watchList: [],
 }
 
 export const baseSettingSlice = createSlice({
@@ -31,9 +33,20 @@ export const baseSettingSlice = createSlice({
     },
     changeRecentlyViewed: (state, action: PayloadAction<string>) => {
       let temp = state.recentlyViewed.filter(coinId => coinId !== action.payload);
-      temp.unshift(action.payload);
+      console.log(temp)
+      temp.push(action.payload);
       if(temp.length > 10) temp.pop();
       state.recentlyViewed = temp;
+    },
+    changeWatchList: (state, action: PayloadAction<string>) => {
+      const { payload } = action;
+      let newWatchList = [];
+      if(state.watchList.includes(payload)) {
+        newWatchList = state.watchList.filter(coinId => coinId !== payload);
+      } else {
+        newWatchList = [...state.watchList, payload];
+      }
+      state.watchList = [...newWatchList];
     }
   }
 })
@@ -42,6 +55,7 @@ export const {
   changeCurrency,
   changeChartOption,
   changeChartTimeFrame,
-  changeRecentlyViewed
+  changeRecentlyViewed,
+  changeWatchList
 } = baseSettingSlice.actions;
 export default baseSettingSlice.reducer;
