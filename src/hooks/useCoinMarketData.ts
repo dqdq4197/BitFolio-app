@@ -12,14 +12,21 @@ type ParamsType = {
   order?: ORDER,
   ids?: string[] | string,
   suspense?: boolean,
+  refreshInterval?: number,
 }
 export default ({
   per_page = 70, 
   order = 'market_cap_desc',
-  ids = [],
+  ids,
   suspense = true,
+  refreshInterval
 }: ParamsType) => {
   const { currency } = useAppSelector(state => state.baseSettingReducer);
+
+  if(Array.isArray(ids) && ids.length === 0) {
+    ids=['null'];
+  }
+
   const getKey = (pageIndex:number, previousPageData: AxiosResponse<unknown> | null) => {
     return CoinGecko.coin.markets({
       ids,
@@ -31,6 +38,9 @@ export default ({
     })
   }
 
+  const { data, ...args } = useRequestInfinite<CoinMarketReturn>(
+    getKey, { suspense, refreshInterval }
+  );
 
-  return useRequestInfinite<CoinMarketReturn>(getKey, { suspense })
+  return { data: data?.flat(), ...args }
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dimensions } from 'react-native';
-import styled from 'styled-components/native';
+import styled, { css } from 'styled-components/native';
 import { baseTypes } from 'base-types';
 import { CoinMarketReturn } from '/lib/api/CoinGeckoReturnType';
 import { digitToFixed } from '/lib/utils';
@@ -15,9 +15,10 @@ const { width } = Dimensions.get('window');
 type ItemProps = {
   item: CoinMarketReturn;
   index: number;
-  valueKey: 'total_volume' | 'market_cap';
-  percentageKey?: 'market_cap_change_percentage_24h';
+  valueKey: 'total_volume' | 'market_cap' | 'current_price';
+  percentageKey?: 'market_cap_change_percentage_24h' | 'price_change_percentage_24h';
   onPressItem: (id:string) => void;
+  NoneUnderLine?: boolean;
 }
 
 interface ValueProps {
@@ -52,13 +53,23 @@ const ValueWithPercentage = ({ value, percentage, language }: PercentageProps) =
   </ValueWrap>
 )
 
-const Item = ({ item, index, valueKey, percentageKey, onPressItem }: ItemProps) => {
+const Item = ({ 
+  item,
+  index,
+  valueKey, 
+  percentageKey,
+  NoneUnderLine=false, 
+  onPressItem
+ }: ItemProps) => {
   const { language } = useLocales();
   const { id, symbol } = item;
 
   return (
     <>
-    <ItemContainer onPress={() => onPressItem(item.id)}>
+    <ItemContainer 
+      onPress={() => onPressItem(item.id)} 
+      NoneUnderLine={NoneUnderLine} 
+    >
       <ItemColumn 
         column={ 0.3 }
         style={{
@@ -120,6 +131,9 @@ const Item = ({ item, index, valueKey, percentageKey, onPressItem }: ItemProps) 
 
 export default React.memo(Item);
 
+type ContainerProps = {
+  NoneUnderLine: boolean,
+}
 type ColumnProps = {
   column: number,
 }
@@ -128,13 +142,16 @@ type FigureTextProps = {
   percentage: number,
 }
 
-const ItemContainer = styled.TouchableOpacity`
+const ItemContainer = styled.TouchableOpacity<ContainerProps>`
   width: ${({ theme }) => width - parseInt(theme.content.spacing) * 2}px;
   height: 60px;
   flex-direction: row;
   margin: 0 auto 6px;
-  border-bottom-width: 1px;
-  border-bottom-color: ${({ theme }) => theme.base.background[300]};
+  ${(props) => !props.NoneUnderLine && css`
+    border-bottom-width: 1px;
+    border-bottom-color: ${({ theme }) => theme.base.background[300]};
+  `} 
+  
 `
 const ItemColumn = styled.View<ColumnProps>`
   flex: ${props => props.column};

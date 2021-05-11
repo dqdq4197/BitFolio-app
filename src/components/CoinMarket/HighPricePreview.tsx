@@ -11,11 +11,15 @@ type ListProps = {
 }
 
 const HighPricePreview = ({ onPressItem }: ListProps) => {
-  const { data } = useCoinMarketData({ order: ORDER.MARKET_CAP_DESC, per_page: 5 });
+  const { data } = useCoinMarketData({ 
+    order: ORDER.MARKET_CAP_DESC, 
+    per_page: 5,
+    refreshInterval: 300000 
+  });
   
   return (
     <SurfaceWrap title='시가 총액이 가장 높은' paddingBottomZero>
-      {data?.flat().map(res => {
+      {data?.map(res => {
         return (
           <Item 
             key={ res.id }

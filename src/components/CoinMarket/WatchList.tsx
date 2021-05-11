@@ -9,6 +9,7 @@ import useGlobalTheme from '/hooks/useGlobalTheme';
 import Image from '/components/common/Image';
 import { useAppSelector } from '/hooks/useRedux';
 import useCoinMarketData from '/hooks/useCoinMarketData';
+import Item from './popularList/Item';
 
 type ListProps = {
   onPressItem: (id: string) => void;
@@ -16,14 +17,31 @@ type ListProps = {
 
 const WatchList = ({ onPressItem }: ListProps) => {
   const { watchList } = useAppSelector(state => state.baseSettingReducer);
-  const { data } = useCoinMarketData({ ids: watchList });
+  const { data } = useCoinMarketData({ 
+    ids: watchList, 
+    suspense: false,
+    refreshInterval: 180000 
+  });
   const { t } = useTranslation();
-  const theme = useGlobalTheme();
-  const { currency } = useLocales();
 
   return (
-    <SurfaceWrap title='관심 목록' parentPaddingZero>
-      
+    <SurfaceWrap title='관심 목록' >
+      <Text margin="-15px 0 10px 0"> 
+        3분 자동 업데이트
+      </Text>
+      { data?.map((coin, index) => {
+        return (
+          <Item 
+            key={coin.id}
+            item={coin}
+            index={index}
+            valueKey="current_price"
+            percentageKey="price_change_percentage_24h"
+            onPressItem={onPressItem}
+            NoneUnderLine={true}
+          />
+        )
+      }) }
     </SurfaceWrap>
   )
 }

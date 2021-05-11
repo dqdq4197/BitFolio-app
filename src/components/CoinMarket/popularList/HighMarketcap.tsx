@@ -37,7 +37,7 @@ const CoinMarketList = () => {
   return (
     <>
       <FlatList 
-        data={data?.flat()}
+        data={data}
         keyExtractor={item => item.id}
         contentContainerStyle={{
           backgroundColor: theme.base.background.surface,
@@ -47,8 +47,8 @@ const CoinMarketList = () => {
             <Item 
               item={item} 
               index={index}
-              valueKey={'market_cap'}
-              percentageKey={'market_cap_change_percentage_24h'}
+              valueKey='market_cap'
+              percentageKey='market_cap_change_percentage_24h'
               onPressItem={handlePressItem}
             />
         }

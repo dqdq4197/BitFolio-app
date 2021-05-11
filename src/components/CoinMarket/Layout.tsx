@@ -20,6 +20,7 @@ const Layout = () => {
   const handlePressItem = useCallback((id:string) => {
     navigation.navigate('CoinDetail', { param: { id }, screen: 'Overview' })
   }, [])
+
   const handleScroll = Animated.event(
     [ { nativeEvent: { contentOffset: { y: scrollY } } } ], 
     { useNativeDriver: false }
@@ -31,7 +32,7 @@ const Layout = () => {
       scrollEventThrottle={ 16 }
     > 
       <SurfaceWrap isMain title="시장 시세" >
-        <Marquee delay={1000}/>
+        {/* <Marquee delay={1000}/> */}
       </SurfaceWrap>
       <WatchList 
         onPressItem={handlePressItem}

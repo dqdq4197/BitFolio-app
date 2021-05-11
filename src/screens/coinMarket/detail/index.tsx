@@ -12,6 +12,7 @@ import MarketListSkeleton from '/components/skeletonPlaceholder/MarketListSkelet
 import { CoinIdProvider } from '/hooks/useCoinIdContext'
 import { useAppDispatch } from '/hooks/useRedux';
 import { changeRecentlyViewed } from '/store/baseSetting';
+import WatchListIcon from '/components/common/WatchListIcon';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -23,7 +24,10 @@ const DetailTab = ({ route, navigation }:any) => {
   useLayoutEffect(() => {
     const { id } = param;
     navigation.setOptions({
-      title: id.charAt(0).toUpperCase() + id.slice(1)
+      title: id.charAt(0).toUpperCase() + id.slice(1),
+      headerRight: () => (
+        <WatchListIcon id={id} size={28}/>
+      )
     })
   }, [])
 

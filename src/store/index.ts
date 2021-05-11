@@ -17,10 +17,11 @@ import marketDetailReducer from './coinMarketDetail';
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  whitelist: [], 
+  whitelist: ['baseSettingReducer'], 
   blacklist: [
-    'marketDetail'
-  ] // persist에 저장하지 않을 reducer들 
+    'marketDetailReducer'
+  ], // persist에 저장하지 않을 reducer들 
+  debugger: true
 }
 
 const rootReducer = combineReducers({

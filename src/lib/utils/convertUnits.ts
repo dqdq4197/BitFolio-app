@@ -62,7 +62,7 @@ export default function(num: number, language: baseTypes.Language) {
           + numToString.substr(numLen - 16, 2)  + '경'
 
       default :
-        return krwFormat(num);
+        return krwFormat(num) + '원';
     }
   }
 }

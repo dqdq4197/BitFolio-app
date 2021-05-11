@@ -26,6 +26,10 @@
     category별로 보기?..
     Coin 검색
     
+### icon license 
+
+    https://www.flaticon.com/kr/authors/pixel-perfect   
+    스토어에 표기
 
 
 

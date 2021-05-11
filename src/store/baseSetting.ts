@@ -33,7 +33,6 @@ export const baseSettingSlice = createSlice({
     },
     changeRecentlyViewed: (state, action: PayloadAction<string>) => {
       let temp = state.recentlyViewed.filter(coinId => coinId !== action.payload);
-      console.log(temp)
       temp.push(action.payload);
       if(temp.length > 10) temp.pop();
       state.recentlyViewed = temp;

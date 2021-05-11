@@ -12,11 +12,15 @@ type ListProps = {
 
 const HighVolumePreview = ({ onPressItem }: ListProps) => {
 
-  const { data } = useCoinMarketData({ order: ORDER.VOLUME_DESC, per_page: 5 });
+  const { data } = useCoinMarketData({ 
+    order: ORDER.VOLUME_DESC, 
+    per_page: 5,
+    refreshInterval: 300000 
+  });
 
   return (
     <SurfaceWrap title='거래량이 가장 많은' paddingBottomZero>
-      {data?.flat().map(res => {
+      {data?.map(res => {
         return (
           <Item 
             key={ res.name }

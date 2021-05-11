@@ -13,7 +13,7 @@ interface BoundaryProps extends SkeletonType{
 
 const ErrorFallback = ({error, resetErrorBoundary}:FallbackProps) => {
   return (
-    <View style={{ flex: 1}}>
+    <View >
       <Text>Something went wrong:</Text>
       <Text>{error.message}</Text>
     </View>
@@ -22,9 +22,9 @@ const ErrorFallback = ({error, resetErrorBoundary}:FallbackProps) => {
 
 const SuspenseFallback = ({ skeleton }: SkeletonType) => {
   return (
-    <>
+    <View>
       { skeleton }
-    </>
+    </View>
   )
 } 
 
@@ -45,5 +45,5 @@ const ErrorBoundaryAndSuspense = ({ skeleton, children } :BoundaryProps) => {
 export default ErrorBoundaryAndSuspense;
 
 const View = styled.View`
-
+  flex: 1;
 `

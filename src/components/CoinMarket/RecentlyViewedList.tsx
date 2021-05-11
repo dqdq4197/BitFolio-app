@@ -15,11 +15,18 @@ type ListProps = {
   onPressItem: (id: string) => void;
 }
 const RecentlyViewedList = ({ onPressItem }: ListProps) => {
+
   const { recentlyViewed } = useAppSelector(state => state.baseSettingReducer );
-  const { data } = useCoinMarketData({ ids: recentlyViewed });
+  const { data } = useCoinMarketData({ 
+    ids: recentlyViewed, 
+    suspense: false,
+    refreshInterval: 300000,
+  });
   const { t } = useTranslation();
   const theme = useGlobalTheme();
 
+
+  console.log(data);
   return (
     <SurfaceWrap title='최근 본 코인' parentPaddingZero>
       <CardWrap
@@ -29,7 +36,7 @@ const RecentlyViewedList = ({ onPressItem }: ListProps) => {
           paddingHorizontal: 16
         }}
       >
-        { data?.flat().map(coin => {
+        { data?.map(coin => {
           return (
             <Card 
               key={coin.id} 

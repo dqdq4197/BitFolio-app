@@ -27,7 +27,8 @@ const Stats = ({
   language
 }: StatsProps) => {
   const { t } = useTranslation();
-  console.log(convertUnits(circulatingSupply, language));
+
+  
   return (
     <Container>
       <Header>

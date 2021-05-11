@@ -9,7 +9,7 @@ import FlatListHeader from './FlatListHeader';
 import Item from './Item'
 
 
-const CoinMarketList = () => {
+const HighVolume = () => {
   const theme = useGlobalTheme();
   const [refreshing, setRefreshing] = useState(false);
   const { data, mutate } = useCoinMarketData({ order: 'volume_desc', per_page: 100 });
@@ -33,10 +33,11 @@ const CoinMarketList = () => {
     { useNativeDriver: false }
   )
 
+
   return (
     <>
       <FlatList 
-        data={data?.flat()}
+        data={data}
         keyExtractor={item => item.id + item.name}
         contentContainerStyle={{
           backgroundColor: theme.base.background.surface,
@@ -46,7 +47,7 @@ const CoinMarketList = () => {
             <Item 
               item={ item } 
               index={ index }
-              valueKey={'total_volume'}
+              valueKey='total_volume'
               onPressItem={handlePressItem}
             />
         }
@@ -69,4 +70,4 @@ const CoinMarketList = () => {
   )
 }
 
-export default CoinMarketList;
+export default HighVolume;

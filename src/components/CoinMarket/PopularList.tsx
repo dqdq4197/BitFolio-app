@@ -4,32 +4,40 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 import Text from '/components/common/Text';
 import SurfaceWrap from '/components/common/SurfaceWrap';
+import { CoinSvg } from '/lib/svg';
 
+
+const ICON_SIZE = 50;
 const data = [{
-  title: '24H \n상승 종목',
+  title: '24h \n상승 종목',
   route: 'CoinHighPrice',
-  start: '#0d324d',
-  end: '#7f5a83',
+  start: '#d9a4fc',
+  end: '#be63f9',
+  icon: <CoinSvg name="rise" width={ICON_SIZE} height={ICON_SIZE}/>
 }, {
-  title: '24H \n하락 종목',
+  title: '24h \n하락 종목',
   route: 'CoinLowPrice',
-  start: '#0d324d',
-  end: '#7f5a83',
+  start: '#fd907e',
+  end: '#fc573b',
+  icon: <CoinSvg name="decrease" width={ICON_SIZE} height={ICON_SIZE}/>
 }, {
   title: '거래량 \nTOP100',
   route: 'CoinHighVolume',
-  start: '#2a5470',
-  end: '#4c4177',
+  start: '#8ce1eb',
+  end: '#26c6da',
+  icon: <CoinSvg name="coins" width={ICON_SIZE} height={ICON_SIZE}/>
 }, {
   title: '시가 총액 \nTOP100',
   route: 'CoinHighMarketCap',
-  start: '#28313b',
-  end: '#485461',
+  start: '#ffe777',
+  end: '#ffd200',
+  icon: <CoinSvg name="coinstack" width={ICON_SIZE} height={ICON_SIZE}/>
 }, {
   title: '새로운 코인',
   route: 'NewCoin',
-  start: '#d2ccc4',
-  end: '#2f4353',
+  start: '#fd907e',
+  end: '#fc573b',
+  icon: <CoinSvg name="badge" width={ICON_SIZE} height={ICON_SIZE}/>
 }]
 
 type ListProps = {
@@ -40,8 +48,6 @@ const PopularList = ({ }: ListProps) => {
   const handleCardPress = (route: string) => {
     navigation.navigate(route);
   }
-
-  
 
 
   return (
@@ -58,11 +64,17 @@ const PopularList = ({ }: ListProps) => {
             <CardWrap 
               key={res.route} 
               colors={[ res.start, res.end ]}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 1 }}
+              start={{ x: 0, y: 1 }}
+              end={{ x: 1, y: 0 }}
             >
-              <Card onPress={() => handleCardPress(res.route)}>
-                <Text fontX bold>
+              <Card 
+                onPress={() => handleCardPress(res.route)}
+                activeOpacity={0.6}
+              >
+                <IconWrap>
+                  { res.icon }
+                </IconWrap>
+                <Text style={{ fontSize: 19 }} heavy lineHeight={23} color="black">
                   { res.title }
                 </Text>
               </Card>
@@ -79,7 +91,6 @@ export default PopularList;
 const Container = styled.ScrollView`
   background-color: ${({ theme }) => theme.base.background.surface};
 `
-
 const CardWrap = styled(LinearGradient)`
   width: 135px;
   height: 135px;
@@ -90,6 +101,9 @@ const Card = styled.TouchableOpacity`
   width: 100%;
   height: 100%;
   padding: 10px;
+  justify-content: space-between;
+`
+const IconWrap = styled.View`
+  width: 100%;
   align-items: flex-end;
-  justify-content: flex-end;
 `

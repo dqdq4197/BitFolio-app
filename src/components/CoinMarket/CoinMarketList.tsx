@@ -43,7 +43,7 @@ const CoinMarketList = () => {
         <PopularList />
         <View>
           <FlatList 
-            data={data?.flat()}
+            data={data}
             keyExtractor={item => item.id}
             contentContainerStyle={{
               backgroundColor: theme.base.background.surface,
