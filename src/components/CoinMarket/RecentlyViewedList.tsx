@@ -25,8 +25,6 @@ const RecentlyViewedList = ({ onPressItem }: ListProps) => {
   const { t } = useTranslation();
   const theme = useGlobalTheme();
 
-
-  console.log(data);
   return (
     <SurfaceWrap title='최근 본 코인' parentPaddingZero>
       <CardWrap

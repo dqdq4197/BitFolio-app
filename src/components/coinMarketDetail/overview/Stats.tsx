@@ -77,7 +77,7 @@ const Stats = ({
           <Col left>
             <Title>
               <Text fontML color100>
-                { t('coinDetail.total volume') }
+                { t('coinDetail.total volume') }(24h)
               </Text>
             </Title>
             <Text fontML>

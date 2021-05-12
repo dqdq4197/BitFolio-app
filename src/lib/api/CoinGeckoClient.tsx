@@ -1,5 +1,6 @@
 import { COINGECKO_PATH_PREFIX, ORDER, CURRENCY } from '/lib/constant';
 import { baseTypes } from 'base-types';
+
 export type ORDER = typeof ORDER[keyof typeof ORDER];
 
 export type CoinMarketsParams = {

@@ -1,4 +1,11 @@
 
+// ----- BASE CONST ----------------
+
+const APP_NAME = 'bitfolio';
+const CRYPTOCOMPARE_API_KEY = 'c95d5d7549c69950d894e2821ec15798d91f994e4ff0a5d360e78fbd46b9ca37';
+// ---------------------------------
+
+
 // ---- UI CONST --------------
 
 const TAB_BAR_HEIGHT = 55;
@@ -8,9 +15,9 @@ const CONTENT_SPACING = 16;
 
 // ---- COINGECKO API CONST ----------
 
-const API_VERSION = '3';
-const BASE = 'https://api.coingecko.com/api/';
-const COINGECKO_PATH_PREFIX = `${BASE}v${API_VERSION}`
+const COINGECKO_API_VERSION = '3';
+const COINGECKO_BASE = 'https://api.coingecko.com/api/';
+const COINGECKO_PATH_PREFIX = `${COINGECKO_BASE}v${COINGECKO_API_VERSION}`
 
 const ORDER = {
   GECKO_ASC: 'gecko_asc',
@@ -52,6 +59,18 @@ const STATUS_UPDATE_CATEGORY = {
 };
 
 // -------------------------
+
+// ---- COINGECKO API CONST ----------
+
+const CTYPTOCOMPARE_API_VERSION = '3';
+const CTYPTOCOMPARE_BASE = 'https://min-api.cryptocompare.com/data/';
+const CTYPTOCOMPARE_PATH_PREFIX = `${CTYPTOCOMPARE_BASE}v${CTYPTOCOMPARE_API_VERSION}`
+
+const CTYPTOCOMPARE_LANG = {
+  EN: 'en',
+  PT: 'pt', // 포르투갈어
+}
+// -----------------------------------
 
 
 // ---- MDEDITOR CONST ---- 
@@ -96,8 +115,12 @@ const ACTIONS = {
 // ------------------------
 
 export {
+  APP_NAME,
+  CRYPTOCOMPARE_API_KEY,
   COINGECKO_PATH_PREFIX,
   ORDER,
+  CTYPTOCOMPARE_PATH_PREFIX,
+  CTYPTOCOMPARE_LANG,
   STATUS_UPDATE_CATEGORY,
   CURRENCY,
   TAB_BAR_HEIGHT,

@@ -43,25 +43,40 @@ const TabBar = ({
   })
 
   useEffect(() => {
-    setTimeout(() => {
-      let m:MeasureType[] = [];
-      if(scrollViewRef.current) {
-        data.forEach((item) => {
-          item.ref.current?.measureLayout(
-            findNodeHandle(scrollViewRef.current) as any,
-            (x, y, width, height) => {
-              m.push({x, y, width, height})
-              if(m.length === data.length){
-                setMeasures(m)
-              }
-            }, () => {
-              console.log('get measure layout data - fail')
-            }
-          );
-        });
-      }
-    })
+    let m:MeasureType[] = [];
+    if(scrollViewRef.current) {
+      data.forEach((item) => {
+        console.log(item.ref)
+        measureComponent(item.ref)
+        .then(({ x, y, width, height }: any) => {
+          m.push({x, y, width, height})  
+        })
+      });
+      setMeasures(m);
+    }
   }, [])
+
+  // item.ref.current?.measureLayout(
+  //   findNodeHandle(scrollViewRef.current) as any,
+  //   (x, y, width, height) => {
+  //     m.push({x, y, width, height})
+  //     if(m.length === data.length){
+  //       setMeasures(m)
+  //     }
+  //   }, () => {
+  //     console.log('get measure layout data - fail')
+  //   }
+  // );
+
+  const measureComponent = (component: React.RefObject<TouchableOpacity> ) => {
+    return new Promise((resolve, reject) => {
+      component.current?.measureLayout(
+        findNodeHandle(scrollViewRef.current) as any,
+        (x, y, width, height) => {
+          resolve({ x, y, width, height })
+        }, () => { console.log('fail')})
+    })
+  }
 
   useEffect(() => {
     if(scrollViewRef.current && measures.length) {

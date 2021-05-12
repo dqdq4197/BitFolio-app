@@ -7,7 +7,6 @@ import useAnimatedHeaderTitle from '/hooks/useAnimatedHeaderTitle';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import CustomRefreshControl from '/components/common/CustomRefreshControl';
 import FlatListHeader from './FlatListHeader';
-import { ORDER } from '/lib/constant';
 
 
 const CoinMarketList = () => {

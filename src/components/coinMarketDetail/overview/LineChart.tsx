@@ -15,7 +15,7 @@ import { CONTENT_SPACING } from '/lib/constant';
 
 const φ = 1.6;
 const { width, height: wHeight } = Dimensions.get("window");
-const height =  255; // (1 - 1 / φ) * wHeight;
+const height = 215 //(1 - 1 / φ) * wHeight;
 const padding = 25 // 차트 padding
 const cursorR = 5;  // Cursor 반지름
 
@@ -35,8 +35,6 @@ const LineChart = ({
   const { data, isValidating } = useMarketLineChartData({ id })
   const theme = useGlobalTheme();
   
-  console.log(height, 'asdasd ');
-
   return (
     <ChartContainer>
       <GlobalIndicator isLoaded={!isValidating}/>

@@ -30,7 +30,7 @@ const timeFrame = [{
 
 const ChartTab = () => {
 
-  const { chartTimeFrame } = useAppSelector(state => state.baseSettingReducer);
+  const { chartTimeFrame, chartOption } = useAppSelector(state => state.baseSettingReducer);
   const dispatch = useAppDispatch();
 
   const handleTimeSelectorPress = (value: number | string) => {
@@ -60,11 +60,17 @@ const ChartTab = () => {
           })}
         </View>
       </ChartTimeSelectorWrap>
-      <ChartSelectorWrap >
-        <ChartSelector onPress={() => handleChartSelectorPress('prices')}>
+      <ChartSelectorWrap>
+        <ChartSelector 
+          isSelected={chartOption === 'prices'} 
+          onPress={() => handleChartSelectorPress('prices')}
+        >
           <MaterialCommunityIcons name="chart-line-variant" size={24} color="white" />
         </ChartSelector>
-        <ChartSelector onPress={() => handleChartSelectorPress('ohlc')}>
+        <ChartSelector 
+          isSelected={chartOption === 'ohlc'} 
+          onPress={() => handleChartSelectorPress('ohlc')}
+        >
           <MaterialCommunityIcons name="chart-line-variant" size={24} color="white" />
         </ChartSelector>
       </ChartSelectorWrap>
@@ -112,8 +118,14 @@ const ChartSelectorWrap = styled.View`
   flex: 1;
 `
 
-const ChartSelector = styled.TouchableOpacity`
+const ChartSelector = styled.TouchableOpacity<TimeSelectorProps>`
   margin-right: 10px;
   padding: 3px 8px;
   border-radius: ${({theme}) => theme.border.xl};
+  background-color: ${
+    (props) => 
+      props.isSelected 
+      ? 'rgba(255,255,255, .2)'
+      : 'transparent'
+  };
 `

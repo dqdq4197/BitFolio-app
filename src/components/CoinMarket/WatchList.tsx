@@ -17,12 +17,12 @@ type ListProps = {
 
 const WatchList = ({ onPressItem }: ListProps) => {
   const { watchList } = useAppSelector(state => state.baseSettingReducer);
+  const { t } = useTranslation();
   const { data } = useCoinMarketData({ 
     ids: watchList, 
     suspense: false,
     refreshInterval: 180000 
   });
-  const { t } = useTranslation();
 
   return (
     <SurfaceWrap title='관심 목록' >

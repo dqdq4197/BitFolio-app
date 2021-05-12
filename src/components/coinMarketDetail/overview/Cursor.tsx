@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
+import styled from 'styled-components/native';
 import { 
   LongPressGestureHandler, 
   LongPressGestureHandlerGestureEvent
@@ -16,7 +17,7 @@ import { useAppDispatch } from '/hooks/useRedux';
 import useLineChartModel from '/hooks/useLineChartModel';
 
 const { height } = Dimensions.get('window');
-const CURSOR = 10;
+const CURSOR_SIZE = 16;
 
 
 interface CursorProps {
@@ -90,17 +91,17 @@ const Cursor = ({ data, width, height, cursorR }: CursorProps) => {
         minDurationMs={300}
       >
         <Animated.View style={StyleSheet.absoluteFill}>
-          <View 
-            style={[styles.cursor, { 
+          <CursorWrap 
+            style={{ 
               transform: [
-                { translateX: translateX - CURSOR / 2 },
-                { translateY: translateY - CURSOR / 2 },
+                { translateX: translateX - CURSOR_SIZE / 2 },
+                { translateY: translateY - CURSOR_SIZE / 2 },
               ]
-            }]}
+            }}
           >
-            <View style={styles.line}/>
-            <View style={styles.cursorBody} />
-          </View>
+            <CursorLine />
+            <CursorBody />
+          </CursorWrap>
         </Animated.View>
       </LongPressGestureHandler>
     </View>
@@ -109,27 +110,27 @@ const Cursor = ({ data, width, height, cursorR }: CursorProps) => {
 
 export default Cursor;
 
-const styles = StyleSheet.create({
-  cursor: {
-    position: 'relative',
-    width: CURSOR,
-    height: CURSOR,
-    borderRadius: CURSOR / 2,
-    borderWidth: 1,
-    borderColor: 'white',
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  cursorBody: {
-    width: 2,
-    height: 2,
-    borderRadius: 3,
-    backgroundColor: "black",
-  },
-  line: {
-    position:'absolute',
-    height: height,
-    width: 1,
-    backgroundColor: 'white',
-  }
-});
+const CursorWrap = styled.View`
+  width: ${CURSOR_SIZE}px;
+  height: ${CURSOR_SIZE}px;
+  border-radius: ${CURSOR_SIZE / 2}px;
+  border-width: 3px;
+  border-color: ${({ theme }) => theme.base.text[200]};
+  justify-content: center;
+  align-items: center;
+`
+
+const CursorLine = styled.View`
+  position: absolute;
+  height: ${height}px;
+  width: 1px;
+  background-color: ${({ theme }) => theme.base.text[200]};
+`
+
+const CursorBody = styled.View`
+  width: 4px;
+  height: 4px;
+  border-radius: 2px;
+  background-color: ${({ theme }) => theme.base.text[100]};;
+`
+

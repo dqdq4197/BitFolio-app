@@ -31,6 +31,20 @@
     https://www.flaticon.com/kr/authors/pixel-perfect   
     스토어에 표기
 
+### news api 목록..
+    https://cryptonews-api.com/
+    달 10달러 
+    or
+    cryptocompare 상업적 목적이 아니라면 무료 
+    월 10만 call 가능.. 
+    category가 매우 적음.. 
 
+### socket api 사용시 
+    - cryptocompare
+    최대 50명 사용가능.. socket은 하나로 
+    사용하게된다면 특정 가격페이지에만 사용 가능할듯
 
+### 배포 전 TODO
+
+    api key 숨기기 => .env 
 
