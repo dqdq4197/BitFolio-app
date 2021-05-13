@@ -23,11 +23,6 @@ const useAnimatedHeaderTitle = ({ title,  triggerPoint }: HeaderTitleProps) => {
 
   useEffect(() => {
     navigation.setOptions({
-      headerStyle: {
-        backgroundColor: theme.base.background.surface,
-        shadowColor: theme.base.background[300],
-        shadowOpacity: 1
-      },
       headerTitleStyle: {
         opacity: scrollY.interpolate({
           inputRange: [0, triggerPoint],

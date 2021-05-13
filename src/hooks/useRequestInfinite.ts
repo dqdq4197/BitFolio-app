@@ -1,5 +1,5 @@
 import { SWRInfiniteConfiguration, SWRInfiniteResponse, useSWRInfinite } from 'swr'
-import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios'
+import { AxiosInstance ,AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios'
 
 export type RequestType = AxiosRequestConfig | null
 
@@ -26,6 +26,7 @@ export default function useRequestInfinite<Data = unknown, Error = unknown>(
     pageIndex: number,
     previousPageData: AxiosResponse<Data> | null
   ) => RequestType,
+  axios: AxiosInstance,
   { initialData, ...config }: Config<Data, Error> = {}
 ): Return<Data, Error> {
   const { 

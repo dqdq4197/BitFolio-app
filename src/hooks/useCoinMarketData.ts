@@ -1,5 +1,5 @@
 import useRequestInfinite from './useRequestInfinite';
-import { CoinGecko } from '/lib/api/CoinGeckoClient'
+import { CoinGecko, http } from '/lib/api/CoinGeckoClient'
 import { CoinMarketReturn } from '/lib/api/CoinGeckoReturnType';
 import { AxiosResponse } from 'axios';
 import { useAppSelector } from './useRedux';
@@ -39,7 +39,7 @@ export default ({
   }
 
   const { data, ...args } = useRequestInfinite<CoinMarketReturn>(
-    getKey, { suspense, refreshInterval }
+    getKey, http, { suspense, refreshInterval }
   );
 
   return { data: data?.flat(), ...args }

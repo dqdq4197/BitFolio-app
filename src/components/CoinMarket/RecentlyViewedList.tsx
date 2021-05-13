@@ -12,7 +12,7 @@ import { useAppSelector } from '/hooks/useRedux';
 import useCoinMarketData from '/hooks/useCoinMarketData';
 
 type ListProps = {
-  onPressItem: (id: string) => void;
+  onPressItem: (id: string, symbol: string) => void;
 }
 const RecentlyViewedList = ({ onPressItem }: ListProps) => {
 
@@ -38,7 +38,7 @@ const RecentlyViewedList = ({ onPressItem }: ListProps) => {
           return (
             <Card 
               key={coin.id} 
-              onPress={() => onPressItem(coin.id)}
+              onPress={() => onPressItem(coin.id, coin.symbol)}
             >
               <IconWrap>
                 <Image uri={coin.image} width={35} height={35} />

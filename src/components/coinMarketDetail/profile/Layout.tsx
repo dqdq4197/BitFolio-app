@@ -7,8 +7,8 @@ import Description from './Description';
 import Link from './Link';
 
 const Layout = () => {
-  const coinId = useCoinIdContext();
-  const { data } = useCoinDetailInfoData(coinId);
+  const { id } = useCoinIdContext();
+  const { data } = useCoinDetailInfoData(id);
   const { language, currency } = useLocales();
 
   if(!data) return <></>

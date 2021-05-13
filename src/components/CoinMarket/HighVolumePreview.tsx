@@ -7,7 +7,7 @@ import ShowAllButton from './ShowAllButton';
 import Text from '/components/common/Text';
 
 type ListProps = {
-  onPressItem: (id: string) => void;
+  onPressItem: (id: string, symbol: string) => void;
 }
 
 const HighVolumePreview = ({ onPressItem }: ListProps) => {

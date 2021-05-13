@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { Image, Dimensions } from 'react-native';
-import styled from 'styled-components/native';
+import styled, { css } from 'styled-components/native';
 import GlobalIndicator from './GlobalIndicator';
 
+
+type BorderRadius = 'm' | 's'
 type ImageType = {
   uri: string,
   width: number,
   height: number,
   fullWidth?: boolean,
+  borderRedius?: BorderRadius;
 }
 
 const { width: win } = Dimensions.get('window');
 
-const CustomImage = ({ uri, width, height, fullWidth = false }: ImageType) => {
+const CustomImage = ({ uri, width, height, fullWidth = false, borderRedius }: ImageType) => {
   const [updatedWidth, setUpdatedWidth] = useState(width);
   const [updatedHeight, setUpdatedHeight] = useState(height);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -29,7 +32,11 @@ const CustomImage = ({ uri, width, height, fullWidth = false }: ImageType) => {
   }
 
   return (
-    <StyledImageWrap>
+    <StyledImageWrap 
+      borderRedius={borderRedius}
+      width={updatedWidth}
+      height={updatedHeight}
+    >
       <Image 
         source={{ uri }}
         onLoadEnd={handleLoadEnd}
@@ -46,6 +53,19 @@ const CustomImage = ({ uri, width, height, fullWidth = false }: ImageType) => {
 
 export default CustomImage;
 
-const StyledImageWrap = styled.View`
+type WrapProps = {
+  borderRedius?: BorderRadius;
+  width: number,
+  height: number
+}
 
+const StyledImageWrap = styled.View<WrapProps>`
+  ${ ({ width, height}) => css`
+    width: ${width}px;
+    height: ${height}px;
+  `}
+  ${ ({ theme, borderRedius }) => borderRedius && css`
+    border-radius: ${theme.border[borderRedius]};
+  `}
+  overflow: hidden;
 `

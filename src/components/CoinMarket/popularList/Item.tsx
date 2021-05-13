@@ -17,7 +17,7 @@ type ItemProps = {
   index: number;
   valueKey: 'total_volume' | 'market_cap' | 'current_price';
   percentageKey?: 'market_cap_change_percentage_24h' | 'price_change_percentage_24h';
-  onPressItem: (id:string) => void;
+  onPressItem: (id:string, symbol: string) => void;
   NoneUnderLine?: boolean;
 }
 
@@ -67,7 +67,7 @@ const Item = ({
   return (
     <>
     <ItemContainer 
-      onPress={() => onPressItem(item.id)} 
+      onPress={() => onPressItem(item.id, item.symbol)} 
       NoneUnderLine={NoneUnderLine} 
     >
       <ItemColumn 

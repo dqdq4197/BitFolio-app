@@ -10,7 +10,7 @@ import Text from '/components/common/Text';
 
 type ItemProps = {
   item: CoinMarketReturn,
-  onPressItem: (id:string) => void;
+  onPressItem: (id:string, symbol: string) => void;
 }
 
 const { width } = Dimensions.get('window');
@@ -22,7 +22,7 @@ const Item = ({ item, onPressItem }: ItemProps) => {
   
   return (
     <>
-    <ItemContainer onPress={() => onPressItem(item.id)}>
+    <ItemContainer onPress={() => onPressItem(item.id, item.symbol)}>
       <ItemColumn 
         column={ 1.3 }
         style={{

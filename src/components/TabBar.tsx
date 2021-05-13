@@ -3,15 +3,15 @@ import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import styled from 'styled-components/native';
 import { TAB_BAR_HEIGHT } from '/lib/constant';
 
-const TabBar = ({descriptors, state, navigation}: BottomTabBarProps) => {
+const TabBar = ({ descriptors, state, navigation }: BottomTabBarProps) => {
   const { routes, index } = state;
 
   const focusedOptions = descriptors[routes[index].key].options;
-
-  if(focusedOptions.tabBarVisible === false) {
+  
+  // || routes[index].state?.index === 1
+  if(focusedOptions.tabBarVisible === false ) {
     return null;
   }
-
   return (
     <TabBarContainer>
       {routes.map((route, idx) => {

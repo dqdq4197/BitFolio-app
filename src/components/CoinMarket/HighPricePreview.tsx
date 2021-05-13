@@ -7,7 +7,7 @@ import ShowAllButton from './ShowAllButton';
 
 
 type ListProps = {
-  onPressItem: (id: string) => void;
+  onPressItem: (id: string, symbol: string) => void;
 }
 
 const HighPricePreview = ({ onPressItem }: ListProps) => {

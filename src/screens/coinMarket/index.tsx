@@ -11,7 +11,6 @@ import highVolumeScreen from "./highVolume";
 import searchScreen from './search';
 
 type StackProps = {
-
 }
 
 const Stack = createStackNavigator()
@@ -28,7 +27,7 @@ const CoinMarketStack = ({ navigation }:StackScreenProps<any, any>) => {
       title,
       headerStyle: {
         backgroundColor: theme.base.background.surface,
-        shadowColor: theme.base.background[300]
+        shadowColor: 'transparent', // theme.base.background[300]
       },
       headerTintColor: theme.base.text[100],
       headerRight: () => (
@@ -61,6 +60,7 @@ const CoinMarketStack = ({ navigation }:StackScreenProps<any, any>) => {
       },
     }
   }
+
 
   return (
     <Stack.Navigator headerMode='screen'>

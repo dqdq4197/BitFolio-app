@@ -46,4 +46,5 @@ export default ErrorBoundaryAndSuspense;
 
 const View = styled.View`
   flex: 1;
+  background-color: ${({ theme }) => theme.base.background.surface};
 `

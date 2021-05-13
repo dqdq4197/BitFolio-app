@@ -14,11 +14,11 @@ import CustomRefreshControl from '/components/common/CustomRefreshControl';
 import ScrollView from '/components/common/ScrollView'
 
 const Layout = () => {
-  const coinId = useCoinIdContext();
+  const { id } = useCoinIdContext();
   const [refreshing, setRefreshing] = useState(false);
   const { chartOption } = useAppSelector(state => state.baseSettingReducer);
   const { currency, language } = useLocales();
-  const { data, mutate } = useCoinDetailData(coinId);
+  const { data, mutate } = useCoinDetailData(id);
 
   const handleRefresh = useCallback(() => {
     setRefreshing(true);
@@ -45,11 +45,11 @@ const Layout = () => {
         />
         {chartOption === 'ohlc' 
           ? <CandlesticChart
-              id={coinId}
+              id={id}
               lastUpdatedPrice={data.market_data.current_price[currency]}
             />
           : <LineChart 
-              id={coinId}
+              id={id}
               chartOption={chartOption}
               lastUpdatedPrice={data.market_data.current_price[currency]}
               lastUpdatedPercentage={data.market_data.price_change_percentage_24h_in_currency[currency]}

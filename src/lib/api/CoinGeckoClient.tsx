@@ -1,5 +1,6 @@
 import { COINGECKO_PATH_PREFIX, ORDER, CURRENCY } from '/lib/constant';
 import { baseTypes } from 'base-types';
+import axios from 'axios';
 
 export type ORDER = typeof ORDER[keyof typeof ORDER];
 
@@ -51,6 +52,10 @@ export type DetailInfoParams = {
   sparkline: boolean
 }
 
+export const http = axios.create({
+  baseURL: COINGECKO_PATH_PREFIX,
+})
+
 export const CoinGecko = {
   coin: {
     /**
@@ -70,7 +75,7 @@ export const CoinGecko = {
         params.ids = params.ids.join(',');
       }
       return {
-        url: `${COINGECKO_PATH_PREFIX}/coins/markets`,
+        url: `/coins/markets`,
         params
       }
     },
@@ -94,7 +99,7 @@ export const CoinGecko = {
         params.vs_currencies = params.vs_currencies.join(',');
       }
       return {
-        url: `${COINGECKO_PATH_PREFIX}/simple/price`,
+        url: `/simple/price`,
         params
       }
     },
@@ -109,19 +114,19 @@ export const CoinGecko = {
       */
     marketChart: (id:string, params:MarketChartParams) => {
       return {
-        url: `${COINGECKO_PATH_PREFIX}/coins/${id}/market_chart`,
+        url: `/coins/${id}/market_chart`,
         params
       }
     },
     DetailInfo: (id:string, params:DetailInfoParams) => {
       return {
-        url: `${COINGECKO_PATH_PREFIX}/coins/${id}`,
+        url: `/coins/${id}`,
         params
       }
     },
     historySnapshot: (id:string, params:HistorySnapshotParams) => {
       return {
-        url: `${COINGECKO_PATH_PREFIX}/coins/${id}/history`,
+        url: `/coins/${id}/history`,
         params
       }
     },
@@ -140,14 +145,14 @@ export const CoinGecko = {
       */
     marketChartRange: (id:string, params:MarketChartRangeParams) => {
       return {
-        url: `${COINGECKO_PATH_PREFIX}/coins/${id}/market_chart/range`,
+        url: `/coins/${id}/market_chart/range`,
         params
       }
     },
 
     historicalOhlc: (id:string, params:HistoricalOhlcParams) => {
       return {
-        url: `${COINGECKO_PATH_PREFIX}/coins/${id}/ohlc`,
+        url: `/coins/${id}/ohlc`,
         params
       }
     },   

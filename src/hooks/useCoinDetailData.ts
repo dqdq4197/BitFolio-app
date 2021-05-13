@@ -1,5 +1,5 @@
 import useRequest from './useRequest';
-import { CoinGecko, DetailInfoParams } from '/lib/api/CoinGeckoClient';
+import { CoinGecko, http } from '/lib/api/CoinGeckoClient';
 import { CoinDetailDataReturn } from '/lib/api/CoinGeckoReturnType';
 
 
@@ -13,5 +13,5 @@ export default (id: string) => {
     sparkline: false,
   })
 
-  return useRequest<CoinDetailDataReturn>(getKey, { suspense: true })
+  return useRequest<CoinDetailDataReturn>(getKey, http, { suspense: true })
 }

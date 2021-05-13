@@ -1,15 +1,19 @@
 import React, { createContext, useContext } from 'react';
 
 
-export const CoinIdContext = createContext<string | undefined>(undefined);
+export const CoinIdContext = createContext<ValueType | undefined>(undefined);
 
-type ProviderProps = {
+type ValueType = {
   id: string,
+  symbol: string,
+}
+type ProviderProps = {
+  value: ValueType,
   children: React.ReactNode,
 }
-export function CoinIdProvider({ id, children }: ProviderProps) {
+export function CoinIdProvider({ value, children }: ProviderProps) {
   return (
-    <CoinIdContext.Provider value={id}>
+    <CoinIdContext.Provider value={value}>
       { children }
     </CoinIdContext.Provider>
   )

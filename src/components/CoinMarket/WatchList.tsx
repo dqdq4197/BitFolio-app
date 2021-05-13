@@ -12,7 +12,7 @@ import useCoinMarketData from '/hooks/useCoinMarketData';
 import Item from './popularList/Item';
 
 type ListProps = {
-  onPressItem: (id: string) => void;
+  onPressItem: (id: string, symbol: string) => void;
 }
 
 const WatchList = ({ onPressItem }: ListProps) => {

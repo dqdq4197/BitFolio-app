@@ -1,5 +1,5 @@
 import useRequest from './useRequest';
-import { CoinGecko } from '/lib/api/CoinGeckoClient';
+import { CoinGecko, http } from '/lib/api/CoinGeckoClient';
 import { CharDataReturn } from '/lib/api/CoinGeckoReturnType';
 import { useAppSelector } from './useRedux';
 
@@ -16,5 +16,5 @@ export default ({ id, days }:ChartDataProps) => {
     days: chartTimeFrame,
   })
 
-  return useRequest<CharDataReturn>(getKey)
+  return useRequest<CharDataReturn>(getKey, http)
 }

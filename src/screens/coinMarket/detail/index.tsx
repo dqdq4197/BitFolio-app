@@ -27,7 +27,7 @@ const DetailTab = ({ route, navigation }:any) => {
       title: id.charAt(0).toUpperCase() + id.slice(1),
       headerRight: () => (
         <WatchListIcon id={id} size={28}/>
-      )
+      ),
     })
   }, [])
 
@@ -38,7 +38,7 @@ const DetailTab = ({ route, navigation }:any) => {
   return (
     <GeneralTemplate>
       <ErrorBoundaryAndSuspense skeleton={<MarketListSkeleton/>} >
-        <CoinIdProvider id={param.id}>
+        <CoinIdProvider value={{ id: param.id, symbol: param.symbol }}>
           <Tab.Navigator 
             sceneContainerStyle={{
               backgroundColor: theme.base.background[100]
