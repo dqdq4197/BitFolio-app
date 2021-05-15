@@ -1,5 +1,6 @@
 import React, { useLayoutEffect, useEffect } from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { useTranslation } from 'react-i18next';
 import GeneralTemplate from '/components/GeneralTemplate';
 import OverViewLayout from '/components/coinMarketDetail/overview/Layout';
 import DiscussionLayout from '/components/coinMarketDetail/discussion/Layout';
@@ -17,6 +18,8 @@ import WatchListIcon from '/components/common/WatchListIcon';
 const Tab = createMaterialTopTabNavigator();
 
 const DetailTab = ({ route, navigation }:any) => {
+
+  const { t } = useTranslation();
   const { param, screen } = route.params;
   const theme = useGlobalTheme();
   const dispatch = useAppDispatch();
@@ -46,11 +49,11 @@ const DetailTab = ({ route, navigation }:any) => {
             tabBar={(props) => <TabBar {...props} />} 
             initialRouteName={screen}
           >
-              <Tab.Screen name="Overview" component={OverViewLayout} />
-              <Tab.Screen name="Profile" component={ProfileLayout} />
-              <Tab.Screen name="News" component={NewsLayout} />
-              <Tab.Screen name="Notice" component={DiscussionLayout} />
-              <Tab.Screen name="Discussion" component={DiscussionLayout} />
+            <Tab.Screen name={t('coinDetail.overview')} component={OverViewLayout} />
+            <Tab.Screen name={t('coinDetail.profile')} component={ProfileLayout} />
+            <Tab.Screen name={t('coinDetail.news')} component={NewsLayout} />
+            <Tab.Screen name={t('coinDetail.notice')} component={DiscussionLayout} />
+            <Tab.Screen name={t('coinDetail.discussion')} component={DiscussionLayout} />
           </Tab.Navigator>
         </CoinIdProvider>
       </ErrorBoundaryAndSuspense>

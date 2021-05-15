@@ -1,19 +1,21 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useEffect } from 'react';
 import { TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
 
 interface ITab {
-  isFocused: boolean;
   label: string;
+  index: number;
+  stateIndex: number;
   onPress: () => void;
+  onTextLayout: (index: number) => void;
 }
 
 const Tab = forwardRef<TouchableOpacity, ITab>(
-  ({ isFocused, label, onPress }, ref) => {
-
+  ({ label, index, stateIndex, onPress, onTextLayout }, ref) => {
+  
   return (
-    <TabButton ref={ref} isFocused={isFocused} onPress={onPress} >
-      <TabText isFocused={isFocused}>
+    <TabButton ref={ref} isFocused={stateIndex === index} onPress={onPress} >
+      <TabText isFocused={stateIndex === index} onLayout={() => onTextLayout(index)}>
         { label }
       </TabText>
     </TabButton>

@@ -31,8 +31,8 @@ interface FeedAndCategoryPrams extends CommonParams {}
 export const http = axios.create({
   baseURL: CTYPTOCOMPARE_PATH_PREFIX,
   headers: {
-    'authorization': CRYPTOCOMPARE_API_KEY
-  }
+    'authorization': `Apikey ${CRYPTOCOMPARE_API_KEY}`
+  },
 })
 export const Cryptocompare = {
   news: {

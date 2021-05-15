@@ -18,11 +18,22 @@
     "launched date": "Launched Date",
     "circulating supply": "Circulating Supply",
     "max supply": "Max Supply",
-    "latest news": "Latest News"
+    "latest news": "Latest News",
+    "overview": "Overview",
+    "profile": "Porofile",
+    "news": "News",
+    "notice": "Notice",
+    "discussion": "Discussion"
   },
   "coinMarketHome": {
     "show all": "Show All",
-    "search": "Search"
+    "search": "Search",
+    "watch list": "Watch List",
+    "popular list": "Popular List",
+    "volume": "Volume",
+    "marketcap": "MarketCap",
+    "recently add coin": "Recently Add Coin",
+    "n.minute auto update": "{{n}}minute auto update"
   }
 
 }

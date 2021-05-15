@@ -2,10 +2,12 @@ import React from 'react';
 import { Dimensions } from 'react-native';
 import styled from 'styled-components/native';
 import { baseTypes } from 'base-types';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { CoinSvg } from '/lib/svg';
+import useGlobalTheme from '/hooks/useGlobalTheme';
 import Text from '/components/common/Text';
 import { useAppDispatch, useAppSelector } from '/hooks/useRedux';
 import { changeChartTimeFrame, changeChartOption } from '/store/baseSetting';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 
 
@@ -29,7 +31,7 @@ const timeFrame = [{
 },]
 
 const ChartTab = () => {
-
+  const theme = useGlobalTheme();
   const { chartTimeFrame, chartOption } = useAppSelector(state => state.baseSettingReducer);
   const dispatch = useAppDispatch();
 
@@ -65,13 +67,17 @@ const ChartTab = () => {
           isSelected={chartOption === 'prices'} 
           onPress={() => handleChartSelectorPress('prices')}
         >
-          <MaterialCommunityIcons name="chart-line-variant" size={24} color="white" />
+          <MaterialCommunityIcons 
+            name="chart-line-variant" 
+            size={24} 
+            color={chartOption === 'prices' ? theme.base.text[100] : theme.base.text[200]}
+          />
         </ChartSelector>
         <ChartSelector 
           isSelected={chartOption === 'ohlc'} 
           onPress={() => handleChartSelectorPress('ohlc')}
         >
-          <MaterialCommunityIcons name="chart-line-variant" size={24} color="white" />
+          <CoinSvg name="candlestick" width={24} height={24}/>
         </ChartSelector>
       </ChartSelectorWrap>
     </ChartTabWrap>

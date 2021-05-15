@@ -65,7 +65,7 @@ const Layout = () => {
         maxSupply={data.market_data.max_supply}
         circulatingSupply={data.market_data.circulating_supply}
         hashingAlgorithm={data.hashing_algorithm}
-        language={language}
+        currency={currency}
       />
       <PriceChangePercentage 
         percentage_24h={data.market_data.price_change_percentage_24h_in_currency[currency]}

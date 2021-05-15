@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { FlatList } from 'react-native';
 import useNewsCategories from '/hooks/useNewsCategories';
 import { useCoinIdContext } from '/hooks/useCoinIdContext';
 import useNewsArticles from '/hooks/useNewsArticles';
 import useGlobalTheme from '/hooks/useGlobalTheme';
+import CustomRefreshControl from '/components/common/CustomRefreshControl';
 import Header from './Header';
 import Item from './Item';
 
@@ -12,7 +13,8 @@ const Layout = () => {
   const { id, symbol } = useCoinIdContext();
   const { data: categories } = useNewsCategories({});
   const [category, setCategory] = useState('altcoin');
-  const { data } = useNewsArticles({ categories: category });
+  const { data, mutate } = useNewsArticles({ categories: category });
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     if(categories) {
@@ -25,8 +27,16 @@ const Layout = () => {
     }
   }, [])
 
+  const handleRefresh = useCallback(() => {
+    setRefreshing(true);
+    mutate()
+      .then(() => {
+        setRefreshing(false);
+      })
+  }, []);
+
   if(!data) return <></>
-  // console.log(data);
+  
   return (
     <>
       <FlatList 
@@ -44,16 +54,12 @@ const Layout = () => {
         }
         scrollEventThrottle={16}
         ListHeaderComponent={<Header />}
-        // stickyHeaderIndices={[0]}
-        // onScroll={handleScroll}
-        // refreshControl={
-        //   <CustomRefreshControl
-        //     onRefresh={handleRefresh}
-        //     refreshing={refreshing}
-        //   />
-        // }
-        // onEndReached={() => setSize(size + 1)}
-        // onEndReachedThreshold={0.5}
+        refreshControl={
+          <CustomRefreshControl
+            onRefresh={handleRefresh}
+            refreshing={refreshing}
+          />
+        }
       />
     </>
   )

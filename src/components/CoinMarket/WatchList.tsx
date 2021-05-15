@@ -1,15 +1,12 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components/native';
 import { useTranslation } from 'react-i18next';
-import { Ionicons } from '@expo/vector-icons';
 import Text from '/components/common/Text';
 import SurfaceWrap from '/components/common/SurfaceWrap';
-import useLocales from '/hooks/useLocales';
-import useGlobalTheme from '/hooks/useGlobalTheme';
-import Image from '/components/common/Image';
 import { useAppSelector } from '/hooks/useRedux';
 import useCoinMarketData from '/hooks/useCoinMarketData';
 import Item from './popularList/Item';
+import { CoinMarketReturn } from '/lib/api/CoinGeckoReturnType';
 
 type ListProps = {
   onPressItem: (id: string, symbol: string) => void;
@@ -17,19 +14,28 @@ type ListProps = {
 
 const WatchList = ({ onPressItem }: ListProps) => {
   const { watchList } = useAppSelector(state => state.baseSettingReducer);
+  const [newData, setNewDate] = useState<CoinMarketReturn[]>([])
   const { t } = useTranslation();
-  const { data } = useCoinMarketData({ 
+  const { data, isValidating, mutate } = useCoinMarketData({ 
     ids: watchList, 
     suspense: false,
-    refreshInterval: 180000 
+    refreshInterval: 1000 * 60 * 3,
   });
 
+  useEffect(() => {
+    if(data){
+      setNewDate(data);
+    } else {
+      setNewDate(prevState => prevState.filter(coinId => watchList.includes(coinId.id)))
+    }
+  }, [watchList, isValidating])
+
   return (
-    <SurfaceWrap title='관심 목록' >
+    <SurfaceWrap title={t('coinMarketHome.watch list')} >
       <Text margin="-15px 0 10px 0"> 
-        3분 자동 업데이트
+        { t('coinMarketHome.n.minute auto update', { n: 3 }) }
       </Text>
-      { data?.map((coin, index) => {
+      { newData?.map((coin, index) => {
         return (
           <Item 
             key={coin.id}

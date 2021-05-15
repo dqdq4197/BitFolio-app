@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/native';
+import { useTranslation } from 'react-i18next';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 import Text from '/components/common/Text';
@@ -44,14 +45,15 @@ type ListProps = {
 }
 
 const PopularList = ({ }: ListProps) => {
+  const { t } = useTranslation();
   const navigation = useNavigation();
+
   const handleCardPress = (route: string) => {
     navigation.navigate(route);
   }
 
-
   return (
-    <SurfaceWrap title="인기 차트" parentPaddingZero >
+    <SurfaceWrap title={t('coinMarketHome.popular list')} parentPaddingZero >
       <Container
         horizontal
         showsHorizontalScrollIndicator={false}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dimensions, View } from 'react-native';
+import { Dimensions } from 'react-native';
 import styled from 'styled-components/native';
 import fromUnixTime from 'date-fns/fromUnixTime';
 import ko from "date-fns/locale/ko"
@@ -23,14 +23,17 @@ const Item = ({ item, currentCategory }: ItemProps) => {
   const theme = useGlobalTheme();
   const { language } = useLocales();
 
-  
+  const handleItemPress = () => {
+    return WebBrowser.openBrowserAsync(item.url, {
+      toolbarColor: theme.base.background.surface,
+      enableBarCollapsing: true
+    })
+  }
+
   return (
     <Container 
       activeOpacity={0.6}
-      onLongPress={() => WebBrowser.openBrowserAsync(item.url, {
-        toolbarColor: theme.base.background.surface,
-        enableBarCollapsing: true
-      })}
+      onPress={handleItemPress}
     >
       <Text fontS>
         { formatDistance( 

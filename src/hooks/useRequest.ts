@@ -9,7 +9,8 @@ interface Return<Data, Error>
     'isValidating' | 'revalidate' | 'error' | 'mutate'
   > {
   data: Data | undefined
-  response: AxiosResponse<Data> | undefined
+  response: AxiosResponse<Data> | undefined,
+  isLoading: boolean
 }
 
 export interface Config<Data = unknown, Error = unknown>
@@ -49,6 +50,7 @@ export default function useRequest<Data = unknown, Error = unknown>(
     error,
     isValidating,
     revalidate,
-    mutate
+    mutate,
+    isLoading: !response?.data && !error,
   }
 }

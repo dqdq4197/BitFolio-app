@@ -18,10 +18,21 @@
     "launched date": "출시일",
     "circulating supply": "현재 공급량",
     "max supply": "총 공급량",
-    "latest news": "최신 뉴스"
+    "latest news": "최신 뉴스",
+    "overview": "개요",
+    "profile": "프로필",
+    "news": "뉴스",
+    "notice": "알림",
+    "discussion": "토론"
   },
   "coinMarketHome": {
     "show all": "모두보기",
-    "search": "검색하기"
+    "search": "검색하기",
+    "watch list": "관심 목록",
+    "popular list": "인기 목록",
+    "volume": "거래량",
+    "marketcap": "시가 총액",
+    "recently add coin": "새로운 코인",
+    "n.minute auto update": "{{n}}분 자동 업데이트"
   }
 }

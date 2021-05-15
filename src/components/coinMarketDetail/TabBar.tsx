@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef, createRef } from 'react';
 import { 
   TouchableOpacity, 
   ScrollView, 
-  findNodeHandle, 
   Dimensions, 
 } from 'react-native';
 import styled from 'styled-components/native';
@@ -12,16 +11,21 @@ import Tab from './Tab';
 
 const { width } = Dimensions.get('window');
 
+type Data = {
+  label: string;
+  key: string;
+  ref:React.RefObject<TouchableOpacity>
+}
 type Route = {
   key: string;
   name: string;
   params?: object | undefined;
 };
 type MeasureType = {
-  x: number,
-  y: number,
-  width: number,
-  height: number,
+  x: number;
+  y: number;
+  width: number;
+  height: number;
 }
 
 const TabBar = ({
@@ -30,37 +34,21 @@ const TabBar = ({
   navigation,
   position,
 }: MaterialTopTabBarProps) => {
+
   const scrollViewRef = useRef<ScrollView>(null);
   const [measures, setMeasures] = useState<MeasureType[]>([]);
   const [scrollWidth, setScrollWidth] = useState(0);
-  const data = state.routes.map((route: Route, index) => {
-    return {
-      label: route.name,
-      isFocused: state.index === index,
-      key: route.key,
-      ref: createRef<TouchableOpacity>()
-    }
-  })
-
+  const [data, setData] = useState<Data[]>([]);
+  const [isLayoutLoaded, setIsLayoutLoaded] = useState(false);
+  
   useEffect(() => {
-    setTimeout(() => {
-      let m:MeasureType[] = [];
-      if(scrollViewRef.current) {
-        data.forEach((item) => {
-          item.ref.current?.measureLayout(
-            findNodeHandle(scrollViewRef.current) as any,
-            (x, y, width, height) => {
-              m.push({x, y, width, height})
-              if(m.length === data.length){
-                setMeasures(m)
-              }
-            }, () => {
-              console.log('get measure layout data - fail')
-            }
-          );
-        });
+    setData(state.routes.map((route: Route, index) => {
+      return {
+        label: route.name,
+        key: route.key,
+        ref: createRef<TouchableOpacity>()
       }
-    })
+    }))
   }, [])
 
   useEffect(() => {
@@ -102,45 +90,70 @@ const TabBar = ({
     setScrollWidth(w);
   }
 
+  const handleContainerLayout = (index: number) => {
+    if(index !== data.length - 1) return ;
+    let m:MeasureType[] = [];
+    if(scrollViewRef.current) {
+      data.forEach((item) => {
+        item.ref.current?.measure(
+          (x, y, width, height) => {
+            m.push({x, y, width, height})
+            if(m.length === data.length){
+              setMeasures(m)
+            }
+          }
+        );
+      });
+    }
+    setIsLayoutLoaded(true);
+  }
+
+
   return (
     <Container>
-      <TabWrapper 
+      <TabScrollView 
         horizontal 
         ref={scrollViewRef} 
         showsHorizontalScrollIndicator={false}
         onContentSizeChange={handleScrollViewLayout}
       >
-        {data.map(({ isFocused, key, label, ref }) => {
-          const handlePress = () => {
-            const event = navigation.emit({
-              type: 'tabPress',
-              target: key,
-              canPreventDefault: true,
-            });
-            if (!isFocused && !event.defaultPrevented) {
-              navigation.navigate(label);
-            }
-          };
-          return (
-            <Tab 
-              key={key} 
-              ref={ref} 
-              label={label}
-              isFocused={isFocused}
-              onPress={handlePress}
-            />
-          )
-        })}
-      </TabWrapper>
-      <Indicator
-        as={Animated.View}
-        style={{
-          width: indicatorWidth,
-          transform: [{ 
-              translateX: translateX
-            }],
-        }}
-      />
+        <TabWrapper>
+          { data.map(({ key, label, ref }, index) => {
+            const handlePress = () => {
+              const event = navigation.emit({
+                type: 'tabPress',
+                target: key,
+                canPreventDefault: true,
+              });
+              if (state.index !== index && !event.defaultPrevented) {
+                navigation.navigate(label);
+              }
+            };
+            return (
+              <Tab 
+                key={key} 
+                ref={ref} 
+                label={label}
+                index={index}
+                stateIndex={state.index}
+                onPress={handlePress}
+                onTextLayout={handleContainerLayout}
+              />
+            )
+          })}
+        </TabWrapper>
+      </TabScrollView>
+      { isLayoutLoaded && 
+        <Indicator
+          as={Animated.View}
+          style={{
+            width: indicatorWidth,
+            transform: [{ 
+                translateX: translateX
+              }],
+          }}
+        />
+      }
     </Container>
   );
 }
@@ -153,12 +166,17 @@ const Container = styled.View`
   background-color: ${({ theme }) => theme.base.background.surface};
 `;
 
-const TabWrapper = styled.ScrollView`
+const TabScrollView = styled.ScrollView`
   flex-direction: row;
   display: flex;
   padding-left: 4px;
-  
 `;
+
+const TabWrapper = styled.View`
+  flex-direction: row;
+  /* width: 350px; */
+  justify-content: space-around;
+`
 
 const Indicator = styled.View`
   background-color: ${({ theme }) => theme.base.text[100]};

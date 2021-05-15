@@ -10,6 +10,7 @@ import Image from '/components/common/Image';
 import WatchListIcon from '/components/common/WatchListIcon';
 import { useAppSelector } from '/hooks/useRedux';
 import useCoinMarketData from '/hooks/useCoinMarketData';
+import { CoinMarketReturn } from '/lib/api/CoinGeckoReturnType';
 
 type ListProps = {
   onPressItem: (id: string, symbol: string) => void;

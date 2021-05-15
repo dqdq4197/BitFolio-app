@@ -9,6 +9,7 @@ import Image from '/components/common/Image';
 import Text from '/components/common/Text';
 import { convertUnits } from '/lib/utils';
 import WatchListIcon from '/components/common/WatchListIcon';
+import useCurrencyFormat from '/hooks/useCurrencyFormat';
 
 const { width } = Dimensions.get('window');
 
@@ -23,25 +24,25 @@ type ItemProps = {
 
 interface ValueProps {
   value: number,
-  language: baseTypes.Language,
+  currency: baseTypes.Currency,
 }
 
 interface PercentageProps extends ValueProps {
   percentage: number, 
 }
 
-const OnlyValue = ({ value, language }: ValueProps) => (
+const OnlyValue = ({ value, currency }: ValueProps) => (
   <ValueWrap>
     <Text fontML color100 right>
-      { convertUnits(value, language) }
+      { convertUnits(value, currency) }
     </Text>
   </ValueWrap>
 )
 
-const ValueWithPercentage = ({ value, percentage, language }: PercentageProps) => (
+const ValueWithPercentage = ({ value, percentage, currency }: PercentageProps) => (
   <ValueWrap>
     <Text fontML color100 right>
-      { convertUnits(value, language) }
+      { convertUnits(value, currency) }
     </Text>
     <FigureText percentage={ percentage } right>
       {
@@ -61,9 +62,9 @@ const Item = ({
   NoneUnderLine=false, 
   onPressItem
  }: ItemProps) => {
-  const { language } = useLocales();
+  const { currency } = useLocales();
   const { id, symbol } = item;
-
+  
   return (
     <>
     <ItemContainer 
@@ -112,12 +113,12 @@ const Item = ({
         { percentageKey 
           ? <ValueWithPercentage 
               value={item[valueKey]}
-              language={language}
+              currency={currency}
               percentage={item[percentageKey]}
             />
           : <OnlyValue 
               value={item[valueKey]}
-              language={language}
+              currency={currency}
             />
         }
       </ItemColumn>

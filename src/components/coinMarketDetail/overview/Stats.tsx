@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components/native';
 import { baseTypes } from 'base-types';
 import Text from '/components/common/Text';
 import { useTranslation } from 'react-i18next';
-import { convertUnits, currencySymbol } from '/lib/utils';
+import { convertUnits } from '/lib/utils';
 
 type StatsProps = {
   rank: number;
@@ -13,7 +13,7 @@ type StatsProps = {
   maxSupply: number,
   circulatingSupply: number,
   hashingAlgorithm: string,
-  language: baseTypes.Language
+  currency: baseTypes.Currency
 }
 
 const Stats = ({ 
@@ -24,7 +24,7 @@ const Stats = ({
   maxSupply,
   circulatingSupply,
   hashingAlgorithm,
-  language
+  currency
 }: StatsProps) => {
   const { t } = useTranslation();
 
@@ -56,8 +56,7 @@ const Stats = ({
             </Title>
             <Text fontML>
               { marketcap
-                ? currencySymbol(language === 'ko' ? 'krw' : 'usd') 
-                  + convertUnits(marketcap, language) 
+                ? convertUnits(marketcap, currency) 
                 : '--' 
               }
             </Text>
@@ -82,8 +81,7 @@ const Stats = ({
             </Title>
             <Text fontML>
               { totalVolume
-                ? currencySymbol(language === 'ko' ? 'krw' : 'usd') 
-                  + convertUnits(totalVolume, language) 
+                ? convertUnits(totalVolume, currency) 
                 : '--' 
               }
             </Text>
@@ -109,7 +107,7 @@ const Stats = ({
               </Text>
             </Title>
             <Text fontML>
-              { circulatingSupply !== 0 ? convertUnits(circulatingSupply, language) : '--' }
+              { circulatingSupply !== 0 ? convertUnits(circulatingSupply, currency) : '--' }
               { ' / ' } 
               { maxSupply || '--' }
             </Text>

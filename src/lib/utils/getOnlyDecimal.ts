@@ -6,12 +6,15 @@
  * @param  {number} length - 소수점 몇 자릿수
  */
 export default function getOnlyDecimal(num:number, length: number) {
-  let result = (num % 1).toFixed(length);
-  let resultLen = result.length - 2;
+  let result = num.toString().split('.');
 
-  if(Number(result) === 0) {
-    return ;
+  if(!result[1]) {
+    return '00';
   } else {
-    return Math.floor(Number(result) * Math.pow(10, resultLen));
+    if(result[1].length >= length) {
+      return result[1].substr(0, length);
+    } else {
+      return result[1];
+    }
   }
 };
