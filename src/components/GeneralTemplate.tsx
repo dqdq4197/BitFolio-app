@@ -1,6 +1,5 @@
 import React from 'react';
-import { StatusBar, Platform } from 'react-native';
-import { useColorScheme } from 'react-native-appearance';
+import { StatusBar, Platform, Appearance } from 'react-native';
 import styled from 'styled-components/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useHeaderHeight } from '@react-navigation/stack';
@@ -14,7 +13,7 @@ type TemplateProps = {
 const STATUSBAR_DEFAULT_HEIGHT = 20;
 
 const GeneralTemplate = ({ children }: TemplateProps) => {
-  const scheme = useColorScheme();
+  const scheme = Appearance.getColorScheme();
   const headerHeight = useHeaderHeight();
 
   return (

@@ -9,15 +9,22 @@ import RecentlyViewedList from "./RecentlyViewedList";
 import HighPricePreview from './HighPricePreview';
 import HighVolumePreview from './HighVolumePreview';
 import WatchList from './WatchList';
+
+
 import Text from '/components/common/Text';
 import { useAppDispatch } from '/hooks/useRedux';
-import { changeCurrency } from '/store/baseSetting';
+import { changeCurrency, changeTheme } from '/store/baseSetting';
+import useLocales from '/hooks/useLocales';
+import useGlobalTheme from '/hooks/useGlobalTheme';
+
 
 
 const Layout = () => {
   const dispatch = useAppDispatch();
   const navigation = useNavigation();
   const { scrollY } = useAnimatedHeaderTitle({ title: '시장 시세', triggerPoint: 40 });
+  const { currency } = useLocales();
+  const { scheme } = useGlobalTheme();
 
   const handlePressItem = useCallback((id:string, symbol: string) => {
     navigation.navigate('CoinDetail', { param: { id, symbol }, screen: 'Overview' })
@@ -35,7 +42,10 @@ const Layout = () => {
     > 
       <SurfaceWrap isMain title="시장 시세" >
         {/* <Marquee delay={1000}/> */}
-        <TouchableHighlight onPress={() => dispatch(changeCurrency('usd')) } > 
+        <TouchableHighlight onPress={() => dispatch(changeCurrency(currency === 'usd' ? 'krw' : 'usd')) } > 
+          <Text> change currency </Text>
+        </TouchableHighlight>
+        <TouchableHighlight onPress={() => dispatch(changeTheme(scheme === 'dark' ? 'light' : 'dark')) } > 
           <Text> change currency </Text>
         </TouchableHighlight>
       </SurfaceWrap>

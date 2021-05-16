@@ -20,7 +20,7 @@ type ItemProps = {
   currentCategory: string;
 }
 const Item = ({ item, currentCategory }: ItemProps) => {
-  const theme = useGlobalTheme();
+  const { theme } =useGlobalTheme();
   const { language } = useLocales();
 
   const handleItemPress = () => {

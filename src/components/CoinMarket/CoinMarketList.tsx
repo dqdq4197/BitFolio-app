@@ -14,7 +14,7 @@ const HEADER_HEIGHT = 100;
 
 const CoinMarketList = () => {
   const navHeaderHeight = useHeaderHeight();
-  const theme = useGlobalTheme();
+  const { theme } = useGlobalTheme();
   const [refreshing, setRefreshing] = useState(false);
   const { data, size, setSize, mutate } = useCoinMarketData({});
   const { scrollY } = useAnimatedHeaderTitle({ triggerPoint: 30 });

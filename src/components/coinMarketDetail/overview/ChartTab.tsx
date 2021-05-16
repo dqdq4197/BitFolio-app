@@ -31,7 +31,7 @@ const timeFrame = [{
 },]
 
 const ChartTab = () => {
-  const theme = useGlobalTheme();
+  const { theme } =useGlobalTheme();
   const { chartTimeFrame, chartOption } = useAppSelector(state => state.baseSettingReducer);
   const dispatch = useAppDispatch();
 

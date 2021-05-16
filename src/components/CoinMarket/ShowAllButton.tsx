@@ -12,7 +12,7 @@ type ButtonProps = {
 const ShowAllButton = ({ route }: ButtonProps) => {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const theme = useGlobalTheme();
+  const { theme } = useGlobalTheme();
 
   const handleShowMorePress = () => {
     navigation.navigate(route)

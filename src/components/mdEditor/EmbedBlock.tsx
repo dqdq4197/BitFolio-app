@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import YoutubePlayer from "react-native-youtube-iframe";
-import { useColorScheme } from 'react-native-appearance';
 import { EmbedType, useMdEditorDispatch, useMdEditorState } from '/hooks/useMdEditorContext';
 import { TYPES, ACTIONS } from '/lib/constant';
+import useGlobalTheme from '/hooks/useGlobalTheme';
 
 
 
@@ -16,7 +16,7 @@ const EmbedArea = ({ content, index }:EmbedAreaProps) => {
   const { payload } = content;
   const { contentStorage } = useMdEditorState();
   const handlers = useMdEditorDispatch();
-  const scheme = useColorScheme();
+  const { scheme } = useGlobalTheme();
 
 
   const handleCaptionChange = (text:string) => {

@@ -31,7 +31,7 @@ type LinkProps = {
 }
 
 const RowComponent = ({ url, title, icon, color }: RowComponentProps) => {
-  const theme = useGlobalTheme();
+  const { theme } =useGlobalTheme();
   return (
     <Row onPress={() => {
       WebBrowser.openBrowserAsync(url, {
@@ -58,7 +58,7 @@ const RowComponent = ({ url, title, icon, color }: RowComponentProps) => {
 const Link = ( props : LinkProps) => {
   // telegram, explorers 추가 하기
   const { t } = useTranslation();
-  const theme = useGlobalTheme();
+  const { theme } =useGlobalTheme();
   const color = theme.base.text[200];
 
   const renderLink = useCallback(() => {

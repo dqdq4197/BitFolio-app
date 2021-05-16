@@ -41,7 +41,7 @@ const PriceChangePercentage = ({
   percentage_1y
 } :ChangePercentageType ) => {
   const { t } = useTranslation();
-  const theme = useGlobalTheme();
+  const { theme } =useGlobalTheme();
   
   return (
     <Container>

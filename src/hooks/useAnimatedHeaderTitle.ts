@@ -9,7 +9,7 @@ type HeaderTitleProps = {
   triggerPoint: number
 }
 const useAnimatedHeaderTitle = ({ title,  triggerPoint }: HeaderTitleProps) => {
-  const theme = useGlobalTheme();
+  const { theme } =useGlobalTheme();
   const scrollY = useRef(new Animated.Value(0)).current;
   const navigation = useNavigation();
 

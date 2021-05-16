@@ -1,11 +1,12 @@
 import { darkTheme, lightTheme } from '/lib/themeColor';
-import { useColorScheme } from 'react-native-appearance';
+import { useAppSelector } from './useRedux';
 
 
 const useGlobarTheme = () => {
-  const scheme = useColorScheme();
-  
-  return scheme === 'dark' ? darkTheme : lightTheme;
+  const { theme } = useAppSelector(state => state.baseSettingReducer);
+  const themeStyle = theme === 'dark' ? darkTheme : lightTheme;
+
+  return { theme: themeStyle, scheme: theme }
 }
 
 export default useGlobarTheme;

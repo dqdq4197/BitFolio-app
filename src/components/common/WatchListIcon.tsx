@@ -12,7 +12,7 @@ type IconProps = {
 const WatchListIcon = ({ id, size }: IconProps) => {
 
   const { watchList } = useAppSelector(state => state.baseSettingReducer);
-  const theme = useGlobalTheme();
+  const { theme } =useGlobalTheme();
   const dispatch = useAppDispatch();
 
   const handleHeartPress = () => {

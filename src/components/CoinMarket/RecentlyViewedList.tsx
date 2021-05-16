@@ -24,7 +24,7 @@ const RecentlyViewedList = ({ onPressItem }: ListProps) => {
     refreshInterval: 300000,
   });
   const { t } = useTranslation();
-  const theme = useGlobalTheme();
+  const { theme } = useGlobalTheme();
 
   return (
     <SurfaceWrap title='최근 본 코인' parentPaddingZero>

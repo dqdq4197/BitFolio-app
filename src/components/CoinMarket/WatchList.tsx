@@ -14,9 +14,9 @@ type ListProps = {
 
 const WatchList = ({ onPressItem }: ListProps) => {
   const { watchList } = useAppSelector(state => state.baseSettingReducer);
-  const [newData, setNewDate] = useState<CoinMarketReturn[]>([])
+  const [newData, setNewData] = useState<CoinMarketReturn[]>([])
   const { t } = useTranslation();
-  const { data, isValidating, mutate } = useCoinMarketData({ 
+  const { data, isValidating } = useCoinMarketData({ 
     ids: watchList, 
     suspense: false,
     refreshInterval: 1000 * 60 * 3,
@@ -24,15 +24,15 @@ const WatchList = ({ onPressItem }: ListProps) => {
 
   useEffect(() => {
     if(data){
-      setNewDate(data);
+      setNewData(data);
     } else {
-      setNewDate(prevState => prevState.filter(coinId => watchList.includes(coinId.id)))
+      setNewData(prevState => prevState.filter(coinId => watchList.includes(coinId.id)))
     }
   }, [watchList, isValidating])
 
   return (
     <SurfaceWrap title={t('coinMarketHome.watch list')} >
-      <Text margin="-15px 0 10px 0"> 
+      <Text margin="-15px 0 10px 0" > 
         { t('coinMarketHome.n.minute auto update', { n: 3 }) }
       </Text>
       { newData?.map((coin, index) => {

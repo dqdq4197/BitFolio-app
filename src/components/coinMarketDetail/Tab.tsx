@@ -7,15 +7,14 @@ interface ITab {
   index: number;
   stateIndex: number;
   onPress: () => void;
-  onTextLayout: (index: number) => void;
 }
 
 const Tab = forwardRef<TouchableOpacity, ITab>(
-  ({ label, index, stateIndex, onPress, onTextLayout }, ref) => {
+  ({ label, index, stateIndex, onPress,  }, ref) => {
   
   return (
     <TabButton ref={ref} isFocused={stateIndex === index} onPress={onPress} >
-      <TabText isFocused={stateIndex === index} onLayout={() => onTextLayout(index)}>
+      <TabText isFocused={stateIndex === index} >
         { label }
       </TabText>
     </TabButton>

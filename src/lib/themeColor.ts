@@ -57,17 +57,17 @@ export const lightTheme: DefaultTheme = {
   dark: false,
   base: {
     background: {
-      '100': '#100F10',
+      '100': '#ffffff',
       '200': '#1B1B1B',
       '300': '#242424',
       '400': '#616161',
-      'surface': 'rgb(18, 18, 18, 0.8)',
+      'surface': '#F5F5F5',
       'hovered': 'rgba(18, 18, 18, .96)'
     },
     text: {
-      '100': '#FFFFFF',
+      '100': 'rgba(0, 0, 0, 0.96)',
       '200': 'rgba(0, 0, 0, 0.96)',
-      '300': 'rgb(233, 236, 239)',
+      '300': 'rgba(0, 0, 0, 0.96)',
       '400': 'rgb(134, 142, 150)'
     },
     primaryColor: '#3861fb',

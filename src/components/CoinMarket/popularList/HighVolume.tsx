@@ -10,7 +10,7 @@ import Item from './Item'
 
 
 const HighVolume = () => {
-  const theme = useGlobalTheme();
+  const { theme } =useGlobalTheme();
   const [refreshing, setRefreshing] = useState(false);
   const { data, mutate } = useCoinMarketData({ order: 'volume_desc', per_page: 100 });
   const { scrollY } = useAnimatedHeaderTitle({ title: '거래량 Top100', triggerPoint: 30 });

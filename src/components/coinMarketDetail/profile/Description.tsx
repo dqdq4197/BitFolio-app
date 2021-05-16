@@ -18,7 +18,7 @@ const Description = ({ localization, symbol, content, imageSrc }: DescriptionPro
   const { t } = useTranslation();
   const [isShow, setIsShow] = useState(false);
   const [updatedContent, setUpdatedContent] = useState<(string | JSX.Element)[]>([]);
-  const theme = useGlobalTheme();
+  const { theme } =useGlobalTheme();
 
   const handleShowMorePress = () => {
     setIsShow((prev) => !prev);

@@ -33,7 +33,7 @@ const LineChart = ({
   lastUpdatedPercentage 
 }: ChartProps) => {
   const { data, isValidating } = useMarketLineChartData({ id })
-  const theme = useGlobalTheme();
+  const { theme } =useGlobalTheme();
   
   return (
     <ChartContainer>

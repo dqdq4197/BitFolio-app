@@ -16,7 +16,7 @@ type StackProps = {
 const Stack = createStackNavigator()
 const CoinMarketStack = ({ navigation }:StackScreenProps<any, any>) => {
 
-  const theme = useGlobalTheme();
+  const { theme } =useGlobalTheme();
 
   const handleSearchPress = () => {
     navigation.navigate('CoinSearch');

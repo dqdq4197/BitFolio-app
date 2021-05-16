@@ -7,7 +7,7 @@ import {
   TextInputFocusEventData
 } from 'react-native';
 import styled from 'styled-components/native';
-import { useColorScheme } from 'react-native-appearance';
+import useGlobalTheme from '/hooks/useGlobalTheme';
 import { unicodes, ACTIONS, TYPES } from '/lib/constant';
 import { useMdEditorState, useMdEditorDispatch, ListType, ParagraphType } from '/hooks/useMdEditorContext';
 import RenderText from './RenderText';
@@ -26,7 +26,7 @@ const ListTextBlock = ({
   listIndex,
   contentIndex,
 }:ListProps) => {
-  const scheme = useColorScheme();
+  const { scheme } = useGlobalTheme();
   const { listFocusIndex, contentStorage, focusState, selection } = useMdEditorState();
   const { ENTER, BACKSPACE, LINEPOP } = ACTIONS;
   const handlers = useMdEditorDispatch();

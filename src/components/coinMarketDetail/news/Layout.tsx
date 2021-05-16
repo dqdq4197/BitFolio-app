@@ -9,7 +9,7 @@ import Header from './Header';
 import Item from './Item';
 
 const Layout = () => {
-  const theme = useGlobalTheme();
+  const { theme } =useGlobalTheme();
   const { id, symbol } = useCoinIdContext();
   const { data: categories } = useNewsCategories({});
   const [category, setCategory] = useState('altcoin');

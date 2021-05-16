@@ -1,6 +1,5 @@
 import React, { useRef, useEffect } from 'react';
 import styled, { css } from 'styled-components/native';
-import { useColorScheme } from 'react-native-appearance';
 import {
   TextInput,
   NativeSyntheticEvent,
@@ -15,6 +14,8 @@ import {
   EmbedType,
   ListType
 } from '/hooks/useMdEditorContext';
+import useGlobalTheme from '/hooks/useGlobalTheme';
+
 import RenderText from './RenderText';
 import { TYPES, ACTIONS } from '/lib/constant';
 
@@ -28,7 +29,7 @@ interface PlainTextProps {
 }
 
 const PlainTextBlock = ({ index, type, payload }: PlainTextProps ) => {
-  const scheme = useColorScheme();
+  const { scheme } = useGlobalTheme();
   const handlers = useMdEditorDispatch();
   const textInputRef = useRef<TextInput | null>(null);
   const { contentStorage, isTextRendered, selection, focusState } = useMdEditorState();

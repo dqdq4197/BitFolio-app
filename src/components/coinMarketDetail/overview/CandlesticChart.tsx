@@ -17,7 +17,7 @@ const padding = 25 // 차트 padding
 const cursorR = 5;  // Cursor 반지름
 const CandlesticChart = ({ id, lastUpdatedPrice }:ChartProps) => {
   const { data, isValidating } = useCandlesticChartData({ id });
-  const theme = useGlobalTheme();
+  const { theme } =useGlobalTheme();
 
   return (
     <ChartContainer>

@@ -18,7 +18,7 @@ type ItemProps = {
 const { width } = Dimensions.get('window');
 
 const Item = ({ item, index, onPressItem }: ItemProps) => {
-  const theme = useGlobalTheme();
+  const { theme } =useGlobalTheme();
   const { price_change_percentage_24h, id, current_price,  symbol } = item;
   const price = useCurrencyFormat(current_price);
   const isRising = price_change_percentage_24h > 0;

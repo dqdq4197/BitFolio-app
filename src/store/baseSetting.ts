@@ -1,6 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { baseTypes } from 'base-types';
+
+
 interface BaseSettingState {
+  theme: "light" | "dark" | null | undefined,
   language: baseTypes.Language,
   currency: baseTypes.Currency,
   chartOption: 'prices' | 'total_volumes' | 'market_caps' | 'ohlc',
@@ -10,6 +13,7 @@ interface BaseSettingState {
 }
 
 const initialState: BaseSettingState = {
+  theme: 'dark',
   language: 'ko',
   currency: 'krw',
   chartOption: 'prices',
@@ -22,6 +26,9 @@ export const baseSettingSlice = createSlice({
   name: 'baseSetting',
   initialState,
   reducers: {
+    changeTheme: (state, action: PayloadAction<baseTypes.Theme>) => {
+      state.theme = action.payload
+    },
     changeCurrency: (state, action: PayloadAction<baseTypes.Currency>) => {
       state.currency = action.payload
     },
@@ -51,6 +58,7 @@ export const baseSettingSlice = createSlice({
 })
 
 export const { 
+  changeTheme,
   changeCurrency,
   changeChartOption,
   changeChartTimeFrame,
