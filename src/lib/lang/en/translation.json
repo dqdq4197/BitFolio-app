@@ -2,6 +2,7 @@
   "coinDetail": {
     "Read more": "Read More",
     "Read less": "Read Less",
+    "no information available": "No information available",
     "Link": "Link",
     "Website": "Website",
     "Source code": "Source Code",
@@ -20,7 +21,7 @@
     "max supply": "Max Supply",
     "latest news": "Latest News",
     "overview": "Overview",
-    "profile": "Porofile",
+    "profile": "Profile",
     "news": "News",
     "notice": "Notice",
     "discussion": "Discussion"

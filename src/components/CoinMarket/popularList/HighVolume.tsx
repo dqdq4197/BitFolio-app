@@ -33,7 +33,7 @@ const HighVolume = () => {
     { useNativeDriver: false }
   )
 
-
+  if(!data) return <></>
   return (
     <>
       <FlatList 

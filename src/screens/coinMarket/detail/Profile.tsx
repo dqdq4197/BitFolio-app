@@ -1,12 +1,12 @@
 import React from 'react';
 import ProfileLayout from '/components/coinMarketDetail/profile/Layout';
-import MarketListSkeleton from '/components/skeletonPlaceholder/MarketListSkeleton';
+import CoinDetailSkeleton from '/components/skeletonPlaceholder/CoinDetailSkeleton';
 import ErrorBoundaryAndSuspense from '/components/common/ErrorBoundaryAndSuspense';
 
 
 const Profile = () => {
   return (
-    <ErrorBoundaryAndSuspense skeleton={<MarketListSkeleton/>} >
+    <ErrorBoundaryAndSuspense skeleton={<CoinDetailSkeleton/>} >
       <ProfileLayout/>
     </ErrorBoundaryAndSuspense>
 

@@ -52,11 +52,11 @@ const LineChart = ({
             style={{
               data: {
                 stroke: lastUpdatedPercentage > 0 
-                  ? '#00e676' 
+                  ? theme.base.upColor
                   : lastUpdatedPercentage === 0 
                     ? theme.base.background[200]
-                    : '#f44336' ,
-                strokeWidth: 2
+                    : theme.base.downColor,
+                strokeWidth: 2,
               }
             }}
             animate={{
@@ -96,7 +96,7 @@ const LineChart = ({
                 stroke: 'transparent'
               },
               grid: {
-                stroke: 'rgba(255,255,255,.1)',
+                stroke: theme.base.text[300],
                 strokeDasharray: 8,
               }
             }} 

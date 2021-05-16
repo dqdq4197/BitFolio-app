@@ -23,7 +23,6 @@ const Description = ({ localization, symbol, content, imageSrc }: DescriptionPro
   const handleShowMorePress = () => {
     setIsShow((prev) => !prev);
   }
-
   useEffect(() => {
     let regExp = new RegExp(/<a[\s]+([^>]+)>((?:.(?!\<\/a\>))*.)<\/a>/, "g");
     let match = content.split(regExp);
@@ -62,37 +61,42 @@ const Description = ({ localization, symbol, content, imageSrc }: DescriptionPro
           </Text>
         </NameWrap>
         <Text fontML numberOfLines={isShow ? undefined : 5} lineHeight={22}>
-          { updatedContent }
+          { updatedContent.length > 0 
+            ? updatedContent 
+            : t('coinDetail.no information available') 
+          }
         </Text>
       </ContentWrap>
       <HorizontalLine />
-      <ShowMore>
-        <ShowMoreButton 
-          onPress={handleShowMorePress}
-          activeOpacity={0.8}
-          underlayColor={theme.base.background[200]}
-          hitSlop={{ 
-            left: 100,
-            right: 100,
-            top: 30,
-            bottom: 30
-          }}
-        >
-          <ShowMoreText>
-            <Text fontML>
-              { isShow 
-                ? t('coinDetail.Read less') 
-                : t('coinDetail.Read more')
-              }
-            </Text>
-            <MaterialIcons 
-              name={isShow ? "keyboard-arrow-up" : "keyboard-arrow-down"} 
-              size={24} 
-              color={theme.base.text[200]} 
-            />
-          </ShowMoreText>
-        </ShowMoreButton>
-      </ShowMore>
+      { updatedContent.length > 0 && 
+        <ShowMore>
+          <ShowMoreButton 
+            onPress={handleShowMorePress}
+            activeOpacity={0.8}
+            underlayColor={theme.base.background[200]}
+            hitSlop={{ 
+              left: 100,
+              right: 100,
+              top: 30,
+              bottom: 30
+            }}
+          >
+            <ShowMoreText>
+              <Text fontML>
+                { isShow 
+                  ? t('coinDetail.Read less') 
+                  : t('coinDetail.Read more')
+                }
+              </Text>
+              <MaterialIcons 
+                name={isShow ? "keyboard-arrow-up" : "keyboard-arrow-down"} 
+                size={24} 
+                color={theme.base.text[200]} 
+              />
+            </ShowMoreText>
+          </ShowMoreButton>
+        </ShowMore>
+      }
     </Container>
   )
 }

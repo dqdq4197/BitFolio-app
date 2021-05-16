@@ -1,16 +1,14 @@
 import React from 'react';
 import { Dimensions, View } from "react-native";
 import SkeletonPlaceholder from "react-native-skeleton-placeholder";
-
+import { Container } from './';
 
 const PADDING = 16; 
 const { width } = Dimensions.get('window');
 
 const Item = () => {
   return (
-    <SkeletonPlaceholder 
-    backgroundColor='#1B1B1B' 
-    highlightColor='#242424'>
+    <Container>
       <SkeletonPlaceholder.Item 
         paddingHorizontal={PADDING} 
         flexDirection="row" 
@@ -33,7 +31,7 @@ const Item = () => {
         </View>
       </SkeletonPlaceholder.Item>
       <SkeletonPlaceholder.Item width={width} height={1} />
-    </SkeletonPlaceholder> 
+    </Container> 
   )
 }
 

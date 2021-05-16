@@ -17,7 +17,7 @@ const Layout = () => {
   const { id } = useCoinIdContext();
   const [refreshing, setRefreshing] = useState(false);
   const { chartOption } = useAppSelector(state => state.baseSettingReducer);
-  const { currency, language } = useLocales();
+  const { currency } = useLocales();
   const { data, mutate } = useCoinDetailData(id);
 
   const handleRefresh = useCallback(() => {

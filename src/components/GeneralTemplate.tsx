@@ -3,6 +3,7 @@ import { StatusBar, Platform, Appearance } from 'react-native';
 import styled from 'styled-components/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useHeaderHeight } from '@react-navigation/stack';
+import useGlobalTheme from '/hooks/useGlobalTheme';
 
 
 
@@ -13,7 +14,7 @@ type TemplateProps = {
 const STATUSBAR_DEFAULT_HEIGHT = 20;
 
 const GeneralTemplate = ({ children }: TemplateProps) => {
-  const scheme = Appearance.getColorScheme();
+  const { scheme } = useGlobalTheme();
   const headerHeight = useHeaderHeight();
 
   return (
@@ -24,7 +25,7 @@ const GeneralTemplate = ({ children }: TemplateProps) => {
         translucent
         animated
         backgroundColor={'transparent'}
-        barStyle={scheme === 'dark' ? 'light-content' : 'light-content'}
+        barStyle={scheme === 'dark' ? 'light-content' : 'dark-content'}
       />
       {children}
     </Container>
