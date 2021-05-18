@@ -1,7 +1,7 @@
 import React from 'react';
 import { Dimensions, View } from "react-native";
 import SkeletonPlaceholder from "react-native-skeleton-placeholder";
-import { Container } from './';
+import Container from './Container';
 
 const PADDING = 16; 
 const { width } = Dimensions.get('window');

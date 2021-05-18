@@ -4,14 +4,14 @@ import useCoinMarketData from '/hooks/useCoinMarketData';
 import { ORDER } from '/lib/constant';
 import Item from './Item';
 import ShowAllButton from './ShowAllButton';
-import Text from '/components/common/Text';
+import { useTranslation } from 'react-i18next';
 
 type ListProps = {
   onPressItem: (id: string, symbol: string) => void;
 }
 
 const HighVolumePreview = ({ onPressItem }: ListProps) => {
-
+  const { t } = useTranslation();
   const { data } = useCoinMarketData({ 
     order: ORDER.VOLUME_DESC, 
     per_page: 5,
@@ -19,7 +19,7 @@ const HighVolumePreview = ({ onPressItem }: ListProps) => {
   });
 
   return (
-    <SurfaceWrap title='거래량이 가장 많은' paddingBottomZero>
+    <SurfaceWrap title={t('coinMarketHome.top volume')} paddingBottomZero>
       {data?.map(res => {
         return (
           <Item 

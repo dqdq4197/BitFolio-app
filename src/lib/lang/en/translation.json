@@ -27,14 +27,20 @@
     "discussion": "Discussion"
   },
   "coinMarketHome": {
+    "market": "Market",
     "show all": "Show All",
     "search": "Search",
     "watch list": "Watch List",
     "popular list": "Popular List",
     "volume": "Volume",
-    "marketcap": "MarketCap",
-    "recently add coin": "Recently Add Coin",
-    "n.minute auto update": "{{n}}minute auto update"
+    "market cap": "Market Cap",
+    "recently added": "Recently \nAdded",
+    "n.minute auto update": "{{n}}minute auto update",
+    "recently viewed": "Recently Viewed",
+    "gainers": "Gainers",
+    "losser": "Losser",
+    "top market cap": "Top Market Cap",
+    "top volume": "Top Volume"
   }
 
 }

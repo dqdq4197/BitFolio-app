@@ -27,7 +27,7 @@ const RecentlyViewedList = ({ onPressItem }: ListProps) => {
   const { theme } = useGlobalTheme();
 
   return (
-    <SurfaceWrap title='최근 본 코인' parentPaddingZero>
+    <SurfaceWrap title={t('coinMarketHome.recently viewed')} parentPaddingZero>
       <CardWrap
         horizontal
         showsHorizontalScrollIndicator={false}

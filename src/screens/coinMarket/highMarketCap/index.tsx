@@ -4,7 +4,7 @@ import HighMarketcap from '/components/coinMarket/popularList/HighMarketcap';
 import TopListSkeleton from '/components/skeletonPlaceholder/TopListSkeleton';
 import ErrorBoundaryAndSuspense from '/components/common/ErrorBoundaryAndSuspense';
 
-const NewCoinScreen = ({}) => {
+const HighMarketCapScreen = ({}) => {
 
   return (
     <GeneralTemplate>
@@ -15,4 +15,4 @@ const NewCoinScreen = ({}) => {
   )
 }
 
-export default NewCoinScreen;
+export default HighMarketCapScreen;

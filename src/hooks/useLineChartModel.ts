@@ -11,9 +11,8 @@ interface ModelProps {
   data: [number[]],
   width: number,
   height: number,
-  cursorR: number,
 }
-export default function Model({ data, width, height, cursorR }: ModelProps) {
+export default function Model({ data, width, height }: ModelProps) {
 
   return useMemo(() => {
     const scaleX = scaleTime()
@@ -21,7 +20,7 @@ export default function Model({ data, width, height, cursorR }: ModelProps) {
       .range([0, width]);
     const scaleY = scaleLinear()
       .domain(getDomain(data.map(d => d[1])))
-      .range([height + cursorR, 0]);
+      .range([height , 0]);
     const d = 
       shape
       .line<number[]>()
@@ -35,7 +34,7 @@ export default function Model({ data, width, height, cursorR }: ModelProps) {
         d,
     }
     
-  }, [data, width, height, cursorR])
+  }, [data, width, height])
   
 }
 

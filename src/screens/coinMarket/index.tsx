@@ -10,13 +10,11 @@ import highMarketCapScreen from "./highMarketCap";
 import highVolumeScreen from "./highVolume";
 import searchScreen from './search';
 
-type StackProps = {
-}
+type StackProps = {}
 
 const Stack = createStackNavigator()
 const CoinMarketStack = ({ navigation }:StackScreenProps<any, any>) => {
-
-  const { theme } =useGlobalTheme();
+  const { theme } = useGlobalTheme();
 
   const handleSearchPress = () => {
     navigation.navigate('CoinSearch');
@@ -41,7 +39,11 @@ const CoinMarketStack = ({ navigation }:StackScreenProps<any, any>) => {
             }} 
             onPress={handleSearchPress}
           />
-          <Ionicons name="md-settings-outline" size={24} color={theme.base.text[200]} />
+          <Ionicons 
+            name="md-settings-outline" 
+            size={24} 
+            color={theme.base.text[200]} 
+          />
         </IconWrap>
       ),
       headerBackTitleVisible: false,
@@ -60,7 +62,6 @@ const CoinMarketStack = ({ navigation }:StackScreenProps<any, any>) => {
       },
     }
   }
-
 
   return (
     <Stack.Navigator headerMode='screen'>

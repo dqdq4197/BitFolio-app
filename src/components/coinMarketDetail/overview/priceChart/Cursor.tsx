@@ -24,15 +24,14 @@ interface CursorProps {
   data: [number[]],
   width: number,
   height: number,
-  cursorR: number,
 }
 
-const Cursor = ({ data, width, height, cursorR }: CursorProps) => {
+const Cursor = ({ data, width, height }: CursorProps) => {
   const [translateX, setTranslateX] = useState(-100);
   const [translateY, setTranslateY] = useState(0);
   const [prevPoint, setPrevPoint] = useState(0);
   const dispatch = useAppDispatch();
-  const { scaleX, d } = useLineChartModel({data, width, height, cursorR});
+  const { scaleX, d } = useLineChartModel({ data, width, height });
   const svgPath = parse(d);
   
   const bisect = d3.bisector((d: number[]) => {
@@ -85,7 +84,7 @@ const Cursor = ({ data, width, height, cursorR }: CursorProps) => {
   });
 
   return (
-    <View style={StyleSheet.absoluteFill}>
+    <View style={StyleSheet.absoluteFill} >
       <LongPressGestureHandler
         {...{ onGestureEvent }}
         minDurationMs={300}

@@ -4,7 +4,7 @@ import HighVolume from '/components/coinMarket/popularList/HighVolume';
 import TopListSkeleton from '/components/skeletonPlaceholder/TopListSkeleton';
 import ErrorBoundaryAndSuspense from '/components/common/ErrorBoundaryAndSuspense';
 
-const NewCoinScreen = ({}) => {
+const HighVolumeScreen = ({}) => {
 
   return (
     <GeneralTemplate>
@@ -15,4 +15,4 @@ const NewCoinScreen = ({}) => {
   )
 }
 
-export default NewCoinScreen;
+export default HighVolumeScreen;

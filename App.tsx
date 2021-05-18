@@ -10,6 +10,7 @@ import { NewsStackScreen, CoinMarketStack, PortfolioScreen } from '/screens';
 import { store, persistor } from '/store';
 import { Provider } from 'react-redux';
 import { PersistGate } from "redux-persist/integration/react";
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { connectActionSheet, ActionSheetProvider } from '@expo/react-native-action-sheet'
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import { useAppDispatch } from '/hooks/useRedux';
@@ -77,8 +78,10 @@ const ConnectedApp = connectActionSheet(App);
 
 export default function AppContainer() {
   return (
-    <ActionSheetProvider>
-      <ConnectedApp/>
-    </ActionSheetProvider>
+    <BottomSheetModalProvider>
+      <ActionSheetProvider>
+        <ConnectedApp/>
+      </ActionSheetProvider>
+    </BottomSheetModalProvider>
   )
 };

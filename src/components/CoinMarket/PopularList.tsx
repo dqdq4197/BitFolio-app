@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components/native';
 import { useTranslation } from 'react-i18next';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -9,37 +9,7 @@ import { CoinSvg } from '/lib/svg';
 
 
 const ICON_SIZE = 50;
-const data = [{
-  title: '24h \n상승 종목',
-  route: 'CoinHighPrice',
-  start: '#d9a4fc',
-  end: '#be63f9',
-  icon: <CoinSvg name="rise" width={ICON_SIZE} height={ICON_SIZE}/>
-}, {
-  title: '24h \n하락 종목',
-  route: 'CoinLowPrice',
-  start: '#fd907e',
-  end: '#fc573b',
-  icon: <CoinSvg name="decrease" width={ICON_SIZE} height={ICON_SIZE}/>
-}, {
-  title: '거래량 \nTOP100',
-  route: 'CoinHighVolume',
-  start: '#8ce1eb',
-  end: '#26c6da',
-  icon: <CoinSvg name="coins" width={ICON_SIZE} height={ICON_SIZE}/>
-}, {
-  title: '시가 총액 \nTOP100',
-  route: 'CoinHighMarketCap',
-  start: '#ffe777',
-  end: '#ffd200',
-  icon: <CoinSvg name="coinstack" width={ICON_SIZE} height={ICON_SIZE}/>
-}, {
-  title: '새로운 코인',
-  route: 'NewCoin',
-  start: '#fd907e',
-  end: '#fc573b',
-  icon: <CoinSvg name="badge" width={ICON_SIZE} height={ICON_SIZE}/>
-}]
+
 
 type ListProps = {
 }
@@ -47,6 +17,37 @@ type ListProps = {
 const PopularList = ({ }: ListProps) => {
   const { t } = useTranslation();
   const navigation = useNavigation();
+  const [data] = useState([{
+    title: '24h \n' + t('coinMarketHome.gainers'),
+    route: 'CoinHighPrice',
+    start: '#d9a4fc',
+    end: '#be63f9',
+    icon: <CoinSvg name="rise" width={ICON_SIZE} height={ICON_SIZE}/>
+  }, {
+    title: '24h \n' + t('coinMarketHome.losser'),
+    route: 'CoinLowPrice',
+    start: '#fd907e',
+    end: '#fc573b',
+    icon: <CoinSvg name="decrease" width={ICON_SIZE} height={ICON_SIZE}/>
+  }, {
+    title: t('coinMarketHome.volume') + '\nTOP100',
+    route: 'CoinHighVolume',
+    start: '#8ce1eb',
+    end: '#26c6da',
+    icon: <CoinSvg name="coins" width={ICON_SIZE} height={ICON_SIZE}/>
+  }, {
+    title: t('coinMarketHome.market cap') + '\nTOP100',
+    route: 'CoinHighMarketCap',
+    start: '#ffe777',
+    end: '#ffd200',
+    icon: <CoinSvg name="coinstack" width={ICON_SIZE} height={ICON_SIZE}/>
+  }, {
+    title: t('coinMarketHome.recently added'),
+    route: 'NewCoin',
+    start: '#fd907e',
+    end: '#fc573b',
+    icon: <CoinSvg name="badge" width={ICON_SIZE} height={ICON_SIZE}/>
+  }])
 
   const handleCardPress = (route: string) => {
     navigation.navigate(route);

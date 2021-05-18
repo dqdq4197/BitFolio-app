@@ -1,6 +1,5 @@
 import React, { useState, useCallback } from 'react';
 import styled from 'styled-components/native';
-import LineChart from './LineChart';
 import PriceAndDate from './PriceAndDate';
 import ChartTab from './ChartTab';
 import PriceChangePercentage from './PriceChangePercentage';
@@ -9,9 +8,9 @@ import { useAppSelector } from '/hooks/useRedux';
 import useCoinDetailData from '/hooks/useCoinDetailData';
 import { useCoinIdContext } from '/hooks/useCoinIdContext';
 import useLocales from '/hooks/useLocales';
-import CandlesticChart from './CandlesticChart';
 import CustomRefreshControl from '/components/common/CustomRefreshControl';
 import ScrollView from '/components/common/ScrollView'
+import MainChart from './priceChart';
 
 const Layout = () => {
   const { id } = useCoinIdContext();
@@ -43,18 +42,12 @@ const Layout = () => {
           lastUpdatedPrice={data.market_data.current_price[currency]}
           lastUpdatedDate={data.last_updated}
         />
-        {chartOption === 'ohlc' 
-          ? <CandlesticChart
-              id={id}
-              lastUpdatedPrice={data.market_data.current_price[currency]}
-            />
-          : <LineChart 
-              id={id}
-              chartOption={chartOption}
-              lastUpdatedPrice={data.market_data.current_price[currency]}
-              lastUpdatedPercentage={data.market_data.price_change_percentage_24h_in_currency[currency]}
-            />
-        }
+        <MainChart 
+          id={id}
+          chartOption={chartOption}
+          lastUpdatedPrice={data.market_data.current_price[currency]}
+          lastUpdatedPercentage={data.market_data.price_change_percentage_24h_in_currency[currency]}
+        />
         <ChartTab />
       </ChartArea>
       <Stats 

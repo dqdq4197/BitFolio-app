@@ -27,13 +27,19 @@
     "discussion": "토론"
   },
   "coinMarketHome": {
+    "market": "시장",
     "show all": "모두보기",
     "search": "검색하기",
     "watch list": "관심 목록",
     "popular list": "인기 목록",
     "volume": "거래량",
-    "marketcap": "시가 총액",
-    "recently add coin": "새로운 코인",
-    "n.minute auto update": "{{n}}분 자동 업데이트"
+    "market cap": "시가 총액",
+    "recently added": "새로운 \n암호화폐",
+    "n.minute auto update": "{{n}}분 자동 업데이트",
+    "recently viewed": "최근 본 코인",
+    "gainers": "상승 종목",
+    "losser": "하락 종목",
+    "top market cap": "시가 총액이 가장 높은",
+    "top volume": "거래량이 가장 많은"
   }
 }

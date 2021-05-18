@@ -1,21 +1,36 @@
 import React from 'react';
 import { Dimensions } from 'react-native';
-import { VictoryChart, VictoryTheme, VictoryAxis, VictoryCandlestick, VictoryZoomContainer } from 'victory-native';
+import { 
+  VictoryChart, 
+  VictoryTheme, 
+  VictoryAxis, 
+  VictoryCandlestick, 
+  VictoryCursorContainer
+} from 'victory-native';
 import useCandlesticChartData from '/hooks/useCandlesticChartData';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import GlobalIndicator from '/components/common/GlobalIndicator';
 import styled from 'styled-components/native';
 
-interface ChartProps {
+
+interface ConstType {
+  WIDTH: number,
+  HEIGHT: number,
+  PADDING: number
+}
+
+interface ChartProps extends ConstType{
   id: string,
   lastUpdatedPrice: number,
 }
-const φ = (1 + Math.sqrt(5)) / 2;
-const { width, height: wHeight } = Dimensions.get("window");
-const height = 250 //(1 - 1 / φ) * wHeight;
-const padding = 25 // 차트 padding
-const cursorR = 5;  // Cursor 반지름
-const CandlesticChart = ({ id, lastUpdatedPrice }:ChartProps) => {
+
+const CandlesticChart = ({ 
+  id, 
+  lastUpdatedPrice,
+  WIDTH,
+  HEIGHT,
+  PADDING
+}:ChartProps) => {
   const { data, isValidating } = useCandlesticChartData({ id });
   const { theme } =useGlobalTheme();
 
@@ -25,18 +40,24 @@ const CandlesticChart = ({ id, lastUpdatedPrice }:ChartProps) => {
       {data && 
         <VictoryChart
           theme={VictoryTheme.material}
-          width={width + padding}
-          height={height + padding + cursorR}
+          width={WIDTH + PADDING}
+          height={HEIGHT + PADDING}
           padding={{
-            right: padding,
-            bottom: padding
+            right: PADDING,
+            bottom: PADDING
           }}
+
           domainPadding={{ x: 25 }}
           scale={{ x: "time" }}
           containerComponent={
-            <VictoryZoomContainer
-              zoomDimension="x"
-              allowZoom={true} 
+            <VictoryCursorContainer
+              cursorDimension="x"
+              cursorLabel={(data) => console.log(data)}
+              style={{
+                fill:'white',
+                stroke: 'white',
+
+              }}
             />
           }
         >
@@ -82,6 +103,30 @@ const CandlesticChart = ({ id, lastUpdatedPrice }:ChartProps) => {
             close={4}
             data={data as any}
             candleColors={{ positive: "#00e676", negative: "#f44336" }}
+            events={[{
+              target: "data",
+              eventHandlers: {
+                onClick: () => {
+                  return [
+                    {
+                      target: "data",
+                      mutation: (props) => {
+                        const fill = props.style && props.style.fill;
+                        return fill === "white" ? null : { style: { fill: "white" } };
+                      }
+                    }
+                  ];
+                }
+              }
+            }]}
+            animate={{
+              duration: 300,
+            }}
+            style={{
+              data: {
+                stroke: theme.base.text[300],
+              },
+            }}
           />
         </VictoryChart>
       }
@@ -94,6 +139,4 @@ export default CandlesticChart;
 const ChartContainer = styled.View`
   overflow: hidden;
   margin-top: 30px;
-  width: ${width + padding}px;
-  height: ${height + padding + cursorR}px;
 `
