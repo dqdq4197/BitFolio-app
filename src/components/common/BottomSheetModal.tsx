@@ -26,7 +26,6 @@ const BottomModal = forwardRef(({
   //   restSpeedThreshold: 0.1,
   //   stiffness: 500,
   // });Z
-  console.log('asd')
   useEffect(() => {
     // return () => ref!.current?.dismiss();
     console.log(visible)

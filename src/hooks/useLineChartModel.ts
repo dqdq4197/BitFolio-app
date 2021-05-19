@@ -8,7 +8,7 @@ const getDomain = (domain: number[]) => [
 ];
 
 interface ModelProps {
-  data: [number[]],
+  data: number[][],
   width: number,
   height: number,
 }
@@ -26,7 +26,7 @@ export default function Model({ data, width, height }: ModelProps) {
       .line<number[]>()
       .x(p => scaleX(p[0]))
       .y(p => scaleY(p[1]))
-      .curve(shape.curveBasis)(data) as string
+      .curve(shape.curveCatmullRom)(data) as string
 
       return {
         scaleX,

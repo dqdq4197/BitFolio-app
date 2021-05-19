@@ -2,6 +2,7 @@ import useRequest from './useRequest';
 import { CoinGecko, http } from '/lib/api/CoinGeckoClient';
 import { CharDataReturn } from '/lib/api/CoinGeckoReturnType';
 import { useAppSelector } from './useRedux';
+import filteredPriceData from '/lib/utils/filteredPriceData';
 
 type ChartDataProps = {
   id: string,
@@ -19,5 +20,9 @@ export default ({ id, days, interval }:ChartDataProps) => {
     interval
   })
 
-  return useRequest<CharDataReturn>(getKey, http)
+  const { data, ...args } = useRequest<CharDataReturn>(getKey, http);
+
+  let filteredData = filteredPriceData(data!, chartTimeFrame)
+  
+  return { data: filteredData, ...args }
 }

@@ -21,7 +21,7 @@ const CURSOR_SIZE = 16;
 
 
 interface CursorProps {
-  data: [number[]],
+  data: number[][],
   width: number,
   height: number,
 }

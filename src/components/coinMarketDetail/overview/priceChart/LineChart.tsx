@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Cursor from './Cursor';
 import styled from 'styled-components/native';
 import { Dimensions } from 'react-native';
@@ -13,10 +13,9 @@ import useMarketLineChartData from '/hooks/useMarketLineChartData';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import { CONTENT_SPACING } from '/lib/constant';
 
-
 // const φ = (1 + Math.sqrt(5)) / 2;
 // const height = (1 - 1 / φ) * Dimensions.get("window").height;
-
+ 
 interface ConstType {
   WIDTH: number,
   HEIGHT: number,
@@ -42,8 +41,8 @@ const LineChart = ({
   VOLUME_HEIGHT
 }: ChartProps) => {
   const { data, isValidating } = useMarketLineChartData({ id })
-  const { theme } =useGlobalTheme();
-  
+  const { theme } = useGlobalTheme();
+
   return (
     <ChartContainer
       WIDTH={WIDTH}
@@ -79,7 +78,7 @@ const LineChart = ({
             data={data[chartOption]} 
             x={0}
             y={1}
-            interpolation="basis"
+            interpolation="catmullRom"
           />
           <VictoryAxis 
             dependentAxis
@@ -142,6 +141,7 @@ const LineChart = ({
             }}
           />
           <VictoryAxis 
+            fixLabelOverlap
             style={{ 
               axis: {
                 stroke: "transparent",

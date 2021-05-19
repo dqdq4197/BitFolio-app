@@ -32,9 +32,9 @@ export type CoinMarketReturn = {
 }
 
 export type CharDataReturn = {
-  prices: [number[]],
-  market_caps: [number[]],
-  total_volumes: [number[]]
+  prices: number[][],
+  market_caps: number[][],
+  total_volumes: number[][]
 }
 export interface CoinDetailDataReturn {
   id:                              string;

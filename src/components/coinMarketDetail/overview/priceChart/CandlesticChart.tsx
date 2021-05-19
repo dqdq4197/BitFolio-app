@@ -35,31 +35,23 @@ const CandlesticChart = ({
   const { theme } =useGlobalTheme();
 
   return (
-    <ChartContainer>
+    <ChartContainer
+      WIDTH={WIDTH}
+      HEIGHT={HEIGHT}
+      PADDING={PADDING}
+    >
       <GlobalIndicator isLoaded={!isValidating}/>
       {data && 
         <VictoryChart
-          theme={VictoryTheme.material}
+          theme={VictoryTheme.grayscale}
           width={WIDTH + PADDING}
           height={HEIGHT + PADDING}
           padding={{
             right: PADDING,
             bottom: PADDING
           }}
-
           domainPadding={{ x: 25 }}
           scale={{ x: "time" }}
-          containerComponent={
-            <VictoryCursorContainer
-              cursorDimension="x"
-              cursorLabel={(data) => console.log(data)}
-              style={{
-                fill:'white',
-                stroke: 'white',
-
-              }}
-            />
-          }
         >
           <VictoryAxis 
             style={{ 
@@ -80,18 +72,18 @@ const CandlesticChart = ({
           />
           <VictoryAxis 
             dependentAxis
-            orientation="right"
+            orientation="left"
+            offsetX={WIDTH}
             style={{ 
               tickLabels: {
-                zIndex: 3,
-                fill: '#bdbdbd',
-                transform: `translate(-${lastUpdatedPrice.toString().length * 4}, 0)`,
+                fill: theme.base.text[200],
               },
               axis: {
                 stroke: 'transparent'
               },
               grid: {
-                stroke: 'rgba(255,255,255,.1)'
+                stroke: theme.base.text[300],
+                strokeDasharray: 8,
               }
             }} 
           />
@@ -103,22 +95,6 @@ const CandlesticChart = ({
             close={4}
             data={data as any}
             candleColors={{ positive: "#00e676", negative: "#f44336" }}
-            events={[{
-              target: "data",
-              eventHandlers: {
-                onClick: () => {
-                  return [
-                    {
-                      target: "data",
-                      mutation: (props) => {
-                        const fill = props.style && props.style.fill;
-                        return fill === "white" ? null : { style: { fill: "white" } };
-                      }
-                    }
-                  ];
-                }
-              }
-            }]}
             animate={{
               duration: 300,
             }}
@@ -136,7 +112,9 @@ const CandlesticChart = ({
 
 export default CandlesticChart;
 
-const ChartContainer = styled.View`
+const ChartContainer = styled.View<ConstType>`
   overflow: hidden;
   margin-top: 30px;
+  width: ${({ WIDTH, PADDING }) => WIDTH + PADDING }px; 
+  height: ${({ HEIGHT, PADDING }) => HEIGHT + PADDING }px;
 `
