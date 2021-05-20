@@ -12,8 +12,10 @@ export const resources = {
   }
 } as const;
 
+export const defaultLanguage = 'en';
+
 const options = {
-  lng: 'en',
+  lng: defaultLanguage,
   fallbackLng: 'ko',
   debug: true,
   resources,
@@ -30,7 +32,7 @@ i18n
 // if (!i18n.isInitialized) {
   i18n.init(options);
 // }
-
+export default i18n;
 // const batch = require.context("../foo/", false,  /\.js$/)
 // {t('n.selected', { n: 5 })}
 // "n.selected": "{{n}} 개 선택됨."

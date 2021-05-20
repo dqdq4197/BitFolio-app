@@ -41,6 +41,13 @@
     "losser": "Losser",
     "top market cap": "Top Market Cap",
     "top volume": "Top Volume"
+  },
+  "setting": {
+    "dark mode": "Dark Mode",
+    "language": "Language",
+    "english": "English",
+    "korean": "Korean",
+    "currency": "Currency"
   }
 
 }

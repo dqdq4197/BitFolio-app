@@ -5,7 +5,6 @@ const filteredPriceData = (data: CharDataReturn, dateFrame: baseTypes.ChartTimeF
   //data = [prices[number, number], marketCap[number,number] ...];
   if(!data) return data;
   let start = new Date().getTime();
-
   let timeInterval = 0;
   switch(dateFrame) {
     case 1:

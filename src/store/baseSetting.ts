@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { baseTypes } from 'base-types';
-
+import i18n, { defaultLanguage } from '/lib/lang/i18n';
 
 interface BaseSettingState {
   theme: "light" | "dark" | null | undefined,
@@ -14,7 +14,7 @@ interface BaseSettingState {
 
 const initialState: BaseSettingState = {
   theme: 'dark',
-  language: 'ko',
+  language: defaultLanguage,
   currency: 'krw',
   chartOption: 'prices',
   chartTimeFrame: 1,
@@ -28,6 +28,10 @@ export const baseSettingSlice = createSlice({
   reducers: {
     changeTheme: (state, action: PayloadAction<baseTypes.Theme>) => {
       state.theme = action.payload
+    },
+    changeLanguage: (state, action: PayloadAction<baseTypes.Language>) => {
+      state.language = action.payload
+      i18n.changeLanguage(action.payload)
     },
     changeCurrency: (state, action: PayloadAction<baseTypes.Currency>) => {
       state.currency = action.payload
@@ -59,6 +63,7 @@ export const baseSettingSlice = createSlice({
 
 export const { 
   changeTheme,
+  changeLanguage,
   changeCurrency,
   changeChartOption,
   changeChartTimeFrame,

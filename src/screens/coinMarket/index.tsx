@@ -28,24 +28,6 @@ const CoinMarketStack = ({ navigation }:StackScreenProps<any, any>) => {
         shadowColor: 'transparent', // theme.base.background[300]
       },
       headerTintColor: theme.base.text[100],
-      headerRight: () => (
-        <IconWrap>
-          <Ionicons 
-            name="search-sharp" 
-            size={28} 
-            color={theme.base.text[200]} 
-            style={{
-              marginRight: 20,
-            }} 
-            onPress={handleSearchPress}
-          />
-          <Ionicons 
-            name="md-settings-outline" 
-            size={24} 
-            color={theme.base.text[200]} 
-          />
-        </IconWrap>
-      ),
       headerBackTitleVisible: false,
       headerLeftContainerStyle: {
         paddingLeft: 10,

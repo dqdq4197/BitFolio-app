@@ -41,5 +41,12 @@
     "losser": "하락 종목",
     "top market cap": "시가 총액이 가장 높은",
     "top volume": "거래량이 가장 많은"
+  },
+  "setting": {
+    "dark mode": "다크모드",
+    "language": "언어",
+    "english": "영어",
+    "korean": "한국어",
+    "currency": "화폐"
   }
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components/native';
 import { useTranslation } from 'react-i18next';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -17,7 +17,8 @@ type ListProps = {
 const PopularList = ({ }: ListProps) => {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const [data] = useState([{
+
+  const data = [{
     title: '24h \n' + t('coinMarketHome.gainers'),
     route: 'CoinHighPrice',
     start: '#d9a4fc',
@@ -47,7 +48,7 @@ const PopularList = ({ }: ListProps) => {
     start: '#fd907e',
     end: '#fc573b',
     icon: <CoinSvg name="badge" width={ICON_SIZE} height={ICON_SIZE}/>
-  }])
+  }]
 
   const handleCardPress = (route: string) => {
     navigation.navigate(route);

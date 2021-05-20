@@ -56,9 +56,11 @@ const RootNavigationContainer = () => {
     <ThemeProvider 
       theme={ theme }
     >
-      <SafeAreaProvider >
-        <RootNavigation/>
-      </SafeAreaProvider>
+      <BottomSheetModalProvider>
+        <SafeAreaProvider>
+          <RootNavigation/>
+        </SafeAreaProvider>
+      </BottomSheetModalProvider>
     </ThemeProvider>
   )
 }
@@ -78,10 +80,8 @@ const ConnectedApp = connectActionSheet(App);
 
 export default function AppContainer() {
   return (
-    <BottomSheetModalProvider>
-      <ActionSheetProvider>
-        <ConnectedApp/>
-      </ActionSheetProvider>
-    </BottomSheetModalProvider>
+    <ActionSheetProvider>
+      <ConnectedApp/>
+    </ActionSheetProvider>
   )
 };

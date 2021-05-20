@@ -57,7 +57,7 @@ export const lightTheme: DefaultTheme = {
   dark: false,
   base: {
     background: {
-      '100': '#FFFFFF',
+      '100': '#F2F2F2',
       '200': '#F8F8F8',
       '300': '#F2F2F2',
       '400': '#616161',
