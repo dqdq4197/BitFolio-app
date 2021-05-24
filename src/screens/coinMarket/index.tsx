@@ -1,13 +1,12 @@
 import React from 'react';
 import { createStackNavigator, StackNavigationOptions, StackScreenProps } from '@react-navigation/stack';
-import styled from 'styled-components/native';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import DetailTab from './detail';
 import HomeScreen from './home';
 import NewCoinScreen from './newCoin';
 import HighMarketCapScreen from "./highMarketCap";
 import HighVolumeScreen from "./highVolume";
-import SearchSreen from './search';
+import SearchScreen from './search';
 import GainersScreen from './gainers';
 import LosersScreen from './losers';
 
@@ -81,7 +80,7 @@ const CoinMarketStack = ({ navigation }:StackScreenProps<any, any>) => {
       />
       <Stack.Screen 
         name="CoinSearch" 
-        component={SearchSreen}
+        component={SearchScreen}
         options={NavigationOptions('CoinSearch')}
       />
     </Stack.Navigator>
@@ -90,8 +89,3 @@ const CoinMarketStack = ({ navigation }:StackScreenProps<any, any>) => {
 
 
 export default CoinMarketStack;
-
-const IconWrap = styled.View`
-  flex-direction: row;
-  align-items: center;
-`

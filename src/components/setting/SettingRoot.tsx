@@ -6,7 +6,6 @@ import { Ionicons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import useGlobalTheme from '/hooks/useGlobalTheme';
-import useLocales from '/hooks/useLocales';
 import Text from '/components/common/Text';
 
 
@@ -33,7 +32,7 @@ const Toggle = ({ isEnabled, onValueChange }: ToggleProps) => {
   )
 }
 
-const MainSetting = ({ onLanguagePress, onCurrencyPress }: MainSettingProps) => {
+const SettingModal = ({ onLanguagePress, onCurrencyPress }: MainSettingProps) => {
   const { theme, scheme, onThemeChange } = useGlobalTheme();
   const { t } = useTranslation();
 
@@ -105,7 +104,7 @@ const MainSetting = ({ onLanguagePress, onCurrencyPress }: MainSettingProps) => 
   )
 }
 
-export default MainSetting;
+export default SettingModal;
 
 
 const Container = styled.View`
