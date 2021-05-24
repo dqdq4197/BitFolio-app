@@ -20,13 +20,13 @@ const PopularList = ({ }: ListProps) => {
 
   const data = [{
     title: '24h \n' + t('coinMarketHome.gainers'),
-    route: 'CoinHighPrice',
+    route: 'Gainers',
     start: '#d9a4fc',
     end: '#be63f9',
     icon: <CoinSvg name="rise" width={ICON_SIZE} height={ICON_SIZE}/>
   }, {
-    title: '24h \n' + t('coinMarketHome.losser'),
-    route: 'CoinLowPrice',
+    title: '24h \n' + t('coinMarketHome.losers'),
+    route: 'Losers',
     start: '#fd907e',
     end: '#fc573b',
     icon: <CoinSvg name="decrease" width={ICON_SIZE} height={ICON_SIZE}/>
@@ -42,12 +42,6 @@ const PopularList = ({ }: ListProps) => {
     start: '#ffe777',
     end: '#ffd200',
     icon: <CoinSvg name="coinstack" width={ICON_SIZE} height={ICON_SIZE}/>
-  }, {
-    title: t('coinMarketHome.recently added'),
-    route: 'NewCoin',
-    start: '#fd907e',
-    end: '#fc573b',
-    icon: <CoinSvg name="badge" width={ICON_SIZE} height={ICON_SIZE}/>
   }]
 
   const handleCardPress = (route: string) => {

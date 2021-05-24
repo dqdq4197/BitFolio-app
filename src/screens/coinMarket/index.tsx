@@ -1,24 +1,21 @@
 import React from 'react';
 import { createStackNavigator, StackNavigationOptions, StackScreenProps } from '@react-navigation/stack';
-import { Ionicons } from '@expo/vector-icons';
 import styled from 'styled-components/native';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import DetailTab from './detail';
 import HomeScreen from './home';
 import NewCoinScreen from './newCoin';
-import highMarketCapScreen from "./highMarketCap";
-import highVolumeScreen from "./highVolume";
-import searchScreen from './search';
+import HighMarketCapScreen from "./highMarketCap";
+import HighVolumeScreen from "./highVolume";
+import SearchSreen from './search';
+import GainersScreen from './gainers';
+import LosersScreen from './losers';
 
 type StackProps = {}
 
 const Stack = createStackNavigator()
 const CoinMarketStack = ({ navigation }:StackScreenProps<any, any>) => {
   const { theme } = useGlobalTheme();
-
-  const handleSearchPress = () => {
-    navigation.navigate('CoinSearch');
-  }
   
   const NavigationOptions: StackNavigationOptions | any = (title: string) => {
     return {
@@ -60,21 +57,31 @@ const CoinMarketStack = ({ navigation }:StackScreenProps<any, any>) => {
       <Stack.Screen 
         name="NewCoin" 
         component={NewCoinScreen}
-        options={NavigationOptions('NewCoin')}
+        options={NavigationOptions('')}
       />
       <Stack.Screen 
         name="CoinHighMarketCap" 
-        component={highMarketCapScreen}
+        component={HighMarketCapScreen}
         options={NavigationOptions('')}
       />
       <Stack.Screen 
         name="CoinHighVolume" 
-        component={highVolumeScreen}
+        component={HighVolumeScreen}
+        options={NavigationOptions('')}
+      />
+      <Stack.Screen 
+        name="Gainers" 
+        component={GainersScreen}
+        options={NavigationOptions('')}
+      />
+      <Stack.Screen 
+        name="Losers" 
+        component={LosersScreen}
         options={NavigationOptions('')}
       />
       <Stack.Screen 
         name="CoinSearch" 
-        component={searchScreen}
+        component={SearchSreen}
         options={NavigationOptions('CoinSearch')}
       />
     </Stack.Navigator>

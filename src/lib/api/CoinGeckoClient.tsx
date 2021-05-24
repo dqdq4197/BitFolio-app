@@ -1,4 +1,4 @@
-import { COINGECKO_PATH_PREFIX, ORDER, CURRENCY } from '/lib/constant';
+import { COINGECKO_PATH_PREFIX, ORDER } from '/lib/constant';
 import { baseTypes } from 'base-types';
 import axios from 'axios';
 
@@ -11,8 +11,10 @@ export type CoinMarketsParams = {
   per_page?: number, // 1...250
   page?: number,
   sparkline?: boolean,
-  price_change_percentage?: '1h' | '24h' | '7d' | '14d' | '30d' | '200d' | '1y'
+  price_change_percentage?: PriceChangePercentageType | PriceChangePercentageType[] | string,
 }
+
+export type PriceChangePercentageType = '1h' | '24h' | '7d' | '14d' | '30d' | '200d' | '1y'
 type SimplePriceParams = {
   ids: string[] | string,
   vs_currencies: baseTypes.Currency[] | string,
@@ -68,11 +70,15 @@ export const CoinGecko = {
      * @param {number} params.per_page - Total results per page
      * @param {number} params.page - Page through results
      * @param {boolean} params.sparkline [default: false] - Include sparkline 7 days data (true/false)
+     * @param {boolean} params.price_change_percentage Include price change percentage in 1h, 24h, 7d, 14d, 30d, 200d, 1y (eg. '1h,24h,7d' comma-separated, invalid values will be discarded)
      * @returns {ReturnObject}
      */
     markets: (params: CoinMarketsParams) => {
       if(Array.isArray(params.ids)) {
         params.ids = params.ids.join(',');
+      }
+      if(Array.isArray(params.price_change_percentage)) {
+        params.price_change_percentage = params.price_change_percentage.join(',');
       }
       return {
         url: `/coins/markets`,

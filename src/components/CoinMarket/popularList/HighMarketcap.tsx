@@ -9,8 +9,8 @@ import CustomRefreshControl from '/components/common/CustomRefreshControl';
 import FlatListHeader from './FlatListHeader';
 
 
-const CoinMarketList = () => {
-  const { theme } =useGlobalTheme();
+const HighMarketcap = () => {
+  const { theme } = useGlobalTheme();
   const [refreshing, setRefreshing] = useState(false);
   const { data, mutate } = useCoinMarketData({ per_page: 100 });
   const { scrollY } = useAnimatedHeaderTitle({ title: '시가 총액 Top100', triggerPoint: 30 });
@@ -70,4 +70,4 @@ const CoinMarketList = () => {
   )
 }
 
-export default CoinMarketList;
+export default HighMarketcap;

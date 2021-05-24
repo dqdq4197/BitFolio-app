@@ -1,9 +1,10 @@
 import { AxiosResponse } from 'axios';
+import { baseTypes } from 'base-types';
 import useRequestInfinite from './useRequestInfinite';
 import { CoinGecko, http } from '/lib/api/CoinGeckoClient'
 import { CoinMarketReturn } from '/lib/api/CoinGeckoReturnType';
 import { useAppSelector } from './useRedux';
-import { ORDER } from '/lib/api/CoinGeckoClient';
+import { ORDER, PriceChangePercentageType } from '/lib/api/CoinGeckoClient';
 
 
 type ParamsType = {
@@ -13,6 +14,8 @@ type ParamsType = {
   suspense?: boolean;
   refreshInterval?: number;
   sparkline?: boolean;
+  currency?: baseTypes.Currency;
+  price_change_percentage?: PriceChangePercentageType | PriceChangePercentageType[]
 }
 export default ({
   per_page = 70, 
@@ -21,8 +24,10 @@ export default ({
   suspense = true,
   refreshInterval,
   sparkline = true,
+  currency,
+  price_change_percentage
 }: ParamsType) => {
-  const { currency } = useAppSelector(state => state.baseSettingReducer);
+  const { currency: localCurrency } = useAppSelector(state => state.baseSettingReducer);
   if(Array.isArray(ids) && ids.length === 0) {
     ids=['null'];
   }
@@ -30,11 +35,12 @@ export default ({
   const getKey = (pageIndex:number, previousPageData: AxiosResponse<unknown> | null) => {
     return CoinGecko.coin.markets({
       ids,
-      vs_currency: currency,
+      vs_currency: currency || localCurrency,
       page: pageIndex + 1,
       order,
       per_page,
-      sparkline
+      sparkline,
+      price_change_percentage,
     })
   }
 

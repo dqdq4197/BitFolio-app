@@ -34,7 +34,6 @@ const Toggle = ({ isEnabled, onValueChange }: ToggleProps) => {
 }
 
 const MainSetting = ({ onLanguagePress, onCurrencyPress }: MainSettingProps) => {
-  // const { language, currency, onCurrencyChange, onLanguageChange } = useLocales();
   const { theme, scheme, onThemeChange } = useGlobalTheme();
   const { t } = useTranslation();
 

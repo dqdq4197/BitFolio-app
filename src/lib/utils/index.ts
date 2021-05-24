@@ -4,3 +4,4 @@ export { default as krwFormat }  from './krwFormat';
 export { default as timestampToDate }  from './timestampToDate';
 export { default as convertUnits }  from './convertUnits';
 export { default as digitToFixed }  from './digitToFixed';
+export { default as filteredPriceData }  from './filteredPriceData';

@@ -78,7 +78,7 @@ const LineChart = ({
             data={data[chartOption]} 
             x={0}
             y={1}
-            interpolation="catmullRom"
+            interpolation="linear"
           />
           <VictoryAxis 
             dependentAxis

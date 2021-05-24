@@ -95,9 +95,6 @@ const CandlesticChart = ({
             close={4}
             data={data as any}
             candleColors={{ positive: "#00e676", negative: "#f44336" }}
-            animate={{
-              duration: 300,
-            }}
             style={{
               data: {
                 stroke: theme.base.text[300],

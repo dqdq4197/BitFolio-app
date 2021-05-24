@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import GeneralTemplate from '/components/GeneralTemplate';
 import Layout from '/components/coinMarket/Layout';
-import MarketListSkeleton from '/components/skeletonPlaceholder/MarketListSkeleton';
+import CoinHomeSkeleton from '/components/skeletonPlaceholder/CoinHomeSkeleton';
 import ErrorBoundaryAndSuspense from '/components/common/ErrorBoundaryAndSuspense';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import Modal from '/components/common/BottomSheetModal';
@@ -58,7 +58,7 @@ const HomeScreen = ({ navigation }: any) => {
 
   return (
     <GeneralTemplate>
-      <ErrorBoundaryAndSuspense skeleton={<MarketListSkeleton />}>
+      <ErrorBoundaryAndSuspense skeleton={<CoinHomeSkeleton />}>
         <Layout />
         <Modal
           key="main"

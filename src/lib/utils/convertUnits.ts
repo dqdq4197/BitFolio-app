@@ -78,7 +78,7 @@ export default function(
         break;
 
       default :
-        result = krwFormat(num) + '원';
+        result = krwFormat(num);
         break;
     }
     return (addCurrencyMark ? currencyMark : '') + result

@@ -72,17 +72,17 @@ const Item = ({
       NoneUnderLine={NoneUnderLine} 
     >
       <ItemColumn 
-        column={ 0.3 }
+        column={ 0.35 }
         style={{
           justifyContent: 'flex-start'
         }}
       >
-        <Text fontML color100 bold>
+        <Text fontM color100 bold>
           { index + 1 }
         </Text>
       </ItemColumn>
       <ItemColumn 
-        column={ 1.3 }
+        column={ 1.4 }
         style={{
           justifyContent: 'flex-start'
         }}
