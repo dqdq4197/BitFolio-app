@@ -130,6 +130,17 @@ export const CoinGecko = {
         params
       }
     },
+    search: (params: baseTypes.Language) => {
+      return {
+        url: `/search`,
+        params
+      }
+    },
+    searchTranding: () => {
+      return {
+        url: `/search/trending`,
+      }
+    },
     historySnapshot: (id:string, params:HistorySnapshotParams) => {
       return {
         url: `/coins/${id}/history`,

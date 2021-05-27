@@ -81,7 +81,7 @@ const CoinMarketStack = ({ navigation }:StackScreenProps<any, any>) => {
       <Stack.Screen 
         name="CoinSearch" 
         component={SearchScreen}
-        options={NavigationOptions('CoinSearch')}
+        options={NavigationOptions('')}
       />
     </Stack.Navigator>
   )

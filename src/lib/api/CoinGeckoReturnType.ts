@@ -71,6 +71,64 @@ export interface CoinDetailDataReturn {
   last_updated:                    string;
 }
 
+export interface SearchDataReturn {
+  coins:      SearchCoin[];
+  exchanges:  SearchExchange[];
+  icos:       any[];
+  categories: SearchCategory[];
+}
+
+export interface SearchCategory {
+  id:   string;
+  name: string;
+}
+
+export interface SearchCoin {
+  id:              string;
+  name:            string;
+  symbol:          string;
+  market_cap_rank: number | null;
+  thumb:           string;
+  large:           string;
+}
+
+export interface SearchExchange {
+  id:          string;
+  name:        string;
+  market_type: MarketType;
+  thumb:       string;
+  large:       string;
+}
+
+export interface SearchTrandingReturn {
+  coins:     SearchTrandingCoin[];
+  exchanges: any[];
+}
+
+export interface SearchTrandingCoin {
+  item: SearchTrandingCoinItem;
+}
+
+export interface SearchTrandingCoinItem {
+  id:              string;
+  coin_id:         number;
+  name:            string;
+  symbol:          string;
+  market_cap_rank: number;
+  thumb:           string;
+  small:           string;
+  large:           string;
+  slug:            string;
+  price_btc:       number;
+  score:           number;
+}
+
+
+export enum MarketType {
+  Futures = "futures",
+  Spot = "spot",
+}
+
 export type Language =
   | "en"
   | "de"

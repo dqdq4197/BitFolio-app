@@ -29,7 +29,7 @@ const DetailTab = ({ route, navigation }:any) => {
       title: id.charAt(0).toUpperCase() + id.slice(1),
       headerRight: () => (
         <WatchListIcon id={id} size={28}/>
-      ),
+      )
     })
   }, [])
 

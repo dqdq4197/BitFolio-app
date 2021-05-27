@@ -1,5 +1,6 @@
-import React, { useLayoutEffect, useRef } from 'react';
+import React, { useLayoutEffect, useRef, useState } from 'react';
 import styled from 'styled-components/native';
+import { StackScreenProps } from '@react-navigation/stack';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { Ionicons } from '@expo/vector-icons';
 import useGlobalTheme from '/hooks/useGlobalTheme';
@@ -8,13 +9,14 @@ import Layout from '/components/coinMarket/Layout';
 import CoinHomeSkeleton from '/components/skeletonPlaceholder/CoinHomeSkeleton';
 import ErrorBoundaryAndSuspense from '/components/common/ErrorBoundaryAndSuspense';
 import SettingModal from '/components/setting/SettingModal';
+import FormModal from '/components/portfolio/FormModal';
 
  
 
-const HomeScreen = ({ navigation }: any) => {
+const HomeScreen = ({ navigation }: StackScreenProps<any>) => {
   const mainModalRef = useRef<BottomSheetModal>(null);
   const { theme } = useGlobalTheme();
-
+  const [visible, setVisible] = useState(false);
 
   const handleSettingPress = () => {
     mainModalRef.current?.present();
@@ -31,7 +33,7 @@ const HomeScreen = ({ navigation }: any) => {
             style={{
               marginRight: 20,
             }} 
-            // onPress={handleSearchPress}
+            onPress={() => navigation.navigate('CoinSearch')}
           />
           <Ionicons 
             name="md-settings-outline" 
@@ -44,11 +46,16 @@ const HomeScreen = ({ navigation }: any) => {
     })
   }, [theme])
 
+  const setModalVisible = () => {
+    setVisible(false)
+  }
+
   return (
     <GeneralTemplate>
       <ErrorBoundaryAndSuspense skeleton={<CoinHomeSkeleton />}>
         <Layout />
         <SettingModal ref={mainModalRef}/>
+        <FormModal visible={visible} setModalVisible={setModalVisible}/>
       </ErrorBoundaryAndSuspense>
     </GeneralTemplate>
   )

@@ -14,7 +14,7 @@ import WatchList from './WatchList';
 const Layout = () => {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const { scrollY } = useAnimatedHeaderTitle({ title: t('coinMarketHome.market'), triggerPoint: 40 });
+  const { scrollY } = useAnimatedHeaderTitle({ title: t('coinMarketHome.market'), triggerPoint: 30 });
 
   const handlePressItem = useCallback((id:string, symbol: string) => {
     navigation.navigate('CoinDetail', { param: { id, symbol }, screen: 'Overview' })
@@ -30,7 +30,12 @@ const Layout = () => {
       onScroll={handleScroll}
       scrollEventThrottle={ 16 }
     > 
-      <SurfaceWrap isMain title={t('coinMarketHome.market')} >
+      <SurfaceWrap 
+        title={t('coinMarketHome.market')} 
+        fontXL 
+        marginTopZero
+        marginBottomZero
+      >
         {/* <Marquee delay={1000}/> */}
       </SurfaceWrap>
       <WatchList 

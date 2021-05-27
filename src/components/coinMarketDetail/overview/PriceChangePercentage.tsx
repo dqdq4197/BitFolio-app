@@ -1,11 +1,10 @@
 import React from 'react';
-import styled from 'styled-components/native';
 import { VictoryBar, VictoryChart, VictoryAxis, VictoryGroup, VictoryLabel } from 'victory-native';
 import { VictoryLabelProps } from 'victory';
 import { useTranslation } from 'react-i18next';
 import { digitToFixed } from '/lib/utils';
 import useGlobalTheme from '/hooks/useGlobalTheme';
-import Text from '/components/common/Text';
+import SurfaceWrap from '/components/common/SurfaceWrap';
 
 const padding = 30;
 
@@ -44,12 +43,10 @@ const PriceChangePercentage = ({
   const { theme } =useGlobalTheme();
   
   return (
-    <Container>
-      <Header>
-        <Text fontL color100 bold margin="0 10px 0 0">
-          { t('coinDetail.price change percentage') } (%)
-        </Text>
-      </Header>
+    <SurfaceWrap 
+      title={ `${t('coinDetail.price change percentage')} (%)` } 
+      fontL
+    >
       <VictoryChart
         height={ 120 }
         padding={{
@@ -111,18 +108,8 @@ const PriceChangePercentage = ({
           }}
         />
       </VictoryChart>
-    </Container>
+    </SurfaceWrap>
   )
 }
 
 export default PriceChangePercentage;
-
-const Container = styled.View`
-  margin-top: ${({ theme }) => theme.content.blankSpacing};
-  padding: 0 ${({ theme }) => theme.content.spacing} 20px;
-  background-color: ${({ theme }) => theme.base.background.surface};
-`
-
-const Header = styled.View`
-  padding: 20px 0;
-`

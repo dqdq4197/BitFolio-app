@@ -53,7 +53,7 @@ const Layout = () => {
             />
         }
         scrollEventThrottle={16}
-        ListHeaderComponent={<Header />}
+        ListHeaderComponent={Header}
         refreshControl={
           <CustomRefreshControl
             onRefresh={handleRefresh}

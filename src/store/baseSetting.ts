@@ -10,6 +10,7 @@ interface BaseSettingState {
   chartTimeFrame: baseTypes.ChartTimeFrame,
   recentlyViewed: string[],
   watchList: string[],
+  recentlySearched: string[],
 }
 
 const initialState: BaseSettingState = {
@@ -20,6 +21,7 @@ const initialState: BaseSettingState = {
   chartTimeFrame: 1,
   recentlyViewed: [],
   watchList: [],
+  recentlySearched: ['bitcoin'],
 }
 
 export const baseSettingSlice = createSlice({
@@ -57,6 +59,12 @@ export const baseSettingSlice = createSlice({
         newWatchList = [...state.watchList, payload];
       }
       state.watchList = [...newWatchList];
+    },
+    changeRecentlySearched: (state, action: PayloadAction<string>) => {
+      let temp = state.recentlySearched.filter(coinId => coinId !== action.payload);
+      temp.push(action.payload);
+      if(temp.length > 7) temp.pop();
+      state.recentlySearched = temp;
     }
   }
 })
@@ -68,6 +76,7 @@ export const {
   changeChartOption,
   changeChartTimeFrame,
   changeRecentlyViewed,
-  changeWatchList
+  changeWatchList,
+  changeRecentlySearched
 } = baseSettingSlice.actions;
 export default baseSettingSlice.reducer;

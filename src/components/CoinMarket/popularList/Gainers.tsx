@@ -15,9 +15,8 @@ const Gainers = () => {
   const [refreshing, setRefreshing] = useState(false);
   const { data: usdData, mutate: usdMutate } = useCoinMarketData({ currency: 'usd', order: ORDER.HOUR_24_DESC, per_page: 250 });
   const { data, mutate } = useCoinMarketData({ order: ORDER.HOUR_24_DESC, per_page: 250 });
-  const { scrollY } = useAnimatedHeaderTitle({ title: '24h 상승 종목', triggerPoint: 50 });
+  const { scrollY } = useAnimatedHeaderTitle({ title: '24h 상승 종목', triggerPoint: 30 });
   const navigation = useNavigation();
-
 
 
   const handleRefresh = useCallback(() => {

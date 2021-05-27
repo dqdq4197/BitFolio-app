@@ -4,6 +4,7 @@ import { baseTypes } from 'base-types';
 import Text from '/components/common/Text';
 import { useTranslation } from 'react-i18next';
 import { convertUnits } from '/lib/utils';
+import SurfaceWrap from '/components/common/SurfaceWrap';
 
 type StatsProps = {
   rank: number;
@@ -30,12 +31,11 @@ const Stats = ({
 
   
   return (
-    <Container>
-      <Header>
-        <Text fontL color100 bold margin="0 10px 0 0">
-          { t('coinDetail.statistic') }
-        </Text>
-      </Header>
+    <SurfaceWrap
+      title={t('coinDetail.statistic')}
+      fontL
+      parentPaddingZero
+    >
       <Table>
         <Row top>
           <Col>
@@ -114,7 +114,7 @@ const Stats = ({
           </Col>
         </Row>
       </Table>
-    </Container>
+    </SurfaceWrap>
   )
 }
 

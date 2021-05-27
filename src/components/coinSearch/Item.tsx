@@ -1,0 +1,69 @@
+import React, { useCallback } from 'react';
+import { Dimensions } from 'react-native';
+import styled from 'styled-components/native';
+import { SearchCoin, SearchTrandingCoinItem } from '/lib/api/CoinGeckoReturnType';
+import Image from '/components/common/Image';
+import Text from '/components/common/Text';
+
+
+const { width } = Dimensions.get('window');
+
+type ItemProps = {
+  item: SearchCoin | SearchTrandingCoinItem;
+  onPressItem: (id: string, symbol: string) => void;
+  index?: number;
+}
+const Item = ({ item, onPressItem, index }: ItemProps) => {
+
+  return (
+    <Container onPress={() => onPressItem(item.id, item.symbol)}>
+      <Col>
+        { index !== undefined 
+          ? <Text fontML margin="0 20px 0 0">
+              { index + 1}
+            </Text>
+          : <></>
+        }
+        <Image uri={item.large} width={30} height={30}/>
+        <NameWrap>
+          <Text 
+            color100 
+            fontML 
+            bold
+            numberOfLines={ 1 } 
+            ellipsizeMode='tail'
+          >
+            { item.name }
+          </Text>
+          <Text fontML>
+            { item.symbol }
+          </Text>
+        </NameWrap>
+      </Col>
+      <Text>
+        { item.market_cap_rank 
+          ? `#${item.market_cap_rank}` 
+          : ''
+        }
+      </Text>
+    </Container>
+  )
+}
+
+export default Item;  
+
+const Container = styled.TouchableOpacity`
+  width: ${({ theme }) => width - parseInt(theme.content.spacing) * 2}px;
+  height: 60px;
+  padding: 10px 0;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+`
+const Col = styled.View`
+  flex-direction: row;
+  align-items: center;
+`
+const NameWrap = styled.View`
+  margin-left: 15px;
+`

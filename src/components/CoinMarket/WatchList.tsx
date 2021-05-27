@@ -31,8 +31,11 @@ const WatchList = ({ onPressItem }: ListProps) => {
   }, [watchList, isValidating])
 
   return (
-    <SurfaceWrap title={t('coinMarketHome.watch list')} >
-      <Text margin="-15px 0 10px 0" > 
+    <SurfaceWrap 
+      title={t('coinMarketHome.watch list')} 
+      marginBottomZero
+    >
+      <Text margin="5px 0 10px 0" > 
         { t('coinMarketHome.n.minute auto update', { n: 3 }) }
       </Text>
       { newData?.map((coin, index) => {

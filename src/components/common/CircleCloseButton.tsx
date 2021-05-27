@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { Animated } from 'react-native';
 import styled from 'styled-components/native';
 import Svg, { G, Circle } from 'react-native-svg';
+import * as Haptics from 'expo-haptics';
 import { AntDesign } from '@expo/vector-icons';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 
@@ -11,6 +12,7 @@ type ButtonProps = {
 }
 
 const size = 35;
+const iconSize = size - 5;
 const strokeWidth = 2;
 const center = size / 2;
 const radius = size / 2 - strokeWidth / 2;
@@ -26,6 +28,7 @@ const CloseButton = ({ percentage, onModalClose }: ButtonProps) => {
   useEffect(() => {
     if(percentage >= 100) {
       animation(100)
+      Haptics.impactAsync();
     } else if(percentage <= 0) {
       animation(0)
     } else {
@@ -68,7 +71,7 @@ const CloseButton = ({ percentage, onModalClose }: ButtonProps) => {
           />
           <Circle 
             ref={progressRef}
-            stroke="#F4338F"
+            stroke={theme.base.primaryColor}
             cx={center}
             cy={center}
             r={radius}
@@ -78,7 +81,11 @@ const CloseButton = ({ percentage, onModalClose }: ButtonProps) => {
         </G>
       </Svg>
       <Icon onPress={onModalClose}>
-        <AntDesign name="closecircle" size={30} color="white" />
+        <AntDesign 
+          name="closecircle" 
+          size={iconSize} 
+          color={theme.base.text[200]}
+        />
       </Icon>
     </Conatiner>
   )
@@ -90,7 +97,7 @@ const Conatiner =  styled.View`
   align-items: center;
   justify-content: center;
   background-color: ${({ theme }) => theme.base.background.surface};
-  border-radius: ${size / 2};
+  border-radius: ${size / 2}px;
 `
 
 const Icon = styled.TouchableOpacity`

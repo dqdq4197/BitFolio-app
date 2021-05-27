@@ -4,24 +4,42 @@ import Text from '/components/common/Text';
 
 
 type TitleWrapProps = {
-  isMain?: boolean;
   title?: string;
   children?: React.ReactNode;
   paddingBottomZero?: boolean;
   parentPaddingZero?: boolean;
+  marginTopZero?: boolean;
+  marginBottomZero?: boolean;
+  fontL?: boolean,
+  fontX?: boolean,
+  fontXL?: boolean
 }
 const SurfaceWrap = ({ 
-  isMain = false, 
   title, 
   children, 
   paddingBottomZero = false, 
-  parentPaddingZero = false
+  parentPaddingZero = false,
+  marginTopZero = false,
+  marginBottomZero = false,
+  fontL,
+  fontX,
+  fontXL
 }: TitleWrapProps) => {
   return (
-    <Container isMain={isMain} paddingBottomZero={paddingBottomZero} parentPaddingZero={parentPaddingZero}>
+    <Container 
+      paddingBottomZero={paddingBottomZero} 
+      parentPaddingZero={parentPaddingZero}
+      marginTopZero={marginTopZero}
+    >
       { title &&
-        <TitleWrap isMain={isMain} parentPaddingZero={parentPaddingZero}>
-          <StyledText color100 bold fontXL={isMain}>
+        <TitleWrap marginBottomZero={marginBottomZero} parentPaddingZero={parentPaddingZero}>
+          <StyledText 
+            color100 
+            bold 
+            fontXL={fontXL}
+            fontX={fontX}
+            fontL={fontL}
+          >
             { title }
           </StyledText>
         </TitleWrap>
@@ -34,9 +52,10 @@ const SurfaceWrap = ({
 export default SurfaceWrap;
 
 type Props = {
-  isMain?: boolean,
-  paddingBottomZero?: boolean,
-  parentPaddingZero?: boolean
+  paddingBottomZero?: boolean;
+  parentPaddingZero?: boolean;
+  marginTopZero?: boolean;
+  marginBottomZero?: boolean;
 }
 const Container = styled.View<Props>`
   background-color: ${({ theme }) => theme.base.background.surface};
@@ -49,13 +68,13 @@ const Container = styled.View<Props>`
     padding-bottom: 0;
   `
   }
-  ${ (props) => !props.isMain && css`
+  ${ (props) => !props.marginTopZero && css`
     margin-top: ${props.theme.content.blankSpacing};
   `
   }
 `
 const TitleWrap = styled.View<Props>`
-  ${(props) => !props.isMain && css`
+  ${(props) => !props.marginBottomZero && css`
     margin-bottom: 20px;
   `} 
   ${(props) => props.parentPaddingZero && css`
@@ -63,9 +82,8 @@ const TitleWrap = styled.View<Props>`
   `}
 `
 const StyledText = styled(Text)`
-  ${(props) => props.fontXL 
+  ${(props) => props.fontXL || props.fontL
     ? css`
-      font-size: ${props.theme.size.font_xl};
     `
     : css`
       font-size: ${props.theme.size.font_x};
