@@ -40,7 +40,8 @@
     "gainers": "상승 종목",
     "losers": "하락 종목",
     "top market cap": "시가 총액이 가장 높은",
-    "top volume": "거래량이 가장 많은"
+    "top volume": "거래량이 가장 많은",
+    "add coins": "추가하기"
   },
   "setting": {
     "dark mode": "다크모드",
@@ -48,5 +49,10 @@
     "english": "영어",
     "korean": "한국어",
     "currency": "화폐"
+  },
+  "search": {
+    "recent searches": "최근 검색",
+    "trending search": "인기 검색",
+    "coin name or symbol search": "코인명 및 심볼검색"
   }
 }

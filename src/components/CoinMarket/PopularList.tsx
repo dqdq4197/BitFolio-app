@@ -6,6 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import Text from '/components/common/Text';
 import SurfaceWrap from '/components/common/SurfaceWrap';
 import { CoinSvg } from '/lib/svg';
+import useGlobalTheme from '/hooks/useGlobalTheme';
 
 
 const ICON_SIZE = 50;
@@ -17,6 +18,7 @@ type ListProps = {
 const PopularList = ({ }: ListProps) => {
   const { t } = useTranslation();
   const navigation = useNavigation();
+  const { theme } = useGlobalTheme();
 
   const data = [{
     title: '24h \n' + t('coinMarketHome.gainers'),
@@ -54,7 +56,7 @@ const PopularList = ({ }: ListProps) => {
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={{
-          paddingHorizontal: 16
+          paddingHorizontal: parseInt(theme.content.spacing)
         }}
       >
         { data.map(res => {

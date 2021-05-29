@@ -11,7 +11,9 @@ const useSearchData = ({ suspense = true }: SearchDataProps) => {
 
   const { language } = useLocales();
 
-  const getKey = CoinGecko.coin.search(language)
+  const getKey = CoinGecko.coin.search({
+    locale: language
+  })
 
   return useRequest<SearchDataReturn>(getKey, http, { suspense })
 }

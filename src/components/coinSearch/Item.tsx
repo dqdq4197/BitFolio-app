@@ -1,15 +1,11 @@
-import React, { useCallback } from 'react';
-import { Dimensions } from 'react-native';
+import React from 'react';
 import styled from 'styled-components/native';
 import { SearchCoin, SearchTrandingCoinItem } from '/lib/api/CoinGeckoReturnType';
 import Image from '/components/common/Image';
 import Text from '/components/common/Text';
 
-
-const { width } = Dimensions.get('window');
-
 type ItemProps = {
-  item: SearchCoin | SearchTrandingCoinItem;
+  item: SearchCoin | SearchTrandingCoinItem | any;
   onPressItem: (id: string, symbol: string) => void;
   index?: number;
 }
@@ -24,14 +20,12 @@ const Item = ({ item, onPressItem, index }: ItemProps) => {
             </Text>
           : <></>
         }
-        <Image uri={item.large} width={30} height={30}/>
+        <Image uri={item.large} width={30} height={30} borderRedius="m"/>
         <NameWrap>
           <Text 
             color100 
             fontML 
             bold
-            numberOfLines={ 1 } 
-            ellipsizeMode='tail'
           >
             { item.name }
           </Text>
@@ -53,12 +47,13 @@ const Item = ({ item, onPressItem, index }: ItemProps) => {
 export default Item;  
 
 const Container = styled.TouchableOpacity`
-  width: ${({ theme }) => width - parseInt(theme.content.spacing) * 2}px;
   height: 60px;
   padding: 10px 0;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  background-color: ${({ theme }) => theme.base.background.surface};
+  padding: 0 ${({ theme }) => theme.content.spacing};
 `
 const Col = styled.View`
   flex-direction: row;
@@ -66,4 +61,5 @@ const Col = styled.View`
 `
 const NameWrap = styled.View`
   margin-left: 15px;
+  flex-wrap: nowrap;
 `

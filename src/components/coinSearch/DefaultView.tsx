@@ -1,57 +1,78 @@
-import React, { useState, useEffect} from 'react';
+import React from 'react';
 import styled from 'styled-components/native';
-import { SearchTrandingCoin } from '/lib/api/CoinGeckoReturnType';
-import { useAppSelector } from '/hooks/useRedux';
+import { useTranslation } from 'react-i18next';
+import { SearchTrandingCoin, SearchCoin } from '/lib/api/CoinGeckoReturnType';
 import Item from './Item';
 import SurfaceWrap from '/components/common/SurfaceWrap';
+import Image from '/components/common/Image';
+import Text from '/components/common/Text';
+import useGlobalTheme from '/hooks/useGlobalTheme';
+
 
 type DefaultViewProps = {
   data?: SearchTrandingCoin[];
+  searchesData: SearchCoin[];
   onPressItem: (id: string, symbol: string) => void;
 }
 
-type SearchedItemProps = {
-  coin: SearchTrandingCoin
+type SearchesItemProps = {
+  item: SearchCoin;
+  onPressItem: (id: string, symbol: string) => void;
 }
 
-const SearchedItem = ({ coin }: SearchedItemProps) => {
-  const { item } = coin;
-  console.log(item);
+const SearchesItem = ({ item, onPressItem }: SearchesItemProps) => {
   return (
-    <SearchedItemContainer>
-    </SearchedItemContainer>
+    <SearchesItemContainer onPress={() => onPressItem(item.id, item.symbol)}>
+      <Image uri={item.large} width={30} height={30} borderRedius="m" />
+      <Text 
+        fontML 
+        bold 
+        color100 
+        numberOfLines={1}
+        ellipsizeMode="tail"
+        margin="5px 0 0 0"
+      >
+        { item.name }
+      </Text>
+      <Text 
+        fontM 
+        bold
+        numberOfLines={1}
+        ellipsizeMode="tail"
+        margin="2px 0 0 0"
+      >
+        { item.symbol }
+      </Text>
+    </SearchesItemContainer>
   )
 }
 
-const DefaultView = ({ data, onPressItem }: DefaultViewProps) => {
-  const { recentlySearched } = useAppSelector(state => state.baseSettingReducer);
-  const [searchedData, setSearchedData] = useState<SearchTrandingCoin[]>([]);
+const DefaultView = ({ data, searchesData, onPressItem }: DefaultViewProps) => {
 
-  useEffect(() => {
-    console.log(data)
-    console.log(data?.filter(coin => coin.item.name === 'bitcoin'))
-    if(data) {
-      setSearchedData(data.filter(coin => recentlySearched.includes(coin.item.id)))
-    }
-  }, [recentlySearched, data])
-
+  const { t } = useTranslation();
+  const { theme } = useGlobalTheme();
 
   return (
     <Container>
-      <SurfaceWrap title="최근 검색" marginTopZero fontL >
-        <SearchedListContainer
+      <SurfaceWrap title={t('search.recent searches')} marginTopZero fontL parentPaddingZero>
+        <SearchesScrollView
           horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={{
+            paddingHorizontal: parseInt(theme.content.spacing)
+          }}
         >
-          { searchedData.map(coin => (
-            <SearchedItem 
-              key={coin.item.coin_id}
-              coin={coin}
+          { searchesData.map((coin, index) => (
+            <SearchesItem 
+              key={coin.id + index}
+              item={coin}
+              onPressItem={onPressItem}
             />
             )) 
           }
-        </SearchedListContainer>
+        </SearchesScrollView>
       </SurfaceWrap>
-      <SurfaceWrap title="인기 검색어" fontL>
+      <SurfaceWrap title={t('search.trending search')} fontL>
         { data?.map((coin, index) => {
           const { item } = coin;
           return (
@@ -73,13 +94,18 @@ export default DefaultView;
 
 const Container = styled.View`
   width: 100%;
+  background-color: ${({ theme }) => theme.base.background[100]};
 `
 
-const SearchedListContainer = styled.ScrollView`
- flex: 1;
+const SearchesScrollView = styled.ScrollView`
 `
-const SearchedItemContainer = styled.View`
-  width: 60px;
-  height: 40px;
+const SearchesItemContainer = styled.TouchableOpacity`
+  width: 120px;
+  height: 100px;
+  margin-right: 10px;
   background-color: ${({ theme }) => theme.base.background[300]};
+  border-radius: ${({ theme }) => theme.border.ml};
+  justify-content: center;
+  align-items: center;
+  padding: 0 10px;
 `

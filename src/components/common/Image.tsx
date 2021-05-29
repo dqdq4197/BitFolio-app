@@ -15,7 +15,13 @@ type ImageType = {
 
 const { width: win } = Dimensions.get('window');
 
-const CustomImage = ({ uri, width, height, fullWidth = false, borderRedius }: ImageType) => {
+const CustomImage = ({ 
+  uri, 
+  width, 
+  height, 
+  fullWidth = false, 
+  borderRedius 
+}: ImageType) => {
   const [updatedWidth, setUpdatedWidth] = useState(width);
   const [updatedHeight, setUpdatedHeight] = useState(height);
   const [isLoaded, setIsLoaded] = useState(false);

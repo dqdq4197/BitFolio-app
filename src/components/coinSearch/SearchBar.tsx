@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/native';
+import { useTranslation } from 'react-i18next';
 import { Ionicons } from '@expo/vector-icons';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import SurfaceTopView from '/components/common/SurfaceTopView';
@@ -10,6 +11,7 @@ type SearchBarProps = {
 }
 const SearchBar = ({ onChangeText, coinsLength }: SearchBarProps) => {
 
+  const { t } = useTranslation(); 
   const { scheme, theme } = useGlobalTheme();
   return (
     <>
@@ -22,9 +24,10 @@ const SearchBar = ({ onChangeText, coinsLength }: SearchBarProps) => {
             color={theme.base.text[200]} 
           />
           <TextInput 
+            autoFocus
             keyboardAppearance={scheme === 'dark' ? 'dark' : 'light'}
             onChangeText={onChangeText}
-            placeholder={`${coinsLength}개의 코인 검색`}
+            placeholder={t('search.coin name or symbol search')}
             spellCheck={false}
             scrollEnabled={false}
           />
