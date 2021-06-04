@@ -11,7 +11,7 @@ type StatsProps = {
   marketcap: number;
   totalVolume: number,
   genesis_date: string,
-  maxSupply: number,
+  maxSupply: number | null,
   circulatingSupply: number,
   hashingAlgorithm: string,
   currency: baseTypes.Currency
@@ -107,9 +107,9 @@ const Stats = ({
               </Text>
             </Title>
             <Text fontML>
-              { circulatingSupply !== 0 ? convertUnits(circulatingSupply, currency) : '--' }
+              { circulatingSupply !== 0 ? convertUnits(circulatingSupply, currency, false) : '--' }
               { ' / ' } 
-              { maxSupply || '--' }
+              { maxSupply ? convertUnits(maxSupply, currency, false) : '--' }
             </Text>
           </Col>
         </Row>

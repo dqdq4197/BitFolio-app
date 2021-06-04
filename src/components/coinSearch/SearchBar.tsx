@@ -7,7 +7,7 @@ import SurfaceTopView from '/components/common/SurfaceTopView';
 
 type SearchBarProps = {
   onChangeText: (text:string) => void;
-  coinsLength: number;
+  coinsLength?: number;
 }
 const SearchBar = ({ onChangeText, coinsLength }: SearchBarProps) => {
 

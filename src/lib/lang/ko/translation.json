@@ -1,4 +1,8 @@
 {
+  "common": {
+    "confirm": "확인",
+    "cancel": "취소"
+  },
   "coinDetail": {
     "Read more": "더보기",
     "Read less": "감추기",
@@ -53,6 +57,22 @@
   "search": {
     "recent searches": "최근 검색",
     "trending search": "인기 검색",
-    "coin name or symbol search": "코인명 및 심볼검색"
+    "coin name or symbol search": "코인명 및 심볼검색",
+    "no results for": "해당 결과 없음",
+    "we couldn't find anything matching your search": "검색에 일치하는 항목을 찾을 수 없습니다.",
+    "try again with a different term": "다른 용어로 다시 시도하십시오."
+  },
+  "portfolio": {
+    "name": "이름",
+    "price": "가격",
+    "holdings": "보유 자산",
+    "share": "점유율",
+    "profit": "이익",
+    "loss": "손실",
+    "24h p/l": "24H 손익",
+    "portfolio name": "포트폴리오 이름",
+    "main fiat currency": "주요 법정통화",
+    "new portfolio": "새 포트폴리오",
+    "portfolio creation": "포트폴리오 생성"
   }
 }

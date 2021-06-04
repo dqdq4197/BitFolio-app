@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { FlatList, Platform, Dimensions } from 'react-native';
+import { 
+  FlatList, 
+  Platform, 
+  Dimensions,
+  Keyboard,
+  EmitterSubscription,
+  KeyboardEvent
+} from 'react-native';
 import { useHeaderHeight } from '@react-navigation/stack';
 import styled from 'styled-components/native';
 import { useNavigation } from '@react-navigation/native';
@@ -14,7 +21,7 @@ import { useAppDispatch } from '/hooks/useRedux'
 import Item from './Item';
 import { changeRecentSearches } from '/store/baseSetting';
 import { useAppSelector } from '/hooks/useRedux';
-import { createFuzzyMatcher } from '/lib/utils/createFuzzyMatcher';
+import { createFuzzyMatcher } from '/lib/utils';
 import Text from '/components/common/Text';
 
 
@@ -25,12 +32,46 @@ const Layout = () => {
   const [coins, setCoins] = useState<SearchCoin[]>([]);
   const [query, setQuery] = useState('');
   const [searchesData, setSearchesData] = useState<SearchCoin[]>([]);
+  const [keyboardSpace, SetKeyBoardSpace] = useState(0);
   const { data } = useSearchData({ suspense: false });
   const { data: trandingData } = useSearchTranding({ suspense: false});
   const { theme } = useGlobalTheme();
   const navigation = useNavigation();
   const headerHeight = useHeaderHeight();
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    let keyboardWillShowEvent: EmitterSubscription;
+    let keyboardWillHideEvent: EmitterSubscription;
+
+    if(Platform.OS === 'android') {
+      keyboardWillShowEvent = Keyboard.addListener(
+        'keyboardDidShow', 
+        updateKeyboardSpace
+      )
+
+      keyboardWillHideEvent = Keyboard.addListener(
+        'keyboardDidHide', 
+        resetKeyboardSpace
+      )
+    } else {
+      keyboardWillShowEvent = Keyboard.addListener(
+        'keyboardWillShow', 
+        updateKeyboardSpace
+      )
+
+      keyboardWillHideEvent = Keyboard.addListener(
+        'keyboardWillHide', 
+        resetKeyboardSpace
+      )
+    }
+    
+    return () => {
+      // keyboard event 해제
+      keyboardWillShowEvent && keyboardWillShowEvent.remove();
+      keyboardWillHideEvent && keyboardWillHideEvent.remove();
+    }
+  }, [])
 
   useEffect(() => {
     if(data) {
@@ -44,6 +85,13 @@ const Layout = () => {
     }
   }, [recentSearches, data])
 
+  const updateKeyboardSpace = (event: KeyboardEvent) => {
+    SetKeyBoardSpace(event.endCoordinates.height)
+  }
+
+  const resetKeyboardSpace = (event: KeyboardEvent) => {
+    SetKeyBoardSpace(0)
+  }
 
   const handleItemPress = (id: string, symbol: string) => {
     navigation.navigate('CoinDetail', { param: { id, symbol }, screen:  'Overview' })
@@ -102,15 +150,15 @@ const Layout = () => {
 
   return(
     <>
-      <Container behavior="padding" keyboardVerticalOffset={65}>
         <FlatList 
           data={coins}
-          keyExtractor={(item, index) => item.id + index}
+          keyExtractor={(item, index) => item.id + index + item.name}
           keyboardDismissMode={Platform.OS === 'ios' ? "interactive" : "on-drag"}
           keyboardShouldPersistTaps="handled"
           contentContainerStyle={{
             minHeight: height - headerHeight,
-            backgroundColor: theme.base.background.surface
+            backgroundColor: theme.base.background.surface,
+            paddingBottom: keyboardSpace
           }}
           ListHeaderComponent={
             <SearchBar 
@@ -143,7 +191,6 @@ const Layout = () => {
           }
           stickyHeaderIndices={[0]}
         />
-      </Container>
     </>
 
   )
@@ -152,4 +199,5 @@ const Layout = () => {
 export default Layout;
 
 const Container = styled.KeyboardAvoidingView`
+flex: 1;
 `

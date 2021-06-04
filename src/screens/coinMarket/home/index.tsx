@@ -9,7 +9,7 @@ import Layout from '/components/coinMarket/Layout';
 import CoinHomeSkeleton from '/components/skeletonPlaceholder/CoinHomeSkeleton';
 import ErrorBoundaryAndSuspense from '/components/common/ErrorBoundaryAndSuspense';
 import SettingModal from '/components/setting/SettingModal';
-import FormModal from '/components/portfolio/FormModal';
+// import FormModal from '/components/portfolio/FormModal';
 
  
 
@@ -55,7 +55,7 @@ const HomeScreen = ({ navigation }: StackScreenProps<any>) => {
       <ErrorBoundaryAndSuspense skeleton={<CoinHomeSkeleton />}>
         <Layout />
         <SettingModal ref={mainModalRef}/>
-        <FormModal visible={visible} setModalVisible={setModalVisible}/>
+        {/* <FormModal visible={visible} setModalVisible={setModalVisible}/> */}
       </ErrorBoundaryAndSuspense>
     </GeneralTemplate>
   )

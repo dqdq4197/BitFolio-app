@@ -1,4 +1,8 @@
 {
+  "common": {
+    "confirm": "Confirm",
+    "cancel": "Cancel"
+  },
   "coinDetail": {
     "Read more": "Read More",
     "Read less": "Read Less",
@@ -53,6 +57,22 @@
   "search": {
     "recent searches": "Recent searches",
     "trending search": "Trending search",
-    "coin name or symbol search": "coin name or symbol search"
+    "coin name or symbol search": "coin name or symbol search",
+    "no results for": "No results for",
+    "we couldn't find anything matching your search": "We couldn't find anything matching your search.",
+    "try again with a different term": "Try again with a different term."
+  },
+  "portfolio": {
+    "name": "NAME",
+    "price": "PRICE",
+    "holdings": "HOLDINGS",
+    "share": "SHARE",
+    "profit": "PROFIT",
+    "loss": "LOSS",
+    "24h p/l": "24H P/L",
+    "portfolio name": "Portfolio name",
+    "main fiat currency": "Main fiat currency",
+    "new portfolio": "New portfolio",
+    "portfolio creation": "Portfolio creation"
   }
 }

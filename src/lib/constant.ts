@@ -3,6 +3,27 @@
 
 const APP_NAME = 'bitfolio';
 const CRYPTOCOMPARE_API_KEY = 'c95d5d7549c69950d894e2821ec15798d91f994e4ff0a5d360e78fbd46b9ca37';
+const CURRENCIES = {
+  krw: {
+    iso: 'KRW',
+    symbol: '₩',
+    unicode: '\u20A9',
+    name: 'South Korean Won'
+  },
+  usd: {
+    iso: 'USD',
+    symbol: '$',
+    unicode: '\u0024',
+    name: 'United States Dollar'
+  },
+  eur: {
+    iso: 'EUR',
+    symbol: '€',
+    unicode: '\u20AC',
+    name: 'Euro'
+  }
+}
+
 // ---------------------------------
 
 
@@ -124,6 +145,7 @@ export {
   CTYPTOCOMPARE_LANG,
   STATUS_UPDATE_CATEGORY,
   CURRENCY,
+  CURRENCIES,
   TAB_BAR_HEIGHT,
   CONTENT_SPACING,
   unicodes,

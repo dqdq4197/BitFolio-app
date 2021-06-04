@@ -64,7 +64,7 @@ const DefaultView = ({ data, searchesData, onPressItem }: DefaultViewProps) => {
         >
           { searchesData.map((coin, index) => (
             <SearchesItem 
-              key={coin.id + index}
+              key={coin.id + coin.name + index}
               item={coin}
               onPressItem={onPressItem}
             />
@@ -77,7 +77,7 @@ const DefaultView = ({ data, searchesData, onPressItem }: DefaultViewProps) => {
           const { item } = coin;
           return (
             <Item 
-              key={item.coin_id}
+              key={item.coin_id + item.name + index}
               index={index}
               item={item} 
               onPressItem={() => onPressItem(item.id, item.symbol)}

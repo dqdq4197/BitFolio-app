@@ -1,85 +1,60 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import { Octicons } from '@expo/vector-icons';
+import { baseTypes } from 'base-types';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import useLocales from '/hooks/useLocales';
 import Text from '/components/common/Text';
 import { useBottomSheetModal } from '@gorhom/bottom-sheet';
+import { CURRENCIES } from '/lib/constant';
 
 type MainSettingProps = {
 }
 
 const MainSetting = ({ }: MainSettingProps) => {
   const { dismiss } = useBottomSheetModal();
-  const { currency, onCurrencyChange } = useLocales();
+  const { currency: currentCurrency , onCurrencyChange } = useLocales();
   const { theme } = useGlobalTheme();
+
+  const renderCurrencies = () => {
+    const rows = [];
+    for(const currency in CURRENCIES) {
+      const { name, iso, unicode } = CURRENCIES[currency as baseTypes.Currency];
+      rows.push(
+        <Row 
+          key={name}
+          onPress={() => {
+            onCurrencyChange(currency.toLocaleLowerCase() as baseTypes.Currency);
+            dismiss("currency");
+          }}
+        >
+          <ColView>
+            <Text fontML bold>
+              { name }
+            </Text>
+            <Text color300>
+              { iso } - { unicode } 
+            </Text>
+          </ColView>
+          <Octicons 
+            name="check" 
+            size={28} 
+            color={
+              currentCurrency === iso.toLowerCase()
+              ? theme.base.primaryColor
+              : theme.base.background['surface']
+            }
+          />
+        </Row>
+      )
+    }
+
+    return rows;
+  }
 
   return (
     <Container>
-      <Row onPress={() => {
-        onCurrencyChange('usd');
-        dismiss("currency");
-      }}>
-        <ColView>
-          <Text fontML bold>
-            United States Dollar
-          </Text>
-          <Text color300>
-            USD - $
-          </Text>
-        </ColView>
-        <Octicons 
-          name="check" 
-          size={28} 
-          color={
-            currency === 'usd' 
-            ? theme.base.primaryColor
-            : theme.base.background['surface']
-          }
-        />
-      </Row>
-      <Row onPress={() => {
-        onCurrencyChange('krw');
-      }}>
-        <ColView>
-          <Text fontML bold>
-            South Korean Won
-          </Text>
-          <Text color300>
-            KRW - ₩
-          </Text>
-        </ColView>
-        <Octicons 
-          name="check" 
-          size={28} 
-          color={
-            currency === 'krw' 
-            ? theme.base.primaryColor
-            : theme.base.background['surface']
-          }
-        />
-      </Row>
-      <Row onPress={() => {
-        onCurrencyChange('eur');
-      }}>
-        <ColView>
-          <Text fontML bold>
-            Euro
-          </Text>
-          <Text color300>
-            EUR - €
-          </Text>
-        </ColView>
-        <Octicons 
-          name="check" 
-          size={28} 
-          color={
-            currency === 'eur' 
-            ? theme.base.primaryColor
-            : theme.base.background['surface']
-          }
-        />
-      </Row>
+      { renderCurrencies() }
     </Container>
   )
 }
@@ -98,9 +73,7 @@ const Row = styled.TouchableOpacity`
   padding: 0 ${({ theme }) => theme.content.spacing};
   margin-top: 30px;
 `
-const RowView = styled.View`
-  flex-direction: row;
-`
+
 const ColView = styled.View`
 
 `

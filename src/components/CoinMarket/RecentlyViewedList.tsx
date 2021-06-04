@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import { useTranslation } from 'react-i18next';
+import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import Text from '/components/common/Text';
 import SurfaceWrap from '/components/common/SurfaceWrap';
@@ -10,13 +11,12 @@ import Image from '/components/common/Image';
 import WatchListIcon from '/components/common/WatchListIcon';
 import { useAppSelector } from '/hooks/useRedux';
 import useCoinMarketData from '/hooks/useCoinMarketData';
-import { CoinMarketReturn } from '/lib/api/CoinGeckoReturnType';
 
 type ListProps = {
   onPressItem: (id: string, symbol: string) => void;
 }
 const RecentlyViewedList = ({ onPressItem }: ListProps) => {
-
+  const navigation = useNavigation();
   const { recentlyViewed } = useAppSelector(state => state.baseSettingReducer );
   const { data } = useCoinMarketData({ 
     ids: recentlyViewed, 
@@ -26,6 +26,9 @@ const RecentlyViewedList = ({ onPressItem }: ListProps) => {
   const { t } = useTranslation();
   const { theme } = useGlobalTheme();
 
+  const handleSearchCardPress = () => {
+    navigation.navigate('CoinSearch');
+  }
   return (
     <SurfaceWrap title={t('coinMarketHome.recently viewed')} parentPaddingZero>
       <CardWrap
@@ -62,7 +65,7 @@ const RecentlyViewedList = ({ onPressItem }: ListProps) => {
             </Card>
           )
         }) }
-        <SearchCard>
+        <SearchCard onPress={handleSearchCardPress}>
           <Ionicons 
             name="search-sharp" 
             size={24} 

@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { Animated, TouchableHighlight } from 'react-native';
+import { Animated } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import PopularList from './PopularList';

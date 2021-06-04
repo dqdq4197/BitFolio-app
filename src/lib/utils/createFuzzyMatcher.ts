@@ -72,7 +72,7 @@ type MatcherProps = {
   fuzzy?: boolean,
   ignoreSpace?: boolean,
 }
-export function createFuzzyMatcher(search: string, { fuzzy = false, ignoreSpace = true }: MatcherProps) {
+export default function createFuzzyMatcher(search: string, { fuzzy = false, ignoreSpace = true }: MatcherProps) {
   let frontChars = search.split('');
   let lastChar = frontChars.slice(-1)[0];
   let lastCharPattern = '';

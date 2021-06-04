@@ -37,6 +37,7 @@ const CustomImage = ({
     setIsLoaded(true);
   }
 
+  // cache -> ios 전용 
   return (
     <StyledImageWrap 
       borderRedius={borderRedius}
@@ -44,7 +45,10 @@ const CustomImage = ({
       height={updatedHeight}
     >
       <Image 
-        source={{ uri }}
+        source={{ 
+          uri,
+          cache: 'force-cache'
+        }}
         onLoadEnd={handleLoadEnd}
         style={{
           width: updatedWidth,

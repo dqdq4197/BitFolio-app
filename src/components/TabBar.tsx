@@ -1,10 +1,13 @@
 import React from 'react';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import styled from 'styled-components/native';
+import * as habtics from 'expo-haptics';
 import { TAB_BAR_HEIGHT } from '/lib/constant';
+import useGlobalTheme from '/hooks/useGlobalTheme';
 
 const TabBar = ({ descriptors, state, navigation }: BottomTabBarProps) => {
   const { routes, index } = state;
+  const { theme } = useGlobalTheme();
 
   const focusedOptions = descriptors[routes[index].key].options;
 
@@ -15,6 +18,8 @@ const TabBar = ({ descriptors, state, navigation }: BottomTabBarProps) => {
     <TabBarContainer>
       {routes.map((route, idx) => {
         const { options } = descriptors[route.key];
+        const { tabBarIcon } = options;
+        
         const label =
           options.tabBarLabel !== undefined
             ? options.tabBarLabel
@@ -22,25 +27,28 @@ const TabBar = ({ descriptors, state, navigation }: BottomTabBarProps) => {
             ? options.title
             : route.name;
           const isFocused = index === idx;
+          
 
-          const onPress = () => {
-            const event = navigation.emit({
-              type: 'tabPress',
-              target: route.key,
-              canPreventDefault: true,
-            });
+        const onPress = () => {
+          habtics.selectionAsync();
+          const event = navigation.emit({
+            type: 'tabPress',
+            target: route.key,
+            canPreventDefault: true,
+          });
+          if(!isFocused && !event.defaultPrevented) {
+            navigation.navigate(route.name)
+          }
+        };
 
-            if(!isFocused && !event.defaultPrevented) {
-              navigation.navigate(route.name)
-            }
-          };
-  
-          const onLongPress = () => {
-            navigation.emit({
-              type: 'tabLongPress',
-              target: route.key,
-            });
-          };
+        const onLongPress = () => {
+          navigation.emit({
+            type: 'tabLongPress',
+            target: route.key,
+          });
+        };
+
+        const iconColor = isFocused ? theme.base.text[100] : theme.base.text[400]
 
         return (
           <EachTabWrap
@@ -49,8 +57,11 @@ const TabBar = ({ descriptors, state, navigation }: BottomTabBarProps) => {
             onPress={onPress}
             onLongPress={onLongPress}
           >
+            { tabBarIcon && 
+              tabBarIcon({ focused: isFocused, color: iconColor, size: 22 })
+            }
             <TabLabel isFocused={isFocused}>
-              {label}
+              { label }
             </TabLabel>
           </EachTabWrap>
         )
@@ -72,11 +83,13 @@ const TabBarContainer = styled.View`
   border-top-width:1px;
   border-top-color:${({theme}) => theme.base.background[300]};
 `
+
 const EachTabWrap = styled.TouchableOpacity`
   align-items: center;
   justify-content: center;
   flex: 1;
 `
 const TabLabel = styled.Text<TabLabelProps>`
-  color: ${(props) => props.isFocused ? props.theme.base.text[100] : props.theme.base.text[400]}
+  color: ${(props) => props.isFocused ? props.theme.base.text[100] : props.theme.base.text[400]};
+  font-size: ${({ theme }) => theme.size.font_s};
 `

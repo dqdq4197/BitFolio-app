@@ -1,5 +1,6 @@
 import React, { useRef, useCallback, useLayoutEffect } from 'react';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
+import { StackScreenProps } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import GeneralTemplate from '/components/GeneralTemplate';
@@ -10,7 +11,7 @@ import OverView from '/components/portfolio/OverView';
 
 
 
-const OverviewScreen = ({ navigation }: any) => {
+const OverviewScreen = ({ navigation }: StackScreenProps<any>) => {
   const { theme } = useGlobalTheme();
   const mainModalRef = useRef<BottomSheetModal>(null);
 

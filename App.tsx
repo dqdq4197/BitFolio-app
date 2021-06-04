@@ -5,6 +5,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { ThemeProvider } from 'styled-components';
+import { Ionicons } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
 import TabBar from '/components/TabBar'
 import { NewsStackScreen, CoinMarketStack, PortfolioScreen } from '/screens';
 import { store, persistor } from '/store';
@@ -31,9 +33,36 @@ const RootNavigation = () => {
           backgroundColor: theme.base.background[100]
         }}
       >
-        <Tab.Screen name="Portfolio" options={{ title: '포트폴리오' }} component={PortfolioScreen} />
-        <Tab.Screen name="CoinMarket" options={{ title:'시세' }} component={CoinMarketStack} />
-        <Tab.Screen name="News" options={{ title: '뉴스' }} component={NewsStackScreen} />
+        <Tab.Screen 
+          name="Portfolio" 
+          options={{ 
+            tabBarLabel: '포트폴리오',
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name="ios-albums" size={size} color={color} />
+            ),
+          }} 
+          component={PortfolioScreen} 
+        />
+        <Tab.Screen 
+          name="CoinMarket" 
+          options={{ 
+            tabBarLabel:'시세',
+            tabBarIcon: ({ color, size }) => (
+              <Entypo name="area-graph" size={size} color={color} />
+            )
+          }} 
+          component={CoinMarketStack} 
+        />
+        <Tab.Screen 
+          name="News" 
+          options={{ 
+            tabBarLabel: '뉴스',
+            tabBarIcon: ({ color, size }) => (
+              <Entypo name="newsletter" size={size} color={color} />
+            )
+          }} 
+          component={NewsStackScreen} 
+        />
       </Tab.Navigator>
     </NavigationContainer>
   )

@@ -104,7 +104,7 @@ const KeyboardAwareScrollView = forwardRef(({
   ) => {
     positionRef.current = event.nativeEvent.contentOffset.y;
   }
-
+  // contentInset -> ios 전용임 -> style padding bottom으로 바꿔주자 
   return (
     <ScrollView
       ref={ref}
