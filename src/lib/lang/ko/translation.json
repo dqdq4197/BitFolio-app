@@ -1,7 +1,12 @@
 {
   "common": {
     "confirm": "확인",
-    "cancel": "취소"
+    "cancel": "취소",
+    "market cap": "시가 총액",
+    "volume": "거래량",
+    "cryptocurrencies": "암호 화폐",
+    "exchanges": "거래소",
+    "n.hour":  "{{n}}시간"
   },
   "coinDetail": {
     "Read more": "더보기",

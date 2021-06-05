@@ -1,5 +1,6 @@
 
 
-export default function krwFormat(num: number):string {
+export default function krwFormat(num?: number):string {
+  if(!num) return '--';
   return num.toLocaleString('en');
 }

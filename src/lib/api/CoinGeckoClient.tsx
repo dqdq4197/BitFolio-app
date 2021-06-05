@@ -145,6 +145,11 @@ export const CoinGecko = {
         url: `/search/trending`,
       }
     },
+    global: () => {
+      return {
+        url: `/global`
+      }
+    },
     historySnapshot: (id:string, params:HistorySnapshotParams) => {
       return {
         url: `/coins/${id}/history`,

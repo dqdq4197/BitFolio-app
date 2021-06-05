@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef, useState } from 'react';
+import React, { useLayoutEffect, useRef } from 'react';
 import styled from 'styled-components/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
@@ -9,14 +9,11 @@ import Layout from '/components/coinMarket/Layout';
 import CoinHomeSkeleton from '/components/skeletonPlaceholder/CoinHomeSkeleton';
 import ErrorBoundaryAndSuspense from '/components/common/ErrorBoundaryAndSuspense';
 import SettingModal from '/components/setting/SettingModal';
-// import FormModal from '/components/portfolio/FormModal';
-
  
 
 const HomeScreen = ({ navigation }: StackScreenProps<any>) => {
   const mainModalRef = useRef<BottomSheetModal>(null);
   const { theme } = useGlobalTheme();
-  const [visible, setVisible] = useState(false);
 
   const handleSettingPress = () => {
     mainModalRef.current?.present();
@@ -46,16 +43,11 @@ const HomeScreen = ({ navigation }: StackScreenProps<any>) => {
     })
   }, [theme])
 
-  const setModalVisible = () => {
-    setVisible(false)
-  }
-
   return (
     <GeneralTemplate>
       <ErrorBoundaryAndSuspense skeleton={<CoinHomeSkeleton />}>
         <Layout />
         <SettingModal ref={mainModalRef}/>
-        {/* <FormModal visible={visible} setModalVisible={setModalVisible}/> */}
       </ErrorBoundaryAndSuspense>
     </GeneralTemplate>
   )

@@ -2,7 +2,12 @@
 
 type Type = 'yyyymmdd' | 'mmddhhmm' | 'hhmmss' | 'ddhhmmss' | 'mmddwhhmm';
 
-export default function timestampToDate(timestamp:number, type:Type = 'mmddwhhmm') {
+export default function timestampToDate(
+  timestamp:number, 
+  type:Type = 'mmddwhhmm',
+  isUnix=false
+) {
+  if(isUnix) timestamp *= 1000;
   const week = new Array('일', '월', '화', '수', '목', '금', '토');
   const date = new Date(timestamp);
   const fullYears = date.getFullYear();

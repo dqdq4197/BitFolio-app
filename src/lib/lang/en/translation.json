@@ -1,7 +1,12 @@
 {
   "common": {
     "confirm": "Confirm",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "market cap": "Market Cap",
+    "volume": "Volume",
+    "cryptocurrencies": "Cryptocurrencies",
+    "exchanges": "Exchanges",
+    "n.hour":  "{{n}}h"
   },
   "coinDetail": {
     "Read more": "Read More",

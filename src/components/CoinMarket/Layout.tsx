@@ -2,6 +2,8 @@ import React, { useCallback } from 'react';
 import { Animated } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
+import styled from 'styled-components/native';
+import TextTicker from 'react-native-text-ticker';
 import PopularList from './PopularList';
 import useAnimatedHeaderTitle from '/hooks/useAnimatedHeaderTitle';
 import ScrollView from "/components/common/ScrollView";
@@ -10,6 +12,7 @@ import RecentlyViewedList from "./RecentlyViewedList";
 import HighPricePreview from './HighPricePreview';
 import HighVolumePreview from './HighVolumePreview';
 import WatchList from './WatchList';
+import TextMarquee from './TextMarquee';
 
 const Layout = () => {
   const { t } = useTranslation();
@@ -36,7 +39,7 @@ const Layout = () => {
         marginTopZero
         marginBottomZero
       >
-        {/* <Marquee delay={1000}/> */}
+        <TextMarquee />
       </SurfaceWrap>
       <WatchList 
         onPressItem={handlePressItem}
@@ -56,3 +59,11 @@ const Layout = () => {
 }
 
 export default Layout;
+
+const MarqueeView = styled.View`
+  height: 50px;
+  background-color: ${({ theme }) => theme.base.primaryColor};
+  padding: 0 ${({ theme }) => theme.content.spacing};
+  border-radius: ${({ theme }) => theme.border.m};
+  justify-content: center;
+`
