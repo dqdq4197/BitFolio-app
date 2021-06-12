@@ -148,14 +148,14 @@ const Row = styled.View<RowProps>`
     (props) => 
       props.top && css`
         border-top-width: 1px;
-        border-top-color: ${props.theme.base.background[200]};
+        border-top-color: ${props.theme.base.background[300]};
       `
   } 
   ${
     (props) => 
       props.bottom && css`
         border-bottom-width: 1px;
-        border-bottom-color: ${props.theme.base.background[200]};
+        border-bottom-color: ${props.theme.base.background[300]};
       `
   } 
 `
@@ -167,7 +167,7 @@ const Col = styled.View<ColProps>`
     (props) => 
       props.left && css`
         border-left-width: 1px;
-        border-left-color: ${props.theme.base.background[200]};
+        border-left-color: ${props.theme.base.background[300]};
       `
   }
 `

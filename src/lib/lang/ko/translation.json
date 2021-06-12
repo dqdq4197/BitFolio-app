@@ -6,7 +6,14 @@
     "volume": "거래량",
     "cryptocurrencies": "암호 화폐",
     "exchanges": "거래소",
-    "n.hour":  "{{n}}시간"
+    "n.hour":  "{{n}}시간",
+    "fees": "수수료",
+    "price": "가격",
+    "price per coin": "코인 하나당 가격",
+    "quantity": "수량",
+    "total spent": "사용된 총액",
+    "date": "날짜",
+    "memo": "메모"
   },
   "coinDetail": {
     "Read more": "더보기",
@@ -33,7 +40,8 @@
     "profile": "프로필",
     "news": "뉴스",
     "notice": "알림",
-    "discussion": "토론"
+    "discussion": "토론",
+    "transactions": "트랜잭션"
   },
   "coinMarketHome": {
     "market": "시장",

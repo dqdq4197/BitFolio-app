@@ -4,16 +4,11 @@ import { v4 as uuidv4 } from 'uuid';
 
 export interface CoinType {
   id: string,
-  name: string,
-  amount: number,
-  image: string,
-  currency: string,
-  symbol: string,
-  currentPrice: number,
-  totalPercentage: number,
-  profitAndLoss: number,
-  share: number,
-  quantity: number,
+  currency?: string | null,
+  amount?: number | null,
+  quantity?: number | null,
+  memo?: string | null,
+  type: 'buy' | 'sell' | 'transfer' | 'incomplete',
 }
 
 export interface PortfolioType {
@@ -31,6 +26,11 @@ type CreatePortfolioAction = {
   name: string;
   currency: baseTypes.Currency;
 }
+
+type AddTrackAction = {
+  portfolioId: string,
+  id: string
+}
 // 가격 -> 보유자산 -> 당일 손익 -> 지난 손익 -> 포트폴리오 점유율
 // each current price -> holdings(price * 갯수), 갯수 -> 24h percentage -> pl -> share
 const defaultPortfolio: PortfolioType = {
@@ -39,28 +39,16 @@ const defaultPortfolio: PortfolioType = {
   currency: 'usd',
   coins: [{
     id: 'bitcoin',
-    name: 'Bitcoin',
     amount: 35000000,
-    image: 'https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1547033579',
     currency: 'krw',
-    symbol: 'BTC',
-    currentPrice: 3414000,
-    totalPercentage: 82,
-    profitAndLoss: 28003.23, // currentPrice - amount 
-    share: 80.00,
     quantity: 2,
+    type: 'buy',
   }, {
-    id: 'tether-sfdskj-erkjn',
-    name: 'Tether',
+    id: 'tether',
     amount: 10000,
-    image: 'https://assets.coingecko.com/coins/images/325/large/Tether-logo.png?1598003707',
     currency: 'krw',
-    symbol: 'USDT',
-    currentPrice: 124500,
-    totalPercentage: -10,
-    profitAndLoss: -12314.13,
-    share: 20.00,
     quantity: 2,
+    type: 'buy',
   }]
 }
 
@@ -68,8 +56,8 @@ const initialState: InitialState = {
   portfolios: [
     defaultPortfolio, {
       ...defaultPortfolio,
-      id: 'asd',
-      name: 'asdas'
+      id: 'defaultPortfolio2',
+      name: 'defaultPortfolio2'
     }
   ]
 }
@@ -89,11 +77,32 @@ export const portfolioSlice = createSlice({
           coins: []
         }
       ]
+    },
+    addTrack: (state, action: PayloadAction<AddTrackAction>) => {
+      let { portfolios } = state;
+      const { portfolioId, id } = action.payload;
+      const portfolioIdx = state.portfolios.findIndex(portfolio => portfolio.id === portfolioId);
+
+      portfolios[portfolioIdx] = {
+        ...portfolios[portfolioIdx],
+        coins: [
+          ...portfolios[portfolioIdx].coins,
+          {
+            id,
+            amount: null,
+            currency: null,
+            quantity: null,
+            memo: null,
+            type: 'incomplete'
+          }
+        ]
+      }
     }
   }
 })
 
 export const { 
-  createPortfolio
+  createPortfolio,
+  addTrack
 } = portfolioSlice.actions;
 export default portfolioSlice.reducer;

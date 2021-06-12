@@ -1,6 +1,7 @@
 import React from 'react';
 import { ActivityIndicator, Dimensions } from 'react-native';
 import styled from 'styled-components/native';
+import useGlobalTheme from '/hooks/useGlobalTheme';
 
 
 const { width } = Dimensions.get('window')
@@ -11,12 +12,14 @@ interface IndicatorType {
 }
 export default function GlobalIndicator({ size="large", isLoaded }:IndicatorType) {
 
+  const { theme } = useGlobalTheme();
+
   if(isLoaded) return <></>;
   return (
     <IndicatorWrap>
       <ActivityIndicator 
         size={size} 
-        color="white"
+        color={ theme.base.text[100] }
       />
     </IndicatorWrap>
   )
@@ -26,7 +29,7 @@ export default function GlobalIndicator({ size="large", isLoaded }:IndicatorType
 
 const IndicatorWrap = styled.View`
   position:absolute;
-  background-color: ${({theme}) => theme.colors.grey[900]};
+  background-color: ${({theme}) => theme.base.background[200]};
   flex: 1;
   width: ${width}px; 
   height: 100%;

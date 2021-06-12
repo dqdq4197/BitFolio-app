@@ -33,6 +33,7 @@ const CustomImage = ({
       setUpdatedHeight(height * ratio)
     }
   }, [])
+  
   const handleLoadEnd = () => {
     setIsLoaded(true);
   }

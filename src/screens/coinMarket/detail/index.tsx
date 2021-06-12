@@ -13,7 +13,7 @@ import Profile from './Profile';
 import News from './News';
 import Discussion from './Discussion';
 import Notice from './Notice';
-
+import Transactions from './Transactions'
 const Tab = createMaterialTopTabNavigator();
 
 const DetailTab = ({ route, navigation }:any) => {
@@ -50,6 +50,7 @@ const DetailTab = ({ route, navigation }:any) => {
           <Tab.Screen name={t('coinDetail.overview')} component={Overview} />
           <Tab.Screen name={t('coinDetail.profile')} component={Profile} />
           <Tab.Screen name={t('coinDetail.news')} component={News} />
+          <Tab.Screen name={t('coinDetail.transactions')} component={Transactions} />
           <Tab.Screen name={t('coinDetail.notice')} component={Notice} />
           <Tab.Screen name={t('coinDetail.discussion')} component={Discussion} />
         </Tab.Navigator>

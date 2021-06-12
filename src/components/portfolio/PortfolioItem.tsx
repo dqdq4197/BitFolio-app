@@ -1,84 +1,134 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { 
   Dimensions, 
   Animated,
   NativeSyntheticEvent,
   NativeScrollEvent,
+  ScrollView
 } from 'react-native';
-import styled from 'styled-components/native';
+import styled, { css } from 'styled-components/native';
+import { Ionicons } from '@expo/vector-icons';
 import { PortfolioType } from '/store/portfolio';
 import Text from '/components/common/Text';
 import CoinList from './CoinList';
+import { CoinMarketReturn } from '/lib/api/CoinGeckoReturnType';
+import CoinItem from './CoinItem';
+import useGlobalTheme from '/hooks/useGlobalTheme';
+
+
 
 const { width, height } = Dimensions.get('window');
 const WIDGET_HEIGHT = 150;
-
-type ItemProps = {
-  data: PortfolioType;
+const COL_WIDTH = (width - 32 - 100) / 2;
+interface AlignType {
+  align?: 'right' | 'left';
 }
 
-const PortfolioItem = ({ data }: ItemProps) => {
-  const translateY = useRef(new Animated.Value(WIDGET_HEIGHT)).current;
-  const [isSheetFocus, setIsSheetFocus] = useState(false);
+interface SortBarProps extends AlignType {
+  onPress?: () => void;
+  text: string;
+}
 
-  const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-    const { nativeEvent: { contentOffset: { y } } } = event;
-    if(isSheetFocus && y <= -50) {
-      Animated.spring(translateY, {
-        toValue: WIDGET_HEIGHT,
-        delay: 0,
-        useNativeDriver: true
-      }).start(
-        () => setIsSheetFocus(false)
-      );
-    }
+type ItemProps = {
+  item: PortfolioType;
+  coinsData?: CoinMarketReturn[];
+}
 
-    if(!isSheetFocus && y >= 50) {
-      Animated.spring(translateY, {
-        toValue: 0,
-        delay: 0,
-        useNativeDriver: true,
-      }).start(
-        () => setIsSheetFocus(true)
-      );
+
+const PortfolioItem = ({ item, coinsData }: ItemProps) => {
+
+  const translateY = useRef(new Animated.Value(0)).current;
+  const [isExpanding, setIsExpanding] = useState(false);
+  const [coins, setCoins] = useState<CoinMarketReturn[] | undefined>([]);
+  const scrollY = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    if(coinsData) {
+      let data:CoinMarketReturn[] | undefined = [];
+      data = coinsData?.filter(data => {
+        for(let i = 0; i < item.coins.length; i++) {
+          if(item.coins[i].id === data.id) {
+            return true;
+          }
+        }
+      })
+
+      setCoins(data);
     }
-  }
+  }, [item, coinsData])
+
+  // const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+  //   const { nativeEvent: { contentOffset: { y } } } = event;
+  //   setScrollY(y);
+
+  //   if(isExpanding && y <= -50) {
+  //     Animated.spring(translateY, {
+  //       toValue: 0,
+  //       delay: 0,
+  //       speed: 20,
+  //       useNativeDriver: true
+  //     }).start(
+  //       () => setIsExpanding(false)
+  //     );
+  //   }
+
+  //   if(!isExpanding && y >= 50) {
+  //     Animated.spring(translateY, {
+  //       toValue: -WIDGET_HEIGHT,
+  //       delay: 0, 
+  //       speed: 20,
+  //       useNativeDriver: true,
+  //     }).start(
+  //       () => setIsExpanding(true)
+  //     );
+  //   }
+  // }
 
   return (
-    <Container>
+    <Container
+      as={Animated.ScrollView}
+      onScroll={
+        Animated.event(
+          [ { nativeEvent: { contentOffset: { y: scrollY } } } ], 
+          { useNativeDriver: true }
+        )
+      }
+    >
       <HeaderContainer>
-        <WidgetWrap>
+        <WidgetWrap
+          as={Animated.View}
+        >
           <Text fontML bold color100>
-            { data.name }
+            { item.name }
           </Text>
         </WidgetWrap>
       </HeaderContainer>
-      { data.coins.length !== 0
-        ? <ListSheet
-            as={Animated.ScrollView}
-            onScroll={handleScroll}
-            scrollEventThrottle={32}
-            style={{
-              transform: [{ 
-                translateY: translateY,
-              }]
-            }}
-          >
+      { item.coins.length !== 0
+        ? <ListSheet>
             <CoinList 
-              coins={data.coins}
+              dataEnteredByTheUser={item.coins}
+              officialData={coins}
+              scrollY={scrollY}
             />
           </ListSheet>
         : <EmptyView>
+            <Text>
+              아이템이 없습니다.
+              추가해주세요
+            </Text>
           </EmptyView>
       }
-      
     </Container>
   )
 }
 
 export default PortfolioItem;
 
-const Container = styled.View`
+type SortTabProps = {
+  align?: 'right' | 'left';
+}
+
+const Container = styled.ScrollView`
   width: ${ width }px;
   flex: 1;
 `
@@ -95,12 +145,10 @@ const WidgetWrap = styled.View`
   padding: ${({ theme }) => theme.content.spacing};
   background-color: ${({ theme }) => theme.colors.purple['900']};
 `
-const ListSheet = styled.ScrollView`
-  position: absolute;
-  bottom: 0;
+const ListSheet = styled.View`
   width: ${ width }px;
-  min-height: ${ height - 110}px;
-  padding: 40px ${({ theme }) => theme.content.spacing};
+  min-height: ${ height - 110 }px;
+  padding: 0 ${({ theme }) => theme.content.spacing};
   background-color: ${({ theme }) => theme.base.background.surface};
 `
 

@@ -6,7 +6,14 @@
     "volume": "Volume",
     "cryptocurrencies": "Cryptocurrencies",
     "exchanges": "Exchanges",
-    "n.hour":  "{{n}}h"
+    "n.hour":  "{{n}}h",
+    "fees": "Fees",
+    "price": "Price",
+    "price per coin": "Price Per Coin",
+    "quantity": "Quantity",
+    "total spent": "Total Spent",
+    "date": "Date",
+    "memo": "Memo"
   },
   "coinDetail": {
     "Read more": "Read More",
@@ -33,7 +40,8 @@
     "profile": "Profile",
     "news": "News",
     "notice": "Notice",
-    "discussion": "Discussion"
+    "discussion": "Discussion",
+    "transactions": "Transactions"
   },
   "coinMarketHome": {
     "market": "Market",

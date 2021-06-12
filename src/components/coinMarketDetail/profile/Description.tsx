@@ -18,7 +18,7 @@ const Description = ({ localization, symbol, content, imageSrc }: DescriptionPro
   const { t } = useTranslation();
   const [isShow, setIsShow] = useState(false);
   const [updatedContent, setUpdatedContent] = useState<(string | JSX.Element)[]>([]);
-  const { theme } =useGlobalTheme();
+  const { theme } = useGlobalTheme();
 
   const handleShowMorePress = () => {
     setIsShow((prev) => !prev);
@@ -31,7 +31,7 @@ const Description = ({ localization, symbol, content, imageSrc }: DescriptionPro
       let href = match[i].match(/href=(["'])(.*?)\1/);
       if(href) {
         replacedText.push(
-          <LinkText onPress={() => {
+          <LinkText key={i.toString()} onPress={() => {
             if(href)
             WebBrowser.openBrowserAsync(href[2], {
               toolbarColor: theme.base.background.surface,

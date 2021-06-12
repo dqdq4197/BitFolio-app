@@ -57,9 +57,9 @@ export const lightTheme: DefaultTheme = {
   dark: false,
   base: {
     background: {
-      '100': '#F2F2F2',
+      '100': '#F8F8F8',
       '200': '#F8F8F8',
-      '300': '#F2F2F2',
+      '300': '#F8F8F8',
       '400': '#616161',
       'surface': '#ffffff',
       'hovered': 'rgba(18, 18, 18, .96)'

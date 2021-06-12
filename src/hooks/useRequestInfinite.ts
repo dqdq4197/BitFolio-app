@@ -55,9 +55,9 @@ export default function useRequestInfinite<Data = unknown, Error = unknown>(
         })),
     }
   )
-
+  
   return {
-    data: response && response.map((res) => res.data),
+    data: Array.isArray(response) ? response.map((res) => res.data) : undefined,
     size,
     setSize,
     mutate,

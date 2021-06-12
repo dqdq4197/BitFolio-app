@@ -15,7 +15,8 @@ type ParamsType = {
   refreshInterval?: number;
   sparkline?: boolean;
   currency?: baseTypes.Currency;
-  price_change_percentage?: PriceChangePercentageType | PriceChangePercentageType[]
+  price_change_percentage?: PriceChangePercentageType | PriceChangePercentageType[];
+  willNotRequest?: boolean,
 }
 export default ({
   per_page = 70, 
@@ -25,7 +26,8 @@ export default ({
   refreshInterval,
   sparkline = true,
   currency,
-  price_change_percentage
+  price_change_percentage,
+  willNotRequest = false
 }: ParamsType) => {
   const { currency: localCurrency } = useAppSelector(state => state.baseSettingReducer);
   if(Array.isArray(ids) && ids.length === 0) {
@@ -33,6 +35,8 @@ export default ({
   }
 
   const getKey = (pageIndex:number, previousPageData: AxiosResponse<unknown> | null) => {
+    if (previousPageData && !(previousPageData as any).length) return null
+    if(willNotRequest) return null;
     return CoinGecko.coin.markets({
       ids,
       vs_currency: currency || localCurrency,

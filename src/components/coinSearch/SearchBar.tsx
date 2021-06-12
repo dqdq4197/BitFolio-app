@@ -28,6 +28,7 @@ const SearchBar = ({ onChangeText, coinsLength }: SearchBarProps) => {
             keyboardAppearance={scheme === 'dark' ? 'dark' : 'light'}
             onChangeText={onChangeText}
             placeholder={t('search.coin name or symbol search')}
+            placeholderTextColor={theme.base.text[400]}
             spellCheck={false}
             scrollEnabled={false}
           />

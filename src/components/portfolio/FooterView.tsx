@@ -13,10 +13,6 @@ const FooterView = ( ) => {
   const dispatch = useAppDispatch();
   const [visible, setVisible] = useState(false);
 
-  const closeModal = () => {
-    setVisible(false)
-  }
-
   const handleAddPress = () => {
     setVisible(true);
   }
@@ -28,7 +24,7 @@ const FooterView = ( ) => {
       </Text>
       <CreatePortfolioModal
         visible={visible}
-        closeModal={closeModal}
+        setVisible={setVisible}
       />
     </Container>
   )

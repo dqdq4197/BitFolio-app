@@ -1,26 +1,20 @@
-
-
 import React, { useState, useRef, useEffect } from 'react';
-import { 
-  Animated,
-  NativeSyntheticEvent, 
-  NativeScrollEvent, 
-} from 'react-native';
+import { Animated } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components/native';
 import { Ionicons, Octicons } from '@expo/vector-icons';
 import { baseTypes } from 'base-types';
-import CircleCloseButton from '/components/common/CircleCloseButton';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import Text from '/components/common/Text';
 import useLocales from '/hooks/useLocales';
 import { CURRENCIES } from '/lib/constant';
 import { useAppDispatch } from '/hooks/useRedux';
 import { createPortfolio } from '/store/portfolio';
+import ScrollCloseModal from '/components/common/ScrollCloseModal';
 
 type FormModalProps = {
   visible: boolean;
-  closeModal: () => void;
+  setVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 type TextFieldProps = {
@@ -149,13 +143,12 @@ const CurrencyModal = ({
     </FadeInOutView>
   )
 }
-const CreatePortfolioModal = ({ visible, closeModal }: FormModalProps) => {
+const CreatePortfolioModal = ({ visible, setVisible }: FormModalProps) => {
 
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const { theme } = useGlobalTheme();
   const { currency } = useLocales();
-  const [percentage, setPercentage] = useState(0);
   const [ModalVisible, setModalVible] = useState(false);
   const [formData, setFormData] = useState({
     name: t('portfolio.new portfolio'),
@@ -164,25 +157,6 @@ const CreatePortfolioModal = ({ visible, closeModal }: FormModalProps) => {
       iso: currency as string
     }
   })
-
-  const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-    const { nativeEvent: { contentOffset } } = event;
-    if(contentOffset.y < 3 && contentOffset.y >= -54) {
-      setPercentage(-contentOffset.y * 2);
-    }
-  }
-
-  const handleModalClose = () => {
-    closeModal();
-    setPercentage(0);
-  }
-
-  const handleTouchEnd = () => {
-    if(percentage >= 100) {
-      closeModal();
-      setPercentage(0);
-    }
-  }
 
   const handleNameChange = (text: string) => {
     if(text.length > 20) return; 
@@ -217,7 +191,7 @@ const CreatePortfolioModal = ({ visible, closeModal }: FormModalProps) => {
     }
   }
 
-  const handlenameBlur = () => {
+  const handleNameBlur = () => {
     let removedSpace = formData.name.replace(/\s/g, '')
     if(removedSpace === '') {
       setFormData(
@@ -245,66 +219,21 @@ const CreatePortfolioModal = ({ visible, closeModal }: FormModalProps) => {
         currency: currency.iso as baseTypes.Currency
       })
     )
-    
-    closeModal();
+      
+    setVisible(false);
   }
 
   return (
     <>
-      <Modal 
-        animationType='slide'
+      <ScrollCloseModal
         visible={visible}
-      > 
-        <Container
-          behavior="padding"
-        >
-          <HeaderView>
-            <CircleCloseButton percentage={percentage} onModalClose={handleModalClose}/>
-          </HeaderView>
+        setVisible={setVisible}
+        headerComponent={
           <Text fontXL bold color100 margin={`0 0 10px ${theme.content.spacing}`}>
             { t('portfolio.portfolio creation') }
           </Text>
-          <ChildContainer
-            onScroll={handleScroll}
-            onTouchEnd={handleTouchEnd}
-            scrollEventThrottle={1}
-          >
-            <TextField
-              title={ t('portfolio.portfolio name') }
-              textSideComponent={
-                <Text style={
-                  formData.name.length === 20 && {
-                    color: theme.base.primaryColor
-                  }
-                }>
-                  { `${formData.name.length}/20` } 
-                </Text>
-              }
-            >
-              <TextInput
-                spellCheck={false}
-                value={ formData.name }
-                onFocus={handleNameFocus}
-                onBlur={handlenameBlur}
-                onChangeText={handleNameChange}
-              />
-            </TextField>
-            <TextField
-              title={ t('portfolio.main fiat currency') }
-              onPress={onModalOpen}
-              textSideComponent={
-                <Ionicons 
-                  name="ios-chevron-down" 
-                  size={20} 
-                  color={theme.base.text[200]}
-                />
-              }
-            >
-              <Text color100 fontML bold>
-                { formData.currency.value }
-              </Text>
-            </TextField>
-          </ChildContainer>
+        }
+        footerComponent={
           <ConfirmButton
             activeOpacity={0.8}
             onPress={handleConfirmPress}
@@ -313,14 +242,52 @@ const CreatePortfolioModal = ({ visible, closeModal }: FormModalProps) => {
               { t('common.confirm').toUpperCase() }
             </Text>
           </ConfirmButton>
-        </Container>
-        <CurrencyModal 
-          visible={ ModalVisible }
-          onModalClose={onModalClose}
-          currentCurrency={ formData.currency }
-          onCurrencyChange={handleCurrencyChange}
-        />
-      </Modal>
+        }
+        extraComponent={
+          <CurrencyModal 
+            visible={ ModalVisible }
+            onModalClose={onModalClose}
+            currentCurrency={ formData.currency }
+            onCurrencyChange={handleCurrencyChange}
+          />
+        }
+      >
+        <TextField
+          title={ t('portfolio.portfolio name') }
+          textSideComponent={
+            <Text style={
+              formData.name.length === 20 && {
+                color: theme.base.primaryColor
+              }
+            }>
+              { `${formData.name.length}/20` } 
+            </Text>
+          }
+        >
+          <TextInput
+            spellCheck={false}
+            value={ formData.name }
+            onFocus={handleNameFocus}
+            onBlur={handleNameBlur}
+            onChangeText={handleNameChange}
+          />
+        </TextField>
+        <TextField
+          title={ t('portfolio.main fiat currency') }
+          onPress={onModalOpen}
+          textSideComponent={
+            <Ionicons 
+              name="ios-chevron-down" 
+              size={20} 
+              color={theme.base.text[200]}
+            />
+          }
+        >
+          <Text color100 fontML bold>
+            { formData.currency.value }
+          </Text>
+        </TextField>
+      </ScrollCloseModal>
     </>
   )
 }
@@ -328,20 +295,6 @@ const CreatePortfolioModal = ({ visible, closeModal }: FormModalProps) => {
 export default CreatePortfolioModal;
 
 const Modal = styled.Modal``
-const Container = styled.KeyboardAvoidingView`
-  flex: 1;
-  background-color: ${({ theme }) => theme.base.background.surface};
-`
-const HeaderView = styled.View`
-  flex-direction: row;
-  justify-content: flex-end;
-  margin-bottom: 16px;
-  padding: 30px ${({ theme }) => theme.content.spacing} 0;
-`
-const ChildContainer = styled.ScrollView`
-  width: 100%;
-  padding: 0 ${({ theme }) => theme.content.spacing};
-`
 
 const TextInputWrap = styled.TouchableOpacity`
   height: 40px;

@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { 
   Dimensions,
+  Animated
 } from 'react-native';
 import styled, { css } from 'styled-components/native';
 import { useTranslation } from 'react-i18next';
@@ -10,8 +11,11 @@ import Text from '/components/common/Text';
 import Image from '/components/common/Image';
 import { krwFormat, digitToFixed } from '/lib/utils';
 import { CoinType } from '/store/portfolio';
+import { CoinMarketReturn } from '/lib/api/CoinGeckoReturnType';
+import FormModal from './transactionModal/FormModal';
 
-const { width } = Dimensions.get('window');
+
+const { width, height } = Dimensions.get('window');
 const COL_WIDTH = (width - 32 - 100) / 2;
 
 
@@ -22,17 +26,23 @@ interface AlignType {
 interface SortBarProps extends AlignType {
   onPress?: () => void;
   text: string;
+  scrollY: Animated.Value
 }
 
 type ItemListProps = {
-  coins: CoinType[];
+  dataEnteredByTheUser: CoinType[];
+  officialData?: CoinMarketReturn[];
+  scrollY: Animated.Value;
 }
 
-const SortBar = ({ align, text, onPress }: SortBarProps) => {
+const SortBar = ({ align, text, onPress, scrollY }: SortBarProps) => {
   const { theme } = useGlobalTheme();
 
   return (
-    <SortBarContainer align={align}>
+    <SortBarContainer 
+      as={Animated.View}
+      align={align}
+    >
       <Text fontS margin="0 2px 0 0">
         { text }
       </Text>
@@ -45,28 +55,49 @@ const SortBar = ({ align, text, onPress }: SortBarProps) => {
   )
 }
 
-const CoinList = ({ coins }: ItemListProps) => {
+const CoinList = ({ dataEnteredByTheUser, officialData, scrollY }: ItemListProps) => {
   const { t } = useTranslation();
 
+
+  const [visible, setVisible] = useState(false);
+
+
+  const handleAddTransactionPress = () => {
+    setVisible(true);
+  }
+
+  if(!officialData) return <>{ console.log('portfolio api error')}</>
+
   return (
+    <>
     <FlexRow>
       <Col>
         <SortBar 
           text={t('portfolio.name')}
+          scrollY={scrollY}
         />
-        { coins.map(coin => {
+        {dataEnteredByTheUser.map(coin => {
+          let item = officialData.find(data => data.id === coin.id)
           return (
+            <>
             <NameWrap key={coin.id}>
-              <Image 
-                uri={coin.image} 
-                width={30}
-                height={30} 
-                borderRedius='m'
-              />
-              <Text color100 bold fontML margin="0 0 0 10px">
-                { coin.symbol }
-              </Text>
+              {item
+                ? <>
+                    <Image 
+                      uri={item.image} 
+                      width={30}
+                      height={30} 
+                      borderRedius='m'
+                    />
+                    <Text color100 bold fontML margin="0 0 0 10px">
+                      { item.symbol }
+                    </Text>
+                    
+                  </>
+                : <></>
+              }
             </NameWrap>
+            </>
           )
         })}
       </Col>
@@ -81,20 +112,29 @@ const CoinList = ({ coins }: ItemListProps) => {
           <SortBar 
             text={t('portfolio.price')}
             align="right"
+            scrollY={scrollY}
           />
-          { coins.map((coin, index) => {
+          {dataEnteredByTheUser.map(coin => {
+            let item = officialData.find(data => data.id === coin.id)
             return (
               <CurrentPriceView key={coin.id}>
-                <Text color100>
-                  { krwFormat(coin.amount) }
-                </Text>
-                <FigureText fontS number={ coin.totalPercentage }>
-                  {
-                    coin.totalPercentage > 0
-                    ? `+${ digitToFixed(coin.totalPercentage, 2) }%` 
-                    : digitToFixed(coin.totalPercentage, 2) +'%'
-                  }
-                </FigureText>
+                {item
+                  ? <>
+                      <Text color100>
+                        { krwFormat(item.current_price) }
+                      </Text>
+                      <FigureText fontS number={ item.price_change_percentage_24h }>
+                        {
+                          item.price_change_percentage_24h > 0
+                          ? `+${ digitToFixed(item.price_change_percentage_24h, 2) }%` 
+                          : digitToFixed(item.price_change_percentage_24h, 2) +'%'
+                        }
+                      </FigureText>
+                    </>
+                  : <>
+                    </>
+                }
+                
               </CurrentPriceView>
             )
           }) }
@@ -103,16 +143,30 @@ const CoinList = ({ coins }: ItemListProps) => {
           <SortBar 
             text={t('portfolio.holdings')}
             align="right"
+            scrollY={scrollY}
           />
-          { coins.map(coin => {
+          {dataEnteredByTheUser.map(coin => {
+            let item = officialData.find(data => data.id === coin.id)
             return (
               <HoldingsView key={coin.id}>
-                <Text color100>
-                  { krwFormat(coin.amount * coin.quantity) }
-                </Text>
-                <Text fontS>
-                  { coin.quantity + coin.symbol }
-                </Text>
+                {item
+                  ? coin.type === 'incomplete' 
+                    ? <RegisterButton onPress={handleAddTransactionPress}>
+                        <Text>
+                          추가
+                        </Text>
+                      </RegisterButton>
+                    : <>
+                        <Text color100>
+                          {/* { krwFormat(coin.amount * coin.quantity) } */}
+                        </Text>
+                        <Text fontS>
+                          {/* { coin.quantity + coin.symbol } */}
+                        </Text>
+                      </>
+                  : <></>
+                }
+                
               </HoldingsView>
             )
           })}
@@ -121,8 +175,10 @@ const CoinList = ({ coins }: ItemListProps) => {
           <SortBar 
             text={t('portfolio.24h p/l')}
             align="right"
+            scrollY={scrollY}
           />
-          { coins.map(coin => {
+          {dataEnteredByTheUser.map(coin => {
+            let item = officialData.find(data => data.id === coin.id)
             return (
               <PerDayPercentageView key={coin.id}>
               </PerDayPercentageView>
@@ -131,12 +187,12 @@ const CoinList = ({ coins }: ItemListProps) => {
         </Col>
         <Col>
           <SortBar 
-            text={
-              t('portfolio.profit') + ' / ' + t('portfolio.loss')
-            }
+            text={ t('portfolio.profit') + ' / ' + t('portfolio.loss') }
             align="right"
+            scrollY={scrollY}
           />
-          { coins.map(coin => {
+          {dataEnteredByTheUser.map(coin => {
+            let item = officialData.find(data => data.id === coin.id)
             return (
               <PLView key={coin.id}>
               
@@ -148,20 +204,33 @@ const CoinList = ({ coins }: ItemListProps) => {
           <SortBar 
             text={t('portfolio.share')}
             align="right"
+            scrollY={scrollY}
           />
-          { coins.map(coin => {
+          {dataEnteredByTheUser.map(coin => {
+            let item = officialData.find(data => data.id === coin.id)
             return (
               <ShareView key={coin.id}>
-                <Text margin="0 0 3px 0">
-                  { coin.share }
-                </Text>
-                <ShareBar />
+                {item
+                  ? <>
+                      <Text margin="0 0 3px 0">
+                        {/* { coin.share } */}
+                      </Text>
+                      <ShareBar />
+                    </>
+                  : <></>
+                }
+                
               </ShareView>
             )
           })}
         </Col>
       </ScrollView>
     </FlexRow>
+    <FormModal
+      visible={visible}
+      setVisible={setVisible}
+    />
+    </>
   )
 }
 
@@ -196,7 +265,6 @@ const CurrentPriceView = styled(BaseAnalysisViewStyle)`
 `
 
 const HoldingsView = styled(BaseAnalysisViewStyle)`
-
 `
 
 const PerDayPercentageView = styled(BaseAnalysisViewStyle)`
@@ -207,6 +275,18 @@ const PLView = styled(BaseAnalysisViewStyle)`
 `
 const ShareView = styled(BaseAnalysisViewStyle)`
 
+`
+
+const RegisterButton = styled.TouchableOpacity`
+  position: absolute;
+  width: 55px;
+  height: 30px;
+  right: 10px;
+  border-radius: ${({ theme }) => theme.border.m};
+  border-color: ${({ theme }) => theme.base.text[200]};
+  border: 1px solid ${({ theme }) => theme.base.text[200]};
+  justify-content: center;
+  align-items: center;
 `
 
 const FlexRow = styled.View`
@@ -234,6 +314,7 @@ const ShareBar = styled.View`
 `
 
 const SortBarContainer = styled.View<SortBarContainerProps>`
+  position: absolute;
   flex-direction: row;
   height: 25px;
   ${ props => props.align === 'right' 
