@@ -57,7 +57,7 @@ export const lightTheme: DefaultTheme = {
   dark: false,
   base: {
     background: {
-      '100': '#F8F8F8',
+      '100': '#f4f4f4',
       '200': '#F8F8F8',
       '300': '#F8F8F8',
       '400': '#616161',
@@ -67,7 +67,7 @@ export const lightTheme: DefaultTheme = {
     text: {
       '100': 'rgba(0, 0, 0, 0.96)',
       '200': '#58667E',
-      '300': 'rgba(0, 0, 0, 0.7)',
+      '300': '#aeaeae',
       '400': 'rgb(134, 142, 150)'
     },
     primaryColor: '#3861fb',

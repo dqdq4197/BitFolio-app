@@ -1,19 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { 
   Animated, 
-  Text,
   NativeSyntheticEvent,
-  TextInputKeyPressEventData
+  TextInputKeyPressEventData,
+  Easing
 } from 'react-native';
 import styled from 'styled-components/native';
 import { useNavigation } from '@react-navigation/native';
-import CircleCloseButton from '/components/common/CircleCloseButton';
-import useSearchData from '/hooks/useSearchData';
-import useSearchTranding from '/hooks/useSearchTranding';
-import CoinItem from './CoinItem';
 import useGlobalTheme from '/hooks/useGlobalTheme';
-import { SearchCoin } from '/lib/api/CoinGeckoReturnType';
 import ScrollCloseModal from '/components/common/ScrollCloseModal';
+import { easeQuadOut} from 'd3-ease';
+import NumericPad from './NumericPad';
+import Text from '/components/common/Text';
 
 type FormModalProps = {
   visible: boolean,
@@ -21,20 +19,21 @@ type FormModalProps = {
 }
 
 type FormData = {
-  amount: number | string,
+  amount: string,
   quantity: number | string,
   memo: string,
   fee: number | string,
   date: number | string,
 }
 
-type AnimatedTextProps = {
+type RoolingTextProps = {
   text: string;
   index: number;
   amountLength: number;
-  isUnMount: boolean;
+  unMountingList: number[];
 }
-const AnimatedText = ({ text, index, amountLength, isUnMount }: AnimatedTextProps) => {
+
+const RoolingText = ({ text, index, amountLength, unMountingList }: RoolingTextProps) => {
   const translateY = useRef(new Animated.Value(-40)).current;
   const opacity = useRef(new Animated.Value(0)).current;
 
@@ -43,25 +42,27 @@ const AnimatedText = ({ text, index, amountLength, isUnMount }: AnimatedTextProp
       Animated.timing(translateY, {
         toValue: 0,
         delay: 0,
-        duration: 200,
+        duration: 300,
+        easing: Easing.bounce,
         useNativeDriver: true,
       }),
       Animated.timing(opacity, {
         toValue: 1,
         delay: 0,
-        duration: 200,
+        duration: 300,
         useNativeDriver: true,
       })
     ]).start()
   }, [text])
 
   useEffect(() => {
-    if(amountLength - 1 === index && isUnMount ) {
+    if(unMountingList.includes(index)) {
       Animated.parallel([
         Animated.timing(translateY, {
-          toValue: -40,
+          toValue: -50,
           delay: 0,
           duration: 200,
+          easing: Easing.out(easeQuadOut),
           useNativeDriver: true,
         }),
         Animated.timing(opacity, {
@@ -72,7 +73,7 @@ const AnimatedText = ({ text, index, amountLength, isUnMount }: AnimatedTextProp
         })
       ]).start()
     }
-  }, [isUnMount])
+  }, [unMountingList])
 
   return (
     <CustomText
@@ -91,43 +92,83 @@ const AnimatedText = ({ text, index, amountLength, isUnMount }: AnimatedTextProp
 }
 const FormModalLayout = ({ visible, setVisible }: FormModalProps) => {
 
+  const { theme } = useGlobalTheme();
+  const navigation = useNavigation();
+  const [unMountingList, setUnMountingList] = useState<number[]>([]);
+  const [dummyAmount, setDummyAmount] = useState('0');
   const [formData, setFormData] = useState<FormData>({
-    amount: 0,
+    amount: '0',
     quantity: 0,
     memo: "",
     fee: 0,
     date: 0
   })
-  const [unMountText, setUnMountText] = useState(false);
-  const { theme } = useGlobalTheme();
-  const navigation = useNavigation();
 
-  const handleChangeAmount = (text: string) => {
-    if(unMountText) {
-      setTimeout(() => {
-        setFormData(
-          prev => ({
-            ...prev,
-            amount: text === '' ? 0 : text
-          })
-        )
-        setUnMountText(false)
-      }, 200)
-    } else {
-      setFormData(
-        prev => ({
-          ...prev,
-          amount: text === '' ? 0 : text
-        })
+  useEffect(() => {
+    if(!visible) 
+      setFormData({
+        amount: '0',
+        quantity: 0,
+        memo: "",
+        fee: 0,
+        date: 0
+      })
+      setUnMountingList([])
+  }, [visible])
+
+  const handleBackspacePress = () => {
+    
+    if(dummyAmount !== '0' && dummyAmount.length > 0) {
+      setUnMountingList(
+        prev => [dummyAmount.length - 1, ...prev]
       )
     }
   }
 
-  const handleAmountKeyPress = (event: NativeSyntheticEvent<TextInputKeyPressEventData>) => {
-    const { key } = event.nativeEvent;
 
-    if(key === 'Backspace' && formData.amount !== 0) { 
-      setUnMountText(true);
+  console.log('asd',dummyAmount, formData.amount)
+  const handleNumericKeyPress = (key: string) => {
+    const currentAmount = formData.amount;
+
+    if(key === 'backspace' && dummyAmount !== '0') {
+      setDummyAmount(prev => 
+        prev.length === 1 
+          ? '0'
+          : prev.slice(0, prev.length - 1))
+      setTimeout(() => {
+        setUnMountingList(
+          prev => prev.filter(index => dummyAmount.length - 1 !== index)
+        )
+        setFormData(
+          prev => ({
+            ...prev,
+            amount: 
+              dummyAmount.length === 1 
+                ? '0' 
+                : currentAmount.slice(0, dummyAmount.length - 1)
+          })
+        )
+      }, 200)
+    }
+
+    if(key !== 'backspace') {
+      if(dummyAmount === '0') {
+        setDummyAmount(key)
+        setFormData(
+          prev => ({
+            ...prev,
+            amount: key
+          })
+        )
+      } else {
+        setDummyAmount(prev => prev + key)
+        setFormData(
+          prev => ({
+            ...prev,
+            amount: currentAmount + key
+          })
+        )
+      }
     }
   }
 
@@ -136,15 +177,22 @@ const FormModalLayout = ({ visible, setVisible }: FormModalProps) => {
       <ScrollCloseModal
         visible={visible}
         setVisible={setVisible}
+        footerComponent={
+          <ConfirmButton>
+            <Text color100 fontXL>
+              확인
+            </Text>
+          </ConfirmButton>
+        }
       >
         <AmountView>
-          { formData.amount.toString().split('').map((letter, index, arr) => {
+          { formData.amount.split('').map((letter, index, arr) => {
             return (
-              <AnimatedText 
+              <RoolingText 
                 text={letter}
                 index={index}
                 amountLength={arr.length}
-                isUnMount={unMountText}
+                unMountingList={unMountingList}
               />
             )
           }) }
@@ -152,13 +200,16 @@ const FormModalLayout = ({ visible, setVisible }: FormModalProps) => {
             원
           </CustomText>
         </AmountView>
-        <TextInput 
-          keyboardType="numeric"
-          onChangeText={handleChangeAmount} 
-          onKeyPress={handleAmountKeyPress}
-        >
-        </TextInput>
+        <Text>
+          {formData.amount}
+        </Text>
+        <NumericPad 
+          height={230}
+          onNumericKeyPress={handleNumericKeyPress}
+          onBackspacePress={handleBackspacePress}
+        />
       </ScrollCloseModal>
+      
     </>
   )
 }
@@ -166,7 +217,6 @@ const FormModalLayout = ({ visible, setVisible }: FormModalProps) => {
 export default FormModalLayout;
 
 const View = styled.View`
-
 `
 
 const AmountView = styled.View`
@@ -186,4 +236,13 @@ const CustomText = styled.Text`
   font-size: ${({ theme }) => theme.size.font_xxxl};
   height: 100px;
   padding-top: 30px;
+`
+
+const ConfirmButton = styled.TouchableOpacity`
+  height: 45px;
+  background-color: ${({ theme }) => theme.base.primaryColor};
+  border-top-left-radius: ${({ theme }) => theme.border.l};
+  border-top-right-radius: ${({ theme }) => theme.border.l};
+  align-items: center;
+  justify-content: center;
 `
