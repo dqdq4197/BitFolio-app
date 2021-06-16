@@ -69,7 +69,6 @@ type StyledProps = {
 }
 const Container = styled.View<StyledProps>`
   width: ${ width - 32 }px;
-  margin-top: 50px;
   height: ${ props => props.height }px;
   flex-direction: row;
   flex-wrap: wrap;
@@ -77,7 +76,7 @@ const Container = styled.View<StyledProps>`
 
 const Button = styled.View<StyledProps>`
   width: ${ (width - 32) / 3 }px;
-  height: ${ props => props.height / 3 }px;
+  height: ${ props => props.height / 4 }px;
   align-items: center;
   justify-content: center;
 `

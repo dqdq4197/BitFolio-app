@@ -44,7 +44,7 @@ const SurfaceWrap = ({
           </StyledText>
         </TitleWrap>
       }
-      {children}
+      { children }
     </Container>
   )
 }

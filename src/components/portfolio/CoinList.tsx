@@ -59,11 +59,38 @@ const CoinList = ({ dataEnteredByTheUser, officialData, scrollY }: ItemListProps
   const { t } = useTranslation();
 
 
-  const [visible, setVisible] = useState(false);
+  const [transactionModalState, setTransactionModalState] = useState({
+    visible: false,
+    id: "",
+    symbol: "",
+    name: "",
+    current_price: 0,
+    image: "",
+    last_updated: "",
+  });
 
 
-  const handleAddTransactionPress = () => {
-    setVisible(true);
+  const handleAddTransactionPress = (item?: CoinMarketReturn ) => {
+    if(!item) return;
+    const { id, symbol, name, current_price, image, last_updated } = item;
+    setTransactionModalState({
+      visible: true,
+      id,
+      symbol,
+      name,
+      current_price,
+      image,
+      last_updated,
+    })
+  }
+
+  const setModalVisible = (state: boolean) => {
+    setTransactionModalState(
+      prev => ({
+        ...prev,
+        visible: state
+      })
+    )
   }
 
   if(!officialData) return <>{ console.log('portfolio api error')}</>
@@ -151,11 +178,12 @@ const CoinList = ({ dataEnteredByTheUser, officialData, scrollY }: ItemListProps
               <HoldingsView key={coin.id}>
                 {item
                   ? coin.type === 'incomplete' 
-                    ? <RegisterButton onPress={handleAddTransactionPress}>
+                    ? <AddTransactionButton 
+                        onPress={() => handleAddTransactionPress(item)}>
                         <Text>
-                          추가
+                          { t('common.add') }
                         </Text>
-                      </RegisterButton>
+                      </AddTransactionButton>
                     : <>
                         <Text color100>
                           {/* { krwFormat(coin.amount * coin.quantity) } */}
@@ -166,7 +194,6 @@ const CoinList = ({ dataEnteredByTheUser, officialData, scrollY }: ItemListProps
                       </>
                   : <></>
                 }
-                
               </HoldingsView>
             )
           })}
@@ -227,8 +254,15 @@ const CoinList = ({ dataEnteredByTheUser, officialData, scrollY }: ItemListProps
       </ScrollView>
     </FlexRow>
     <FormModal
-      visible={visible}
-      setVisible={setVisible}
+      visible={transactionModalState.visible}
+      setVisible={setModalVisible}
+      id={transactionModalState.id}
+      symbol={transactionModalState.symbol}
+      name={transactionModalState.name}
+      currentPrice={transactionModalState.current_price}
+      image={transactionModalState.image}
+      last_updated={transactionModalState.last_updated}
+
     />
     </>
   )
@@ -277,7 +311,7 @@ const ShareView = styled(BaseAnalysisViewStyle)`
 
 `
 
-const RegisterButton = styled.TouchableOpacity`
+const AddTransactionButton = styled.TouchableOpacity`
   position: absolute;
   width: 55px;
   height: 30px;

@@ -4,7 +4,8 @@ import styled from 'styled-components/native';
 
 
 
-interface TextStyleProps extends TextProps {
+export interface TextStyleProps extends TextProps {
+  as?: any;
   margin?: string,
   padding?: string,
   color?: string,
@@ -30,7 +31,7 @@ interface TextStyleProps extends TextProps {
   right?: boolean,
   underline?: boolean,
   italic?: boolean,
-  children:  any,
+  children?: any,
 }
 
 export default function TextStyle ({ ...props }:TextStyleProps) {

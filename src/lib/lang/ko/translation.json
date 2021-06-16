@@ -13,7 +13,11 @@
     "quantity": "수량",
     "total spent": "사용된 총액",
     "date": "날짜",
-    "memo": "메모"
+    "notes": "메모",
+    "buy": "매수",
+    "sell": "매도",
+    "transfer": "이체",
+    "add": "추가"
   },
   "coinDetail": {
     "Read more": "더보기",

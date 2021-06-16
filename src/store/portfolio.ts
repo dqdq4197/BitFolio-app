@@ -5,12 +5,22 @@ import { v4 as uuidv4 } from 'uuid';
 export interface CoinType {
   id: string,
   currency?: string | null,
-  amount?: number | null,
+  pricePerCoin?: number | null,
   quantity?: number | null,
   memo?: string | null,
   type: 'buy' | 'sell' | 'transfer' | 'incomplete',
 }
 
+export interface TransactionType {
+  portfolioId: string,
+  type: string,
+  currency: string,
+  date: number,
+  quantity: number,
+  pricePerCoin: number,
+  fee: number,
+  notes: string,
+}
 export interface PortfolioType {
   id: string,
   name: string,
@@ -19,7 +29,8 @@ export interface PortfolioType {
 }
 
 interface InitialState {
-  portfolios: PortfolioType[]
+  portfolios: PortfolioType[],
+  transactions: TransactionType[]
 }
 
 type CreatePortfolioAction = {
@@ -39,13 +50,13 @@ const defaultPortfolio: PortfolioType = {
   currency: 'usd',
   coins: [{
     id: 'bitcoin',
-    amount: 35000000,
+    pricePerCoin: 35000000,
     currency: 'krw',
     quantity: 2,
     type: 'buy',
   }, {
     id: 'tether',
-    amount: 10000,
+    pricePerCoin: 10000,
     currency: 'krw',
     quantity: 2,
     type: 'buy',
@@ -59,7 +70,17 @@ const initialState: InitialState = {
       id: 'defaultPortfolio2',
       name: 'defaultPortfolio2'
     }
-  ]
+  ],
+  transactions: [{
+    portfolioId: 'Default-main-portfolio',
+    type: 'buy',
+    currency: 'usd',
+    date: 1234567523,
+    quantity: 2,
+    pricePerCoin: 35000000,
+    fee: 12300,
+    notes: "첫 구매",
+  }]
 }
 
 export const portfolioSlice = createSlice({
@@ -89,7 +110,7 @@ export const portfolioSlice = createSlice({
           ...portfolios[portfolioIdx].coins,
           {
             id,
-            amount: null,
+            pricePerCoin: null,
             currency: null,
             quantity: null,
             memo: null,

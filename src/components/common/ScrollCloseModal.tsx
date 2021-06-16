@@ -5,14 +5,17 @@ import {
 } from 'react-native';
 import styled from 'styled-components/native';
 import CircleCloseButton from '/components/common/CircleCloseButton';
+import Text from '/components/common/Text';
 
 type ModalProps = {
   visible: boolean;
   children: React.ReactNode;
-  setVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  setVisible: (state: boolean) => void | React.Dispatch<React.SetStateAction<boolean>>;
   headerComponent?: React.ReactNode;
   footerComponent?: React.ReactNode;
   extraComponent?: React.ReactNode;
+  titleComponent?: React.ReactNode;
+  footerHeight?: number;
 }
 const ScrollCloseModal = ({ 
   visible, 
@@ -20,7 +23,9 @@ const ScrollCloseModal = ({
   children, 
   headerComponent,
   footerComponent,
-  extraComponent
+  extraComponent,
+  titleComponent,
+  footerHeight=0
 }: ModalProps) => {
 
   const [percentage, setPercentage] = useState(0);
@@ -53,6 +58,7 @@ const ScrollCloseModal = ({
         behavior="padding"
       >
         <HeaderView>
+          { titleComponent || <Blank></Blank> }
           <CircleCloseButton percentage={percentage} onModalClose={handleModalClose}/>
         </HeaderView>
         { headerComponent }
@@ -60,6 +66,7 @@ const ScrollCloseModal = ({
           onScroll={handleScroll}
           onTouchEnd={handleTouchEnd}
           scrollEventThrottle={1}
+          footerHeight={footerHeight}
         >
           { children }
         </ScrollView>
@@ -72,6 +79,9 @@ const ScrollCloseModal = ({
 
 export default ScrollCloseModal;
 
+type ScrollViewProps = {
+  footerHeight: number;
+}
 const Modal = styled.Modal``
 
 const Container = styled.KeyboardAvoidingView`
@@ -81,12 +91,14 @@ const Container = styled.KeyboardAvoidingView`
 
 const HeaderView = styled.View`
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: space-between;
   margin-bottom: 16px;
   padding: 30px ${({ theme }) => theme.content.spacing} 0;
 `
 
-const ScrollView = styled.ScrollView`
+const ScrollView = styled.ScrollView<ScrollViewProps>`
   width: 100%;
-  padding: 0 ${({ theme }) => theme.content.spacing};
+  padding-bottom: ${({ footerHeight }) => footerHeight }px;
 `
+
+const Blank = styled.View``

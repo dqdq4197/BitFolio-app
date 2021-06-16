@@ -49,7 +49,7 @@ const TabBar = ({
         ref: createRef<TouchableOpacity>()
       }
     }))
-  }, [])
+  }, [state])
 
   useEffect(() => {
     if(scrollViewRef.current && measures.length) {
@@ -61,12 +61,12 @@ const TabBar = ({
         animated: true 
       })
     }
-  }, [state.index])
+  }, [state.index, measures])
 
     const inputRange = data.map((_, i) => i);
     const indicatorWidth = measures.length ? interpolateNode(position, {
       inputRange,
-      outputRange: measures.map(measure => measure.width + 10)
+      outputRange: measures.map(measure => measure.width + 10),
     }) : 0
 
     const translateX = measures.length ? interpolateNode(position, {
@@ -92,7 +92,7 @@ const TabBar = ({
       data.forEach((item) => {
         item.ref.current?.measure(
           (x, y, width, height) => {
-            m.push({x, y, width, height})
+            m.push({ x, y, width, height })
             if(m.length === data.length){
               setMeasures(m)
             }

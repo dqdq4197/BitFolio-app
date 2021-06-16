@@ -13,7 +13,11 @@
     "quantity": "Quantity",
     "total spent": "Total Spent",
     "date": "Date",
-    "memo": "Memo"
+    "notes": "Notes",
+    "buy": "Buy",
+    "sell": "Sell",
+    "transfer": "Transfer",
+    "add": "Add"
   },
   "coinDetail": {
     "Read more": "Read More",

@@ -252,6 +252,7 @@ const CreatePortfolioModal = ({ visible, setVisible }: FormModalProps) => {
           />
         }
       >
+      <Container>
         <TextField
           title={ t('portfolio.portfolio name') }
           textSideComponent={
@@ -287,6 +288,7 @@ const CreatePortfolioModal = ({ visible, setVisible }: FormModalProps) => {
             { formData.currency.value }
           </Text>
         </TextField>
+        </Container>
       </ScrollCloseModal>
     </>
   )
@@ -296,6 +298,9 @@ export default CreatePortfolioModal;
 
 const Modal = styled.Modal``
 
+const Container = styled.View`
+  padding: 0 ${({ theme }) => theme.content.spacing};
+`
 const TextInputWrap = styled.TouchableOpacity`
   height: 40px;
   flex-direction: row;
