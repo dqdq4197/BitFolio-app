@@ -87,7 +87,7 @@ const RenderText = ({ type, children, index }: RenderTextProps) => {
     let context = stringToMarker(children);
     const { action } = focusState;
     const { ENTER, BACKSPACE, LINEPOP } = ACTIONS;
-    console.log(index, ':',type);
+    // console.log(index, ':',type);
     while(i++ < 3) {
       context = context.map(text => {
         if(typeof text === 'string') {
@@ -105,7 +105,7 @@ const RenderText = ({ type, children, index }: RenderTextProps) => {
       context = context.flat();
     }
     setContent(context);
-    console.log(index,children)
+    // console.log(index,children)
 
     if(action === ENTER || action === BACKSPACE || action === LINEPOP)
       handlers.setIsTextRendered(true);

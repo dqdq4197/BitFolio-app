@@ -3,20 +3,24 @@ import {
   Platform,
   Keyboard,
   ScrollView,
-  TextInput,
+  Dimensions,
   EmitterSubscription,
   NativeSyntheticEvent,
   NativeScrollEvent,
   KeyboardEvent,
 } from 'react-native';
+import styled from 'styled-components/native';
+import { useHeaderHeight } from '@react-navigation/stack';
 import { TAB_BAR_HEIGHT } from '/lib/constant';
+
+const { height } = Dimensions.get('window');
 
 
 interface KeyboardAwareProps {
   viewIsInsideTabBar?: boolean,
   extraScrollHeight: number,
   autoScrollDependency: unknown,
-  children: any,
+  children: React.ReactNode,
 }
 const KeyboardAwareScrollView = forwardRef(({
   viewIsInsideTabBar = false,
@@ -26,6 +30,7 @@ const KeyboardAwareScrollView = forwardRef(({
 }:KeyboardAwareProps, ref?:React.Ref<ScrollView>) => {
 
   const positionRef = useRef<number>(0);
+  const headerHeight = useHeaderHeight();
   const [keyboardSpace, SetKeyBoardSpace] = useState(
     viewIsInsideTabBar ? TAB_BAR_HEIGHT + extraScrollHeight : extraScrollHeight
   );
@@ -98,7 +103,7 @@ const KeyboardAwareScrollView = forwardRef(({
       SetKeyBoardSpace(extraScrollHeight)
     }
   }
-
+  // console.log(height - headerHeight - extraScrollHeight)
   const handleOnScroll = (
     event: NativeSyntheticEvent<NativeScrollEvent>
   ) => {
@@ -106,17 +111,38 @@ const KeyboardAwareScrollView = forwardRef(({
   }
   // contentInset -> ios 전용임 -> style padding bottom으로 바꿔주자 
   return (
-    <ScrollView
-      ref={ref}
-      keyboardDismissMode={Platform.OS === 'ios' ? "interactive" : "on-drag"}
-      contentInset={{ bottom: keyboardSpace }}
-      scrollEventThrottle={1}
-      onScroll={handleOnScroll}
-      keyboardShouldPersistTaps="handled"
+    <Container
+      height={height - headerHeight - extraScrollHeight}
     >
-      {children}
-    </ScrollView>
+      <ScrollView
+        ref={ref}
+        keyboardDismissMode={Platform.OS === 'ios' ? "interactive" : "on-drag"}
+        // contentContainerStyle={{
+        //   paddingBottom: keyboardSpace,
+        // }}
+        contentInset={{
+          bottom: keyboardSpace
+        }}
+        style={{ height: height - headerHeight - extraScrollHeight }}
+        scrollEventThrottle={1}
+        onScroll={handleOnScroll}
+        keyboardShouldPersistTaps="handled"
+      >
+        { children }
+      </ScrollView>
+    </Container>
   )
 })
 
 export default KeyboardAwareScrollView;
+
+
+type ContainerProps = {
+  height: number;
+}
+const Container = styled.View<ContainerProps>`
+  flex: 1;
+  background-color: ${({ theme }) => theme.base.background.surface};
+  padding-top: 10px;
+  /* height: ${height}px; */
+`

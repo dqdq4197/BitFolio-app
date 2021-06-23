@@ -1,16 +1,11 @@
-import React, { useLayoutEffect } from 'react';
-import { useNavigation } from '@react-navigation/native';
+import React from 'react';
 import GeneralTemplate from '/components/GeneralTemplate';
 import Editor from '/components/mdEditor/Editor';
 import { MdEditorProvider } from '/hooks/useMdEditorContext';
+import ErrorBoundaryAndSuspense from '/components/common/ErrorBoundaryAndSuspense';
+
 
 const EditorScreen = () => {
-  const navigation = useNavigation();
-
-
-  useLayoutEffect(() => {
-    navigation.setOptions({tabBarVisible: false});
-  }, [])
 
   return (
     <GeneralTemplate>

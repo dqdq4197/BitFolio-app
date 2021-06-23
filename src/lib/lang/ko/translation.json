@@ -7,9 +7,9 @@
     "cryptocurrencies": "암호 화폐",
     "exchanges": "거래소",
     "n.hour":  "{{n}}시간",
-    "fees": "수수료",
+    "fee": "수수료",
     "price": "가격",
-    "price per coin": "코인 하나당 가격",
+    "price per coin": "코인당 가격",
     "quantity": "수량",
     "total spent": "사용된 총액",
     "date": "날짜",
@@ -90,6 +90,7 @@
     "portfolio name": "포트폴리오 이름",
     "main fiat currency": "주요 법정통화",
     "new portfolio": "새 포트폴리오",
-    "portfolio creation": "포트폴리오 생성"
+    "portfolio creation": "포트폴리오 생성",
+    "add transaction": "거래 추가"
   }
 }

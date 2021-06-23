@@ -47,8 +47,8 @@ export interface CoinDetailDataReturn {
   categories:                      string[];
   public_notice:                   null;
   additional_notices:              any[];
-  localization:                    { [key in Language]: string };
-  description:                     { [key in Language]: string };
+  localization:                    { [key in Localization]: string };
+  description:                     { [key in Localization]: string };
   links:                           Links;
   image:                           Image;
   country_origin:                  string;
@@ -144,7 +144,7 @@ export enum MarketType {
   Spot = "spot",
 }
 
-export type Language =
+export type Localization =
   | "en"
   | "de"
   | "es"
@@ -295,6 +295,60 @@ export interface MarketData {
 
 export interface Platforms {
   "": string;
+}
+
+export interface PublicInterestStats {
+  alexa_rank:   number;
+  bing_matches: null;
+}
+
+export interface CoinHistorySnapshotReturn {
+  id:                    string;
+  symbol:                string;
+  name:                  string;
+  localization:          Localization;
+  image:                 SnapshotImage;
+  market_data?:           SnapshotMarketData;
+  community_data?:        SnapshotCummunityData;
+  developer_data?:        DeveloperData;
+  public_interest_stats?: PublicInterestStats;
+}
+
+export interface SnapshotCummunityData {
+  facebook_likes:              null;
+  twitter_followers:           number;
+  reddit_average_posts_48h:    number;
+  reddit_average_comments_48h: number;
+  reddit_subscribers:          number;
+  reddit_accounts_active_48h:  string;
+}
+
+export interface DeveloperData {
+  forks:                            number;
+  stars:                            number;
+  subscribers:                      number;
+  total_issues:                     number;
+  closed_issues:                    number;
+  pull_requests_merged:             number;
+  pull_request_contributors:        number;
+  code_additions_deletions_4_weeks: CodeAdditionsDeletions4_Weeks;
+  commit_count_4_weeks:             number;
+}
+
+export interface CodeAdditionsDeletions4_Weeks {
+  additions: number;
+  deletions: number;
+}
+
+export interface SnapshotImage {
+  thumb: string;
+  small: string;
+}
+
+export interface SnapshotMarketData {
+  current_price: { [key: string]: number };
+  market_cap:    { [key: string]: number };
+  total_volume:  { [key: string]: number };
 }
 
 export interface PublicInterestStats {

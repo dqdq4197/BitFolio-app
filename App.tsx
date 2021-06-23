@@ -8,7 +8,7 @@ import { ThemeProvider } from 'styled-components';
 import { Ionicons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import TabBar from '/components/TabBar'
-import { NewsStackScreen, CoinMarketStack, PortfolioScreen } from '/screens';
+import { DiscussionStackScreen, CoinMarketStack, PortfolioScreen } from '/screens';
 import { store, persistor } from '/store';
 import { Provider } from 'react-redux';
 import { PersistGate } from "redux-persist/integration/react";
@@ -54,14 +54,14 @@ const RootNavigation = () => {
           component={CoinMarketStack} 
         />
         <Tab.Screen 
-          name="News" 
+          name="discussion" 
           options={{ 
-            tabBarLabel: '뉴스',
+            tabBarLabel: '토론',
             tabBarIcon: ({ color, size }) => (
               <Entypo name="newsletter" size={size} color={color} />
             )
           }} 
-          component={NewsStackScreen} 
+          component={DiscussionStackScreen} 
         />
       </Tab.Navigator>
     </NavigationContainer>

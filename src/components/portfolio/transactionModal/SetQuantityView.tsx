@@ -49,7 +49,7 @@ const SetQuantityView = ({
               bold: true,
             }}
           />
-          <Text fontX bold margin="0 0 8px 10px">
+          <Text fontL bold margin="0 0 8px 10px">
             { symbol.toUpperCase() }
           </Text>
         </QuantityView>
@@ -82,7 +82,7 @@ const Container = styled.View<ContainerType>`
 `
 const QuantityView = styled.View`
   flex-direction: row;
-  align-items: flex-end;
+  align-items: center;
 `
 
 const TotalPriceView = styled.View`

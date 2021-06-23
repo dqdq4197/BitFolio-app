@@ -76,6 +76,7 @@ type Action =
   | { type: 'UPDATE_LIST_FOCUS_INDEX', focusIndex: number }
   | { type: 'UPDATE_LIST_CURRENT_LINE', contentIndex: number, focusIndex: number }
   | { type: 'UPDATE_LIST_SELECTION', selection: SelectionType }
+  | { type: 'SELECTION_CHANGE_DETECTOR', detected: boolean }
 
 type InitailState = {
   contentStorage: ContentsType[],
@@ -83,6 +84,7 @@ type InitailState = {
   selection: SelectionType,
   listFocusIndex: number,
   isTextRendered: boolean,
+  selectionChangeDetect: boolean
 }
 
 
@@ -124,7 +126,8 @@ const initialState:InitailState = {
     end: 0
   },
   listFocusIndex: 0,
-  isTextRendered: true
+  isTextRendered: true,
+  selectionChangeDetect: false
 };
 
 function mdEditorReducer(state: InitailState, action:Action): InitailState {
@@ -244,6 +247,11 @@ function mdEditorReducer(state: InitailState, action:Action): InitailState {
         ...state,
         listFocusIndex: action.focusIndex
       }
+    case "SELECTION_CHANGE_DETECTOR":
+      return {
+        ...state,
+        selectionChangeDetect: action.detected
+      }
     default:
       throw new Error(`Unhandled action type: `);
   }
@@ -267,6 +275,7 @@ type HandlersType = {
   updateSelection: (selection: SelectionType) => void,
   setIsTextRendered: (isRendered: boolean) => void,
   updateListFocusIndex: (focusIndex: number) => void,
+  selectionChangeDetected: (detected: boolean) => void,
 }
 
 const MdEditorStateContext = createContext<InitailState | undefined>(undefined);
@@ -361,6 +370,12 @@ export function MdEditorProvider({ children }:ProviderProps) {
         focusIndex
       })
     },
+    selectionChangeDetected: (detected: boolean) => {
+      dispatch({
+        type: "SELECTION_CHANGE_DETECTOR",
+        detected
+      })
+    }
   }
   
   return (

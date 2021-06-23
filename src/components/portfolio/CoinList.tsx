@@ -58,29 +58,27 @@ const SortBar = ({ align, text, onPress, scrollY }: SortBarProps) => {
 const CoinList = ({ dataEnteredByTheUser, officialData, scrollY }: ItemListProps) => {
   const { t } = useTranslation();
 
-
   const [transactionModalState, setTransactionModalState] = useState({
-    visible: false,
     id: "",
     symbol: "",
     name: "",
     current_price: 0,
     image: "",
     last_updated: "",
+    visible: false,
   });
-
 
   const handleAddTransactionPress = (item?: CoinMarketReturn ) => {
     if(!item) return;
     const { id, symbol, name, current_price, image, last_updated } = item;
     setTransactionModalState({
-      visible: true,
       id,
       symbol,
       name,
       current_price,
       image,
       last_updated,
+      visible: true,
     })
   }
 
@@ -119,7 +117,6 @@ const CoinList = ({ dataEnteredByTheUser, officialData, scrollY }: ItemListProps
                     <Text color100 bold fontML margin="0 0 0 10px">
                       { item.symbol }
                     </Text>
-                    
                   </>
                 : <></>
               }
@@ -253,17 +250,18 @@ const CoinList = ({ dataEnteredByTheUser, officialData, scrollY }: ItemListProps
         </Col>
       </ScrollView>
     </FlexRow>
-    <FormModal
-      visible={transactionModalState.visible}
-      setVisible={setModalVisible}
-      id={transactionModalState.id}
-      symbol={transactionModalState.symbol}
-      name={transactionModalState.name}
-      currentPrice={transactionModalState.current_price}
-      image={transactionModalState.image}
-      last_updated={transactionModalState.last_updated}
-
-    />
+    { transactionModalState.visible && (
+      <FormModal
+        visible={transactionModalState.visible}
+        setVisible={setModalVisible}
+        id={transactionModalState.id}
+        symbol={transactionModalState.symbol}
+        name={transactionModalState.name}
+        currentPrice={transactionModalState.current_price}
+        image={transactionModalState.image}
+        last_updated={transactionModalState.last_updated}
+      />
+    )}
     </>
   )
 }
@@ -348,7 +346,6 @@ const ShareBar = styled.View`
 `
 
 const SortBarContainer = styled.View<SortBarContainerProps>`
-  position: absolute;
   flex-direction: row;
   height: 25px;
   ${ props => props.align === 'right' 

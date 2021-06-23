@@ -6,7 +6,9 @@ import {
   EmitterSubscription, 
   Animated, 
   KeyboardEvent,
-  StatusBar 
+  StatusBar,
+  Easing,
+  LayoutAnimation
 } from 'react-native';
 import styled from 'styled-components/native';
 import * as ImagePicker from 'expo-image-picker';
@@ -28,6 +30,7 @@ import {
   QuoteType,
   ContentsType
 } from '/hooks/useMdEditorContext';
+import { easeCubic, easeCubicIn, easeCubicOut, easeQuadOut } from 'd3-ease';
 
 const { width } = Dimensions.get('window');
 const CONTROLBAR_HEIGHT = 45;
@@ -404,7 +407,16 @@ const DefaultControlBar = () => {
                       caption: ""
                     }
                   }
-                  handlers.insertNewLineAfter([newContext], index)
+                  handlers.insertNewLineAfter([
+                    newContext,
+                    {
+                      type: PARAGRAPH,
+                      payload: {
+                        text: '',
+                        inlineStyles: []
+                      }
+                    }
+                  ], index)
                 }
               } else {
                 alert('Sorry, we need camera roll permissions to make this work!');
@@ -417,7 +429,7 @@ const DefaultControlBar = () => {
   }
 
   return (
-    <View>
+    <>
       <UtilsWrap flex={5}>
         <UtilBtn onPress={handleHeaderPress}>
           <MaterialIcons name="text-fields" size={24} color="rgba(255,255,255, .7)" />
@@ -440,7 +452,7 @@ const DefaultControlBar = () => {
           <Ionicons name="md-image" size={24} color="rgba(255,255,255, .7)" />
         </UtilBtn>
       </UtilsWrap>
-    </View>
+    </>
   )
 }
 
@@ -483,8 +495,10 @@ const ControlBar = ({ selecting }:ControlBarProps ) => {
     const keyboardHeight = event.startCoordinates?.height;
     if(keyboardHeight) {
       Animated.timing(topValue, {
-        toValue: -keyboardHeight + TAB_BAR_HEIGHT,
+        toValue: -keyboardHeight,
         duration: event.duration,
+        delay: 0,
+        easing: Easing.in(easeQuadOut),
         useNativeDriver: true,
       }).start();
     }
@@ -493,7 +507,9 @@ const ControlBar = ({ selecting }:ControlBarProps ) => {
   const resetKeyboardSpace = (event: KeyboardEvent) => {
     Animated.timing(topValue, {
       toValue: 0,
-      duration: 100,
+      duration: event.duration,
+      delay: 0,
+      easing: Easing.in(easeQuadOut),
       useNativeDriver: true,
     }).start();
   };
@@ -519,28 +535,14 @@ interface UtilsWrapProps {
   flex: number
 }
 const Container = styled.View`
-  position: absolute;
   flex-direction: row;
-  width: ${width}px;
-  height: ${CONTROLBAR_HEIGHT}px;
   align-items: center;
-  bottom: 0;
-  /* padding: ${CONTROLBAR_HEIGHT}px; */
-  /* padding: 0; */
-  background-color: ${({theme}) => theme.base.background[200]};
-  /* background-color: white; */
-`
-const View = styled.View`
-  position: absolute;
-  top: 0;
-  width: ${width}px;
-  height: ${CONTROLBAR_HEIGHT}px;
-  align-items: center;
-  flex-direction: row;
   padding: 0 10px;
+  height: ${ CONTROLBAR_HEIGHT }px; 
+  background-color: ${({theme}) => theme.base.background[200]};
 `
 const UtilsWrap = styled.View<UtilsWrapProps>`
-  flex: ${props => props.flex};
+  flex: ${ props => props.flex };
   flex-direction: row;
 `
 const UtilBtn = styled.TouchableOpacity`
@@ -548,12 +550,7 @@ const UtilBtn = styled.TouchableOpacity`
 `
 
 const SelectingView = styled.View`
-  position: absolute;
-  top: 0;
-  width: ${width}px;
-  height: ${CONTROLBAR_HEIGHT}px;
-  align-items: center;
+  width: ${ width }px;
   flex-direction: row;
   justify-content: space-around;
-  padding: 0 10px;
 `

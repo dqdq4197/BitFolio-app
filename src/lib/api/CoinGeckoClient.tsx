@@ -30,7 +30,7 @@ type MarketChartParams = {
 }
 
 type HistorySnapshotParams = {
-  data: string,  //ex) dd-mm-yyyy
+  date: string,  //ex) dd-mm-yyyy
   localization?: boolean
 }
 
@@ -150,6 +150,13 @@ export const CoinGecko = {
         url: `/global`
       }
     },
+    /**
+      * @description Get historical data (name, price, market, stats) at a given date for a coin
+      * @function coin.historySnapshot()
+      * @param {string} id - (Required) The coin id / eg. bitcoin
+      * @param {string} params.date - The date of data snapshot in dd-mm-yyyy eg. 30-12-2017
+      * @returns {ReturnObject}
+      */
     historySnapshot: (id:string, params:HistorySnapshotParams) => {
       return {
         url: `/coins/${id}/history`,
@@ -175,7 +182,6 @@ export const CoinGecko = {
         params
       }
     },
-
     historicalOhlc: (id:string, params:HistoricalOhlcParams) => {
       return {
         url: `/coins/${id}/ohlc`,

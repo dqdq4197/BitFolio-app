@@ -7,7 +7,7 @@
     "cryptocurrencies": "Cryptocurrencies",
     "exchanges": "Exchanges",
     "n.hour":  "{{n}}h",
-    "fees": "Fees",
+    "fee": "Fees",
     "price": "Price",
     "price per coin": "Price Per Coin",
     "quantity": "Quantity",
@@ -90,6 +90,7 @@
     "portfolio name": "Portfolio name",
     "main fiat currency": "Main fiat currency",
     "new portfolio": "New portfolio",
-    "portfolio creation": "Portfolio creation"
+    "portfolio creation": "Portfolio creation",
+    "add transaction": "Add Transaction"
   }
 }

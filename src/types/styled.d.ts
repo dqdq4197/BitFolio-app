@@ -19,6 +19,7 @@ declare module 'styled-components/native' {
         '400': string
       },
       primaryColor: string,
+      secondPrimaryColor: string,
       error: string,
       upColor: string,
       downColor: string,

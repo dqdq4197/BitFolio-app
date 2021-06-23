@@ -9,7 +9,7 @@ export const darkTheme: DefaultTheme = {
       '100': '#000000',   // '#100F10',
       '200': '#1B1B1B',
       '300': '#242424',
-      '400': '#616161',
+      '400': '#323232',
       'surface': '#121212',
       'hovered': 'rgba(18, 18, 18, .96)', // #121212 + overlay 0.04
     },
@@ -20,6 +20,7 @@ export const darkTheme: DefaultTheme = {
       '400': 'rgb(134, 142, 150)'
     },
     primaryColor: '#3861fb',
+    secondPrimaryColor: 'rgba(56, 97, 251,0.5)',
     error: '#CF6679',
     upColor: '#00e676',
     downColor: '#ea3943'
@@ -59,7 +60,7 @@ export const lightTheme: DefaultTheme = {
     background: {
       '100': '#f4f4f4',
       '200': '#F8F8F8',
-      '300': '#F8F8F8',
+      '300': '#EFF2F5',
       '400': '#616161',
       'surface': '#ffffff',
       'hovered': 'rgba(18, 18, 18, .96)'
@@ -71,6 +72,7 @@ export const lightTheme: DefaultTheme = {
       '400': 'rgb(134, 142, 150)'
     },
     primaryColor: '#3861fb',
+    secondPrimaryColor: 'rgba(56, 97, 251,0.7)',
     error: '#CF6679',
     upColor: '#00e676',
     downColor: '#ea3943'

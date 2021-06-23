@@ -1,10 +1,8 @@
 import React from 'react';
 import { Dimensions } from 'react-native';
 import styled from 'styled-components/native';
-import fromUnixTime from 'date-fns/fromUnixTime';
-import ko from "date-fns/locale/ko"
-import us from "date-fns/locale/en-US"
-import formatDistance from 'date-fns/formatDistance'
+import { fromUnixTime, formatDistance } from 'date-fns';
+import { ko, enUS } from 'date-fns/locale';
 import * as WebBrowser from 'expo-web-browser';
 import { NewsData } from '/lib/api/CryptoCompareReturnType';
 import Text from '/components/common/Text';
@@ -20,7 +18,7 @@ type ItemProps = {
   currentCategory: string;
 }
 const Item = ({ item, currentCategory }: ItemProps) => {
-  const { theme } =useGlobalTheme();
+  const { theme } = useGlobalTheme();
   const { language } = useLocales();
 
   const handleItemPress = () => {
@@ -38,7 +36,7 @@ const Item = ({ item, currentCategory }: ItemProps) => {
       <Text fontS>
         { formatDistance( 
             fromUnixTime(item.published_on), new Date(),
-            { addSuffix: true, locale: language === 'ko' ? ko : us },
+            { addSuffix: true, locale: language === 'ko' ? ko : enUS },
           )
         } ∙ { item.source }
       </Text>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { View } from 'react-native';
 import ControlBar from './ControlBar';
 import KeyboardAwareScrollView from './KeyboardAwareScrollView';
 import PlainTextBlock from './PlainTextBlock';
@@ -21,7 +22,7 @@ const CONTROL_BAR_HEIGHT = 45;
 const InputArea = () => {
   const { contentStorage, focusState, listFocusIndex, selection } = useMdEditorState();
   console.log(
-    contentStorage,
+    // contentStorage,
     'focusState:', focusState, 'listFocusIndex:', listFocusIndex, 'selection:', selection,
     )
 
@@ -93,17 +94,21 @@ const Editor = () => {
   const { focusState, selection } = useMdEditorState();
 
   return (
-    <>
+    <View 
+      // behavior="padding"
+      // keyboardVerticalOffset={60}
+      style={{ flex: 1 }}
+    >
       <KeyboardAwareScrollView
         autoScrollDependency={focusState.index}
         extraScrollHeight={CONTROL_BAR_HEIGHT}
       >
         <InputArea />
       </KeyboardAwareScrollView>
-      <ControlBar 
+      <ControlBar
         selecting={selection.start !== selection.end}
       />
-    </>
+    </View>
   )
 }
 

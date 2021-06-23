@@ -32,7 +32,7 @@ const PlainTextBlock = ({ index, type, payload }: PlainTextProps ) => {
   const { scheme } = useGlobalTheme();
   const handlers = useMdEditorDispatch();
   const textInputRef = useRef<TextInput | null>(null);
-  const { contentStorage, isTextRendered, selection, focusState } = useMdEditorState();
+  const { contentStorage, isTextRendered, selection, focusState, selectionChangeDetect } = useMdEditorState();
 
   useEffect(() => {
     if(textInputRef.current && isTextRendered) {
@@ -46,9 +46,10 @@ const PlainTextBlock = ({ index, type, payload }: PlainTextProps ) => {
       } else {
         textInputRef.current?.focus();
       }
-      if(action === ENTER || action === BACKSPACE || (action === LINEPOP && index !== 0)) {
-        textInputRef.current.setNativeProps({ selection })
-      }
+      // if(action === ENTER || action === BACKSPACE || (action === LINEPOP && index !== 0)) {
+      //   textInputRef.current.setNativeProps({ selection })
+      //   console.log('asd1')
+      // }
     }
   }, [focusState, isTextRendered])
 
@@ -211,6 +212,7 @@ const PlainTextBlock = ({ index, type, payload }: PlainTextProps ) => {
             start: prevItems[prevItems.length - 1].length,
             end: prevItems[prevItems.length - 1].length
           })
+          handlers.selectionChangeDetected(true);
           return ;
         default:
           const { payload } = prevContext as ParagraphType;
@@ -234,6 +236,7 @@ const PlainTextBlock = ({ index, type, payload }: PlainTextProps ) => {
               start: prevText.length,
               end: prevText.length
             });
+
           }
           return ;
       }
@@ -244,23 +247,28 @@ const PlainTextBlock = ({ index, type, payload }: PlainTextProps ) => {
   const handleSelectionChange = (
     event: NativeSyntheticEvent<TextInputSelectionChangeEventData>,
   ) => {
-    const { selection } = event.nativeEvent;
+    const { selection: nativeSelection } = event.nativeEvent;
     const { index: focusIndex, action } = focusState;
     const { ENTER, LINEPOP, BACKSPACE } = ACTIONS;
 
     if(focusIndex === index) {
+      console.log('selection change')
       if(action === ENTER) {
-        handlers.updateSelection({
-          start: 0,
-          end: 0
-        })
+        console.log('4')
+        textInputRef.current?.setNativeProps({ selection })
       } else if(action === LINEPOP) {
         // todo when action is pop
       } else if(action === BACKSPACE) {
         // todo when action is backspace
+        console.log(1)
+        textInputRef.current?.setNativeProps({ selection })
       } else {
-        console.log('update', selection)
-        handlers.updateSelection(selection)
+        if(selectionChangeDetect) {
+          textInputRef.current?.setNativeProps({ selection })
+          handlers.selectionChangeDetected(false);
+        } else {
+          handlers.updateSelection(nativeSelection)
+        }
       }
     }
   }
@@ -286,6 +294,8 @@ const PlainTextBlock = ({ index, type, payload }: PlainTextProps ) => {
           end: text.length
         }
       })
+    
+    console.log(3)
     handlers.focusActionReset(index);
     handlers.updateListFocusIndex(-1);
   }

@@ -12,8 +12,9 @@ const ImageBlock = ({ index, uri, width, height }: ImageBlockProps) => {
   return (
     <Image 
       uri={uri}
-      width={width}
-      height={height}
+      width={150}
+      height={100}
+      fullWidth
     />
   )
 }

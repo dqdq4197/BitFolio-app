@@ -27,7 +27,7 @@ const ListTextBlock = ({
   contentIndex,
 }:ListProps) => {
   const { scheme } = useGlobalTheme();
-  const { listFocusIndex, contentStorage, focusState, selection } = useMdEditorState();
+  const { listFocusIndex, contentStorage, focusState, selection, selectionChangeDetect } = useMdEditorState();
   const { ENTER, BACKSPACE, LINEPOP } = ACTIONS;
   const handlers = useMdEditorDispatch();
   const textInputRef = useRef<TextInput>(null);
@@ -72,12 +72,9 @@ const ListTextBlock = ({
       ]
       
       handlers.updateCurrentLine(currentContext, contentIndex);
-      handlers.updateListFocusIndex(listIndex + 1);
       handlers.updateFocusState(contentIndex, ENTER);
-      handlers.updateSelection({
-        start: 0,
-        end: 0
-      })
+      handlers.updateListFocusIndex(listIndex + 1);
+      handlers.selectionChangeDetected(true);
     }
 
     if(key === 'Backspace') {
@@ -116,34 +113,11 @@ const ListTextBlock = ({
           handlers.updateFocusState(contentIndex + 1, BACKSPACE);
         }
         handlers.updateListFocusIndex(-1);
+        handlers.selectionChangeDetected(true);
       }
     }
   }
 
-
-
-  const handleSelectionChange = (
-    event: NativeSyntheticEvent<TextInputSelectionChangeEventData>
-  ) => {
-    const { selection } = event.nativeEvent;
-    const { action } = focusState;
-
-    if(listIndex === listFocusIndex) {
-      if(action === ENTER) {
-        handlers.updateSelection({
-          start: 0,
-          end: 0
-        })
-      } else if(action === LINEPOP) {
-        // todo when action is pop
-      } else if(action === BACKSPACE) {
-        // todo when action is backspace
-      } else {
-        console.log('update list selection', selection)
-        handlers.updateSelection(selection)
-      }
-    }
-  }
 
   const handleFocus = (
     event:NativeSyntheticEvent<TextInputFocusEventData>
@@ -164,8 +138,37 @@ const ListTextBlock = ({
       }
     }
 
-    handlers.focusActionReset(contentIndex);
+    console.log('list 1')
     handlers.updateListFocusIndex(listIndex);
+    handlers.focusActionReset(contentIndex);
+  }
+``
+  const handleSelectionChange = (
+    event: NativeSyntheticEvent<TextInputSelectionChangeEventData>
+  ) => {
+    const { selection: nativeSelection } = event.nativeEvent;
+    const { action } = focusState;
+    if(listIndex !== listFocusIndex) return ;
+    console.log('list 2')
+
+    if(action === ENTER) {
+      handlers.updateSelection({
+        start: 0,
+        end: 0
+      })
+    } else if(action === LINEPOP) {
+      // todo when action is pop
+    } else if(action === BACKSPACE) {
+      // todo when action is backspace
+    } else {
+      console.log('update list selection')
+      if(selectionChangeDetect) {
+        textInputRef.current?.setNativeProps({ selection })
+        handlers.selectionChangeDetected(false);
+      } else {
+        handlers.updateSelection(nativeSelection)
+      }
+    }
   }
   
   return (
