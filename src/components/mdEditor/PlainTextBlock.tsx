@@ -206,13 +206,15 @@ const PlainTextBlock = ({ index, type, payload }: PlainTextProps ) => {
           } else {
             handlers.mergePreviousLineWithCurrentLine([newContext], index);
           }
-          handlers.updateFocusState(index - 1, BACKSPACE)
           handlers.updateListFocusIndex(prevItems.length - 1);
+          handlers.updateFocusState(index - 1, BACKSPACE)
           handlers.updateSelection({
             start: prevItems[prevItems.length - 1].length,
             end: prevItems[prevItems.length - 1].length
           })
-          handlers.selectionChangeDetected(true);
+          if(currentText.length) {
+            handlers.selectionChangeDetected(true);
+          }
           return ;
         default:
           const { payload } = prevContext as ParagraphType;
@@ -264,9 +266,11 @@ const PlainTextBlock = ({ index, type, payload }: PlainTextProps ) => {
         textInputRef.current?.setNativeProps({ selection })
       } else {
         if(selectionChangeDetect) {
-          textInputRef.current?.setNativeProps({ selection })
+          // textInputRef.current?.setNativeProps({ selection })
+          console.log('ㅋㅋㅋㅋ')
           handlers.selectionChangeDetected(false);
         } else {
+          console.log('native selection change')
           handlers.updateSelection(nativeSelection)
         }
       }
@@ -277,24 +281,28 @@ const PlainTextBlock = ({ index, type, payload }: PlainTextProps ) => {
     event:NativeSyntheticEvent<TextInputFocusEventData>, 
   ) => {
     const { text } = event.nativeEvent;
-    const { ENTER, BACKSPACE, LINEPOP } = ACTIONS;
+    const { ENTER, BACKSPACE, LINEPOP, TYPING } = ACTIONS;
     const { action } = focusState;
 
-    if(text === "") {
-      handlers.updateSelection({
-        start: 0,
-        end: 0
-      })
-    }
-
-    if(action !== ENTER && action !== BACKSPACE && action !== LINEPOP)
+    if(action === TYPING) {
       textInputRef.current?.setNativeProps({
         selection: {
           start: text.length,
           end: text.length
         }
       })
+    }
+    // if(text === "") {
+    //   console.log('설마 여기?')
+    //   handlers.updateSelection({
+    //     start: 0,
+    //     end: 0
+    //   })
+    // }
     
+    if(selectionChangeDetect) {
+      textInputRef.current?.setNativeProps({ selection })
+    }
     console.log(3)
     handlers.focusActionReset(index);
     handlers.updateListFocusIndex(-1);

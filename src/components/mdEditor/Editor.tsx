@@ -20,10 +20,17 @@ import { TYPES } from '/lib/constant';
 const CONTROL_BAR_HEIGHT = 45;
 
 const InputArea = () => {
-  const { contentStorage, focusState, listFocusIndex, selection } = useMdEditorState();
+  const { contentStorage, focusState, listFocusIndex, selection, selectionChangeDetect } = useMdEditorState();
   console.log(
     // contentStorage,
-    'focusState:', focusState, 'listFocusIndex:', listFocusIndex, 'selection:', selection,
+    'focusState:',
+    focusState, 
+    'listFocusIndex:', 
+    listFocusIndex, 
+    'selection:', 
+    selection,
+    'detected:',
+    selectionChangeDetect
     )
 
   return (

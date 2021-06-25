@@ -111,11 +111,10 @@ const RenderText = ({ type, children, index }: RenderTextProps) => {
       handlers.setIsTextRendered(true);
   }, [children, index])
   
-  
   return (
     <TypeContext.Provider value={type}>
       <DefaultText type={type}>
-        { content }
+        { children }
       </DefaultText>
     </TypeContext.Provider>
 

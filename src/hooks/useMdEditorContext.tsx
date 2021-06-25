@@ -106,13 +106,13 @@ const initialState:InitailState = {
     , {
       type: TYPES.LIST,
       payload: {
-        items: ['fsd', '2index'],
+        items: ['unordered', 'unordered2'],
         style: "unordered"
       }
     }, {
       type: TYPES.LIST,
       payload: {
-        items: ['fsd', '2index'],
+        items: ['ordered', 'ordered2'],
         style: "ordered"
       }
     }

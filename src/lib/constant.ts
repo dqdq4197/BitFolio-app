@@ -130,7 +130,8 @@ const ACTIONS = {
   BACKSPACE: "backspace",
   TYPING: "typing",
   TOUCH: "touch",
-  LINEPOP: "linepop"
+  LINEPOP: "linepop",
+  CHANGE_BLOCK_TYPE: 'change_block_type'
 }
 
 // ------------------------

@@ -265,6 +265,7 @@ const DefaultControlBar = () => {
 
           return convertListToOther(newContext);
         }
+        handlers.selectionChangeDetected(true);
       } else {
         // ordered -> paragraph
         const newContext = {
@@ -273,7 +274,7 @@ const DefaultControlBar = () => {
             text: curItems[listFocusIndex]
           }
         }
-
+        handlers.selectionChangeDetected(true);
         return convertListToOther(newContext);
       } 
     }
@@ -329,6 +330,7 @@ const DefaultControlBar = () => {
         handlers.updateCurrentLine(newContext, index);
         handlers.updateListFocusIndex(0);
       }
+      handlers.selectionChangeDetected(true);
     }
   }
 
@@ -352,10 +354,18 @@ const DefaultControlBar = () => {
 
     handlers.insertNewLineAfter(newContext, index);
     handlers.updateFocusState(index + 2, ACTIONS.TYPING)
-    handlers.updateSelection({
-      start: 0,
-      end: 0
-    })
+    if(nextContext?.type !== HEADER && nextContext?.type !== PARAGRAPH && nextContext?.type !== QUOTE) {
+      handlers.updateSelection({
+        start: 0,
+        end: 0
+      })
+    } else {
+      const { text } = (nextContext as ParagraphType | QuoteType | HeaderType).payload;
+      handlers.updateSelection({
+        start: text.length,
+        end: text.length
+      })
+    }
   }
 
   const handleImagePress = async() => {
