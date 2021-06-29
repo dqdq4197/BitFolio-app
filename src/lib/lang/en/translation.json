@@ -91,6 +91,8 @@
     "main fiat currency": "Main fiat currency",
     "new portfolio": "New portfolio",
     "portfolio creation": "Portfolio creation",
-    "add transaction": "Add Transaction"
+    "add transaction": "Add Transaction",
+    "fixing the price": "Fixing the price",
+    "reset to current price": "Reset to current price"
   }
 }

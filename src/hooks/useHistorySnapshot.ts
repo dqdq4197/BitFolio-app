@@ -23,7 +23,6 @@ const useHistorySnapshot = ({
         date
       })
 
-  console.log('getKey', getKey)
   return useRequest<CoinHistorySnapshotReturn>(getKey, http, { suspense })
 }
 

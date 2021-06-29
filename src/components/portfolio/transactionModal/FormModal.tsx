@@ -7,6 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 import { FontAwesome5, FontAwesome, MaterialIcons,MaterialCommunityIcons } from '@expo/vector-icons';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import useLocales from '/hooks/useLocales';
+import useCoinDetailData from '/hooks/useCoinDetailData';
 import useHistorySnapshot from '/hooks/useHistorySnapshot';
 import ScrollCloseModal from '/components/common/ScrollCloseModal';
 import NumericPad from '/components/common/NumericPad';
@@ -16,6 +17,8 @@ import SetDateView from './SetDateView'
 import SetPricePerCoinView from './SetPricePerCoinView';
 import SetFeeView from './SetFeeView';
 import SetNotesView from './SetNotesView';
+import TransactionPurposeBar from './TransactionPurposeBar';
+import { currencyFormat } from '/lib/utils/currencyFormat';
 
 
 type FormModalProps = {
@@ -29,11 +32,13 @@ type FormModalProps = {
   last_updated: string;
 }
 
-type FormData = {
+interface DummyData {
   quantity: string;
-  date: Date;
-  pricePerCoin: string;
+  pricePerCoin: { [key: string]: number | string } | null
   fee: string;
+}
+interface FormData extends DummyData {
+  date: Date;
   notes: string;
 }
 
@@ -49,11 +54,14 @@ type SelectionBar = {
 }
 const { width, height } = Dimensions.get('window');
 
+const TRANSACTION_PURPOSE_BAR_HEIGHT = 50;
 const SELECT_TAB_HEIGHT = 45;
 const HEADER_HEIGHT = 65;
-const NUMERIC_PAD_HEIGHT = 270;
+const NUMERIC_PAD_HEIGHT = 250;
 const FOOTER_HEIGHT = 75; // confirm button height + padding bottom
 const NOTES_MAX_LENGTH = 200;
+const VIEW_HEIGHT = height - HEADER_HEIGHT - TRANSACTION_PURPOSE_BAR_HEIGHT - SELECT_TAB_HEIGHT - FOOTER_HEIGHT;
+const PURPOSES = ['Buy', 'Sell', 'Transfer'];
 const SETTINGS: SettingsType[] = [{
   name: 'Quantity',
   key: 'quantity',
@@ -132,32 +140,53 @@ const FormModalLayout = ({
     pricePerCoin: [],
     fee: []
   });
-  const [dummyFormData, setDummyFormData] = useState({
+  const [dummyFormData, setDummyFormData] = useState<DummyData>({
     quantity: '0',
-    pricePerCoin: currentPrice.toString(),
+    pricePerCoin: null,
     fee: '0'
   });
   const [formData, setFormData] = useState<FormData>({
     quantity: '0',
     date: new Date(),
-    pricePerCoin: currentPrice.toString(),
+    pricePerCoin: null,
     fee: '0',
     notes: '',
   })
   const hScrollViewRef = useRef<ScrollView>(null); 
   const numericPadTranslateY = useRef(new Animated.Value(0)).current;
   const numericPadOpacity = useRef(new Animated.Value(1)).current;
+  const [transactionPurpose, setTransactionPurpose] = useState('Buy');
   const [isHideNumericPad, setIsHideNumericPad] = useState(false);
   const [focusedView, setFocusedView] = useState<FocusedView>(SETTINGS[0].key);
+  const [isPriceFixed, setIsPriceFixed] = useState(false);
+  const { data: coinDetailData } = useCoinDetailData({ id, suspense: false })
   const { data: historySnapshotData } = useHistorySnapshot({
     id,
     date: format(formData.date, 'dd-MM-yyyy'),
     suspense: false,
     willNotRequest: 
       format(formData.date, 'dd-MM-yyyy') === format(new Date(), 'dd-MM-yyyy')
-      || formData.pricePerCoin !== currentPrice.toString()
+      || isPriceFixed
   })
   // pricepercoin을 사용자가 설정했다면 요청x, 설정한 date일자가 같다면 요청 x
+
+  useEffect(() => {
+    if(coinDetailData) {
+      const { market_data: { current_price } } = coinDetailData;
+      setFormData(
+        prev => ({
+          ...prev,
+          pricePerCoin: current_price
+        })
+      )
+      setDummyFormData(
+        prev => ({
+          ...prev,
+          pricePerCoin: current_price
+        })
+      )
+    }
+  }, [coinDetailData])
 
   useEffect(() => {
     const index = SETTINGS.findIndex(setting => setting.key === focusedView);
@@ -210,14 +239,44 @@ const FormModalLayout = ({
 
   useEffect(() => {
     // date바꿀 시 price per coin 해당 date로 초기화
-
-    if(historySnapshotData && historySnapshotData.market_data) {
-      const { current_price } = historySnapshotData.market_data;
+    if(historySnapshotData && !isPriceFixed) {
+      if(historySnapshotData.market_data) {
+        const { current_price } = historySnapshotData.market_data;
+        setFormData(
+          prev => ({
+            ...prev,
+            pricePerCoin: current_price
+          })
+        )
+        setDummyFormData(
+          prev => ({
+            ...prev,
+            pricePerCoin: current_price
+          })
+        )
+      } else {
+        setFormData(
+          prev => ({
+            ...prev,
+            pricePerCoin: {
+              [currency]: 0
+            }
+          })
+        )
+        setDummyFormData(
+          prev => ({
+            ...prev,
+            pricePerCoin: {
+              [currency]: 0
+            }
+          })
+        )
+      }
     }
   }, [historySnapshotData])
 
   const handleBackspacePress = useCallback(() => {
-    const dummyKey = focusedView as 'quantity' | 'pricePerCoin' | 'fee'
+    const dummyKey = focusedView as 'quantity' | 'fee'
     const value = formData[dummyKey];
     if(value !== '0' && value.length > 0) {
       setUnMountingList(
@@ -230,9 +289,9 @@ const FormModalLayout = ({
   }, [formData, focusedView])
 
   const handleNumericKeyPress = useCallback((key: string) => {
-    const dummyKey = focusedView as 'quantity' | 'pricePerCoin' | 'fee'
+    const dummyKey = focusedView as 'quantity' | 'fee'
     const value = formData[dummyKey];
-    
+
     if(key === 'backspace' && value !== '0') {
       setFormData(
         prev => ({
@@ -282,7 +341,6 @@ const FormModalLayout = ({
         }
         return ;
       }
-      
       if(value === '0') {
         setDummyFormData(
           prev => ({
@@ -313,9 +371,27 @@ const FormModalLayout = ({
     }
   }, [formData, focusedView])
 
+  const resetPricePerCoin = () => {
+    if(coinDetailData) {
+      const { market_data: { current_price } } = coinDetailData;
+
+      setFormData(
+        prev => ({
+          ...prev,
+          pricePerCoin: current_price
+        })
+      )
+      setDummyFormData(
+        prev => ({
+          ...prev,
+          pricePerCoin: current_price
+        })
+      )
+    }
+  }
+
   const setDate = (date: Date) => {
     // dd-mm-yyyy
-
     setFormData(
       prev => ({
         ...prev,
@@ -339,16 +415,145 @@ const FormModalLayout = ({
     setFocusedView(key);
   }, [])
 
+  const onIsPriceFiexedChange = () => {
+    setIsPriceFixed(prev => !prev);
+  }
+
+  const onSwitchTransactionPurpose = (label: string) => {
+    setTransactionPurpose(label);
+  }
+
+  const handlePricePerCoinBackspacePress = useCallback(() => {
+    const dummyKey = focusedView as 'pricePerCoin'
+    const value = formData[dummyKey]![currency].toString();
+
+    if(value !== '0' && value.length > 0) {
+      setUnMountingList(
+        prev => ({
+          ...prev,
+          [focusedView]: [value.length - 1, ...prev[dummyKey]]
+        })
+      )
+    }
+  }, [formData, focusedView])
+
+
+  const handlePricePercoinNumericKeyPress = useCallback((key: string) => {
+    if(!formData.pricePerCoin) return;
+
+    const value = formData.pricePerCoin[currency].toString();
+    const dummyKey = focusedView as 'pricePerCoin';
+
+    if(key === 'backspace' && value !== '0') {
+      setFormData(
+        prev => ({
+          ...prev,
+          [focusedView]: {
+            [currency]: value.length === 1
+              ? '0'
+              : value.slice(0, value.length - 1)
+          } 
+        })
+      )
+      setTimeout(() => {
+        setUnMountingList(
+          prev => ({
+            ...prev,
+            [focusedView]: prev[dummyKey].filter(index => value.length - 1 !== index)
+          })
+        )
+        setDummyFormData(
+          prev => ({
+            ...prev,
+            [focusedView]: {
+              [currency]: prev[dummyKey]![currency].toString().length === 1 
+                ? '0'
+                : prev[dummyKey]![currency].toString().slice(0, prev[dummyKey]![currency].toString().length - 1)
+            } 
+          })
+        )
+      }, 200)
+    }
+
+    if(key !== 'backspace') {
+      if(!value.includes('.') && value.length > 11 && key !== '.') return;
+      if(value.includes('.') && value.split('.')[1].length > 6) return ;
+      if(key === '.') {
+        if(value.indexOf('.') === -1) {
+          setDummyFormData(
+            prev => ({
+              ...prev,
+              [focusedView]: {
+                [currency]: value + key
+              }
+            })
+          )
+          setFormData(
+            prev => ({
+              ...prev,
+              [focusedView]: {
+                [currency]: value + key
+              }
+            })
+          )
+        }
+        return ;
+      }
+      if(value === '0') {
+        setDummyFormData(
+          prev => ({
+            ...prev,
+            [focusedView]: {
+              [currency]: key
+            }
+          })
+        )
+        setFormData(
+          prev => ({
+            ...prev,
+            [focusedView]: {
+              [currency]: key
+            }
+          })
+        )
+      } else {
+        setDummyFormData(
+          prev => ({
+            ...prev,
+            [focusedView]: {
+              [currency]: value + key
+            }
+          })
+        )
+        setFormData(
+          prev => ({
+            ...prev,
+            [focusedView]: {
+              [currency]: value + key
+            }
+          })
+        )
+      }
+    }
+  }, [formData, focusedView])
   return (
     <>
       <ScrollCloseModal
         visible={visible}
         setVisible={setVisible}
         headerComponent={
-          <SettingsSelectionBar 
-            onSwitchFocusView={onSwitchFocusView}
-            focusedView={focusedView}
-          />
+          <>
+            <TransactionPurposeBar
+              labels={PURPOSES}
+              height={TRANSACTION_PURPOSE_BAR_HEIGHT}
+              onSwitchTransactionPurpose={onSwitchTransactionPurpose}
+              transactionPurpose={transactionPurpose}
+            />
+            <SettingsSelectionBar 
+              onSwitchFocusView={onSwitchFocusView}
+              focusedView={focusedView}
+            />
+          </>
         }
         titleComponent={
           <TitleWrap>
@@ -388,31 +593,33 @@ const FormModalLayout = ({
             scrollEnabled={false}
           >
             <SetQuantityView 
+              height={VIEW_HEIGHT - NUMERIC_PAD_HEIGHT}
               quantity={dummyFormData.quantity}
               unMountingList={unMountingList.quantity}
               symbol={symbol}
-              pricePerCoin={formData.pricePerCoin}
+              pricePerCoin={formData.pricePerCoin ? formData.pricePerCoin[currency].toString() : '0'}
               onSwitchFocusView={onSwitchFocusView}
-              height={height - HEADER_HEIGHT - SELECT_TAB_HEIGHT - NUMERIC_PAD_HEIGHT - FOOTER_HEIGHT }
             />
             <SetDateView 
-              height={height - HEADER_HEIGHT - SELECT_TAB_HEIGHT - FOOTER_HEIGHT}
+              height={VIEW_HEIGHT}
               isFocused={focusedView === 'date'}
               date={formData.date}
               setDate={setDate}
             />
             <SetPricePerCoinView 
-              pricePerCoin={dummyFormData.pricePerCoin}
+              height={VIEW_HEIGHT - NUMERIC_PAD_HEIGHT}
+              pricePerCoin={dummyFormData.pricePerCoin ? dummyFormData.pricePerCoin[currency].toString() : '0'}
               unMountingList={unMountingList.pricePerCoin}
-              height={height - HEADER_HEIGHT - SELECT_TAB_HEIGHT - NUMERIC_PAD_HEIGHT - FOOTER_HEIGHT}
+              isPriceFixed={isPriceFixed}
+              onIsPriceFiexedChange={onIsPriceFiexedChange}
             />
             <SetFeeView 
+              height={VIEW_HEIGHT - NUMERIC_PAD_HEIGHT}
               fee={dummyFormData.fee}
               unMountingList={unMountingList.fee}
-              height={height - HEADER_HEIGHT - SELECT_TAB_HEIGHT - NUMERIC_PAD_HEIGHT - FOOTER_HEIGHT}
             />
             <SetNotesView 
-              height={height - HEADER_HEIGHT - SELECT_TAB_HEIGHT - FOOTER_HEIGHT}
+              height={VIEW_HEIGHT}
               isFocused={focusedView === 'notes'}
               notes={formData.notes}
               setNotes={setNotes}
@@ -431,8 +638,8 @@ const FormModalLayout = ({
           >
             <NumericPad 
               height={NUMERIC_PAD_HEIGHT}
-              onNumericKeyPress={handleNumericKeyPress}
-              onBackspacePress={handleBackspacePress}
+              onNumericKeyPress={focusedView === 'pricePerCoin' ? handlePricePercoinNumericKeyPress : handleNumericKeyPress}
+              onBackspacePress={focusedView === 'pricePerCoin' ? handlePricePerCoinBackspacePress:  handleBackspacePress}
             />
           </PadWrap>
         </Container>
@@ -451,7 +658,7 @@ type SelectionProps = {
   isFocused: boolean;
 }
 const Container = styled.View`
-  height: ${ height - SELECT_TAB_HEIGHT - HEADER_HEIGHT - FOOTER_HEIGHT }px;
+  height: ${ VIEW_HEIGHT }px;
   justify-content: space-between;
 `
 

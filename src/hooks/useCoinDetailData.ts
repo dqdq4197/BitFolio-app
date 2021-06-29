@@ -2,8 +2,11 @@ import useRequest from './useRequest';
 import { CoinGecko, http } from '/lib/api/CoinGeckoClient';
 import { CoinDetailDataReturn } from '/lib/api/CoinGeckoReturnType';
 
-
-export default (id: string) => {
+type DetailDataProps = {
+  id: string,
+  suspense?: boolean,
+}
+export default ({ id , suspense=true }: DetailDataProps) => {
   const getKey = CoinGecko.coin.DetailInfo(id, {
     localization: true,
     tickers: true,
@@ -13,5 +16,5 @@ export default (id: string) => {
     sparkline: false,
   })
 
-  return useRequest<CoinDetailDataReturn>(getKey, http, { suspense: true })
+  return useRequest<CoinDetailDataReturn>(getKey, http, { suspense })
 }

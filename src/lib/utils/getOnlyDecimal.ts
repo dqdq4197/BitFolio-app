@@ -7,7 +7,7 @@
  */
 export default function getOnlyDecimal(num:number, length: number) {
   let result = num.toString().split('.');
-
+  console.log(num);
   if(!result[1]) {
     return '00';
   } else {

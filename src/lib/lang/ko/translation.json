@@ -91,6 +91,8 @@
     "main fiat currency": "주요 법정통화",
     "new portfolio": "새 포트폴리오",
     "portfolio creation": "포트폴리오 생성",
-    "add transaction": "거래 추가"
+    "add transaction": "거래 추가",
+    "fixing the price": "가격 고정",
+    "reset to current price": "현재 가격으로 재설정"
   }
 }

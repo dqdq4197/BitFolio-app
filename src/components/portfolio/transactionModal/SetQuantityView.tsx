@@ -5,6 +5,8 @@ import Text from '/components/common/Text';
 import RollingText from '/components/common/RollingText';
 import useCurrencyFormat from '/hooks/useCurrencyFormat';
 import { FocusedView } from './FormModal';
+import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat';
+import useLocales from '/hooks/useLocales';
 
 const { width } = Dimensions.get('window');
 
@@ -24,9 +26,7 @@ const SetQuantityView = ({
   onSwitchFocusView,
   height
 }: QuantityViewProps) => {
-
-  const price = useCurrencyFormat(parseFloat(pricePerCoin));
-  const totalPrice = useCurrencyFormat(parseFloat(pricePerCoin) * parseFloat(quantity));
+  const { currency } = useLocales();
 
   return (
     <Container height={height}>
@@ -35,7 +35,7 @@ const SetQuantityView = ({
           Total Price
         </Text>
         <Text margin="5px 0 0 0">
-          { totalPrice }
+          { currencyFormat({ value: parseFloat(pricePerCoin) * parseFloat(quantity), zeroMask: '0', prefix: getCurrencySymbol(currency) }) }
         </Text>
       </TotalPriceView>
       <View>
@@ -58,7 +58,7 @@ const SetQuantityView = ({
           onPress={() => onSwitchFocusView('pricePerCoin')}
         >
           <Text fontML>
-            { price } per coin
+            { currencyFormat({ value: pricePerCoin, zeroMask: '0', prefix: getCurrencySymbol(currency) }) } per coin
           </Text>
         </PricePerCoinView>
       </View>
