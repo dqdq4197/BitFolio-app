@@ -17,7 +17,8 @@
     "buy": "매수",
     "sell": "매도",
     "transfer": "이체",
-    "add": "추가"
+    "add": "추가",
+    "next": "다음"
   },
   "coinDetail": {
     "Read more": "더보기",

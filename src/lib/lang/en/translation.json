@@ -17,7 +17,8 @@
     "buy": "Buy",
     "sell": "Sell",
     "transfer": "Transfer",
-    "add": "Add"
+    "add": "Add",
+    "next": "Next"
   },
   "coinDetail": {
     "Read more": "Read More",

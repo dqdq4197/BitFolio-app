@@ -10,7 +10,7 @@ const { width } = Dimensions.get('window');
 type NotesViewProps = {
   height: number
   isFocused: boolean
-  notes: string
+  notes: string | null
   setNotes: (text: string) => void
   notesMaxLength: number
 }
@@ -46,11 +46,11 @@ const SetNotesView = ({
           onChangeText={(text) => setNotes(text)}
           keyboardAppearance={scheme === 'dark' ? 'dark' : 'light'}
           multiline
-          value={notes}
+          value={notes || ''}
         />
         <TextLengthWrap>
           <Text>
-            { notes.length } / {notesMaxLength}
+            { notes ? notes.length : 0 } / {notesMaxLength}
           </Text>
         </TextLengthWrap>
       </NotePadWrap>

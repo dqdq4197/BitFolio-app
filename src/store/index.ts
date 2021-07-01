@@ -14,11 +14,12 @@ import AsyncStorage from '@react-native-community/async-storage';
 import baseSettingReducer from './baseSetting';
 import marketDetailReducer from './coinMarketDetail';
 import portfolioReducer from './portfolio';
+import transactionReducer from './transaction';
 
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  whitelist: ['baseSettingReducer', 'portfolioReducer'], 
+  whitelist: ['baseSettingReducer', 'portfolioReducer', 'transactionReducer'], 
   blacklist: [
     'marketDetailReducer'
   ], // persist에 저장하지 않을 reducer들 
@@ -28,7 +29,8 @@ const persistConfig = {
 const rootReducer = combineReducers({
   baseSettingReducer,
   marketDetailReducer,
-  portfolioReducer
+  portfolioReducer,
+  transactionReducer
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

@@ -3,7 +3,6 @@ import { Dimensions } from 'react-native';
 import styled from 'styled-components/native';
 import Text from '/components/common/Text';
 import RollingText from '/components/common/RollingText';
-import useCurrencyFormat from '/hooks/useCurrencyFormat';
 import { FocusedView } from './FormModal';
 import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat';
 import useLocales from '/hooks/useLocales';
@@ -24,7 +23,7 @@ const SetQuantityView = ({
   symbol,
   pricePerCoin,
   onSwitchFocusView,
-  height
+  height,
 }: QuantityViewProps) => {
   const { currency } = useLocales();
 
@@ -95,7 +94,6 @@ const PricePerCoinView = styled.TouchableOpacity`
   margin-top: 5px;
   border-radius: ${({ theme }) => theme.border.m};
 `
-
 const View = styled.View`
   align-items: center;
 `

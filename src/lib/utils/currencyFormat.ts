@@ -2,7 +2,7 @@ import { baseTypes } from 'base-types';
 
 type CurrencyFormat = {
   value: string | number
-  prefix: string
+  prefix?: string
   zeroMask?: string
 }
 
@@ -89,6 +89,8 @@ export function currencyFormat({
   if(!decimalPart) {
     if(prefix) {
       return prefix + AddSeparator(numStr);
+    } else {
+      return AddSeparator(numStr)
     }
   }
 

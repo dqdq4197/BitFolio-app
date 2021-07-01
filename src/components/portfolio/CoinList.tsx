@@ -30,6 +30,7 @@ interface SortBarProps extends AlignType {
 }
 
 type ItemListProps = {
+  portfolioId: string;
   dataEnteredByTheUser: CoinType[];
   officialData?: CoinMarketReturn[];
   scrollY: Animated.Value;
@@ -55,7 +56,7 @@ const SortBar = ({ align, text, onPress, scrollY }: SortBarProps) => {
   )
 }
 
-const CoinList = ({ dataEnteredByTheUser, officialData, scrollY }: ItemListProps) => {
+const CoinList = ({ portfolioId, dataEnteredByTheUser, officialData, scrollY }: ItemListProps) => {
   const { t } = useTranslation();
 
   const [transactionModalState, setTransactionModalState] = useState({
@@ -254,12 +255,11 @@ const CoinList = ({ dataEnteredByTheUser, officialData, scrollY }: ItemListProps
       <FormModal
         visible={transactionModalState.visible}
         setVisible={setModalVisible}
+        portfolioId={portfolioId}
         id={transactionModalState.id}
         symbol={transactionModalState.symbol}
         name={transactionModalState.name}
-        currentPrice={transactionModalState.current_price}
         image={transactionModalState.image}
-        last_updated={transactionModalState.last_updated}
       />
     )}
     </>

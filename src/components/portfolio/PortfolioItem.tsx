@@ -105,7 +105,8 @@ const PortfolioItem = ({ item, coinsData }: ItemProps) => {
       </HeaderContainer>
       { item.coins.length !== 0
         ? <ListSheet>
-            <CoinList 
+            <CoinList
+              portfolioId={item.id}
               dataEnteredByTheUser={item.coins}
               officialData={coins}
               scrollY={scrollY}

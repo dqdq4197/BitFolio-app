@@ -12,9 +12,9 @@ const { width } = Dimensions.get('window');
 
 type DateViewProps = {
   height: number
-  date: Date
+  date: number
   isFocused: boolean
-  setDate: (date: Date) => void
+  setDate: (date: number) => void
 }
 
 const SetDateView = ({ 
@@ -34,13 +34,11 @@ const SetDateView = ({
         Animated.timing(translateY, {
           toValue: 0,
           duration: 500,
-          delay: 0,
           useNativeDriver: true
         }),
         Animated.timing(opacity, {
           toValue: 1,
-          duration: 600,
-          delay: 0,
+          duration: 500,
           useNativeDriver: true
         })
       ]).start()
@@ -48,14 +46,12 @@ const SetDateView = ({
       Animated.parallel([
         Animated.timing(translateY, {
           toValue: 25,
-          duration: 500,
-          delay: 0,
+          duration: 300,
           useNativeDriver: true
         }),
         Animated.timing(opacity, {
           toValue: 0,
-          duration: 500,
-          delay: 0,
+          duration: 100,
           useNativeDriver: true
         })
       ]).start()
@@ -64,7 +60,7 @@ const SetDateView = ({
 
   const onChange = (event: any, selectedDate?: Date) => {
     const currentDate = selectedDate || date;
-    setDate(currentDate);
+    setDate(+currentDate);
   };
 
   const changePicker = (mode: 'date' | 'time') => {
@@ -128,7 +124,7 @@ const SetDateView = ({
           testID="datePicker"
           minimumDate={new Date(1167613200000)} // 2007-01-01 1h 00 00
           maximumDate={new Date()}
-          value={date}
+          value={new Date(date)}
           locale={language}
           mode={mode}
           display="spinner" // compact ios 14이상 지원.. spinner ui도 대비할 것...

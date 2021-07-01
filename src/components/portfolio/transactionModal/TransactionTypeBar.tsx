@@ -9,14 +9,14 @@ const { width } = Dimensions.get('window');
 type BarProps = {
   labels: string[]
   height: number
-  onSwitchTransactionPurpose: (label: string) => void
-  transactionPurpose: string
+  onSwitchTransactionType: (label: string) => void
+  type: string
 }
-const TransactionPurposeBar = ({ 
+const TransactionTypeBar = ({ 
   labels, 
   height, 
-  onSwitchTransactionPurpose, 
-  transactionPurpose 
+  onSwitchTransactionType, 
+  type 
 }: BarProps) => {
 
   const translateX = useRef(new Animated.Value(0)).current;
@@ -24,10 +24,10 @@ const TransactionPurposeBar = ({
   const LabelWidth = (width - parseInt(theme.content.spacing) * 2) / 3
 
   useEffect(() => {
-    const index = labels.findIndex(label => label === transactionPurpose);
+    const index = labels.findIndex(label => label.toLowerCase() === type);
 
     setTranslateX(index);
-  }, [transactionPurpose])
+  }, [type])
 
   const setTranslateX = (index: number) => {
     Animated.timing(translateX, {
@@ -45,11 +45,11 @@ const TransactionPurposeBar = ({
           <Label 
             key={label} 
             width={LabelWidth}
-            onPress={() => onSwitchTransactionPurpose(label)} 
+            onPress={() => onSwitchTransactionType(label)} 
             activeOpacity={0.6}
           >
             <CustomText 
-              isFocused={label === transactionPurpose}
+              isFocused={label.toLowerCase() === type}
               color100 
               bold 
               fontML
@@ -72,7 +72,7 @@ const TransactionPurposeBar = ({
   )
 }
 
-export default TransactionPurposeBar;
+export default TransactionTypeBar;
 
 type ContainerProps = {
   height: number
@@ -87,7 +87,7 @@ type TextProps = {
 }
 const Container = styled.View<ContainerProps>`
   height: ${({ height }) => height}px;
-  padding: 0 ${({ theme }) => theme.content.spacing} 15px;
+  padding: 0 ${({ theme }) => theme.content.spacing} 12px;
 `
 
 const IndicatorWrap = styled.View`
