@@ -122,7 +122,7 @@ const Container = styled.View`
 `
 
 const CustomText = styled(Text)<TextProps>`
-color: white;
+  color: ${({ theme }) => theme.base.text[100]};
   ${({ totalLength, theme }) => {
     switch (totalLength) {
       case 0:

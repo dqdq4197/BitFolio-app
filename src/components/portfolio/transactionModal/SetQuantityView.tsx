@@ -43,7 +43,6 @@ const SetQuantityView = ({
             text={quantity}
             unMountingList={unMountingList}
             textStyleProps={{
-              color100: true,
               fontXXXL: true,
               bold: true,
             }}

@@ -28,6 +28,7 @@ type ViewProps = {
   focusedView: FocusedView
   onSwitchFocusView: (key: FocusedView) => void
   coinDetailData?: CoinDetailDataReturn
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>
   SETTINGS: SettingsType[]
   SELECT_TAB_HEIGHT: number
   FOOTER_HEIGHT: number
@@ -48,6 +49,7 @@ const EnterDetailsView = ({
   focusedView,
   onSwitchFocusView,
   coinDetailData,
+  setIsLoading,
   SETTINGS,
   SELECT_TAB_HEIGHT,
   FOOTER_HEIGHT
@@ -69,7 +71,7 @@ const EnterDetailsView = ({
   });
   const [isHideNumericPad, setIsHideNumericPad] = useState(false);
   const [isPriceFixed, setIsPriceFixed] = useState(false);
-  const { data: historySnapshotData } = useHistorySnapshot({
+  const { data: historySnapshotData, isValidating } = useHistorySnapshot({
     id,
     date: format(formData.date, 'dd-MM-yyyy'),
     suspense: false,
@@ -191,6 +193,10 @@ const EnterDetailsView = ({
       }
     }
   }, [historySnapshotData])
+
+  useEffect(() => {
+    setIsLoading(isValidating)
+  }, [isValidating])
 
   const handleBackspacePress = useCallback(() => {
     const dummyKey = focusedView as 'quantity' | 'fee'

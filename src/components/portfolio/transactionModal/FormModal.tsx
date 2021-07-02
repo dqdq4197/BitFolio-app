@@ -15,7 +15,8 @@ import Image from '/components/common/Image';
 import EnterDetailsView from './EnterDetailsView';
 import SettingsSelectionBar from './SettingsSelectionBar';
 import TypeSelectView from './TypeSelectView';
-import { easeCubicOut, easeQuadOut } from 'd3-ease';
+import { easeCubicOut } from 'd3-ease';
+import AsyncButton from '/components/common/AsyncButton';
 
 export type SettingsType = {
   name: string
@@ -83,21 +84,20 @@ const FormModalLayout = ({
   name,
   image,
 }: FormModalProps) => {
+  const { t } = useTranslation();
+  const dispatch = useAppDispatch();
+  const { currency } = useLocales();
+  const { theme } = useGlobalTheme();
   const titleAnimate = useRef(new Animated.Value(0)).current;
   const firstPageAnimate = useRef(new Animated.Value(0)).current;
   const secondPageAnimate = useRef(new Animated.Value(20)).current;
   const firstPageOpacity = useRef(new Animated.Value(1)).current;
   const secondPageOpacity = useRef(new Animated.Value(0)).current;
-  const { t } = useTranslation();
-  const dispatch = useAppDispatch();
-  const { currency } = useLocales();
-  const { theme } = useGlobalTheme();
   const { data: coinDetailData } = useCoinDetailData({ id, suspense: false });
-  const onSwitchFocusView = useCallback((key: FocusedView) => {
-    setFocusedView(key);
-  }, [])
   const [activePage, setActivePage] = useState(1);
   const [focusedView, setFocusedView] = useState<FocusedView>(SETTINGS[0].key);
+  const [transitioning, setTransitioning] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState<FormData>({
     portfolioId,
     coinId: id,
@@ -109,7 +109,6 @@ const FormModalLayout = ({
     type: 'buy',
     transferType: 'transfer in'
   })
-  const [transitioning, setTransitioning] = useState(false);
 
   useEffect(() => {
     if(activePage === 1 && transitioning) {
@@ -191,12 +190,17 @@ const FormModalLayout = ({
     }
   }, [transitioning])
 
+  const onSwitchFocusView = useCallback((key: FocusedView) => {
+    setFocusedView(key);
+  }, [])
+
   const handleAddTransactionPress = () => {
     let isSuccess = currencyConverter();
 
     if(!isSuccess || formData.quantity === '0') return ;
 
     dispatch(addTransaction({ formData }))
+    setVisible(false);
   }
 
   const handleNextPress = () => {
@@ -232,6 +236,7 @@ const FormModalLayout = ({
     )
     return true;
   }
+
   return (
     <>
       <ScrollCloseModal
@@ -311,14 +316,19 @@ const FormModalLayout = ({
           </TitleWrap>
         }
         footerComponent={
-          <ConfirmButton onPress={activePage === 1 ? handleNextPress : handleAddTransactionPress}>
-            <Text style={{ color: 'white' }} fontML bold>
-              { activePage === 1
-                ? t(`common.next`)
-                : t(`portfolio.add transaction`) 
-              }
-            </Text>
-          </ConfirmButton>
+          <AsyncButton 
+            text={ activePage === 1
+              ? t(`common.next`)
+              : t(`portfolio.add transaction`) 
+            }
+            textStyle={{
+              fontML: true
+            }}
+            height={FOOTER_HEIGHT - 30} 
+            isLoading={isLoading} 
+            isDisabled={(formData.quantity === '0' && activePage === 2) || isLoading} 
+            onPress={activePage === 1 ? handleNextPress : handleAddTransactionPress}
+          />
         }
         footerHeight={FOOTER_HEIGHT}
       >
@@ -354,6 +364,7 @@ const FormModalLayout = ({
                 symbol={symbol}
                 focusedView={focusedView}
                 onSwitchFocusView={onSwitchFocusView}
+                setIsLoading={setIsLoading}
                 SETTINGS={SETTINGS}
                 SELECT_TAB_HEIGHT={SELECT_TAB_HEIGHT}
                 FOOTER_HEIGHT={FOOTER_HEIGHT}
@@ -371,6 +382,9 @@ type ScrollTextViewProps = {
   maxWidth: number;
 }
 
+type ButtonProps = {
+  isDisabled: boolean;
+}
 const TitleWrap = styled.View`
   flex-direction: row;
 `
@@ -379,10 +393,11 @@ const Title = styled.View`
   flex-direction: row;
   align-items: center;
 `
-const ConfirmButton = styled.TouchableOpacity`
+const ConfirmButton = styled.TouchableOpacity<ButtonProps>`
   width: 100%;
   height: ${FOOTER_HEIGHT - 30}px;
-  background-color: ${({ theme }) => theme.base.primaryColor};
+  background-color: ${({ theme, isDisabled }) => 
+    isDisabled ? theme.base.background[400] : theme.base.primaryColor};
   border-top-left-radius: ${({ theme }) => theme.border.l};
   border-top-right-radius: ${({ theme }) => theme.border.l};
   align-items: center;

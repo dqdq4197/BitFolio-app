@@ -31,7 +31,6 @@ const SetFeeView = ({
         text={fee}
         unMountingList={unMountingList}
         textStyleProps={{
-          color100: true,
           fontXXXL: true,
           bold: true,
         }}
