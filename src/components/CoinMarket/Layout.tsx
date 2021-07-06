@@ -2,17 +2,16 @@ import React, { useCallback } from 'react';
 import { Animated } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
-import styled from 'styled-components/native';
-import TextTicker from 'react-native-text-ticker';
 import PopularList from './PopularList';
 import useAnimatedHeaderTitle from '/hooks/useAnimatedHeaderTitle';
 import ScrollView from "/components/common/ScrollView";
 import SurfaceWrap from '/components/common/SurfaceWrap';
 import RecentlyViewedList from "./RecentlyViewedList";
-import HighPricePreview from './HighPricePreview';
+import HighMarketCapPreview from './HighMarketCapPreview';
 import HighVolumePreview from './HighVolumePreview';
 import WatchList from './WatchList';
 import TextMarquee from './TextMarquee';
+import BottomNotice from '/components/common/BottomNotice';
 
 const Layout = () => {
   const { t } = useTranslation();
@@ -48,22 +47,15 @@ const Layout = () => {
       <RecentlyViewedList 
         onPressItem={handlePressItem}
       />
-      <HighPricePreview 
+      <HighMarketCapPreview 
         onPressItem={handlePressItem}
       />
       <HighVolumePreview 
         onPressItem={handlePressItem}
       />
+      <BottomNotice />
     </ScrollView>
   )
 }
 
 export default Layout;
-
-const MarqueeView = styled.View`
-  height: 50px;
-  background-color: ${({ theme }) => theme.base.primaryColor};
-  padding: 0 ${({ theme }) => theme.content.spacing};
-  border-radius: ${({ theme }) => theme.border.m};
-  justify-content: center;
-`

@@ -7,9 +7,10 @@ import { digitToFixed } from '/lib/utils';
 import useLocales from '/hooks/useLocales';
 import Image from '/components/common/Image';
 import Text from '/components/common/Text';
-import { convertUnits } from '/lib/utils';
 import WatchListIcon from '/components/common/WatchListIcon';
-import useCurrencyFormat from '/hooks/useCurrencyFormat';
+import IncreaseDecreaseValue from '/components/common/IncreaseDecreaseValue';
+import { convertUnits } from '/lib/utils';
+import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat';
 
 const { width } = Dimensions.get('window');
 
@@ -28,7 +29,7 @@ interface ValueProps {
 }
 
 interface PercentageProps extends ValueProps {
-  percentage: number, 
+  percentage: number | null, 
 }
 
 const OnlyValue = ({ value, currency }: ValueProps) => (
@@ -42,15 +43,18 @@ const OnlyValue = ({ value, currency }: ValueProps) => (
 const ValueWithPercentage = ({ value, percentage, currency }: PercentageProps) => (
   <ValueWrap>
     <Text fontML color100 right>
-      { convertUnits(value, currency) }
-    </Text>
-    <FigureText percentage={ percentage } right>
-      {
-        percentage > 0
-        ? `+${ digitToFixed(percentage, 2) }%` 
-        : digitToFixed(percentage, 2) +'%'
+      { value >= 1000000 
+        ? convertUnits(value, currency) 
+        : currencyFormat({ value, prefix: getCurrencySymbol(currency) })
       }
-    </FigureText>
+    </Text>
+    <IncreaseDecreaseValue
+      value={ digitToFixed(percentage ?? 0, 2) }
+      afterPrefix={'%'}
+      textStyle={{
+        right: true
+      }}
+    />
   </ValueWrap>
 )
 
@@ -68,6 +72,7 @@ const Item = ({
   return (
     <>
     <ItemContainer 
+      activeOpacity={0.6}
       onPress={() => onPressItem(item.id, item.symbol)} 
       NoneUnderLine={NoneUnderLine} 
     >
@@ -139,10 +144,9 @@ type ColumnProps = {
   column: number,
 }
 
-type FigureTextProps = {
-  percentage: number,
-}
-
+/* height값 바꿀 시 주의
+   flexList getItemLayout 수치 똑같이 바꿔주기.
+*/
 const ItemContainer = styled.TouchableOpacity<ContainerProps>`
   width: ${({ theme }) => width - parseInt(theme.content.spacing) * 2}px;
   height: 60px;
@@ -161,22 +165,15 @@ const ItemColumn = styled.View<ColumnProps>`
   justify-content: center;
 `   
 const NameWrap = styled.View`
-  /* 전체 넓이 - spacing를 2.5등분 * 1.3 후 - 이미지 넓이 + 이미지 margin right*/
-  width: ${({ theme }) => (width - parseInt(theme.content.spacing) * 2) / 2.5 * 1.3 - 40}px;
+  /* 전체 넓이 - spacing를 2.5등분 * 1.2 후 - 이미지 넓이 + 이미지 margin right*/
+  width: ${({ theme }) => (width - parseInt(theme.content.spacing) * 2) / 2.5 * 1.2 - 40}px;
 `
 const ImageWrap = styled.View`
   margin-right: 10px;
   border-radius: ${({ theme }) => theme.border.s};
   overflow: hidden;
 `
-const FigureText = styled(Text)<FigureTextProps>`
-  color: ${(props) => props.percentage > 0 
-    ? props.theme.colors.green.a400 
-    : props.percentage === 0 
-      ? props.theme.base.text[200]
-      : props.theme.colors.red[500]
-  };
-`
+
 const ValueWrap = styled.View`
   width: 100%;
 `

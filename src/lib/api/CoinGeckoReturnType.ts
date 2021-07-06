@@ -11,7 +11,7 @@ export type CoinMarketReturn = {
   high_24h:number;
   low_24h: number;
   price_change_24h: number;
-  price_change_percentage_24h: number;
+  price_change_percentage_24h: number | null;
   market_cap_change_24h:number;
   market_cap_change_percentage_24h: number;
   circulating_supply: number;

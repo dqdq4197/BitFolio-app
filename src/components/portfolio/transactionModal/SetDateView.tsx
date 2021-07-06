@@ -4,6 +4,7 @@ import styled from 'styled-components/native';
 import Text from '/components/common/Text';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import useLocales from '/hooks/useLocales';
+import useGlobalTheme from '/hooks/useGlobalTheme';
 import { format } from 'date-fns';
 import { ko, enUS } from 'date-fns/locale'
 
@@ -24,6 +25,7 @@ const SetDateView = ({
   setDate
 }: DateViewProps) => {
   const { language } = useLocales();
+  const { scheme } = useGlobalTheme();
   const [mode, setMode] = useState<'date' | 'time'>('date');
   const translateY = useRef(new Animated.Value(25)).current;
   const opacity = useRef(new Animated.Value(0)).current;
@@ -122,6 +124,7 @@ const SetDateView = ({
       >
         <DateTimePicker
           testID="datePicker"
+          textColor={scheme === 'dark' ? 'white' : 'black'}
           minimumDate={new Date(1167613200000)} // 2007-01-01 1h 00 00
           maximumDate={new Date()}
           value={new Date(date)}

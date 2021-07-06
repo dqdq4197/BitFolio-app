@@ -11,6 +11,7 @@ import ScrollCloseModal from '/components/common/ScrollCloseModal';
 import Text from '/components/common/Text';
 import { currencyFormat } from '/lib/utils/currencyFormat';
 import { addTransaction } from '/store/transaction';
+import { addTransactionToPortfolio } from '/store/portfolio';
 import Image from '/components/common/Image';
 import EnterDetailsView from './EnterDetailsView';
 import SettingsSelectionBar from './SettingsSelectionBar';
@@ -198,8 +199,16 @@ const FormModalLayout = ({
     let isSuccess = currencyConverter();
 
     if(!isSuccess || formData.quantity === '0') return ;
-
-    dispatch(addTransaction({ formData }))
+    
+    let newData: FormData = {...formData};
+    if(formData.type !== 'transfer') {
+      newData = {
+        ...formData,
+        transferType: null
+      }
+    }
+    dispatch(addTransaction({ formData: newData }));
+    dispatch(addTransactionToPortfolio(newData));
     setVisible(false);
   }
 

@@ -9,6 +9,7 @@ import { Ionicons } from '@expo/vector-icons';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import Text from '/components/common/Text';
 import Image from '/components/common/Image';
+import IncreaseDecreaseValue from '/components/common/IncreaseDecreaseValue';
 import { krwFormat, digitToFixed } from '/lib/utils';
 import { CoinType } from '/store/portfolio';
 import { CoinMarketReturn } from '/lib/api/CoinGeckoReturnType';
@@ -105,7 +106,6 @@ const CoinList = ({ portfolioId, dataEnteredByTheUser, officialData, scrollY }: 
         {dataEnteredByTheUser.map(coin => {
           let item = officialData.find(data => data.id === coin.id)
           return (
-            <>
             <NameWrap key={coin.id}>
               {item
                 ? <>
@@ -122,7 +122,6 @@ const CoinList = ({ portfolioId, dataEnteredByTheUser, officialData, scrollY }: 
                 : <></>
               }
             </NameWrap>
-            </>
           )
         })}
       </Col>
@@ -148,13 +147,13 @@ const CoinList = ({ portfolioId, dataEnteredByTheUser, officialData, scrollY }: 
                       <Text color100>
                         { krwFormat(item.current_price) }
                       </Text>
-                      <FigureText fontS number={ item.price_change_percentage_24h }>
-                        {
-                          item.price_change_percentage_24h > 0
-                          ? `+${ digitToFixed(item.price_change_percentage_24h, 2) }%` 
-                          : digitToFixed(item.price_change_percentage_24h, 2) +'%'
-                        }
-                      </FigureText>
+                      <IncreaseDecreaseValue
+                        value={ digitToFixed(item.price_change_percentage_24h ?? 0, 2) }
+                        afterPrefix="%"
+                        textStyle={{
+                          right: true
+                        }}
+                      />
                     </>
                   : <>
                     </>
@@ -175,7 +174,7 @@ const CoinList = ({ portfolioId, dataEnteredByTheUser, officialData, scrollY }: 
             return (
               <HoldingsView key={coin.id}>
                 {item
-                  ? coin.type === 'incomplete' 
+                  ? coin.type === 'traking' 
                     ? <AddTransactionButton 
                         onPress={() => handleAddTransactionPress(item)}>
                         <Text>

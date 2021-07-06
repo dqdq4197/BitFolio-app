@@ -6,6 +6,12 @@ type CurrencyFormat = {
   zeroMask?: string
 }
 
+type OnlyDecimalProps = {
+  value:number
+  minLength: number
+  maxLength?: number
+  zeroMask?: string
+}
 export function limitToScale(numStr: string, scale: number, fixedDecimalScale: boolean) {
   let str = ''
   const filler = fixedDecimalScale ? '0' : '';
@@ -42,17 +48,39 @@ function AddSeparator(value: string) {
 
 /**
  * @description 소수점 이하의 값만 반환
- * @param  {number} num - 변경할 숫자
- * @param  {number} length - 소수점 몇 자릿수
+ * @param  {number} value - 변경할 숫자
+ * @param  {number} minLength - 소수점 최소 자릿수 
+ * @param  {number|undefined} maxLength - 소수점 최대 자릿수 * undefined -> 0이 아닌 수 나올때 까지 리턴
+ * @param  {string} zeroMask - [default: '00'] 소수 자리가 없을 경우 mask
  */
- export default function getOnlyDecimal(num:number, length: number) {
-  let result = num.toString().split('.');
+
+export function getOnlyDecimal({
+  value, 
+  minLength,
+  maxLength, 
+  zeroMask = '00'
+}: OnlyDecimalProps):string {
+  let result = value.toString().split('.');
 
   if(!result[1]) {
-    return '00';
+    return zeroMask;
   } else {
-    if(result[1].length >= length) {
-      return result[1].substr(0, length);
+    let maxTemp = maxLength ?? minLength;
+    let nonZeroCnt = 0;
+
+    if(maxLength === undefined) {
+      for(let i = 0; i < result[1].length; i++) {
+        if(result[1][i] !== '0') {
+          if(i > minLength)
+            maxTemp = Math.max(i + 1, maxTemp) 
+            nonZeroCnt++;
+          if(nonZeroCnt === 2) break;
+        }
+      }
+    }
+    
+    if(result[1].length >= maxTemp) {
+      return result[1].substr(0, maxTemp);
     } else {
       return result[1];
     }

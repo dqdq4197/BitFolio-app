@@ -26,7 +26,6 @@ const ChartContainer = ({
     { chartOption === 'ohlc' 
       ? <CandlesticChart
           id={id}
-          lastUpdatedPrice={lastUpdatedPrice}
           HEIGHT={HEIGHT}
           PADDING={PADDING}
           WIDTH={WIDTH}

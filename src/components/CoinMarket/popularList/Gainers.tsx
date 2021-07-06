@@ -42,7 +42,7 @@ const Gainers = () => {
   return (
     <>
       <FlatList 
-        data={usdData.filter(coin => coin.total_volume >= 50000 && coin.price_change_percentage_24h > 0)}
+        data={usdData.filter(coin => coin.price_change_percentage_24h && coin.total_volume >= 50000 && coin.price_change_percentage_24h > 0)}
         keyExtractor={item => item.id + item.symbol}
         contentContainerStyle={{
           backgroundColor: theme.base.background.surface,
@@ -76,6 +76,9 @@ const Gainers = () => {
             refreshing={refreshing}
           />
         }
+        getItemLayout={(data, index) => (
+          {length: 60, offset: 60 * index, index}
+        )}
       />
     </>
   )

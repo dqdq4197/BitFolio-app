@@ -8,6 +8,7 @@ import useCurrencyFormat from '/hooks/useCurrencyFormat';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import Image from '/components/common/Image';
 import Text from '/components/common/Text';
+import IncreaseDecreaseValue from '/components/common/IncreaseDecreaseValue';
 
 type ItemProps = {
   item: CoinMarketReturn;
@@ -21,7 +22,6 @@ const Item = ({ item, index, onPressItem }: ItemProps) => {
   const { theme } =useGlobalTheme();
   const { price_change_percentage_24h, id, current_price,  symbol } = item;
   const price = useCurrencyFormat(current_price);
-  const isRising = price_change_percentage_24h > 0;
   
   return (
     <>
@@ -69,13 +69,13 @@ const Item = ({ item, index, onPressItem }: ItemProps) => {
           <Text fontML color100 right>
             { price }
           </Text>
-          <FigureText isRising={ isRising } right>
-            {
-              isRising
-              ? `+${ digitToFixed(price_change_percentage_24h, 2) }%` 
-              : digitToFixed(price_change_percentage_24h, 2) +'%'
-            }
-          </FigureText>
+          <IncreaseDecreaseValue
+            value={ digitToFixed(price_change_percentage_24h ?? 0, 2) }
+            afterPrefix="%"
+            textStyle={{
+              right: true
+            }}
+          />
         </View>
       </ItemColumn>
       <ItemColumn column={ 0.5 } style={{ justifyContent: 'flex-end'}}>
@@ -90,10 +90,6 @@ export default React.memo(Item);
 
 type ColumnProps = {
   column: number,
-}
-
-type FigureTextProps = {
-  isRising: boolean,
 }
 
 const ItemContainer = styled.TouchableOpacity`
@@ -119,8 +115,3 @@ const ImageWrap = styled.View`
   border-radius: ${({ theme }) => theme.border.s};
   overflow: hidden;
 `
-const FigureText = styled(Text)<FigureTextProps>`
-  color: ${(props) => props.isRising ? props.theme.colors.green.a400 : props.theme.colors.red[500]};
-`
-
-

@@ -1,26 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { baseTypes } from 'base-types';
 import { v4 as uuidv4 } from 'uuid';
+import { FormData } from '/components/portfolio/transactionModal/FormModal';
 
 export interface CoinType {
   id: string,
-  currency?: string | null,
-  pricePerCoin?: number | null,
-  quantity?: number | null,
-  memo?: string | null,
-  type: 'buy' | 'sell' | 'transfer' | 'incomplete',
+  quantity: number | null,
+  fees: number | null,
+  type: 'traking' | 'traded',
 }
 
-export interface TransactionType {
-  portfolioId: string,
-  type: string,
-  currency: string,
-  date: number,
-  quantity: number,
-  pricePerCoin: number,
-  fee: number,
-  notes: string,
-}
 export interface PortfolioType {
   id: string,
   name: string,
@@ -30,7 +19,6 @@ export interface PortfolioType {
 
 interface InitialState {
   portfolios: PortfolioType[],
-  transactions: TransactionType[]
 }
 
 type CreatePortfolioAction = {
@@ -50,16 +38,14 @@ const defaultPortfolio: PortfolioType = {
   currency: 'usd',
   coins: [{
     id: 'bitcoin',
-    pricePerCoin: 35000000,
-    currency: 'krw',
     quantity: 2,
-    type: 'buy',
+    fees: 0,
+    type: 'traded',
   }, {
     id: 'tether',
-    pricePerCoin: 10000,
-    currency: 'krw',
     quantity: 2,
-    type: 'buy',
+    fees: 0,
+    type: 'traded',
   }]
 }
 
@@ -70,17 +56,7 @@ const initialState: InitialState = {
       id: 'defaultPortfolio2',
       name: 'defaultPortfolio2'
     }
-  ],
-  transactions: [{
-    portfolioId: 'Default-main-portfolio',
-    type: 'buy',
-    currency: 'usd',
-    date: 1234567523,
-    quantity: 2,
-    pricePerCoin: 35000000,
-    fee: 12300,
-    notes: "첫 구매",
-  }]
+  ]
 }
 
 export const portfolioSlice = createSlice({
@@ -110,13 +86,59 @@ export const portfolioSlice = createSlice({
           ...portfolios[portfolioIdx].coins,
           {
             id,
-            pricePerCoin: null,
-            currency: null,
             quantity: null,
-            memo: null,
-            type: 'incomplete'
+            fees: null,
+            type: 'traking'
           }
         ]
+      }
+    },
+
+    addTransactionToPortfolio: (state, action: PayloadAction<FormData>) => {
+      const { portfolioId, coinId, transferType, type, quantity, pricePerCoin, fee, date } = action.payload;
+
+      const targetPortfolio = state.portfolios.filter(portfolio => portfolio.id === portfolioId)[0];
+      let targetCoin = targetPortfolio.coins.filter(coin => coin.id === coinId).slice()[0]; // deep copy
+      // TODO
+      // 불변성 체크하기 
+      if(type === 'buy' || transferType === 'transfer in') {
+        if(targetCoin.quantity === null || targetCoin.fees === null) {
+          targetCoin = {
+            ...targetCoin,
+            quantity: Number(quantity),
+            fees: Number(fee),
+            type: 'traded'
+          }
+        } else {
+          let updatedQuantity = targetCoin.quantity + Number(quantity);
+          let updatedFees = targetCoin.fees + Number(fee);
+
+          targetCoin = {
+            ...targetCoin,
+            quantity: updatedQuantity,
+            fees: updatedFees
+          }
+        }
+      } 
+       
+      if(type === 'sell' || transferType === 'transfer out') {
+        if(targetCoin.quantity === null || targetCoin.fees === null) {
+          targetCoin = {
+            ...targetCoin,
+            quantity: -Number(quantity),
+            fees: Number(fee),
+            type: 'traded'
+          }
+        } else {
+          let updatedQuantity = targetCoin.quantity - Number(quantity);
+          let updatedFees = targetCoin.fees + Number(fee);
+
+          targetCoin = {
+            ...targetCoin,
+            quantity: updatedQuantity,
+            fees: updatedFees
+          }
+        }
       }
     }
   }
@@ -124,6 +146,7 @@ export const portfolioSlice = createSlice({
 
 export const { 
   createPortfolio,
-  addTrack
+  addTrack,
+  addTransactionToPortfolio
 } = portfolioSlice.actions;
 export default portfolioSlice.reducer;

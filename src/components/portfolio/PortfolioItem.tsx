@@ -156,3 +156,11 @@ const ListSheet = styled.View`
 const EmptyView = styled.View`
 
 `
+
+const AddTrackingButton = styled.TouchableOpacity`
+  position: absolute;
+  width: 60px;
+  height: 30px;
+  bottom: 50px;
+  background-color: ${({ theme }) => theme.base.primaryColor};
+`

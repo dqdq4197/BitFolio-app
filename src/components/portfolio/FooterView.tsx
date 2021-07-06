@@ -2,15 +2,12 @@ import React, { useState } from 'react';
 import styled from 'styled-components/native';
 import { Dimensions } from 'react-native';
 import Text from '/components/common/Text';
-import { useAppDispatch } from '/hooks/useRedux';
-import { createPortfolio } from '/store/portfolio';
 import CreatePortfolioModal from './CreatePortfolioModal';
 
 const { width } = Dimensions.get('window');
 
 const FooterView = ( ) => {
 
-  const dispatch = useAppDispatch();
   const [visible, setVisible] = useState(false);
 
   const handleAddPress = () => {

@@ -5,9 +5,10 @@ import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import Text from '/components/common/Text';
 import SurfaceWrap from '/components/common/SurfaceWrap';
+import IncreaseDecreaseValue from '/components/common/IncreaseDecreaseValue';
+import Image from '/components/common/Image';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import { digitToFixed } from '/lib/utils';
-import Image from '/components/common/Image';
 import WatchListIcon from '/components/common/WatchListIcon';
 import { useAppSelector } from '/hooks/useRedux';
 import useCoinMarketData from '/hooks/useCoinMarketData';
@@ -52,15 +53,15 @@ const RecentlyViewedList = ({ onPressItem }: ListProps) => {
                 <Text fontML bold>
                   { coin.name }
                 </Text>
-                <FigureText 
-                  fontML 
-                  bold 
-                  percentage={coin.price_change_percentage_24h}
-                  margin="5px 0 0 0"
-                >
-                  { coin.price_change_percentage_24h > 0 && '+' }
-                  { digitToFixed(coin.price_change_percentage_24h, 2) }%
-                </FigureText>
+                <IncreaseDecreaseValue
+                  value={ digitToFixed(coin.price_change_percentage_24h ?? 0, 2) }
+                  afterPrefix='%'
+                  textStyle={{
+                    fontML: true,
+                    bold: true,
+                    margin: '5px 0 0 0'
+                  }}
+                />
               </TitleAndPercentage>
             </Card>
           )
@@ -82,10 +83,6 @@ const RecentlyViewedList = ({ onPressItem }: ListProps) => {
 
 export default RecentlyViewedList;
 
-
-type TextProps = {
-  percentage: number
-}
 const CardWrap = styled.ScrollView``
 
 const IconWrap = styled.View`
@@ -109,13 +106,4 @@ const Card = styled.TouchableOpacity`
 const SearchCard = styled(Card)`
   align-items: center;
   justify-content: center;
-`
-
-const FigureText = styled(Text)<TextProps>`
-  color: ${(props) => props.percentage > 0 
-    ? props.theme.colors.green.a400 
-    : props.percentage === 0 
-      ? props.theme.base.text[200]
-      : props.theme.colors.red[500]
-  };
 `

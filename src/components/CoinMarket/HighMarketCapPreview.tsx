@@ -7,7 +7,6 @@ import Item from './Item';
 import ShowAllButton from './ShowAllButton';
 
 
-
 type ListProps = {
   onPressItem: (id: string, symbol: string) => void;
 }
@@ -17,9 +16,9 @@ const HighPricePreview = ({ onPressItem }: ListProps) => {
   const { data } = useCoinMarketData({ 
     order: ORDER.MARKET_CAP_DESC, 
     per_page: 5,
-    refreshInterval: 300000 
+    refreshInterval: 5 * 60 * 1000 
   });
-  
+
   return (
     <SurfaceWrap title={t('coinMarketHome.top market cap')} paddingBottomZero>
       {data?.map(res => {

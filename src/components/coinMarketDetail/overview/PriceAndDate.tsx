@@ -1,12 +1,8 @@
 import React from 'react';
 import { useAppSelector } from '/hooks/useRedux';
 import Text from '/components/common/Text';
-import {
-  currencySymbol,
-  getOnlyDecimal,
-  timestampToDate
-} from '/lib/utils';
-import useCurrencyFormat from '/hooks/useCurrencyFormat';
+import { timestampToDate } from '/lib/utils';
+import { getOnlyDecimal, getCurrencySymbol } from '/lib/utils/currencyFormat';
 import styled from 'styled-components/native';
 import { shallowEqual } from '/hooks/useRedux';
 
@@ -22,8 +18,6 @@ const PriceAndDate = ({ lastUpdatedPrice, lastUpdatedDate }: PriceAndDetailProsp
     }),
     shallowEqual
   );
-
-  const price = useCurrencyFormat(Math.floor(datum.y) || Math.floor(lastUpdatedPrice), false);
   const date = datum.x || Date.parse(lastUpdatedDate);
   
   return (
@@ -31,16 +25,16 @@ const PriceAndDate = ({ lastUpdatedPrice, lastUpdatedDate }: PriceAndDetailProsp
       <DetailView>
         <PriceWrap>
           <Text fontXL margin="0 5px 0 0" bold>
-            { currencySymbol(currency) }
+            { getCurrencySymbol(currency) }
           </Text>
           <Text fontXXL bold>
-            { price }
+            { Math.floor(datum.y || lastUpdatedPrice) }.
           </Text>
           <Text fontML margin="0 0 4px 0" bold>
             { 
               datum.y === 0
-              ? getOnlyDecimal(lastUpdatedPrice, 2) && '.' + getOnlyDecimal(lastUpdatedPrice, 2)
-              : getOnlyDecimal(datum.y, 2) && '.' + getOnlyDecimal(datum.y, 2)
+              ? getOnlyDecimal({ value: lastUpdatedPrice, minLength: 2 })
+              : getOnlyDecimal({ value: datum.y, minLength: 2 })
             }
           </Text>
         </PriceWrap>

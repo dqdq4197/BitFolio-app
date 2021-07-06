@@ -3,10 +3,12 @@ import { View, Dimensions } from 'react-native';
 import styled from 'styled-components/native';
 import { CoinMarketReturn } from '/lib/api/CoinGeckoReturnType';
 import { digitToFixed } from '/lib/utils';
+import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat';
+import useLocales from '/hooks/useLocales';
 import SparkLine from './SparkLine';
-import useCurrencyFormat from '/hooks/useCurrencyFormat';
 import Image from '/components/common/Image';
 import Text from '/components/common/Text';
+import IncreaseDecreaseValue from '/components/common/IncreaseDecreaseValue';
 
 type ItemProps = {
   item: CoinMarketReturn,
@@ -16,9 +18,11 @@ type ItemProps = {
 const { width } = Dimensions.get('window');
 
 const Item = ({ item, onPressItem }: ItemProps) => {
+  const { currency } = useLocales();
   const { price_change_percentage_24h, id, current_price,  symbol } = item;
-  const price = useCurrencyFormat(current_price);
-  const isRising = price_change_percentage_24h > 0;
+  const isRising = (price_change_percentage_24h ?? 0) === 0
+    ? null 
+    : price_change_percentage_24h! > 0 
   
   return (
     <>
@@ -60,15 +64,18 @@ const Item = ({ item, onPressItem }: ItemProps) => {
       <ItemColumn column={ 1 }>
         <View style={{ width: '100%' }}>
           <Text fontML color100 right>
-            { price }
+            { currencyFormat({
+              value: current_price,
+              prefix: getCurrencySymbol(currency),
+            }) }
           </Text>
-          <FigureText isRising={ isRising } right>
-            {
-              isRising
-              ? `+${ digitToFixed(price_change_percentage_24h, 2) }%` 
-              : digitToFixed(price_change_percentage_24h, 2) +'%'
-            }
-          </FigureText>
+          <IncreaseDecreaseValue
+            value={ digitToFixed(price_change_percentage_24h ?? 0, 2) }
+            afterPrefix={'%'}
+            textStyle={{
+              right: true
+            }}
+          />
         </View>
       </ItemColumn>
     </ItemContainer>
@@ -80,10 +87,6 @@ export default React.memo(Item);
 
 type ColumnProps = {
   column: number,
-}
-
-type FigureTextProps = {
-  isRising: boolean,
 }
 
 const ItemContainer = styled.TouchableOpacity`
@@ -109,8 +112,3 @@ const ImageWrap = styled.View`
   border-radius: ${({ theme }) => theme.border.s};
   overflow: hidden;
 `
-const FigureText = styled(Text)<FigureTextProps>`
-  color: ${(props) => props.isRising ? props.theme.colors.green.a400 : props.theme.colors.red[500]};
-`
-
-

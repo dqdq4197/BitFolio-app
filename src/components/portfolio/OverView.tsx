@@ -47,7 +47,7 @@ const OverView = () => {
 
   if(!portfolios) return <></>
   return (
-    <>
+    <Container>
       <ScrollView 
         horizontal
         showsHorizontalScrollIndicator={false}
@@ -70,19 +70,32 @@ const OverView = () => {
         }
         <FooterView />
       </ScrollView>
-      <Text fontXL onPress={handleAddTrackingCoinPress}>
-        추가하자
-      </Text>
-    </>
+      <AddTrackingButton>
+        <Text fontL onPress={handleAddTrackingCoinPress} color100>
+          추가하기
+        </Text>
+      </AddTrackingButton>
+    </Container>
   )
 }
 
 export default OverView;
 
+const Container = styled.View`
+  align-items: center;
+`
 const ScrollView = styled.ScrollView`
   background-color: ${({ theme }) => theme.base.background.surface};
 `
 
-const SpacerItem = styled.View`
-  width: ${20}px;
+const AddTrackingButton = styled.TouchableOpacity`
+  position: absolute;
+  height: 30px;
+  bottom: 20px;
+  padding: 0 16px;
+  background-color: ${({ theme }) => theme.base.primaryColor};
+  align-items: center;
+  justify-content: center;
+  border-radius: ${({ theme }) => theme.border.ml};
+  color: white;
 `

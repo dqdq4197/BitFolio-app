@@ -30,17 +30,18 @@ export const transactionSlice = createSlice({
     addTransaction: (state, action: PayloadAction<{formData: FormData}>) => {
       const { formData } = action.payload;
 
+      // transaction cost = quantity * pricePerCoin[currency] + fee
+
       state.transactions = [
         ...state.transactions, {
           ...formData,
           id: uuidv4(),
           createdAt: +new Date(),
           pricePerCoin: formData.pricePerCoin as { [key: string]: number},
-          quantity: parseFloat(formData.quantity),
-          fee: parseFloat(formData.fee),
+          quantity: Number(formData.quantity),
+          fee: Number(formData.fee),
         }
       ]
-
     }
   }
 })

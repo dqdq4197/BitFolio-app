@@ -15,7 +15,7 @@ const HighVolumePreview = ({ onPressItem }: ListProps) => {
   const { data } = useCoinMarketData({ 
     order: ORDER.VOLUME_DESC, 
     per_page: 5,
-    refreshInterval: 300000 
+    refreshInterval: 5 * 60 * 1000  
   });
 
   return (

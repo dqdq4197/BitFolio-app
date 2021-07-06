@@ -65,6 +65,9 @@ const NewCoin = () => {
             refreshing={refreshing}
           />
         }
+        getItemLayout={(data, index) => (
+          {length: 60, offset: 60 * index, index}
+        )}
       />
     </>
   )

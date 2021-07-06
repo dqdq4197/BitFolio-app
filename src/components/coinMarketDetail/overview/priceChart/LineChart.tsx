@@ -7,6 +7,7 @@ import {
   VictoryBar,
   VictoryLine, 
   VictoryAxis,
+  VictoryLabel
 } from 'victory-native';
 import GlobalIndicator from '/components/common/GlobalIndicator';
 import useMarketLineChartData from '/hooks/useMarketLineChartData';
@@ -82,11 +83,17 @@ const LineChart = ({
           />
           <VictoryAxis 
             dependentAxis
-            orientation="right"
+            orientation='right'
+            tickLabelComponent={
+              <VictoryLabel 
+                verticalAnchor="middle"
+                textAnchor="end"
+              />
+            }
             style={{ 
               tickLabels: {
-                fill: '#bdbdbd',
-                transform: `translate(-${lastUpdatedPrice.toString().length * 4}, 0)`,
+                fill: theme.base.text[200],
+                fontSize: theme.size.font_m,
               },
               axis: {
                 stroke: 'transparent'

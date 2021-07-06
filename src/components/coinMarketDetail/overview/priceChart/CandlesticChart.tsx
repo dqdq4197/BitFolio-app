@@ -5,7 +5,7 @@ import {
   VictoryTheme, 
   VictoryAxis, 
   VictoryCandlestick, 
-  VictoryCursorContainer
+  VictoryLabel,
 } from 'victory-native';
 import useCandlesticChartData from '/hooks/useCandlesticChartData';
 import useGlobalTheme from '/hooks/useGlobalTheme';
@@ -21,12 +21,10 @@ interface ConstType {
 
 interface ChartProps extends ConstType{
   id: string,
-  lastUpdatedPrice: number,
 }
 
 const CandlesticChart = ({ 
   id, 
-  lastUpdatedPrice,
   WIDTH,
   HEIGHT,
   PADDING
@@ -47,6 +45,8 @@ const CandlesticChart = ({
           width={WIDTH + PADDING}
           height={HEIGHT + PADDING}
           padding={{
+            top: PADDING,
+
             right: PADDING,
             bottom: PADDING
           }}
@@ -72,11 +72,19 @@ const CandlesticChart = ({
           />
           <VictoryAxis 
             dependentAxis
-            orientation="left"
-            offsetX={WIDTH}
+            fixLabelOverlap
+            orientation='right'
+            tickLabelComponent={
+              <VictoryLabel 
+                verticalAnchor="middle"
+                textAnchor="end"
+              />
+            }
             style={{ 
               tickLabels: {
                 fill: theme.base.text[200],
+                fontSize: theme.size.font_m,
+                padding: -10
               },
               axis: {
                 stroke: 'transparent'

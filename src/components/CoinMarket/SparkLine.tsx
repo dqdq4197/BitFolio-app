@@ -2,20 +2,29 @@ import React from 'react';
 import Svg, { Path } from 'react-native-svg';
 import useSparkLineModel from '/hooks/useSparkLineModel';
 import styled from 'styled-components/native';
+import useGlobalTheme from '/hooks/useGlobalTheme';
 
 type SparkLineProps = {
   prices: number[],
-  isRising: boolean,
+  isRising: boolean | null,
 }
-const SparkLine = ({prices, isRising}:SparkLineProps) => {
+const SparkLine = ({ prices, isRising }:SparkLineProps) => {
   const { path, XSIZE, YSIZE } = useSparkLineModel({prices});
+  const { theme } = useGlobalTheme();
 
   return (
     <SparkLineWrap width={XSIZE}> 
       <Svg height={YSIZE} width={XSIZE}>
         <Path 
           d={path}
-          stroke={isRising ? '#00e676' : '#f44336'}
+          stroke={
+            isRising === null 
+              ? theme.base.text[200]
+              : isRising 
+                ? theme.base.upColor
+                : theme.base.downColor
+
+          }
           fill='transparent'
         />
       </Svg>
