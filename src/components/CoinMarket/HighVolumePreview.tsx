@@ -23,7 +23,7 @@ const HighVolumePreview = ({ onPressItem }: ListProps) => {
       {data?.map(res => {
         return (
           <Item 
-            key={ res.name }
+            key={ res.id }
             item={ res }  
             onPressItem={onPressItem}
           />

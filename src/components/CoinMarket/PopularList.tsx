@@ -74,7 +74,7 @@ const PopularList = ({ }: ListProps) => {
                 <IconWrap>
                   { res.icon }
                 </IconWrap>
-                <Text style={{ fontSize: 19 }} heavy lineHeight={23} color="black">
+                <Text fontL heavy lineHeight={23} color="rgba(0,0,0,0.8)">
                   { res.title }
                 </Text>
               </Card>

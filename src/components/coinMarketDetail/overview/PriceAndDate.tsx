@@ -48,7 +48,6 @@ const PriceAndDate = ({ lastUpdatedPrice, lastUpdatedDate }: PriceAndDetailProsp
 
 export default PriceAndDate;
 
-
 const Container = styled.View`
   padding: 0 ${({theme}) => theme.content.spacing};
   flex-direction: row;

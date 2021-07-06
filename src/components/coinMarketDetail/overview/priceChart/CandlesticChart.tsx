@@ -30,7 +30,7 @@ const CandlesticChart = ({
   PADDING
 }:ChartProps) => {
   const { data, isValidating } = useCandlesticChartData({ id });
-  const { theme } =useGlobalTheme();
+  const { theme } = useGlobalTheme();
 
   return (
     <ChartContainer

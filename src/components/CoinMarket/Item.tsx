@@ -26,7 +26,10 @@ const Item = ({ item, onPressItem }: ItemProps) => {
   
   return (
     <>
-    <ItemContainer onPress={() => onPressItem(item.id, item.symbol)}>
+    <ItemContainer 
+      activeOpacity={0.6}
+      onPress={() => onPressItem(item.id, item.symbol)}
+    >
       <ItemColumn 
         column={ 1.3 }
         style={{

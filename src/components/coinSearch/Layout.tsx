@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
   FlatList, 
   Platform, 
+  TextInput,
   Dimensions,
   Keyboard,
   EmitterSubscription,
-  KeyboardEvent
+  KeyboardEvent,
 } from 'react-native';
 import { useHeaderHeight } from '@react-navigation/stack';
 import styled from 'styled-components/native';
@@ -28,6 +29,7 @@ import Text from '/components/common/Text';
 const { height } = Dimensions.get('screen');
 const Layout = () => {
 
+  const textInputRef = useRef<TextInput>(null);
   const { recentSearches } = useAppSelector(state => state.baseSettingReducer);
   const [coins, setCoins] = useState<SearchCoin[]>([]);
   const [query, setQuery] = useState('');
@@ -119,7 +121,7 @@ const Layout = () => {
     return newLetters;
   }
 
-  const handleQueryChangeText = (text: string) => {
+  const handleQueryChange = (text: string) => {
     setQuery(text);
     if(!data) return;
     if(text === '') {
@@ -148,6 +150,12 @@ const Layout = () => {
     }
   }
 
+  const onRemoveQuery = () => {
+    setQuery('');
+    setCoins([]);
+    textInputRef.current?.focus();
+  }
+
   return(
     <>
         <FlatList 
@@ -162,8 +170,11 @@ const Layout = () => {
           }}
           ListHeaderComponent={
             <SearchBar 
-              onChangeText={handleQueryChangeText}
+              ref={textInputRef}
+              onQueryChange={handleQueryChange}
+              query={query}
               coinsLength={coins.length}
+              onRemoveQuery={onRemoveQuery}
             />
           }
           ListHeaderComponentStyle={{

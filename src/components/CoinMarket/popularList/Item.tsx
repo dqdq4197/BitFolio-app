@@ -156,7 +156,6 @@ const ItemContainer = styled.TouchableOpacity<ContainerProps>`
     border-bottom-width: 1px;
     border-bottom-color: ${({ theme }) => theme.base.background[300]};
   `} 
-  
 `
 const ItemColumn = styled.View<ColumnProps>`
   flex: ${props => props.column};
