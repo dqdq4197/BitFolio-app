@@ -30,7 +30,7 @@ const SearchesItem = ({ item, onPressItem }: SearchesItemProps) => {
         color100 
         numberOfLines={1}
         ellipsizeMode="tail"
-        margin="5px 0 0 0"
+        margin="8px 0 0 0"
       >
         { item.name }
       </Text>
@@ -99,9 +99,10 @@ const Container = styled.View`
 
 const SearchesScrollView = styled.ScrollView`
 `
+
 const SearchesItemContainer = styled.TouchableOpacity`
   width: 120px;
-  height: 100px;
+  height: 110px;
   margin-right: 10px;
   background-color: ${({ theme }) => theme.base.background[300]};
   border-radius: ${({ theme }) => theme.border.ml};

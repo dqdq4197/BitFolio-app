@@ -45,10 +45,16 @@ export const baseSettingSlice = createSlice({
       state.chartTimeFrame = action.payload
     },
     changeRecentlyViewed: (state, action: PayloadAction<string>) => {
-      let temp = state.recentlyViewed.filter(coinId => coinId !== action.payload);
-      temp.push(action.payload);
-      if(temp.length > 10) temp.pop();
-      state.recentlyViewed = temp;
+      const { payload } = action;
+      let newRecentlyViewed = [];
+      if(state.recentlyViewed.includes(payload)) {
+        newRecentlyViewed = state.recentlyViewed.filter(coinId => coinId !== payload);
+        newRecentlyViewed = [...newRecentlyViewed, payload];
+      } else {
+        newRecentlyViewed = [...state.recentlyViewed, payload];
+      }
+      state.recentlyViewed = newRecentlyViewed;
+      console.log(payload, newRecentlyViewed);
     },
     changeWatchList: (state, action: PayloadAction<string>) => {
       const { payload } = action;
@@ -62,11 +68,9 @@ export const baseSettingSlice = createSlice({
     },
     changeRecentSearches: (state, action: PayloadAction<string>) => {
       let temp = state.recentSearches.filter(coinId => coinId !== action.payload);
-      console.log(temp)
       temp.unshift(action.payload);
       if(temp.length > 7) temp.pop();
       state.recentSearches = temp;
-      console.log(state.recentSearches)
     }
   }
 })

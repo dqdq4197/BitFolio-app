@@ -6,7 +6,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import useLocales from '/hooks/useLocales';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import { format } from 'date-fns';
-import { ko, enUS } from 'date-fns/locale'
+import { ko, enUS } from 'date-fns/locale';
 
 
 const { width } = Dimensions.get('window');

@@ -48,7 +48,7 @@ const WatchList = ({ onPressItem }: ListProps) => {
 
   useEffect(() => {
     if(data) {
-      let temp = [...data];
+      let temp = data.slice();
       temp.sort((a, b) => watchList.indexOf(a.id) - watchList.indexOf(b.id));
       setNewData(temp);
     } else {

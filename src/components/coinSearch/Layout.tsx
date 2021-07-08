@@ -158,52 +158,51 @@ const Layout = () => {
 
   return(
     <>
-        <FlatList 
-          data={coins}
-          keyExtractor={(item, index) => item.id + index + item.name}
-          keyboardDismissMode={Platform.OS === 'ios' ? "interactive" : "on-drag"}
-          keyboardShouldPersistTaps="handled"
-          contentContainerStyle={{
-            minHeight: height - headerHeight,
-            backgroundColor: theme.base.background.surface,
-            paddingBottom: keyboardSpace
-          }}
-          ListHeaderComponent={
-            <SearchBar 
-              ref={textInputRef}
-              onQueryChange={handleQueryChange}
-              query={query}
-              coinsLength={coins.length}
-              onRemoveQuery={onRemoveQuery}
+      <FlatList 
+        data={coins}
+        keyExtractor={(item, index) => item.id + index + item.name}
+        keyboardDismissMode={Platform.OS === 'ios' ? "interactive" : "on-drag"}
+        keyboardShouldPersistTaps="handled"
+        contentContainerStyle={{
+          minHeight: height - headerHeight,
+          backgroundColor: theme.base.background.surface,
+          paddingBottom: keyboardSpace
+        }}
+        ListHeaderComponent={
+          <SearchBar 
+            ref={textInputRef}
+            onQueryChange={handleQueryChange}
+            query={query}
+            coinsLength={coins.length}
+            onRemoveQuery={onRemoveQuery}
+          />
+        }
+        ListHeaderComponentStyle={{
+          paddingHorizontal: parseInt(theme.content.spacing),
+          backgroundColor: theme.base.background.surface
+        }}
+        renderItem={
+          ({ item }) => 
+            <Item 
+              item={item} 
+              onPressItem={handleItemPress}
             />
-          }
-          ListHeaderComponentStyle={{
-            paddingHorizontal: parseInt(theme.content.spacing),
-            backgroundColor: theme.base.background.surface
-          }}
-          renderItem={
-            ({ item }) => 
-              <Item 
-                item={item} 
-                onPressItem={handleItemPress}
-              />
-          }
-          getItemLayout={(_, index) => (
-            { length: 60, offset: 60 * index, index }
-          )}
-          ListEmptyComponent={
-            query 
-            ? <EmptyView query={query}/>
-            : <DefaultView 
-                data={trandingData?.coins}
-                searchesData={searchesData}
-                onPressItem={handleItemPress}
-              />
-          }
-          stickyHeaderIndices={[0]}
-        />
+        }
+        getItemLayout={(_, index) => (
+          { length: 60, offset: 60 * index, index }
+        )}
+        ListEmptyComponent={
+          query 
+          ? <EmptyView query={query}/>
+          : <DefaultView 
+              data={trandingData?.coins}
+              searchesData={searchesData}
+              onPressItem={handleItemPress}
+            />
+        }
+        stickyHeaderIndices={[0]}
+      />
     </>
-
   )
 }
 

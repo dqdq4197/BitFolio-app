@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
 import { FormData } from '/components/portfolio/transactionModal/FormModal';
 
-interface TransactionType {
+export interface TransactionType {
   id: string
   portfolioId: string | null
   coinId: string
@@ -12,6 +12,7 @@ interface TransactionType {
   pricePerCoin: { [key: string]: number }
   fee: number
   notes: string | null
+  transferType: null | string
   createdAt: number
 }
 
@@ -31,7 +32,6 @@ export const transactionSlice = createSlice({
       const { formData } = action.payload;
 
       // transaction cost = quantity * pricePerCoin[currency] + fee
-
       state.transactions = [
         ...state.transactions, {
           ...formData,

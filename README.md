@@ -48,3 +48,17 @@
 
     api key 숨기기 => .env 
 
+
+
+### portfolio statistics 계산법
+    PRICE => 시장 가치, 24시간 가격 변동률
+    HOLDINGS => 시장 가치 x 홀딩 갯수, 홀딩 갯수
+    순비용 => 매도로 인한 수익의 합계 - 매수로 인한 비용의 합계 -  수수료
+    
+    24H P/L => 
+        price: 시장 가치 + 매도로 인한 수익의 합계 - 매수로 인한 비용의 합계 -  수수료
+        percentage: 
+    TOTAL P/L =>
+    SHARE => (해당 코인 홀딩 가격 / 해당 portfilo 모든 자산) / 100 
+
+    수수료, price per coin의 경우 trade date 설정 값에 따라 과거의 환율로 계산합니다.

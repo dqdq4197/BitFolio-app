@@ -12,6 +12,7 @@ type ProviderProps = {
   children: React.ReactNode,
 }
 export function CoinIdProvider({ value, children }: ProviderProps) {
+
   return (
     <CoinIdContext.Provider value={value}>
       { children }

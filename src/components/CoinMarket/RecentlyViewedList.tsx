@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
@@ -12,6 +12,7 @@ import { digitToFixed } from '/lib/utils';
 import WatchListIcon from '/components/common/WatchListIcon';
 import { useAppSelector } from '/hooks/useRedux';
 import useCoinMarketData from '/hooks/useCoinMarketData';
+import { CoinMarketReturn } from '/lib/api/CoinGeckoReturnType';
 
 type ListProps = {
   onPressItem: (id: string, symbol: string) => void;
@@ -19,13 +20,23 @@ type ListProps = {
 const RecentlyViewedList = ({ onPressItem }: ListProps) => {
   const navigation = useNavigation();
   const { recentlyViewed } = useAppSelector(state => state.baseSettingReducer );
-  const { data } = useCoinMarketData({ 
+  const [newData, setNewData] = useState<CoinMarketReturn[]>([]);
+  const { data, isValidating } = useCoinMarketData({ 
     ids: recentlyViewed, 
     suspense: false,
     refreshInterval: 300000,
   });
   const { t } = useTranslation();
   const { theme } = useGlobalTheme();
+  useEffect(() => {
+    if(data) {
+      let temp = data.slice();
+      temp.sort((a, b) => recentlyViewed.indexOf(b.id) - recentlyViewed.indexOf(a.id));
+      setNewData(temp);
+    } else {
+      setNewData(prevState => prevState.filter(coinId => recentlyViewed.includes(coinId.id)))
+    }
+  }, [recentlyViewed, isValidating])
 
   const handleSearchCardPress = () => {
     navigation.navigate('CoinSearch');
@@ -39,7 +50,7 @@ const RecentlyViewedList = ({ onPressItem }: ListProps) => {
           paddingHorizontal: 16
         }}
       >
-        { data?.map(coin => {
+        { newData?.map(coin => {
           return (
             <Card 
               key={coin.id} 

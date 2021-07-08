@@ -103,10 +103,10 @@ const CoinList = ({ portfolioId, dataEnteredByTheUser, officialData, scrollY }: 
           text={t('portfolio.name')}
           scrollY={scrollY}
         />
-        {dataEnteredByTheUser.map(coin => {
+        {dataEnteredByTheUser.map((coin, index) => {
           let item = officialData.find(data => data.id === coin.id)
           return (
-            <NameWrap key={coin.id}>
+            <NameWrap key={coin.id + index}>
               {item
                 ? <>
                     <Image 
@@ -138,10 +138,10 @@ const CoinList = ({ portfolioId, dataEnteredByTheUser, officialData, scrollY }: 
             align="right"
             scrollY={scrollY}
           />
-          {dataEnteredByTheUser.map(coin => {
+          {dataEnteredByTheUser.map((coin, index) => {
             let item = officialData.find(data => data.id === coin.id)
             return (
-              <CurrentPriceView key={coin.id}>
+              <CurrentPriceView key={coin.id + index}>
                 {item
                   ? <>
                       <Text color100>
@@ -169,10 +169,10 @@ const CoinList = ({ portfolioId, dataEnteredByTheUser, officialData, scrollY }: 
             align="right"
             scrollY={scrollY}
           />
-          {dataEnteredByTheUser.map(coin => {
+          {dataEnteredByTheUser.map((coin, index) => {
             let item = officialData.find(data => data.id === coin.id)
             return (
-              <HoldingsView key={coin.id}>
+              <HoldingsView key={coin.id + index}>
                 {item
                   ? coin.type === 'traking' 
                     ? <AddTransactionButton 
@@ -201,10 +201,10 @@ const CoinList = ({ portfolioId, dataEnteredByTheUser, officialData, scrollY }: 
             align="right"
             scrollY={scrollY}
           />
-          {dataEnteredByTheUser.map(coin => {
+          {dataEnteredByTheUser.map((coin, index) => {
             let item = officialData.find(data => data.id === coin.id)
             return (
-              <PerDayPercentageView key={coin.id}>
+              <PerDayPercentageView key={coin.id + index}>
               </PerDayPercentageView>
             )
           })}
@@ -215,10 +215,10 @@ const CoinList = ({ portfolioId, dataEnteredByTheUser, officialData, scrollY }: 
             align="right"
             scrollY={scrollY}
           />
-          {dataEnteredByTheUser.map(coin => {
+          {dataEnteredByTheUser.map((coin, index) => {
             let item = officialData.find(data => data.id === coin.id)
             return (
-              <PLView key={coin.id}>
+              <PLView key={coin.id + index}>
               
               </PLView>
             )
@@ -230,10 +230,10 @@ const CoinList = ({ portfolioId, dataEnteredByTheUser, officialData, scrollY }: 
             align="right"
             scrollY={scrollY}
           />
-          {dataEnteredByTheUser.map(coin => {
+          {dataEnteredByTheUser.map((coin, index) => {
             let item = officialData.find(data => data.id === coin.id)
             return (
-              <ShareView key={coin.id}>
+              <ShareView key={coin.id + index}>
                 {item
                   ? <>
                       <Text margin="0 0 3px 0">

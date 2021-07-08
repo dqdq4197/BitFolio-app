@@ -17,6 +17,8 @@
     "buy": "매수",
     "sell": "매도",
     "transfer": "이체",
+    "transfer in": "입금",
+    "transfer out": "출금",
     "add": "추가",
     "next": "다음",
     "bottom notice": {
@@ -52,7 +54,8 @@
     "news": "뉴스",
     "notice": "알림",
     "discussion": "토론",
-    "transactions": "트랜잭션"
+    "transactions": "트랜잭션",
+    "history": "내역"
   },
   "coinMarketHome": {
     "market": "시장",

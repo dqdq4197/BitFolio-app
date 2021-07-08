@@ -1,11 +1,11 @@
 import React, { useEffect, useRef } from 'react';
-import { Animated, Dimensions, GestureResponderHandlers } from 'react-native';
-import styled, { css } from 'styled-components/native';
+import { Animated, Dimensions } from 'react-native';
+import styled from 'styled-components/native';
+import { useTranslation } from 'react-i18next';
+import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 import { FormData } from './FormModal';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import Text from '/components/common/Text';
-import { AntDesign, FontAwesome5, MaterialCommunityIcons  } from '@expo/vector-icons';
-import { PanGestureHandler } from 'react-native-gesture-handler';
 
 type ViewProps = {
   transactionType: string
@@ -17,25 +17,20 @@ type ViewProps = {
 const { width, height } = Dimensions.get('window');
 const transactionTypes = [{
   key: 'buy',
-  name: 'Buy',
   icon: (color: string) => <AntDesign name="swapleft" size={24} color={color} />,
 },{
   key: 'sell',
-  name: 'Sell',
   icon: (color: string) => <AntDesign name="swapright" size={24} color={color} />,
 },{
   key: 'transfer',
-  name: 'Transfer',
   icon: (color: string) => <MaterialCommunityIcons name="transfer" size={24} color={color} />,
 }]
 
 const transferTypes = [{
   key: 'transfer in',
-  name: 'Transfer In',
   icon: (color: string) => <AntDesign name="arrowdown" size={18} color={color} />,
 }, {
   key: 'transfer out',
-  name: 'Transfer Out',
   icon: (color: string) => <AntDesign name="arrowup" size={18} color={color} />,
 }];
 
@@ -45,6 +40,7 @@ const TypeSelectView = ({
   transferType,
   FOOTER_HEIGHT
 }: ViewProps) => {
+  const { t } = useTranslation();
   const { theme } = useGlobalTheme();
   const translateX = useRef(new Animated.Value(0)).current;
   const translateY = useRef(new Animated.Value(-20)).current;
@@ -133,7 +129,7 @@ const TypeSelectView = ({
               bold 
               fontML
             >
-              { type.name }
+              { t(`common.${type.key}`) }
             </CustomText>
           </TransactionType>  
         )}
@@ -149,7 +145,7 @@ const TypeSelectView = ({
       >
         { transferTypes.map(type => 
           <TransferType 
-            key={type.name} 
+            key={type.key} 
             width={TransferTypeWidth}
             onPress={() => onSwitchTransferType(type.key)} 
             activeOpacity={0.6}
@@ -162,7 +158,7 @@ const TypeSelectView = ({
               bold 
               fontML
             >
-              { type.name }
+              { t(`common.${type.key}`) }
             </CustomText>
           </TransferType>
         )}

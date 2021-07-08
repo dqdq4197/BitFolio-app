@@ -5,7 +5,7 @@ import { useCoinIdContext } from '/hooks/useCoinIdContext';
 import ScrollView from '/components/common/ScrollView';
 import Description from './Description';
 import Link from './Link';
-
+  
 const Layout = () => {
   const { id } = useCoinIdContext();
   const { data } = useCoinDetailData({ id });

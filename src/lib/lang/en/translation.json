@@ -17,6 +17,8 @@
     "buy": "Buy",
     "sell": "Sell",
     "transfer": "Transfer",
+    "transfer in": "Transfer In",
+    "transfer out": "Transfer Out",
     "add": "Add",
     "next": "Next",
     "bottom notice": {
@@ -52,7 +54,8 @@
     "news": "News",
     "notice": "Notice",
     "discussion": "Discussion",
-    "transactions": "Transactions"
+    "transactions": "Transactions",
+    "history": "History"
   },
   "coinMarketHome": {
     "market": "Market",
