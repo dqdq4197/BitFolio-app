@@ -12,7 +12,9 @@ type ButtonProps = {
   isLoading: boolean
   onPress: () => void
   textStyle?: TextStyleProps
+  borderPosition?: Array<'top' | 'bottom'>
 }
+
 const AsyncButton = (props: ButtonProps) => {
 
   const { theme } = useGlobalTheme();
@@ -21,12 +23,13 @@ const AsyncButton = (props: ButtonProps) => {
     <Container
       {...props}
       disabled={props.isDisabled}
+      activeOpacity={0.6}
     >
       <CustomText 
         {...props}
         {...props.textStyle} 
         margin="0 10px 0 0"
-        bold  
+        bold
       >
         { props.text }
       </CustomText>
@@ -44,8 +47,14 @@ const Container = styled.TouchableOpacity<ButtonProps>`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  border-top-left-radius: ${({ theme }) => theme.border.l};
-  border-top-right-radius: ${({ theme }) => theme.border.l};
+  ${({ borderPosition }) => borderPosition?.includes('top') && css`
+    border-top-left-radius: ${({ theme }) => theme.border.l};
+    border-top-right-radius: ${({ theme }) => theme.border.l};
+  `}
+  ${({ borderPosition }) => borderPosition?.includes('bottom') && css`
+    border-bottom-left-radius: ${({ theme }) => theme.border.l};
+    border-bottom-right-radius: ${({ theme }) => theme.border.l};
+  `}
   ${({ theme, height, isDisabled, width }) => css`
     width: ${ width ? width + 'px' : '100%' };
     height: ${ height }px;

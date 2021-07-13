@@ -3,14 +3,14 @@ import { Animated, Dimensions } from 'react-native';
 import styled from 'styled-components/native';
 import { useTranslation } from 'react-i18next';
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
-import { FormData } from './FormModal';
+import { FormData, NumericData } from './FormModal';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import Text from '/components/common/Text';
 
 type ViewProps = {
   transactionType: string
   transferType: string | null
-  setFormData: React.Dispatch<React.SetStateAction<FormData>>
+  setFormData: React.Dispatch<React.SetStateAction<FormData<NumericData>>>
   FOOTER_HEIGHT: number
 }
 

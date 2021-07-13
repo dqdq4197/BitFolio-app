@@ -23,8 +23,8 @@ export const darkTheme: DefaultTheme = {
     secondPrimaryColor: 'rgba(56, 97, 251,0.5)',
     error: '#CF6679',
     upColor: '#00e676',
-    downColor: '#ea3943'
-
+    downColor: '#ea3943',
+    removeColor: '#F85149',
   },
   colors: {
     ...pallete,
@@ -75,7 +75,8 @@ export const lightTheme: DefaultTheme = {
     secondPrimaryColor: 'rgba(56, 97, 251,0.7)',
     error: '#CF6679',
     upColor: '#00e676',
-    downColor: '#ea3943'
+    downColor: '#ea3943',
+    removeColor: '#F85149',
   },
   colors: {
     ...pallete

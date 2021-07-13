@@ -34,8 +34,8 @@ export function roundToPrecision(numStr: string, scale: number, fixedDecimalScal
   return intPart + (decimalPart ? '.' + decimalPart : '');
 }
 
-function AddSeparator(value: string) {
-  var x = value.split('.');
+export function AddSeparator(value: string | number) {
+  var x = typeof value === 'number' ? value.toString().split('.') : value.split('.');
   var x1 = x[0];
   var x2 = x.length > 1 ? '.' + x[1] : '';
   var rgx = /(\d+)(\d{3})/;
@@ -77,7 +77,7 @@ export function getOnlyDecimal({
           if(nonZeroCnt === 2) break;
         }
       }
-    }
+    }  
     
     if(result[1].length >= maxTemp) {
       return result[1].substr(0, maxTemp);

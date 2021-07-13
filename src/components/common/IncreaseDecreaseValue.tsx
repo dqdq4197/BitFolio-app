@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
 import Text, { TextStyleProps } from './Text';
+import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat';
+import useLocales from '/hooks/useLocales';
 
 
 type ValueProps = {
@@ -8,22 +10,41 @@ type ValueProps = {
   beforePrefix?: string
   afterPrefix?: string
   textStyle?: TextStyleProps
+  isCurrencyFormat?: boolean
 }
 
 const IncreaseDecreaseValue = ({ 
   value, 
   beforePrefix, 
   afterPrefix, 
-  textStyle 
+  textStyle,
+  isCurrencyFormat=false
 }: ValueProps) => {
+
+  const { currency } = useLocales();
+  const [returnValue, setReturnValue] = useState<string | number | null>(value);
   
+  useEffect(() => {
+    if(isCurrencyFormat && value !== null) {
+      setReturnValue(
+        (value < 0 ? '-' : '') +
+        currencyFormat({
+          value: Math.sign(value) * value,
+          prefix: getCurrencySymbol(currency)
+        })
+      )
+    } else {
+      setReturnValue(value);
+    }
+  }, [value, isCurrencyFormat])
+
   return (
     <CustomText value={value} {...textStyle}>
       { value === null 
         ? '--'
         : value > 0
-          ? `+${ beforePrefix ?? '' }${ value }${ afterPrefix ?? '' }`
-          : `${ beforePrefix ?? '' }${ value }${ afterPrefix ?? '' }`
+          ? `+${ beforePrefix ?? '' }${ returnValue }${ afterPrefix ?? '' }`
+          : `${ beforePrefix ?? '' }${ returnValue }${ afterPrefix ?? '' }`
       }
     </CustomText>
   )

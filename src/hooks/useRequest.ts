@@ -3,7 +3,7 @@ import { AxiosInstance, AxiosRequestConfig, AxiosResponse, AxiosError } from 'ax
 
 export type RequestType = AxiosRequestConfig | null
 
-interface Return<Data, Error>
+export interface Return<Data, Error>
   extends Pick<
     SWRResponse<AxiosResponse<Data>, AxiosError<Error>>,
     'isValidating' | 'revalidate' | 'error' | 'mutate'

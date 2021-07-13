@@ -33,14 +33,14 @@ const SettingButton = forwardRef((props, ref: React.Ref<BottomSheetModal>) => {
       <Modal
         key="language"
         ref={languageModalRef}
-        snapPoints={['25%', '25%']}
+        snapPoints={['25%']}
       >
         <Language/>
       </Modal>
       <Modal
         key="currency"
         ref={currencyModalRef}
-        snapPoints={['35%', '35%']}
+        snapPoints={['35%']}
       >
         <Currency/>
       </Modal>

@@ -2,6 +2,7 @@ import React from 'react';
 import { useAppSelector } from '/hooks/useRedux';
 import Text from '/components/common/Text';
 import { timestampToDate } from '/lib/utils';
+import { AddSeparator } from '/lib/utils/currencyFormat';
 import { getOnlyDecimal, getCurrencySymbol } from '/lib/utils/currencyFormat';
 import styled from 'styled-components/native';
 import { shallowEqual } from '/hooks/useRedux';
@@ -28,7 +29,7 @@ const PriceAndDate = ({ lastUpdatedPrice, lastUpdatedDate }: PriceAndDetailProsp
             { getCurrencySymbol(currency) }
           </Text>
           <Text fontXXL bold>
-            { Math.floor(datum.y || lastUpdatedPrice) }.
+            { AddSeparator(Math.floor(datum.y || lastUpdatedPrice)) }.
           </Text>
           <Text fontML margin="0 0 4px 0" bold>
             { 

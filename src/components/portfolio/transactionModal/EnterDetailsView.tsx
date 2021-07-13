@@ -19,10 +19,16 @@ import {
   FocusedView,
 } from './FormModal';
 
+type InitailDummyData = {
+  quantity: number
+  pricePerCoin: { [key: string]: number | string }
+  fee: number
+}
 
 type ViewProps = {
-  formData: FormData
-  setFormData: React.Dispatch<React.SetStateAction<FormData>>
+  formData: FormData<NumericData>
+  setFormData: React.Dispatch<React.SetStateAction<FormData<NumericData>>>
+  initialDummyData?: InitailDummyData
   id: string
   symbol: string
   focusedView: FocusedView
@@ -44,6 +50,7 @@ const NOTES_MAX_LENGTH = 200;
 const EnterDetailsView = ({ 
   formData, 
   setFormData, 
+  initialDummyData,
   id,
   symbol,
   focusedView,
@@ -59,18 +66,18 @@ const EnterDetailsView = ({
   const hScrollViewRef = useRef<ScrollView>(null); 
   const numericPadTranslateY = useRef(new Animated.Value(0)).current;
   const numericPadOpacity = useRef(new Animated.Value(1)).current;
+  const [isHideNumericPad, setIsHideNumericPad] = useState(false);
   const [unMountingList, setUnMountingList] = useState({
     quantity: [],
     pricePerCoin: [],
     fee: []
   });
   const [dummyFormData, setDummyFormData] = useState<NumericData>({
-    quantity: '0',
-    pricePerCoin: null,
-    fee: '0'
+    quantity: initialDummyData?.quantity.toString() || '0',
+    pricePerCoin: initialDummyData?.pricePerCoin || null,
+    fee: initialDummyData?.fee.toString() || '0'
   });
-  const [isHideNumericPad, setIsHideNumericPad] = useState(false);
-  const [isPriceFixed, setIsPriceFixed] = useState(false);
+  const [isPriceFixed, setIsPriceFixed] = useState(initialDummyData ? true : false);
   const { data: historySnapshotData, isValidating } = useHistorySnapshot({
     id,
     date: format(formData.date, 'dd-MM-yyyy'),
@@ -92,7 +99,7 @@ const EnterDetailsView = ({
   }, [focusedView])
 
   useEffect(() => {
-    if(coinDetailData) {
+    if(coinDetailData && !initialDummyData) {
       const { market_data: { current_price } } = coinDetailData;
       setFormData(
         prev => ({
@@ -212,8 +219,8 @@ const EnterDetailsView = ({
   }, [formData, focusedView])
 
   const handleNumericKeyPress = useCallback((key: string) => {
-    const dummyKey = focusedView as 'quantity' | 'fee'
-    const value = formData[dummyKey];
+    const dummyKey = focusedView as 'quantity' | 'fee';
+    const value = formData[dummyKey] as string;
 
     if(key === 'backspace' && value !== '0') {
       setFormData(
@@ -463,7 +470,7 @@ const EnterDetailsView = ({
         />
         <SetFeeView 
           height={VIEW_HEIGHT - NUMERIC_PAD_HEIGHT}
-          fee={dummyFormData.fee}
+          fee={dummyFormData.fee as string}
           unMountingList={unMountingList.fee}
         />
         <SetNotesView 

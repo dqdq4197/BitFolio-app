@@ -44,6 +44,8 @@ const ModalContents = ({
       fontL
       parentPaddingZero
       marginBottomZero
+      marginTopZero
+      transparent
     >
       <Text margin="5px 0 15px 16px" fontS>
         { timestampToDate(updatedAt, 'mmddwhhmm', true) + ' 기준' }
@@ -146,7 +148,7 @@ const TextMarquee = ({ }: MarqueeProps) => {
       <Modal
         key="market-global"
         ref={ModalRef}
-        snapPoints={['40%', '40%']}
+        snapPoints={['35%']}
       >
         <ModalContents 
           cryptos={ data.active_cryptocurrencies }

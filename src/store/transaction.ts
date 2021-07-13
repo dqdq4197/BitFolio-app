@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
-import { FormData } from '/components/portfolio/transactionModal/FormModal';
+import { FormData, SubmitNumericData } from '/components/portfolio/transactionModal/FormModal';
 
 export interface TransactionType {
   id: string
@@ -10,10 +10,11 @@ export interface TransactionType {
   date: number
   quantity: number
   pricePerCoin: { [key: string]: number }
-  fee: number
+  fee: { [key: string]: number }
   notes: string | null
   transferType: null | string
   createdAt: number
+  updatedAt: number | null
 }
 
 interface InitialState {
@@ -28,25 +29,57 @@ export const transactionSlice = createSlice({
   name: 'transaction',
   initialState,
   reducers: {
-    addTransaction: (state, action: PayloadAction<{formData: FormData}>) => {
+    addTransaction: (state, action: PayloadAction<{ formData: FormData<SubmitNumericData> }>) => {
       const { formData } = action.payload;
 
-      // transaction cost = quantity * pricePerCoin[currency] + fee
       state.transactions = [
         ...state.transactions, {
           ...formData,
           id: uuidv4(),
           createdAt: +new Date(),
-          pricePerCoin: formData.pricePerCoin as { [key: string]: number},
           quantity: Number(formData.quantity),
-          fee: Number(formData.fee),
+          updatedAt: null
         }
       ]
+    },
+    removeTransaction: (state, action: PayloadAction<{id: string}>) => {
+      const { id } = action.payload;
+
+      state.transactions = state.transactions.filter(
+        transaction => transaction.id !== id
+      )
+    },
+    editTransaction: (
+      state, 
+      action: PayloadAction<{ transactionId: string, formData: FormData<SubmitNumericData> }>
+    ) => {
+      const { 
+        transactionId, 
+        formData: { quantity, fee, notes, type, transferType, pricePerCoin, date }
+      } = action.payload;
+
+      const targetIndex = state.transactions.findIndex(
+        transaction => transaction.id === transactionId
+      );
+
+      state.transactions[targetIndex] = {
+        ...state.transactions[targetIndex],
+        quantity: Number(quantity),
+        date,
+        pricePerCoin,
+        fee,
+        notes,
+        type,
+        transferType,
+        updatedAt: +new Date()
+      }
     }
   }
 })
 
 export const { 
-  addTransaction
+  addTransaction,
+  removeTransaction,
+  editTransaction
 } = transactionSlice.actions;
 export default transactionSlice.reducer;

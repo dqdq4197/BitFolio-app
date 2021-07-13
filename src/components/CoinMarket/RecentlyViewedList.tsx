@@ -28,6 +28,7 @@ const RecentlyViewedList = ({ onPressItem }: ListProps) => {
   });
   const { t } = useTranslation();
   const { theme } = useGlobalTheme();
+  
   useEffect(() => {
     if(data) {
       let temp = data.slice();

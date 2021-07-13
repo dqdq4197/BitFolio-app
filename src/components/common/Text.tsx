@@ -14,6 +14,7 @@ export interface TextStyleProps extends TextProps {
   color300?: boolean,  
   color400?: boolean, 
   primaryColor?: boolean,
+  removeColor?: boolean,
   fontXXXL?: boolean, 
   fontXXL?: boolean, 
   fontXL?: boolean, 
@@ -44,7 +45,7 @@ const Text = styled.Text<TextStyleProps>`
   
   ${(props) => props.lineHeight && `line-height: ${props.lineHeight}px`};
 
-  ${({ color, color100, color300, color400, primaryColor, theme }) => {
+  ${({ color, color100, color300, color400, primaryColor, removeColor, theme }) => {
     if(color) return `color: ${color}`
     switch (true) {
       case color100:
@@ -55,6 +56,8 @@ const Text = styled.Text<TextStyleProps>`
         return `color: ${theme.base.text[400]}`  
       case primaryColor:
         return `color: ${theme.base.primaryColor}`
+      case removeColor:
+        return `color: ${theme.base.removeColor}`
         
       default:
         return `color: ${theme.base.text[200]}`  

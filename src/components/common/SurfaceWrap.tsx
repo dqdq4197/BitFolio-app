@@ -12,7 +12,8 @@ type TitleWrapProps = {
   marginBottomZero?: boolean;
   fontL?: boolean,
   fontX?: boolean,
-  fontXL?: boolean
+  fontXL?: boolean,
+  transparent?: boolean
 }
 const SurfaceWrap = ({ 
   title, 
@@ -23,13 +24,15 @@ const SurfaceWrap = ({
   marginBottomZero = false,
   fontL,
   fontX,
-  fontXL
+  fontXL,
+  transparent = false
 }: TitleWrapProps) => {
   return (
     <Container 
       paddingBottomZero={paddingBottomZero} 
       parentPaddingZero={parentPaddingZero}
       marginTopZero={marginTopZero}
+      transparent={transparent}
     >
       { title &&
         <TitleWrap marginBottomZero={marginBottomZero} parentPaddingZero={parentPaddingZero}>
@@ -56,9 +59,11 @@ type Props = {
   parentPaddingZero?: boolean;
   marginTopZero?: boolean;
   marginBottomZero?: boolean;
+  transparent?: boolean;
 }
 const Container = styled.View<Props>`
-  background-color: ${({ theme }) => theme.base.background.surface};
+  background-color: ${({ theme, transparent }) => 
+    transparent ? 'transparent' : theme.base.background.surface };
   padding: ${({ theme }) => `${theme.content.surfacePadding} ${theme.content.spacing}`};
   ${ (props) => props.parentPaddingZero && css`
     padding-left: 0;

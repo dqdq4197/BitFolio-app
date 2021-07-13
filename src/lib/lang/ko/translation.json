@@ -21,6 +21,16 @@
     "transfer out": "출금",
     "add": "추가",
     "next": "다음",
+    "type": "유형",
+    "cost": "비용",
+    "change": "변동",
+    "value": "가치",
+    "remove": "삭제",
+    "percentage": "백분율",
+    "add transaction": "거래 추가",
+    "edit transaction": "거래 수정",
+    "current value": "현재 가치",
+    "fees included": "수수료 포함",
     "bottom notice": {
       "title": "중요 고지 사항",
       "first": "당사는 콘텐츠와 관련하여 정확성 및 업데이트를 포함하되 이에 국한되지 않는 어떠한 종류의 보증도 하지 않습니다.",
@@ -55,7 +65,14 @@
     "notice": "알림",
     "discussion": "토론",
     "transactions": "트랜잭션",
-    "history": "내역"
+    "history": "내역",
+    "transaction details": "거래 세부사항",
+    "edit transaction": "거래 수정",
+    "remove transaction": "거래 삭제",
+    "remove transaction?": "거래를 삭제하시겠습니까?",
+    "you can't undo this action": "이 작업은 취소할 수 없습니다.",
+    "there is no transaction history": "트랜잭션 내역이 없습니다.",
+    "add your first transaction": "첫 트랜잭션을 추가해보세요"
   },
   "coinMarketHome": {
     "market": "시장",

@@ -1,17 +1,18 @@
 import React, { createContext, useContext } from 'react';
 
-
 export const CoinIdContext = createContext<ValueType | undefined>(undefined);
 
 type ValueType = {
-  id: string,
-  symbol: string,
+  id: string
+  symbol: string
 }
+
 type ProviderProps = {
-  value: ValueType,
-  children: React.ReactNode,
+  value: ValueType
+  children: React.ReactNode
 }
 export function CoinIdProvider({ value, children }: ProviderProps) {
+
 
   return (
     <CoinIdContext.Provider value={value}>

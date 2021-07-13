@@ -40,21 +40,21 @@ const Stats = ({
         <Row top>
           <Col>
             <Title>
-              <Text fontML color100>
+              <Text>
                 { t('coinDetail.rank') }
               </Text>
             </Title>
-            <Text fontML>
+            <Text fontML color100>
               { rank || '--' }
             </Text>
           </Col>
           <Col left>
             <Title>
-              <Text fontML color100>
+              <Text>
                 { t('coinDetail.market cap') }
               </Text>
             </Title>
-            <Text fontML>
+            <Text fontML color100>
               { marketcap
                 ? convertUnits(marketcap, currency) 
                 : '--' 
@@ -65,21 +65,21 @@ const Stats = ({
         <Row top>
           <Col>
             <Title>
-              <Text fontML color100>
+              <Text>
                 { t('coinDetail.algorithm') }
               </Text>
             </Title>
-            <Text fontML>
+            <Text fontML color100>
               { hashingAlgorithm || '--' }
             </Text>
           </Col>
           <Col left>
             <Title>
-              <Text fontML color100>
+              <Text>
                 { t('coinDetail.total volume') }(24h)
               </Text>
             </Title>
-            <Text fontML>
+            <Text fontML color100>
               { totalVolume
                 ? convertUnits(totalVolume, currency) 
                 : '--' 
@@ -90,23 +90,23 @@ const Stats = ({
         <Row top bottom>
           <Col>
             <Title>
-              <Text fontML color100>
+              <Text>
                 { t('coinDetail.launched date') }
               </Text>
             </Title>
-            <Text fontML>
+            <Text fontML color100>
               { genesis_date || '--' }
             </Text>
           </Col>
           <Col left>
             <Title>
-              <Text fontML color100>
+              <Text>
                 { t('coinDetail.circulating supply') } 
                 { ' / ' } 
                 { t('coinDetail.max supply') }
               </Text>
             </Title>
-            <Text fontML>
+            <Text fontML color100>
               { circulatingSupply !== 0 ? convertUnits(circulatingSupply, currency, false) : '--' }
               { ' / ' } 
               { maxSupply ? convertUnits(maxSupply, currency, false) : '--' }
@@ -129,17 +129,8 @@ type ColProps = {
   left?: boolean;
 }
 
-const Container = styled.View`
-  margin-top: ${({ theme }) => theme.content.blankSpacing};
-  background-color: ${({ theme }) => theme.base.background.surface};
-`
-
-const Header = styled.View`
-  padding: 20px ${({ theme }) => theme.content.spacing};
-`
-
 const Table = styled.View`
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 `
 
 const Row = styled.View<RowProps>`

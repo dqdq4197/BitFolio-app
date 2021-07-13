@@ -14,6 +14,8 @@ import News from './News';
 import Discussion from './Discussion';
 import Notice from './Notice';
 import Transactions from './Transactions'
+
+
 const Tab = createMaterialTopTabNavigator();
 
 const DetailTab = ({ route, navigation }:any) => {

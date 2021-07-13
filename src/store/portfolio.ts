@@ -1,12 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { baseTypes } from 'base-types';
 import { v4 as uuidv4 } from 'uuid';
-import { FormData } from '/components/portfolio/transactionModal/FormModal';
+import { FormData, SubmitNumericData } from '/components/portfolio/transactionModal/FormModal';
+import { TransactionType } from './transaction';
 
 export interface CoinType {
   id: string,
   quantity: number | null,
-  fees: number | null,
+  fee: { [key: string]: number } | null,
   type: 'traking' | 'traded',
 }
 
@@ -39,13 +40,13 @@ const defaultPortfolio: PortfolioType = {
   coins: [{
     id: 'bitcoin',
     quantity: 2,
-    fees: 0,
-    type: 'traded',
+    fee: null,
+    type: 'traking',
   }, {
     id: 'tether',
     quantity: 2,
-    fees: 0,
-    type: 'traded',
+    fee: null,
+    type: 'traking',
   }]
 }
 
@@ -87,59 +88,85 @@ export const portfolioSlice = createSlice({
           {
             id,
             quantity: null,
-            fees: null,
+            fee: null,
             type: 'traking'
           }
         ]
       }
     },
-
-    addTransactionToPortfolio: (state, action: PayloadAction<FormData>) => {
+    addTransactionToPortfolio: (state, action: PayloadAction<FormData<SubmitNumericData>>) => {
       const { portfolioId, coinId, transferType, type, quantity, pricePerCoin, fee, date } = action.payload;
 
       const targetPortfolio = state.portfolios.filter(portfolio => portfolio.id === portfolioId)[0];
       let targetCoin = targetPortfolio.coins.filter(coin => coin.id === coinId).slice()[0]; // deep copy
+      let updatedFee = fee;
+
+      if(targetCoin.fee !== null) {
+        for(let currency in fee) {
+          updatedFee = {
+            [currency]: targetCoin.fee[currency] + fee[currency]
+          }
+        }
+      }
       // TODO
       // 불변성 체크하기 
       if(type === 'buy' || transferType === 'transfer in') {
-        if(targetCoin.quantity === null || targetCoin.fees === null) {
-          targetCoin = {
-            ...targetCoin,
-            quantity: Number(quantity),
-            fees: Number(fee),
-            type: 'traded'
-          }
-        } else {
-          let updatedQuantity = targetCoin.quantity + Number(quantity);
-          let updatedFees = targetCoin.fees + Number(fee);
+        const updatedQuantity = targetCoin.quantity === null ? Number(quantity) : targetCoin.quantity + Number(quantity);
 
-          targetCoin = {
-            ...targetCoin,
-            quantity: updatedQuantity,
-            fees: updatedFees
-          }
+        targetCoin = {
+          ...targetCoin,
+          quantity: updatedQuantity,
+          fee: updatedFee,
+          type: 'traded'
         }
       } 
        
       if(type === 'sell' || transferType === 'transfer out') {
-        if(targetCoin.quantity === null || targetCoin.fees === null) {
-          targetCoin = {
-            ...targetCoin,
-            quantity: -Number(quantity),
-            fees: Number(fee),
-            type: 'traded'
-          }
-        } else {
-          let updatedQuantity = targetCoin.quantity - Number(quantity);
-          let updatedFees = targetCoin.fees + Number(fee);
+        const updatedQuantity = targetCoin.quantity === null ? -Number(quantity) : targetCoin.quantity - Number(quantity);
 
-          targetCoin = {
-            ...targetCoin,
-            quantity: updatedQuantity,
-            fees: updatedFees
+        targetCoin = {
+          ...targetCoin,
+          quantity: updatedQuantity,
+          fee: updatedFee,
+          type: 'traded'
+        }
+      }
+    },
+    removeTransactionToPortfolio: (state, action: PayloadAction<TransactionType>) => {
+      const { portfolioId, coinId, type, fee, transferType, quantity } = action.payload;
+      const targetPortfolio = state.portfolios.filter(portfolio => portfolio.id === portfolioId)[0];
+      let targetCoin = targetPortfolio.coins.filter(coin => coin.id === coinId).slice()[0];
+      let updatedFee = fee;
+
+      if(targetCoin.fee !== null) {
+        for(let currency in fee) {
+          updatedFee = {
+            [currency]: targetCoin.fee[currency] - fee[currency]
           }
         }
       }
+
+      if(type === 'buy' || transferType === 'transfer in') {
+        const updatedQuantity = targetCoin.quantity! - quantity;
+
+        targetCoin = {
+          ...targetCoin,
+          quantity: updatedQuantity,
+          fee: updatedFee,
+        }
+      } 
+       
+      if(type === 'sell' || transferType === 'transfer out') {
+        const updatedQuantity = -targetCoin.quantity! +quantity;
+
+        targetCoin = {
+          ...targetCoin,
+          quantity: updatedQuantity,
+          fee: updatedFee,
+        }
+      }
+
+      console.log(state.portfolios);
     }
   }
 })
@@ -147,6 +174,7 @@ export const portfolioSlice = createSlice({
 export const { 
   createPortfolio,
   addTrack,
-  addTransactionToPortfolio
+  addTransactionToPortfolio,
+  removeTransactionToPortfolio
 } = portfolioSlice.actions;
 export default portfolioSlice.reducer;

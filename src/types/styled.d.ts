@@ -23,6 +23,7 @@ declare module 'styled-components/native' {
       error: string,
       upColor: string,
       downColor: string,
+      removeColor: string,
     },
     size: {
       font_xxxl: string,

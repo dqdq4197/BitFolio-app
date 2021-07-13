@@ -10,7 +10,7 @@ import Item from './Item';
 
 const Layout = () => {
   const { theme } =useGlobalTheme();
-  const { id, symbol } = useCoinIdContext();
+  const { symbol } = useCoinIdContext();
   const { data: categories } = useNewsCategories({});
   const [category, setCategory] = useState('altcoin');
   const { data, mutate } = useNewsArticles({ categories: category });

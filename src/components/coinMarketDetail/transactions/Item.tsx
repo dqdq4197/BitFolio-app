@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
+import { Ionicons , MaterialCommunityIcons } from '@expo/vector-icons';
+import { useTranslation } from 'react-i18next';
 import { TransactionType } from '/store/transaction';
 import Text from '/components/common/Text';
 import useGlobalTheme from '/hooks/useGlobalTheme';
@@ -8,55 +9,63 @@ import useLocales from '/hooks/useLocales';
 import { format } from 'date-fns';
 import { ko, enUS } from 'date-fns/locale';
 import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat';
+import IncreaseDecreaseValue from '/components/common/IncreaseDecreaseValue';
 
 
 type ItemProps = {
   data: TransactionType
   symbol: string
+  onItemPress: (id: string) => void
 }
 
 type TypesType = {
   [key: string] : {
     name: string
     icon: (color: string) => JSX.Element
+    symbol: 'positive' | 'negative'
   }
 }
 const TYPES: TypesType = {
   'buy': {
-    name: 'Buy',
-    icon: (color: string) =>  <MaterialCommunityIcons name="transfer" size={24} color={color} />
+    name: 'buy',
+    icon: (color: string) =>  <Ionicons name="ios-arrow-down-circle-sharp" size={24} color={color} />,
+    symbol: 'positive'
   },
   'sell': {
-    name: 'Sell',
-    icon: (color: string) =>  <MaterialCommunityIcons name="transfer" size={24} color={color} />
-
+    name: 'sell',
+    icon: (color: string) =>  <Ionicons name="ios-arrow-up-circle-sharp" size={24} color={color} />,
+    symbol: 'negative'
   },
   'transfer in': {
-    name: 'Transfer In',
-    icon: (color: string) =>  <MaterialCommunityIcons name="transfer" size={24} color={color} />
-
+    name: 'transfer in',
+    icon: (color: string) =>  <MaterialCommunityIcons name="transfer" size={24} color={color} />,
+    symbol: 'positive'
   },
   'transfer out': {
-    name: 'Transfer Out',
-    icon: (color: string) =>  <MaterialCommunityIcons name="transfer" size={24} color={color} />
-
+    name: 'transfer out',
+    icon: (color: string) =>  <MaterialCommunityIcons name="transfer" size={24} color={color} />,
+    symbol: 'negative'
   }
 }
 
-const Item = ({ data, symbol }: ItemProps) => {
+const Item = ({ data, symbol, onItemPress }: ItemProps) => {
+  const { t } = useTranslation();
   const type = data.type === 'transfer' ? data.transferType! : data.type;
   const { theme } = useGlobalTheme();
   const { language, currency } = useLocales();
-  
+
   return (
-    <Container>
+    <Container
+      activeOpacity={0.6}
+      onPress={() => onItemPress(data.id)}
+    >
       <TypeWrap>
         { TYPES[type].icon(theme.base.text[200]) }
         <TypeValue>
           <Text color100 bold fontML>
-            { data.type === 'transfer' ? data.transferType : data.type }
+            { t(`common.${data.type === 'transfer' ? data.transferType : data.type}`) }
           </Text>
-          <Text color100 bold>
+          <Text>
             { format(new Date(data.date), 'Pp', {
               locale: language === 'en' ? enUS : ko
             }) }
@@ -64,15 +73,29 @@ const Item = ({ data, symbol }: ItemProps) => {
         </TypeValue>
       </TypeWrap>
       <QuantityWrap>
-        <Text fontML>
-          { currencyFormat({
-            value: data.pricePerCoin[currency] * data.quantity,
-            prefix: getCurrencySymbol(currency),
-          }) }
+        <Text fontML color100>
+          { TYPES[type].symbol === 'negative' 
+            ? '-' + currencyFormat({
+                value: data.pricePerCoin[currency] * data.quantity,
+                prefix: getCurrencySymbol(currency)
+              }) 
+            : '+' + currencyFormat({
+                value: data.pricePerCoin[currency] * data.quantity,
+                prefix: getCurrencySymbol(currency)
+              }) 
+          }
         </Text>
-        <Text fontML>
-          { data.quantity } { symbol.toUpperCase() }
-        </Text>
+        <IncreaseDecreaseValue 
+          value={ 
+            TYPES[type].symbol === 'negative' 
+            ? -1 * data.quantity 
+            : data.quantity
+          }
+          textStyle={{
+            fontML: true,
+          }}
+          afterPrefix={' ' + symbol.toUpperCase()}
+        />
       </QuantityWrap>
     </Container>
   )
@@ -80,14 +103,14 @@ const Item = ({ data, symbol }: ItemProps) => {
 
 export default Item;
 
-const Container = styled.View`
+const Container = styled.TouchableOpacity`
   flex: 1; 
   flex-direction: row;
   height: 60px;
 `
 
 const TypeWrap = styled.View`
-  flex: 2;
+  flex: 1.4;
   flex-direction: row;
   align-items: center;
 `
@@ -100,4 +123,8 @@ const QuantityWrap = styled.View`
   flex: 1;
   justify-content: center;
   align-items: flex-end;
+`
+
+const CustomText = styled(Text)`
+
 `
