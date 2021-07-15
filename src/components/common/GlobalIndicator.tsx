@@ -9,14 +9,20 @@ const { width } = Dimensions.get('window')
 interface IndicatorType {
   size?: 'large' | 'small'
   isLoaded: boolean,
+  transparent?: boolean,
 }
-export default function GlobalIndicator({ size="large", isLoaded }:IndicatorType) {
+
+const GlobalIndicator = ({ 
+  size="large",
+  isLoaded,
+  transparent=false 
+}:IndicatorType) => {
 
   const { theme } = useGlobalTheme();
 
   if(isLoaded) return <></>;
   return (
-    <IndicatorWrap>
+    <IndicatorWrap transparent={transparent}>
       <ActivityIndicator 
         size={size} 
         color={ theme.base.text[100] }
@@ -25,14 +31,20 @@ export default function GlobalIndicator({ size="large", isLoaded }:IndicatorType
   )
 }
 
+export default GlobalIndicator;
 
-
-const IndicatorWrap = styled.View`
+type WrapProps = { 
+  transparent: boolean
+}
+const IndicatorWrap = styled.View<WrapProps>`
   position:absolute;
-  background-color: ${({theme}) => theme.base.background[200]};
   flex: 1;
   width: ${width}px; 
   height: 100%;
   align-items: center;
   justify-content: center;
+  background-color: ${({ theme, transparent }) => transparent
+    ? 'transparent'
+    : theme.base.background[200]
+  };
 `

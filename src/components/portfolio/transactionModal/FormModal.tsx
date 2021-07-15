@@ -279,7 +279,6 @@ const FormModalLayout = ({
     return newValue as FormData<SubmitNumericData>;
   }
 
-  console.log(formData.fee)
 
   return (
     <>
@@ -363,7 +362,7 @@ const FormModalLayout = ({
           <AsyncButton 
             text={ activePage === 1
               ? t(`common.next`)
-              : transactionId ? t(`portfolio.add transaction`) : t(`common.edit transaction`)
+              : transactionId ? t(`common.edit transaction`) : t(`portfolio.add transaction`)
             }
             textStyle={{
               fontML: true

@@ -6,7 +6,7 @@ import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { format } from 'date-fns';
 import { ko, enUS } from 'date-fns/locale';
 import { FontAwesome5, FontAwesome, MaterialIcons, MaterialCommunityIcons, Feather } from '@expo/vector-icons';
-import transaction, { TransactionType, removeTransaction } from '/store/transaction';
+import { TransactionType, removeTransaction } from '/store/transaction';
 import { removeTransactionToPortfolio } from '/store/portfolio';
 import useLocales from '/hooks/useLocales';
 import Modal from '/components/common/BottomSheetModal';

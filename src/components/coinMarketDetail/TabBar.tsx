@@ -6,9 +6,8 @@ import {
 } from 'react-native';
 import styled from 'styled-components/native';
 import { MaterialTopTabBarProps } from '@react-navigation/material-top-tabs';
-import Animated, { interpolateNode, Extrapolate } from 'react-native-reanimated';
+import Animated, { interpolateNode } from 'react-native-reanimated';
 import Tab from './Tab';
-import useGlobalTheme from '/hooks/useGlobalTheme';
 
 const { width } = Dimensions.get('window');
 
@@ -26,7 +25,6 @@ const TabBar = ({
   position,
 }: MaterialTopTabBarProps) => {
 
-  const { theme } = useGlobalTheme();
   const scrollViewRef = useRef<ScrollView>(null);
   const [tabsMeasurements, setTabsMeasurements] = useState<TabsMeasureType[]>(Array.from({length: state.routes.length }));
 
@@ -52,7 +50,6 @@ const TabBar = ({
     ? interpolateNode(position, {
         inputRange,
         outputRange: tabsMeasurements.map(measure => measure.width + 10),
-        extrapolateRight: Extrapolate.CLAMP,
       })
     : 0
 

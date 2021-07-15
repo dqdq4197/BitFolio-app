@@ -104,7 +104,8 @@
     "coin name or symbol search": "코인명 및 심볼검색",
     "no results for": "해당 결과 없음",
     "we couldn't find anything matching your search": "검색에 일치하는 항목을 찾을 수 없습니다.",
-    "try again with a different term": "다른 용어로 다시 시도하십시오."
+    "try again with a different term": "다른 용어로 다시 시도하십시오.",
+    "there are no recent searches": "최근 검색 내역이 없습니다."
   },
   "portfolio": {
     "name": "이름",

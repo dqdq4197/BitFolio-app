@@ -104,7 +104,8 @@
     "coin name or symbol search": "coin name or symbol search",
     "no results for": "No results for",
     "we couldn't find anything matching your search": "We couldn't find anything matching your search.",
-    "try again with a different term": "Try again with a different term."
+    "try again with a different term": "Try again with a different term.",
+    "there are no recent searches": "There are no recent searches."
   },
   "portfolio": {
     "name": "NAME",

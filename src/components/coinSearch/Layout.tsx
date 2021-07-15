@@ -9,7 +9,6 @@ import {
   KeyboardEvent,
 } from 'react-native';
 import { useHeaderHeight } from '@react-navigation/stack';
-import styled from 'styled-components/native';
 import { useNavigation } from '@react-navigation/native';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import EmptyView from './EmptyView';
@@ -207,7 +206,3 @@ const Layout = () => {
 }
 
 export default Layout;
-
-const Container = styled.KeyboardAvoidingView`
-flex: 1;
-`
