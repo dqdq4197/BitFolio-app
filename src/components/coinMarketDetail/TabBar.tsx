@@ -1,32 +1,22 @@
-import React, { useState, useEffect, useRef, createRef, useLayoutEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { 
-  TouchableOpacity, 
   ScrollView, 
   Dimensions, 
+  LayoutChangeEvent
 } from 'react-native';
-import i18n from 'i18next';
 import styled from 'styled-components/native';
-import { MaterialTopTabBarProps } from '@react-navigation/material-top-tabs'
-import Animated, { interpolateNode } from 'react-native-reanimated';
+import { MaterialTopTabBarProps } from '@react-navigation/material-top-tabs';
+import Animated, { interpolateNode, Extrapolate } from 'react-native-reanimated';
 import Tab from './Tab';
+import useGlobalTheme from '/hooks/useGlobalTheme';
 
 const { width } = Dimensions.get('window');
 
-type Data = {
-  label: string;
-  key: string;
-  ref:React.RefObject<TouchableOpacity>
-}
-type Route = {
-  key: string;
-  name: string;
-  params?: object | undefined;
-};
-type MeasureType = {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
+type TabsMeasureType = {
+  left: number
+  right: number
+  width: number
+  height: number
 }
 
 const TabBar = ({
@@ -36,71 +26,57 @@ const TabBar = ({
   position,
 }: MaterialTopTabBarProps) => {
 
+  const { theme } = useGlobalTheme();
   const scrollViewRef = useRef<ScrollView>(null);
-  const [measures, setMeasures] = useState<MeasureType[]>([]);
-  const [scrollWidth, setScrollWidth] = useState(0);
-  const [data, setData] = useState<Data[]>([]);
-  
-  useLayoutEffect(() => {
-    setData(state.routes.map((route: Route) => {
-      return {
-        label: route.name,
-        key: route.key,
-        ref: createRef<TouchableOpacity>()
-      }
-    }))
-  }, [state])
+  const [tabsMeasurements, setTabsMeasurements] = useState<TabsMeasureType[]>(Array.from({length: state.routes.length }));
 
   useEffect(() => {
-    if(scrollViewRef.current && measures.length) {
+    if(scrollViewRef.current && measurementsCompleted()) {
       const { index } = state;
-      const screenCenterXPos = width / 2 - measures[index].width / 2;
+      const screenCenterXPos = width / 2 - tabsMeasurements[index].width / 2;
       scrollViewRef.current.scrollTo({ 
-        x: measures[index].x - screenCenterXPos,
+        x: tabsMeasurements[index].left - screenCenterXPos,
         y: 0, 
         animated: true 
       })
     }
-  }, [state.index, measures])
+  }, [state.index, tabsMeasurements])
 
-    const inputRange = data.map((_, i) => i);
-    const indicatorWidth = measures.length ? interpolateNode(position, {
-      inputRange,
-      outputRange: measures.map(measure => measure.width + 10),
-    }) : 0
-
-    const translateX = measures.length ? interpolateNode(position, {
-      inputRange,
-      outputRange: measures.map(measure => {
-        let screenCenterXPos = width / 2 - measure.width / 2
-        let centerPos = measure.x - screenCenterXPos;
-  
-        if(scrollWidth - measure.x <= width / 2) {
-          return width - (scrollWidth - measure.x)
-        } else if(centerPos > 0) {
-          return measure.x - centerPos
-        } else {
-          return measure.x
-        }
-      })
-    }) : 0
-
-  const handleScrollViewLayout = (w:number) => {
-    setScrollWidth(w);
-    let m:MeasureType[] = [];
-    if(scrollViewRef.current) {
-      data.forEach((item) => {
-        item.ref.current?.measure(
-          (x, y, width, height) => {
-            m.push({ x, y, width, height })
-            if(m.length === data.length){
-              setMeasures(m)
-            }
-          }
-        );
-      });
-    }
+  const measurementsCompleted = (): boolean => {
+    return tabsMeasurements.findIndex(measure => measure === undefined) === -1;
   }
+
+  const inputRange = state.routes.map((_, i) => i);
+
+  const indicatorWidth = measurementsCompleted()
+    ? interpolateNode(position, {
+        inputRange,
+        outputRange: tabsMeasurements.map(measure => measure.width + 10),
+        extrapolateRight: Extrapolate.CLAMP,
+      })
+    : 0
+
+  const translateX = measurementsCompleted() 
+    ? interpolateNode(position, {
+        inputRange,
+        outputRange: tabsMeasurements.map(measure => measure.left)
+      }) 
+  : 0
+
+  const onLayoutHandler = useCallback((
+    page: number, 
+    event: LayoutChangeEvent
+  ) => {
+    const { x, width, height } = event.nativeEvent.layout;
+    
+    setTabsMeasurements(
+      prev => [
+        ...prev.slice(0, page),
+        { left: x, right: x + width, width, height },
+        ...prev.slice(page + 1, tabsMeasurements.length)
+      ]
+    )
+  }, [])
 
   return (
     <Container>
@@ -108,42 +84,53 @@ const TabBar = ({
         horizontal 
         ref={scrollViewRef} 
         showsHorizontalScrollIndicator={false}
-        onContentSizeChange={handleScrollViewLayout}
       >
-        <TabWrapper isOverflowWidth={measures.length && measures.slice(-1)[0].x + measures.slice(-1)[0].width + 16 <= width}>
-          { data.map(({ key, label, ref }, index) => {
-            const handlePress = () => {
+        <TabWrapper>
+          { state.routes.map(({ key, name }, index) => {
+            const { options } = descriptors[key];
+            const label =
+              options.tabBarLabel !== undefined
+                ? options.tabBarLabel
+                : options.title !== undefined
+                ? options.title
+                : name;
+
+            const isFocused = state.index === index;
+
+            const onPress = () => {
               const event = navigation.emit({
                 type: 'tabPress',
                 target: key,
                 canPreventDefault: true,
               });
-              if (state.index !== index && !event.defaultPrevented) {
-                navigation.navigate(label);
+
+              if (!isFocused && !event.defaultPrevented) {
+                navigation.navigate(name);
               }
-            };
+            }
+
             return (
               <Tab 
                 key={key} 
-                ref={ref} 
-                label={label}
+                label={label as string}
                 index={index}
-                stateIndex={state.index}
-                onPress={handlePress}
+                isFocused={isFocused}
+                onPress={onPress}
+                onLayout={onLayoutHandler}
               />
             )
-          })}
+          }) }
+          <Indicator
+            as={Animated.View}
+            style={{
+              width: indicatorWidth,
+              transform: [{
+                translateX
+              }]
+            }}
+          />
         </TabWrapper>
       </TabScrollView>
-      <Indicator
-        as={Animated.View}
-        style={{
-          width: indicatorWidth,
-          transform: [{ 
-              translateX: translateX
-            }],
-        }}
-      />
     </Container>
   );
 }
@@ -156,19 +143,17 @@ const Container = styled.View`
   background-color: ${({ theme }) => theme.base.background.surface};
 `;
 
-const TabScrollView = styled.ScrollView`
-  flex-direction: row;
-  display: flex;
-`;
+const TabScrollView = styled.ScrollView``;
 
-const TabWrapper = styled.View<{isOverflowWidth: boolean | number}>`
+const TabWrapper = styled.View`
   flex-direction: row;
-  width: ${i18n.language === 'ko' ? width + 'px' : '100%' };
   justify-content: space-evenly;
 `
 
 const Indicator = styled.View`
+  position: absolute;
   background-color: ${({ theme }) => theme.base.text[100]};
   height: 2px;
   left: -5px;
+  bottom: 0;
 `;

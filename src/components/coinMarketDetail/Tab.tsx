@@ -1,25 +1,42 @@
-import React, { forwardRef } from 'react';
-import { TouchableOpacity } from 'react-native';
+import React from 'react';
+import { LayoutChangeEvent } from 'react-native';
 import styled from 'styled-components/native';
 
 interface ITab {
-  label: string;
-  index: number;
-  stateIndex: number;
-  onPress: () => void;
+  label: string
+  index: number
+  isFocused: boolean
+  onPress: () => void
+  onLayout: (page: number, event: LayoutChangeEvent) => void
 }
 
-const Tab = forwardRef<TouchableOpacity, ITab>(
-  ({ label, index, stateIndex, onPress }, ref) => {
+const Tab = ({ 
+  label, 
+  index, 
+  isFocused,
+  onPress, 
+  onLayout 
+}: ITab) => {
   
   return (
-    <TabButton ref={ref} isFocused={stateIndex === index} onPress={onPress} >
-      <TabText isFocused={stateIndex === index} >
+    <TabButton 
+      accessible
+      accessibilityRole="button"
+      accessibilityState={isFocused ? { selected: true } : {}}
+      accessibilityLabel={label}
+      activeOpacity={0.6}
+      isFocused={isFocused} 
+      onPress={onPress} 
+      onLayout={(event) => onLayout(index, event)}
+    >
+      <TabText 
+        isFocused={isFocused} 
+      >
         { label }
       </TabText>
     </TabButton>
-  );
-})
+  )
+}
 
 export default Tab;
 

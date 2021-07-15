@@ -51,7 +51,6 @@ const TransactionDetailModal = forwardRef<BottomSheetModal, DetailProps>(
     return data.type === 'transfer' ? [360, '85%'] : ['85%'];
   }, [data]);
   
-  console.log(data.fee[currency])
   const changePrice = useMemo(() => { 
     if(currentPrice && data) {
       return currentPrice[currency] * data.quantity - (data.pricePerCoin[currency] * data.quantity + data.fee[currency])
