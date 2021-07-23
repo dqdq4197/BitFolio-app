@@ -174,7 +174,7 @@ const CoinList = ({ portfolioId, dataEnteredByTheUser, officialData, scrollY }: 
             return (
               <HoldingsView key={coin.id + index}>
                 {item
-                  ? coin.type === 'traking' 
+                  ? coin.type === 'tracking' 
                     ? <AddTransactionButton 
                         onPress={() => handleAddTransactionPress(item)}>
                         <Text>

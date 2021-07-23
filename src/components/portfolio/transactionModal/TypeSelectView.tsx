@@ -58,12 +58,12 @@ const TypeSelectView = ({
       Animated.parallel([
         Animated.timing(opacity, {
           toValue: 1,
-          duration: 300,
+          duration: 200,
           useNativeDriver: true
         }),
         Animated.timing(translateY, {
           toValue: 0,
-          duration: 300,
+          duration: 200,
           useNativeDriver: true
         })
       ]).start()

@@ -58,7 +58,7 @@ const OverView = () => {
         bounces={false}
       >
         {/* <SpacerItem /> */}
-        {portfolios.map(portfolio => {
+        { portfolios.map(portfolio => {
           return (
             <PortfolioItem
               key={portfolio.id}

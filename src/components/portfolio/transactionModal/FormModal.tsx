@@ -10,7 +10,7 @@ import useGlobalTheme from '/hooks/useGlobalTheme';
 import ScrollCloseModal from '/components/common/ScrollCloseModal';
 import Text from '/components/common/Text';
 import { addTransaction, editTransaction } from '/store/transaction';
-import { addTransactionToPortfolio } from '/store/portfolio';
+// import { addTransactionToPortfolio } from '/store/portfolio';
 import Image from '/components/common/Image';
 import EnterDetailsView from './EnterDetailsView';
 import SettingsSelectionBar from './SettingsSelectionBar';
@@ -227,13 +227,12 @@ const FormModalLayout = ({
       }
     }
     
+    console.log(formData);
+
     if(transactionId) {
       dispatch(editTransaction({ transactionId, formData: convertedFormData }));
     } else {
       dispatch(addTransaction({ formData: convertedFormData }));
-      
-      if(formData.portfolioId) 
-        dispatch(addTransactionToPortfolio(convertedFormData));
     }
 
     setVisible(false);

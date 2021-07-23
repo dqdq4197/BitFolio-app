@@ -6,7 +6,8 @@ import {
 } from 'react-native';
 import styled from 'styled-components/native';
 import { MaterialTopTabBarProps } from '@react-navigation/material-top-tabs';
-import Animated, { interpolateNode } from 'react-native-reanimated';
+import Animated, { interpolateNode, interpolateColors } from 'react-native-reanimated';
+import useGlobalTheme from '/hooks/useGlobalTheme';
 import Tab from './Tab';
 
 const { width } = Dimensions.get('window');
@@ -25,6 +26,7 @@ const TabBar = ({
   position,
 }: MaterialTopTabBarProps) => {
 
+  const { theme } = useGlobalTheme();
   const scrollViewRef = useRef<ScrollView>(null);
   const [tabsMeasurements, setTabsMeasurements] = useState<TabsMeasureType[]>(Array.from({length: state.routes.length }));
 
@@ -94,6 +96,15 @@ const TabBar = ({
 
             const isFocused = state.index === index;
 
+            const color = interpolateColors(position, {
+              inputRange,
+              outputColorRange: inputRange.map(
+                inputIndex => inputIndex === index 
+                  ? theme.base.text[100]
+                  : theme.base.text[400]
+              )
+            })
+
             const onPress = () => {
               const event = navigation.emit({
                 type: 'tabPress',
@@ -111,6 +122,7 @@ const TabBar = ({
                 key={key} 
                 label={label as string}
                 index={index}
+                color={color}
                 isFocused={isFocused}
                 onPress={onPress}
                 onLayout={onLayoutHandler}

@@ -121,6 +121,7 @@
     "portfolio creation": "포트폴리오 생성",
     "add transaction": "거래 추가",
     "fixing the price": "가격 고정",
-    "reset to current price": "현재 가격으로 재설정"
+    "reset to current price": "현재 가격으로 재설정",
+    "add coin": "코인 추가"
   }
 }

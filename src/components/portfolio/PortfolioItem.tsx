@@ -2,24 +2,21 @@ import React, { useState, useRef, useEffect } from 'react';
 import { 
   Dimensions, 
   Animated,
-  NativeSyntheticEvent,
-  NativeScrollEvent,
-  ScrollView
 } from 'react-native';
 import styled, { css } from 'styled-components/native';
 import { Ionicons } from '@expo/vector-icons';
 import { PortfolioType } from '/store/portfolio';
 import Text from '/components/common/Text';
-import CoinList from './CoinList';
 import { CoinMarketReturn } from '/lib/api/CoinGeckoReturnType';
-import CoinItem from './CoinItem';
-import useGlobalTheme from '/hooks/useGlobalTheme';
+import CoinListSheet from './CoinListSheet';
+import usePortfolioCoinStats from '/hooks/usePortfolioCoinStats';
 
 
 
 const { width, height } = Dimensions.get('window');
 const WIDGET_HEIGHT = 150;
-const COL_WIDTH = (width - 32 - 100) / 2;
+
+const COL_WIDTH = (width - 32) / 3;
 interface AlignType {
   align?: 'right' | 'left';
 }
@@ -36,13 +33,13 @@ type ItemProps = {
 
 
 const PortfolioItem = ({ item, coinsData }: ItemProps) => {
-
-  const translateY = useRef(new Animated.Value(0)).current;
-  const [isExpanding, setIsExpanding] = useState(false);
-  const [coins, setCoins] = useState<CoinMarketReturn[] | undefined>([]);
   const scrollY = useRef(new Animated.Value(0)).current;
+  const { coinStats } = usePortfolioCoinStats({ id: item.id });
+  const [coins, setCoins] = useState<CoinMarketReturn[] | undefined>(undefined);
+
 
   useEffect(() => {
+    console.log(coinStats);
     if(coinsData) {
       let data:CoinMarketReturn[] | undefined = [];
       data = coinsData?.filter(data => {
@@ -57,33 +54,6 @@ const PortfolioItem = ({ item, coinsData }: ItemProps) => {
     }
   }, [item, coinsData])
 
-  // const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-  //   const { nativeEvent: { contentOffset: { y } } } = event;
-  //   setScrollY(y);
-
-  //   if(isExpanding && y <= -50) {
-  //     Animated.spring(translateY, {
-  //       toValue: 0,
-  //       delay: 0,
-  //       speed: 20,
-  //       useNativeDriver: true
-  //     }).start(
-  //       () => setIsExpanding(false)
-  //     );
-  //   }
-
-  //   if(!isExpanding && y >= 50) {
-  //     Animated.spring(translateY, {
-  //       toValue: -WIDGET_HEIGHT,
-  //       delay: 0, 
-  //       speed: 20,
-  //       useNativeDriver: true,
-  //     }).start(
-  //       () => setIsExpanding(true)
-  //     );
-  //   }
-  // }
-
   return (
     <Container
       as={Animated.ScrollView}
@@ -93,6 +63,7 @@ const PortfolioItem = ({ item, coinsData }: ItemProps) => {
           { useNativeDriver: true }
         )
       }
+      stickyHeaderIndices={[1]}
     >
       <HeaderContainer>
         <WidgetWrap
@@ -103,28 +74,19 @@ const PortfolioItem = ({ item, coinsData }: ItemProps) => {
           </Text>
         </WidgetWrap>
       </HeaderContainer>
-      { item.coins.length !== 0
-        ? <ListSheet>
-            <CoinList
-              portfolioId={item.id}
-              dataEnteredByTheUser={item.coins}
-              officialData={coins}
-              scrollY={scrollY}
-            />
-          </ListSheet>
-        : <EmptyView>
-            <Text>
-              아이템이 없습니다.
-              추가해주세요
-            </Text>
-          </EmptyView>
-      }
+      <CoinListSheet 
+        item={item}
+        coinsData={coins}
+      />
     </Container>
   )
 }
 
 export default PortfolioItem;
 
+type StickyViewProps = {
+  width: number
+}
 type SortTabProps = {
   align?: 'right' | 'left';
 }
@@ -149,7 +111,12 @@ const WidgetWrap = styled.View`
 const ListSheet = styled.View`
   width: ${ width }px;
   min-height: ${ height - 110 }px;
+  background-color: ${({ theme }) => theme.base.background.surface};
   padding: 0 ${({ theme }) => theme.content.spacing};
+`
+
+const HorizontalScrollView = styled.ScrollView`
+  /* margin-left: ${ COL_WIDTH }px; */
   background-color: ${({ theme }) => theme.base.background.surface};
 `
 
@@ -157,10 +124,107 @@ const EmptyView = styled.View`
 
 `
 
+const SortBar = styled.View`
+  flex-direction: row;
+  height: 30px;
+`
+
+const R = styled.View`
+  background-color: purple;
+  height: 30px;
+  width: ${ COL_WIDTH }px;
+`
+const L = styled.View`
+  background-color: rosybrown;
+  height: 30px;
+  width: ${ COL_WIDTH }px;
+`
+const RE = styled.View`
+  background-color: saddlebrown;
+  height: 30px;
+  width: ${ COL_WIDTH }px;
+`
+const RR = styled.View`
+  background-color: salmon;
+  height: 30px;
+  width: ${ COL_WIDTH }px;
+`
 const AddTrackingButton = styled.TouchableOpacity`
   position: absolute;
   width: 60px;
   height: 30px;
   bottom: 50px;
   background-color: ${({ theme }) => theme.base.primaryColor};
+`
+
+const View = styled.View`
+  flex-direction: row;
+  height: 50px;
+  background-color: white;
+`
+
+const HeadView = styled.View`
+  position: absolute;
+  flex-direction: row;
+  height: 50px;
+  background-color: black;
+  width: 100px;
+  z-index: 11;
+
+`
+
+const Red = styled.View`
+  background-color: red;
+  width: ${ COL_WIDTH }px;
+  height: 50px;
+`
+
+const Blue = styled.View`
+  background-color: blue;
+  width: ${ COL_WIDTH }px;
+  height: 50px;
+`
+
+const Green = styled.View`
+  background-color: green;
+  width: ${ COL_WIDTH }px;
+  height: 50px;
+`
+
+const Black = styled.View`
+  background-color: black;
+  width: ${ COL_WIDTH }px;
+  height: 50px;
+`
+
+const Viee = styled.View``
+
+const Name= styled.View`
+  position: absolute;
+  left: 0;
+`
+
+const CoinListContainer = styled.View`
+  flex-direction: row;
+  padding: 0 ${({ theme }) => theme.content.spacing};
+`
+
+const StickyView = styled.View`
+  position: absolute;
+  width: ${ COL_WIDTH }px;
+  z-index: 11;
+  left: ${({ theme }) => theme.content.spacing};
+`
+
+const Vertical = styled.ScrollView`
+
+`
+
+const Row = styled.View`
+  height: 60px;
+`
+
+const NameWrap = styled.View`
+  flex-direction: row;
+  height: 60px;
 `

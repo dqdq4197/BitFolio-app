@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef, useLayoutEffect } from 'react';
 import { 
   FlatList, 
   Platform, 
@@ -6,10 +6,11 @@ import {
   Keyboard,
   EmitterSubscription,
   KeyboardEvent,
+  TextInput
 } from 'react-native';
 import { useHeaderHeight } from '@react-navigation/stack';
-import styled from 'styled-components/native';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import EmptyView from '/components/coinSearch/EmptyView';
 import SearchBar from '/components/coinSearch/SearchBar';
@@ -20,11 +21,14 @@ import { createFuzzyMatcher } from '/lib/utils';
 import Text from '/components/common/Text';
 import { useAppDispatch } from '/hooks/useRedux';
 import { addTrack } from '/store/portfolio';
+import SearchItemListSkeleton from '/components/skeletonPlaceholder/SearchItemListSkeleton';
 
 
 const { height } = Dimensions.get('screen');
 
 const AddTrack = () => {
+  const { t } = useTranslation();
+  const textInputRef = useRef<TextInput>(null);
   const [coins, setCoins] = useState<SearchCoin[]>([]);
   const [query, setQuery] = useState('');
   const [keyboardSpace, SetKeyBoardSpace] = useState(0);
@@ -35,6 +39,10 @@ const AddTrack = () => {
   const { params } = useRoute();
   const dispatch = useAppDispatch();
 
+
+  useLayoutEffect(() => {
+    navigation.setOptions({ title: t(`portfolio.add coin`) })
+  }, [])
   useEffect(() => {
     let keyboardWillShowEvent: EmitterSubscription;
     let keyboardWillHideEvent: EmitterSubscription;
@@ -77,18 +85,33 @@ const AddTrack = () => {
     SetKeyBoardSpace(event.endCoordinates.height)
   }
 
-  const resetKeyboardSpace = (event: KeyboardEvent) => {
+  const resetKeyboardSpace = () => {
     SetKeyBoardSpace(0)
   }
 
 
-  const handleItemPress = (id: string) => {
+  const handleItemPress = useCallback((id: string) => {
+    console.log(id);
     if(params) {
-      let { portfolioId } = (params as { portfolioId: string })
-      dispatch(addTrack({ portfolioId, id }))
+      let { portfolioId } = (params as { portfolioId: string });
+
+      const { large, name, symbol }: SearchCoin = data!.coins.find(coin => coin.id === id)!;
+
+      console.log(name);
+      const payload = {
+        portfolioId, 
+        coin: {
+          id,
+          image: large,
+          name,
+          symbol
+        }
+      }
+
+      dispatch(addTrack(payload))
       navigation.navigate('portfolioOverView')
     } 
-  }
+  }, [])
 
   const highlightText = (text: string, regex: RegExp) => {
     const match = text.match(regex);
@@ -136,6 +159,12 @@ const AddTrack = () => {
       setCoins(result)
   }, [data])
 
+  const handleRemoveQuery = () => {
+    setQuery('');
+    setCoins([]);
+    textInputRef.current?.focus();
+  }
+
 
   return(
     <>
@@ -151,8 +180,11 @@ const AddTrack = () => {
         }}
         ListHeaderComponent={
           <SearchBar 
-            onChangeText={handleQueryChangeText}
+            ref={textInputRef}
+            onQueryChange={handleQueryChangeText}
             coinsLength={coins.length}
+            onRemoveQuery={handleRemoveQuery}
+            query={query}
           />
         }
         ListHeaderComponentStyle={{
@@ -160,19 +192,23 @@ const AddTrack = () => {
           backgroundColor: theme.base.background.surface
         }}
         renderItem={
-          ({ item }) => 
+          ({ item }) => (
             <Item 
               item={item} 
               onPressItem={handleItemPress}
             />
+          )
         }
         getItemLayout={(_, index) => (
           { length: 60, offset: 60 * index, index }
         )}
         ListEmptyComponent={
-          query 
-          ? <EmptyView query={query}/>
-          : <></>
+          data 
+            ? query 
+                ? <EmptyView query={query}/>
+                : <></>
+            : <SearchItemListSkeleton />
+          
         }
         stickyHeaderIndices={[0]}
       />
@@ -182,7 +218,3 @@ const AddTrack = () => {
 }
 
 export default AddTrack;
-
-const Container = styled.KeyboardAvoidingView`
-flex: 1;
-`
