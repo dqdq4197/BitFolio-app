@@ -9,7 +9,7 @@ import Text from '/components/common/Text';
 import useLocales from '/hooks/useLocales';
 import { CURRENCIES } from '/lib/constant';
 import { useAppDispatch } from '/hooks/useRedux';
-import { createPortfolio } from '/store/portfolio';
+// import { createPortfolio } from '/store/portfolio';
 import ScrollCloseModal from '/components/common/ScrollCloseModal';
 
 type FormModalProps = {
@@ -212,15 +212,15 @@ const CreatePortfolioModal = ({ visible, setVisible }: FormModalProps) => {
   }
 
   const handleConfirmPress = () => {
-    const { name, currency } = formData;
-    dispatch(
-      createPortfolio({
-        name,
-        currency: currency.iso as baseTypes.Currency
-      })
-    )
+    // const { name, currency } = formData;
+    // dispatch(
+    //   createPortfolio({
+    //     name,
+    //     currency: currency.iso as baseTypes.Currency
+    //   })
+    // )
       
-    setVisible(false);
+    // setVisible(false);
   }
 
   return (

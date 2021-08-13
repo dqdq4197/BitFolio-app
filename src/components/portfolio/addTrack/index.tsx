@@ -89,15 +89,12 @@ const AddTrack = () => {
     SetKeyBoardSpace(0)
   }
 
-
   const handleItemPress = useCallback((id: string) => {
-    console.log(id);
     if(params) {
       let { portfolioId } = (params as { portfolioId: string });
 
       const { large, name, symbol }: SearchCoin = data!.coins.find(coin => coin.id === id)!;
 
-      console.log(name);
       const payload = {
         portfolioId, 
         coin: {
@@ -111,7 +108,7 @@ const AddTrack = () => {
       dispatch(addTrack(payload))
       navigation.navigate('portfolioOverView')
     } 
-  }, [])
+  }, [data, params])
 
   const highlightText = (text: string, regex: RegExp) => {
     const match = text.match(regex);

@@ -1,33 +1,32 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { baseTypes } from 'base-types';
 import { v4 as uuidv4 } from 'uuid';
-import { FormData, SubmitNumericData } from '/components/portfolio/transactionModal/FormModal';
-import { TransactionType } from './transaction';
+
+export type SortType = 
+| 'default'
+| 'name_desc' 
+| 'name_asc' 
+| 'price_desc'
+| 'price_asc'
+| 'holding_desc' 
+| 'holding_asc' 
+| 'buyPrice_desc'
+| 'buyPrice_asc'
+| 'pl_desc'
+| 'pl_asc'
+| 'allocation_desc'
+| 'allocation_asc'
 
 export interface CoinType {
   id: string
-  quantity: number | null
-  fee: { [key: string]: number } | null
-  type: 'tracking' | 'traded'
+  state: 'tracking' | 'traded'
   symbol: string
   image: string
   name: string
 }
 
-export interface PortfolioType {
-  id: string
-  name: string
-  coins: CoinType[]
-  currency: baseTypes.Currency
-}
-
-interface InitialState {
-  portfolios: PortfolioType[]
-}
-
-type CreatePortfolioAction = {
-  name: string
-  currency: baseTypes.Currency
+type ChangeCoinStateAction = {
+  portfolioId: string
+  coinId: string
 }
 
 type AddTrackAction = {
@@ -39,154 +38,62 @@ type AddTrackAction = {
     symbol: string
   }
 }
-// 가격 -> 보유자산 -> 당일 손익 -> 지난 손익 -> 포트폴리오 점유율
-// each current price -> holdings(price * 갯수), 갯수 -> 24h percentage -> pl -> share
-const defaultPortfolio: PortfolioType = {
-  id: 'Default-main-portfolio',
-  name: 'Main Portfolio123',
-  currency: 'usd',
+
+export interface InitialState {
+  id: string
+  coins: CoinType[]
+  assetSortType: SortType
+}
+
+const initialState: InitialState = {
+  id: 'qwesfzcv-asd', // uuid 적용하기
   coins: [{
     id: 'bitcoin',
-    quantity: null,
-    fee: null,
-    type: 'tracking',
+    state: 'tracking',
     symbol: 'btc',
     name: "Bitcoin",
     image: 'https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1547033579'
   }, {
     id: 'tether',
-    quantity: null,
-    fee: null,
-    type: 'tracking',
+    state: 'tracking',
     symbol: 'usdt',
     name: "Tether",
     image: 'https://assets.coingecko.com/coins/images/325/large/Tether-logo.png?1598003707'
-  }]
-}
-
-const initialState: InitialState = {
-  portfolios: [
-    defaultPortfolio, {
-      ...defaultPortfolio,
-      id: 'defaultPortfolio2',
-      name: 'defaultPortfolio2'
-    }
-  ]
+  }],
+  assetSortType: 'default'
 }
 
 export const portfolioSlice = createSlice({
   name: 'portfolios',
   initialState,
   reducers: {
-    createPortfolio: (state, action: PayloadAction<CreatePortfolioAction>) => {
-      const { payload: { name, currency } } = action;
-      state.portfolios = [
-        ...state.portfolios, 
+    addTrack: (state, action: PayloadAction<AddTrackAction>) => {
+      const { coin } = action.payload;
+
+      state.coins = [
+        ...state.coins,
         {
-          id: uuidv4(),
-          name,
-          currency,
-          coins: []
+          ...coin,
+          state: 'tracking'
         }
       ]
     },
-    addTrack: (state, action: PayloadAction<AddTrackAction>) => {
-      let { portfolios } = state;
-      const { portfolioId, coin } = action.payload;
-      const portfolioIdx = state.portfolios.findIndex(portfolio => portfolio.id === portfolioId);
+    changeCoinState: (state, action: PayloadAction<ChangeCoinStateAction>) => {
+      const { coinId } = action.payload;
+      const coinIdx = state.coins.findIndex(coin => coin.id === coinId);
 
-      portfolios[portfolioIdx] = {
-        ...portfolios[portfolioIdx],
-        coins: [
-          ...portfolios[portfolioIdx].coins,
-          {
-            ...coin,
-            quantity: null,
-            fee: null,
-            type: 'tracking'
-          }
-        ]
-      }
+      if(state.coins[coinIdx].state === 'tracking')
+        state.coins[coinIdx].state = 'traded';
     },
-    // addTransactionToPortfolio: (state, action: PayloadAction<FormData<SubmitNumericData>>) => {
-    //   const { portfolioId, coinId, transferType, type, quantity, pricePerCoin, fee, date } = action.payload;
-
-    //   const targetPortfolio = state.portfolios.filter(portfolio => portfolio.id === portfolioId)[0];
-    //   let targetCoin = targetPortfolio.coins.filter(coin => coin.id === coinId).slice()[0]; // deep copy
-    //   let updatedFee = fee;
-
-    //   if(targetCoin.fee !== null) {
-    //     for(let currency in fee) {
-    //       updatedFee = {
-    //         [currency]: targetCoin.fee[currency] + fee[currency]
-    //       }
-    //     }
-    //   }
-    //   // TODO
-    //   // 불변성 체크하기 
-    //   if(type === 'buy' || transferType === 'transfer in') {
-    //     const updatedQuantity = targetCoin.quantity === null ? Number(quantity) : targetCoin.quantity + Number(quantity);
-
-    //     targetCoin = {
-    //       ...targetCoin,
-    //       quantity: updatedQuantity,
-    //       fee: updatedFee,
-    //       type: 'traded'
-    //     }
-    //   } 
-       
-    //   if(type === 'sell' || transferType === 'transfer out') {
-    //     const updatedQuantity = targetCoin.quantity === null ? -Number(quantity) : targetCoin.quantity - Number(quantity);
-
-    //     targetCoin = {
-    //       ...targetCoin,
-    //       quantity: updatedQuantity,
-    //       fee: updatedFee,
-    //       type: 'traded'
-    //     }
-    //   }
-    // },
-    removeTransactionToPortfolio: (state, action: PayloadAction<TransactionType>) => {
-      const { portfolioId, coinId, type, fee, transferType, quantity } = action.payload;
-      const targetPortfolio = state.portfolios.filter(portfolio => portfolio.id === portfolioId)[0];
-      let targetCoin = targetPortfolio.coins.filter(coin => coin.id === coinId).slice()[0];
-      let updatedFee = fee;
-
-      if(targetCoin.fee !== null) {
-        for(let currency in fee) {
-          updatedFee = {
-            [currency]: targetCoin.fee[currency] - fee[currency]
-          }
-        }
-      }
-
-      if(type === 'buy' || transferType === 'transfer in') {
-        const updatedQuantity = targetCoin.quantity! - quantity;
-
-        targetCoin = {
-          ...targetCoin,
-          quantity: updatedQuantity,
-          fee: updatedFee,
-        }
-      } 
-       
-      if(type === 'sell' || transferType === 'transfer out') {
-        const updatedQuantity = -targetCoin.quantity! +quantity;
-
-        targetCoin = {
-          ...targetCoin,
-          quantity: updatedQuantity,
-          fee: updatedFee,
-        }
-      }
-    }
+    changeSortType: (state, action: PayloadAction<SortType>) => {
+      state.assetSortType = action.payload
+    } 
   }
 })
 
 export const { 
-  createPortfolio,
   addTrack,
-  // addTransactionToPortfolio,
-  removeTransactionToPortfolio
+  changeCoinState,
+  changeSortType
 } = portfolioSlice.actions;
 export default portfolioSlice.reducer;

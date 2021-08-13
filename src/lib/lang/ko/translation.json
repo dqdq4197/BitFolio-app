@@ -109,11 +109,13 @@
   },
   "portfolio": {
     "name": "이름",
+    "asset": "자산",
     "price": "가격",
     "holdings": "보유 자산",
     "share": "점유율",
     "profit": "이익",
     "loss": "손실",
+    "profit/loss": "이익/손실",
     "24h p/l": "24H 손익",
     "portfolio name": "포트폴리오 이름",
     "main fiat currency": "주요 법정통화",
@@ -122,6 +124,7 @@
     "add transaction": "거래 추가",
     "fixing the price": "가격 고정",
     "reset to current price": "현재 가격으로 재설정",
-    "add coin": "코인 추가"
+    "add coin": "코인 추가",
+    "buy price(avg)": "매수 가격(평균)"
   }
 }

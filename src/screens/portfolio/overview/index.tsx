@@ -8,6 +8,7 @@ import CoinHomeSkeleton from '/components/skeletonPlaceholder/CoinHomeSkeleton';
 import ErrorBoundaryAndSuspense from '/components/common/ErrorBoundaryAndSuspense';
 import SettingModal from '/components/setting/SettingModal';
 import OverView from '/components/portfolio/OverView';
+import { PortfolioDataProvider } from '/components/portfolio/PortfolioDataContext';
 
 
 
@@ -37,7 +38,9 @@ const OverviewScreen = ({ navigation }: StackScreenProps<any>) => {
     <GeneralTemplate>
       <ErrorBoundaryAndSuspense skeleton={<CoinHomeSkeleton />}>
         <SettingModal ref={mainModalRef}/>
-        <OverView/>
+        <PortfolioDataProvider>
+          <OverView/>
+        </PortfolioDataProvider>
       </ErrorBoundaryAndSuspense>
     </GeneralTemplate>
   )

@@ -30,10 +30,8 @@ const SetFeeView = ({
       <RollingText 
         text={fee}
         unMountingList={unMountingList}
-        textStyleProps={{
-          fontXXXL: true,
-          bold: true,
-        }}
+        fontXXXL
+        bold
       />
     </Container>
   )

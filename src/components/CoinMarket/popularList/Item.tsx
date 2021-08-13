@@ -51,9 +51,7 @@ const ValueWithPercentage = ({ value, percentage, currency }: PercentageProps) =
     <IncreaseDecreaseValue
       value={ digitToFixed(percentage ?? 0, 2) }
       afterPrefix={'%'}
-      textStyle={{
-        right: true
-      }}
+      right
     />
   </ValueWrap>
 )

@@ -1,19 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { 
-  FlatList,
-  Dimensions,
-  NativeSyntheticEvent,
-  NativeScrollEvent
-} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Dimensions } from 'react-native';
 import styled from 'styled-components/native';
 import { useNavigation } from '@react-navigation/native';
 import { useAppSelector } from '/hooks/useRedux';
-import PortfolioItem from './PortfolioItem';
-import FooterView from './FooterView';
-import useGlobalTheme from '/hooks/useGlobalTheme';
 import FormModal from './transactionModal/FormModal';
 import Text from '/components/common/Text';
-import usePortfolioCoins from '/hooks/usePortfolioCoins';
+import CoinListSheet from './CoinListSheet';
+import usePortfolioStats from '/hooks/usePortfolioStats';
+import SurfaceWrap from '/components/common/SurfaceWrap';
+import { usePortfolioContext } from './PortfolioDataContext'
 
 const { width } = Dimensions.get('window');
 const SPACING = 10;
@@ -23,53 +18,26 @@ const SPACER_ITEM_SIZE = (width - ITEM_SIZE) / 2;
 const OverView = () => {
 
   const navigation = useNavigation();
-  const { theme } = useGlobalTheme();
-  const { portfolios } = useAppSelector(state => state.portfolioReducer);
-  const [activePageNum, setActivePageNum] = useState(0);
-  const [visible, setVisible] = useState(false);
-  const { data } = usePortfolioCoins({ portfolios });
+  const { id, coinsData, mutate } = usePortfolioContext();
+  const { portfolioStats } = usePortfolioStats({ id, coinsData })
   
-  const handleScrollEnd = (event:NativeSyntheticEvent<NativeScrollEvent>) => {
-    const { contentOffset, layoutMeasurement } = event.nativeEvent;
-    
-    let pageNum = Math.floor(contentOffset.x / layoutMeasurement.width);
-    setActivePageNum(pageNum);
-  }
-  
-  const onModalClose = () => {
-    setVisible(false);
-  }
-
   const handleAddTrackingCoinPress = () => {
-    let activePageId = portfolios[activePageNum].id;
-    navigation.navigate('AddTrack', { portfolioId: activePageId });
+    navigation.navigate('AddTrack', { portfolioId: id });
   }
 
-  if(!portfolios) return <></>
   return (
     <Container>
-      <ScrollView 
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        onMomentumScrollEnd={handleScrollEnd}
-        snapToInterval={width}
-        snapToAlignment='center'
-        decelerationRate={0}
-        bounces={false}
+      <HeaderContainer>
+
+      </HeaderContainer>
+      <SurfaceWrap 
+        title="Assets"
       >
-        {/* <SpacerItem /> */}
-        { portfolios.map(portfolio => {
-          return (
-            <PortfolioItem
-              key={portfolio.id}
-              item={portfolio}
-              coinsData={data}
-            />
-            )
-          }) 
-        }
-        <FooterView />
-      </ScrollView>
+        <CoinListSheet 
+          coinsStats={portfolioStats?.coins}
+          portfolioTotalCosts={portfolioStats?.total_costs}
+        />
+      </SurfaceWrap>
       <AddTrackingButton>
         <Text fontL onPress={handleAddTrackingCoinPress} color100>
           추가하기
@@ -81,11 +49,14 @@ const OverView = () => {
 
 export default OverView;
 
-const Container = styled.View`
-  align-items: center;
+const Container = styled.ScrollView`
 `
-const ScrollView = styled.ScrollView`
-  background-color: ${({ theme }) => theme.base.background.surface};
+
+const HeaderContainer = styled.View`
+  padding: 0 ${({ theme }) => theme.content.spacing};
+  height: 170px;
+  align-items: center;
+  padding-top: 20px;
 `
 
 const AddTrackingButton = styled.TouchableOpacity`

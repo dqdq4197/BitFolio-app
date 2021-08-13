@@ -4,36 +4,48 @@ import styled, { css } from 'styled-components/native';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import Text, { TextStyleProps } from './Text';
 
-type ButtonProps = {
+interface ButtonProps extends TextStyleProps {
   text: string
   width?: number
   height: number
   isDisabled: boolean
   isLoading: boolean
   onPress: () => void
-  textStyle?: TextStyleProps
   borderPosition?: Array<'top' | 'bottom'>
 }
 
-const AsyncButton = (props: ButtonProps) => {
+const AsyncButton = ({
+  text, 
+  width, 
+  height, 
+  isDisabled, 
+  isLoading, 
+  onPress, 
+  borderPosition, 
+  ...textStyle 
+}: ButtonProps) => {
 
   const { theme } = useGlobalTheme();
 
   return (
     <Container
-      {...props}
-      disabled={props.isDisabled}
+      borderPosition={borderPosition}
+      width={width}
+      height={height}
+      isDisabled={isDisabled}
+      disabled={isDisabled}
       activeOpacity={0.6}
+      onPress={onPress}
     >
       <CustomText 
-        {...props}
-        {...props.textStyle} 
+        {...textStyle} 
+        isDisabled={isDisabled}
         margin="0 10px 0 0"
         bold
       >
-        { props.text }
+        { text }
       </CustomText>
-      { props.isLoading 
+      { isLoading 
         ? <ActivityIndicator size="small" color={ theme.base.primaryColor } />
         : null
       }
@@ -43,7 +55,14 @@ const AsyncButton = (props: ButtonProps) => {
 
 export default AsyncButton;
 
-const Container = styled.TouchableOpacity<ButtonProps>`
+type ContainerProps = Pick<
+  ButtonProps, 
+  "borderPosition" | "height" | "isDisabled" | "width"
+>
+
+type TextProps = Pick<ButtonProps, "isDisabled">
+
+const Container = styled.TouchableOpacity<ContainerProps>`
   flex-direction: row;
   align-items: center;
   justify-content: center;
@@ -62,7 +81,7 @@ const Container = styled.TouchableOpacity<ButtonProps>`
   `}
 `
 
-const CustomText = styled(Text)<ButtonProps>`
+const CustomText = styled(Text)<TextProps>`
   color: ${({ isDisabled }) => 
     isDisabled ? 'rgba(255,255,255,0.6)' : 'rgba(255,255,255,1)'
   }

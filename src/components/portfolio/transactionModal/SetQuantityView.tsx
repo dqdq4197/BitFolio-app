@@ -42,10 +42,8 @@ const SetQuantityView = ({
           <RollingText 
             text={quantity}
             unMountingList={unMountingList}
-            textStyleProps={{
-              fontXXXL: true,
-              bold: true,
-            }}
+            fontXXXL
+            bold
           />
           <Text fontL bold margin="0 0 8px 10px">
             { symbol.toUpperCase() }

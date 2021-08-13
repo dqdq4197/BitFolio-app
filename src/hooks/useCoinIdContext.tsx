@@ -13,7 +13,6 @@ type ProviderProps = {
 }
 export function CoinIdProvider({ value, children }: ProviderProps) {
 
-
   return (
     <CoinIdContext.Provider value={value}>
       { children }

@@ -7,7 +7,6 @@ import { format } from 'date-fns';
 import { ko, enUS } from 'date-fns/locale';
 import { FontAwesome5, FontAwesome, MaterialIcons, MaterialCommunityIcons, Feather } from '@expo/vector-icons';
 import { TransactionType, removeTransaction } from '/store/transaction';
-import { removeTransactionToPortfolio } from '/store/portfolio';
 import useLocales from '/hooks/useLocales';
 import Modal from '/components/common/BottomSheetModal';
 import Text from '/components/common/Text';
@@ -25,17 +24,20 @@ type DetailProps = {
   currentPrice: { [key: string]: number }
   symbol: string
   coinId: string
+  portfolioId?: string
   name: string
   image: string
   transactionId: string
   onDismiss: () => void
 }
+
 const TransactionDetailModal = forwardRef<BottomSheetModal, DetailProps>(
   ({
     data,
     currentPrice,
     symbol,
     coinId,
+    portfolioId,
     name,
     image,
     transactionId,
@@ -97,11 +99,8 @@ const TransactionDetailModal = forwardRef<BottomSheetModal, DetailProps>(
         { 
           text: t(`common.remove`), 
           onPress: () => {
-            dispatch(removeTransaction({ id: data.id }))
+            dispatch(removeTransaction({ id: data.id }));
 
-            if(data.portfolioId) {
-              dispatch(removeTransactionToPortfolio(data));
-            }
             (ref as MutableRefObject<any | null>)?.current.close();
           },
           style: "destructive"
@@ -288,10 +287,8 @@ const TransactionDetailModal = forwardRef<BottomSheetModal, DetailProps>(
                 <IncreaseDecreaseValue 
                   value={changePercentage}
                   afterPrefix="%"
-                  textStyle={{
-                    fontML: true,
-                    bold: true
-                  }}
+                  fontML
+                  bold
                 />
               </Row>
             </ChangeWrap>

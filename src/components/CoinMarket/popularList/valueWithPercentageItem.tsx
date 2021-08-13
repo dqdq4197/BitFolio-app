@@ -72,9 +72,7 @@ const Item = ({ item, index, onPressItem }: ItemProps) => {
           <IncreaseDecreaseValue
             value={ digitToFixed(price_change_percentage_24h ?? 0, 2) }
             afterPrefix="%"
-            textStyle={{
-              right: true
-            }}
+            right
           />
         </View>
       </ItemColumn>

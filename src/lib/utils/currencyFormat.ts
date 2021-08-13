@@ -42,7 +42,7 @@ export function AddSeparator(value: string | number) {
   while (rgx.test(x1)) {
       x1 = x1.replace(rgx, '$1' + ',' + '$2');
   }
-
+  
   return x1 + x2;
 }
 
@@ -113,13 +113,16 @@ export function currencyFormat({
   zeroMask= '--',
 }: CurrencyFormat): string {
   let numStr = typeof value === 'number' ? value.toString() : value;
-  const [intPart, decimalPart] = numStr.split('.');
+  let [intPart, decimalPart] = numStr.split('.');
+  const isNegative = Number(value) < 0;
+  let sPrefix = prefix ?? '';
+  if(isNegative) {
+    intPart = intPart.substr(1);
+    sPrefix = '-' + sPrefix;
+  }
+
   if(!decimalPart) {
-    if(prefix) {
-      return prefix + AddSeparator(numStr);
-    } else {
-      return AddSeparator(numStr)
-    }
+    return sPrefix + AddSeparator(intPart);
   }
 
   const intPartLength = intPart.length;
@@ -161,10 +164,7 @@ export function currencyFormat({
     }
   }
   
-  if(prefix) {
-    result = prefix + AddSeparator(result);
-  }
-
+  result = sPrefix + AddSeparator(result);
 
   return result;
 }

@@ -68,11 +68,9 @@ const RecentlyViewedList = ({ onPressItem }: ListProps) => {
                 <IncreaseDecreaseValue
                   value={ digitToFixed(coin.price_change_percentage_24h ?? 0, 2) }
                   afterPrefix='%'
-                  textStyle={{
-                    fontML: true,
-                    bold: true,
-                    margin: '5px 0 0 0'
-                  }}
+                  fontML
+                  bold
+                  margin="5px 0 0 0"
                 />
               </TitleAndPercentage>
             </Card>

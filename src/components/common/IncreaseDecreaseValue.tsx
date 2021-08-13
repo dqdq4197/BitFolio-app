@@ -5,11 +5,10 @@ import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat';
 import useLocales from '/hooks/useLocales';
 
 
-type ValueProps = {
+interface ValueProps extends TextStyleProps {
   value: number | null
   beforePrefix?: string
   afterPrefix?: string
-  textStyle?: TextStyleProps
   isCurrencyFormat?: boolean
 }
 
@@ -17,8 +16,8 @@ const IncreaseDecreaseValue = ({
   value, 
   beforePrefix, 
   afterPrefix, 
-  textStyle,
-  isCurrencyFormat=false
+  isCurrencyFormat=false,
+  ...props
 }: ValueProps) => {
 
   const { currency } = useLocales();
@@ -39,7 +38,7 @@ const IncreaseDecreaseValue = ({
   }, [value, isCurrencyFormat])
 
   return (
-    <CustomText value={value} {...textStyle}>
+    <CustomText value={value} {...props}>
       { value === null 
         ? '--'
         : value > 0

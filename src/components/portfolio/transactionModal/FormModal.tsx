@@ -10,7 +10,7 @@ import useGlobalTheme from '/hooks/useGlobalTheme';
 import ScrollCloseModal from '/components/common/ScrollCloseModal';
 import Text from '/components/common/Text';
 import { addTransaction, editTransaction } from '/store/transaction';
-// import { addTransactionToPortfolio } from '/store/portfolio';
+import { changeCoinState } from '/store/portfolio';
 import Image from '/components/common/Image';
 import EnterDetailsView from './EnterDetailsView';
 import SettingsSelectionBar from './SettingsSelectionBar';
@@ -227,12 +227,15 @@ const FormModalLayout = ({
       }
     }
     
-    console.log(formData);
 
     if(transactionId) {
       dispatch(editTransaction({ transactionId, formData: convertedFormData }));
     } else {
       dispatch(addTransaction({ formData: convertedFormData }));
+    }
+
+    if(portfolioId) {
+      dispatch(changeCoinState({ portfolioId, coinId: formData.coinId }))
     }
 
     setVisible(false);
@@ -363,14 +366,12 @@ const FormModalLayout = ({
               ? t(`common.next`)
               : transactionId ? t(`common.edit transaction`) : t(`portfolio.add transaction`)
             }
-            textStyle={{
-              fontML: true
-            }}
             height={FOOTER_HEIGHT - 30} 
             isLoading={isLoading} 
             isDisabled={(formData.quantity === '0' && activePage === 2) || isLoading} 
             onPress={activePage === 1 ? handleNextPress : handleAddTransactionPress}
             borderPosition={['top']}
+            fontML
           />
         }
         footerHeight={FOOTER_HEIGHT}

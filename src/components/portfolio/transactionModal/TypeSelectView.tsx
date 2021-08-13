@@ -86,8 +86,7 @@ const TypeSelectView = ({
   const setTranslateX = (index: number) => {
     Animated.timing(translateX, {
       toValue: TransferTypeWidth * index,
-      delay: 0,
-      duration: 200,
+      duration: 100,
       useNativeDriver: true
     }).start();
   }
@@ -165,7 +164,6 @@ const TypeSelectView = ({
         <Indicator 
           as={Animated.View}
           width={TransferTypeWidth}
-          onTouchStart={() => console.log('asdas')}
           style={{
             transform: [{
               translateX

@@ -20,7 +20,6 @@ export interface Config<Data = unknown, Error = unknown>
   initialData?: Data[]
 }
 
-
 export default function useRequestInfinite<Data = unknown, Error = unknown>(
   request: (
     pageIndex: number,

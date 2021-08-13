@@ -1,13 +1,12 @@
 import React, { useRef, useEffect } from 'react';
-import { Animated, Easing, ScrollView } from 'react-native';
+import { Animated, Easing } from 'react-native';
 import styled from 'styled-components/native';
 import { easeQuadOut} from 'd3-ease';
 import Text, { TextStyleProps } from '/components/common/Text';
 
-type RollingTextProps = {
+interface RollingTextProps extends TextStyleProps {
   text: string;
   unMountingList: number[];
-  textStyleProps?: TextStyleProps;
 }
 
 type AnimatedTextProps = {
@@ -89,7 +88,7 @@ const AnimatedText = ({
   )
 }
 
-const RollingText = ({ text, unMountingList, textStyleProps }: RollingTextProps) => {
+const RollingText = ({ text, unMountingList, ...textStyle }: RollingTextProps) => {
 
   return (
     <Container>
@@ -102,7 +101,7 @@ const RollingText = ({ text, unMountingList, textStyleProps }: RollingTextProps)
               index={index}
               integerLength={arr.join('').split('.')[0].length}
               unMountingList={unMountingList}
-              textStyleProps={textStyleProps}
+              textStyleProps={textStyle}
               totalLength={text.length}
             />
           )

@@ -18,6 +18,7 @@ type ParamsType = {
   price_change_percentage?: PriceChangePercentageType | PriceChangePercentageType[];
   willNotRequest?: boolean,
 }
+
 export default ({
   per_page = 70, 
   order = 'market_cap_desc',
@@ -27,18 +28,15 @@ export default ({
   sparkline = true,
   currency,
   price_change_percentage,
-  willNotRequest = false
+  willNotRequest = false,
 }: ParamsType) => {
   const { currency: localCurrency } = useAppSelector(state => state.baseSettingReducer);
-  if(Array.isArray(ids) && ids.length === 0) {
-    ids=['null'];
-  }
 
   const getKey = (pageIndex:number, previousPageData: AxiosResponse<unknown> | null) => {
     if (previousPageData && !(previousPageData as any).length) return null
     if(willNotRequest) return null;
     return CoinGecko.coin.markets({
-      ids,
+      ids: Array.isArray(ids) && ids.length === 0 ? ['null'] : ids,
       vs_currency: currency || localCurrency,
       page: pageIndex + 1,
       order,

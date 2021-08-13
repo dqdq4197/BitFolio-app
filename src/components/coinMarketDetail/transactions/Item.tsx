@@ -91,9 +91,7 @@ const Item = ({ data, symbol, onItemPress }: ItemProps) => {
             ? -1 * data.quantity 
             : data.quantity
           }
-          textStyle={{
-            fontML: true,
-          }}
+          fontML
           afterPrefix={' ' + symbol.toUpperCase()}
         />
       </QuantityWrap>

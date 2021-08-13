@@ -3,6 +3,7 @@ import { createStackNavigator, StackNavigationOptions, StackScreenProps } from '
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import OverViewScreen from './overview';
 import AddTrackScreen from './addTrack';
+import DetailTab from '/screens/coinMarket/detail'
 
 type StackProps = {}
 
@@ -46,6 +47,11 @@ const PortfolioStack = ({ navigation }:StackScreenProps<any, any>) => {
         name="AddTrack" 
         component={AddTrackScreen}
         options={NavigationOptions('')}
+      />
+      <Stack.Screen 
+        name="portfolioCoinDetail" 
+        component={DetailTab}
+        options={NavigationOptions('Detail')}
       />
     </Stack.Navigator>
   )

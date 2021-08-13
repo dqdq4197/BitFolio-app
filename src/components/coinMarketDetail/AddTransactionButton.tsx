@@ -6,7 +6,11 @@ import useCoinDetailData from '/hooks/useCoinDetailData';
 import { useCoinIdContext } from '/hooks/useCoinIdContext';
 import AsyncButton from '/components/common/AsyncButton';
 
-const AddTransactionButton = () => {
+
+type ButtonProps = {
+  portfolioId?: string
+}
+const AddTransactionButton = ({ portfolioId }: ButtonProps) => {
   const { t } = useTranslation();
   const { id } = useCoinIdContext();
   const { data } = useCoinDetailData({ id });
@@ -18,13 +22,11 @@ const AddTransactionButton = () => {
   return (
     <Container>
       <AsyncButton 
+        bold
+        fontML
+        color100
         text={ t(`common.add transaction`) }
         height={45}
-        textStyle={{
-          bold: true,
-          fontML: true,
-          color100: true,
-        }}
         onPress={handleButtonPress}
         isLoading={!data}
         isDisabled={!data}
@@ -34,7 +36,7 @@ const AddTransactionButton = () => {
         <FormModal 
           visible={visible}
           setVisible={setVisible}
-          portfolioId={null}
+          portfolioId={portfolioId ?? null}
           id={data.id}
           name={data.name}
           image={data.image.large}

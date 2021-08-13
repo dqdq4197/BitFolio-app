@@ -108,12 +108,14 @@
     "there are no recent searches": "There are no recent searches."
   },
   "portfolio": {
-    "name": "NAME",
-    "price": "PRICE",
-    "holdings": "HOLDINGS",
-    "share": "SHARE",
+    "name": "Name",
+    "asset": "Asset",
+    "price": "Price",
+    "holdings": "Holdings",
+    "share": "Share",
     "profit": "PROFIT",
     "loss": "LOSS",
+    "profit/loss": "Profit/Loss",
     "24h p/l": "24H P/L",
     "portfolio name": "Portfolio name",
     "main fiat currency": "Main fiat currency",
@@ -122,6 +124,7 @@
     "add transaction": "Add Transaction",
     "fixing the price": "Fixing the price",
     "reset to current price": "Reset to current price",
-    "add coin": "Add coin"
+    "add coin": "Add coin",
+    "buy price(avg)": "Buy Price(Avg)" 
   }
 }

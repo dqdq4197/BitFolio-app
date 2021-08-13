@@ -38,10 +38,8 @@ const SetPricePerCoinView = ({
           <RollingText 
             text={pricePerCoin}
             unMountingList={unMountingList}
-            textStyleProps={{
-              fontXXXL: true,
-              bold: true,
-            }}
+            fontXXXL
+            bold
           />
           <Text fontML bold margin="0 0 10px 5px">
             per coin
