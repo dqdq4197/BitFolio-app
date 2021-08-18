@@ -20,7 +20,7 @@ const HighVolumePreview = ({ onPressItem }: ListProps) => {
 
   return (
     <SurfaceWrap title={t('coinMarketHome.top volume')} paddingBottomZero>
-      {data?.map(res => {
+      { data?.map(res => {
         return (
           <Item 
             key={ res.id }
@@ -28,7 +28,7 @@ const HighVolumePreview = ({ onPressItem }: ListProps) => {
             onPressItem={onPressItem}
           />
         )
-      })}
+      }) }
       <ShowAllButton route='CoinHighVolume'/>
     </SurfaceWrap>
   )

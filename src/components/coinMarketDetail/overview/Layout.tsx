@@ -19,12 +19,10 @@ const Layout = () => {
   const { currency } = useLocales();
   const { data, mutate } = useCoinDetailData({ id });
 
-  const handleRefresh = useCallback(() => {
+  const handleRefresh = useCallback(async() => {
     setRefreshing(true);
-    mutate()
-      .then(() => {
-        setRefreshing(false);
-      })
+    await mutate()
+    setRefreshing(false);
   }, []);
 
   if(!data) return <></>

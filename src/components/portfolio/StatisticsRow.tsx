@@ -161,8 +161,8 @@ StatisticsRow = ({
           <>
             <DynamicSizeText bold>
               { currencyFormat({ 
-                value: stats.pl_cost,
-                prefix: stats.pl_cost > 0 
+                value: stats.all_time_pl,
+                prefix: stats.all_time_pl > 0 
                   ? '+' + getCurrencySymbol(currency)
                   : getCurrencySymbol(currency)
               }) }
@@ -171,7 +171,7 @@ StatisticsRow = ({
               value={ 
                 digitToFixed(stats.total_purchase_quantity === 0 
                   ? 0 
-                  : stats.pl_percentage ?? 0, 2) 
+                  : stats.all_time_pl_percentage ?? 0, 2) 
               }
               afterPrefix="%"
               right

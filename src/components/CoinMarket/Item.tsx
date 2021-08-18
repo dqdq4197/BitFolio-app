@@ -19,7 +19,7 @@ const { width } = Dimensions.get('window');
 
 const Item = ({ item, onPressItem }: ItemProps) => {
   const { currency } = useLocales();
-  const { price_change_percentage_24h, id, current_price,  symbol } = item;
+  const { price_change_percentage_24h, id, current_price, symbol } = item;
   const isRising = (price_change_percentage_24h ?? 0) === 0
     ? null 
     : price_change_percentage_24h! > 0 
@@ -62,6 +62,7 @@ const Item = ({ item, onPressItem }: ItemProps) => {
         <SparkLine
           isRising={ isRising }
           prices={ item.sparkline_in_7d.price }
+          baseValue={ item.current_price - item.price_change_24h }
         />
       </ItemColumn>
       <ItemColumn column={ 1 }>

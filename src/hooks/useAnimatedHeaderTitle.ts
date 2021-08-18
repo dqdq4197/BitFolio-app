@@ -1,15 +1,12 @@
 import { useLayoutEffect, useEffect, useRef } from 'react';
 import { Animated } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import useGlobalTheme from '/hooks/useGlobalTheme';
-
 
 type HeaderTitleProps = {
   title?: string,
   triggerPoint: number
 }
 const useAnimatedHeaderTitle = ({ title,  triggerPoint }: HeaderTitleProps) => {
-  const { theme } =useGlobalTheme();
   const scrollY = useRef(new Animated.Value(0)).current;
   const navigation = useNavigation();
 
@@ -28,7 +25,7 @@ const useAnimatedHeaderTitle = ({ title,  triggerPoint }: HeaderTitleProps) => {
           inputRange: [triggerPoint, triggerPoint + 20],
           outputRange: [0, 1]
         })
-      } 
+      },
     })
   }, [scrollY])
 

@@ -16,12 +16,10 @@ const NewCoin = () => {
   const { scrollY } = useAnimatedHeaderTitle({ title: 'New Coins', triggerPoint: 30 });
   const navigation = useNavigation();
 
-  const handleRefresh = useCallback(() => {
+  const handleRefresh = useCallback(async() => {
     setRefreshing(true);
-    mutate()
-      .then(() => {
-        setRefreshing(false);
-      })
+    await mutate()
+    setRefreshing(false);
   }, []);
 
   const handlePressItem = useCallback((id:string) => {

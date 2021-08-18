@@ -51,10 +51,16 @@ const PopularList = ({ }: ListProps) => {
   }
 
   return (
-    <SurfaceWrap title={t('coinMarketHome.popular list')} parentPaddingZero >
+    <SurfaceWrap 
+      title={ t('coinMarketHome.popular list') } 
+      parentPaddingZero 
+    >
       <Container
         horizontal
         showsHorizontalScrollIndicator={false}
+        snapToInterval={ 135 }
+        snapToAlignment="start"
+        decelerationRate="fast"
         contentContainerStyle={{
           paddingHorizontal: parseInt(theme.content.spacing)
         }}

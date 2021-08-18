@@ -110,6 +110,7 @@
   "portfolio": {
     "name": "Name",
     "asset": "Asset",
+    "assets": "Assets",
     "price": "Price",
     "holdings": "Holdings",
     "share": "Share",
@@ -125,6 +126,7 @@
     "fixing the price": "Fixing the price",
     "reset to current price": "Reset to current price",
     "add coin": "Add coin",
-    "buy price(avg)": "Buy Price(Avg)" 
+    "buy price(avg)": "Buy Price(Avg)",
+    "total balance": "Total Balance"
   }
 }

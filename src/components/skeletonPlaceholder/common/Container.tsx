@@ -8,6 +8,7 @@ type ContainerProps = {
 
 const Container = ({ children }: ContainerProps ) => {
   const { theme } = useGlobalTheme();
+
   return (
     <SkeletonPlaceholder 
       backgroundColor={theme.base.background[200]} 

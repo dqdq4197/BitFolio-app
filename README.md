@@ -84,3 +84,15 @@
         y = TOTAL BALANCE of non-negative holding costs
 
         result = x / y * 100
+
+    total balance 
+
+    ※ 24h price chagne
+    => now date - data < 24의 경우 price change 합해주기
+    => 나머지는 해당 asset의( change price 24 * 오늘 date로 추가한 transaction이 아닌 것의 quantity)
+    
+    위 두개의 합 
+
+
+### 지울것.?
+    BlurView

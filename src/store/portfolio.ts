@@ -24,6 +24,8 @@ export interface CoinType {
   name: string
 }
 
+export type ModeType = 'public' | 'private'
+
 type ChangeCoinStateAction = {
   portfolioId: string
   coinId: string
@@ -43,6 +45,7 @@ export interface InitialState {
   id: string
   coins: CoinType[]
   assetSortType: SortType
+  mode: ModeType
 }
 
 const initialState: InitialState = {
@@ -60,7 +63,8 @@ const initialState: InitialState = {
     name: "Tether",
     image: 'https://assets.coingecko.com/coins/images/325/large/Tether-logo.png?1598003707'
   }],
-  assetSortType: 'default'
+  assetSortType: 'default',
+  mode: 'public'
 }
 
 export const portfolioSlice = createSlice({
@@ -87,13 +91,17 @@ export const portfolioSlice = createSlice({
     },
     changeSortType: (state, action: PayloadAction<SortType>) => {
       state.assetSortType = action.payload
-    } 
+    },
+    changeMode: (state, action: PayloadAction<ModeType>) => {
+      state.mode = action.payload
+    }
   }
 })
 
 export const { 
   addTrack,
   changeCoinState,
-  changeSortType
+  changeSortType,
+  changeMode
 } = portfolioSlice.actions;
 export default portfolioSlice.reducer;

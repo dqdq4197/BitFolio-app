@@ -16,12 +16,10 @@ const HighVolume = () => {
   const { scrollY } = useAnimatedHeaderTitle({ title: '거래량 Top100', triggerPoint: 30 });
   const navigation = useNavigation();
 
-  const handleRefresh = useCallback(() => {
+  const handleRefresh = useCallback(async() => {
     setRefreshing(true);
-    mutate()
-      .then(() => {
-        setRefreshing(false);
-      })
+    await mutate()
+    setRefreshing(false);
   }, []);
 
   const handlePressItem = useCallback((id:string) => {

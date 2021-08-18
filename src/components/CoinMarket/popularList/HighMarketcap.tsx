@@ -16,12 +16,10 @@ const HighMarketcap = () => {
   const { scrollY } = useAnimatedHeaderTitle({ title: '시가 총액 Top100', triggerPoint: 30 });
   const navigation = useNavigation();
 
-  const handleRefresh = useCallback(() => {
+  const handleRefresh = useCallback(async() => {
     setRefreshing(true);
-    mutate()
-      .then(() => {
-        setRefreshing(false);
-      })
+    await mutate()
+    setRefreshing(false);
   }, []);
 
   const handlePressItem = useCallback((id:string) => {

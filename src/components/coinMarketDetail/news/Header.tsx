@@ -10,7 +10,7 @@ const Header = () => {
 
   return (
     <SurfaceWrap 
-      title={t('coinDetail.latest news')} 
+      title={ t('coinDetail.latest news') } 
       paddingBottomZero
       marginTopZero
     >

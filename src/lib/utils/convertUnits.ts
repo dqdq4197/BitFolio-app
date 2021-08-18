@@ -6,10 +6,15 @@ export default function(
   currency: baseTypes.Currency, 
   addCurrencyMark: boolean = true
 ) {
-  let numToString = Math.floor(num).toString()
+  const isNegative = num < 0;
+  let numToString = isNegative 
+    ? Math.floor(num).toString().substring(1) 
+    : Math.floor(num).toString();
   let numLen = numToString.length;
   let currencyMark = currency === 'krw' ? '₩' : '$';
   let result = '';
+  let beforePrefix = isNegative ? '-' : '';
+  beforePrefix += addCurrencyMark ? currencyMark : '';
 
   if(currency === 'usd') {
     switch(numToString.length) {
@@ -42,7 +47,7 @@ export default function(
         result = krwFormat(num);
         break;
     }
-    return (addCurrencyMark ? currencyMark : '') + result
+    return beforePrefix + result
   }
 
   if(currency === 'krw') {
@@ -81,6 +86,6 @@ export default function(
         result = krwFormat(num);
         break;
     }
-    return (addCurrencyMark ? currencyMark : '') + result
+    return beforePrefix + result
   }
 }

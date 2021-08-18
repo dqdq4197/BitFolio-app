@@ -1,37 +1,72 @@
-import React, { useEffect, useState } from 'react';
-import { Dimensions } from 'react-native';
+import React, { useCallback, useState } from 'react';
+import { Animated } from 'react-native';
 import styled from 'styled-components/native';
 import { useNavigation } from '@react-navigation/native';
-import { useAppSelector } from '/hooks/useRedux';
-import FormModal from './transactionModal/FormModal';
-import Text from '/components/common/Text';
-import CoinListSheet from './CoinListSheet';
+import { useTranslation } from 'react-i18next';
 import usePortfolioStats from '/hooks/usePortfolioStats';
 import SurfaceWrap from '/components/common/SurfaceWrap';
+import ScrollView from '/components/common/ScrollView';
+import Text from '/components/common/Text';
+import CustomRefreshControl from '/components/common/CustomRefreshControl';
 import { usePortfolioContext } from './PortfolioDataContext'
-
-const { width } = Dimensions.get('window');
-const SPACING = 10;
-const ITEM_SIZE = width - 60;
-const SPACER_ITEM_SIZE = (width - ITEM_SIZE) / 2;
+import PortfolioAnalisisSheet from './PortfolioAnalisisSheet';
+import useAnimatedHeaderTitle from '/hooks/useAnimatedHeaderTitle';
+import CoinListSheet from './CoinListSheet';
+import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat';
+import useLocales from '/hooks/useLocales';
 
 const OverView = () => {
-
+  const { t } = useTranslation(); 
   const navigation = useNavigation();
+  const { currency } = useLocales();
   const { id, coinsData, mutate } = usePortfolioContext();
   const { portfolioStats } = usePortfolioStats({ id, coinsData })
+  const [refreshing, setRefreshing] = useState(false);
+  const { scrollY } = useAnimatedHeaderTitle({ 
+    title: portfolioStats 
+      ? currencyFormat({ 
+          value: portfolioStats?.total_balance,
+          prefix: getCurrencySymbol(currency)
+        }) 
+      : '--', 
+    triggerPoint: 60 
+  })
   
   const handleAddTrackingCoinPress = () => {
     navigation.navigate('AddTrack', { portfolioId: id });
   }
 
-  return (
-    <Container>
-      <HeaderContainer>
+  const handleScroll = Animated.event(
+    [ { nativeEvent: { contentOffset: { y: scrollY } } } ], 
+    { useNativeDriver: false }
+  )
 
-      </HeaderContainer>
+  const handleRefresh = useCallback(async() => {
+    setRefreshing(true);
+    await mutate()
+    setRefreshing(false);
+  }, []);
+
+  return (
+    <ScrollView
+      as={Animated.ScrollView}
+      onScroll={handleScroll}
+      refreshControl={
+        <CustomRefreshControl
+          onRefresh={handleRefresh}
+          refreshing={refreshing}
+        />
+      }
+    >
       <SurfaceWrap 
-        title="Assets"
+        marginTopZero
+      >
+        <PortfolioAnalisisSheet 
+          portfolioStats={portfolioStats}
+        />
+      </SurfaceWrap>
+      <SurfaceWrap 
+        title={ t(`portfolio.assets`) }
       >
         <CoinListSheet 
           coinsStats={portfolioStats?.coins}
@@ -43,30 +78,19 @@ const OverView = () => {
           추가하기
         </Text>
       </AddTrackingButton>
-    </Container>
+    </ScrollView>
   )
 }
 
 export default OverView;
 
-const Container = styled.ScrollView`
-`
-
-const HeaderContainer = styled.View`
-  padding: 0 ${({ theme }) => theme.content.spacing};
-  height: 170px;
-  align-items: center;
-  padding-top: 20px;
-`
-
 const AddTrackingButton = styled.TouchableOpacity`
-  position: absolute;
-  height: 30px;
-  bottom: 20px;
-  padding: 0 16px;
+  width: 100%;
+  height: 50px;
   background-color: ${({ theme }) => theme.base.primaryColor};
+  margin: 0 ${({ theme }) => theme.content.spacing};
   align-items: center;
   justify-content: center;
-  border-radius: ${({ theme }) => theme.border.ml};
+  border-radius: ${({ theme }) => theme.border.m};
   color: white;
 `

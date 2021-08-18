@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { Dimensions, ScrollView, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import { useNavigation } from '@react-navigation/native';
 import styled from 'styled-components/native';
 import { Ionicons } from '@expo/vector-icons';
 import Text from '/components/common/Text';
@@ -31,6 +32,13 @@ type SheetProps = {
   portfolioTotalCosts?: number
 }
 
+type AssetRowProps = {
+  id: string
+  image: string 
+  symbol: string 
+  name: string
+}
+
 const SortTab = ({ name, onPress, align = 'right' }: TabProps) => {
   const { theme } = useGlobalTheme();
 
@@ -42,9 +50,49 @@ const SortTab = ({ name, onPress, align = 'right' }: TabProps) => {
       <Ionicons 
         name="ios-chevron-down" 
         size={12} 
-        color={theme.base.text[100]}
+        color={theme.base.text[200]}
       />
     </Tab>
+  )
+
+}
+
+const AssetRow = ({ id, image, symbol, name }: AssetRowProps) => {
+  const navigation = useNavigation();
+
+  const handleRowPress = () => {
+    navigation.navigate('portfolioCoinDetail', {
+      param: { id, symbol }, 
+      screen: 'OverView' 
+    })
+  }
+
+  return (
+    <Row 
+      activeOpacity={0.6} 
+      onPress={handleRowPress}
+    >
+      <Image 
+        uri={image} 
+        width={30}
+        height={30} 
+        borderRedius='m'
+      />
+      <NameWrap>
+        <DynamicSizeText 
+          color100 
+          bold
+        >
+          { symbol.toUpperCase() }
+        </DynamicSizeText>
+        <Text
+          bold 
+          fontXS
+        >
+          { name }
+        </Text>
+      </NameWrap>
+    </Row>
   )
 }
 
@@ -122,8 +170,8 @@ const CoinListSheet = ({
         case 'pl_asc':
         case 'pl_desc':
           temp.sort((a, b) => {
-            const aPL = coinsStats[a.id] ? coinsStats[a.id].pl_cost : null;
-            const bPL = coinsStats[b.id] ? coinsStats[b.id].pl_cost : null;
+            const aPL = coinsStats[a.id] ? coinsStats[a.id].all_time_pl : null;
+            const bPL = coinsStats[b.id] ? coinsStats[b.id].all_time_pl : null;
 
             return assetSortType === 'pl_asc'
               ? ((aPL === null) ? 1 : 0) - ((bPL === null) ? 1 : 0) || aPL! - bPL!
@@ -136,6 +184,7 @@ const CoinListSheet = ({
       setSortedCoins(temp);
     }
   }, [assetSortType, coinsData, coinsStats])
+
 
   const handleAddButtonPress = (coin: CoinType) => {
     const { id, symbol, name, image } = coin;
@@ -169,32 +218,15 @@ const CoinListSheet = ({
           align="left"
           onPress={sortBySymbol}
         />
-        { sortedCoins.map(coin => {
-          return (
-            <Row key={coin.id}>
-              <Image 
-                uri={coin.image} 
-                width={30}
-                height={30} 
-                borderRedius='m'
-              />
-              <NameWrap>
-                <DynamicSizeText 
-                  color100 
-                  bold
-                >
-                  { coin.symbol.toUpperCase() }
-                </DynamicSizeText>
-                <Text
-                  bold 
-                  fontXS
-                >
-                  { coin.name }
-                </Text>
-              </NameWrap>
-            </Row>
-          )
-        }) }
+        { sortedCoins.map(coin => 
+          <AssetRow 
+            key={coin.id}
+            id={coin.id}
+            image={coin.image}
+            name={coin.name}
+            symbol={coin.symbol}
+          />
+        ) }
       </StickyColWrap>
       <ScrollView
         horizontal
@@ -284,7 +316,7 @@ const SortBarContainer = styled.View`
 const NameWrap = styled.View`
   margin-left: 10px;
 `
-const Row = styled.View`
+const Row = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
   height: 60px;
