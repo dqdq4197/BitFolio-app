@@ -89,7 +89,8 @@
     "losers": "Losers",
     "top market cap": "Top Market Cap",
     "top volume": "Top Volume",
-    "add coins": "Add Coins"
+    "add coins": "Add Coins",
+    "global metrics": "Global Metrics"
   },
   "setting": {
     "dark mode": "Dark Mode",
@@ -127,6 +128,8 @@
     "reset to current price": "Reset to current price",
     "add coin": "Add coin",
     "buy price(avg)": "Buy Price(Avg)",
-    "total balance": "Total Balance"
+    "total balance": "Total Balance",
+    "statistics": "Statistics",
+    "allocation": "Allocation"
   }
 }

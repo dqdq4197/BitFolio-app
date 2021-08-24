@@ -46,7 +46,7 @@ const Circle = styled.View<CircleProps>`
   width: ${({ diameter }) => diameter}px;
   height: ${({ diameter }) => diameter}px;
   border-radius:  ${({ diameter }) => diameter / 2}px;;
-  margin: 0 ${({ horizontalSpacing }) => horizontalSpacing}px;
+  margin: 0 ${({ horizontalSpacing }) => horizontalSpacing}px 0 0;
 
   ${({ color100, color300, color400, theme }) => {
     switch (true) {

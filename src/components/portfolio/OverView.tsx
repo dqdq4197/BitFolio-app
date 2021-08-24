@@ -9,7 +9,7 @@ import ScrollView from '/components/common/ScrollView';
 import Text from '/components/common/Text';
 import CustomRefreshControl from '/components/common/CustomRefreshControl';
 import { usePortfolioContext } from './PortfolioDataContext'
-import PortfolioAnalisisSheet from './PortfolioAnalisisSheet';
+import PortfolioAnalysisSheet from './PortfolioAnalysisSheet';
 import useAnimatedHeaderTitle from '/hooks/useAnimatedHeaderTitle';
 import CoinListSheet from './CoinListSheet';
 import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat';
@@ -61,7 +61,7 @@ const OverView = () => {
       <SurfaceWrap 
         marginTopZero
       >
-        <PortfolioAnalisisSheet 
+        <PortfolioAnalysisSheet 
           portfolioStats={portfolioStats}
         />
       </SurfaceWrap>

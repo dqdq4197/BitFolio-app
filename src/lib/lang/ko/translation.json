@@ -89,7 +89,8 @@
     "losers": "하락 종목",
     "top market cap": "시가 총액이 가장 높은",
     "top volume": "거래량이 가장 많은",
-    "add coins": "추가하기"
+    "add coins": "추가하기",
+    "global metrics": "글로벌 메트릭"
   },
   "setting": {
     "dark mode": "다크모드",
@@ -127,6 +128,8 @@
     "reset to current price": "현재 가격으로 재설정",
     "add coin": "코인 추가",
     "buy price(avg)": "매수 가격(평균)",
-    "total balance": "전체 잔액"
+    "total balance": "전체 잔액",
+    "statistics": "통계",
+    "allocation": "배분"
   }
 }

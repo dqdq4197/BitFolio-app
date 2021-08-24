@@ -49,11 +49,15 @@ const Gainers = () => {
         }}
         renderItem={
           ({ item, index }) => {
-            let nowItem = data.filter(coin => coin.id === item.id)[0]
-            item.current_price = nowItem.current_price;
+            let nowItem = data.filter(coin => coin.id === item.id)[0];
+
+            if(!nowItem) return <></>
             return (
               <Item 
-                item={item} 
+                item={{
+                  ...item,
+                  current_price: nowItem.current_price
+                }} 
                 index={index}
                 valueKey='current_price'
                 percentageKey='price_change_percentage_24h'
@@ -77,7 +81,7 @@ const Gainers = () => {
           />
         }
         getItemLayout={(data, index) => (
-          {length: 60, offset: 60 * index, index}
+          { length: 60, offset: 60 * index, index }
         )}
       />
     </>

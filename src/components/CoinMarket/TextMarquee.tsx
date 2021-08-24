@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { useTranslation } from 'react-i18next';
 import { baseTypes } from 'base-types';
@@ -6,7 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import styled, { css } from 'styled-components/native';
 import { LinearGradient } from 'expo-linear-gradient';
 import TextTicker from 'react-native-text-ticker';
-import useMarkgetglobar from '../../hooks/useMarkgetglobal';
+import useMarkgetglobar from '/hooks/useMarkgetglobal';
 import Text from '/components/common/Text';
 import Modal from '/components/common/BottomSheetModal';
 import useLocales from '/hooks/useLocales';
@@ -40,7 +40,7 @@ const ModalContents = ({
 
   return (
     <SurfaceWrap
-      title={'글로벌 메트릭스'}
+      title={ t(`coinMarketHome.global metrics`) }
       fontL
       parentPaddingZero
       marginBottomZero
