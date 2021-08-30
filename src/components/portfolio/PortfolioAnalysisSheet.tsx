@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import styled from 'styled-components/native';
-import { Ionicons, MaterialCommunityIcons  } from '@expo/vector-icons';
+import { Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import useGlobalTheme from '/hooks/useGlobalTheme'
+import { PortfolioStatsType } from '/hooks/usePortfolioStats';
 import CommonAnalysis from './CommonAnalysis';
 import Text from '/components/common/Text';
-import { PortfolioStatsType } from '/hooks/usePortfolioStats';
+import SurfaceWrap from '/components/common/SurfaceWrap';
 import AllocationView from './AllocationView';
 import AnalysisView from './AnalysisView';
 
@@ -34,46 +35,69 @@ const PortfolioAnalysisSheet = ({ portfolioStats }: SheetProps) => {
   
   const { theme } = useGlobalTheme();
   const [activeTab, setActiveTab] = useState<'allocation' | 'analysis'>('allocation');
+  const [isHide, setIsHide] = useState(false);
+
+  const handleHideButtonPress = () => {
+    setIsHide(!isHide);
+  }
 
   return (
-    <Container>
+    <>
+    <SurfaceWrap 
+      marginTopZero
+    >
       <CommonAnalysis 
         total_balance={portfolioStats?.total_balance}
         portfolio_all_time_pl_percentage={portfolioStats?.portfolio_all_time_pl_percentage}
         portfolio_change_24h={portfolioStats?.portfolio_change_24h}
       />
-      <TabContainer>
-        <Tab 
-          title="Allocation"
-          icon={<MaterialCommunityIcons name="chart-arc" size={20} color={theme.base.text[100]} />}
-        />
-        <Tab 
-          title="Statistics"
-          icon={<Ionicons name="analytics" size={18} color={theme.base.text[100]} />}
-        />
-      </TabContainer>
-      { activeTab === 'allocation'
-        ? <AllocationView 
-            coins={portfolioStats?.coins}
-            tatalCosts={portfolioStats?.total_costs}
+    </SurfaceWrap>
+    <SurfaceWrap
+      paddingBottomZero
+      parentPaddingZero
+    >
+      <ContentWrap isHide={isHide}>
+        <TabContainer>
+          <Tab 
+            title="Allocation"
+            icon={<MaterialCommunityIcons name="chart-arc" size={20} color={theme.base.text[100]} />}
           />
-        : <AnalysisView />
-      }
-    </Container>
+          <Tab 
+            title="Statistics"
+            icon={<Ionicons name="analytics" size={18} color={theme.base.text[100]} />}
+          />
+        </TabContainer>
+        { activeTab === 'allocation'
+          ? <AllocationView 
+              coins={portfolioStats?.coins}
+              tatalCosts={portfolioStats?.total_costs}
+            />
+          : <AnalysisView />
+        }
+      </ContentWrap>
+      <HideButton 
+        underlayColor={theme.base.background[300]}
+        onPress={handleHideButtonPress}
+      >
+        <Arrow isHide={isHide}>
+          <MaterialIcons name="arrow-back-ios" size={24} color={theme.base.text[300]}  />
+        </Arrow>
+      </HideButton>
+    </SurfaceWrap>
+    </>
   )
 }
 
 
 export default PortfolioAnalysisSheet;
 
-const Container = styled.View`
-  width: 100%;
-`
+type HideType = {
+  isHide: boolean
+}
 
 const TabContainer = styled.View`
   flex-direction: row;
   height: 45px;
-  margin-top: ${({ theme }) => theme.content.blankSpacing};
   align-items: center;
   justify-content: space-evenly;
 `
@@ -90,4 +114,26 @@ const TabButton = styled.TouchableOpacity`
 
 const IconWrap = styled.View`
   margin-right: 5px;
+`
+
+const ContentWrap = styled.View<HideType>`
+  padding: 0 ${({ theme }) => theme.content.spacing};
+  overflow: hidden;
+  height: ${({ isHide }) => isHide ? 55 + 'px' : 'auto'};
+`
+
+const HideButton = styled.TouchableHighlight`
+  width: 100%;
+  height: 45px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 5px;
+`
+
+const Arrow = styled.View<HideType>`
+  top: ${({ isHide }) => isHide ? -2 : 6 }px;
+  transform: ${({ isHide }) => isHide
+    ? `rotate(270deg)`
+    : `rotate(90deg)`
+  }  scaleX(1.5);
 `

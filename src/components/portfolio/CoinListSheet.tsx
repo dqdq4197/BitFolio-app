@@ -89,7 +89,7 @@ const AssetRow = ({ id, image, symbol, name }: AssetRowProps) => {
           bold 
           fontXS
         >
-          { name }
+          { id.charAt(0).toUpperCase() + id.slice(1) }
         </Text>
       </NameWrap>
     </Row>

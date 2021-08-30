@@ -1,43 +1,96 @@
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import { Dimensions } from 'react-native';
 import styled from 'styled-components/native';
-import { Svg } from 'react-native-svg';
-import { VictoryPie, VictoryLabel, VictoryTooltip, VictoryLegend, VictoryContainer } from 'victory-native';
+import Svg from 'react-native-svg';
+import { Merge } from 'mapped-types';
+import { 
+  VictoryPie, 
+  VictoryLegend, 
+  Slice
+} from 'victory-native';
 import { CoinStatType } from '/hooks/usePortfolioStats';
 import useGlobalTheme from '/hooks/useGlobalTheme';
-
+import useLocales from '/hooks/useLocales';
+import Text from '/components/common/Text';
+import IncreaseDecreaseValue from '/components/common/IncreaseDecreaseValue';
+import { convertUnits, digitToFixed } from '/lib/utils';
 
 const { width } = Dimensions.get('window');
+
+const LARGE_RADIUS = 105;
+const SMALL_RADIUS = 100;
+const INNER_RADIUS = 70;
 
 type AllocationViewProps = {
   coins?: { [key: string]: CoinStatType } 
   tatalCosts?: number
 }
+type ActiveIndex = number | null
+type LegendContainerProps = Merge<
+  { activeIndex: ActiveIndex }, 
+  { children?: any }
+>
 
-const CustomLabel = () => {
+const CustomLegendContainer = ({ activeIndex, children }: LegendContainerProps) => {
+  const [rect, ...svgs] = children[0];
+
+  const datas = useMemo(() => {
+    const dataLength = svgs.length / 2;
+
+    return svgs.slice(0, dataLength);
+  }, [children])
+
+  const labels = useMemo(() => {
+    const dataLength = svgs.length / 2;
+
+    return svgs.slice(-dataLength);
+  }, [children])
+
   return (
-    <>
-      <VictoryLabel />
-        <VictoryTooltip
-          x={200} 
-          y={250}
-          orientation="top"
-          pointerLength={0}
-          cornerRadius={50}
-          flyoutWidth={100}
-          flyoutHeight={100}
-          flyoutStyle={{ fill: "white" }}
-        />
-    </>
+    <CustomContainerWrap>
+      { datas.map((data: any) => {
+        const { style, size, events, index } = data.props; 
+        const { text } = labels[index].props;
+
+        return (
+          <Legend 
+            key={index}
+            onPress={() => events.onPress()}
+            activeOpacity={0.6}
+            isActive={activeIndex === index}
+          >
+            <Point size={size} fill={style.fill} />
+            <Text bold>
+              { text }
+            </Text>
+          </Legend>
+        )
+      }) }
+    </CustomContainerWrap>
   )
 }
+
+const CustomSlice = ({...props}) => {
+
+  return (
+    <Slice 
+      {...props} 
+      radius={props.index === props.activeIndex ? LARGE_RADIUS : SMALL_RADIUS}
+    />
+  )
+}
+
 const AllocationView = ({ coins, tatalCosts }: AllocationViewProps) => {
 
   const { theme } = useGlobalTheme();
-
+  const [activeIndex, setActiveIndex] = useState<ActiveIndex>(null);
+  const colorScale = ["#7c0000","#ff4d2d","#ff2430","#00c4ff","#00ffff","#0045cf","#6fc400","#ea59ff","#8d9b00","#002aa8","#faaf00","#0071e9","#ffa23e","#5b8bff","#a05a00","#0093f9","#ff855d","#0043a0","#f3d28a","#ec71ff","#003600","#ff007b","#2ea577","#ef61c9","#055932","#ffbaff","#122c00","#ff7f6c","#003c89","#a2c47b","#580049","#b7ffff","#760000","#dadff1","#730000","#007957","#8c002d","#003f75","#69470a","#002f57","#8c0a26","#38576e","#520000","#c6b29b","#80184a","#1d2b00","#d27c8d","#282520","#b78876","#8b6a62"];
+  const { currency } = useLocales();
+  
   if(!coins || !tatalCosts) return <></>
-
-  const data = Object.entries(coins).map(coin => { 
+  
+  const coinArr = Object.entries(coins);
+  const pieData = coinArr.map(coin => { 
     const label = coin[0];
     const holding_costs = coin[1].holding_costs
     return { 
@@ -47,84 +100,167 @@ const AllocationView = ({ coins, tatalCosts }: AllocationViewProps) => {
         : holding_costs / tatalCosts * 100 
     }
   })
+  
+  const legendData = coinArr.map(coin => {
+    return {
+      name: coin[1].symbol.toUpperCase()
+    }
+  })
 
   return (
     <Container>
-      <Svg 
-        width={width - 32} 
-        height={250} 
-        style={{ justifyContent: 'center', alignItems: 'center' }}
-      >
-        <VictoryLegend standalone={false}
-          colorScale={["tomato", "orange", "gold"]}
-          x={216} 
-          y={0}
-          gutter={20}
-          title="Legend"
-          centerTitle
-          style={{ 
-            border: { stroke: "transparent" },
-            labels: { fill: theme.base.text[200] },
-            title: { display: 'none' }
-          }}
-          data={[
-            { name: 'Cats' }, 
-            { name: 'Dogs' },
-            { name: 'Birds' },
-            { name: 'fd' },
-            { name: 'fd' },
-            { name: 'fd' } 
-          ]}
-          
-        />
-        <VictoryPie
-          name="pie"
-          width={200}
-          height={200}
-          innerRadius={70}
-          cornerRadius={3}
-          labelRadius={100}
-          style={{ labels: { fill: "transparent" } }}
-          padAngle={2}
-          data={[
-            { x: "Cats", y: Math.round(Math.random() * 100) },
-            { x: "Dogs", y: Math.round(Math.random() * 100) },
-            { x: "Birds", y: Math.round(Math.random() * 100) },
-            { x: "fd", y: Math.round(Math.random() * 100) },
-            { x: "fd", y: Math.round(Math.random() * 100) },
-            { x: "fd", y: Math.round(Math.random() * 100) },
-          ]}
-          radius={({ datum, active }) => (active ? 150 : 100)}
-          events={[{
+      <VictoryPie 
+        name="pie"
+        dataComponent={<CustomSlice activeIndex={activeIndex} />}
+        width={LARGE_RADIUS * 2}
+        height={LARGE_RADIUS * 2}
+        innerRadius={INNER_RADIUS}
+        cornerRadius={3}
+        padAngle={2}
+        data={ pieData }
+        style={{
+          labels: {
+            fill: 'transparent'
+          }
+        }}
+        colorScale={colorScale}
+        events={[
+          {
             target: "data",
             eventHandlers: {
-              onPressIn: () => {
+              onPress: () => {
                 return [
                   {
-                    eventKey: "all",
-                    mutation: () => {
-                      console.log('press')
+                    target: "labels",
+                    mutation: props => {
+                      if(activeIndex === props.index) {
+                        setActiveIndex(null);
+                      } else {
+                        setActiveIndex(props.index)
+                      }
+                      return ;
                     }
-                  },
-                  {
-                    mutation: () => ({ active: true })
                   }
                 ];
               }
             }
-          }]}
-          animate={{ easing: 'exp' }}
-        />
-      </Svg>
+          }
+        ]}
+      />
+      <VictoryLegend 
+        name="legend"
+        containerComponent={<CustomLegendContainer activeIndex={activeIndex}/>}
+        centerTitle
+        style={{
+          labels: { 
+            fill: theme.base.text[100], 
+            fontSize: parseInt(theme.size.font_m)
+          },
+          data: { width: 20 }
+        }}
+        colorScale={colorScale}
+        data={ legendData }
+        events={[
+          {
+            target: "data",
+            eventHandlers: {
+              onPress: () => {
+                return [
+                  {
+                    target: "data",
+                    mutation: props => {
+                      if(activeIndex === props.index) {
+                        setActiveIndex(null);
+                      } else {
+                        setActiveIndex(props.index)
+                      }
+                      return ;
+                    }
+                  }
+                ];
+              }
+          }
+        }]}
+      />
+      { activeIndex !== null
+        ? (
+          <PieLabel>
+            <Text fontL color100 bold>
+              { convertUnits(coinArr[activeIndex][1].holding_costs, currency) }
+            </Text>
+            <IncreaseDecreaseValue 
+              value={digitToFixed(coinArr[activeIndex][1].all_time_pl_percentage, 2)}
+              afterPrefix="%"
+              bold
+            />
+            <Text bold center>
+              { activeIndex !== null && (
+                Object.entries(coins)[activeIndex][0].charAt(0).toUpperCase() 
+                + Object.entries(coins)[activeIndex][0].slice(1)
+              ) }
+            </Text>
+          </PieLabel>
+        )
+        : null
+       }
     </Container>
   )
 }
 
 export default AllocationView;
 
+type LegendProps = {
+  isActive: boolean
+}
+
+type PointProps = {
+  size: number
+  fill: string
+}
+
 const Container = styled.View`
-  width: 100%;
+  width: ${({ theme }) => width - parseInt(theme.content.spacing) * 2}px;
+  align-items: center;
+  padding-top: ${({ theme }) => theme.content.surfacePadding};
+`
+
+const CustomContainerWrap = styled.View`
+  width: ${({ theme }) => width - parseInt(theme.content.spacing) * 2}px;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: ${({ theme }) => theme.content.blankSpacing};
+`
+
+const Legend = styled.TouchableOpacity<LegendProps>`
+  flex-direction: row;
+  align-items: center;
+  margin: 2px;
+  background-color: ${({ theme, isActive }) => isActive 
+    ?  theme.base.background[300]
+    : 'transparent'
+  };
+  padding: 7px 8px;
+  border-radius: ${({ theme }) => theme.border.m};
+`
+
+const Point = styled.View<PointProps>`
+  ${({ size, fill }) => `
+    width: ${ size * 2 }px;
+    height: ${ size * 2}px;
+    border-radius: ${ size }px;
+    background-color: ${ fill };
+  `};
+  margin-right: 10px;
+`
+
+const PieLabel = styled.View`
+  position: absolute;
+  width: ${ INNER_RADIUS * 2}px;
+  height: ${ INNER_RADIUS * 2}px;
+  border-radius: ${ INNER_RADIUS }px;
+  top: ${({ theme }) => parseInt(theme.content.surfacePadding) + LARGE_RADIUS - INNER_RADIUS}px;
   align-items: center;
   justify-content: center;
-  padding: ${({ theme }) => theme.content.surfacePadding} 0;
+  z-index: -1;
 `

@@ -6,6 +6,7 @@ export interface TransactionType {
   id: string
   portfolioId: string | null
   coinId: string
+  symbol: string
   type: string
   date: number
   quantity: number
@@ -36,6 +37,7 @@ export const transactionSlice = createSlice({
         ...state.transactions, {
           ...formData,
           id: uuidv4(),
+          symbol: formData.symbol,
           createdAt: +new Date(),
           quantity: Number(formData.quantity),
           updatedAt: null

@@ -19,6 +19,7 @@ type AnalysisProps = {
   portfolio_change_24h?: number
 }
 
+
 type ContentProps = {
   mode?: ModeType
   privatePlaceholder?: JSX.Element
@@ -86,7 +87,6 @@ const CommonAnalysis = ({
       dispatch(changeShowValueMode('full'))
     }
   }
-  
   return (
     <Container>
       <Text fontML bold margin="0 0 5px 0">
@@ -115,7 +115,7 @@ const CommonAnalysis = ({
         >
           { showValueMode === 'short'
             ? <Text fontXXL heavy color100>
-                { total_balance && convertUnits(total_balance, currency) }
+                { total_balance !== undefined && convertUnits(total_balance, currency) }
                </Text>
             : <Text fontXL heavy color100>
                 { total_balance && currencyFormat({
@@ -137,44 +137,58 @@ const CommonAnalysis = ({
             <IncreaseDecreaseValue
               heavy 
               fontL
-              value={ portfolio_all_time_pl_percentage ? digitToFixed(portfolio_all_time_pl_percentage, 2) : null}
+              value={ 
+                portfolio_all_time_pl_percentage !== undefined && isFinite(portfolio_all_time_pl_percentage)
+                  ? digitToFixed(portfolio_all_time_pl_percentage, 2) 
+                  : null
+              }
               afterPrefix="%"
             />
           </ConditionalContent>
         </Block>
       </SpaceBetweenView>
-      <ConditionalContent 
-        mode={mode}
-        privatePlaceholder={
-          <PrivatePlaceholder 
-            diameter={8}
-            numberOfCircle={3}
-            horizontalSpacing={13}
-          />
-        }
-        isLoading={!portfolio_change_24h}
-        skeletonSize={{
-          width: 50,
-          height: 20
-        }}
-      >
-        <Text fontML bold>
-          { portfolio_change_24h && ( showValueMode === 'short'
-            ? convertUnits(portfolio_change_24h, currency)
-            : currencyFormat({
-                value: portfolio_change_24h,
-                prefix: getCurrencySymbol(currency)
-              })
-          ) }
-        </Text>
-      </ConditionalContent>
+      <Row>
+        <ConditionalContent 
+          mode={mode}
+          privatePlaceholder={
+            <PrivatePlaceholder 
+              diameter={8}
+              numberOfCircle={3}
+              horizontalSpacing={13}
+            />
+          }
+          isLoading={!portfolio_change_24h}
+          skeletonSize={{
+            width: 50,
+            height: 20
+          }}
+        >
+          <Text fontML bold>
+            { portfolio_change_24h && ( showValueMode === 'short'
+              ? (portfolio_change_24h > 0 ? '+ ' : '') + convertUnits(portfolio_change_24h, currency)
+              : (portfolio_change_24h > 0 ? '+ ' : '') + currencyFormat({
+                  value: portfolio_change_24h,
+                  prefix: getCurrencySymbol(currency)
+                })
+            ) }
+          </Text>
+        </ConditionalContent>
+        <Wrap>
+          <Text primaryColor bold>
+            24h
+          </Text>
+        </Wrap>
+      </Row>
     </Container>
   )
 }
 
 export default CommonAnalysis;
 
-const Container = styled.View``
+const Container = styled.View`
+  width: 100%;
+  height: 87px;
+`
 
 const Block = styled.View`
   padding: 5px 8px;
@@ -182,9 +196,21 @@ const Block = styled.View`
   background-color: ${({ theme }) => theme.base.background[300]};
 `
 
+const Row = styled.View`
+  flex-direction: row;
+  align-items: center;
+`
+
 const SpaceBetweenView = styled.TouchableOpacity`
   height: 45px;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+`
+
+const Wrap = styled.View`
+  padding: 3px 5px;
+  margin-left: 5px;
+  border-radius: ${({ theme }) => theme.border.m};
+  background-color: ${({ theme }) => theme.base.background[300]};
 `

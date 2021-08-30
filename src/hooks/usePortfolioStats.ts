@@ -10,6 +10,7 @@ type StatsProps = {
 
 export type CoinStatType = {
   id: string
+  symbol: string
   fee: number
   /*
     price: market price per coin (from api data)
@@ -101,7 +102,7 @@ const usePortfolioStats = ({ id, coinsData }: StatsProps) => {
 
       filteredTransactions.forEach(
         transaction => {
-          const { coinId, fee, quantity, type, pricePerCoin, transferType, date } = transaction;
+          const { coinId, fee, quantity, type, pricePerCoin, transferType, date, symbol } = transaction;
           const coinData = coinsData.find(coin => coin.id === coinId);
           if(coinStats.hasOwnProperty(coinId)) {
             let targetCoinStats = coinStats[coinId];
@@ -136,6 +137,7 @@ const usePortfolioStats = ({ id, coinsData }: StatsProps) => {
               ...coinStats,
               [coinId]: { 
                 id: coinId, 
+                symbol,
                 price: coinData!.current_price,
                 price_change_24h: coinData!.price_change_24h,
                 price_change_percentage_24h: coinData!.price_change_percentage_24h,
@@ -209,9 +211,9 @@ const usePortfolioStats = ({ id, coinsData }: StatsProps) => {
           total_costs += coinStats[key].holding_costs;
       })
 
-      const portfolio_all_time_pl_percentage = portfolio_change_24h / (total_balance - portfolio_change_24h) * 100;
+      const portfolio_all_time_pl_percentage = portfolio_all_time_pl / (total_balance - portfolio_all_time_pl) * 100;
       const portfolio_change_percentage_24h = portfolio_change_24h / (total_balance - portfolio_change_24h) * 100;
-
+      
       setPortfolioStats({
         total_balance,
         total_costs,

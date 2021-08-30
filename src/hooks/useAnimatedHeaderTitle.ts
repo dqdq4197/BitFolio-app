@@ -3,7 +3,7 @@ import { Animated } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 type HeaderTitleProps = {
-  title?: string,
+  title?: string | React.ReactNode,
   triggerPoint: number
 }
 const useAnimatedHeaderTitle = ({ title,  triggerPoint }: HeaderTitleProps) => {

@@ -61,6 +61,7 @@ export interface NumericData {
 export type FormData<T> = T & {
   portfolioId: string | null
   coinId: string
+  symbol: string
   date: number
   notes: string | null
   type: string
@@ -120,6 +121,7 @@ const FormModalLayout = ({
   const [formData, setFormData] = useState<FormData<NumericData>>({
     portfolioId,
     coinId: id,
+    symbol,
     quantity: initialData?.quantity.toString() || '0',
     date: initialData?.date || +new Date(),
     pricePerCoin: initialData?.pricePerCoin || null,

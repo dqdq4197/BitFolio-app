@@ -2,8 +2,14 @@ import React, { useCallback, useState } from 'react';
 import { Animated } from 'react-native';
 import styled from 'styled-components/native';
 import { useNavigation } from '@react-navigation/native';
+import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import usePortfolioStats from '/hooks/usePortfolioStats';
+import { useAppSelector } from '/hooks/useRedux';
+import useLocales from '/hooks/useLocales';
+import useGlobalTheme from '/hooks/useGlobalTheme';
+import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat';
+import { convertUnits } from '/lib/utils';
 import SurfaceWrap from '/components/common/SurfaceWrap';
 import ScrollView from '/components/common/ScrollView';
 import Text from '/components/common/Text';
@@ -12,22 +18,32 @@ import { usePortfolioContext } from './PortfolioDataContext'
 import PortfolioAnalysisSheet from './PortfolioAnalysisSheet';
 import useAnimatedHeaderTitle from '/hooks/useAnimatedHeaderTitle';
 import CoinListSheet from './CoinListSheet';
-import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat';
-import useLocales from '/hooks/useLocales';
+
 
 const OverView = () => {
   const { t } = useTranslation(); 
   const navigation = useNavigation();
+  const { theme } = useGlobalTheme();
+  const { showValueMode, mode } = useAppSelector(state => ({
+    showValueMode: state.portfolioReducer.showValueMode,
+    mode: state.portfolioReducer.mode
+  }))
   const { currency } = useLocales();
   const { id, coinsData, mutate } = usePortfolioContext();
   const { portfolioStats } = usePortfolioStats({ id, coinsData })
   const [refreshing, setRefreshing] = useState(false);
   const { scrollY } = useAnimatedHeaderTitle({ 
     title: portfolioStats 
-      ? currencyFormat({ 
-          value: portfolioStats?.total_balance,
-          prefix: getCurrencySymbol(currency)
-        }) 
+      ? mode === 'private' 
+        ? <PrivateWrap>
+            <Ionicons name="md-eye-off-outline" size={25} color={theme.base.text[200]} />
+          </PrivateWrap>
+        : showValueMode === 'short'
+          ? convertUnits(portfolioStats.total_balance, currency)
+          : currencyFormat({ 
+              value: portfolioStats.total_balance,
+              prefix: getCurrencySymbol(currency)
+            })
       : '--', 
     triggerPoint: 60 
   })
@@ -58,13 +74,9 @@ const OverView = () => {
         />
       }
     >
-      <SurfaceWrap 
-        marginTopZero
-      >
-        <PortfolioAnalysisSheet 
-          portfolioStats={portfolioStats}
-        />
-      </SurfaceWrap>
+      <PortfolioAnalysisSheet 
+        portfolioStats={portfolioStats}
+      />
       <SurfaceWrap 
         title={ t(`portfolio.assets`) }
       >
@@ -72,12 +84,14 @@ const OverView = () => {
           coinsStats={portfolioStats?.coins}
           portfolioTotalCosts={portfolioStats?.total_costs}
         />
+        <AddTrackingButton
+          onPress={handleAddTrackingCoinPress} 
+        >
+          <Text fontL color100 bold>
+            추가하기
+          </Text>
+        </AddTrackingButton>
       </SurfaceWrap>
-      <AddTrackingButton>
-        <Text fontL onPress={handleAddTrackingCoinPress} color100>
-          추가하기
-        </Text>
-      </AddTrackingButton>
     </ScrollView>
   )
 }
@@ -86,11 +100,19 @@ export default OverView;
 
 const AddTrackingButton = styled.TouchableOpacity`
   width: 100%;
-  height: 50px;
+  height: 45px;
   background-color: ${({ theme }) => theme.base.primaryColor};
-  margin: 0 ${({ theme }) => theme.content.spacing};
   align-items: center;
   justify-content: center;
   border-radius: ${({ theme }) => theme.border.m};
-  color: white;
+  margin-top: 30px;
+`
+
+const PrivateWrap = styled.View`
+  width: 70px;
+  height: 30px;
+  background-color: ${({ theme }) => theme.base.background[200]};
+  border-radius: ${({ theme }) => theme.border.m};
+  align-items: center;
+  justify-content: center;
 `
