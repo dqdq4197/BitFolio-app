@@ -43,7 +43,7 @@ const OverviewTitle = ({
             </PrivateWrap>
           : <PublicWrap>
               <Text bold fontL color100>
-                {
+                { 
                   showValueMode === 'short'
                     ? convertUnits(total_balance, currency)
                     : currencyFormat({ 

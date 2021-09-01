@@ -2,13 +2,20 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { 
   ScrollView, 
   Dimensions, 
-  LayoutChangeEvent
+  LayoutChangeEvent,
+  LayoutAnimation,
+  Platform,
+  UIManager
 } from 'react-native';
 import styled from 'styled-components/native';
 import { MaterialTopTabBarProps } from '@react-navigation/material-top-tabs';
 import Animated, { interpolateNode, interpolateColors } from 'react-native-reanimated';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import Tab from './Tab';
+
+if (Platform.OS === 'android') {
+  UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
+}
 
 const { width } = Dimensions.get('window');
 
@@ -39,6 +46,9 @@ const TabBar = ({
         y: 0, 
         animated: true 
       })
+      LayoutAnimation.configureNext(
+        LayoutAnimation.create(200, 'easeInEaseOut', 'opacity')
+      );
     }
   }, [state.index, tabsMeasurements])
 

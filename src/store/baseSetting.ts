@@ -55,7 +55,6 @@ export const baseSettingSlice = createSlice({
       }
       if(newRecentlyViewed.length > 7) newRecentlyViewed.shift();
       state.recentlyViewed = newRecentlyViewed;
-      console.log(newRecentlyViewed);
     },
     changeWatchList: (state, action: PayloadAction<string>) => {
       const { payload } = action;

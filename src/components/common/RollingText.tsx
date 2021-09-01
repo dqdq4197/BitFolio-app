@@ -1,8 +1,10 @@
 import React, { useRef, useEffect } from 'react';
-import { Animated, Easing } from 'react-native';
+import { Animated, Easing, LayoutAnimation, Platform, UIManager } from 'react-native';
 import styled from 'styled-components/native';
 import { easeQuadOut} from 'd3-ease';
 import Text, { TextStyleProps } from '/components/common/Text';
+
+Platform.OS === "android" && UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
 
 interface RollingTextProps extends TextStyleProps {
   text: string;
@@ -45,7 +47,27 @@ const AnimatedText = ({
         duration: 300,
         useNativeDriver: true,
       })
-    ]).start()
+    ]).start(
+      () => {
+        LayoutAnimation.configureNext({ 
+          duration: 500, 
+          create: { 
+            duration: 0,
+            type: 'linear', 
+            property: 'opacity' 
+          }, 
+          update: { 
+            type: 'spring', 
+            springDamping: 0.7
+          }, 
+          delete: { 
+            duration:10,
+            type: 'linear', 
+            property: 'opacity' 
+          } 
+        });
+      }
+    )
   }, [text])
 
   useEffect(() => {
@@ -64,7 +86,27 @@ const AnimatedText = ({
           duration: 200,
           useNativeDriver: true,
         })
-      ]).start()
+      ]).start(
+        () => {
+          LayoutAnimation.configureNext({ 
+            duration: 500, 
+            create: { 
+              duration: 0,
+              type: 'linear', 
+              property: 'opacity' 
+            }, 
+            update: { 
+              type: 'spring', 
+              springDamping: 0.7
+            }, 
+            delete: { 
+              duration:10,
+              type: 'linear', 
+              property: 'opacity' 
+            } 
+          });
+        }
+      )
     }
   }, [unMountingList])
 
