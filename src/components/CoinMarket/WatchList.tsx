@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { LayoutAnimation, UIManager, Platform } from 'react-native';
 import styled from 'styled-components/native';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
@@ -10,6 +11,10 @@ import useCoinMarketData from '/hooks/useCoinMarketData';
 import Item from './popularList/Item';
 import { CoinMarketReturn } from '/lib/api/CoinGeckoReturnType';
 import useGlobalTheme from '/hooks/useGlobalTheme';
+
+if (Platform.OS === 'android') {
+  UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
+}
 
 type ListProps = {
   onPressItem: (id: string, symbol: string) => void;
@@ -49,6 +54,9 @@ const WatchList = ({ onPressItem }: ListProps) => {
   useEffect(() => {
     if(data) {
       let temp = data.slice();
+      LayoutAnimation.configureNext(
+        LayoutAnimation.create(200, 'easeInEaseOut', 'opacity')
+      );
       temp.sort((a, b) => watchList.indexOf(a.id) - watchList.indexOf(b.id));
       setNewData(temp);
     } else {

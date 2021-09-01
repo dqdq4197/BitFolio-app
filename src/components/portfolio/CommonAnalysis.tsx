@@ -147,22 +147,22 @@ const CommonAnalysis = ({
           </ConditionalContent>
         </Block>
       </SpaceBetweenView>
-      <Row>
-        <ConditionalContent 
-          mode={mode}
-          privatePlaceholder={
-            <PrivatePlaceholder 
-              diameter={8}
-              numberOfCircle={3}
-              horizontalSpacing={13}
-            />
-          }
-          isLoading={!portfolio_change_24h}
-          skeletonSize={{
-            width: 50,
-            height: 20
-          }}
-        >
+      <ConditionalContent 
+        mode={mode}
+        privatePlaceholder={
+          <PrivatePlaceholder 
+            diameter={8}
+            numberOfCircle={3}
+            horizontalSpacing={13}
+          />
+        }
+        isLoading={!portfolio_change_24h}
+        skeletonSize={{
+          width: 50,
+          height: 20
+        }}
+      >
+        <Row>
           <Text fontML bold>
             { portfolio_change_24h && ( showValueMode === 'short'
               ? (portfolio_change_24h > 0 ? '+ ' : '') + convertUnits(portfolio_change_24h, currency)
@@ -172,13 +172,13 @@ const CommonAnalysis = ({
                 })
             ) }
           </Text>
-        </ConditionalContent>
-        <Wrap>
-          <Text primaryColor bold>
-            24h
-          </Text>
-        </Wrap>
-      </Row>
+          <Wrap>
+            <Text primaryColor bold>
+              24h
+            </Text>
+          </Wrap>
+        </Row>
+      </ConditionalContent>
     </Container>
   )
 }

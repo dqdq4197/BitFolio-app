@@ -73,7 +73,7 @@ const Item = ({ data, symbol, onItemPress }: ItemProps) => {
         </TypeValue>
       </TypeWrap>
       <QuantityWrap>
-        <Text fontML color100>
+        <Text color100 bold>
           { TYPES[type].symbol === 'negative' 
             ? '-' + currencyFormat({
                 value: data.pricePerCoin[currency] * data.quantity,
@@ -91,8 +91,8 @@ const Item = ({ data, symbol, onItemPress }: ItemProps) => {
             ? -1 * data.quantity 
             : data.quantity
           }
-          fontML
           afterPrefix={' ' + symbol.toUpperCase()}
+          bold
         />
       </QuantityWrap>
     </Container>
@@ -121,8 +121,4 @@ const QuantityWrap = styled.View`
   flex: 1;
   justify-content: center;
   align-items: flex-end;
-`
-
-const CustomText = styled(Text)`
-
 `

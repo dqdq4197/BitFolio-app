@@ -63,7 +63,7 @@ const AssetRow = ({ id, image, symbol, name }: AssetRowProps) => {
   const handleRowPress = () => {
     navigation.navigate('portfolioCoinDetail', {
       param: { id, symbol }, 
-      screen: 'OverView' 
+      screen: 'Overview' 
     })
   }
 
@@ -303,7 +303,6 @@ export default CoinListSheet;
 
 
 const Container = styled.View`
-  flex: 1;
   flex-direction: row;
   background-color: ${({ theme }) => theme.base.background.surface};
 `

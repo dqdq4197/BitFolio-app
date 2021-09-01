@@ -106,7 +106,7 @@ const AddTrack = () => {
       }
 
       dispatch(addTrack(payload))
-      navigation.navigate('portfolioOverView')
+      navigation.navigate('portfolioOverview')
     } 
   }, [data, params])
 

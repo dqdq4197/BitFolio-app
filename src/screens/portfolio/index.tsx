@@ -1,7 +1,7 @@
 import React from 'react';
 import { createStackNavigator, StackNavigationOptions, StackScreenProps } from '@react-navigation/stack';
 import useGlobalTheme from '/hooks/useGlobalTheme';
-import OverViewScreen from './overview';
+import OverviewScreen from './overview';
 import AddTrackScreen from './addTrack';
 import DetailTab from '/screens/coinMarket/detail'
 
@@ -39,8 +39,8 @@ const PortfolioStack = ({ navigation }:StackScreenProps<any, any>) => {
   return (
     <Stack.Navigator headerMode='screen'>
       <Stack.Screen 
-        name="portfolioOverView" 
-        component={OverViewScreen}
+        name="portfolioOverview" 
+        component={OverviewScreen}
         options={NavigationOptions('')}
       />
       <Stack.Screen 

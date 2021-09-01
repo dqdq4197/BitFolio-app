@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { LayoutAnimation, UIManager, Platform } from 'react-native';
 import styled from 'styled-components/native';
 import { useTranslation } from 'react-i18next';
 import * as WebBrowser from 'expo-web-browser';
@@ -7,6 +8,8 @@ import Image from '/components/common/Image';
 import HorizontalLine from '/components/common/HorizontalLine';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import { MaterialIcons } from '@expo/vector-icons';
+
+Platform.OS === "android" && UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
 
 type DescriptionProps = {
   localization: string,
@@ -21,6 +24,9 @@ const Description = ({ localization, symbol, content, imageSrc }: DescriptionPro
   const { theme } = useGlobalTheme();
 
   const handleShowMorePress = () => {
+    LayoutAnimation.configureNext(
+      LayoutAnimation.create(200, 'easeInEaseOut', 'opacity')
+    );
     setIsShow((prev) => !prev);
   }
   useEffect(() => {

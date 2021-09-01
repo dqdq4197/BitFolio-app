@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
+import { Animated, LayoutAnimation, Platform, UIManager } from 'react-native';
 import styled from 'styled-components/native';
 import { Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import useGlobalTheme from '/hooks/useGlobalTheme'
@@ -7,7 +8,10 @@ import CommonAnalysis from './CommonAnalysis';
 import Text from '/components/common/Text';
 import SurfaceWrap from '/components/common/SurfaceWrap';
 import AllocationView from './AllocationView';
-import AnalysisView from './AnalysisView';
+import StatisticsView from './StatisticsView';
+
+
+Platform.OS === "android" && UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
 
 type SheetProps = {
   portfolioStats: PortfolioStatsType | null
@@ -17,6 +21,7 @@ type TabProps = {
   title: string
   icon: React.ReactNode
 }
+
 
 const Tab = ({ title, icon }: TabProps) => {
   return (
@@ -38,7 +43,24 @@ const PortfolioAnalysisSheet = ({ portfolioStats }: SheetProps) => {
   const [isHide, setIsHide] = useState(false);
 
   const handleHideButtonPress = () => {
-    setIsHide(!isHide);
+    setIsHide(!isHide)
+    LayoutAnimation.configureNext({ 
+      duration: 500, 
+      create: { 
+        duration:300,
+        type: 'linear', 
+        property: 'opacity' 
+      }, 
+      update: { 
+        type: 'spring', 
+        springDamping: 0.7
+      }, 
+      delete: { 
+        duration:200,
+        type: 'linear', 
+        property: 'opacity' 
+      } 
+    });
   }
 
   return (
@@ -56,7 +78,7 @@ const PortfolioAnalysisSheet = ({ portfolioStats }: SheetProps) => {
       paddingBottomZero
       parentPaddingZero
     >
-      <ContentWrap isHide={isHide}>
+      <>
         <TabContainer>
           <Tab 
             title="Allocation"
@@ -67,14 +89,20 @@ const PortfolioAnalysisSheet = ({ portfolioStats }: SheetProps) => {
             icon={<Ionicons name="analytics" size={18} color={theme.base.text[100]} />}
           />
         </TabContainer>
-        { activeTab === 'allocation'
-          ? <AllocationView 
-              coins={portfolioStats?.coins}
-              tatalCosts={portfolioStats?.total_costs}
-            />
-          : <AnalysisView />
-        }
-      </ContentWrap>
+        { !isHide && (
+          <ContentWrap
+            as={Animated.View}
+          >
+            { activeTab === 'allocation'
+              ? <AllocationView 
+                  coins={portfolioStats?.coins}
+                  tatalCosts={portfolioStats?.total_costs}
+                />
+              : <StatisticsView />
+            }
+          </ContentWrap>
+        ) }
+      </>
       <HideButton 
         underlayColor={theme.base.background[300]}
         onPress={handleHideButtonPress}
@@ -98,6 +126,7 @@ type HideType = {
 const TabContainer = styled.View`
   flex-direction: row;
   height: 45px;
+  padding: 0 ${({ theme }) => theme.content.spacing};
   align-items: center;
   justify-content: space-evenly;
 `
@@ -116,10 +145,9 @@ const IconWrap = styled.View`
   margin-right: 5px;
 `
 
-const ContentWrap = styled.View<HideType>`
+const ContentWrap = styled.View`
   padding: 0 ${({ theme }) => theme.content.spacing};
   overflow: hidden;
-  height: ${({ isHide }) => isHide ? 55 + 'px' : 'auto'};
 `
 
 const HideButton = styled.TouchableHighlight`

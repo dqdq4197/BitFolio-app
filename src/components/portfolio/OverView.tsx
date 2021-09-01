@@ -9,42 +9,31 @@ import { useAppSelector } from '/hooks/useRedux';
 import useLocales from '/hooks/useLocales';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat';
-import { convertUnits } from '/lib/utils';
+import { convertUnits, digitToFixed } from '/lib/utils';
 import SurfaceWrap from '/components/common/SurfaceWrap';
 import ScrollView from '/components/common/ScrollView';
 import Text from '/components/common/Text';
 import CustomRefreshControl from '/components/common/CustomRefreshControl';
+import IncreaseDecreaseValue from '/components/common/IncreaseDecreaseValue';
 import { usePortfolioContext } from './PortfolioDataContext'
 import PortfolioAnalysisSheet from './PortfolioAnalysisSheet';
 import useAnimatedHeaderTitle from '/hooks/useAnimatedHeaderTitle';
 import CoinListSheet from './CoinListSheet';
+import OverviewTitle from './OverviewTitle';
 
 
-const OverView = () => {
+const Overview = () => {
   const { t } = useTranslation(); 
   const navigation = useNavigation();
-  const { theme } = useGlobalTheme();
-  const { showValueMode, mode } = useAppSelector(state => ({
-    showValueMode: state.portfolioReducer.showValueMode,
-    mode: state.portfolioReducer.mode
-  }))
-  const { currency } = useLocales();
   const { id, coinsData, mutate } = usePortfolioContext();
   const { portfolioStats } = usePortfolioStats({ id, coinsData })
   const [refreshing, setRefreshing] = useState(false);
   const { scrollY } = useAnimatedHeaderTitle({ 
-    title: portfolioStats 
-      ? mode === 'private' 
-        ? <PrivateWrap>
-            <Ionicons name="md-eye-off-outline" size={25} color={theme.base.text[200]} />
-          </PrivateWrap>
-        : showValueMode === 'short'
-          ? convertUnits(portfolioStats.total_balance, currency)
-          : currencyFormat({ 
-              value: portfolioStats.total_balance,
-              prefix: getCurrencySymbol(currency)
-            })
-      : '--', 
+    title: 
+      <OverviewTitle 
+        total_balance={portfolioStats?.total_balance}
+        portfolio_change_percentage_24h={portfolioStats?.portfolio_all_time_pl_percentage}
+      />,
     triggerPoint: 60 
   })
   
@@ -96,7 +85,7 @@ const OverView = () => {
   )
 }
 
-export default OverView;
+export default Overview;
 
 const AddTrackingButton = styled.TouchableOpacity`
   width: 100%;
@@ -115,4 +104,10 @@ const PrivateWrap = styled.View`
   border-radius: ${({ theme }) => theme.border.m};
   align-items: center;
   justify-content: center;
+`
+
+const PercentageWrap = styled.View`
+  background-color: ${({ theme }) => theme.base.background[200] };
+  border-radius: ${({ theme }) => theme.border.m};
+  padding: 3px 5px;
 `

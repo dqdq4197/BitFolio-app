@@ -1,7 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { Dimensions } from 'react-native';
 import styled from 'styled-components/native';
-import Svg from 'react-native-svg';
 import { Merge } from 'mapped-types';
 import { 
   VictoryPie, 
@@ -80,7 +79,10 @@ const CustomSlice = ({...props}) => {
   )
 }
 
-const AllocationView = ({ coins, tatalCosts }: AllocationViewProps) => {
+const AllocationView = ({ 
+  coins, 
+  tatalCosts,
+}: AllocationViewProps) => {
 
   const { theme } = useGlobalTheme();
   const [activeIndex, setActiveIndex] = useState<ActiveIndex>(null);
@@ -219,7 +221,6 @@ type PointProps = {
 }
 
 const Container = styled.View`
-  width: ${({ theme }) => width - parseInt(theme.content.spacing) * 2}px;
   align-items: center;
   padding-top: ${({ theme }) => theme.content.surfacePadding};
 `
