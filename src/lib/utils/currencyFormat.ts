@@ -4,6 +4,7 @@ type CurrencyFormat = {
   value: string | number
   prefix?: string
   zeroMask?: string
+  includeSeparator?: boolean
 }
 
 type OnlyDecimalProps = {
@@ -111,6 +112,7 @@ export function currencyFormat({
   value, 
   prefix, 
   zeroMask= '--',
+  includeSeparator = true
 }: CurrencyFormat): string {
   let numStr = typeof value === 'number' ? value.toString() : value;
   let [intPart, decimalPart] = numStr.split('.');
@@ -164,7 +166,7 @@ export function currencyFormat({
     }
   }
   
-  result = sPrefix + AddSeparator(result);
+  result = sPrefix + (includeSeparator ? AddSeparator(result) : result);
 
   return result;
 }

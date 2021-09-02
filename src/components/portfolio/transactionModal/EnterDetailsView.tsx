@@ -161,12 +161,16 @@ const EnterDetailsView = ({
     if(historySnapshotData && !isPriceFixed) {
       if(historySnapshotData.market_data) {
         const { current_price } = historySnapshotData.market_data;
+        console.log(current_price);
         setFormData(
           prev => ({
             ...prev,
             pricePerCoin: {
               ...current_price,
-              [currency]: currencyFormat({ value: current_price[currency] })
+              [currency]: currencyFormat({ 
+                value: current_price[currency],
+                includeSeparator: false
+              })
             }
           })
         )
@@ -175,7 +179,10 @@ const EnterDetailsView = ({
             ...prev,
             pricePerCoin: {
               ...current_price,
-              [currency]: currencyFormat({ value: current_price[currency] })
+              [currency]: currencyFormat({ 
+                value: current_price[currency],
+                includeSeparator: false
+              })
 
             }
           })
