@@ -27,7 +27,7 @@ export function PortfolioDataProvider({ children }: ContextProps) {
   const [coinIds, setCoinIds] = useState<string[]>([]);
   const { data: coinsData, mutate } = useCoinMarketData({ 
     suspense: false, 
-    sparkline: false,
+    sparkline: true,
     ids: coinIds,
     willNotRequest: coinIds.length <= 0,
   });

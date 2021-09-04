@@ -88,12 +88,12 @@ const Layout = () => {
             >
               <ListHeader>
                 <TypeWrap>
-                  <Text fontML>
+                  <Text bold>
                     { t(`common.type`) }
                   </Text>
                 </TypeWrap>
                 <QuantityWrap>
-                  <Text fontML>
+                  <Text bold>
                     { t(`common.quantity`) }
                   </Text>
                 </QuantityWrap>

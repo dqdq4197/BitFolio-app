@@ -130,6 +130,9 @@
     "buy price(avg)": "매수 가격(평균)",
     "total balance": "전체 잔액",
     "statistics": "통계",
-    "allocation": "배분"
+    "allocation": "배분",
+    "best performer": "최고 실적자",
+    "worst performer": "최악의 실적자",
+    "all time profit/loss": "전체 이익 / 손실"
   }
 }

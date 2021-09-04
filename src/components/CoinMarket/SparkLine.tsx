@@ -8,8 +8,16 @@ type SparkLineProps = {
   prices: number[],
   isRising: boolean | null,
 }
+
+const XSIZE = 80;
+const YSIZE = 40;
+
 const SparkLine = ({ prices, isRising }:SparkLineProps) => {
-  const { path, XSIZE, YSIZE } = useSparkLineModel({prices});
+  const { path } = useSparkLineModel({
+    prices,
+    xSize: XSIZE,
+    ySize: YSIZE
+  });
   const { theme } = useGlobalTheme();
 
   return (
@@ -23,7 +31,6 @@ const SparkLine = ({ prices, isRising }:SparkLineProps) => {
               : isRising 
                 ? theme.base.upColor
                 : theme.base.downColor
-
           }
           fill='transparent'
         />

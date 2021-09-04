@@ -15,7 +15,7 @@ import PrivatePlaceholder from './PrivatePlaceholder';
 
 type AnalysisProps = {
   total_balance?: number
-  portfolio_all_time_pl_percentage?: number
+  portfolio_change_percentage_24h?: number
   portfolio_change_24h?: number
 }
 
@@ -57,7 +57,7 @@ const ConditionalContent = ({
 
 const CommonAnalysis = ({
   total_balance,
-  portfolio_all_time_pl_percentage,
+  portfolio_change_percentage_24h,
   portfolio_change_24h
 }: AnalysisProps) => {
   const { t } = useTranslation();
@@ -128,7 +128,7 @@ const CommonAnalysis = ({
         </ConditionalContent>
         <Block>
           <ConditionalContent 
-            isLoading={!portfolio_all_time_pl_percentage}
+            isLoading={!portfolio_change_percentage_24h}
             skeletonSize={{
               width: 50,
               height: 20
@@ -138,8 +138,8 @@ const CommonAnalysis = ({
               heavy 
               fontL
               value={ 
-                portfolio_all_time_pl_percentage !== undefined && isFinite(portfolio_all_time_pl_percentage)
-                  ? digitToFixed(portfolio_all_time_pl_percentage, 2) 
+                portfolio_change_percentage_24h !== undefined && isFinite(portfolio_change_percentage_24h)
+                  ? digitToFixed(portfolio_change_percentage_24h, 2) 
                   : null
               }
               afterPrefix="%"

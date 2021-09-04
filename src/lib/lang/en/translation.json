@@ -130,6 +130,9 @@
     "buy price(avg)": "Buy Price(Avg)",
     "total balance": "Total Balance",
     "statistics": "Statistics",
-    "allocation": "Allocation"
+    "allocation": "Allocation",
+    "best performer": "Best Performer",
+    "worst performer": "Worst Performer",
+    "all time profit/loss": "All Time Profit / Loss"
   }
 }

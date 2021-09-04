@@ -79,6 +79,7 @@ const Container = styled.View<ContainerType>`
 const QuantityView = styled.View`
   flex-direction: row;
   align-items: center;
+  height: 60px;
 `
 
 const TotalPriceView = styled.View`

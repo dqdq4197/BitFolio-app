@@ -2,14 +2,17 @@ import { useMemo } from 'react';
 import * as shape from "d3-shape";
 import { scaleLinear } from "d3-scale";
 
-const XSIZE = 80;
-const YSIZE = 40;
-
 type ModelProps = {
-  prices: number[],
+  prices: number[]
+  xSize: number
+  ySize: number
 }
 
-export default function useSparkLineModel({ prices }: ModelProps) {
+export default function useSparkLineModel({ 
+  prices, 
+  xSize, 
+  ySize
+}: ModelProps) {
 
   return useMemo(() => {
     const formattedValues = prices.map(
@@ -19,16 +22,15 @@ export default function useSparkLineModel({ prices }: ModelProps) {
     const maxPrice = Math.max(...prices);    
     const scaleX = scaleLinear()
       .domain([0, prices.length])
-      .range([0, XSIZE]);
+      .range([0, xSize]);
     const scaleY = scaleLinear()
       .domain([minPrice, maxPrice])
-      .range([YSIZE, 0]);
+      .range([ySize, 0]);
 
     return {
       minPrice,
       maxPrice,
-      XSIZE,
-      YSIZE,
+      scaleY,
       path: 
         shape
           .line()

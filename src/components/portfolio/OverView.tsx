@@ -2,19 +2,12 @@ import React, { useCallback, useState } from 'react';
 import { Animated } from 'react-native';
 import styled from 'styled-components/native';
 import { useNavigation } from '@react-navigation/native';
-import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import usePortfolioStats from '/hooks/usePortfolioStats';
-import { useAppSelector } from '/hooks/useRedux';
-import useLocales from '/hooks/useLocales';
-import useGlobalTheme from '/hooks/useGlobalTheme';
-import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat';
-import { convertUnits, digitToFixed } from '/lib/utils';
 import SurfaceWrap from '/components/common/SurfaceWrap';
 import ScrollView from '/components/common/ScrollView';
 import Text from '/components/common/Text';
 import CustomRefreshControl from '/components/common/CustomRefreshControl';
-import IncreaseDecreaseValue from '/components/common/IncreaseDecreaseValue';
 import { usePortfolioContext } from './PortfolioDataContext'
 import PortfolioAnalysisSheet from './PortfolioAnalysisSheet';
 import useAnimatedHeaderTitle from '/hooks/useAnimatedHeaderTitle';
@@ -32,7 +25,7 @@ const Overview = () => {
     title: 
       <OverviewTitle 
         total_balance={portfolioStats?.total_balance}
-        portfolio_change_percentage_24h={portfolioStats?.portfolio_all_time_pl_percentage}
+        portfolio_change_percentage_24h={portfolioStats?.portfolio_change_percentage_24h}
       />,
     triggerPoint: 60 
   })

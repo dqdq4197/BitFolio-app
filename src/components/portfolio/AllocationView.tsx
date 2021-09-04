@@ -16,9 +16,9 @@ import { convertUnits, digitToFixed } from '/lib/utils';
 
 const { width } = Dimensions.get('window');
 
-const LARGE_RADIUS = 105;
-const SMALL_RADIUS = 100;
-const INNER_RADIUS = 70;
+const LARGE_RADIUS = 120;
+const SMALL_RADIUS = 115;
+const INNER_RADIUS = 90;
 
 type AllocationViewProps = {
   coins?: { [key: string]: CoinStatType } 

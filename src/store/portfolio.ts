@@ -26,6 +26,7 @@ export interface CoinType {
 
 export type ModeType = 'public' | 'private'
 export type ShowValueModeType = 'short' | 'full'
+export type ActiveTabType = 'allocation' | 'statistics'
 
 type ChangeCoinStateAction = {
   portfolioId: string
@@ -48,6 +49,8 @@ export interface InitialState {
   assetSortType: SortType
   mode: ModeType
   showValueMode: ShowValueModeType
+  analysisActiveTab: ActiveTabType
+  isHideAnalysisSheet: boolean
 }
 
 const initialState: InitialState = {
@@ -67,7 +70,9 @@ const initialState: InitialState = {
   }],
   assetSortType: 'default',
   mode: 'public',
-  showValueMode: 'short'
+  showValueMode: 'short',
+  analysisActiveTab: 'allocation',
+  isHideAnalysisSheet: false
 }
 
 export const portfolioSlice = createSlice({
@@ -100,6 +105,12 @@ export const portfolioSlice = createSlice({
     },
     changeShowValueMode: (state, action: PayloadAction<ShowValueModeType>) => {
       state.showValueMode = action.payload;
+    },
+    changeAnalysisActiveTab: (state, action: PayloadAction<ActiveTabType>) => {
+      state.analysisActiveTab = action.payload
+    },
+    onHideAnalysisSheet: (state, action: PayloadAction<boolean>) => {
+      state.isHideAnalysisSheet = action.payload
     }
   }
 })
@@ -109,6 +120,8 @@ export const {
   changeCoinState,
   changeSortType,
   changeMode,
-  changeShowValueMode
+  changeShowValueMode,
+  changeAnalysisActiveTab,
+  onHideAnalysisSheet
 } = portfolioSlice.actions;
 export default portfolioSlice.reducer;

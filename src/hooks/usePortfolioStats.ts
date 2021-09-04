@@ -52,6 +52,10 @@ export type CoinStatType = {
   all_time_pl_percentage: number
   pl_24h: number
   pl_percentage_24h: number
+  /* 
+    price_per_usd: price per usd
+  */
+  price_per_usd: number
 }
 
 /*
@@ -104,6 +108,8 @@ const usePortfolioStats = ({ id, coinsData }: StatsProps) => {
         transaction => {
           const { coinId, fee, quantity, type, pricePerCoin, transferType, date, symbol } = transaction;
           const coinData = coinsData.find(coin => coin.id === coinId);
+          const pricePerUsd = pricePerCoin[currency] / pricePerCoin['usd'];
+
           if(coinStats.hasOwnProperty(coinId)) {
             let targetCoinStats = coinStats[coinId];
             if(type === 'buy') {
@@ -176,7 +182,8 @@ const usePortfolioStats = ({ id, coinsData }: StatsProps) => {
                 all_time_pl: 0,
                 all_time_pl_percentage: 0,
                 pl_24h: 0,
-                pl_percentage_24h: 0
+                pl_percentage_24h: 0,
+                price_per_usd: pricePerUsd
               } 
             };
           }
@@ -203,6 +210,7 @@ const usePortfolioStats = ({ id, coinsData }: StatsProps) => {
 
         portfolio_all_time_pl += coinStats[key].all_time_pl;
         coinStats[key].pl_24h = pl_after_24h + coinStats[key].income_quantity_within_24h * coinStats[key].price;
+        coinStats[key].pl_percentage_24h = coinStats[key].pl_24h / coinStats[key].total_purchase_cost * 100;
 
         total_balance += coinStats[key].holding_costs;
         portfolio_change_24h += coinStats[key].pl_24h;

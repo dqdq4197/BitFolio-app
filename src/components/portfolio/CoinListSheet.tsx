@@ -44,7 +44,7 @@ const SortTab = ({ name, onPress, align = 'right' }: TabProps) => {
 
   return (
     <Tab align={align} onPress={onPress} activeOpacity={0.6}>
-      <Text fontM margin="0 2px 0 0" bold>
+      <Text margin="0 2px 0 0" bold>
         { name }
       </Text>
       <Ionicons 

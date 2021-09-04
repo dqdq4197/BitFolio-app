@@ -1,12 +1,11 @@
 import React from 'react';
 import TransactionsLayout from '/components/coinMarketDetail/transactions/Layout';
-import MarketListSkeleton from '/components/skeletonPlaceholder/MarketListSkeleton';
 import ErrorBoundaryAndSuspense from '/components/common/ErrorBoundaryAndSuspense';
-
+import TransactionsSkeleton from '/components/skeletonPlaceholder/coinMarketDetail/TransactionsSkeleton';
 
 const Transactions = () => {
   return (
-    <ErrorBoundaryAndSuspense skeleton={<MarketListSkeleton/>} >
+    <ErrorBoundaryAndSuspense skeleton={<TransactionsSkeleton/>} >
       <TransactionsLayout/>
     </ErrorBoundaryAndSuspense>
 

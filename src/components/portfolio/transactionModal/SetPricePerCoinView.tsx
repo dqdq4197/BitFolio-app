@@ -26,11 +26,11 @@ const SetPricePerCoinView = ({
 }: PricePerCoinViewProps) => {
   const { t } = useTranslation();
   const { currency } = useLocales();
-
+  
   return (
     <Container height={height}>
       <View />
-      <PriceView>
+      <PriceView height={height}>
         <Text fontXL bold margin="0 5px 0 0">
           { currencySymbol(currency) }
         </Text>
@@ -62,7 +62,7 @@ const SetPricePerCoinView = ({
 
 export default SetPricePerCoinView;
 
-type ContainerType = {
+type HeightProps = {
   height: number;
 }
 
@@ -70,16 +70,17 @@ type PriceFixedProps = {
   isPriceFixed: boolean;
 }
 
-const Container = styled.View<ContainerType>`
+const Container = styled.View<HeightProps>`
   width: ${ width }px;
   height: ${({ height }) => height }px;
-  justify-content: space-around;
   align-items: center;
   padding: 0 ${({ theme }) => theme.content.spacing};
 `
 
-const PriceView = styled.View`
+const PriceView = styled.View<HeightProps>`
   flex-direction: row;
+  align-items: center;
+  height: ${({ height }) => height - 60}px;
 `
 
 const PriceFixedButton = styled.TouchableOpacity<PriceFixedProps>`
