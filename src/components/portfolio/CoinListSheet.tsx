@@ -102,7 +102,7 @@ const CoinListSheet = ({
 }: SheetProps) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const { assetSortType } = useAppSelector(state => state.portfolioReducer);
+  const { assetSortType } = useAppSelector(state => state.portfolioReducer.portfolios[0]);
   const { id: portfolioId, coins, coinsData } = usePortfolioContext(); 
   const [visible, setVisible] = useState(false);
   const [sortedCoins, setSortedCoins] = useState<CoinType[]>([]);

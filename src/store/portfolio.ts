@@ -43,7 +43,7 @@ type AddTrackAction = {
   }
 }
 
-export interface InitialState {
+export type PortfolioType = {
   id: string
   coins: CoinType[]
   assetSortType: SortType
@@ -52,27 +52,34 @@ export interface InitialState {
   analysisActiveTab: ActiveTabType
   isHideAnalysisSheet: boolean
 }
+export type InitialState = {
+  portfolios: PortfolioType[]
+  activeIndex: number
+};
 
 const initialState: InitialState = {
-  id: 'qwesfzcv-asd', // uuid 적용하기
-  coins: [{
-    id: 'bitcoin',
-    state: 'tracking',
-    symbol: 'btc',
-    name: "Bitcoin",
-    image: 'https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1547033579'
-  }, {
-    id: 'tether',
-    state: 'tracking',
-    symbol: 'usdt',
-    name: "Tether",
-    image: 'https://assets.coingecko.com/coins/images/325/large/Tether-logo.png?1598003707'
+  portfolios: [{
+    id: 'qwesfzcv-asd', // uuid 적용하기
+    coins: [{
+      id: 'bitcoin',
+      state: 'tracking',
+      symbol: 'btc',
+      name: "Bitcoin",
+      image: 'https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1547033579'
+    }, {
+      id: 'tether',
+      state: 'tracking',
+      symbol: 'usdt',
+      name: "Tether",
+      image: 'https://assets.coingecko.com/coins/images/325/large/Tether-logo.png?1598003707'
+    }],
+    assetSortType: 'default',
+    mode: 'public',
+    showValueMode: 'short',
+    analysisActiveTab: 'allocation',
+    isHideAnalysisSheet: false
   }],
-  assetSortType: 'default',
-  mode: 'public',
-  showValueMode: 'short',
-  analysisActiveTab: 'allocation',
-  isHideAnalysisSheet: false
+  activeIndex: 0
 }
 
 export const portfolioSlice = createSlice({
@@ -81,9 +88,10 @@ export const portfolioSlice = createSlice({
   reducers: {
     addTrack: (state, action: PayloadAction<AddTrackAction>) => {
       const { coin } = action.payload;
+      const defaultPortfolio = state.portfolios[0];
 
-      state.coins = [
-        ...state.coins,
+      defaultPortfolio.coins = [
+        ...defaultPortfolio.coins,
         {
           ...coin,
           state: 'tracking'
@@ -92,25 +100,31 @@ export const portfolioSlice = createSlice({
     },
     changeCoinState: (state, action: PayloadAction<ChangeCoinStateAction>) => {
       const { coinId } = action.payload;
-      const coinIdx = state.coins.findIndex(coin => coin.id === coinId);
+      const defaultPortfolio = state.portfolios[0];
+      const coinIdx = defaultPortfolio.coins.findIndex(coin => coin.id === coinId);
 
-      if(state.coins[coinIdx].state === 'tracking')
-        state.coins[coinIdx].state = 'traded';
+      if(defaultPortfolio.coins[coinIdx].state === 'tracking')
+      defaultPortfolio.coins[coinIdx].state = 'traded';
     },
     changeSortType: (state, action: PayloadAction<SortType>) => {
-      state.assetSortType = action.payload;
+      const defaultPortfolio = state.portfolios[0];
+      defaultPortfolio.assetSortType = action.payload;
     },
     changeMode: (state, action: PayloadAction<ModeType>) => {
-      state.mode = action.payload;
+      const defaultPortfolio = state.portfolios[0];
+      defaultPortfolio.mode = action.payload;
     },
     changeShowValueMode: (state, action: PayloadAction<ShowValueModeType>) => {
-      state.showValueMode = action.payload;
+      const defaultPortfolio = state.portfolios[0];
+      defaultPortfolio.showValueMode = action.payload;
     },
     changeAnalysisActiveTab: (state, action: PayloadAction<ActiveTabType>) => {
-      state.analysisActiveTab = action.payload
+      const defaultPortfolio = state.portfolios[0];
+      defaultPortfolio.analysisActiveTab = action.payload
     },
     onHideAnalysisSheet: (state, action: PayloadAction<boolean>) => {
-      state.isHideAnalysisSheet = action.payload
+      const defaultPortfolio = state.portfolios[0];
+      defaultPortfolio.isHideAnalysisSheet = action.payload
     }
   }
 })

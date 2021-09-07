@@ -22,8 +22,8 @@ const OverviewTitle = ({
   const { theme } = useGlobalTheme();
   const { currency } = useLocales();
   const { showValueMode, mode } = useAppSelector(state => ({
-    showValueMode: state.portfolioReducer.showValueMode,
-    mode: state.portfolioReducer.mode
+    showValueMode: state.portfolioReducer.portfolios[0].showValueMode,
+    mode: state.portfolioReducer.portfolios[0].mode
   }))
 
   if(total_balance === undefined || portfolio_change_percentage_24h === undefined) {
@@ -55,7 +55,9 @@ const OverviewTitle = ({
               <PercentageWrap>
                 <IncreaseDecreaseValue 
                   value={
-                    digitToFixed(portfolio_change_percentage_24h, 2)
+                    !isFinite(portfolio_change_percentage_24h)
+                      ? null
+                      : digitToFixed(portfolio_change_percentage_24h, 2)
                   }
                   afterPrefix="%"
                   heavy

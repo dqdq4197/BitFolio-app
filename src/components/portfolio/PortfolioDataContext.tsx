@@ -21,8 +21,8 @@ type ContextProps = {
 
 export function PortfolioDataProvider({ children }: ContextProps) {
   const { id, coins } = useAppSelector(state => ({
-    id: state.portfolioReducer.id,
-    coins: state.portfolioReducer.coins,
+    id: state.portfolioReducer.portfolios[0].id,
+    coins: state.portfolioReducer.portfolios[0].coins,
   }), shallowEqual);
   const [coinIds, setCoinIds] = useState<string[]>([]);
   const { data: coinsData, mutate } = useCoinMarketData({ 

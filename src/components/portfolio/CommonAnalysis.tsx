@@ -63,8 +63,8 @@ const CommonAnalysis = ({
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const { mode, showValueMode } = useAppSelector(state => ({
-    mode: state.portfolioReducer.mode,
-    showValueMode: state.portfolioReducer.showValueMode
+    mode: state.portfolioReducer.portfolios[0].mode,
+    showValueMode: state.portfolioReducer.portfolios[0].showValueMode
   }), shallowEqual);
   const { currency } = useLocales();
 
@@ -107,7 +107,7 @@ const CommonAnalysis = ({
               horizontalSpacing={14}
             />
           }
-          isLoading={!total_balance}
+          isLoading={total_balance === undefined}
           skeletonSize={{
             width: 130,
             height: 35
@@ -128,7 +128,7 @@ const CommonAnalysis = ({
         </ConditionalContent>
         <Block>
           <ConditionalContent 
-            isLoading={!portfolio_change_percentage_24h}
+            isLoading={portfolio_change_percentage_24h === undefined}
             skeletonSize={{
               width: 50,
               height: 20
@@ -156,7 +156,7 @@ const CommonAnalysis = ({
             horizontalSpacing={13}
           />
         }
-        isLoading={!portfolio_change_24h}
+        isLoading={portfolio_change_24h === undefined}
         skeletonSize={{
           width: 50,
           height: 20

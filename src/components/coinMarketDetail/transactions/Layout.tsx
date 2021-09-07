@@ -38,7 +38,7 @@ const Layout = () => {
   const { t } = useTranslation();
   const { id, symbol } = useCoinIdContext();
   const { transactions } = useAppSelector(state => state.transactionReducer);
-  const { id: portfolioId } = useAppSelector(state => state.portfolioReducer);
+  const { id: portfolioId } = useAppSelector(state => state.portfolioReducer.portfolios[0]);
   const modalRef = useRef<BottomSheetModal>(null);
   const [filteredData, setFilteredData] = useState<TransactionType[] | null>(null);
   const [focusedTransactionId, setFocusedTransactionId] = useState<string | null>(null);

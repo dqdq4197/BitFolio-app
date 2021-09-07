@@ -86,7 +86,7 @@ export type PortfolioStatsType = {
     portfolio_change_percentage_24h: portfolio_change_24h / (total_balance - portfolio_change_24h) * 100
   */
   portfolio_change_percentage_24h: number
-  coins: { [key: string ]: CoinStatType }
+  coins: { [key: string ]: CoinStatType } | {}
 }
 
 
@@ -103,7 +103,7 @@ const usePortfolioStats = ({ id, coinsData }: StatsProps) => {
       let coinStats: { [key : string ]: CoinStatType } = {};
       const now = +new Date();
       const oneDay =  24 * 60 * 60 * 1000;
-
+      
       filteredTransactions.forEach(
         transaction => {
           const { coinId, fee, quantity, type, pricePerCoin, transferType, date, symbol } = transaction;

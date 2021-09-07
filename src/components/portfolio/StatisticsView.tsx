@@ -3,7 +3,7 @@ import { Dimensions } from 'react-native';
 import Svg, { Path, Line } from 'react-native-svg';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components/native';
-import { CoinStatType } from '/hooks/usePortfolioStats';
+import { CoinStatType, PortfolioStatsType } from '/hooks/usePortfolioStats';
 import useSparkLineModel from '/hooks/useSparkLineModel';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import useLocales from '/hooks/useLocales';
@@ -37,8 +37,7 @@ type PerformerCardProps = {
   renderKey: keyof PerformersType
   data: PerformersType | null
 }
-type StatisticsViewProps = {
-  coins?: { [key: string]: CoinStatType } 
+interface StatisticsViewProps extends Pick<PortfolioStatsType, 'coins'> {
   portfolio_all_time_pl?: number
   portfolio_all_time_pl_percentage?: number
 }
@@ -152,7 +151,7 @@ const StatisticsView = ({
   const [topPerformers, setTopPerformers] = useState<PerformersType | null>(null);
 
   useEffect(() => {
-    if(coins && coinsData) {
+    if(coinsData) {
       let sortedCoins = Object.entries(coins).sort((a, b) => {
         return b[1].pl_24h - a[1].pl_24h;
       })

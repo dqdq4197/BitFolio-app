@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Animated, LayoutAnimation, Platform, UIManager } from 'react-native';
 import styled from 'styled-components/native';
 import { Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
+import { useTranslation } from 'react-i18next';
 import useGlobalTheme from '/hooks/useGlobalTheme'
 import { PortfolioStatsType } from '/hooks/usePortfolioStats';
 import { useAppSelector, useAppDispatch, shallowEqual } from '/hooks/useRedux';
@@ -9,11 +10,17 @@ import { changeAnalysisActiveTab, onHideAnalysisSheet, ActiveTabType } from '/st
 import CommonAnalysis from './CommonAnalysis';
 import Text from '/components/common/Text';
 import SurfaceWrap from '/components/common/SurfaceWrap';
+import GlobalIndicator from '/components/common/GlobalIndicator';
 import AllocationView from './AllocationView';
 import StatisticsView from './StatisticsView';
 
 
+
 Platform.OS === "android" && UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
+
+type EmptyViewProps = {
+  isLoading: boolean
+}
 
 type TabProps = {
   tabKey: ActiveTabType
@@ -49,13 +56,43 @@ const Tab = ({ tabKey, title, icon, isActive, onPress }: TabProps) => {
   )
 }
 
+const EmptyView = ({ isLoading }: EmptyViewProps) => {
+  const { theme } = useGlobalTheme();
+  const { t } = useTranslation();
+
+  return (
+    <EmptyViewContainer>
+      { isLoading 
+        ? <>
+            <MaterialCommunityIcons 
+              name="text-box-search-outline" 
+              size={32} 
+              color={ theme.base.text[300] }
+            />
+            <Text fontML bold margin="10px 0 0 0">
+              { t(`coinDetail.there is no transaction history`) }
+            </Text>
+            <Text margin="3px 0 0 0" bold color300>
+              { t(`coinDetail.add your first transaction`) }
+            </Text>
+          </>
+        : <GlobalIndicator 
+            isLoaded={false}
+            size="large"
+            transparent
+          />
+      }
+    </EmptyViewContainer>
+  )
+}
+
 const PortfolioAnalysisSheet = ({ portfolioStats }: SheetProps) => {
   
   const { theme } = useGlobalTheme();
   const dispatch = useAppDispatch();
   const { activeTab, isHide } = useAppSelector(state => ({
-    activeTab: state.portfolioReducer.analysisActiveTab,
-    isHide: state.portfolioReducer.isHideAnalysisSheet
+    activeTab: state.portfolioReducer.portfolios[0].analysisActiveTab,
+    isHide: state.portfolioReducer.portfolios[0].isHideAnalysisSheet
   }), shallowEqual)
 
   const handleTabButtonPress = (tabKey: ActiveTabType) => {
@@ -157,16 +194,20 @@ const PortfolioAnalysisSheet = ({ portfolioStats }: SheetProps) => {
           <ContentWrap
             as={Animated.View}
           >
-            { activeTab === 'allocation'
-              ? <AllocationView 
-                  coins={portfolioStats?.coins}
-                  tatalCosts={portfolioStats?.total_costs}
-                />
-              : <StatisticsView 
-                  coins={portfolioStats?.coins}
-                  portfolio_all_time_pl={portfolioStats?.portfolio_all_time_pl}
-                  portfolio_all_time_pl_percentage={portfolioStats?.portfolio_all_time_pl_percentage}
-                />
+            { portfolioStats?.coins 
+              ? Object.entries(portfolioStats.coins).length === 0
+                ? <EmptyView isLoading={true} />
+                : activeTab === 'allocation'
+                  ? <AllocationView 
+                      coins={portfolioStats.coins}
+                      tatalCosts={portfolioStats?.total_costs}
+                    />
+                  : <StatisticsView 
+                      coins={portfolioStats.coins}
+                      portfolio_all_time_pl={portfolioStats?.portfolio_all_time_pl}
+                      portfolio_all_time_pl_percentage={portfolioStats?.portfolio_all_time_pl_percentage}
+                    />
+              : <EmptyView isLoading={false} />
             }
           </ContentWrap>
         ) }
@@ -248,5 +289,11 @@ const CustomText = styled(Text)<ButtonProps>`
   color: ${({ theme, isActive }) => isActive 
     ? theme.base.text[100]
     : theme.base.text[200]
-  }
+  };
+`
+
+const EmptyViewContainer = styled.View`
+  height: 150px;
+  justify-content: center;
+  align-items: center;
 `
