@@ -38,7 +38,10 @@ const SearchesEmptyView = () => {
 
 const SearchesItem = ({ item, onPressItem }: SearchesItemProps) => {
   return (
-    <SearchesItemContainer onPress={() => onPressItem(item.id, item.symbol)}>
+    <SearchesItemContainer 
+      onPress={() => onPressItem(item.id, item.symbol)}
+      activeOpacity={0.6}
+    >
       <Image uri={item.large} width={30} height={30} borderRedius="m" />
       <Text 
         fontML 
@@ -143,7 +146,7 @@ const SearchesItemContainer = styled.TouchableOpacity`
   width: 120px;
   height: 110px;
   margin-right: 10px;
-  background-color: ${({ theme }) => theme.base.background[300]};
+  background-color: ${({ theme }) => theme.base.background[200]};
   border-radius: ${({ theme }) => theme.border.ml};
   justify-content: center;
   align-items: center;

@@ -133,6 +133,10 @@
     "allocation": "Allocation",
     "best performer": "Best Performer",
     "worst performer": "Worst Performer",
-    "all time profit/loss": "All Time Profit / Loss"
+    "all time profit/loss": "All Time Profit / Loss",
+    "add new asset": "Add New Asset",
+    "you do not have any assets yet": "You do not have any assets yet.",
+    "button to add a transaction or to start watching coins": "button to add a transaction or to start watching coins",
+    "tap the": "Tap the"
   }
 }

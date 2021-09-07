@@ -28,7 +28,7 @@ export type ModeType = 'public' | 'private'
 export type ShowValueModeType = 'short' | 'full'
 export type ActiveTabType = 'allocation' | 'statistics'
 
-type ChangeCoinStateAction = {
+interface ChangeCoinStateAction extends Pick<CoinType, 'state'> {
   portfolioId: string
   coinId: string
 }
@@ -45,7 +45,7 @@ type AddTrackAction = {
 
 export type PortfolioType = {
   id: string
-  coins: CoinType[]
+  coins: CoinType[] | []
   assetSortType: SortType
   mode: ModeType
   showValueMode: ShowValueModeType
@@ -60,19 +60,20 @@ export type InitialState = {
 const initialState: InitialState = {
   portfolios: [{
     id: 'qwesfzcv-asd', // uuid 적용하기
-    coins: [{
-      id: 'bitcoin',
-      state: 'tracking',
-      symbol: 'btc',
-      name: "Bitcoin",
-      image: 'https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1547033579'
-    }, {
-      id: 'tether',
-      state: 'tracking',
-      symbol: 'usdt',
-      name: "Tether",
-      image: 'https://assets.coingecko.com/coins/images/325/large/Tether-logo.png?1598003707'
-    }],
+    coins: [],
+    // {
+    //   id: 'bitcoin',
+    //   state: 'tracking',
+    //   symbol: 'btc',
+    //   name: "Bitcoin",
+    //   image: 'https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1547033579'
+    // }, {
+    //   id: 'tether',
+    //   state: 'tracking',
+    //   symbol: 'usdt',
+    //   name: "Tether",
+    //   image: 'https://assets.coingecko.com/coins/images/325/large/Tether-logo.png?1598003707'
+    // }
     assetSortType: 'default',
     mode: 'public',
     showValueMode: 'short',
@@ -99,12 +100,11 @@ export const portfolioSlice = createSlice({
       ]
     },
     changeCoinState: (state, action: PayloadAction<ChangeCoinStateAction>) => {
-      const { coinId } = action.payload;
+      const { coinId, state: coinState } = action.payload;
       const defaultPortfolio = state.portfolios[0];
       const coinIdx = defaultPortfolio.coins.findIndex(coin => coin.id === coinId);
 
-      if(defaultPortfolio.coins[coinIdx].state === 'tracking')
-      defaultPortfolio.coins[coinIdx].state = 'traded';
+      defaultPortfolio.coins[coinIdx].state = coinState;
     },
     changeSortType: (state, action: PayloadAction<SortType>) => {
       const defaultPortfolio = state.portfolios[0];

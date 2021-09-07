@@ -2,13 +2,11 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { AxiosResponse } from 'axios';
 import { useAppSelector, shallowEqual } from '/hooks/useRedux';
 import useCoinMarketData from '/hooks/useCoinMarketData';
-import { CoinType, SortType } from '/store/portfolio';
+import { PortfolioType } from '/store/portfolio';
 import { CoinMarketReturn } from '/lib/api/CoinGeckoReturnType';
 
 
-type ValueType = {
-  id: string
-  coins: CoinType[]
+interface ValueType extends Pick<PortfolioType, 'id' | 'coins'> {
   coinsData?: CoinMarketReturn[]
   mutate: () => Promise<AxiosResponse<CoinMarketReturn>[] | undefined>
 }
@@ -20,10 +18,11 @@ type ContextProps = {
 }
 
 export function PortfolioDataProvider({ children }: ContextProps) {
-  const { id, coins } = useAppSelector(state => ({
-    id: state.portfolioReducer.portfolios[0].id,
-    coins: state.portfolioReducer.portfolios[0].coins,
+  const { portfolios, activeIndex } = useAppSelector(state => ({
+    portfolios: state.portfolioReducer.portfolios,
+    activeIndex: state.portfolioReducer.activeIndex
   }), shallowEqual);
+  const { transactions } = useAppSelector(state => state.transactionReducer);
   const [coinIds, setCoinIds] = useState<string[]>([]);
   const { data: coinsData, mutate } = useCoinMarketData({ 
     suspense: false, 
@@ -31,6 +30,7 @@ export function PortfolioDataProvider({ children }: ContextProps) {
     ids: coinIds,
     willNotRequest: coinIds.length <= 0,
   });
+  // console.log(transactions);
 
   const mutateCoinsData = () => {
     return mutate();
@@ -38,6 +38,7 @@ export function PortfolioDataProvider({ children }: ContextProps) {
 
   useEffect(() => {
     let temp:string[] = [];
+    const { coins } = portfolios[activeIndex];
 
     coins.map(coin => {
       if(!temp.includes(coin.id)) {
@@ -46,13 +47,13 @@ export function PortfolioDataProvider({ children }: ContextProps) {
     })
     
     setCoinIds(temp)
-  }, [coins])
+  }, [portfolios[activeIndex].coins])
 
   return (
     <PortfolioContext.Provider 
       value={{ 
-        id, 
-        coins,
+        id: portfolios[activeIndex].id, 
+        coins: portfolios[activeIndex].coins,
         coinsData,
         mutate: mutateCoinsData 
       }}

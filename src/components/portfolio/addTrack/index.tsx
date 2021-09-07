@@ -119,7 +119,7 @@ const AddTrack = () => {
       let endIdx = startIdx + matchLetters.length;
       newLetters.push(text.substring(0, startIdx));
       newLetters.push(
-        <Text primaryColor fontML>
+        <Text key={startIdx} primaryColor fontML>
           { text.substring(startIdx, endIdx) }
         </Text>
       );
@@ -131,34 +131,36 @@ const AddTrack = () => {
     return newLetters;
   }
 
-  const handleQueryChangeText = useCallback((text: string) => {
+  const handleQueryChangeText = (text: string) => {
     setQuery(text);
     if(!data) return;
-      let regex = createFuzzyMatcher(text, {})
-      let result = data.coins
-        .filter(coin => { 
-          return regex.test(coin.name)
-            || regex.test(coin.id)
-            || regex.test(coin.symbol)
-          }
-        )
-        .map(coin => {
-          let coinName = highlightText(coin.name, regex);
-          let coinSymbol = highlightText(coin.symbol, regex);
 
-          return {
-            ...coin,
-            name: coinName,
-            symbol: coinSymbol
-          }
-        })
+    let regex = createFuzzyMatcher(text, {})
+    let result = data.coins
+      .filter(coin => { 
+        return regex.test(coin.name)
+          || regex.test(coin.id)
+          || regex.test(coin.symbol)
+        }
+      )
+      .map(coin => {
+        let coinName = highlightText(coin.name, regex);
+        let coinSymbol = highlightText(coin.symbol, regex);
+
+        return {
+          ...coin,
+          name: coinName,
+          symbol: coinSymbol
+        }
+      })
 
       setCoins(result)
-  }, [data])
+  }
 
   const handleRemoveQuery = () => {
     setQuery('');
-    setCoins([]);
+    if(data)
+      setCoins(data.coins);
     textInputRef.current?.focus();
   }
 
@@ -196,9 +198,6 @@ const AddTrack = () => {
             />
           )
         }
-        getItemLayout={(_, index) => (
-          { length: 60, offset: 60 * index, index }
-        )}
         ListEmptyComponent={
           data 
             ? query 
@@ -207,6 +206,7 @@ const AddTrack = () => {
             : <SearchItemListSkeleton />
           
         }
+        initialNumToRender={7}
         stickyHeaderIndices={[0]}
       />
     </>

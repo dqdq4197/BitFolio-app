@@ -3,7 +3,7 @@ import styled from 'styled-components/native';
 import { Ionicons } from '@expo/vector-icons';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import useLocales from '/hooks/useLocales';
-import { useAppSelector } from '/hooks/useRedux';
+import { useAppSelector, shallowEqual } from '/hooks/useRedux';
 import { convertUnits, digitToFixed } from '/lib/utils';
 import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat';
 import Text from '/components/common/Text';
@@ -21,10 +21,11 @@ const OverviewTitle = ({
 
   const { theme } = useGlobalTheme();
   const { currency } = useLocales();
-  const { showValueMode, mode } = useAppSelector(state => ({
-    showValueMode: state.portfolioReducer.portfolios[0].showValueMode,
-    mode: state.portfolioReducer.portfolios[0].mode
-  }))
+  const { portfolio, activeIndex } = useAppSelector(state => ({
+    portfolio: state.portfolioReducer.portfolios,
+    activeIndex: state.portfolioReducer.activeIndex
+  }), shallowEqual)
+  const { mode, showValueMode } = portfolio[activeIndex];
 
   if(total_balance === undefined || portfolio_change_percentage_24h === undefined) {
     return (

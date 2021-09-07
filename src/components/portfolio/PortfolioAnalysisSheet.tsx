@@ -72,7 +72,7 @@ const EmptyView = ({ isLoading }: EmptyViewProps) => {
             <Text fontML bold margin="10px 0 0 0">
               { t(`coinDetail.there is no transaction history`) }
             </Text>
-            <Text margin="3px 0 0 0" bold color300>
+            <Text margin="10px 0 0 0" bold color300>
               { t(`coinDetail.add your first transaction`) }
             </Text>
           </>
@@ -90,10 +90,14 @@ const PortfolioAnalysisSheet = ({ portfolioStats }: SheetProps) => {
   
   const { theme } = useGlobalTheme();
   const dispatch = useAppDispatch();
-  const { activeTab, isHide } = useAppSelector(state => ({
-    activeTab: state.portfolioReducer.portfolios[0].analysisActiveTab,
-    isHide: state.portfolioReducer.portfolios[0].isHideAnalysisSheet
+  const { portfolio, activeIndex } = useAppSelector(state => ({
+    portfolio: state.portfolioReducer.portfolios,
+    activeIndex: state.portfolioReducer.activeIndex
   }), shallowEqual)
+  const { 
+    isHideAnalysisSheet: isHide, 
+    analysisActiveTab: activeTab
+  } = portfolio[activeIndex];
 
   const handleTabButtonPress = (tabKey: ActiveTabType) => {
     LayoutAnimation.configureNext({ 

@@ -18,7 +18,7 @@ type RowProps = {
   COL_WIDTH: number
   coin: CoinType
   stats?: CoinStatType | null
-  totalCosts?: number
+  totalCosts: number
   priceStats?: {
     current_price: number;
     price_change_percentage_24h: number | null;
@@ -123,7 +123,7 @@ StatisticsRow = ({
               { stats.holding_quantity + ' ' + coin.symbol.toUpperCase() }
             </DynamicSizeText>
           </>
-          )
+        )
       }
     </>
   ), [stats, coin, onAddButtonPress])
@@ -202,7 +202,7 @@ StatisticsRow = ({
       </>
     )
   }, [stats, totalCosts])
-
+  console.log(stats);
   return (
     <Container 
       activeOpacity={0.6}

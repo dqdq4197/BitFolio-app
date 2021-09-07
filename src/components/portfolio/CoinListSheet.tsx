@@ -12,7 +12,7 @@ import FormModal from './transactionModal/FormModal';
 import { CoinType, changeSortType, SortType } from '/store/portfolio';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import { CoinStatType } from '/hooks/usePortfolioStats';
-import { useAppDispatch, useAppSelector } from '/hooks/useRedux';
+import { useAppDispatch, useAppSelector, shallowEqual } from '/hooks/useRedux';
 import { usePortfolioContext } from './PortfolioDataContext';
 
 
@@ -28,8 +28,8 @@ type TabProps = {
 }
 
 type SheetProps = {
-  coinsStats?: { [key: string]: CoinStatType }
-  portfolioTotalCosts?: number
+  coinsStats: { [key: string]: CoinStatType }
+  portfolioTotalCosts: number
 }
 
 type AssetRowProps = {
@@ -102,7 +102,10 @@ const CoinListSheet = ({
 }: SheetProps) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const { assetSortType } = useAppSelector(state => state.portfolioReducer.portfolios[0]);
+  const { portfolio, activeIndex } = useAppSelector(state => ({
+    portfolio: state.portfolioReducer.portfolios,
+    activeIndex: state.portfolioReducer.activeIndex
+  }), shallowEqual);
   const { id: portfolioId, coins, coinsData } = usePortfolioContext(); 
   const [visible, setVisible] = useState(false);
   const [sortedCoins, setSortedCoins] = useState<CoinType[]>([]);
@@ -112,10 +115,12 @@ const CoinListSheet = ({
     image: '',
     name: ''
   })
+  const { assetSortType } = portfolio[activeIndex];
 
   useEffect(() => {
-    if(coinsData && coinsStats) {
+    if(coinsData) {
       let temp = coins.slice();
+      
       switch(assetSortType) {
         case 'name_asc':
         case 'name_desc':

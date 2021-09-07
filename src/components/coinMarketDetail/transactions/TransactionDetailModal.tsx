@@ -2,11 +2,13 @@ import React, { forwardRef, useMemo, MutableRefObject, useCallback, useState } f
 import { ScrollView, NativeSyntheticEvent, NativeScrollEvent, Alert } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import styled, { css } from 'styled-components/native';
+import { LayoutAnimation, UIManager, Platform } from 'react-native';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { format } from 'date-fns';
 import { ko, enUS } from 'date-fns/locale';
 import { FontAwesome5, FontAwesome, MaterialIcons, MaterialCommunityIcons, Feather } from '@expo/vector-icons';
 import { TransactionType, removeTransaction } from '/store/transaction';
+import { changeCoinState } from '/store/portfolio';
 import useLocales from '/hooks/useLocales';
 import Modal from '/components/common/BottomSheetModal';
 import Text from '/components/common/Text';
@@ -18,16 +20,20 @@ import { useAppDispatch } from '/hooks/useRedux';
 import { digitToFixed } from '/lib/utils';
 import EditButton from './EditTransactionButton';
 
+if (Platform.OS === 'android') {
+  UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
+}
 
 type DetailProps = {
   data: TransactionType
   currentPrice: { [key: string]: number }
   symbol: string
   coinId: string
-  portfolioId?: string
+  portfolioId: string
   name: string
   image: string
   transactionId: string
+  wantChangeCoinState: boolean
   onDismiss: () => void
 }
 
@@ -41,6 +47,7 @@ const TransactionDetailModal = forwardRef<BottomSheetModal, DetailProps>(
     name,
     image,
     transactionId,
+    wantChangeCoinState,
     onDismiss
   }, ref) => {
   const { t } = useTranslation();
@@ -86,7 +93,6 @@ const TransactionDetailModal = forwardRef<BottomSheetModal, DetailProps>(
   const handleSnapPointChange = useCallback((index: number) => setCurrentSnapPoint(index), [])
  
   const handleRemoveButtonPress = () => {
-
     Alert.alert(              
       t(`coinDetail.remove transaction?`),            
       t(`coinDetail.you can't undo this action`),                        
@@ -99,9 +105,19 @@ const TransactionDetailModal = forwardRef<BottomSheetModal, DetailProps>(
         { 
           text: t(`common.remove`), 
           onPress: () => {
+            LayoutAnimation.configureNext(
+              LayoutAnimation.create(200, 'easeInEaseOut', 'opacity')
+            );
+            if(wantChangeCoinState) {
+              dispatch(
+                changeCoinState({
+                  coinId,
+                  portfolioId,
+                  state: 'tracking'
+                })
+              )
+            }
             dispatch(removeTransaction({ id: data.id }));
-
-            (ref as MutableRefObject<any | null>)?.current.close();
           },
           style: "destructive"
         }

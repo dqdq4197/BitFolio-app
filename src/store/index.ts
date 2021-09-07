@@ -19,7 +19,11 @@ import transactionReducer from './transaction';
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  whitelist: ['baseSettingReducer', 'portfolioReducer', 'transactionReducer'], 
+  whitelist: [
+    'baseSettingReducer', 
+    'portfolioReducer', 
+    'transactionReducer'
+  ], 
   blacklist: [
     'marketDetailReducer'
   ], // persist에 저장하지 않을 reducer들 

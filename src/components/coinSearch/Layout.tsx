@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { 
   FlatList, 
   Platform, 
@@ -99,7 +99,7 @@ const Layout = () => {
     dispatch(changeRecentSearches(id));
   }
 
-  const highlightText = (text: string, regex: RegExp) => {
+  const highlightText = useCallback((text: string, regex: RegExp) => {
     const match = text.match(regex);
     let newLetters: any = [];
     if(match) {
@@ -108,7 +108,7 @@ const Layout = () => {
       let endIdx = startIdx + matchLetters.length;
       newLetters.push(text.substring(0, startIdx));
       newLetters.push(
-        <Text primaryColor fontML>
+        <Text key={startIdx} primaryColor fontML>
           { text.substring(startIdx, endIdx) }
         </Text>
       );
@@ -118,11 +118,12 @@ const Layout = () => {
     }
 
     return newLetters;
-  }
+  }, [])
 
   const handleQueryChange = (text: string) => {
     setQuery(text);
     if(!data) return;
+
     if(text === '') {
       setCoins([]);
     } else {
@@ -183,13 +184,11 @@ const Layout = () => {
         renderItem={
           ({ item }) => 
             <Item 
+              key={item.id}
               item={item} 
               onPressItem={handleItemPress}
             />
         }
-        getItemLayout={(_, index) => (
-          { length: 60, offset: 60 * index, index }
-        )}
         ListEmptyComponent={
           query 
           ? <EmptyView query={query}/>
@@ -199,6 +198,7 @@ const Layout = () => {
               onPressItem={handleItemPress}
             />
         }
+        initialNumToRender={7}
         stickyHeaderIndices={[0]}
       />
     </>

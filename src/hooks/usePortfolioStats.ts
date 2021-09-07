@@ -231,6 +231,16 @@ const usePortfolioStats = ({ id, coinsData }: StatsProps) => {
         portfolio_change_percentage_24h,
         coins: coinStats
       })
+    } else {
+      setPortfolioStats({
+        total_balance: 0,
+        total_costs: 0,
+        portfolio_all_time_pl: 0,
+        portfolio_all_time_pl_percentage: 0,
+        portfolio_change_24h: 0,
+        portfolio_change_percentage_24h: 0 / 0,
+        coins: {}
+      })
     }
   }, [id, transactions, currency, coinsData])
 

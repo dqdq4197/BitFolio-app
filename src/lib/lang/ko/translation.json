@@ -133,6 +133,10 @@
     "allocation": "배분",
     "best performer": "최고 실적자",
     "worst performer": "최악의 실적자",
-    "all time profit/loss": "전체 이익 / 손실"
+    "all time profit/loss": "전체 이익 / 손실",
+    "add new asset": "새 자산 추가",
+    "you do not have any assets yet": "아직 자산이 없습니다.",
+    "button to add a transaction or to start watching coins": "버튼을 눌러 거래를 추가하거나 코인 보기를 시작하세요",
+    "tap the": ""
   }
 }

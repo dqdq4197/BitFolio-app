@@ -237,7 +237,13 @@ const FormModalLayout = ({
     }
 
     if(portfolioId) {
-      dispatch(changeCoinState({ portfolioId, coinId: formData.coinId }))
+      dispatch(
+        changeCoinState({ 
+          portfolioId, 
+          coinId: formData.coinId, 
+          state: 'traded' 
+        })
+      )
     }
 
     setVisible(false);

@@ -38,7 +38,10 @@ const Layout = () => {
   const { t } = useTranslation();
   const { id, symbol } = useCoinIdContext();
   const { transactions } = useAppSelector(state => state.transactionReducer);
-  const { id: portfolioId } = useAppSelector(state => state.portfolioReducer.portfolios[0]);
+  const { portfolios, activeIndex } = useAppSelector(state => ({
+    portfolios: state.portfolioReducer.portfolios,
+    activeIndex: state.portfolioReducer.activeIndex
+  }));
   const modalRef = useRef<BottomSheetModal>(null);
   const [filteredData, setFilteredData] = useState<TransactionType[] | null>(null);
   const [focusedTransactionId, setFocusedTransactionId] = useState<string | null>(null);
@@ -46,6 +49,7 @@ const Layout = () => {
 
   useEffect(() => {
     //filteredData => null의 경우 로딩중 | length === 0인 경우 거래 내역이 없음
+    
     const filteredTransactions = transactions.filter(
       transaction => transaction.coinId === id 
     ).slice();
@@ -72,6 +76,11 @@ const Layout = () => {
   const onModalDismiss = () => {
     setFocusedTransactionId(null);
   }
+
+  const wantChangeCoinState:boolean = useMemo(() => {
+    return transactions.filter(transaction => transaction.coinId === id).length === 1;
+  }, [transactions])
+
   return (
     <Container>
       <ScrollView
@@ -118,16 +127,18 @@ const Layout = () => {
             data={focusedTransactionData}
             currentPrice={data.market_data.current_price}
             coinId={id}
+            portfolioId={portfolios[activeIndex].id}
             symbol={symbol}
             name={data.name}
             image={data.image.large}
             transactionId={focusedTransactionId}
+            wantChangeCoinState={wantChangeCoinState}
             onDismiss={onModalDismiss}
           />
         ) }
       </ScrollView>
       <AddTransactionButton 
-        portfolioId={portfolioId}
+        portfolioId={portfolios[activeIndex].id}
       />
     </Container>
   )
