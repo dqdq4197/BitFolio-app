@@ -22,7 +22,6 @@ export function PortfolioDataProvider({ children }: ContextProps) {
     portfolios: state.portfolioReducer.portfolios,
     activeIndex: state.portfolioReducer.activeIndex
   }), shallowEqual);
-  const { transactions } = useAppSelector(state => state.transactionReducer);
   const [coinIds, setCoinIds] = useState<string[]>([]);
   const { data: coinsData, mutate } = useCoinMarketData({ 
     suspense: false, 
@@ -30,7 +29,6 @@ export function PortfolioDataProvider({ children }: ContextProps) {
     ids: coinIds,
     willNotRequest: coinIds.length <= 0,
   });
-  // console.log(transactions);
 
   const mutateCoinsData = () => {
     return mutate();

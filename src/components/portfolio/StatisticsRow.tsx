@@ -136,7 +136,7 @@ StatisticsRow = ({
           </Text>
         : stats && (
           <>
-            <DynamicSizeText bold>
+            <DynamicSizeText bold color100>
               { currencyFormat({ 
                 value: stats.total_purchase_quantity === 0 
                   ? 0 
@@ -159,7 +159,7 @@ StatisticsRow = ({
           </Text> 
         : stats && (
           <>
-            <DynamicSizeText bold>
+            <DynamicSizeText bold color100>
               { currencyFormat({ 
                 value: stats.all_time_pl,
                 prefix: stats.all_time_pl > 0 
@@ -191,7 +191,7 @@ StatisticsRow = ({
 
     return (
       <>
-        <Text bold margin="0 0 3px 0">
+        <Text bold margin="0 0 3px 0" color100>
           { currencyFormat({ value: rate }) }%
         </Text>
         <AllocationBar>

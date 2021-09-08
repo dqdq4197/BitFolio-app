@@ -20,11 +20,11 @@ const { width } = Dimensions.get('window')
 const CONTENT_PADDING = 16;
 const COL_WIDTH = (width - CONTENT_PADDING * 2) / 3;
 
-
 type TabProps = {
   name: string
   onPress: () => void
   align?: 'right' | 'left'
+  sortTypes: SortType[]
 }
 
 type SheetProps = {
@@ -39,19 +39,37 @@ type AssetRowProps = {
   name: string
 }
 
-const SortTab = ({ name, onPress, align = 'right' }: TabProps) => {
+const SortTab = ({ name, onPress, align = 'right', sortTypes }: TabProps) => {
   const { theme } = useGlobalTheme();
-
+  const { portfolios, activeIndex } = useAppSelector(state => ({
+    portfolios: state.portfolioReducer.portfolios,
+    activeIndex: state.portfolioReducer.activeIndex
+  }))
+  const { assetSortType } = portfolios[activeIndex];
+  const active = sortTypes.indexOf(assetSortType);
+  
   return (
     <Tab align={align} onPress={onPress} activeOpacity={0.6}>
-      <Text margin="0 2px 0 0" bold>
+      <CustomText 
+        margin="0 2px 0 0" heavy
+        isActive={active === 0 || active === 1}
+      >
         { name }
-      </Text>
-      <Ionicons 
-        name="ios-chevron-down" 
-        size={12} 
-        color={theme.base.text[200]}
-      />
+      </CustomText>
+      { (active === 0 || active === -1) && (
+        <Ionicons 
+            name="ios-chevron-down" 
+            size={12} 
+            color={active === 0 ? theme.base.text[100] : theme.base.text[200]}
+          />
+      ) }
+      { active === 1 && (
+        <Ionicons 
+          name="ios-chevron-up" 
+          size={12} 
+          color={theme.base.text[100]}
+        />
+      ) }
     </Tab>
   )
 
@@ -218,10 +236,11 @@ const CoinListSheet = ({
   return (
     <Container>
       <StickyColWrap>
-        <SortTab 
+        <SortTab
           name={ t('portfolio.asset') }
           align="left"
           onPress={sortBySymbol}
+          sortTypes={['name_asc', 'name_desc']}
         />
         { sortedCoins.map(coin => 
           <AssetRow 
@@ -246,22 +265,27 @@ const CoinListSheet = ({
             <SortTab 
               name={ t('portfolio.price') }
               onPress={() => sortByStats('price_asc', 'price_desc')}
+              sortTypes={['price_asc', 'price_desc']}
             />
-            <SortTab 
+            <SortTab
               name={ t('portfolio.holdings') }
               onPress={() => sortByStats('holding_asc', 'holding_desc')}
+              sortTypes={['holding_asc', 'holding_desc']}
             />
-            <SortTab 
+            <SortTab
               name={ t('portfolio.buy price(avg)') }
               onPress={() => sortByStats('buyPrice_asc', 'buyPrice_desc')}
+              sortTypes={['buyPrice_asc', 'buyPrice_desc']}
             />
-            <SortTab 
+            <SortTab
               name={ t('portfolio.profit/loss') }
               onPress={() => sortByStats('pl_asc', 'pl_desc')}
+              sortTypes={['pl_asc', 'pl_desc']} 
             />
-            <SortTab 
+            <SortTab
               name={ t('portfolio.share') }
               onPress={() => sortByStats('allocation_asc', 'allocation_desc')}
+              sortTypes={['allocation_asc', 'allocation_desc']}
             />
           </SortBarContainer>
           { sortedCoins.map(coin => {
@@ -306,7 +330,9 @@ const CoinListSheet = ({
 
 export default CoinListSheet;
 
-
+type TextProps = {
+  isActive: boolean
+}
 const Container = styled.View`
   flex-direction: row;
   background-color: ${({ theme }) => theme.base.background.surface};
@@ -339,4 +365,11 @@ const Tab = styled.TouchableOpacity<{ align: 'right' | 'left' }>`
     ? 'flex-start'
     : 'flex-end'
   };
+`
+
+const CustomText = styled(Text)<TextProps>`
+  color: ${({ theme, isActive }) => isActive
+    ? theme.base.text[100]
+    : theme.base.text[200]
+  }
 `
