@@ -241,7 +241,7 @@ const FormModalLayout = ({
         changeCoinState({ 
           portfolioId, 
           coinId: formData.coinId, 
-          state: 'traded' 
+          state: 'trading' 
         })
       )
     }

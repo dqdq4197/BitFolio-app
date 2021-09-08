@@ -113,7 +113,7 @@ const TransactionDetailModal = forwardRef<BottomSheetModal, DetailProps>(
                 changeCoinState({
                   coinId,
                   portfolioId,
-                  state: 'tracking'
+                  state: 'watching'
                 })
               )
             }

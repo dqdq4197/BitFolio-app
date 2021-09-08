@@ -18,7 +18,7 @@ export type SortType =
 
 export interface CoinType {
   id: string
-  state: 'tracking' | 'traded'
+  state: 'watching' | 'trading'
   symbol: string
   image: string
   name: string
@@ -63,13 +63,13 @@ const initialState: InitialState = {
     coins: [],
     // {
     //   id: 'bitcoin',
-    //   state: 'tracking',
+    //   state: 'watching',
     //   symbol: 'btc',
     //   name: "Bitcoin",
     //   image: 'https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1547033579'
     // }, {
     //   id: 'tether',
-    //   state: 'tracking',
+    //   state: 'watching',
     //   symbol: 'usdt',
     //   name: "Tether",
     //   image: 'https://assets.coingecko.com/coins/images/325/large/Tether-logo.png?1598003707'
@@ -95,7 +95,7 @@ export const portfolioSlice = createSlice({
         ...defaultPortfolio.coins,
         {
           ...coin,
-          state: 'tracking'
+          state: 'watching'
         }
       ]
     },

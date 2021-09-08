@@ -96,7 +96,7 @@ StatisticsRow = ({
   
   const HoldingsTab = useMemo(() => (
     <>
-      { coin.state === 'tracking' 
+      { coin.state === 'watching' 
         ? <AddButton
             onPress={() => onAddButtonPress(coin)}
             activeOpacity={0.6}
@@ -130,7 +130,7 @@ StatisticsRow = ({
 
   const BuyAvgPrice = useMemo(() => (
     <>
-      { coin.state === 'tracking'
+      { coin.state === 'watching'
         ? <Text>
             --
           </Text>
@@ -153,7 +153,7 @@ StatisticsRow = ({
 
   const PLTab = useMemo(() => (
     <>  
-      { coin.state === 'tracking' 
+      { coin.state === 'watching' 
         ? <Text>
             --
           </Text> 
@@ -215,17 +215,17 @@ StatisticsRow = ({
       />
       <Col 
         width={COL_WIDTH} 
-        isLoading={!stats && coin.state !== 'tracking'}
+        isLoading={!stats && coin.state !== 'watching'}
         children={HoldingsTab}
       />
       <Col 
         width={COL_WIDTH} 
-        isLoading={!stats && coin.state !== 'tracking'}
+        isLoading={!stats && coin.state !== 'watching'}
         children={BuyAvgPrice}
       />
       <Col 
         width={COL_WIDTH} 
-        isLoading={!stats && coin.state !== 'tracking'} 
+        isLoading={!stats && coin.state !== 'watching'} 
         children={PLTab}
       />
       <Col 

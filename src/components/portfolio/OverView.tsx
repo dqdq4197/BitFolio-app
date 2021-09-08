@@ -74,7 +74,7 @@ const Overview = () => {
     triggerPoint: 60 
   })
 
-  const handleAddTrackingCoinPress = () => {
+  const handleWatchCoinCoinPress = () => {
     navigation.navigate('AddTrack', { portfolioId: id });
   }
 
@@ -116,14 +116,14 @@ const Overview = () => {
               : <EmptyCoinListView isLoading={false}/>
             : <EmptyCoinListView isLoading={true}/>
         }
-        <AddTrackingButton
-          onPress={handleAddTrackingCoinPress} 
+        <AddCoinButton
+          onPress={handleWatchCoinCoinPress} 
         >
           <Octicons name="plus" size={14} color={ theme.base.text[100]} />
           <Text fontML color100 heavy margin="0 0 0 5px">
             { t(`portfolio.add new asset`) }
           </Text>
-        </AddTrackingButton>
+        </AddCoinButton>
       </SurfaceWrap>
     </ScrollView>
   )
@@ -131,7 +131,7 @@ const Overview = () => {
 
 export default Overview;
 
-const AddTrackingButton = styled.TouchableOpacity`
+const AddCoinButton = styled.TouchableOpacity`
   flex-direction: row;
   width: 100%;
   height: 45px;
