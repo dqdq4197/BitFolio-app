@@ -7,6 +7,7 @@ import Text from '/components/common/Text';
 import ScrollView from '/components/common/ScrollView';
 import SurfaceWrap from '/components/common/SurfaceWrap';
 import HorizontalLine from '/components/common/HorizontalLine';
+import CustomRefreshControl from '/components/common/CustomRefreshControl';
 import { useAppSelector } from '/hooks/useRedux';
 import { useCoinIdContext } from '/hooks/useCoinIdContext';
 import { TransactionType } from '/store/transaction';
@@ -45,6 +46,7 @@ const Layout = () => {
   const modalRef = useRef<BottomSheetModal>(null);
   const [filteredData, setFilteredData] = useState<TransactionType[] | null>(null);
   const [focusedTransactionId, setFocusedTransactionId] = useState<string | null>(null);
+  const [refreshing, setRefreshing] = useState(false);
   const { data, mutate } = useCoinDetailData({ id, suspense: false });
 
   useEffect(() => {
@@ -81,12 +83,24 @@ const Layout = () => {
     return transactions.filter(transaction => transaction.coinId === id).length === 1;
   }, [transactions])
 
+  const handleRefresh = useCallback(async() => {
+    setRefreshing(true);
+    await mutate()
+    setRefreshing(false);
+  }, []);
+
   return (
     <Container>
       <ScrollView
         contentContainerStyle={{
           paddingBottom: 20
         }}
+        refreshControl={
+          <CustomRefreshControl
+            onRefresh={handleRefresh}
+            refreshing={refreshing}
+          />
+        }
       >
         { filteredData?.length === 0
           ? <EmptyView /> 
