@@ -137,6 +137,8 @@
     "add new asset": "Add New Asset",
     "you do not have any assets yet": "You do not have any assets yet.",
     "button to add a transaction or to start watching coins": "button to add a transaction or to start watching coins",
-    "tap the": "Tap the"
+    "tap the": "Tap the",
+    "n.is already in your portfolio": "{{n}} is already in your portfolio",
+    "would you like to add a transaction to.n?": "Would you like to add a transaction to {{n}}?"
   }
 }

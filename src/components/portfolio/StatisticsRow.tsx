@@ -202,7 +202,7 @@ StatisticsRow = ({
       </>
     )
   }, [stats, totalCosts])
-  console.log(stats);
+  
   return (
     <Container 
       activeOpacity={0.6}

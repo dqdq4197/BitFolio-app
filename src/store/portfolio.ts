@@ -33,7 +33,7 @@ interface ChangeCoinStateAction extends Pick<CoinType, 'state'> {
   coinId: string
 }
 
-type AddTrackAction = {
+type AddWatchingCoinProps = {
   portfolioId: string
   coin: {
     id: string
@@ -87,7 +87,7 @@ export const portfolioSlice = createSlice({
   name: 'portfolios',
   initialState,
   reducers: {
-    addTrack: (state, action: PayloadAction<AddTrackAction>) => {
+    addWatchingCoin: (state, action: PayloadAction<AddWatchingCoinProps>) => {
       const { coin } = action.payload;
       const defaultPortfolio = state.portfolios[0];
 
@@ -130,7 +130,7 @@ export const portfolioSlice = createSlice({
 })
 
 export const { 
-  addTrack,
+  addWatchingCoin,
   changeCoinState,
   changeSortType,
   changeMode,

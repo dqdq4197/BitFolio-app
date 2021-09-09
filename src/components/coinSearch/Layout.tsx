@@ -24,13 +24,17 @@ import { useAppSelector } from '/hooks/useRedux';
 import { createFuzzyMatcher } from '/lib/utils';
 import Text from '/components/common/Text';
 
+export interface CoinsType extends SearchCoin {
+  highlightedName?: Array<string | React.ReactNode>
+  highlightedSymbol?: Array<string | React.ReactNode>
+}
 
 const { height } = Dimensions.get('screen');
 const Layout = () => {
 
   const textInputRef = useRef<TextInput>(null);
   const { recentSearches } = useAppSelector(state => state.baseSettingReducer);
-  const [coins, setCoins] = useState<SearchCoin[]>([]);
+  const [coins, setCoins] = useState<CoinsType[]>([]);
   const [query, setQuery] = useState('');
   const [searchesData, setSearchesData] = useState<SearchCoin[]>([]);
   const [keyboardSpace, SetKeyBoardSpace] = useState(0);
@@ -141,8 +145,8 @@ const Layout = () => {
 
           return {
             ...coin,
-            name: coinName,
-            symbol: coinSymbol
+            highlightedName: coinName,
+            highlightedSymbol: coinSymbol
           }
         })
 

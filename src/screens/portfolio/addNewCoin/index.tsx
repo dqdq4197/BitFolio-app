@@ -3,17 +3,17 @@ import { StackScreenProps } from '@react-navigation/stack';
 import GeneralTemplate from '/components/GeneralTemplate';
 import CoinHomeSkeleton from '/components/skeletonPlaceholder/CoinHomeSkeleton';
 import ErrorBoundaryAndSuspense from '/components/common/ErrorBoundaryAndSuspense';
-import AddTrack from '../../../components/portfolio/addTrack/index';
+import Layout from '/components/portfolio/addNewCoin';
 
-const AddTrackScreen = ({ navigation }: StackScreenProps<any>) => {
+const AddNewCoinScreen = ({ navigation }: StackScreenProps<any>) => {
 
   return (
     <GeneralTemplate>
       <ErrorBoundaryAndSuspense skeleton={<CoinHomeSkeleton />}>
-        <AddTrack />
+        <Layout />
       </ErrorBoundaryAndSuspense>
     </GeneralTemplate>
   )
 }
 
-export default AddTrackScreen;
+export default AddNewCoinScreen;

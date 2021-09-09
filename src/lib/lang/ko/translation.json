@@ -137,6 +137,8 @@
     "add new asset": "새 자산 추가",
     "you do not have any assets yet": "아직 자산이 없습니다.",
     "button to add a transaction or to start watching coins": "버튼을 눌러 거래를 추가하거나 코인 보기를 시작하세요",
-    "tap the": ""
+    "tap the": "",
+    "n.is already in your portfolio": "{{n}}는 이미 귀하의 포트폴리오에 있습니다.",
+    "would you like to add a transaction to.n?": "{{n}}에 거래를 추가하시겠습니까?"
   }
 }

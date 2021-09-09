@@ -71,11 +71,6 @@ const AnimatedText = ({
   }, [text])
 
   useEffect(() => {
-    console.log(
-      (integerLength - index) % 3 === 1 && (integerLength - index) > 3
-        ? text + ','
-        : text, integerLength, index, 
-    )
     if(unMountingList.includes(index)) {
       Animated.parallel([
         Animated.timing(translateY, {

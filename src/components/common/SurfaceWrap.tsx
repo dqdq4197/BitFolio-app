@@ -63,6 +63,7 @@ type Props = {
   transparent?: boolean;
 }
 const Container = styled.View<Props>`
+  flex: 1;
   background-color: ${({ theme, transparent }) => 
     transparent ? 'transparent' : theme.base.background.surface };
   padding: ${({ theme }) => `${theme.content.surfacePadding} ${theme.content.spacing}`};

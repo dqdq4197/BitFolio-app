@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { Animated, FlatList, View, ScrollView } from 'react-native';
+import { Animated, FlatList, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useHeaderHeight } from '@react-navigation/stack';
 import Item from './Item'

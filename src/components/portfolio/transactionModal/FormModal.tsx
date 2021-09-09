@@ -46,6 +46,7 @@ type FormModalProps = {
   image: string
   transactionId?: string
   initialData?: InitialDataType
+  afterAddTransactionTodo?: () => void
 }
 
 export interface SubmitNumericData {
@@ -102,7 +103,8 @@ const FormModalLayout = ({
   name,
   image,
   initialData,
-  transactionId
+  transactionId,
+  afterAddTransactionTodo
 }: FormModalProps) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
@@ -228,7 +230,6 @@ const FormModalLayout = ({
         transferType: null,
       }
     }
-    
 
     if(transactionId) {
       dispatch(editTransaction({ transactionId, formData: convertedFormData }));
@@ -247,6 +248,10 @@ const FormModalLayout = ({
     }
 
     setVisible(false);
+
+    if(afterAddTransactionTodo) {
+      afterAddTransactionTodo();
+    }
   }
 
   const handleNextPress = () => {
@@ -439,10 +444,6 @@ export default FormModalLayout;
 
 type ScrollTextViewProps = {
   maxWidth: number;
-}
-
-type ButtonProps = {
-  isDisabled: boolean;
 }
 
 const TitleWrap = styled.View`

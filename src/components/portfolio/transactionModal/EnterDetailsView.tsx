@@ -161,7 +161,6 @@ const EnterDetailsView = ({
     if(historySnapshotData && !isPriceFixed) {
       if(historySnapshotData.market_data) {
         const { current_price } = historySnapshotData.market_data;
-        console.log(current_price);
         setFormData(
           prev => ({
             ...prev,

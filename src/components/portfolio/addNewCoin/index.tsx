@@ -6,43 +6,63 @@ import {
   Keyboard,
   EmitterSubscription,
   KeyboardEvent,
-  TextInput
+  TextInput,
+  Alert
 } from 'react-native';
 import { useHeaderHeight } from '@react-navigation/stack';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
+import { SearchCoin } from '/lib/api/CoinGeckoReturnType';
+import { createFuzzyMatcher } from '/lib/utils';
 import useGlobalTheme from '/hooks/useGlobalTheme';
+import useSearchData from '/hooks/useSearchData';
+import { useAppDispatch, useAppSelector } from '/hooks/useRedux';
+import { addWatchingCoin } from '/store/portfolio';
+import Item from '/components/coinSearch/Item';
 import EmptyView from '/components/coinSearch/EmptyView';
 import SearchBar from '/components/coinSearch/SearchBar';
-import { SearchCoin } from '/lib/api/CoinGeckoReturnType';
-import useSearchData from '/hooks/useSearchData';
-import Item from '/components/coinSearch/Item';
-import { createFuzzyMatcher } from '/lib/utils';
 import Text from '/components/common/Text';
-import { useAppDispatch } from '/hooks/useRedux';
-import { addTrack } from '/store/portfolio';
 import SearchItemListSkeleton from '/components/skeletonPlaceholder/SearchItemListSkeleton';
+import FormModal from '/components/portfolio/transactionModal/FormModal';
 
+
+export interface CoinsType extends SearchCoin {
+  highlightedName?: Array<string | React.ReactNode>
+  highlightedSymbol?: Array<string | React.ReactNode>
+}
 
 const { height } = Dimensions.get('screen');
 
-const AddTrack = () => {
+const Layout = () => {
   const { t } = useTranslation();
   const textInputRef = useRef<TextInput>(null);
-  const [coins, setCoins] = useState<SearchCoin[]>([]);
+  const [coins, setCoins] = useState<CoinsType[]>([]);
   const [query, setQuery] = useState('');
   const [keyboardSpace, SetKeyBoardSpace] = useState(0);
+  const [visible, setVisible] = useState(false);
+  const [modalInitialState, setModalInitialState] = useState({
+    id: '',
+    symbol: '',
+    image: '',
+    name: ''
+  })
   const { data } = useSearchData({ suspense: false });
   const { theme } = useGlobalTheme();
   const navigation = useNavigation();
   const headerHeight = useHeaderHeight();
   const { params } = useRoute();
   const dispatch = useAppDispatch();
+  const { portfolios, activeIndex } = useAppSelector(state => ({
+    portfolios: state.portfolioReducer.portfolios,
+    activeIndex: state.portfolioReducer.activeIndex
+  }))
+  const { id: portfolioId, coins: portfolioCoins } = portfolios[activeIndex];
 
 
   useLayoutEffect(() => {
     navigation.setOptions({ title: t(`portfolio.add coin`) })
   }, [])
+  
   useEffect(() => {
     let keyboardWillShowEvent: EmitterSubscription;
     let keyboardWillHideEvent: EmitterSubscription;
@@ -89,23 +109,61 @@ const AddTrack = () => {
     SetKeyBoardSpace(0)
   }
 
-  const handleItemPress = useCallback((id: string) => {
-    if(params) {
-      let { portfolioId } = (params as { portfolioId: string });
+  const isAlreadyIncludeCoin = (id: string): boolean => {
+    return portfolioCoins.find(coin => coin.id === id) !== undefined
+  }
 
-      const { large, name, symbol }: SearchCoin = data!.coins.find(coin => coin.id === id)!;
+
+  const openAlert = (
+    id: string,
+    symbol: string,
+    image: string,
+    name: string
+  ) => {
+    Alert.alert(              
+      t(`portfolio.n.is already in your portfolio`, { n: symbol }),            
+      t(`portfolio.would you like to add a transaction to.n?`, { n: symbol }),                        
+      [                              
+        {
+          text: t(`common.cancel`),                              
+          onPress: () => console.log("cancel add transaction"),
+          style: "cancel"
+        },
+        { 
+          text: t(`portfolio.add transaction`), 
+          onPress: () => {
+            setModalInitialState({ id, symbol, image, name })
+            setVisible(true);
+          },
+          style: "destructive"
+        }
+      ],
+      { cancelable: false }
+    );
+  }
+
+  const handleItemPress = useCallback((
+    id: string, 
+    symbol: string,
+    image: string,
+    name: string
+  ) => {
+    if(portfolioId) {
+      if(isAlreadyIncludeCoin(id)) {
+        return openAlert(id, symbol, image, name);
+      }
 
       const payload = {
         portfolioId, 
         coin: {
           id,
-          image: large,
+          image,
           name,
           symbol
         }
       }
 
-      dispatch(addTrack(payload))
+      dispatch(addWatchingCoin(payload))
       navigation.navigate('portfolioOverview')
     } 
   }, [data, params])
@@ -204,14 +262,25 @@ const AddTrack = () => {
                 ? <EmptyView query={query}/>
                 : <></>
             : <SearchItemListSkeleton />
-          
         }
         initialNumToRender={7}
         stickyHeaderIndices={[0]}
       />
+      { visible && modalInitialState.id && (
+        <FormModal
+          visible={visible}
+          setVisible={setVisible}
+          portfolioId={portfolioId}
+          id={modalInitialState.id}
+          symbol={modalInitialState.symbol}
+          name={modalInitialState.name}
+          image={modalInitialState.image}
+          afterAddTransactionTodo={() => navigation.navigate('portfolioOverview')}
+        />
+      )}
     </>
 
   )
 }
 
-export default AddTrack;
+export default Layout;

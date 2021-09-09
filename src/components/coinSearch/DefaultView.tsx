@@ -104,9 +104,10 @@ const DefaultView = ({ data, searchesData, onPressItem }: DefaultViewProps) => {
       <SurfaceWrap title={t('search.trending search')} fontL>
         { data?.map((coin, index) => {
           const { item } = coin;
+          
           return (
             <Item 
-              key={item.coin_id + item.name + index}
+              key={item.coin_id}
               index={index}
               item={item} 
               onPressItem={() => onPressItem(item.id, item.symbol)}

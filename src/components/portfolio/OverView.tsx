@@ -53,7 +53,6 @@ const EmptyCoinListView = ({ isLoading }: EmptyViewProps) => {
             </Text>
           </EmptyViewContainer>
       }
-      
     </>
   )
 }
@@ -65,6 +64,8 @@ const Overview = () => {
   const { id, coins, coinsData, mutate } = usePortfolioContext();
   const { portfolioStats } = usePortfolioStats({ id, coinsData })
   const [refreshing, setRefreshing] = useState(false);
+
+  console.log(coinsData);
   const { scrollY } = useAnimatedHeaderTitle({ 
     title: 
       <OverviewTitle 
@@ -75,7 +76,7 @@ const Overview = () => {
   })
 
   const handleWatchCoinCoinPress = () => {
-    navigation.navigate('AddTrack', { portfolioId: id });
+    navigation.navigate('AddNewCoin', { portfolioId: id });
   }
 
   const handleScroll = Animated.event(
