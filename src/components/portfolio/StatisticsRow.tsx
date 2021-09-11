@@ -75,7 +75,7 @@ StatisticsRow = ({
 
   const PriceTab = useMemo(() => (
     <>
-      { priceStats && (
+      { priceStats !== undefined && (
         <>
           <DynamicSizeText color100 bold>
             { currencyFormat({ 
@@ -210,7 +210,7 @@ StatisticsRow = ({
     >
       <Col 
         width={COL_WIDTH} 
-        isLoading={!priceStats}
+        isLoading={priceStats === undefined}
         children={PriceTab}
       />
       <Col 

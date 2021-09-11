@@ -1,35 +1,52 @@
-import React, { useState } from 'react';
-import styled from 'styled-components/native';
+import React, { useState, useMemo } from 'react';
+import { Dimensions } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import FormModal from '/components/portfolio/transactionModal/FormModal';
 import useCoinDetailData from '/hooks/useCoinDetailData';
 import { useCoinIdContext } from '/hooks/useCoinIdContext';
+import useGlobalTheme from '/hooks/useGlobalTheme';
 import AsyncButton from '/components/common/AsyncButton';
 
 
 type ButtonProps = {
   portfolioId?: string
+  width?: number
+  height?: number
 }
-const AddTransactionButton = ({ portfolioId }: ButtonProps) => {
+
+const { width: DWidth } = Dimensions.get('window');
+
+const AddTransactionButton = ({ 
+  portfolioId, 
+  width,
+  height = 45
+}: ButtonProps) => {
   const { t } = useTranslation();
+  const { theme } = useGlobalTheme();
   const { id } = useCoinIdContext();
-  const { data } = useCoinDetailData({ id });
+  const { data, isLoading } = useCoinDetailData({ id });
   const [visible, setVisible] = useState(false);
 
   const handleButtonPress = () => {
     setVisible(true);
   }
+
+  const initailWidth = useMemo(() => {
+    return DWidth - parseInt(theme.content.spacing) * 2
+  }, [DWidth, theme])
+
   return (
-    <Container>
+    <>
       <AsyncButton 
         bold
         fontML
         color100
         text={ t(`common.add transaction`) }
-        height={45}
+        width={ width || initailWidth }
+        height={height}
         onPress={handleButtonPress}
-        isLoading={!data}
-        isDisabled={!data}
+        isLoading={isLoading}
+        isDisabled={isLoading}
         borderPosition={['top', 'bottom']}
       />
       { data && visible && (
@@ -43,12 +60,8 @@ const AddTransactionButton = ({ portfolioId }: ButtonProps) => {
           symbol={data.symbol}
         />
       )}
-    </Container>
+    </>
   )
 }
 
 export default AddTransactionButton;
-
-const Container = styled.TouchableOpacity`
-  margin: 0 ${({ theme }) => theme.content.spacing} 12px;
-`

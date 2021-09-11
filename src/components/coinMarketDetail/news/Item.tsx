@@ -32,54 +32,57 @@ const Item = ({ item, currentCategory }: ItemProps) => {
     <Container 
       activeOpacity={0.6}
       onPress={handleItemPress}
+      underlayColor={ theme.base.background[300] }
     >
-      <Text fontS>
-        { formatDistance( 
-            fromUnixTime(item.published_on), new Date(),
-            { addSuffix: true, locale: language === 'ko' ? ko : enUS },
-          )
-        } ∙ { item.source }
-      </Text>
-      <FlexBox>
-        <TitleWrap>
-          <Text fontL color100 bold margin="0 10px 0 0">
-            { item.title }        
-          </Text>
-        </TitleWrap>
-        <Image 
-          uri={item.imageurl} 
-          width={IMAGE_SIZE} 
-          height={IMAGE_SIZE}
-          borderRedius='m'
-        />
-      </FlexBox>
-      <CategoriesWrap>
-        { item.categories.split('|').map(category => {
-          return (
-            <CategoryWrap key={category}>
-              { category.toLowerCase() === currentCategory 
-                ? <Text primaryColor fontXS>
-                    { category }
-                  </Text>
-                : <Text color100 fontXS>
-                    { category }
-                  </Text>
-              }
-              
-            </CategoryWrap>
-          )
-        }) }
-      </CategoriesWrap>
-      <Text fontML numberOfLines={5} margin="10px 0 0 0">
-        { item.body }        
-      </Text>
+      <>
+        <Text fontS>
+          { formatDistance( 
+              fromUnixTime(item.published_on), new Date(),
+              { addSuffix: true, locale: language === 'ko' ? ko : enUS },
+            )
+          } ∙ { item.source }
+        </Text>
+        <FlexBox>
+          <TitleWrap>
+            <Text fontL color100 bold margin="0 10px 0 0">
+              { item.title }        
+            </Text>
+          </TitleWrap>
+          <Image 
+            uri={item.imageurl} 
+            width={IMAGE_SIZE} 
+            height={IMAGE_SIZE}
+            borderRedius='m'
+          />
+        </FlexBox>
+        <CategoriesWrap>
+          { item.categories.split('|').map(category => {
+            return (
+              <CategoryWrap key={category}>
+                { category.toLowerCase() === currentCategory 
+                  ? <Text primaryColor fontXS>
+                      { category }
+                    </Text>
+                  : <Text color100 fontXS>
+                      { category }
+                    </Text>
+                }
+
+              </CategoryWrap>
+            )
+          }) }
+        </CategoriesWrap>
+        <Text fontML numberOfLines={5} margin="10px 0 0 0">
+          { item.body }        
+        </Text>
+      </>
     </Container>
   )
 }
 
 export default Item;
 
-const Container = styled.TouchableOpacity`
+const Container = styled.TouchableHighlight`
   width: ${width}px;
   padding: ${({ theme }) => theme.content.surfacePadding};
 `
@@ -91,7 +94,7 @@ const FlexBox = styled.View`
 `
 const TitleWrap = styled.View`
   // 10 => margin-right value of title text
-  width: ${({ theme }) => width - parseInt(theme.content.spacing) * 2 - IMAGE_SIZE - 10}px
+  width: ${({ theme }) => width - parseInt(theme.content.spacing) * 2 - IMAGE_SIZE - 10}px;
 `
 
 const CategoriesWrap = styled.View`

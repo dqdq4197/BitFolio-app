@@ -13,6 +13,7 @@ import SurfaceWrap from '/components/common/SurfaceWrap';
 import GlobalIndicator from '/components/common/GlobalIndicator';
 import AllocationView from './AllocationView';
 import StatisticsView from './StatisticsView';
+import { usePortfolioContext } from './PortfolioDataContext'
 
 
 
@@ -90,6 +91,7 @@ const PortfolioAnalysisSheet = ({ portfolioStats }: SheetProps) => {
   
   const { theme } = useGlobalTheme();
   const dispatch = useAppDispatch();
+  const { isLoading } = usePortfolioContext();
   const { portfolio, activeIndex } = useAppSelector(state => ({
     portfolio: state.portfolioReducer.portfolios,
     activeIndex: state.portfolioReducer.activeIndex
@@ -198,7 +200,7 @@ const PortfolioAnalysisSheet = ({ portfolioStats }: SheetProps) => {
           <ContentWrap
             as={Animated.View}
           >
-            { portfolioStats?.coins 
+            { portfolioStats && !isLoading
               ? Object.entries(portfolioStats.coins).length === 0
                 ? <EmptyView isLoading={true} />
                 : activeTab === 'allocation'

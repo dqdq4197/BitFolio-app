@@ -155,12 +155,7 @@ const Layout = () => {
 
       const payload = {
         portfolioId, 
-        coin: {
-          id,
-          image,
-          name,
-          symbol
-        }
+        coin: { id, image, name, symbol }
       }
 
       dispatch(addWatchingCoin(payload))

@@ -108,6 +108,7 @@ const Layout = () => {
               title={ t(`coinDetail.history`) }
               paddingBottomZero
               marginTopZero
+              parentPaddingZero
             >
               <ListHeader>
                 <TypeWrap>
@@ -151,9 +152,11 @@ const Layout = () => {
           />
         ) }
       </ScrollView>
-      <AddTransactionButton 
-        portfolioId={portfolios[activeIndex].id}
-      />
+      <FooterContainer>
+        <AddTransactionButton 
+          portfolioId={portfolios[activeIndex].id}
+        />
+      </FooterContainer>
     </Container>
   )
 }
@@ -167,12 +170,11 @@ const Container = styled.View`
 
 const ListHeader = styled.View`
   flex-direction: row;
-  padding: 8px 16px;
+  padding: 8px ${({ theme }) => theme.content.spacing };
   border-top-width: 1.5px;
   border-top-color: ${({ theme }) => theme.base.background[200]};
   border-bottom-width: 1.5px;
   border-bottom-color: ${({ theme }) => theme.base.background[200]};
-  margin: 0 -16px;
 `
 
 const TypeWrap = styled.View`
@@ -193,4 +195,10 @@ const EmptyViewContainer = styled.View`
   height: ${ height - 200 }px;
   align-items: center;
   justify-content: center;
+`
+
+const FooterContainer = styled.View`
+  justify-content: center;
+  align-items: center;
+  margin-bottom: ${({ theme }) => theme.content.spacing };
 `

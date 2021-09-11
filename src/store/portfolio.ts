@@ -43,6 +43,11 @@ type AddWatchingCoinProps = {
   }
 }
 
+type UnwatchingCoinProps = {
+  portfolioId: string
+  coinId: string
+}
+
 export type PortfolioType = {
   id: string
   coins: CoinType[] | []
@@ -99,6 +104,16 @@ export const portfolioSlice = createSlice({
         }
       ]
     },
+    unWatchingCoin: (state, action: PayloadAction<UnwatchingCoinProps>) => {
+      const { portfolioId, coinId } = action.payload;
+      const { portfolios } = state;
+
+      const targetPortfolioIndex = portfolios.findIndex(portfolio => portfolio.id === portfolioId);
+      const targetPortfolio = portfolios[targetPortfolioIndex];
+      const coins = targetPortfolio.coins.filter(coin => coin.id !== coinId);
+
+      targetPortfolio.coins = coins
+    },
     changeCoinState: (state, action: PayloadAction<ChangeCoinStateAction>) => {
       const { coinId, state: coinState } = action.payload;
       const defaultPortfolio = state.portfolios[0];
@@ -131,6 +146,7 @@ export const portfolioSlice = createSlice({
 
 export const { 
   addWatchingCoin,
+  unWatchingCoin,
   changeCoinState,
   changeSortType,
   changeMode,

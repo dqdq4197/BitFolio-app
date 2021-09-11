@@ -4,7 +4,7 @@ import Text from '/components/common/Text';
 
 
 type TitleWrapProps = {
-  title?: string;
+  title?: string | React.ReactNode;
   children?: React.ReactNode;
   paddingBottomZero?: boolean;
   parentPaddingZero?: boolean;
@@ -37,15 +37,18 @@ const SurfaceWrap = ({
     >
       { title &&
         <TitleWrap marginBottomZero={marginBottomZero} parentPaddingZero={parentPaddingZero}>
-          <StyledText 
-            color100 
-            bold 
-            fontXL={fontXL}
-            fontX={fontX}
-            fontL={fontL}
-          >
-            { title }
-          </StyledText>
+          { typeof title === 'string'
+            ? <StyledText 
+                color100 
+                bold 
+                fontXL={fontXL}
+                fontX={fontX}
+                fontL={fontL}
+              >
+                { title }
+              </StyledText>
+            : title
+          }
         </TitleWrap>
       }
       { children }
@@ -81,6 +84,7 @@ const Container = styled.View<Props>`
   }
 `
 const TitleWrap = styled.View<Props>`
+  flex-direction: row;
   ${(props) => !props.marginBottomZero && css`
     margin-bottom: 20px;
   `} 

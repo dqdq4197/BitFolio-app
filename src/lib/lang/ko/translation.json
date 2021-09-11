@@ -72,7 +72,11 @@
     "remove transaction?": "거래를 삭제하시겠습니까?",
     "you can't undo this action": "이 작업은 취소할 수 없습니다.",
     "there is no transaction history": "트랜잭션 내역이 없습니다.",
-    "add your first transaction": "첫 트랜잭션을 추가해보세요"
+    "add your first transaction": "첫 트랜잭션을 추가해보세요",
+    "watch": "주시하기",
+    "unwatch": "주시 해제",
+    "are you sure you want unwatch this coin?": "정말 이 코인 주시 해제하시겠습니까?",
+    "all transactions and holdings related to this coin will be removed": "이 코인과 관련된 모든 거래 및 보유는 제거됩니다."
   },
   "coinMarketHome": {
     "market": "시장",

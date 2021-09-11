@@ -4,7 +4,7 @@ import styled, { css } from 'styled-components/native';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import Text, { TextStyleProps } from './Text';
 
-interface ButtonProps extends TextStyleProps {
+export interface AsyncButtonProps extends TextStyleProps {
   text: string
   width?: number
   height: number
@@ -12,6 +12,7 @@ interface ButtonProps extends TextStyleProps {
   isLoading: boolean
   onPress: () => void
   borderPosition?: Array<'top' | 'bottom'>
+  initialBgColor?: string
 }
 
 const AsyncButton = ({
@@ -21,9 +22,10 @@ const AsyncButton = ({
   isDisabled, 
   isLoading, 
   onPress, 
-  borderPosition, 
+  borderPosition,
+  initialBgColor, 
   ...textStyle 
-}: ButtonProps) => {
+}: AsyncButtonProps) => {
 
   const { theme } = useGlobalTheme();
 
@@ -35,18 +37,20 @@ const AsyncButton = ({
       isDisabled={isDisabled}
       disabled={isDisabled}
       activeOpacity={0.6}
+      initialBgColor={initialBgColor}
       onPress={onPress}
     >
       <CustomText 
         {...textStyle} 
         isDisabled={isDisabled}
-        margin="0 10px 0 0"
         bold
       >
         { text }
       </CustomText>
       { isLoading 
-        ? <ActivityIndicator size="small" color={ theme.base.primaryColor } />
+        ? <IndicatorWarp>
+            <ActivityIndicator size="small" color={ theme.base.primaryColor } />
+          </IndicatorWarp>
         : null
       }
     </Container>
@@ -56,11 +60,11 @@ const AsyncButton = ({
 export default AsyncButton;
 
 type ContainerProps = Pick<
-  ButtonProps, 
-  "borderPosition" | "height" | "isDisabled" | "width"
+  AsyncButtonProps, 
+  "borderPosition" | "height" | "isDisabled" | "width" | "initialBgColor"
 >
 
-type TextProps = Pick<ButtonProps, "isDisabled">
+type TextProps = Pick<AsyncButtonProps, "isDisabled">
 
 const Container = styled.TouchableOpacity<ContainerProps>`
   flex-direction: row;
@@ -74,15 +78,23 @@ const Container = styled.TouchableOpacity<ContainerProps>`
     border-bottom-left-radius: ${({ theme }) => theme.border.l};
     border-bottom-right-radius: ${({ theme }) => theme.border.l};
   `}
-  ${({ theme, height, isDisabled, width }) => css`
+  ${({ theme, height, isDisabled, width, initialBgColor }) => css`
     width: ${ width ? width + 'px' : '100%' };
     height: ${ height }px;
-    background-color: ${ isDisabled ? theme.base.background[400] : theme.base.primaryColor };
+    background-color: ${ 
+      isDisabled 
+        ? theme.base.background[400] 
+        : initialBgColor || theme.base.primaryColor 
+    };
   `}
 `
 
 const CustomText = styled(Text)<TextProps>`
   color: ${({ isDisabled }) => 
     isDisabled ? 'rgba(255,255,255,0.6)' : 'rgba(255,255,255,1)'
-  }
+  };
+`
+
+const IndicatorWarp = styled.View`
+  margin-left: 10px;
 `

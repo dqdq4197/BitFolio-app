@@ -72,7 +72,11 @@
     "remove transaction?": "Remove Transaction?",
     "you can't undo this action": "You can't undo this action",
     "there is no transaction history": "There is no transaction history",
-    "add your first transaction": "Add your first transaction"
+    "add your first transaction": "Add your first transaction",
+    "watch": "Watch",
+    "unwatch": "Unwatch",
+    "are you sure you want unwatch this coin?": "Are you sure you want unwatch this coin?",
+    "all transactions and holdings related to this coin will be removed": "All transactions and holdings related to this coin will be removed."
   },
   "coinMarketHome": {
     "market": "Market",

@@ -58,53 +58,57 @@ const Item = ({ data, symbol, onItemPress }: ItemProps) => {
     <Container
       activeOpacity={0.6}
       onPress={() => onItemPress(data.id)}
+      underlayColor={ theme.base.background[300] }
     >
-      <TypeWrap>
-        { TYPES[type].icon(theme.base.text[200]) }
-        <TypeValue>
-          <Text color100 bold fontML>
-            { t(`common.${data.type === 'transfer' ? data.transferType : data.type}`) }
+      <>
+        <TypeWrap>
+          { TYPES[type].icon(theme.base.text[200]) }
+          <TypeValue>
+            <Text color100 bold fontML>
+              { t(`common.${data.type === 'transfer' ? data.transferType : data.type}`) }
+            </Text>
+            <Text>
+              { format(new Date(data.date), 'Pp', {
+                locale: language === 'en' ? enUS : ko
+              }) }
+            </Text>
+          </TypeValue>
+        </TypeWrap>
+        <QuantityWrap>
+          <Text color100 bold>
+            { TYPES[type].symbol === 'negative' 
+              ? '-' + currencyFormat({
+                  value: data.pricePerCoin[currency] * data.quantity,
+                  prefix: getCurrencySymbol(currency)
+                }) 
+              : '+' + currencyFormat({
+                  value: data.pricePerCoin[currency] * data.quantity,
+                  prefix: getCurrencySymbol(currency)
+                }) 
+            }
           </Text>
-          <Text>
-            { format(new Date(data.date), 'Pp', {
-              locale: language === 'en' ? enUS : ko
-            }) }
-          </Text>
-        </TypeValue>
-      </TypeWrap>
-      <QuantityWrap>
-        <Text color100 bold>
-          { TYPES[type].symbol === 'negative' 
-            ? '-' + currencyFormat({
-                value: data.pricePerCoin[currency] * data.quantity,
-                prefix: getCurrencySymbol(currency)
-              }) 
-            : '+' + currencyFormat({
-                value: data.pricePerCoin[currency] * data.quantity,
-                prefix: getCurrencySymbol(currency)
-              }) 
-          }
-        </Text>
-        <IncreaseDecreaseValue 
-          value={ 
-            TYPES[type].symbol === 'negative' 
-            ? -1 * data.quantity 
-            : data.quantity
-          }
-          afterPrefix={' ' + symbol.toUpperCase()}
-          bold
-        />
-      </QuantityWrap>
+          <IncreaseDecreaseValue 
+            value={ 
+              TYPES[type].symbol === 'negative' 
+              ? -1 * data.quantity 
+              : data.quantity
+            }
+            afterPrefix={' ' + symbol.toUpperCase()}
+            bold
+          />
+        </QuantityWrap>
+      </>
     </Container>
   )
 }
 
 export default Item;
 
-const Container = styled.TouchableOpacity`
+const Container = styled.TouchableHighlight`
   flex: 1; 
   flex-direction: row;
   height: 60px;
+  padding: ${({ theme }) => theme.content.spacing };
 `
 
 const TypeWrap = styled.View`

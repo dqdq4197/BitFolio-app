@@ -2,6 +2,11 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
 import { FormData, SubmitNumericData } from '/components/portfolio/transactionModal/FormModal';
 
+
+type RemoveAllTransactionProps = {
+  portfolioId: string
+  coinId: string
+}
 export interface TransactionType {
   id: string
   portfolioId: string | null
@@ -51,6 +56,13 @@ export const transactionSlice = createSlice({
         transaction => transaction.id !== id
       )
     },
+    removeAllTransaction: (state, action: PayloadAction<RemoveAllTransactionProps>) => {
+      const { coinId, portfolioId } = action.payload;
+
+      state.transactions = state.transactions.filter(
+        transaction => transaction.portfolioId !== portfolioId || transaction.coinId !== coinId
+      )
+    },
     editTransaction: (
       state, 
       action: PayloadAction<{ transactionId: string, formData: FormData<SubmitNumericData> }>
@@ -82,6 +94,7 @@ export const transactionSlice = createSlice({
 export const { 
   addTransaction,
   removeTransaction,
+  removeAllTransaction,
   editTransaction
 } = transactionSlice.actions;
 export default transactionSlice.reducer;

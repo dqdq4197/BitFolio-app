@@ -50,5 +50,7 @@ export default ({
     getKey, http, { suspense, refreshInterval }
   );
   
+  args.isLoading = willNotRequest ? false : args.isLoading;
+  
   return { data: data?.flat(), ...args }
 }

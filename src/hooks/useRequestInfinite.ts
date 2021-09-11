@@ -10,6 +10,7 @@ interface Return<Data, Error>
   > {
   data: Data[] | undefined
   response: AxiosResponse<Data>[] | undefined
+  isLoading: boolean
 }
 
 export interface Config<Data = unknown, Error = unknown>
@@ -41,7 +42,7 @@ export default function useRequestInfinite<Data = unknown, Error = unknown>(
       const key = request(pageIndex, previousPageData)
       return key ? JSON.stringify(key) : null
     }, 
-    (request) => axios(JSON.parse(request)),
+    (request: any) => axios(JSON.parse(request)),
     {
       ...config,
       initialData:
@@ -63,7 +64,7 @@ export default function useRequestInfinite<Data = unknown, Error = unknown>(
     error,
     revalidate,
     isValidating,
-    response
+    response,
+    isLoading: (!response && !error) || (size > 0 && response !== undefined && typeof response[size - 1] === "undefined")
   }
-
 }

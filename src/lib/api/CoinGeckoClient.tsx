@@ -77,7 +77,7 @@ export const CoinGecko = {
      * @param {boolean} params.price_change_percentage Include price change percentage in 1h, 24h, 7d, 14d, 30d, 200d, 1y (eg. '1h,24h,7d' comma-separated, invalid values will be discarded)
      * @returns {ReturnObject}
      */
-    markets: (params: CoinMarketsParams) => {
+    markets: (params: any) => {
       if(Array.isArray(params.ids)) {
         params.ids = params.ids.join(',');
       }

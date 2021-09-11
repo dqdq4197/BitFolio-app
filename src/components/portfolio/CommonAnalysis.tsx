@@ -12,6 +12,7 @@ import IncreaseDecreaseValue from '/components/common/IncreaseDecreaseValue';
 import { changeMode, changeShowValueMode, ModeType } from '/store/portfolio';
 import { Container as SkeletonContainer } from '/components/skeletonPlaceholder/common';
 import PrivatePlaceholder from './PrivatePlaceholder';
+import { usePortfolioContext } from './PortfolioDataContext'
 
 type AnalysisProps = {
   total_balance?: number
@@ -62,6 +63,7 @@ const CommonAnalysis = ({
 }: AnalysisProps) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
+  const { isLoading } = usePortfolioContext();
   const { mode, showValueMode } = useAppSelector(state => ({
     mode: state.portfolioReducer.portfolios[0].mode,
     showValueMode: state.portfolioReducer.portfolios[0].showValueMode
@@ -107,7 +109,7 @@ const CommonAnalysis = ({
               horizontalSpacing={14}
             />
           }
-          isLoading={total_balance === undefined}
+          isLoading={isLoading}
           skeletonSize={{
             width: 130,
             height: 35
@@ -128,7 +130,7 @@ const CommonAnalysis = ({
         </ConditionalContent>
         <Block>
           <ConditionalContent 
-            isLoading={portfolio_change_percentage_24h === undefined}
+            isLoading={isLoading}
             skeletonSize={{
               width: 50,
               height: 20
@@ -156,7 +158,7 @@ const CommonAnalysis = ({
             horizontalSpacing={13}
           />
         }
-        isLoading={portfolio_change_24h === undefined}
+        isLoading={isLoading}
         skeletonSize={{
           width: 50,
           height: 20

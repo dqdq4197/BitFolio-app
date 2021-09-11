@@ -2,13 +2,11 @@ import React, { useCallback } from 'react';
 import styled from 'styled-components/native';
 import { useTranslation } from 'react-i18next';
 import * as WebBrowser from 'expo-web-browser';
-import { MaterialIcons } from '@expo/vector-icons';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Entypo } from '@expo/vector-icons';
-import { Feather } from '@expo/vector-icons';
+import { MaterialIcons, Entypo, MaterialCommunityIcons, Feather } from '@expo/vector-icons';
+import useGlobalTheme from '/hooks/useGlobalTheme';
+import SurfaceWrap from '/components/common/SurfaceWrap';
 import Text from '/components/common/Text';
 import HorizontalLine from '/components/common/HorizontalLine';
-import useGlobalTheme from '/hooks/useGlobalTheme';
 
 const TWITTER_PREFIX = 'https://twitter.com/';
 const FACEBOOK_PREFIX = 'https://www.facebook.com/'
@@ -33,23 +31,28 @@ type LinkProps = {
 const RowComponent = ({ url, title, icon, color }: RowComponentProps) => {
   const { theme } =useGlobalTheme();
   return (
-    <Row onPress={() => {
-      WebBrowser.openBrowserAsync(url, {
-        toolbarColor: theme.base.background.surface,
-        enableBarCollapsing: true
-      })
-    }}>
-      <TitleWrap>
-        { icon }
-        <Text fontML margin="0 0 0 20px">
-          { title }
-        </Text>
-      </TitleWrap>
-      <MaterialIcons 
-        name="arrow-forward-ios" 
-        size={20} 
-        color={color} 
-      />
+    <Row 
+      onPress={() => {
+        WebBrowser.openBrowserAsync(url, {
+          toolbarColor: theme.base.background.surface,
+          enableBarCollapsing: true
+        })
+      }}
+      underlayColor={ theme.base.background[300] }
+    >
+      <>
+        <TitleWrap>
+          { icon }
+          <Text fontML margin="0 0 0 20px">
+            { title }
+          </Text>
+        </TitleWrap>
+        <MaterialIcons 
+          name="arrow-forward-ios" 
+          size={20} 
+          color={color} 
+        />
+      </>
     </Row>
   )
 }
@@ -58,7 +61,7 @@ const RowComponent = ({ url, title, icon, color }: RowComponentProps) => {
 const Link = ( props : LinkProps) => {
   // telegram, explorers 추가 하기
   const { t } = useTranslation();
-  const { theme } =useGlobalTheme();
+  const { theme } = useGlobalTheme();
   const color = theme.base.text[200];
 
   const renderLink = useCallback(() => {
@@ -120,13 +123,17 @@ const Link = ( props : LinkProps) => {
   }, [])
 
   return (
-    <Container>
-      <ChapterTitle>
+    <SurfaceWrap
+      title={
+        <>
         <Text fontL color100 bold margin="0 10px 0 0">
           { t('coinDetail.Link') }
         </Text>
         <Feather name="external-link" size={20} color={theme.base.text[100]} />
-      </ChapterTitle>
+        </>
+      }
+      parentPaddingZero
+    >
       <HorizontalLine fullWidth/>
       { 
         renderLink().map((row, index) => (
@@ -141,29 +148,19 @@ const Link = ( props : LinkProps) => {
           </RowWrap>
         ))
       }
-    </Container>
+    </SurfaceWrap>
   )
 }
 
 export default Link;
 
-const Container = styled.View`
-  background-color:${({ theme }) => theme.base.background.surface};
-  margin-top: ${({ theme }) => theme.content.blankSpacing};
-  padding:0 ${({ theme }) => theme.content.spacing};
-`
-const ChapterTitle = styled.View`
-  flex-direction: row;
-  align-items: center;
-  padding: 16px 0;
-`
 const RowWrap = styled.View``
-const Row = styled.TouchableOpacity`
+const Row = styled.TouchableHighlight`
   height: 55px;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-
+  padding: 0 ${({ theme }) => theme.content.spacing};
 `
 
 const TitleWrap = styled.View`
