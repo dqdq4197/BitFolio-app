@@ -4,6 +4,7 @@ import styled from 'styled-components/native';
 import * as habtics from 'expo-haptics';
 import { TAB_BAR_HEIGHT } from '/lib/constant';
 import useGlobalTheme from '/hooks/useGlobalTheme';
+import Text from '/components/common/Text';
 
 const TabBar = ({ descriptors, state, navigation }: BottomTabBarProps) => {
   const { routes, index } = state;
@@ -14,6 +15,7 @@ const TabBar = ({ descriptors, state, navigation }: BottomTabBarProps) => {
   if(focusedOptions.tabBarVisible === false || routes[index].state?.index === 1) {
     return null;
   }
+
   return (
     <TabBarContainer>
       {routes.map((route, idx) => {
@@ -60,7 +62,12 @@ const TabBar = ({ descriptors, state, navigation }: BottomTabBarProps) => {
             { tabBarIcon && 
               tabBarIcon({ focused: isFocused, color: iconColor, size: 22 })
             }
-            <TabLabel isFocused={isFocused}>
+            <TabLabel 
+              isFocused={isFocused} 
+              heavy
+              margin="3px 0 0 0"
+              fontXS
+            >
               { label }
             </TabLabel>
           </EachTabWrap>
@@ -89,7 +96,6 @@ const EachTabWrap = styled.TouchableOpacity`
   justify-content: center;
   flex: 1;
 `
-const TabLabel = styled.Text<TabLabelProps>`
+const TabLabel = styled(Text)<TabLabelProps>`
   color: ${(props) => props.isFocused ? props.theme.base.text[100] : props.theme.base.text[400]};
-  font-size: ${({ theme }) => theme.size.font_s};
 `

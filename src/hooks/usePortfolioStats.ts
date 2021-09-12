@@ -239,7 +239,7 @@ const usePortfolioStats = ({ id, coinsData }: StatsProps) => {
         portfolio_all_time_pl_percentage: 0,
         portfolio_change_24h: 0,
         portfolio_change_percentage_24h: 0 / 0,
-        coins: {}
+        coins: portfolioStats ? {...portfolioStats.coins } : {}
       })
     }
   }, [id, transactions, currency, coinsData])

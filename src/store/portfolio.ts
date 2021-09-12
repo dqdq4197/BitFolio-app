@@ -96,6 +96,10 @@ export const portfolioSlice = createSlice({
       const { coin } = action.payload;
       const defaultPortfolio = state.portfolios[0];
 
+      const isAlreadyInclude = defaultPortfolio.coins.findIndex(portfolioCoin => portfolioCoin.id === coin.id) !== -1;
+      
+      if(isAlreadyInclude) return ;
+
       defaultPortfolio.coins = [
         ...defaultPortfolio.coins,
         {

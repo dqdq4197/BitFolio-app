@@ -1,11 +1,12 @@
 import React from 'react';
-import { StatusBar, Platform, Appearance } from 'react-native';
+import { StatusBar, Platform, Dimensions } from 'react-native';
 import styled from 'styled-components/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useHeaderHeight } from '@react-navigation/stack';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 
 
+const { height } = Dimensions.get('window');
 
 type TemplateProps = {
   children: React.ReactNode
@@ -20,6 +21,7 @@ const GeneralTemplate = ({ children }: TemplateProps) => {
   return (
     <Container 
       navHeight={headerHeight}
+      
     >
       <StatusBar
         translucent
@@ -42,6 +44,7 @@ const Container = styled.SafeAreaView<ContainerProps>`
   background-color: ${({theme}) => {
     return theme.base.background[100];
   }};
+  height: ${ height + 200 }px;
   /* padding-top: ${
     (props) => Platform.OS === 'android' 
       ? StatusBar.currentHeight as number + 'px' 

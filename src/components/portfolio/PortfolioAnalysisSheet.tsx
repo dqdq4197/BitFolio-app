@@ -63,7 +63,7 @@ const EmptyView = ({ isLoading }: EmptyViewProps) => {
 
   return (
     <EmptyViewContainer>
-      { isLoading 
+      { !isLoading 
         ? <>
             <MaterialCommunityIcons 
               name="text-box-search-outline" 
@@ -98,7 +98,7 @@ const PortfolioAnalysisSheet = ({ portfolioStats }: SheetProps) => {
   }), shallowEqual)
   const { 
     isHideAnalysisSheet: isHide, 
-    analysisActiveTab: activeTab
+    analysisActiveTab: activeTab,
   } = portfolio[activeIndex];
 
   const handleTabButtonPress = (tabKey: ActiveTabType) => {
@@ -202,7 +202,7 @@ const PortfolioAnalysisSheet = ({ portfolioStats }: SheetProps) => {
           >
             { portfolioStats && !isLoading
               ? Object.entries(portfolioStats.coins).length === 0
-                ? <EmptyView isLoading={true} />
+                ? <EmptyView isLoading={false} />
                 : activeTab === 'allocation'
                   ? <AllocationView 
                       coins={portfolioStats.coins}
@@ -213,7 +213,7 @@ const PortfolioAnalysisSheet = ({ portfolioStats }: SheetProps) => {
                       portfolio_all_time_pl={portfolioStats?.portfolio_all_time_pl}
                       portfolio_all_time_pl_percentage={portfolioStats?.portfolio_all_time_pl_percentage}
                     />
-              : <EmptyView isLoading={false} />
+              : <EmptyView isLoading={true} />
             }
           </ContentWrap>
         ) }

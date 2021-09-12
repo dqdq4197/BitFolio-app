@@ -61,9 +61,10 @@ const Overview = () => {
   const { t } = useTranslation(); 
   const navigation = useNavigation();
   const { theme } = useGlobalTheme();
-  const { id, coins, coinsData, isLoading, mutate } = usePortfolioContext();
+  const { id, coins, coinsData, initLoading, mutate } = usePortfolioContext();
   const { portfolioStats } = usePortfolioStats({ id, coinsData })
   const [refreshing, setRefreshing] = useState(false);
+  
 
   const { scrollY } = useAnimatedHeaderTitle({ 
     title: 
@@ -107,7 +108,7 @@ const Overview = () => {
         title={ t(`portfolio.assets`) }
       >
         {
-          portfolioStats && !isLoading 
+          portfolioStats && !initLoading  
             ? coins.length !== 0
               ? <CoinListSheet 
                   coinsStats={portfolioStats.coins}

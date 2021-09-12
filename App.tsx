@@ -1,12 +1,12 @@
 import 'react-native-gesture-handler';
 import React, { useEffect } from 'react';
 import { Appearance } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { ThemeProvider } from 'styled-components';
-import { Ionicons } from '@expo/vector-icons';
-import { Entypo } from '@expo/vector-icons';
+import { Fontisto, FontAwesome, Ionicons } from '@expo/vector-icons';
 import TabBar from '/components/TabBar'
 import { DiscussionStackScreen, CoinMarketStack, PortfolioScreen } from '/screens';
 import { store, persistor } from '/store';
@@ -23,6 +23,7 @@ const Tab = createBottomTabNavigator();
 
 const RootNavigation = () => {
   const { theme } = useGlobalTheme();
+  const { t } = useTranslation();
 
   return (
     <NavigationContainer>
@@ -36,9 +37,9 @@ const RootNavigation = () => {
         <Tab.Screen 
           name="Portfolio" 
           options={{ 
-            tabBarLabel: '포트폴리오',
+            tabBarLabel: t(`common.portfolio`),
             tabBarIcon: ({ color, size }) => (
-              <Ionicons name="ios-albums" size={size} color={color} />
+              <FontAwesome name="pie-chart" size={size} color={color} />
             ),
           }} 
           component={PortfolioScreen} 
@@ -46,9 +47,9 @@ const RootNavigation = () => {
         <Tab.Screen 
           name="CoinMarket" 
           options={{ 
-            tabBarLabel:'시세',
+            tabBarLabel: t(`common.home`),
             tabBarIcon: ({ color, size }) => (
-              <Entypo name="area-graph" size={size} color={color} />
+              <Fontisto name="home" size={size} color={color} />
             )
           }} 
           component={CoinMarketStack} 
@@ -56,9 +57,9 @@ const RootNavigation = () => {
         <Tab.Screen 
           name="discussion" 
           options={{ 
-            tabBarLabel: '토론',
+            tabBarLabel: t(`common.news`),
             tabBarIcon: ({ color, size }) => (
-              <Entypo name="newsletter" size={size} color={color} />
+              <Ionicons name="newspaper" size={size} color={color} />
             )
           }} 
           component={DiscussionStackScreen} 

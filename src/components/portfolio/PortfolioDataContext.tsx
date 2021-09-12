@@ -8,6 +8,7 @@ import { CoinMarketReturn } from '/lib/api/CoinGeckoReturnType';
 
 interface ValueType extends Pick<PortfolioType, 'id' | 'coins'> {
   coinsData?: CoinMarketReturn[]
+  initLoading: boolean
   isLoading: boolean
   mutate: () => Promise<AxiosResponse<CoinMarketReturn>[] | undefined>
 }
@@ -24,6 +25,7 @@ export function PortfolioDataProvider({ children }: ContextProps) {
     activeIndex: state.portfolioReducer.activeIndex
   }), shallowEqual);
   const [coinIds, setCoinIds] = useState<string[]>([]);
+  const [initLoading, setInitLoading] = useState(true);
   const { data: coinsData, isLoading, mutate } = useCoinMarketData({ 
     suspense: false, 
     sparkline: true,
@@ -48,12 +50,19 @@ export function PortfolioDataProvider({ children }: ContextProps) {
     setCoinIds(temp)
   }, [portfolios[activeIndex].coins])
 
+  useEffect(() => {
+    if(coinsData && initLoading === true) {
+      setInitLoading(false);
+    }
+  }, [coinsData])
+
   return (
     <PortfolioContext.Provider 
       value={{ 
         id: portfolios[activeIndex].id, 
         coins: portfolios[activeIndex].coins,
         coinsData,
+        initLoading,
         isLoading,
         mutate: mutateCoinsData 
       }}

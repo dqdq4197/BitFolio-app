@@ -2,6 +2,9 @@
   "common": {
     "confirm": "Confirm",
     "cancel": "Cancel",
+    "portfolio": "Portfolio",
+    "home": "Home",
+    "news": "News",
     "market cap": "Market Cap",
     "volume": "Volume",
     "cryptocurrencies": "Cryptocurrencies",
