@@ -8,7 +8,6 @@ import useGlobalTheme from '/hooks/useGlobalTheme';
 import Text from '/components/common/Text';
 import useLocales from '/hooks/useLocales';
 import { CURRENCIES } from '/lib/constant';
-import { useAppDispatch } from '/hooks/useRedux';
 // import { createPortfolio } from '/store/portfolio';
 import ScrollCloseModal from '/components/common/ScrollCloseModal';
 
@@ -146,7 +145,6 @@ const CurrencyModal = ({
 const CreatePortfolioModal = ({ visible, setVisible }: FormModalProps) => {
 
   const { t } = useTranslation();
-  const dispatch = useAppDispatch();
   const { theme } = useGlobalTheme();
   const { currency } = useLocales();
   const [ModalVisible, setModalVible] = useState(false);

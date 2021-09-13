@@ -1,5 +1,5 @@
-import React, { useCallback, useState } from 'react';
-import { Animated } from 'react-native';
+import React, { useCallback, useState, useRef, useEffect } from 'react';
+import { Animated, ScrollView, LogBox } from 'react-native';
 import styled from 'styled-components/native';
 import { Octicons, MaterialCommunityIcons  } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
@@ -8,7 +8,7 @@ import usePortfolioStats from '/hooks/usePortfolioStats';
 import useAnimatedHeaderTitle from '/hooks/useAnimatedHeaderTitle';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import SurfaceWrap from '/components/common/SurfaceWrap';
-import ScrollView from '/components/common/ScrollView';
+import CustomScrollView from '/components/common/ScrollView';
 import Text from '/components/common/Text';
 import CustomRefreshControl from '/components/common/CustomRefreshControl';
 import { usePortfolioContext } from './PortfolioDataContext'
@@ -61,6 +61,7 @@ const Overview = () => {
   const { t } = useTranslation(); 
   const navigation = useNavigation();
   const { theme } = useGlobalTheme();
+  const scrollViewRef = useRef<Animated.LegacyRef<ScrollView>>(null);
   const { id, coins, coinsData, initLoading, mutate } = usePortfolioContext();
   const { portfolioStats } = usePortfolioStats({ id, coinsData })
   const [refreshing, setRefreshing] = useState(false);
@@ -72,9 +73,21 @@ const Overview = () => {
         total_balance={portfolioStats?.total_balance}
         portfolio_change_percentage_24h={portfolioStats?.portfolio_change_percentage_24h}
       />,
-    triggerPoint: 60 
+    triggerPoint: 60,
   })
 
+  useEffect(() => {
+    navigation.setParams({
+      onScrollToTop
+    })
+  }, [scrollViewRef])
+
+
+  const onScrollToTop = () => {
+    
+    return scrollViewRef.current?.getNode().scrollTo({ x: 0, y: 0, animated: true });
+  }
+  
   const handleWatchCoinCoinPress = () => {
     navigation.navigate('AddNewCoin', { portfolioId: id });
   }
@@ -91,8 +104,9 @@ const Overview = () => {
   }, []);
 
   return (
-    <ScrollView
+    <CustomScrollView
       as={Animated.ScrollView}
+      ref={scrollViewRef}
       onScroll={handleScroll}
       refreshControl={
         <CustomRefreshControl
@@ -126,7 +140,7 @@ const Overview = () => {
           </Text>
         </AddCoinButton>
       </SurfaceWrap>
-    </ScrollView>
+    </CustomScrollView>
   )
 }
 

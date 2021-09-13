@@ -2,6 +2,11 @@
 // ----- BASE CONST ----------------
 
 const APP_NAME = 'bitfolio';
+enum TAB_ROUTE_NAME {
+  home= 'home',
+  portfolio= 'portfolio',
+  news= 'news'
+}
 const CRYPTOCOMPARE_API_KEY = 'c95d5d7549c69950d894e2821ec15798d91f994e4ff0a5d360e78fbd46b9ca37';
 const CURRENCIES = {
   krw: {
@@ -138,6 +143,7 @@ const ACTIONS = {
 
 export {
   APP_NAME,
+  TAB_ROUTE_NAME,
   CRYPTOCOMPARE_API_KEY,
   CTYPTOCOMPARE_API_VERSION,
   COINGECKO_PATH_PREFIX,

@@ -6,6 +6,10 @@ import { TAB_BAR_HEIGHT } from '/lib/constant';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import Text from '/components/common/Text';
 
+type ParamsType = {
+  onScrollToTop: () => void
+}
+
 const TabBar = ({ descriptors, state, navigation }: BottomTabBarProps) => {
   const { routes, index } = state;
   const { theme } = useGlobalTheme();
@@ -28,11 +32,16 @@ const TabBar = ({ descriptors, state, navigation }: BottomTabBarProps) => {
             : options.title !== undefined
             ? options.title
             : route.name;
-          const isFocused = index === idx;
-          
 
+        const isFocused = index === idx;
+          
         const onPress = () => {
           habtics.selectionAsync();
+          const params = route.state?.routes[0].params;
+          if(isFocused && params && (params as ParamsType).onScrollToTop) {
+            (params as ParamsType).onScrollToTop()
+          }
+
           const event = navigation.emit({
             type: 'tabPress',
             target: route.key,
@@ -60,7 +69,7 @@ const TabBar = ({ descriptors, state, navigation }: BottomTabBarProps) => {
             onLongPress={onLongPress}
           >
             { tabBarIcon && 
-              tabBarIcon({ focused: isFocused, color: iconColor, size: 22 })
+              tabBarIcon({ focused: isFocused, color: iconColor, size: 20 })
             }
             <TabLabel 
               isFocused={isFocused} 

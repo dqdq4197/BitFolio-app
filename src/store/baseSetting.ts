@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { baseTypes } from 'base-types';
 import i18n, { defaultLanguage } from '/lib/lang/i18n';
+import { TAB_ROUTE_NAME } from '/lib/constant';
 
 interface BaseSettingState {
   theme: "light" | "dark" | null | undefined,
@@ -11,6 +12,7 @@ interface BaseSettingState {
   recentlyViewed: string[],
   watchList: string[],
   recentSearches: string[],
+  launchScreen: keyof typeof TAB_ROUTE_NAME 
 }
 
 const initialState: BaseSettingState = {
@@ -22,6 +24,7 @@ const initialState: BaseSettingState = {
   recentlyViewed: [],
   watchList: [],
   recentSearches: [''],
+  launchScreen: TAB_ROUTE_NAME.home
 }
 
 export const baseSettingSlice = createSlice({

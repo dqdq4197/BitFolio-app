@@ -9,7 +9,7 @@ import AsyncButton from '/components/common/AsyncButton';
 
 
 type ButtonProps = {
-  portfolioId?: string
+  portfolioId: string
   width?: number
   height?: number
 }
@@ -53,7 +53,7 @@ const AddTransactionButton = ({
         <FormModal 
           visible={visible}
           setVisible={setVisible}
-          portfolioId={portfolioId ?? null}
+          portfolioId={portfolioId}
           id={data.id}
           name={data.name}
           image={data.image.large}

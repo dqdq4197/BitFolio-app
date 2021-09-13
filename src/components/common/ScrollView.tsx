@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { Platform, ScrollViewProps, Animated, ScrollView } from 'react-native';
 import styled from 'styled-components/native';
 import SurfaceTopView from './SurfaceTopView';
@@ -7,21 +7,26 @@ import SurfaceTopView from './SurfaceTopView';
 const isIos = Platform.OS === 'ios'
 const BOTTOM_COLOR = 'transparent';
 
+type RefType = Animated.LegacyRef<ScrollView> | ScrollView
+
 interface CustomProps extends ScrollViewProps {
   children: React.ReactNode
   as?: Animated.AnimatedComponent<typeof ScrollView>
 }
-const CustomScrollView: React.FunctionComponent<CustomProps> = ({ ...props }) => {
+
+const CustomScrollView = forwardRef<RefType, CustomProps>(
+  ({ ...props }, ref) => {
 
   return (
     <Container
+      ref={ref}
       {...props}
     >
       <SurfaceTopView />
       { props.children }
     </Container>
   );
-}
+})
 
 export default CustomScrollView;
 

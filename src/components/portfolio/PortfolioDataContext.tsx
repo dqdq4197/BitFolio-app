@@ -51,7 +51,7 @@ export function PortfolioDataProvider({ children }: ContextProps) {
   }, [portfolios[activeIndex].coins])
 
   useEffect(() => {
-    if(coinsData && initLoading === true) {
+    if(!isLoading && initLoading === true) {
       setInitLoading(false);
     }
   }, [coinsData])

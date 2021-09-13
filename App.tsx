@@ -1,22 +1,23 @@
 import 'react-native-gesture-handler';
 import React, { useEffect } from 'react';
-import { Appearance } from 'react-native';
+import { Appearance, LogBox } from 'react-native';
+import { Provider } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { ThemeProvider } from 'styled-components';
 import { Fontisto, FontAwesome, Ionicons } from '@expo/vector-icons';
-import TabBar from '/components/TabBar'
-import { DiscussionStackScreen, CoinMarketStack, PortfolioScreen } from '/screens';
-import { store, persistor } from '/store';
-import { Provider } from 'react-redux';
-import { PersistGate } from "redux-persist/integration/react";
-import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { connectActionSheet, ActionSheetProvider } from '@expo/react-native-action-sheet'
-import useGlobalTheme from '/hooks/useGlobalTheme';
-import { useAppDispatch } from '/hooks/useRedux';
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+import { PersistGate } from "redux-persist/integration/react";
+import { store, persistor } from '/store';
 import { changeTheme } from '/store/baseSetting';
+import { TAB_ROUTE_NAME } from '/lib/constant';
+import { NewsStack, CoinMarketStack, PortfolioScreen } from '/screens';
+import useGlobalTheme from '/hooks/useGlobalTheme';
+import { useAppDispatch, useAppSelector } from '/hooks/useRedux';
+import TabBar from '/components/TabBar'
 import '/lib/lang/i18n';
 
 const Tab = createBottomTabNavigator();
@@ -24,18 +25,19 @@ const Tab = createBottomTabNavigator();
 const RootNavigation = () => {
   const { theme } = useGlobalTheme();
   const { t } = useTranslation();
+  const { launchScreen } = useAppSelector(state => state.baseSettingReducer);
 
   return (
     <NavigationContainer>
       <Tab.Navigator 
         tabBar={props => <TabBar {...props}/>} 
-        initialRouteName="CoinMarket" 
+        initialRouteName={ launchScreen }
         sceneContainerStyle={{ 
           backgroundColor: theme.base.background[100]
         }}
       >
         <Tab.Screen 
-          name="Portfolio" 
+          name={TAB_ROUTE_NAME.portfolio}
           options={{ 
             tabBarLabel: t(`common.portfolio`),
             tabBarIcon: ({ color, size }) => (
@@ -45,7 +47,7 @@ const RootNavigation = () => {
           component={PortfolioScreen} 
         />
         <Tab.Screen 
-          name="CoinMarket" 
+          name={TAB_ROUTE_NAME.home}
           options={{ 
             tabBarLabel: t(`common.home`),
             tabBarIcon: ({ color, size }) => (
@@ -55,14 +57,14 @@ const RootNavigation = () => {
           component={CoinMarketStack} 
         />
         <Tab.Screen 
-          name="discussion" 
+          name={TAB_ROUTE_NAME.news}
           options={{ 
             tabBarLabel: t(`common.news`),
             tabBarIcon: ({ color, size }) => (
               <Ionicons name="newspaper" size={size} color={color} />
             )
           }} 
-          component={DiscussionStackScreen} 
+          component={NewsStack} 
         />
       </Tab.Navigator>
     </NavigationContainer>

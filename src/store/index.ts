@@ -15,6 +15,7 @@ import baseSettingReducer from './baseSetting';
 import marketDetailReducer from './coinMarketDetail';
 import portfolioReducer from './portfolio';
 import transactionReducer from './transaction';
+import globalStateReducer from './globalState';
 
 const persistConfig = {
   key: 'root',
@@ -25,7 +26,8 @@ const persistConfig = {
     'transactionReducer'
   ], 
   blacklist: [
-    'marketDetailReducer'
+    'marketDetailReducer',
+    'globalStateReducer'
   ], // persist에 저장하지 않을 reducer들 
   debugger: true
 }
@@ -34,7 +36,8 @@ const rootReducer = combineReducers({
   baseSettingReducer,
   marketDetailReducer,
   portfolioReducer,
-  transactionReducer
+  transactionReducer,
+  globalStateReducer
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

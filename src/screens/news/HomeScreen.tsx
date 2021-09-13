@@ -4,7 +4,6 @@ import DiscussionHome from '../../components/discussionHome';
 import CoinDetailSkeleton from '/components/skeletonPlaceholder/CoinDetailSkeleton';
 import ErrorBoundaryAndSuspense from '/components/common/ErrorBoundaryAndSuspense';
 
-
 const HomeScreen = () => {
 
   return (

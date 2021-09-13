@@ -1,10 +1,10 @@
-import React, { useCallback } from 'react';
-import { Animated } from 'react-native';
+import React, { useCallback, useRef, useEffect } from 'react';
+import { Animated, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import PopularList from './PopularList';
 import useAnimatedHeaderTitle from '/hooks/useAnimatedHeaderTitle';
-import ScrollView from "/components/common/ScrollView";
+import CustomScrollView from "/components/common/ScrollView";
 import SurfaceWrap from '/components/common/SurfaceWrap';
 import RecentlyViewedList from "./RecentlyViewedList";
 import HighMarketCapPreview from './HighMarketCapPreview';
@@ -16,7 +16,20 @@ import BottomNotice from '/components/common/BottomNotice';
 const Layout = () => {
   const { t } = useTranslation();
   const navigation = useNavigation();
+  const scrollViewRef = useRef<ScrollView>(null);
   const { scrollY } = useAnimatedHeaderTitle({ title: t('coinMarketHome.market'), triggerPoint: 30 });
+
+
+  useEffect(() => {
+    navigation.setParams({
+      onScrollToTop
+    })
+  }, [scrollViewRef])
+
+
+  const onScrollToTop = () => {
+    return scrollViewRef.current?.scrollTo({ x: 0, y: 0, animated: true });
+  }
 
   const handlePressItem = useCallback((id:string, symbol: string) => {
     navigation.navigate('CoinDetail', { param: { id, symbol }, screen: 'Overview' })
@@ -28,7 +41,8 @@ const Layout = () => {
   )
     
   return (
-    <ScrollView 
+    <CustomScrollView 
+      ref={scrollViewRef}
       onScroll={handleScroll}
       scrollEventThrottle={ 16 }
     > 
@@ -54,7 +68,7 @@ const Layout = () => {
         onPressItem={handlePressItem}
       />
       <BottomNotice />
-    </ScrollView>
+    </CustomScrollView>
   )
 }
 

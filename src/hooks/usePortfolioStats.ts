@@ -108,6 +108,8 @@ const usePortfolioStats = ({ id, coinsData }: StatsProps) => {
         transaction => {
           const { coinId, fee, quantity, type, pricePerCoin, transferType, date, symbol } = transaction;
           const coinData = coinsData.find(coin => coin.id === coinId);
+          if(!coinData) return;
+          
           const pricePerUsd = pricePerCoin[currency] / pricePerCoin['usd'];
 
           if(coinStats.hasOwnProperty(coinId)) {

@@ -7,7 +7,7 @@ import PriceAndDate from './PriceAndDate';
 import ChartTab from './ChartTab';
 import PriceChangePercentage from './PriceChangePercentage';
 import Stats from './Stats';
-import { useAppSelector } from '/hooks/useRedux';
+import { useAppSelector, shallowEqual } from '/hooks/useRedux';
 import useCoinDetailData from '/hooks/useCoinDetailData';
 import { useCoinIdContext } from '/hooks/useCoinIdContext';
 import useLocales from '/hooks/useLocales';
@@ -15,7 +15,6 @@ import useGlobalTheme from '/hooks/useGlobalTheme';
 import CustomRefreshControl from '/components/common/CustomRefreshControl';
 import ScrollView from '/components/common/ScrollView'
 import MainChart from './priceChart';
-import AsyncButton from '/components/common/AsyncButton';
 import AddTransactionButton from '../AddTransactionButton';
 import WatchButton from '../WatchButton';
 
@@ -27,9 +26,13 @@ const Layout = () => {
   const { theme, scheme } = useGlobalTheme();
   const { id } = useCoinIdContext();
   const [refreshing, setRefreshing] = useState(false);
-  const { chartOption } = useAppSelector(state => state.baseSettingReducer);
+  const { chartOption, portfolios, activeIndex } = useAppSelector(state => ({
+    chartOption: state.baseSettingReducer.chartOption,
+    portfolios: state.portfolioReducer.portfolios,
+    activeIndex: state.portfolioReducer.activeIndex
+  }), shallowEqual);
   const { currency } = useLocales();
-  const { data, mutate, isLoading } = useCoinDetailData({ id });
+  const { data, mutate } = useCoinDetailData({ id });
 
   const handleRefresh = useCallback(async() => {
     setRefreshing(true);
@@ -102,6 +105,7 @@ const Layout = () => {
                 parseInt(theme.content.spacing) / 2
               )
              }
+             portfolioId={portfolios[activeIndex].id}
           />
         </ButtonWrap>
       </FooterContainer>

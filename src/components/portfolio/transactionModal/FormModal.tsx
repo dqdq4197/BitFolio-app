@@ -5,12 +5,12 @@ import styled from 'styled-components/native';
 import { FontAwesome5, FontAwesome, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import useLocales from '/hooks/useLocales';
 import useCoinDetailData from '/hooks/useCoinDetailData';
-import { useAppDispatch } from '/hooks/useRedux';
+import { useAppDispatch, useAppSelector } from '/hooks/useRedux';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import ScrollCloseModal from '/components/common/ScrollCloseModal';
 import Text from '/components/common/Text';
 import { addTransaction, editTransaction } from '/store/transaction';
-import { changeCoinState } from '/store/portfolio';
+import { changeCoinState, addWatchingCoin } from '/store/portfolio';
 import Image from '/components/common/Image';
 import EnterDetailsView from './EnterDetailsView';
 import SettingsSelectionBar from './SettingsSelectionBar';
@@ -39,7 +39,7 @@ export type InitialDataType = {
 type FormModalProps = {
   visible: boolean
   setVisible: (state: boolean) => void
-  portfolioId: string | null
+  portfolioId: string
   id: string
   symbol: string
   name: string
@@ -60,7 +60,7 @@ export interface NumericData {
   fee: string
 }
 export type FormData<T> = T & {
-  portfolioId: string | null
+  portfolioId: string
   coinId: string
   symbol: string
   date: number
@@ -108,6 +108,7 @@ const FormModalLayout = ({
 }: FormModalProps) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
+  const { portfolios } = useAppSelector(state => state.portfolioReducer);
   const { currency } = useLocales();
   const { theme } = useGlobalTheme();
   const titleAnimate = useRef(new Animated.Value(0)).current;
@@ -217,6 +218,12 @@ const FormModalLayout = ({
     setFocusedView(key);
   }, [])
 
+  const isAlreadyHaveAsset = (): boolean => {
+    const { coins } = portfolios.find(portfolio => portfolio.id === portfolioId)!;
+
+    return coins.find(coin => coin.id === id) !== undefined; 
+  }
+
   const handleAddTransactionPress = () => {
     if(!coinDetailData || !formData['pricePerCoin']) return ;
 
@@ -234,6 +241,20 @@ const FormModalLayout = ({
     if(transactionId) {
       dispatch(editTransaction({ transactionId, formData: convertedFormData }));
     } else {
+
+      if(!isAlreadyHaveAsset()) {
+        const payload = {
+          portfolioId,
+          coin: {
+            id,
+            image,
+            name,
+            symbol
+          } 
+        }
+        dispatch(addWatchingCoin(payload))
+      }
+
       dispatch(addTransaction({ formData: convertedFormData }));
     }
 
