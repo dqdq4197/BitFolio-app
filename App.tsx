@@ -12,7 +12,7 @@ import { connectActionSheet, ActionSheetProvider } from '@expo/react-native-acti
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { PersistGate } from "redux-persist/integration/react";
 import { store, persistor } from '/store';
-import { changeTheme } from '/store/baseSetting';
+import { changeDeviceScheme } from '/store/baseSetting';
 import { TAB_ROUTE_NAME } from '/lib/constant';
 import { NewsStack, CoinMarketStack, PortfolioScreen } from '/screens';
 import useGlobalTheme from '/hooks/useGlobalTheme';
@@ -76,12 +76,12 @@ const RootNavigationContainer = () => {
   const dispatch = useAppDispatch();
   
   useEffect(() => {
-    Appearance.addChangeListener(onThemeChange)
-    return () => Appearance.removeChangeListener(onThemeChange);
+    Appearance.addChangeListener(onDeviceSchemeChange)
+    return () => Appearance.removeChangeListener(onDeviceSchemeChange);
   }, [])
 
-  const onThemeChange = ({ colorScheme }: Appearance.AppearancePreferences) => {
-    dispatch(changeTheme(colorScheme))
+  const onDeviceSchemeChange = ({ colorScheme }: Appearance.AppearancePreferences) => {
+    dispatch(changeDeviceScheme(colorScheme))
   }
 
   return (

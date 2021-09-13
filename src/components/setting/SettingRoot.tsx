@@ -1,5 +1,6 @@
 import React from 'react';
 import { Switch, TouchableOpacity } from 'react-native';
+import { baseTypes } from 'base-types';
 import styled from 'styled-components/native';
 import { useTranslation } from 'react-i18next';
 import { Ionicons } from '@expo/vector-icons';
@@ -11,29 +12,28 @@ import Text from '/components/common/Text';
 
 type ToggleProps = {
   isEnabled: boolean;
-  onValueChange: () => void;
 }
 
 type MainSettingProps = {
   onLanguagePress: () => void;
   onCurrencyPress: () => void;
 }
-const Toggle = ({ isEnabled, onValueChange }: ToggleProps) => {
+const Toggle = ({ isEnabled }: ToggleProps) => {
 
-  const { theme } = useGlobalTheme();
+  const { theme, onSchemeChange } = useGlobalTheme();
   return (
     <Switch
       trackColor={{ false: "#767577", true: theme.base.primaryColor }}
       thumbColor={isEnabled ? "white" : "#f4f3f4"}
       ios_backgroundColor="#3e3e3e"
-      onValueChange={onValueChange}
+      onValueChange={(value) => onSchemeChange(value ? 'dark' : 'light')}
       value={isEnabled}
     />
   )
 }
 
 const SettingModal = ({ onLanguagePress, onCurrencyPress }: MainSettingProps) => {
-  const { theme, scheme, onThemeChange } = useGlobalTheme();
+  const { theme, scheme } = useGlobalTheme();
   const { t } = useTranslation();
 
   return (
@@ -57,7 +57,6 @@ const SettingModal = ({ onLanguagePress, onCurrencyPress }: MainSettingProps) =>
         </View>
         <Toggle 
           isEnabled={scheme === 'dark'}
-          onValueChange={onThemeChange}
         />
       </Row>
       <Row

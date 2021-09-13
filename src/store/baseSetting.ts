@@ -3,20 +3,26 @@ import { baseTypes } from 'base-types';
 import i18n, { defaultLanguage } from '/lib/lang/i18n';
 import { TAB_ROUTE_NAME } from '/lib/constant';
 
+type DeviceSchemeType = Exclude<baseTypes.Theme, "default">
+export type LocalSchemeType = Extract<baseTypes.Theme, "light" | "dark" | "default">
+type ChartOptionType = 'prices' | 'total_volumes' | 'market_caps' | 'ohlc'
+
 interface BaseSettingState {
-  theme: "light" | "dark" | null | undefined,
-  language: baseTypes.Language,
-  currency: baseTypes.Currency,
-  chartOption: 'prices' | 'total_volumes' | 'market_caps' | 'ohlc',
-  chartTimeFrame: baseTypes.ChartTimeFrame,
-  recentlyViewed: string[],
-  watchList: string[],
-  recentSearches: string[],
+  deviceScheme: DeviceSchemeType
+  localScheme: LocalSchemeType
+  language: baseTypes.Language
+  currency: baseTypes.Currency
+  chartOption: ChartOptionType
+  chartTimeFrame: baseTypes.ChartTimeFrame
+  recentlyViewed: string[]
+  watchList: string[]
+  recentSearches: string[]
   launchScreen: keyof typeof TAB_ROUTE_NAME 
 }
 
 const initialState: BaseSettingState = {
-  theme: 'dark',
+  deviceScheme: 'dark',
+  localScheme: 'default',
   language: defaultLanguage,
   currency: 'krw',
   chartOption: 'prices',
@@ -31,8 +37,11 @@ export const baseSettingSlice = createSlice({
   name: 'baseSetting',
   initialState,
   reducers: {
-    changeTheme: (state, action: PayloadAction<baseTypes.Theme>) => {
-      state.theme = action.payload
+    changeDeviceScheme: (state, action: PayloadAction<DeviceSchemeType>) => {
+      state.deviceScheme = action.payload
+    },
+    changeLocalScheme: (state, action: PayloadAction<LocalSchemeType>) => {
+      state.localScheme = action.payload
     },
     changeLanguage: (state, action: PayloadAction<baseTypes.Language>) => {
       state.language = action.payload
@@ -41,7 +50,7 @@ export const baseSettingSlice = createSlice({
     changeCurrency: (state, action: PayloadAction<baseTypes.Currency>) => {
       state.currency = action.payload
     },
-    changeChartOption: (state, action: PayloadAction<'prices' | 'total_volumes' | 'market_caps' | 'ohlc'>) => {
+    changeChartOption: (state, action: PayloadAction<ChartOptionType>) => {
       state.chartOption = action.payload
     },
     changeChartTimeFrame: (state, action: PayloadAction<baseTypes.ChartTimeFrame>) => {
@@ -79,7 +88,8 @@ export const baseSettingSlice = createSlice({
 })
 
 export const { 
-  changeTheme,
+  changeDeviceScheme,
+  changeLocalScheme,
   changeLanguage,
   changeCurrency,
   changeChartOption,

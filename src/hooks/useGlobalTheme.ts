@@ -1,17 +1,26 @@
+import { useMemo, useCallback } from 'react';
 import { darkTheme, lightTheme } from '/lib/themeColor';
 import { useAppSelector, useAppDispatch } from './useRedux';
-import { changeTheme } from '/store/baseSetting';
+import { changeLocalScheme, LocalSchemeType } from '/store/baseSetting';
 
 const useGlobarTheme = () => {
   const dispatch = useAppDispatch();
-  const { theme } = useAppSelector(state => state.baseSettingReducer);
-  const themeStyle = theme === 'dark' ? darkTheme : lightTheme;
+  const { localScheme, deviceScheme } = useAppSelector(state => state.baseSettingReducer);
 
-  const onThemeChange = () => {
-    dispatch(changeTheme(theme === 'dark' ? 'light' : 'dark'))
+  
+  const scheme = useMemo(() => {
+    return localScheme === 'default' ? (deviceScheme || 'dark') : localScheme;
+  }, [localScheme, deviceScheme])
+
+  const onSchemeChange = useCallback((scheme: LocalSchemeType) => {
+    dispatch(changeLocalScheme(scheme))
+  }, [localScheme])
+
+  return { 
+    theme: scheme === 'dark' ? darkTheme : lightTheme, 
+    scheme,
+    onSchemeChange 
   }
-
-  return { theme: themeStyle, scheme: theme, onThemeChange }
 }
 
 export default useGlobarTheme;
