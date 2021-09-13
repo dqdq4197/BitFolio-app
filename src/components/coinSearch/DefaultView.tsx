@@ -40,7 +40,7 @@ const SearchesItem = ({ item, onPressItem }: SearchesItemProps) => {
   return (
     <SearchesItemContainer 
       onPress={() => onPressItem(item.id, item.symbol)}
-      activeOpacity={0.6}
+      activeOpacity={0.8}
     >
       <Image uri={item.large} width={30} height={30} borderRedius="m" />
       <Text 
@@ -73,7 +73,11 @@ const DefaultView = ({ data, searchesData, onPressItem }: DefaultViewProps) => {
 
   return (
     <Container>
-      <SurfaceWrap title={t('search.recent searches')} marginTopZero fontL parentPaddingZero>
+      <SurfaceWrap 
+        title={t('search.recent searches')} 
+        marginTopZero 
+        parentPaddingZero
+      >
         { searchesData.length === 0 
           ? <SearchesEmptyView />
           : <SearchesScrollView
@@ -101,7 +105,10 @@ const DefaultView = ({ data, searchesData, onPressItem }: DefaultViewProps) => {
             </SearchesScrollView>
         }
       </SurfaceWrap>
-      <SurfaceWrap title={t('search.trending search')} fontL>
+      <SurfaceWrap
+        title={t('search.trending search')}
+        parentPaddingZero
+      >
         { data?.map((coin, index) => {
           const { item } = coin;
           
@@ -147,7 +154,7 @@ const SearchesItemContainer = styled.TouchableOpacity`
   width: 120px;
   height: 110px;
   margin-right: 10px;
-  background-color: ${({ theme }) => theme.base.background[200]};
+  background-color: ${({ theme }) => theme.base.background[300]};
   border-radius: ${({ theme }) => theme.border.ml};
   justify-content: center;
   align-items: center;

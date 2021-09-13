@@ -104,7 +104,9 @@
     "language": "언어",
     "english": "영어",
     "korean": "한국어",
-    "currency": "화폐"
+    "default currencies": "기본 통화",
+    "app settings": "앱 설정",
+    "launch screen": "실행 화면"
   },
   "search": {
     "recent searches": "최근 검색",

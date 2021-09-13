@@ -39,8 +39,9 @@ const EditTransactionButton = ({
         onPress={handleButtonPress}
       >
         <Text 
-          fontL
+          fontML
           color="white"
+          bold
         >
           { t(`coinDetail.edit transaction`) }
         </Text>

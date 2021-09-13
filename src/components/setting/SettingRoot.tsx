@@ -1,14 +1,14 @@
 import React from 'react';
 import { Switch, TouchableOpacity } from 'react-native';
-import { baseTypes } from 'base-types';
 import styled from 'styled-components/native';
 import { useTranslation } from 'react-i18next';
-import { Ionicons } from '@expo/vector-icons';
-import { MaterialIcons } from '@expo/vector-icons';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import Text from '/components/common/Text';
+import SurfaceWrap from '/components/common/SurfaceWrap';
 
+
+const ICON_SIZE = 20;
 
 type ToggleProps = {
   isEnabled: boolean;
@@ -28,6 +28,9 @@ const Toggle = ({ isEnabled }: ToggleProps) => {
       ios_backgroundColor="#3e3e3e"
       onValueChange={(value) => onSchemeChange(value ? 'dark' : 'light')}
       value={isEnabled}
+      style={{
+        transform: [{ scale: 0.8 }]
+      }}
     />
   )
 }
@@ -37,24 +40,16 @@ const SettingModal = ({ onLanguagePress, onCurrencyPress }: MainSettingProps) =>
   const { t } = useTranslation();
 
   return (
-    <Container>
+    <SurfaceWrap
+      title={ t(`setting.app settings`) }
+      parentPaddingZero
+      marginTopZero
+      fontML
+    >
       <Row>
-        <View>
-          <View style={{
-            transform: [{
-              rotate: '240deg'
-            }]
-          }}>
-            <Ionicons 
-              name="moon-sharp" 
-              size={24} 
-              color={theme.base.text[200]}
-            />
-          </View>
-          <Text fontX bold margin="0 0 0 15px">
-            { t('setting.dark mode') }
-          </Text>
-        </View>
+        <Text fontML bold >
+          { t('setting.dark mode') }
+        </Text>
         <Toggle 
           isEnabled={scheme === 'dark'}
         />
@@ -63,19 +58,12 @@ const SettingModal = ({ onLanguagePress, onCurrencyPress }: MainSettingProps) =>
         onPress={onLanguagePress}
         as={TouchableOpacity}
       >
-        <View>
-          <MaterialIcons 
-            name="language" 
-            size={24} 
-            color={theme.base.text[200]}
-          />
-          <Text fontX bold margin="0 0 0 15px">
-            { t('setting.language') }
-          </Text>
-        </View>
+        <Text fontML bold >
+          { t('setting.language') }
+        </Text>
         <MaterialIcons 
           name="keyboard-arrow-right" 
-          size={28} 
+          size={20} 
           color={theme.base.text[200]}
         />
       </Row>
@@ -83,41 +71,26 @@ const SettingModal = ({ onLanguagePress, onCurrencyPress }: MainSettingProps) =>
         onPress={onCurrencyPress}
         as={TouchableOpacity}
       >
-        <View>
-          <MaterialCommunityIcons 
-            name="currency-sign" 
-            size={24} 
-            color={theme.base.text[200]}
-          />
-          <Text fontX bold margin="0 0 0 15px">
-            { t('setting.currency') }
-          </Text>
-        </View>
+        <Text fontML bold >
+          { t('setting.default currencies') }
+        </Text>
         <MaterialIcons 
           name="keyboard-arrow-right" 
-          size={28} 
+          size={20} 
           color={theme.base.text[200]}
         />
       </Row>
-    </Container>
+    </SurfaceWrap>
   )
 }
 
 export default SettingModal;
-
-
-const Container = styled.View`
-  width: 100%;
-`
 
 const Row = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   padding: 0 ${({ theme }) => theme.content.spacing};
-  margin-top: 30px;
-`
-
-const View = styled.View`
-  flex-direction: row;
+  margin-bottom: 8px;
+  height: 40px;
 `

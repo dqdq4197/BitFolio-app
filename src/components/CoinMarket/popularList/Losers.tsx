@@ -1,14 +1,14 @@
 import React, { useState, useCallback } from 'react';
 import { Animated, FlatList } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import Item from './Item'
 import useCoinMarketData from '/hooks/useCoinMarketData';
 import useAnimatedHeaderTitle from '/hooks/useAnimatedHeaderTitle';
 import useGlobalTheme from '/hooks/useGlobalTheme';
+import { ORDER } from '/lib/constant';
 import CustomRefreshControl from '/components/common/CustomRefreshControl';
 import FlatListHeader from './FlatListHeader';
-import { ORDER } from '/lib/constant';
-
+import Item from './Item';
+import Footer from './Footer';
 
 const Gainers = () => {
   const { theme } = useGlobalTheme();
@@ -49,10 +49,14 @@ const Gainers = () => {
         renderItem={
           ({ item, index }) => {
             let nowItem = data.filter(coin => coin.id === item.id)[0]
-            item.current_price = nowItem.current_price;
+
+            if(!nowItem) return <></>
             return (
               <Item 
-                item={item} 
+                item={{
+                  ...item,
+                  current_price: nowItem.current_price
+                }} 
                 index={index}
                 valueKey='current_price'
                 percentageKey='price_change_percentage_24h'
@@ -68,6 +72,7 @@ const Gainers = () => {
             description="최근 24시간 동안 거래량이 US$50,000 이상인 암호화폐만 표시됩니다."
           />
         }
+        ListFooterComponent={<Footer />}
         onScroll={handleScroll}
         refreshControl={
           <CustomRefreshControl

@@ -7,7 +7,9 @@ import {
   EmitterSubscription,
   KeyboardEvent,
   TextInput,
-  Alert
+  Alert,
+  UIManager,
+  LayoutAnimation
 } from 'react-native';
 import { useHeaderHeight } from '@react-navigation/stack';
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -25,6 +27,7 @@ import Text from '/components/common/Text';
 import SearchItemListSkeleton from '/components/skeletonPlaceholder/SearchItemListSkeleton';
 import FormModal from '/components/portfolio/transactionModal/FormModal';
 
+Platform.OS === "android" && UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
 
 export interface CoinsType extends SearchCoin {
   highlightedName?: Array<string | React.ReactNode>
@@ -163,7 +166,7 @@ const Layout = () => {
     } 
   }, [data, params])
 
-  const highlightText = (text: string, regex: RegExp) => {
+  const highlightText = (text: string, regex: RegExp, bold?: boolean) => {
     const match = text.match(regex);
     let newLetters: any = [];
     if(match) {
@@ -171,11 +174,19 @@ const Layout = () => {
       let startIdx = text.indexOf(matchLetters);
       let endIdx = startIdx + matchLetters.length;
       newLetters.push(text.substring(0, startIdx));
-      newLetters.push(
-        <Text key={startIdx} primaryColor fontML>
-          { text.substring(startIdx, endIdx) }
-        </Text>
-      );
+      if(bold) {
+        newLetters.push(
+          <Text key={startIdx} primaryColor fontML bold>
+            { text.substring(startIdx, endIdx) }
+          </Text>
+        );
+      } else {
+        newLetters.push(
+          <Text key={startIdx} primaryColor fontML>
+            { text.substring(startIdx, endIdx) }
+          </Text>
+        );
+      }
       newLetters.push(text.substring(endIdx, text.length));
     } else {
       newLetters = text;
@@ -184,7 +195,14 @@ const Layout = () => {
     return newLetters;
   }
 
-  const handleQueryChangeText = (text: string) => {
+  const handleQueryChange = (text: string) => {
+    LayoutAnimation.configureNext(
+      LayoutAnimation.create(
+        200,
+        LayoutAnimation.Types.easeInEaseOut,
+        LayoutAnimation.Properties.scaleY
+      )
+    );
     setQuery(text);
     if(!data) return;
 
@@ -197,17 +215,15 @@ const Layout = () => {
         }
       )
       .map(coin => {
-        let coinName = highlightText(coin.name, regex);
+        let coinName = highlightText(coin.name, regex, true);
         let coinSymbol = highlightText(coin.symbol, regex);
-
         return {
           ...coin,
-          name: coinName,
-          symbol: coinSymbol
+          highlightedName: coinName,
+          highlightedSymbol: coinSymbol
         }
       })
-
-      setCoins(result)
+    setCoins(result)
   }
 
   const handleRemoveQuery = () => {
@@ -233,7 +249,7 @@ const Layout = () => {
         ListHeaderComponent={
           <SearchBar 
             ref={textInputRef}
-            onQueryChange={handleQueryChangeText}
+            onQueryChange={handleQueryChange}
             coinsLength={coins.length}
             onRemoveQuery={handleRemoveQuery}
             query={query}

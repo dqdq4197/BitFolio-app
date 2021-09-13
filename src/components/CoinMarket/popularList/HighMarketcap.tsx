@@ -7,7 +7,7 @@ import useAnimatedHeaderTitle from '/hooks/useAnimatedHeaderTitle';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import CustomRefreshControl from '/components/common/CustomRefreshControl';
 import FlatListHeader from './FlatListHeader';
-
+import Footer from './Footer';
 
 const HighMarketcap = () => {
   const { theme } = useGlobalTheme();
@@ -56,6 +56,7 @@ const HighMarketcap = () => {
             description="시가 총액은 사용 가능한 암호화폐 공급량 × 현재 암호화폐 가격으로 계산되었어요. 시가 총액이 높은 코인들을 살펴보세요"
           />
         }
+        ListFooterComponent={<Footer />}
         onScroll={handleScroll}
         refreshControl={
           <CustomRefreshControl

@@ -21,7 +21,11 @@ const HighPricePreview = ({ onPressItem }: ListProps) => {
   });
 
   return (
-    <SurfaceWrap title={t('coinMarketHome.top market cap')} paddingBottomZero>
+    <SurfaceWrap 
+      title={t('coinMarketHome.top market cap')} 
+      paddingBottomZero
+      parentPaddingZero
+    >
       <ListWrap>
         {data?.map(res => {
           return (

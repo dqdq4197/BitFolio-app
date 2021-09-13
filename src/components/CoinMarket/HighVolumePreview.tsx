@@ -20,7 +20,11 @@ const HighVolumePreview = ({ onPressItem }: ListProps) => {
   });
 
   return (
-    <SurfaceWrap title={t('coinMarketHome.top volume')} paddingBottomZero>
+    <SurfaceWrap 
+      title={t('coinMarketHome.top volume')} 
+      paddingBottomZero
+      parentPaddingZero
+    >
       <ListWrap>
         { data?.map(res => {
           return (

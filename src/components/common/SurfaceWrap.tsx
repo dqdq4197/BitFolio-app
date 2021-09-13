@@ -1,18 +1,15 @@
 import React from 'react';
 import styled, { css } from 'styled-components/native';
-import Text from '/components/common/Text';
+import Text, { TextStyleProps } from '/components/common/Text';
 
 
-type TitleWrapProps = {
+interface TitleWrapProps extends TextStyleProps {
   title?: string | React.ReactNode;
   children?: React.ReactNode;
   paddingBottomZero?: boolean;
   parentPaddingZero?: boolean;
   marginTopZero?: boolean;
   marginBottomZero?: boolean;
-  fontL?: boolean,
-  fontX?: boolean,
-  fontXL?: boolean,
   transparent?: boolean
 }
 const SurfaceWrap = ({ 
@@ -22,10 +19,8 @@ const SurfaceWrap = ({
   parentPaddingZero = false,
   marginTopZero = false,
   marginBottomZero = false,
-  fontL,
-  fontX,
-  fontXL,
-  transparent = false
+  transparent = false,
+  ...textStyles
 }: TitleWrapProps) => {
 
   return (
@@ -41,9 +36,7 @@ const SurfaceWrap = ({
             ? <StyledText 
                 color100 
                 bold 
-                fontXL={fontXL}
-                fontX={fontX}
-                fontL={fontL}
+                { ...textStyles }
               >
                 { title }
               </StyledText>
@@ -93,11 +86,29 @@ const TitleWrap = styled.View<Props>`
   `}
 `
 const StyledText = styled(Text)`
-  ${(props) => props.fontXL || props.fontL
-    ? css`
-    `
-    : css`
-      font-size: ${props.theme.size.font_x};
-    `
-  }
+  ${({ fontXXXL, fontXXL, fontXL, fontX, fontL, fontML, fontM, fontS, fontXS, theme }) => {
+    switch (true) {
+      case fontXXXL:
+        return `font-size: ${theme.size.font_xxxl}`
+      case fontXXL:
+        return `font-size: ${theme.size.font_xxl}`  
+      case fontXL:
+        return `font-size: ${theme.size.font_xl}`  
+      case fontX:
+        return `font-size: ${theme.size.font_x}` 
+      case fontL:
+        return `font-size: ${theme.size.font_l}`  
+      case fontML:
+        return `font-size: ${theme.size.font_ml}`   
+      case fontM:
+        return `font-size: ${theme.size.font_m}`  
+      case fontS:
+        return `font-size: ${theme.size.font_s}`  
+      case fontXS:
+        return `font-size: ${theme.size.font_xs}`
+
+      default:
+        return `font-size: ${theme.size.font_l}`
+    }
+  }}
 `

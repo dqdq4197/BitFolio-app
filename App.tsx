@@ -21,12 +21,15 @@ import TabBar from '/components/TabBar'
 import '/lib/lang/i18n';
 
 const Tab = createBottomTabNavigator();
+LogBox.ignoreAllLogs();
 
 const RootNavigation = () => {
-  const { theme } = useGlobalTheme();
+  const { theme, onSchemeChange } = useGlobalTheme();
   const { t } = useTranslation();
   const { launchScreen } = useAppSelector(state => state.baseSettingReducer);
 
+  // onSchemeChange('dark');
+  
   return (
     <NavigationContainer>
       <Tab.Navigator 

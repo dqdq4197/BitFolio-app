@@ -1,12 +1,13 @@
 import React, { useState, useCallback } from 'react';
 import { Animated, FlatList } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import Item from './Item'
 import useCoinMarketData from '/hooks/useCoinMarketData';
 import useAnimatedHeaderTitle from '/hooks/useAnimatedHeaderTitle';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import CustomRefreshControl from '/components/common/CustomRefreshControl';
 import FlatListHeader from './FlatListHeader';
+import Item from './Item'
+import Footer from './Footer';
 
 
 const NewCoin = () => {
@@ -56,6 +57,7 @@ const NewCoin = () => {
             description="지난 30일 동안 새롭게 추가된 코인을 살펴보세요"
           />
         }
+        ListFooterComponent={<Footer />}
         onScroll={handleScroll}
         refreshControl={
           <CustomRefreshControl

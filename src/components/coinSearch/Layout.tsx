@@ -7,6 +7,8 @@ import {
   Keyboard,
   EmitterSubscription,
   KeyboardEvent,
+  LayoutAnimation,
+  UIManager
 } from 'react-native';
 import { useHeaderHeight } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
@@ -23,6 +25,8 @@ import { changeRecentSearches } from '/store/baseSetting';
 import { useAppSelector } from '/hooks/useRedux';
 import { createFuzzyMatcher } from '/lib/utils';
 import Text from '/components/common/Text';
+
+Platform.OS === "android" && UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
 
 export interface CoinsType extends SearchCoin {
   highlightedName?: Array<string | React.ReactNode>
@@ -103,7 +107,7 @@ const Layout = () => {
     dispatch(changeRecentSearches(id));
   }
 
-  const highlightText = useCallback((text: string, regex: RegExp) => {
+  const highlightText = useCallback((text: string, regex: RegExp, bold?: boolean) => {
     const match = text.match(regex);
     let newLetters: any = [];
     if(match) {
@@ -111,11 +115,19 @@ const Layout = () => {
       let startIdx = text.indexOf(matchLetters);
       let endIdx = startIdx + matchLetters.length;
       newLetters.push(text.substring(0, startIdx));
-      newLetters.push(
-        <Text key={startIdx} primaryColor fontML>
-          { text.substring(startIdx, endIdx) }
-        </Text>
-      );
+      if(bold) {
+        newLetters.push(
+          <Text key={startIdx} primaryColor fontML bold>
+            { text.substring(startIdx, endIdx) }
+          </Text>
+        );
+      } else {
+        newLetters.push(
+          <Text key={startIdx} primaryColor fontML>
+            { text.substring(startIdx, endIdx) }
+          </Text>
+        );
+      }
       newLetters.push(text.substring(endIdx, text.length));
     } else {
       newLetters = text;
@@ -125,6 +137,13 @@ const Layout = () => {
   }, [])
 
   const handleQueryChange = (text: string) => {
+    LayoutAnimation.configureNext(
+      LayoutAnimation.create(
+        200,
+        LayoutAnimation.Types.easeInEaseOut,
+        LayoutAnimation.Properties.scaleY
+      )
+    );
     setQuery(text);
     if(!data) return;
 
@@ -140,7 +159,7 @@ const Layout = () => {
           }
         )
         .map(coin => {
-          let coinName = highlightText(coin.name, regex);
+          let coinName = highlightText(coin.name, regex, true);
           let coinSymbol = highlightText(coin.symbol, regex);
 
           return {

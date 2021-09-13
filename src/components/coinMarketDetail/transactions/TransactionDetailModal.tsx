@@ -331,7 +331,7 @@ const TransactionDetailModal = forwardRef<BottomSheetModal, DetailProps>(
           onPress={handleRemoveButtonPress}
           activeOpacity={0.6}
         >
-          <Text removeColor fontL>
+          <Text removeColor fontML bold>
             { t(`coinDetail.remove transaction`) }
           </Text>
         </RemoveButton>

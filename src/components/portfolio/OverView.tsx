@@ -134,8 +134,8 @@ const Overview = () => {
         <AddCoinButton
           onPress={handleWatchCoinCoinPress} 
         >
-          <Octicons name="plus" size={14} color={ theme.base.text[100]} />
-          <Text fontML color100 heavy margin="0 0 0 5px">
+          <Octicons name="plus" size={14} color={ theme.base.dark100 } />
+          <Text fontML dark100 heavy margin="0 0 0 5px">
             { t(`portfolio.add new asset`) }
           </Text>
         </AddCoinButton>

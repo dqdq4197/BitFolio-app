@@ -75,7 +75,7 @@ const PopularList = ({ }: ListProps) => {
             >
               <Card 
                 onPress={() => handleCardPress(res.route)}
-                activeOpacity={0.6}
+                activeOpacity={0.8}
               >
                 <IconWrap>
                   { res.icon }

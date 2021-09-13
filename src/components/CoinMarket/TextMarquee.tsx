@@ -16,8 +16,7 @@ import MarqueeTextSkeleton from '/components/skeletonPlaceholder/MarqueeTextSkel
 import { krwFormat, timestampToDate, convertUnits } from '/lib/utils';
 
 
-type MarqueeProps = {
-}
+type MarqueeProps = {}
 
 type ModalProps = {
   cryptos: number;
@@ -119,7 +118,7 @@ const TextMarquee = ({ }: MarqueeProps) => {
 
   return (
     <Container
-      activeOpacity={0.7}
+      activeOpacity={0.8}
       onPress={handleMarqueePress}
     >
       <TextTicker 

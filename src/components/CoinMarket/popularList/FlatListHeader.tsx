@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from 'styled-components/native';
 import Text from '/components/common/Text';
 import SurfaceWrap from '/components/common/SurfaceWrap';
 import SurfaceTopView from '/components/common/SurfaceTopView';
@@ -11,17 +12,20 @@ type HeaderProps = {
 const FlatListHeader = ({ title, description }: HeaderProps) => {
 
   return (
-    <SurfaceWrap 
-      title={title} 
-      marginBottomZero
-      marginTopZero
-    >
+    <Container>
+      <Text bold color100 fontL>
+        { title }
+      </Text>
       <SurfaceTopView />
       <Text fontML margin="10px 0 0 0" lineHeight={20}>
         { description }
       </Text>
-    </SurfaceWrap>
+    </Container>
   )
 }
 
 export default FlatListHeader;
+
+const Container = styled.View`
+  padding: ${({ theme }) => `${theme.content.surfacePadding} ${theme.content.spacing}`};
+`

@@ -7,6 +7,7 @@ import useGlobalTheme from '/hooks/useGlobalTheme';
 import CustomRefreshControl from '/components/common/CustomRefreshControl';
 import FlatListHeader from './FlatListHeader';
 import Item from './Item'
+import Footer from './Footer';
 
 
 const HighVolume = () => {
@@ -56,7 +57,7 @@ const HighVolume = () => {
             description="24시간 동안 모든 ​​거래 쌍의 총거래량입니다. 가장 거래가 많았던 코인들을 살펴보세요"
           />
         }
-        
+        ListFooterComponent={<Footer />}
         onScroll={handleScroll}
         refreshControl={
           <CustomRefreshControl

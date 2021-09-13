@@ -4,13 +4,14 @@ import styled, { css } from 'styled-components/native';
 import { baseTypes } from 'base-types';
 import { CoinMarketReturn } from '/lib/api/CoinGeckoReturnType';
 import { digitToFixed } from '/lib/utils';
+import { convertUnits } from '/lib/utils';
+import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat';
 import useLocales from '/hooks/useLocales';
+import useGlobalTheme from '/hooks/useGlobalTheme';
 import Image from '/components/common/Image';
 import Text from '/components/common/Text';
 import WatchListIcon from '/components/common/WatchListIcon';
 import IncreaseDecreaseValue from '/components/common/IncreaseDecreaseValue';
-import { convertUnits } from '/lib/utils';
-import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat';
 
 const { width } = Dimensions.get('window');
 
@@ -65,71 +66,72 @@ const Item = ({
   onPressItem
  }: ItemProps) => {
   const { currency } = useLocales();
+  const { theme } = useGlobalTheme();
   const { id, symbol } = item;
   
   return (
-    <>
     <ItemContainer 
-      activeOpacity={0.6}
       onPress={() => onPressItem(item.id, item.symbol)} 
+      underlayColor={theme.base.underlayColor[100]}
       NoneUnderLine={NoneUnderLine} 
     >
-      <ItemColumn 
-        column={ 0.35 }
-        style={{
-          justifyContent: 'flex-start'
-        }}
-      >
-        <Text fontM color100 bold>
-          { index + 1 }
-        </Text>
-      </ItemColumn>
-      <ItemColumn 
-        column={ 1.4 }
-        style={{
-          justifyContent: 'flex-start'
-        }}
-      >
-        <ImageWrap>
-          <Image 
-            uri={ item.image } 
-            width={ 30 }
-            height={ 30 }
-          />
-        </ImageWrap>
-        <NameWrap>
-          <Text
-            fontML
-            bold
-            color100
-            numberOfLines={ 1 } 
-            ellipsizeMode='tail'
-          >
-            { id.charAt(0).toUpperCase() + id.slice(1) }
+      <>
+        <ItemColumn 
+          column={ 0.35 }
+          style={{
+            justifyContent: 'flex-start'
+          }}
+        >
+          <Text fontM color100 bold>
+            { index + 1 }
           </Text>
-          <Text>
-            { symbol.toUpperCase() }
-          </Text>
-        </NameWrap>
-      </ItemColumn>
-      <ItemColumn column={ 1.2 }>
-        { percentageKey 
-          ? <ValueWithPercentage 
-              value={item[valueKey]}
-              currency={currency}
-              percentage={item[percentageKey]}
+        </ItemColumn>
+        <ItemColumn 
+          column={ 1.4 }
+          style={{
+            justifyContent: 'flex-start'
+          }}
+        >
+          <ImageWrap>
+            <Image 
+              uri={ item.image } 
+              width={ 30 }
+              height={ 30 }
             />
-          : <OnlyValue 
-              value={item[valueKey]}
-              currency={currency}
-            />
-        }
-      </ItemColumn>
-      <ItemColumn column={ 0.5 } style={{ justifyContent: 'flex-end'}}>
-        <WatchListIcon id={item.id} size={28} />
-      </ItemColumn>
+          </ImageWrap>
+          <NameWrap>
+            <Text
+              fontML
+              bold
+              color100
+              numberOfLines={ 1 } 
+              ellipsizeMode='tail'
+            >
+              { id.charAt(0).toUpperCase() + id.slice(1) }
+            </Text>
+            <Text>
+              { symbol.toUpperCase() }
+            </Text>
+          </NameWrap>
+        </ItemColumn>
+        <ItemColumn column={ 1.2 }>
+          { percentageKey 
+            ? <ValueWithPercentage 
+                value={item[valueKey]}
+                currency={currency}
+                percentage={item[percentageKey]}
+              />
+            : <OnlyValue 
+                value={item[valueKey]}
+                currency={currency}
+              />
+          }
+        </ItemColumn>
+        <ItemColumn column={ 0.5 } style={{ justifyContent: 'flex-end'}}>
+          <WatchListIcon id={item.id} size={28} />
+        </ItemColumn>
+      </>
     </ItemContainer>
-    </>
   )
 }
 
@@ -145,11 +147,11 @@ type ColumnProps = {
 /* height값 바꿀 시 주의
    flexList getItemLayout 수치 똑같이 바꿔주기.
 */
-const ItemContainer = styled.TouchableOpacity<ContainerProps>`
-  width: ${({ theme }) => width - parseInt(theme.content.spacing) * 2}px;
+const ItemContainer = styled.TouchableHighlight<ContainerProps>`
+  /* width: ${({ theme }) => width - parseInt(theme.content.spacing) * 2}px; */
   height: 60px;
   flex-direction: row;
-  margin: 0 auto 6px;
+  padding: 0 ${({ theme }) => theme.content.spacing};
   ${(props) => !props.NoneUnderLine && css`
     border-bottom-width: 1px;
     border-bottom-color: ${({ theme }) => theme.base.background[300]};

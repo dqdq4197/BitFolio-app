@@ -37,6 +37,6 @@ const EmptyView = ({ query }: EmptyViewProps) => {
 export default EmptyView;
 
 const Container = styled.View`
-  padding: 0 ${({ theme }) => theme.content.spacing};
+  padding: 30px ${({ theme }) => theme.content.spacing} 0;
   align-items: center;
 `

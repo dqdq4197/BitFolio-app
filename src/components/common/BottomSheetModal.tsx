@@ -1,4 +1,5 @@
 import React, { forwardRef } from 'react';
+import { StyleProp, ViewStyle } from 'react-native';
 import styled, { css } from 'styled-components/native';
 import { 
   BottomSheetModal, 
@@ -8,26 +9,35 @@ import {
   BottomSheetHandleProps 
 } from '@gorhom/bottom-sheet';
 
+type HandleProps = Pick<ModalProps, 'handleColor'>
+interface BackgroundProps extends Pick<ModalProps, 'bgColor'> {
+  style: StyleProp<ViewStyle>,
+}
 
-interface ModalProps extends BottomSheetModalProps {}
+interface ModalProps extends BottomSheetModalProps {
+  bgColor?: string
+  handleColor?: string
+}
 
-const Handle: React.FC<BottomSheetHandleProps> = ({ animatedIndex, animatedPosition }) => {
+const Handle = ({ handleColor }: HandleProps) => {
 
   return (
-    <HandleContainer>
+    <HandleContainer handleColor={handleColor}>
       <LeftIndicator />
       <RightIndicator />
     </HandleContainer>
   );
 };
 
-const CustomBackground = ({ style }: BottomSheetBackgroundProps) => {
-  return <BackgroundView style={style}/>
+const CustomBackground = ({ style, bgColor }: BackgroundProps) => {
+  return <BackgroundView style={style} bgColor={bgColor} />
 }
 
 const BottomModal = forwardRef(({ 
   children, 
   snapPoints, 
+  bgColor,
+  handleColor,
   ...props 
 }: ModalProps, ref:React.Ref<BottomSheetModal>) => {
 
@@ -37,8 +47,8 @@ const BottomModal = forwardRef(({
         ref={ref}
         snapPoints={snapPoints}
         backdropComponent={BottomSheetBackdrop}
-        backgroundComponent={CustomBackground}
-        handleComponent={Handle}
+        backgroundComponent={({ style }) => <CustomBackground style={style} bgColor={bgColor} />}
+        handleComponent={() => <Handle handleColor={handleColor}/>}
         style={{
           shadowColor: "#000",
           shadowOffset: {
@@ -59,16 +69,16 @@ const BottomModal = forwardRef(({
 
 export default BottomModal;
 
-const BackgroundView = styled.View`
-  background-color: ${({ theme }) => theme.base.background[200]};
+const BackgroundView = styled.View<Pick<ModalProps, 'bgColor'>>`
+  background-color: ${({ theme, bgColor }) => bgColor || theme.base.background[200]};
   border-top-left-radius: ${({ theme }) => theme.border.l};
   border-top-right-radius: ${({ theme }) => theme.border.l};
 `
-const HandleContainer = styled.View`
+const HandleContainer = styled.View<Pick<ModalProps, 'handleColor'>>`
   align-content: center;
   align-items: center;
   justify-content: center;
-  background-color: ${({ theme }) => theme.base.background[200]};
+  background-color: ${({ theme, handleColor }) => handleColor || theme.base.background[200]};
   padding: 20px 0;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;

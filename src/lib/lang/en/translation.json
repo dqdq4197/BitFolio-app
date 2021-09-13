@@ -104,7 +104,9 @@
     "language": "Language",
     "english": "English",
     "korean": "Korean",
-    "currency": "Currency"
+    "default currencies": "Default Currencies",
+    "app settings": "App Settings",
+    "launch screen": "Launch Screen"
   },
   "search": {
     "recent searches": "Recent searches",

@@ -4,13 +4,13 @@ import styled from 'styled-components/native';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
-import Text from '/components/common/Text';
-import SurfaceWrap from '/components/common/SurfaceWrap';
 import { useAppSelector } from '/hooks/useRedux';
 import useCoinMarketData from '/hooks/useCoinMarketData';
-import Item from './popularList/Item';
-import { CoinMarketReturn } from '/lib/api/CoinGeckoReturnType';
 import useGlobalTheme from '/hooks/useGlobalTheme';
+import { CoinMarketReturn } from '/lib/api/CoinGeckoReturnType';
+import Text from '/components/common/Text';
+import SurfaceWrap from '/components/common/SurfaceWrap';
+import Item from './popularList/Item';
 
 if (Platform.OS === 'android') {
   UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -30,18 +30,24 @@ const EmptyWatchListView = () => {
   }
 
   return (
-    <AddItemContainer onPress={handleItemPress}>
-      <AddItemIcon>
-        <AntDesign name="plus" size={24} color={theme.base.primaryColor} />
-      </AddItemIcon>
-      <Text fontML margin="0 0 0 15px">
-        { t('coinMarketHome.add coins') }
-      </Text>
+    <AddItemContainer 
+      onPress={handleItemPress}
+      underlayColor={theme.base.underlayColor[100]}
+    >
+      <>
+        <AddItemIcon>
+          <AntDesign name="plus" size={24} color={theme.base.primaryColor} />
+        </AddItemIcon>
+        <Text fontML bold margin="0 0 0 15px">
+          { t('coinMarketHome.add coins') }
+        </Text>
+      </>
     </AddItemContainer>
   )
 }
 
 const WatchList = ({ onPressItem }: ListProps) => {
+  const { theme } = useGlobalTheme();
   const { watchList } = useAppSelector(state => state.baseSettingReducer);
   const [newData, setNewData] = useState<CoinMarketReturn[]>([])
   const { t } = useTranslation();
@@ -54,9 +60,6 @@ const WatchList = ({ onPressItem }: ListProps) => {
   useEffect(() => {
     if(data) {
       let temp = data.slice();
-      LayoutAnimation.configureNext(
-        LayoutAnimation.create(200, 'easeInEaseOut', 'opacity')
-      );
       temp.sort((a, b) => watchList.indexOf(a.id) - watchList.indexOf(b.id));
       setNewData(temp);
     } else {
@@ -68,8 +71,9 @@ const WatchList = ({ onPressItem }: ListProps) => {
     <SurfaceWrap 
       title={t('coinMarketHome.watch list')} 
       marginBottomZero
+      parentPaddingZero
     >
-      <Text margin="5px 0 10px 0" > 
+      <Text margin={`5px 0 10px ${theme.content.spacing}`}> 
         { t('coinMarketHome.n.minute auto update', { n: 3 }) }
       </Text>
       { newData.length 
@@ -94,10 +98,11 @@ const WatchList = ({ onPressItem }: ListProps) => {
 
 export default WatchList;
 
-const AddItemContainer = styled.TouchableOpacity`
+const AddItemContainer = styled.TouchableHighlight`
   height: 60px;
   flex-direction: row;
   align-items: center;
+  padding: 0 ${({ theme }) => theme.content.spacing};
 `
 
 const AddItemIcon = styled.View`

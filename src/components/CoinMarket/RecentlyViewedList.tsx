@@ -55,6 +55,7 @@ const RecentlyViewedList = ({ onPressItem }: ListProps) => {
           return (
             <Card 
               key={coin.id} 
+              activeOpacity={0.8}
               onPress={() => onPressItem(coin.id, coin.symbol)}
             >
               <IconWrap>

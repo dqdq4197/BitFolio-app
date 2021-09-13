@@ -5,10 +5,11 @@ import { CoinMarketReturn } from '/lib/api/CoinGeckoReturnType';
 import { digitToFixed } from '/lib/utils';
 import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat';
 import useLocales from '/hooks/useLocales';
-import SparkLine from './SparkLine';
+import useGlobalTheme from '/hooks/useGlobalTheme';
 import Image from '/components/common/Image';
 import Text from '/components/common/Text';
 import IncreaseDecreaseValue from '/components/common/IncreaseDecreaseValue';
+import SparkLine from './SparkLine';
 
 type ItemProps = {
   item: CoinMarketReturn,
@@ -19,6 +20,7 @@ const { width } = Dimensions.get('window');
 
 const Item = ({ item, onPressItem }: ItemProps) => {
   const { currency } = useLocales();
+  const { theme } = useGlobalTheme();
   const { price_change_percentage_24h, id, current_price, symbol } = item;
   const isRising = (price_change_percentage_24h ?? 0) === 0
     ? null 
@@ -27,59 +29,60 @@ const Item = ({ item, onPressItem }: ItemProps) => {
   return (
     <>
     <ItemContainer 
-      activeOpacity={0.6}
       onPress={() => onPressItem(item.id, item.symbol)}
+      underlayColor={theme.base.underlayColor[100]}
     >
-      <ItemColumn 
-        column={ 1.3 }
-        style={{
-          justifyContent: 'flex-start'
-        }}
-      >
-        <ImageWrap>
-          <Image 
-            uri={ item.image } 
-            width={ 30 }
-            height={ 30 }
+      <>
+        <ItemColumn 
+          column={ 1.3 }
+          style={{
+            justifyContent: 'flex-start'
+          }}
+        >
+          <ImageWrap>
+            <Image 
+              uri={ item.image } 
+              width={ 30 }
+              height={ 30 }
+            />
+          </ImageWrap>
+          <NameWrap>
+            <Text
+              fontML
+              bold
+              color100
+              numberOfLines={ 1 } 
+              ellipsizeMode='tail'
+            >
+              { id.charAt(0).toUpperCase() + id.slice(1) }
+            </Text>
+            <Text>
+              { symbol.toUpperCase() }
+            </Text>
+          </NameWrap>
+        </ItemColumn>
+        <ItemColumn column={ 1 }>
+          <SparkLine
+            isRising={ isRising }
+            prices={ item.sparkline_in_7d.price }
           />
-        </ImageWrap>
-        <NameWrap>
-          <Text
-            fontML
-            bold
-            color100
-            numberOfLines={ 1 } 
-            ellipsizeMode='tail'
-          >
-            { id.charAt(0).toUpperCase() + id.slice(1) }
-          </Text>
-          <Text>
-            { symbol.toUpperCase() }
-          </Text>
-        </NameWrap>
-      </ItemColumn>
-      <ItemColumn column={ 1 }>
-        <SparkLine
-          isRising={ isRising }
-          prices={ item.sparkline_in_7d.price }
-          baseValue={ item.current_price - item.price_change_24h }
-        />
-      </ItemColumn>
-      <ItemColumn column={ 1 }>
-        <View style={{ width: '100%' }}>
-          <Text fontML color100 right>
-            { currencyFormat({
-              value: current_price,
-              prefix: getCurrencySymbol(currency),
-            }) }
-          </Text>
-          <IncreaseDecreaseValue
-            value={ digitToFixed(price_change_percentage_24h ?? 0, 2) }
-            afterPrefix={'%'}
-            right
-          />
-        </View>
-      </ItemColumn>
+        </ItemColumn>
+        <ItemColumn column={ 1 }>
+          <View style={{ width: '100%' }}>
+            <Text fontML color100 right>
+              { currencyFormat({
+                value: current_price,
+                prefix: getCurrencySymbol(currency),
+              }) }
+            </Text>
+            <IncreaseDecreaseValue
+              value={ digitToFixed(price_change_percentage_24h ?? 0, 2) }
+              afterPrefix={'%'}
+              right
+            />
+          </View>
+        </ItemColumn>
+      </>
     </ItemContainer>
     </>
   )
@@ -91,11 +94,11 @@ type ColumnProps = {
   column: number,
 }
 
-const ItemContainer = styled.TouchableOpacity`
-  width: ${({ theme }) => width - parseInt(theme.content.spacing) * 2}px;
+const ItemContainer = styled.TouchableHighlight`
   height: 60px;
   flex-direction: row;
   margin: 0 auto 6px;
+  padding: 0 ${({ theme }) => theme.content.spacing};
   border-bottom-width: 1px;
   border-bottom-color: ${({ theme }) => theme.base.background[300]};
 `

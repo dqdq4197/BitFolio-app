@@ -5,9 +5,10 @@ import Item from './Item'
 import useCoinMarketData from '/hooks/useCoinMarketData';
 import useAnimatedHeaderTitle from '/hooks/useAnimatedHeaderTitle';
 import useGlobalTheme from '/hooks/useGlobalTheme';
+import { ORDER } from '/lib/constant';
 import CustomRefreshControl from '/components/common/CustomRefreshControl';
 import FlatListHeader from './FlatListHeader';
-import { ORDER } from '/lib/constant';
+import Footer from './Footer';
 
 
 const Gainers = () => {
@@ -73,6 +74,7 @@ const Gainers = () => {
             description="최근 24시간 동안 거래량이 US$50,000 이상인 암호화폐만 표시됩니다."
           />
         }
+        ListFooterComponent={<Footer />}
         onScroll={handleScroll}
         refreshControl={
           <CustomRefreshControl

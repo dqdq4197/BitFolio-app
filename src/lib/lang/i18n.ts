@@ -25,6 +25,8 @@ export const onLanguageChange = async(value: baseTypes.Language) => {
   }
 }
 
+onLanguageChange('ko');
+
 export const getDeviceLanguage = () => {
   const appLanguage = Localization.locale;
 
@@ -57,11 +59,10 @@ const options = {
 }
 
 i18n.modules.languageDetector = languageDetector;
-i18n.use(initReactI18next)
+i18n
+  .use(initReactI18next)
+  .init(options)
 
 // initialize if not already initialized
-if (!i18n.isInitialized) {
-  i18n.init(options)
-}
 
 export default i18n;

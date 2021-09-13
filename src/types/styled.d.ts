@@ -20,10 +20,16 @@ declare module 'styled-components/native' {
       },
       primaryColor: string,
       secondPrimaryColor: string,
+      light100: string,
+      dark100: string,
       error: string,
       upColor: string,
       downColor: string,
       removeColor: string,
+      underlayColor: {
+        '100': string,
+        '200': string
+      }
     },
     size: {
       font_xxxl: string,

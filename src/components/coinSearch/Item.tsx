@@ -24,7 +24,7 @@ const Item = ({ item, onPressItem, index }: ItemProps) => {
   
   return (
     <Container 
-      underlayColor={ theme.base.background[300] }
+      underlayColor={ theme.base.underlayColor[100] }
       onPress={() => onPressItem(item.id, item.symbol, item.large, item.name)}
     >
       <>
@@ -79,8 +79,8 @@ const Item = ({ item, onPressItem, index }: ItemProps) => {
 export default Item;  
 
 const Container = styled.TouchableHighlight`
+  width: ${ width }px;
   height: 60px;
-  padding: 10px 0;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
@@ -93,7 +93,7 @@ const Col = styled.View`
 `
 const NameWrap = styled.View`
   // margin포함
-  width: ${({ theme }) => width - parseInt(theme.content.spacing) * 2 - IMAGE_WIDTH - RANK_WIDTH - 25}px;
+  width: ${({ theme }) => width - parseInt(theme.content.spacing) * 2 - IMAGE_WIDTH - RANK_WIDTH - 60}px;
   margin: 0 10px 0 15px;
 `
 
