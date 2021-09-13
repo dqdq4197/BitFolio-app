@@ -1,7 +1,11 @@
-import i18n from 'i18next';
+import i18n, { LanguageDetectorAsyncModule } from 'i18next';
 import { initReactI18next } from 'react-i18next';
+import AsyncStorage  from '@react-native-community/async-storage';
+import { baseTypes } from 'base-types';
+import * as Localization from 'expo-localization';
 import translationEN from './en/translation.json';
 import translationKO from './ko/translation.json';
+import { LANGUAGE_STORAGE_KEY } from '/lib/constant';
 
 export const resources = {
   en: {
@@ -12,29 +16,52 @@ export const resources = {
   }
 } as const;
 
-export const defaultLanguage = 'en';
-
-const options = {
-  lng: defaultLanguage,
-  fallbackLng: 'ko',
-  debug: true,
-  resources,
-  // react: {
-  //   useSuspense: false,
-  //   wait: false
-  // }
+export const onLanguageChange = async(value: baseTypes.Language) => {
+  try {
+    await AsyncStorage.setItem(LANGUAGE_STORAGE_KEY, value)
+    i18n.changeLanguage(value);
+  } catch (e) {
+    console.log('fails: save local language');
+  }
 }
 
-i18n
-  .use(initReactI18next)
+export const getDeviceLanguage = () => {
+  const appLanguage = Localization.locale;
+
+  return appLanguage.search(/-|_/g) !== -1
+    ? appLanguage.slice(0, 2)
+    : appLanguage;
+};
+
+const languageDetector: LanguageDetectorAsyncModule = {
+  init: () => {},
+  type: 'languageDetector',
+  async: true, // flags below detection to be async
+  detect: async (callback: (lng: string) => void) => {
+    const userLang = await AsyncStorage.getItem(LANGUAGE_STORAGE_KEY);
+
+    const deviceLang = 
+      userLang === 'default'
+        ? getDeviceLanguage()
+        : userLang || getDeviceLanguage()
+    
+    callback(deviceLang);
+  },
+  cacheUserLanguage: () => {}
+};
+
+const options = {
+  fallbackLng: 'en',
+  debug: true,
+  resources
+}
+
+i18n.modules.languageDetector = languageDetector;
+i18n.use(initReactI18next)
 
 // initialize if not already initialized
-// if (!i18n.isInitialized) {
-  i18n.init(options);
-// }
-export default i18n;
-// const batch = require.context("../foo/", false,  /\.js$/)
-// {t('n.selected', { n: 5 })}
-// "n.selected": "{{n}} 개 선택됨."
+if (!i18n.isInitialized) {
+  i18n.init(options)
+}
 
-// import { Localization } from 'expo-localization';
+export default i18n;

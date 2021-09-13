@@ -1,14 +1,18 @@
-import { useAppSelector, useAppDispatch } from './useRedux';
-import { changeCurrency, changeLanguage } from '/store/baseSetting';
+import i18n from 'i18next';
 import { baseTypes } from 'base-types';
+import { useAppSelector, useAppDispatch } from './useRedux';
+import { changeCurrency } from '/store/baseSetting';
+import { onLanguageChange } from '/lib/lang/i18n';
+
+type LanguageType = Exclude<baseTypes.Language, 'default'>
 
 const useLocales = () => {
-  const { language, currency } = useAppSelector(state => state.baseSettingReducer);
+  const { currency } = useAppSelector(state => state.baseSettingReducer);
   const dispatch = useAppDispatch();
   
-  const onLanguageChange = (language: baseTypes.Language) => {
-    dispatch(changeLanguage(language))
-  }
+  const language = (() => {
+    return i18n.language as LanguageType
+  })()
 
   const onCurrencyChange = (currency: baseTypes.Currency) => {
     dispatch(changeCurrency(currency))

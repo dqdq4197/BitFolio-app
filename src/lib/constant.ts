@@ -8,6 +8,7 @@ enum TAB_ROUTE_NAME {
   news= 'news'
 }
 const CRYPTOCOMPARE_API_KEY = 'c95d5d7549c69950d894e2821ec15798d91f994e4ff0a5d360e78fbd46b9ca37';
+const LANGUAGE_STORAGE_KEY = 'local_language';
 const CURRENCIES = {
   krw: {
     iso: 'KRW',
@@ -143,6 +144,7 @@ const ACTIONS = {
 
 export {
   APP_NAME,
+  LANGUAGE_STORAGE_KEY,
   TAB_ROUTE_NAME,
   CRYPTOCOMPARE_API_KEY,
   CTYPTOCOMPARE_API_VERSION,

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { baseTypes } from 'base-types';
-import i18n, { defaultLanguage } from '/lib/lang/i18n';
+import i18n from '/lib/lang/i18n';
 import { TAB_ROUTE_NAME } from '/lib/constant';
 
 type DeviceSchemeType = Exclude<baseTypes.Theme, "default">
@@ -10,7 +10,6 @@ type ChartOptionType = 'prices' | 'total_volumes' | 'market_caps' | 'ohlc'
 interface BaseSettingState {
   deviceScheme: DeviceSchemeType
   localScheme: LocalSchemeType
-  language: baseTypes.Language
   currency: baseTypes.Currency
   chartOption: ChartOptionType
   chartTimeFrame: baseTypes.ChartTimeFrame
@@ -23,7 +22,6 @@ interface BaseSettingState {
 const initialState: BaseSettingState = {
   deviceScheme: 'dark',
   localScheme: 'default',
-  language: defaultLanguage,
   currency: 'krw',
   chartOption: 'prices',
   chartTimeFrame: 1,
@@ -42,10 +40,6 @@ export const baseSettingSlice = createSlice({
     },
     changeLocalScheme: (state, action: PayloadAction<LocalSchemeType>) => {
       state.localScheme = action.payload
-    },
-    changeLanguage: (state, action: PayloadAction<baseTypes.Language>) => {
-      state.language = action.payload
-      i18n.changeLanguage(action.payload)
     },
     changeCurrency: (state, action: PayloadAction<baseTypes.Currency>) => {
       state.currency = action.payload
@@ -90,7 +84,6 @@ export const baseSettingSlice = createSlice({
 export const { 
   changeDeviceScheme,
   changeLocalScheme,
-  changeLanguage,
   changeCurrency,
   changeChartOption,
   changeChartTimeFrame,
