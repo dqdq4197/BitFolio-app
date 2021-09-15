@@ -11,11 +11,15 @@ type CustomText = {
 interface FormatTextProps extends TextStyleProps{
   formatType: 'Pp'
   date: number | Date
+  afterPrefix?: string
+  beforePrefix?: string
 }
 
 const DateFormatText = ({ 
   formatType, 
   date,
+  afterPrefix,
+  beforePrefix,
   ...textStyles
 }: FormatTextProps) => {
   const { language } = useLocales();
@@ -24,7 +28,14 @@ const DateFormatText = ({
     <Text
       {...textStyles}
     >
+      { afterPrefix }
+      { afterPrefix && (
+        <Text>
+          &nbsp;
+        </Text>
+      ) } 
       { children}
+      { beforePrefix }
     </Text>
   )
   

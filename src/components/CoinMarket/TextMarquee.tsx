@@ -1,30 +1,34 @@
 import React, { useRef } from 'react';
-import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { useTranslation } from 'react-i18next';
 import { baseTypes } from 'base-types';
 import { Ionicons } from '@expo/vector-icons';
 import styled, { css } from 'styled-components/native';
 import { LinearGradient } from 'expo-linear-gradient';
 import TextTicker from 'react-native-text-ticker';
-import useMarkgetglobar from '/hooks/useMarkgetglobal';
-import Text from '/components/common/Text';
-import Modal from '/components/common/BottomSheetModal';
+import { BottomSheetModal } from '@gorhom/bottom-sheet';
+import { convertUnits } from '/lib/utils';
+import { AddSeparator, currencyFormat } from '/lib/utils/currencyFormat';
 import useLocales from '/hooks/useLocales';
 import useGlobalTheme from '/hooks/useGlobalTheme';
+import useMarkgetglobar from '/hooks/useMarkgetglobal';
+import DateFormatText from '/components/common/DateFormatText';
+import Text from '/components/common/Text';
+import Modal from '/components/common/BottomSheetModal';
 import SurfaceWrap from '/components/common/SurfaceWrap';
 import MarqueeTextSkeleton from '/components/skeletonPlaceholder/MarqueeTextSkeleton';
-import { krwFormat, timestampToDate, convertUnits } from '/lib/utils';
 
 
 type MarqueeProps = {}
 
 type ModalProps = {
-  cryptos: number;
-  exchanges: number;
-  marketcap: number;
-  volume: number;
-  currency: baseTypes.Currency,
-  updatedAt: number,
+  cryptos: number
+  exchanges: number
+  marketcap: number
+  volume: number
+  currency: baseTypes.Currency
+  updatedAt: number
+  btcDominance: number
+  ethDominance: number
 }
 const ModalContents = ({ 
   cryptos, 
@@ -32,10 +36,13 @@ const ModalContents = ({
   marketcap, 
   volume, 
   currency,
-  updatedAt
+  updatedAt,
+  btcDominance,
+  ethDominance
 }: ModalProps) => {
 
   const { t } = useTranslation();
+  const { language } = useLocales();
 
   return (
     <SurfaceWrap
@@ -46,9 +53,14 @@ const ModalContents = ({
       marginTopZero
       transparent
     >
-      <Text margin="5px 0 15px 16px" fontS>
-        { timestampToDate(updatedAt, 'mmddwhhmm', true) + ' 기준' }
-      </Text>
+      <DateFormatText 
+        date={ updatedAt * 1000 }
+        formatType="Pp"
+        afterPrefix={ language === 'en' ? t(`common.as of`) : undefined}
+        beforePrefix={ language === 'ko' ? t(`common.as of`) : undefined }
+        margin="5px 0 15px 16px" 
+        fontS
+      />
       <Table>
         <Row top>
           <Col>
@@ -58,7 +70,7 @@ const ModalContents = ({
               </Text>
             </Title>
             <Text fontM>
-              { krwFormat(marketcap) }
+              { AddSeparator(marketcap) }
             </Text>
           </Col>
           <Col left>
@@ -72,7 +84,7 @@ const ModalContents = ({
               </Text>
             </Title>
             <Text fontM> 
-                { krwFormat(volume) } 
+                { AddSeparator(volume) } 
             </Text>
           </Col>
         </Row>
@@ -84,17 +96,43 @@ const ModalContents = ({
               </Text>
             </Title>
             <Text fontM>
-              { krwFormat(cryptos) }
+              { AddSeparator(cryptos) }
             </Text>
           </Col>
           <Col left>
             <Title>
               <Text fontM color100>
-                { t('common.exchanges') }(24h)
+                { t('common.exchanges') }
               </Text>
             </Title>
             <Text fontM>
-              { krwFormat(exchanges) }
+              { AddSeparator(exchanges) }
+            </Text>
+          </Col>
+        </Row>
+        <Row top bottom>
+          <Col>
+            <Title>
+              <Text fontM color100>
+                { 'BTC ' + t('common.dominance') }
+              </Text>
+            </Title>
+            <Text fontM>
+              { currencyFormat({
+                value: btcDominance,
+              }) }%
+            </Text>
+          </Col>
+          <Col left>
+            <Title>
+              <Text fontM color100>
+                { 'ETH ' + t('common.dominance') }
+              </Text>
+            </Title>
+            <Text fontM>
+            { currencyFormat({
+                value: ethDominance,
+              }) }%
             </Text>
           </Col>
         </Row>
@@ -104,6 +142,7 @@ const ModalContents = ({
 }
 
 const TextMarquee = ({ }: MarqueeProps) => {
+  const { t } = useTranslation();
   const { data: marketGlobarData } = useMarkgetglobar({ suspense: false });
   const { currency } = useLocales();
   const { theme } = useGlobalTheme();
@@ -126,11 +165,17 @@ const TextMarquee = ({ }: MarqueeProps) => {
         duration={40000}
         repeatSpacer={30}
       >
-        <Text fontM style={{ color: 'white' }}>
-          Cryptos: { data.active_cryptocurrencies } •
-          Exchanges: { data.markets } •
-          Market Cap:  { convertUnits(data.total_market_cap[currency], currency) } •
-          24h Vol:  { convertUnits(data.total_volume[currency], currency) }
+        <Text fontM dark100 bold>
+          { t(`common.cryptocurrencies`) + ': ' + data.active_cryptocurrencies + ' ' }  
+          • { t('common.exchanges') + ': ' + data.markets + ' ' } 
+          • { t('coinMarketHome.market cap') + ': ' + convertUnits(data.total_market_cap[currency], currency) + ' '} 
+          • { 
+            t('common.n.hour', { n: 24 }) 
+            + ' '
+            + t('coinMarketHome.volume') 
+            + ': '
+            + convertUnits(data.total_volume[currency], currency) 
+            }
         </Text>
       </TextTicker>
       <IconWrap
@@ -147,7 +192,7 @@ const TextMarquee = ({ }: MarqueeProps) => {
       <Modal
         key="market-global"
         ref={ModalRef}
-        snapPoints={['35%']}
+        snapPoints={['50%']}
       >
         <ModalContents 
           cryptos={ data.active_cryptocurrencies }
@@ -156,6 +201,8 @@ const TextMarquee = ({ }: MarqueeProps) => {
           volume={ data.total_volume[currency] }
           currency={ currency }
           updatedAt={ data.updated_at }
+          btcDominance={ data.market_cap_percentage['btc'] }
+          ethDominance={ data.market_cap_percentage['eth'] }
         />
       </Modal>
     </Container>
