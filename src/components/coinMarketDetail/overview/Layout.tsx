@@ -1,12 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { Dimensions } from 'react-native';
 import styled from 'styled-components/native';
-import { useTranslation } from 'react-i18next';
 import { BlurView } from 'expo-blur';
-import PriceAndDate from './PriceAndDate';
-import ChartTab from './ChartTab';
-import PriceChangePercentage from './PriceChangePercentage';
-import Stats from './Stats';
 import { useAppSelector, shallowEqual } from '/hooks/useRedux';
 import useCoinDetailData from '/hooks/useCoinDetailData';
 import { useCoinIdContext } from '/hooks/useCoinIdContext';
@@ -14,15 +9,19 @@ import useLocales from '/hooks/useLocales';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import CustomRefreshControl from '/components/common/CustomRefreshControl';
 import ScrollView from '/components/common/ScrollView'
-import MainChart from './priceChart';
 import AddTransactionButton from '../AddTransactionButton';
 import WatchButton from '../WatchButton';
+import PriceAndDate from './PriceAndDate';
+import ChartTab from './ChartTab';
+import PriceChangePercentage from './PriceChangePercentage';
+import Stats from './Stats';
+import MainChart from './priceChart';
+
 
 
 const { width } = Dimensions.get('window');
 
 const Layout = () => {
-  const { t } = useTranslation();
   const { theme, scheme } = useGlobalTheme();
   const { id } = useCoinIdContext();
   const [refreshing, setRefreshing] = useState(false);
@@ -55,6 +54,7 @@ const Layout = () => {
           <PriceAndDate
             lastUpdatedPrice={data.market_data.current_price[currency]}
             lastUpdatedDate={data.last_updated}
+            percentage_24h={data.market_data.price_change_percentage_24h_in_currency[currency]}
           />
           <MainChart 
             id={id}

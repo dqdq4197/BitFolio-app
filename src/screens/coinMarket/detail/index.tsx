@@ -29,9 +29,13 @@ const DetailTab = ({ route, navigation }:any) => {
     const { id } = param;
     navigation.setOptions({
       title: id.charAt(0).toUpperCase() + id.slice(1),
+      headerTitleStyle: {
+        fontSize: theme.size.font_ml,
+        fontWeight: 'bold',
+      },
       headerRight: () => (
         <WatchListIcon id={id} size={28}/>
-      )
+      ),
     })
   }, [])
 

@@ -60,6 +60,9 @@ const WatchList = ({ onPressItem }: ListProps) => {
   useEffect(() => {
     if(data) {
       let temp = data.slice();
+      LayoutAnimation.configureNext(
+        LayoutAnimation.create(200, 'easeInEaseOut', 'opacity')
+      );
       temp.sort((a, b) => watchList.indexOf(a.id) - watchList.indexOf(b.id));
       setNewData(temp);
     } else {
