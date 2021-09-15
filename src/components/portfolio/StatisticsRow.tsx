@@ -69,7 +69,7 @@ StatisticsRow = ({
     const { id, symbol } = coin; 
     navigation.navigate('portfolioCoinDetail', {
       param: { id, symbol }, 
-      screen: 'Transactions' 
+      screen: t('coinDetail.transactions')
     })
   }
 

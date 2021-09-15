@@ -31,7 +31,7 @@ const Cursor = ({ data, width, height, CURSOR_SIZE }: CursorProps) => {
   const [translateY, setTranslateY] = useState(0);
   const [prevPoint, setPrevPoint] = useState(0);
   const dispatch = useAppDispatch();
-  const { scaleX, d } = useLineChartModel({ data, width, height });
+  const { scaleX, d } = useLineChartModel({ data, width, height: height - CURSOR_SIZE });
   const svgPath = parse(d);
   
   const bisect = d3.bisector((d: number[]) => {

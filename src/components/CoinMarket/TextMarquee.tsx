@@ -65,17 +65,17 @@ const ModalContents = ({
         <Row top>
           <Col>
             <Title>
-              <Text fontM color100>
+              <Text fontM bold>
                 { t('coinMarketHome.market cap') + ` (${ currency.toUpperCase() }) ` }
               </Text>
             </Title>
-            <Text fontM>
+            <Text fontM bold color100>
               { AddSeparator(marketcap) }
             </Text>
           </Col>
           <Col left>
             <Title>
-              <Text fontM color100>
+              <Text fontM bold>
                 { t('common.n.hour', { n: 24 }) 
                   + ' '
                   + t('coinMarketHome.volume') 
@@ -83,7 +83,7 @@ const ModalContents = ({
                 }
               </Text>
             </Title>
-            <Text fontM> 
+            <Text fontM bold color100> 
                 { AddSeparator(volume) } 
             </Text>
           </Col>
@@ -91,21 +91,21 @@ const ModalContents = ({
         <Row top bottom>
           <Col>
             <Title>
-              <Text fontM color100>
+              <Text fontM bold>
                 { t('common.cryptocurrencies') }
               </Text>
             </Title>
-            <Text fontM>
+            <Text fontM bold color100>
               { AddSeparator(cryptos) }
             </Text>
           </Col>
           <Col left>
             <Title>
-              <Text fontM color100>
+              <Text fontM bold>
                 { t('common.exchanges') }
               </Text>
             </Title>
-            <Text fontM>
+            <Text fontM bold color100>
               { AddSeparator(exchanges) }
             </Text>
           </Col>
@@ -113,11 +113,11 @@ const ModalContents = ({
         <Row top bottom>
           <Col>
             <Title>
-              <Text fontM color100>
+              <Text fontM bold>
                 { 'BTC ' + t('common.dominance') }
               </Text>
             </Title>
-            <Text fontM>
+            <Text fontM bold color100>
               { currencyFormat({
                 value: btcDominance,
               }) }%
@@ -125,11 +125,11 @@ const ModalContents = ({
           </Col>
           <Col left>
             <Title>
-              <Text fontM color100>
+              <Text fontM bold>
                 { 'ETH ' + t('common.dominance') }
               </Text>
             </Title>
-            <Text fontM>
+            <Text fontM bold color100>
             { currencyFormat({
                 value: ethDominance,
               }) }%

@@ -2,7 +2,6 @@ import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { Animated } from 'react-native';
 import styled from 'styled-components/native';
 import { useAppSelector, shallowEqual } from '/hooks/useRedux';
-import useLocales from '/hooks/useLocales';
 import IncreaseDecreaseValue from '/components/common/IncreaseDecreaseValue';
 import { digitToFixed } from '/lib/utils';
 import { AddSeparator } from '/lib/utils/currencyFormat';
@@ -19,7 +18,6 @@ interface PriceAndDetailProsp {
 }
 
 const PriceAndDate = ({ lastUpdatedPrice, lastUpdatedDate, percentage_24h }: PriceAndDetailProsp) => {
-  const { language } = useLocales();
   const { datum, currency } = useAppSelector(state => ({
     datum: state.marketDetailReducer.datum,
     currency: state.baseSettingReducer.currency,
@@ -82,7 +80,7 @@ const PriceAndDate = ({ lastUpdatedPrice, lastUpdatedDate, percentage_24h }: Pri
           </Text>
           <Text fontML color100 margin="0 0 4px 0" heavy>
             { 
-              isCursorActive
+              datum.y !== 0
                 ? getOnlyDecimal({ value: datum.y, minLength: 2 })
                 : getOnlyDecimal({ value: lastUpdatedPrice, minLength: 2 })
             }

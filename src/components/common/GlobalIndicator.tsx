@@ -37,9 +37,9 @@ type WrapProps = {
   transparent: boolean
 }
 const IndicatorWrap = styled.View<WrapProps>`
-  position:absolute;
+  position: absolute;
   flex: 1;
-  width: ${width}px; 
+  width: ${ width }px; 
   height: 100%;
   align-items: center;
   justify-content: center;
@@ -47,4 +47,5 @@ const IndicatorWrap = styled.View<WrapProps>`
     ? 'transparent'
     : theme.base.background[200]
   };
+  left: 0;
 `

@@ -14,7 +14,7 @@ const Header = () => {
       <Text 
         color100 
         bold 
-        fontX
+        fontL
       >
         { t('coinDetail.latest news') }
       </Text>

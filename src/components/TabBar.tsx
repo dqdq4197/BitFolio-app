@@ -16,7 +16,7 @@ const TabBar = ({ descriptors, state, navigation }: BottomTabBarProps) => {
 
   const focusedOptions = descriptors[routes[index].key].options;
 
-  if(focusedOptions.tabBarVisible === false || routes[index].state?.index === 1) {
+  if(focusedOptions.tabBarVisible === false || routes[index].state?.index === 1 || routes[index].state?.index === 2 || routes[index].state?.index === 3 ) {
     return null;
   }
 

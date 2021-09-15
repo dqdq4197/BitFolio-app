@@ -28,7 +28,7 @@ const WatchListIcon = ({ id, size }: IconProps) => {
       color={
         watchList.includes(id)
         ? theme.base.primaryColor
-        : theme.base.text[200]
+        : theme.base.text[300]
       } 
     />
   )

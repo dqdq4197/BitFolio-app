@@ -36,7 +36,7 @@ export default function useSparkLineModel({
           .line()
           .x((d, i) => scaleX(i))
           .y(([y]) => scaleY(y))
-          .curve(shape.curveBasis)(formattedValues) as string
+          .curve(shape.curveCardinal)(formattedValues) as string
     }
   }, [prices])
 }

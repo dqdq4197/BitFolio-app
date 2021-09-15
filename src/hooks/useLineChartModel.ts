@@ -26,7 +26,7 @@ export default function Model({ data, width, height }: ModelProps) {
       .line<number[]>()
       .x(p => scaleX(p[0]))
       .y(p => scaleY(p[1]))
-      .curve(shape.curveLinear)(data) as string
+      .curve(shape.curveCardinal)(data) as string
 
       return {
         scaleX,

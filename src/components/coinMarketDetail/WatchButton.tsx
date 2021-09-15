@@ -28,7 +28,7 @@ const WatchButton = ({
 }: ButtonProps) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const { theme } = useGlobalTheme();
+  const { theme, scheme } = useGlobalTheme();
   const { portfolios, activeIndex } = useAppSelector(state => ({
     portfolios: state.portfolioReducer.portfolios,
     activeIndex: state.portfolioReducer.activeIndex
@@ -115,7 +115,11 @@ const WatchButton = ({
         isLoading={!id }
         isDisabled={!id }
         borderPosition={['top', 'bottom']}
-        initialBgColor={theme.base.background[300]}
+        initialBgColor={
+          scheme === 'dark'
+            ? theme.base.background[300]
+            : theme.base.text[200]
+        }
       />
     </>
   )

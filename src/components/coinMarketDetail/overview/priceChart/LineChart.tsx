@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import Cursor from './Cursor';
 import styled from 'styled-components/native';
-import { Dimensions } from 'react-native';
 import { 
   VictoryChart, 
   VictoryBar,
@@ -81,7 +80,7 @@ const LineChart = ({
             data={data[chartOption]} 
             x={0}
             y={1}
-            interpolation="linear"
+            interpolation="cardinal"
           />
           <VictoryAxis 
             dependentAxis

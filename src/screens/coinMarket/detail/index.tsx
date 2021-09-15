@@ -57,8 +57,8 @@ const DetailTab = ({ route, navigation }:any) => {
           <Tab.Screen name={t('coinDetail.profile')} component={Profile} />
           <Tab.Screen name={t('coinDetail.news')} component={News} />
           <Tab.Screen name={t('coinDetail.transactions')} component={Transactions} />
-          <Tab.Screen name={t('coinDetail.notice')} component={Notice} />
-          <Tab.Screen name={t('coinDetail.discussion')} component={Discussion} />
+          {/* <Tab.Screen name={t('coinDetail.notice')} component={Notice} />
+          <Tab.Screen name={t('coinDetail.discussion')} component={Discussion} /> */}
         </Tab.Navigator>
       </CoinIdProvider>
     </GeneralTemplate>
