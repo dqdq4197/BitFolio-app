@@ -5,8 +5,8 @@ import LineChart from './LineChart';
 
 const HEIGHT = 250;
 const PADDING = 25 // 차트 padding
-const { width: WIDTH } = Dimensions.get("window");
 const VOLUME_HEIGHT = 50
+const { width: WIDTH } = Dimensions.get("window");
 
 type ContainerProps = {
   id: string,

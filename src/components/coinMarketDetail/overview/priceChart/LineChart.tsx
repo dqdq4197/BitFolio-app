@@ -16,6 +16,7 @@ import { CONTENT_SPACING } from '/lib/constant';
 
 // const φ = (1 + Math.sqrt(5)) / 2;
 // const height = (1 - 1 / φ) * Dimensions.get("window").height;
+const CURSOR_SIZE = 16;
  
 interface ConstType {
   WIDTH: number,
@@ -59,6 +60,7 @@ const LineChart = ({
           height={ HEIGHT }
           padding={{
             right: PADDING,
+            top: CURSOR_SIZE
           }}
           scale={{x: "time", y: 'linear'}}
         >  
@@ -116,6 +118,7 @@ const LineChart = ({
               data={data[chartOption]}
               width={WIDTH - CONTENT_SPACING * 2}
               height={HEIGHT}
+              CURSOR_SIZE={CURSOR_SIZE}
             />
           }
         </CursorContainer>
@@ -160,7 +163,7 @@ const LineChart = ({
               },
               tickLabels: {
                 fill: theme.base.text[200],
-                fontSize: theme.size.font_ml,
+                fontSize: theme.size.font_m,
               },  
             }} 
            />

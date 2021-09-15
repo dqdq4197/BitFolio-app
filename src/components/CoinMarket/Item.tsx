@@ -95,9 +95,8 @@ type ColumnProps = {
 }
 
 const ItemContainer = styled.TouchableHighlight`
-  height: 60px;
+  height: 65px;
   flex-direction: row;
-  margin: 0 auto 6px;
   padding: 0 ${({ theme }) => theme.content.spacing};
   border-bottom-width: 1px;
   border-bottom-color: ${({ theme }) => theme.base.background[300]};

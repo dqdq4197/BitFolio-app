@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Dimensions } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
 import styled from 'styled-components/native';
 import { 
   LongPressGestureHandler, 
@@ -17,16 +17,16 @@ import { useAppDispatch } from '/hooks/useRedux';
 import useLineChartModel from '/hooks/useLineChartModel';
 
 const { height } = Dimensions.get('window');
-const CURSOR_SIZE = 16;
 
 
 interface CursorProps {
-  data: number[][],
-  width: number,
-  height: number,
+  data: number[][]
+  width: number
+  height: number
+  CURSOR_SIZE: number
 }
 
-const Cursor = ({ data, width, height }: CursorProps) => {
+const Cursor = ({ data, width, height, CURSOR_SIZE }: CursorProps) => {
   const [translateX, setTranslateX] = useState(-100);
   const [translateY, setTranslateY] = useState(0);
   const [prevPoint, setPrevPoint] = useState(0);
@@ -84,13 +84,19 @@ const Cursor = ({ data, width, height }: CursorProps) => {
   });
 
   return (
-    <View style={StyleSheet.absoluteFill} >
+    <Container style={StyleSheet.absoluteFill} >
       <LongPressGestureHandler
         {...{ onGestureEvent }}
         minDurationMs={300}
       >
-        <Animated.View style={StyleSheet.absoluteFill}>
+        <Animated.View 
+          style={[
+            StyleSheet.absoluteFill, 
+            { paddingTop: CURSOR_SIZE }
+          ]}
+        >
           <CursorWrap 
+            CURSOR_SIZE={ CURSOR_SIZE }
             style={{ 
               transform: [
                 { translateX: translateX - CURSOR_SIZE / 2 },
@@ -103,16 +109,19 @@ const Cursor = ({ data, width, height }: CursorProps) => {
           </CursorWrap>
         </Animated.View>
       </LongPressGestureHandler>
-    </View>
+    </Container>
   );
 };
 
 export default Cursor;
 
-const CursorWrap = styled.View`
-  width: ${CURSOR_SIZE}px;
-  height: ${CURSOR_SIZE}px;
-  border-radius: ${CURSOR_SIZE / 2}px;
+type WrapProps = Pick<CursorProps, 'CURSOR_SIZE'>
+
+const Container = styled.View``
+const CursorWrap = styled.View<WrapProps>`
+  width: ${({ CURSOR_SIZE }) => CURSOR_SIZE }px;
+  height: ${({ CURSOR_SIZE }) => CURSOR_SIZE }px;
+  border-radius: ${({ CURSOR_SIZE }) => CURSOR_SIZE  / 2}px;
   border-width: 3px;
   border-color: ${({ theme }) => theme.base.text[200]};
   justify-content: center;
@@ -132,4 +141,3 @@ const CursorBody = styled.View`
   border-radius: 2px;
   background-color: ${({ theme }) => theme.base.text[100]};;
 `
-

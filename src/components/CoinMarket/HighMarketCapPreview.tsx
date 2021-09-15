@@ -9,7 +9,7 @@ import ShowAllButton from './ShowAllButton';
 
 
 type ListProps = {
-  onPressItem: (id: string, symbol: string) => void;
+  onPressItem: (id: string, symbol: string) => void
 }
 
 const HighPricePreview = ({ onPressItem }: ListProps) => {
@@ -27,7 +27,7 @@ const HighPricePreview = ({ onPressItem }: ListProps) => {
       parentPaddingZero
     >
       <ListWrap>
-        {data?.map(res => {
+        { data?.map(res => {
           return (
             <Item 
               key={ res.id }
@@ -35,7 +35,7 @@ const HighPricePreview = ({ onPressItem }: ListProps) => {
               onPressItem={onPressItem}
             />
           )
-        })}
+        }) }
         <ShowAllButton route={'CoinHighMarketCap'}/>
       </ListWrap>
     </SurfaceWrap>

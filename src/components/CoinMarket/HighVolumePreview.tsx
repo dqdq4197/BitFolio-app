@@ -8,7 +8,7 @@ import ShowAllButton from './ShowAllButton';
 import { useTranslation } from 'react-i18next';
 
 type ListProps = {
-  onPressItem: (id: string, symbol: string) => void;
+  onPressItem: (id: string, symbol: string) => void
 }
 
 const HighVolumePreview = ({ onPressItem }: ListProps) => {

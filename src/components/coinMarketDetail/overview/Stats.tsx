@@ -44,7 +44,7 @@ const Stats = ({
                 { t('coinDetail.rank') }
               </Text>
             </Title>
-            <Text fontML color100>
+            <Text bold color100>
               { rank || '--' }
             </Text>
           </Col>
@@ -54,7 +54,7 @@ const Stats = ({
                 { t('coinDetail.market cap') }
               </Text>
             </Title>
-            <Text fontML color100>
+            <Text bold color100>
               { marketcap
                 ? convertUnits(marketcap, currency) 
                 : '--' 
@@ -69,7 +69,7 @@ const Stats = ({
                 { t('coinDetail.algorithm') }
               </Text>
             </Title>
-            <Text fontML color100>
+            <Text bold color100>
               { hashingAlgorithm || '--' }
             </Text>
           </Col>
@@ -79,7 +79,7 @@ const Stats = ({
                 { t('coinDetail.total volume') }(24h)
               </Text>
             </Title>
-            <Text fontML color100>
+            <Text bold color100>
               { totalVolume
                 ? convertUnits(totalVolume, currency) 
                 : '--' 
@@ -94,7 +94,7 @@ const Stats = ({
                 { t('coinDetail.launched date') }
               </Text>
             </Title>
-            <Text fontML color100>
+            <Text bold color100>
               { genesis_date || '--' }
             </Text>
           </Col>
@@ -106,7 +106,7 @@ const Stats = ({
                 { t('coinDetail.max supply') }
               </Text>
             </Title>
-            <Text fontML color100>
+            <Text bold color100>
               { circulatingSupply !== 0 ? convertUnits(circulatingSupply, currency, false) : '--' }
               { ' / ' } 
               { maxSupply ? convertUnits(maxSupply, currency, false) : '--' }

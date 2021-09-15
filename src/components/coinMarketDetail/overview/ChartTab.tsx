@@ -1,5 +1,10 @@
 import React from 'react';
-import { Dimensions } from 'react-native';
+import { 
+  Dimensions, 
+  LayoutAnimation,
+  UIManager,
+  Platform
+} from 'react-native';
 import styled from 'styled-components/native';
 import { baseTypes } from 'base-types';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -9,9 +14,10 @@ import Text from '/components/common/Text';
 import { useAppDispatch, useAppSelector } from '/hooks/useRedux';
 import { changeChartTimeFrame, changeChartOption } from '/store/baseSetting';
 
+if (Platform.OS === 'android') {
+  UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
+}
 
-
-type TimeFrameType = baseTypes.ChartTimeFrame;
 const { width } = Dimensions.get('window');
 const timeFrame = [{
   label: '1D',
@@ -29,9 +35,14 @@ const timeFrame = [{
   label: 'All',
   value: 'max',
 },]
+type TimeFrameType = baseTypes.ChartTimeFrame;
 
-const ChartTab = () => {
-  const { theme } =useGlobalTheme();
+type TabProps = {
+  lastUpdatedPercentage:number
+}
+
+const ChartTab = ({ lastUpdatedPercentage }: TabProps) => {
+  const { theme } = useGlobalTheme();
   const { chartTimeFrame, chartOption } = useAppSelector(state => state.baseSettingReducer);
   const dispatch = useAppDispatch();
 
@@ -40,45 +51,82 @@ const ChartTab = () => {
   }
   
   const handleChartSelectorPress = (value: 'prices' | 'ohlc') => {
+    LayoutAnimation.configureNext(
+      LayoutAnimation.create(200, 'easeInEaseOut', 'opacity')
+    );
     dispatch(changeChartOption(value))
   }
 
   return (
     <ChartTabWrap>
-      <ChartTimeSelectorWrap horizontal>
-        <View>
-          {timeFrame.map((v) => {
-            return (
-              <TimeSelector 
-                key={v.value} 
-                onPress={() => handleTimeSelectorPress(v.value)}
-                isSelected={v.value === chartTimeFrame}
+      <ChartTimeSelectorScrollView horizontal>
+        { timeFrame.map(frame => {
+          return (
+            <Selector 
+              key={frame.value} 
+              onPress={() => handleTimeSelectorPress(frame.value)}
+              isSelected={frame.value === chartTimeFrame}
+              activeOpacity={0.6}
+            >
+              <Text 
+                fontM
+                bold
+                color={
+                  frame.value === chartTimeFrame 
+                    ? theme.base.text[100]
+                    : theme.base.text[200]
+                }
               >
-                <Text fontL color={v.value === chartTimeFrame ? '#eeeeee' : '#bdbdbd'}>
-                  {v.label}
-                </Text>
-              </TimeSelector>
-            )
-          })}
-        </View>
-      </ChartTimeSelectorWrap>
+                { frame.label }
+              </Text>
+            </Selector>
+          )
+        }) }
+      </ChartTimeSelectorScrollView>
       <ChartSelectorWrap>
-        <ChartSelector 
+        <Selector 
           isSelected={chartOption === 'prices'} 
           onPress={() => handleChartSelectorPress('prices')}
+          activeOpacity={0.6}
         >
           <MaterialCommunityIcons 
             name="chart-line-variant" 
-            size={24} 
-            color={chartOption === 'prices' ? theme.base.text[100] : theme.base.text[200]}
+            size={20} 
+            color={
+              lastUpdatedPercentage > 0 
+                ? theme.base.upColor
+                : lastUpdatedPercentage === 0 
+                  ? theme.base.background[200]
+                  : theme.base.downColor
+            }
           />
-        </ChartSelector>
-        <ChartSelector 
+        </Selector>
+        <Selector 
           isSelected={chartOption === 'ohlc'} 
           onPress={() => handleChartSelectorPress('ohlc')}
+          activeOpacity={0.6}
+          marginRightZero
         >
-          <CoinSvg name="candlestick" width={24} height={24}/>
-        </ChartSelector>
+          <CoinSvg 
+            name="candlestick" 
+            width={20} 
+            height={20}
+            fstColor={ 
+              lastUpdatedPercentage > 0 
+                ? theme.base.downColor
+                : lastUpdatedPercentage === 0 
+                  ? theme.base.background[200]
+                  : theme.base.upColor
+            }
+            scdColor={ 
+              lastUpdatedPercentage > 0 
+                ? theme.base.upColor
+                : lastUpdatedPercentage === 0 
+                  ? theme.base.background[200]
+                  : theme.base.downColor
+            }
+          />
+        </Selector>
       </ChartSelectorWrap>
     </ChartTabWrap>
   )
@@ -87,51 +135,35 @@ const ChartTab = () => {
 export default ChartTab;
 
 
-interface TimeSelectorProps {
+interface SelectorProps {
   isSelected: boolean
+  marginRightZero?: boolean
 }
 
-const View = styled.View`
-  flex: 2.5;
-  flex-direction: row;
-`
 const ChartTabWrap = styled.View`
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-between;
   width: ${ width }px;
   margin-top: 20px;
   padding: 0 ${({theme}) => theme.content.spacing};
 `
 
-const ChartTimeSelectorWrap = styled.ScrollView`
-  flex: 2.5;
-`
-
-const TimeSelector = styled.TouchableOpacity<TimeSelectorProps>`
-  margin-right: 10px;
-  padding: 3px 8px;
-  border-radius: ${({theme}) => theme.border.xl};
-  background-color: ${
-    (props) => 
-      props.isSelected 
-      ? 'rgba(255,255,255, .2)'
-      : 'transparent'
-  };
-`
+const ChartTimeSelectorScrollView = styled.ScrollView``
 
 const ChartSelectorWrap = styled.View`
   flex-direction: row;
-  flex: 1;
 `
 
-const ChartSelector = styled.TouchableOpacity<TimeSelectorProps>`
-  margin-right: 10px;
-  padding: 3px 8px;
-  border-radius: ${({theme}) => theme.border.xl};
+const Selector = styled.TouchableOpacity<SelectorProps>`
+  margin-right: ${({ marginRightZero }) => marginRightZero   ? 0  : 10 }px;
+  padding: 5px 10px;
+  border-radius: ${({theme}) => theme.border.m};
+  align-items: center;
+  justify-content: center;
   background-color: ${
-    (props) => 
-      props.isSelected 
-      ? 'rgba(255,255,255, .2)'
+    ({ theme, isSelected }) => 
+      isSelected 
+      ? theme.base.background[300]
       : 'transparent'
   };
 `

@@ -28,7 +28,7 @@ const RootNavigation = () => {
   const { t } = useTranslation();
   const { launchScreen } = useAppSelector(state => state.baseSettingReducer);
 
-  // onSchemeChange('dark');
+  onSchemeChange('dark');
   
   return (
     <NavigationContainer>
