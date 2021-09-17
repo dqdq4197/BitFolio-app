@@ -62,37 +62,6 @@ const BaseLineLabel = React.memo((props: any) => {
   ) 
 })
 
-// const ScatterWithLabel = (props: any) => {
-//   const { x, y, size } = props;
-
-//   return (
-//     <VictoryScatter 
-//       data={[{ x, y }]}
-//       size={ 2 }
-//       style={{ 
-//         data: { 
-//           fill: isCursorActive ? 'transparent' : strokeColor,
-//         }
-//       }}
-//       labels={[ 
-//         t('coinDetail.highest') + ' ' +
-//         currencyFormat({ value: highestPrice[1], prefix: getCurrencySymbol(currency) })
-//       ]}
-//       labelComponent={
-//         <VictoryLabel 
-//           style={[
-//             { 
-//               fill: isCursorActive ? 'transparent' : strokeColor, 
-//               fontSize: parseInt(theme.size.font_s) 
-//             }
-//           ]}
-//           textAnchor="end"
-//         />
-//       }
-//     />
-//   )
-// }
-
 const CustomLabel = (props: any) => {
   const { isCursorActive, color, text, x, y, dy, width } = props;
   const { theme } = useGlobalTheme();
@@ -137,12 +106,16 @@ const LineChart = ({
   const { currency } = useLocales();
 
   const strokeColor = useMemo(() => {
-    return  lastUpdatedPercentage > 0 
+    if(!data) return ;
+
+    const percentage = (lastUpdatedPrice - data.prices[0][1]) / data.prices[0][1] * 100;
+
+    return  percentage  > 0 
       ? theme.base.upColor
-      : lastUpdatedPercentage === 0 
+      : percentage === 0 
         ? theme.base.background[200]
         : theme.base.downColor
-  }, [lastUpdatedPercentage, theme])
+  }, [lastUpdatedPrice, data, theme])
   
   const handleCursorActiveChange = (state: boolean) => {
     if(isCursorActive && state) return ;
@@ -200,11 +173,7 @@ const LineChart = ({
           <VictoryLine 
             style={{
               data: {
-                stroke: lastUpdatedPercentage > 0 
-                  ? theme.base.upColor
-                  : lastUpdatedPercentage === 0 
-                    ? theme.base.background[200]
-                    : theme.base.downColor,
+                stroke: strokeColor,
                 strokeWidth: 1.5,
               }
             }}
@@ -250,17 +219,6 @@ const LineChart = ({
             }
             isCursorActive={isCursorActive}
           />
-          {/* <ScatterWithLabel 
-            x={ highestPrice[0] }
-            y={ highestPrice[1] }
-            size={ 2 }
-            labels={[ 
-              t('coinDetail.highest') + ' ' +
-              currencyFormat({ value: highestPrice[1], prefix: getCurrencySymbol(currency) })
-            ]}
-            isCursorActive={ isCursorActive }
-            color={ strokeColor }
-          /> */}
           <VictoryScatter 
             data={[{ x: highestPrice[0], y: highestPrice[1] }]}
             size={ 2 }
@@ -278,18 +236,6 @@ const LineChart = ({
                 isCursorActive={ isCursorActive }
                 color={ strokeColor }
               />
-              // <VictoryLabel 
-              //   style={[
-              //     { 
-              //       fill: isCursorActive ? 'transparent' : strokeColor, 
-              //       fontSize: parseInt(theme.size.font_s) 
-              //     }
-              //   ]}
-              //   textAnchor={(props) => {
-              //     // console.log(props.scale.x(highestPrice[0]))
-              //     return 'middle'
-              //   }}
-              // />
             }
           />
           <VictoryScatter 

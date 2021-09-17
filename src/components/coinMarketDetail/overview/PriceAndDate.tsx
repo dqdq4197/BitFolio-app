@@ -2,11 +2,12 @@ import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { Animated } from 'react-native';
 import styled from 'styled-components/native';
 import { useAppSelector, shallowEqual } from '/hooks/useRedux';
-import IncreaseDecreaseValue from '/components/common/IncreaseDecreaseValue';
+import useMarketLineChartData from '/hooks/useMarketLineChartData';
 import { digitToFixed } from '/lib/utils';
 import { AddSeparator, exponentToNumber } from '/lib/utils/currencyFormat';
 import { getOnlyDecimal, getCurrencySymbol } from '/lib/utils/currencyFormat';
 import Text from '/components/common/Text';
+import IncreaseDecreaseValue from '/components/common/IncreaseDecreaseValue';
 import DateFormatText from '/components/common/DateFormatText';
 
 const DATE_HEIGHT = 20;
@@ -19,9 +20,11 @@ interface PriceAndDetailProsp {
 }
 
 const PriceAndDate = ({ id, lastUpdatedPrice, lastUpdatedDate, percentage_24h }: PriceAndDetailProsp) => {
-  const { datum, currency } = useAppSelector(state => ({
+  const { data } = useMarketLineChartData({ id });
+  const { datum, currency, chartTimeFrame } = useAppSelector(state => ({
     datum: state.marketDetailReducer.datum,
     currency: state.baseSettingReducer.currency,
+    chartTimeFrame: state.baseSettingReducer.chartTimeFrame
     }),
     shallowEqual
   );
@@ -69,6 +72,17 @@ const PriceAndDate = ({ id, lastUpdatedPrice, lastUpdatedDate, percentage_24h }:
     return datum.x || Date.parse(lastUpdatedDate);
   }, [datum, lastUpdatedDate])
 
+  
+  const percentage = useMemo(() => {
+    if(chartTimeFrame === 1 && percentage_24h) {
+      return percentage_24h;
+    } else {
+      if(!data) return 0;
+
+      return (lastUpdatedPrice - data.prices[0][1]) / data.prices[0][1] * 100;
+    }
+  }, [chartTimeFrame, data, percentage_24h])
+
   return (
     <Container>
       <AnimatedView>
@@ -112,8 +126,8 @@ const PriceAndDate = ({ id, lastUpdatedPrice, lastUpdatedDate, percentage_24h }:
             heavy 
             fontML
             value={ 
-              percentage_24h !== undefined
-                ? digitToFixed(percentage_24h, 2) 
+              data !== undefined
+                ? digitToFixed(percentage, 2) 
                 : null
             }
             afterPrefix="%"

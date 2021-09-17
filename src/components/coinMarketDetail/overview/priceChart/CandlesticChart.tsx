@@ -83,14 +83,14 @@ const CandlesticChart = ({
             style={{ 
               tickLabels: {
                 fill: theme.base.text[200],
-                fontSize: theme.size.font_m,
+                fontSize: theme.size.font_s,
                 padding: -10
               },
               axis: {
                 stroke: 'transparent'
               },
               grid: {
-                stroke: theme.base.text[300],
+                stroke: theme.base.background[300],
                 strokeDasharray: 8,
               }
             }} 
@@ -119,7 +119,7 @@ export default CandlesticChart;
 
 const ChartContainer = styled.View<ConstType>`
   overflow: hidden;
-  margin-top: 30px;
+  margin: 30px 0 20px;
   width: ${({ WIDTH, PADDING }) => WIDTH + PADDING }px; 
   height: ${({ HEIGHT, PADDING }) => HEIGHT + PADDING }px;
 `
