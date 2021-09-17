@@ -40,6 +40,7 @@ const Layout = () => {
   }, []);
 
   if(!data) return <></>
+
   return (
     <>
       <ScrollView 
@@ -52,6 +53,7 @@ const Layout = () => {
       >
         <ChartArea>
           <PriceAndDate
+            id={id}
             lastUpdatedPrice={data.market_data.current_price[currency]}
             lastUpdatedDate={data.last_updated}
             percentage_24h={data.market_data.price_change_percentage_24h_in_currency[currency]}

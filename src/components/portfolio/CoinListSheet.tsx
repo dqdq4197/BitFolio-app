@@ -103,12 +103,16 @@ const AssetRow = ({ id, image, symbol, name }: AssetRowProps) => {
         >
           { symbol.toUpperCase() }
         </DynamicSizeText>
-        <Text
-          bold 
-          fontXS
-        >
-          { id.charAt(0).toUpperCase() + id.slice(1) }
-        </Text>
+        <AssetIdWrap>
+          <Text
+            bold 
+            fontXS
+            ellipsizeMode="tail"
+            numberOfLines={ 2 }
+          >
+            { id.charAt(0).toUpperCase() + id.slice(1) }
+          </Text>
+        </AssetIdWrap>
       </NameWrap>
     </Row>
   )
@@ -354,6 +358,9 @@ const Row = styled.TouchableOpacity`
 
 const StickyColWrap = styled.View`
   width: ${ COL_WIDTH }px;
+`
+const AssetIdWrap = styled.View`
+  width: ${ COL_WIDTH - 40 }px;
 `
 
 const Tab = styled.TouchableOpacity<{ align: 'right' | 'left' }>`

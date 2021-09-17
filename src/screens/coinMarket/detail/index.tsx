@@ -1,18 +1,17 @@
 import React, { useLayoutEffect, useEffect } from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { useTranslation } from 'react-i18next';
-import GeneralTemplate from '/components/GeneralTemplate';
-import TabBar from '/components/coinMarketDetail/TabBar';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import { CoinIdProvider } from '/hooks/useCoinIdContext'
 import { useAppDispatch } from '/hooks/useRedux';
 import { changeRecentlyViewed } from '/store/baseSetting';
 import WatchListIcon from '/components/common/WatchListIcon';
+import GeneralTemplate from '/components/GeneralTemplate';
+import TabBar from '/components/coinMarketDetail/TabBar';
+import Image from '/components/common/Image';
 import Overview from './Overview';
 import Profile from './Profile';
 import News from './News';
-import Discussion from './Discussion';
-import Notice from './Notice';
 import Transactions from './Transactions'
 
 
@@ -24,13 +23,14 @@ const DetailTab = ({ route, navigation }:any) => {
   const { param, screen } = route.params;
   const { theme } = useGlobalTheme();
   const dispatch = useAppDispatch();
-
+  console.log(param)
   useLayoutEffect(() => {
-    const { id } = param;
+    const { id, symbol } = param;
+    
     navigation.setOptions({
-      title: id.charAt(0).toUpperCase() + id.slice(1),
+      title: symbol ? symbol.toUpperCase() : (id.charAt(0).toUpperCase() + id.slice(1)),
       headerTitleStyle: {
-        fontSize: theme.size.font_ml,
+        fontSize: theme.size.font_l,
         fontWeight: 'bold',
       },
       headerRight: () => (

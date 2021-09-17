@@ -4,7 +4,7 @@ import styled from 'styled-components/native';
 import { useAppSelector, shallowEqual } from '/hooks/useRedux';
 import IncreaseDecreaseValue from '/components/common/IncreaseDecreaseValue';
 import { digitToFixed } from '/lib/utils';
-import { AddSeparator } from '/lib/utils/currencyFormat';
+import { AddSeparator, exponentToNumber } from '/lib/utils/currencyFormat';
 import { getOnlyDecimal, getCurrencySymbol } from '/lib/utils/currencyFormat';
 import Text from '/components/common/Text';
 import DateFormatText from '/components/common/DateFormatText';
@@ -12,12 +12,13 @@ import DateFormatText from '/components/common/DateFormatText';
 const DATE_HEIGHT = 20;
 
 interface PriceAndDetailProsp {
+  id: string
   lastUpdatedPrice: number
   lastUpdatedDate: string
   percentage_24h?: number
 }
 
-const PriceAndDate = ({ lastUpdatedPrice, lastUpdatedDate, percentage_24h }: PriceAndDetailProsp) => {
+const PriceAndDate = ({ id, lastUpdatedPrice, lastUpdatedDate, percentage_24h }: PriceAndDetailProsp) => {
   const { datum, currency } = useAppSelector(state => ({
     datum: state.marketDetailReducer.datum,
     currency: state.baseSettingReducer.currency,
@@ -70,19 +71,39 @@ const PriceAndDate = ({ lastUpdatedPrice, lastUpdatedDate, percentage_24h }: Pri
 
   return (
     <Container>
+      <AnimatedView>
+        <Animated.View
+          style={{
+            transform: [{ 
+              translateY
+            }],
+            opacity: 1
+          }}
+        >
+          <DateFormatText 
+            date={date}
+            formatType="Pp"
+            margin="5px 0 0 0"
+            bold
+          />
+          <Text bold color100 fontML>
+            { id.charAt(0).toUpperCase() + id.slice(1) }
+          </Text>
+        </Animated.View>
+      </ AnimatedView>
       <Row>
         <PriceWrap>
-          <Text fontL heavy color100 margin="0 5px 0 0" bold>
+          <Text style={{textAlignVertical: 'bottom'}} fontL heavy color100 margin="0 5px 0 0" bold>
             { getCurrencySymbol(currency) }
           </Text>
-          <Text fontXL heavy color100>
+          <Text fontXL heavy color100 style={{ transform: [{ translateY: 3 }]}}>
             { AddSeparator(Math.floor(datum.y || lastUpdatedPrice)) }.
           </Text>
-          <Text fontML color100 margin="0 0 4px 0" heavy>
+          <Text fontML color100 heavy>
             { 
               datum.y !== 0
-                ? getOnlyDecimal({ value: datum.y, minLength: 2 })
-                : getOnlyDecimal({ value: lastUpdatedPrice, minLength: 2 })
+                ? getOnlyDecimal({ value: exponentToNumber(datum.y), minLength: 2 })
+                : getOnlyDecimal({ value: exponentToNumber(lastUpdatedPrice), minLength: 2 })
             }
           </Text>
         </PriceWrap>
@@ -99,23 +120,6 @@ const PriceAndDate = ({ lastUpdatedPrice, lastUpdatedDate, percentage_24h }: Pri
           />
         </PercentageWrap>
       </Row>
-      <AnimatedView>
-        <Animated.View
-          style={{
-            transform: [{ 
-              translateY
-            }],
-            opacity
-          }}
-        >
-          <DateFormatText 
-            date={date}
-            formatType="Pp"
-            color400
-            margin="5px 0 0 0"
-          />
-        </Animated.View>
-      </ AnimatedView>
     </Container>
   )
 }
@@ -123,7 +127,7 @@ const PriceAndDate = ({ lastUpdatedPrice, lastUpdatedDate, percentage_24h }: Pri
 export default PriceAndDate;
 
 const Container = styled.View`
-  padding: 15px ${({theme}) => theme.content.spacing} 0;
+  padding: 0 ${({theme}) => theme.content.spacing};
 `
 const Row = styled.View`
   flex-direction: row;

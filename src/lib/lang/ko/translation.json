@@ -44,6 +44,8 @@
     }
   },
   "coinDetail": {
+    "highest": "최고",
+    "lowest": "최저",
     "Read more": "더보기",
     "Read less": "감추기",
     "no information available": "이용 가능한 정보가 없습니다.",

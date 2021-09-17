@@ -63,7 +63,11 @@ const RecentlyViewedList = ({ onPressItem }: ListProps) => {
                 <WatchListIcon id={coin.id} size={28} />
               </IconWrap>
               <TitleAndPercentage>
-                <Text fontML bold>
+                <Text 
+                  fontML 
+                  bold
+                  numberOfLines={1}
+                >
                   { coin.name }
                 </Text>
                 <IncreaseDecreaseValue

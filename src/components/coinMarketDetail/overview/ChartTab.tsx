@@ -144,7 +144,6 @@ const ChartTabWrap = styled.View`
   flex-direction: row;
   justify-content: space-between;
   width: ${ width }px;
-  margin-top: 20px;
   padding: 0 ${({theme}) => theme.content.spacing};
 `
 

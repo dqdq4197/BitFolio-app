@@ -22,8 +22,8 @@ const HighMarketcap = () => {
     setRefreshing(false);
   }, []);
 
-  const handlePressItem = useCallback((id:string) => {
-    navigation.navigate('CoinDetail', { param: { id }, screen: 'Overview' })
+  const handlePressItem = useCallback((id:string, symbol: string) => {
+    navigation.navigate('CoinDetail', { param: { id, symbol }, screen: 'Overview' })
   }, [])
 
   const handleScroll = Animated.event(

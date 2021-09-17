@@ -24,14 +24,33 @@ interface CursorProps {
   width: number
   height: number
   CURSOR_SIZE: number
+  PADDING: number
+  highestPrice: number[]
+  lowestPrice: number[]
+  onCursorActiveChange: (state: boolean) => void
 }
 
-const Cursor = ({ data, width, height, CURSOR_SIZE }: CursorProps) => {
+const Cursor = ({ 
+  data, 
+  width, 
+  height, 
+  CURSOR_SIZE, 
+  PADDING,
+  highestPrice,
+  lowestPrice,
+  onCursorActiveChange
+}: CursorProps) => {
   const [translateX, setTranslateX] = useState(-100);
   const [translateY, setTranslateY] = useState(0);
   const [prevPoint, setPrevPoint] = useState(0);
   const dispatch = useAppDispatch();
-  const { scaleX, d } = useLineChartModel({ data, width, height: height - CURSOR_SIZE });
+  const { scaleX, d } = useLineChartModel({ 
+    data, 
+    width, 
+    height: height - PADDING * 2,
+    xDomainExtends: [highestPrice[0], lowestPrice[0]],
+    yDomainExtends: [highestPrice[1], lowestPrice[1]]
+  });
   const svgPath = parse(d);
   
   const bisect = d3.bisector((d: number[]) => {
@@ -40,6 +59,7 @@ const Cursor = ({ data, width, height, CURSOR_SIZE }: CursorProps) => {
 
   const onChangeCoordinate = (x:number) => {
     if(x < 0 || x >= width) return;
+    onCursorActiveChange(true);
     const y = getYForX(svgPath, x)
     const x0 = scaleX.invert(x);
     const i = bisect(data, x0, 1);
@@ -60,6 +80,7 @@ const Cursor = ({ data, width, height, CURSOR_SIZE }: CursorProps) => {
 
   const onChangeActive = (state:boolean) => {
     if(!state) {
+      onCursorActiveChange(false);
       setTranslateX(-100);
       setTranslateY(0);
       dispatch(
@@ -84,32 +105,30 @@ const Cursor = ({ data, width, height, CURSOR_SIZE }: CursorProps) => {
   });
 
   return (
-    <Container style={StyleSheet.absoluteFill} >
-      <LongPressGestureHandler
-        {...{ onGestureEvent }}
-        minDurationMs={300}
+    <LongPressGestureHandler
+      {...{ onGestureEvent }}
+      minDurationMs={300}
+    >
+      <Animated.View 
+        style={[
+          StyleSheet.absoluteFill, 
+          { paddingTop: PADDING, paddingBottom: PADDING }
+        ]}
       >
-        <Animated.View 
-          style={[
-            StyleSheet.absoluteFill, 
-            { paddingTop: CURSOR_SIZE }
-          ]}
+        <CursorWrap 
+          CURSOR_SIZE={ CURSOR_SIZE }
+          style={{ 
+            transform: [
+              { translateX: translateX - CURSOR_SIZE / 2 },
+              { translateY: translateY - CURSOR_SIZE / 2 },
+            ]
+          }}
         >
-          <CursorWrap 
-            CURSOR_SIZE={ CURSOR_SIZE }
-            style={{ 
-              transform: [
-                { translateX: translateX - CURSOR_SIZE / 2 },
-                { translateY: translateY - CURSOR_SIZE / 2 },
-              ]
-            }}
-          >
-            <CursorLine />
-            <CursorBody />
-          </CursorWrap>
-        </Animated.View>
-      </LongPressGestureHandler>
-    </Container>
+          <CursorLine />
+          <CursorBody />
+        </CursorWrap>
+      </Animated.View>
+    </LongPressGestureHandler>
   );
 };
 

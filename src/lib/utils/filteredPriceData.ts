@@ -54,7 +54,7 @@ const filteredPriceData = (data: CharDataReturn, dateFrame: baseTypes.ChartTimeF
   }
 
   let elapsed = new Date().getTime() - start;
-
+  
   if(elapsed > 3) {
     console.log('걸린 시간',elapsed)
   } 

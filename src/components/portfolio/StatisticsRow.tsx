@@ -107,7 +107,7 @@ StatisticsRow = ({
               right: 20
             }}
           >
-            <Text>
+            <Text bold>
               { t(`common.add`) }
             </Text>
           </AddButton>

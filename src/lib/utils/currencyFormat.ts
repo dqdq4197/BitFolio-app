@@ -170,3 +170,22 @@ export function currencyFormat({
 
   return result;
 }
+
+export const exponentToNumber = (num: number) => {
+  let temp: any = num;
+  if (Math.abs(num) < 1.0) {
+    var e = parseInt(num.toString().split('e-')[1]);
+    if (e) {
+      temp *= Math.pow(10, e-1);
+      temp = '0.' + (new Array(e)).join('0') + temp.toString().substring(2);
+    }
+  } else {
+    var e = parseInt(temp.toString().split('+')[1]);
+    if (e > 20) {
+        e -= 20;
+        temp /= Math.pow(10,e);
+        temp += (new Array(e+1)).join('0');
+    }
+  }
+  return temp;
+}

@@ -3,7 +3,7 @@ import { Dimensions } from 'react-native';
 import CandlesticChart from './CandlesticChart';
 import LineChart from './LineChart';
 
-const HEIGHT = 250;
+const HEIGHT = 280;
 const PADDING = 25 // 차트 padding
 const VOLUME_HEIGHT = 50
 const { width: WIDTH } = Dimensions.get("window");

@@ -14,7 +14,9 @@ type ChartDataProps = {
 export default ({ id, days, interval }:ChartDataProps) => {
   const { currency, chartTimeFrame } = useAppSelector(state => state.baseSettingReducer);
   const [filteredData, setFilteredData] = useState<CharDataReturn>();
-  
+  const [highestPrice, setHighestPrice] = useState<number[]>([]);
+  const [lowestPrice, setLowestPrice] = useState<number[]>([]);
+
   const getKey = CoinGecko.coin.marketChart(id, {
     vs_currency: currency,
     days: chartTimeFrame,
@@ -25,9 +27,14 @@ export default ({ id, days, interval }:ChartDataProps) => {
 
   useEffect(() => {
     if(data) {
-      setFilteredData(filteredPriceData(data!, chartTimeFrame))
+      const filteredTemp = filteredPriceData(data!, chartTimeFrame);
+      const sortedPrices = data.prices.slice().sort((a, b) => a[1] - b[1]);
+
+      setHighestPrice(sortedPrices.slice(-1)[0])
+      setLowestPrice(sortedPrices[0])
+      setFilteredData(filteredTemp);
     }
   }, [data])
   
-  return { data: filteredData, ...args }
+  return { data: filteredData, highestPrice, lowestPrice, ...args }
 }

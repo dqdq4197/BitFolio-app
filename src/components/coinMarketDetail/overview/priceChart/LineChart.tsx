@@ -1,17 +1,21 @@
-import React from "react";
-import Cursor from './Cursor';
+import React, { useMemo, useState } from "react";
 import styled from 'styled-components/native';
+import { useTranslation } from 'react-i18next';
 import { 
   VictoryChart, 
   VictoryBar,
   VictoryLine, 
   VictoryAxis,
-  VictoryLabel
+  VictoryLabel,
+  VictoryScatter,
 } from 'victory-native';
 import GlobalIndicator from '/components/common/GlobalIndicator';
 import useMarketLineChartData from '/hooks/useMarketLineChartData';
 import useGlobalTheme from '/hooks/useGlobalTheme';
+import useLocales from '/hooks/useLocales';
 import { CONTENT_SPACING } from '/lib/constant';
+import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat';
+import Cursor from './Cursor';
 
 // const φ = (1 + Math.sqrt(5)) / 2;
 // const height = (1 - 1 / φ) * Dimensions.get("window").height;
@@ -31,6 +35,91 @@ interface ChartProps extends ConstType {
   lastUpdatedPercentage: number,
 }
 
+const BaseLineLabel = React.memo((props: any) => {
+  const { theme } = useGlobalTheme(); 
+  const x = 0;
+  const y = props.scale.y(props.y); 
+  const { isCursorActive } = props;
+
+  return (
+    <VictoryLabel 
+      {...props} 
+      x={x} 
+      y={y}
+      style={{
+        fill: isCursorActive ? theme.base.text[200] : 'transparent',
+        fontSize: parseInt(theme.size.font_s)
+      }}
+      backgroundStyle={{
+        fill: isCursorActive ? theme.base.background.surface : 'transparent',
+        borderRadius: 100
+      }}
+      textAnchor="start"
+      backgroundPadding={{
+        left: 10, right: 10, top: 5, bottom: 5
+      }}
+    />
+  ) 
+})
+
+// const ScatterWithLabel = (props: any) => {
+//   const { x, y, size } = props;
+
+//   return (
+//     <VictoryScatter 
+//       data={[{ x, y }]}
+//       size={ 2 }
+//       style={{ 
+//         data: { 
+//           fill: isCursorActive ? 'transparent' : strokeColor,
+//         }
+//       }}
+//       labels={[ 
+//         t('coinDetail.highest') + ' ' +
+//         currencyFormat({ value: highestPrice[1], prefix: getCurrencySymbol(currency) })
+//       ]}
+//       labelComponent={
+//         <VictoryLabel 
+//           style={[
+//             { 
+//               fill: isCursorActive ? 'transparent' : strokeColor, 
+//               fontSize: parseInt(theme.size.font_s) 
+//             }
+//           ]}
+//           textAnchor="end"
+//         />
+//       }
+//     />
+//   )
+// }
+
+const CustomLabel = (props: any) => {
+  const { isCursorActive, color, text, x, y, dy, width } = props;
+  const { theme } = useGlobalTheme();
+  
+  return (
+    <VictoryLabel 
+      x={ x }
+      y={ y }
+      dy={ dy }
+      style={[
+        { 
+          fill: isCursorActive ? 'transparent' : color, 
+          fontSize: parseInt(theme.size.font_s) 
+        }
+      ]}
+      textAnchor={ 
+        x < 45 
+        ? 'start' 
+        : width - x < 45
+          ? 'end'
+          : 'middle'
+      }
+      text={ text }
+    />
+  )
+}
+
 const LineChart = ({ 
   id,
   chartOption, 
@@ -41,8 +130,24 @@ const LineChart = ({
   PADDING,
   VOLUME_HEIGHT
 }: ChartProps) => {
-  const { data, isValidating } = useMarketLineChartData({ id })
+  const { t } = useTranslation();
+  const [isCursorActive, setIsCursorActive] = useState(false);
+  const { data, isValidating, highestPrice, lowestPrice } = useMarketLineChartData({ id })
   const { theme } = useGlobalTheme();
+  const { currency } = useLocales();
+
+  const strokeColor = useMemo(() => {
+    return  lastUpdatedPercentage > 0 
+      ? theme.base.upColor
+      : lastUpdatedPercentage === 0 
+        ? theme.base.background[200]
+        : theme.base.downColor
+  }, [lastUpdatedPercentage, theme])
+  
+  const handleCursorActiveChange = (state: boolean) => {
+    if(isCursorActive && state) return ;
+    setIsCursorActive(state);
+  }
 
   return (
     <ChartContainer
@@ -59,10 +164,39 @@ const LineChart = ({
           height={ HEIGHT }
           padding={{
             right: PADDING,
-            top: CURSOR_SIZE
+            top: PADDING,
+            bottom: PADDING
           }}
           scale={{x: "time", y: 'linear'}}
         >  
+          <VictoryAxis 
+            dependentAxis
+            style={{ 
+              tickLabels: {
+                fill: 'transparent',
+              },
+              axis: {
+                stroke: 'transparent'
+              },
+              grid: {
+                stroke: theme.base.background[300],
+                strokeDasharray: 8,
+              }
+            }} 
+          />
+          <VictoryLine 
+            style={{
+              data: {
+                stroke: theme.base.text[300],
+                strokeWidth: 1,
+                strokeDasharray: 3,
+              }
+            }}
+            data={data[chartOption].map(v => [v[0], data[chartOption][0][1]])}
+            x={0}
+            y={1} 
+            interpolation="linear"
+          />
           <VictoryLine 
             style={{
               data: {
@@ -71,7 +205,7 @@ const LineChart = ({
                   : lastUpdatedPercentage === 0 
                     ? theme.base.background[200]
                     : theme.base.downColor,
-                strokeWidth: 2,
+                strokeWidth: 1.5,
               }
             }}
             animate={{
@@ -80,7 +214,7 @@ const LineChart = ({
             data={data[chartOption]} 
             x={0}
             y={1}
-            interpolation="cardinal"
+            interpolation="catmullRom"
           />
           <VictoryAxis 
             dependentAxis
@@ -93,17 +227,90 @@ const LineChart = ({
             }
             style={{ 
               tickLabels: {
-                fill: theme.base.text[200],
-                fontSize: theme.size.font_m,
+                fill: isCursorActive ? theme.base.text[200]: 'transparent',
+                fontSize: theme.size.font_s,
               },
               axis: {
                 stroke: 'transparent'
               },
               grid: {
-                stroke: theme.base.text[300],
+                stroke: 'transparent',
                 strokeDasharray: 8,
               }
             }} 
+          />
+          <BaseLineLabel 
+            y={ data[chartOption][0][1] }
+            dy={ -5 }
+            text={ 
+              currencyFormat({ 
+                value: data[chartOption][0][1], 
+                prefix: getCurrencySymbol(currency)
+              }) 
+            }
+            isCursorActive={isCursorActive}
+          />
+          {/* <ScatterWithLabel 
+            x={ highestPrice[0] }
+            y={ highestPrice[1] }
+            size={ 2 }
+            labels={[ 
+              t('coinDetail.highest') + ' ' +
+              currencyFormat({ value: highestPrice[1], prefix: getCurrencySymbol(currency) })
+            ]}
+            isCursorActive={ isCursorActive }
+            color={ strokeColor }
+          /> */}
+          <VictoryScatter 
+            data={[{ x: highestPrice[0], y: highestPrice[1] }]}
+            size={ 2 }
+            style={{ 
+              data: { 
+                fill: isCursorActive ? 'transparent' : strokeColor,
+              }
+            }}
+            labels={[ 
+              t('coinDetail.highest') + ' ' +
+              currencyFormat({ value: highestPrice[1], prefix: getCurrencySymbol(currency) })
+            ]}
+            labelComponent={
+              <CustomLabel 
+                isCursorActive={ isCursorActive }
+                color={ strokeColor }
+              />
+              // <VictoryLabel 
+              //   style={[
+              //     { 
+              //       fill: isCursorActive ? 'transparent' : strokeColor, 
+              //       fontSize: parseInt(theme.size.font_s) 
+              //     }
+              //   ]}
+              //   textAnchor={(props) => {
+              //     // console.log(props.scale.x(highestPrice[0]))
+              //     return 'middle'
+              //   }}
+              // />
+            }
+          />
+          <VictoryScatter 
+            data={[{ x: lowestPrice[0], y: lowestPrice[1] }]}
+            size={ 2 }
+            style={{ 
+              data: { 
+                fill: isCursorActive ? 'transparent' : strokeColor
+              }
+            }}
+            labels={[ 
+              t('coinDetail.lowest') + ' ' +
+              currencyFormat({ value: lowestPrice[1], prefix: getCurrencySymbol(currency) }) 
+            ]}
+            labelComponent={
+              <CustomLabel 
+                isCursorActive={ isCursorActive }
+                color={ strokeColor }
+                dy={ 10 }
+              />
+            }
           />
         </VictoryChart>
         <CursorContainer
@@ -118,6 +325,10 @@ const LineChart = ({
               width={WIDTH - CONTENT_SPACING * 2}
               height={HEIGHT}
               CURSOR_SIZE={CURSOR_SIZE}
+              PADDING={PADDING}
+              highestPrice={highestPrice}
+              lowestPrice={lowestPrice}
+              onCursorActiveChange={handleCursorActiveChange}
             />
           }
         </CursorContainer>
@@ -162,7 +373,7 @@ const LineChart = ({
               },
               tickLabels: {
                 fill: theme.base.text[200],
-                fontSize: theme.size.font_m,
+                fontSize: parseInt(theme.size.font_m),
               },  
             }} 
            />

@@ -44,6 +44,8 @@
     }
   },
   "coinDetail": {
+    "highest": "Highest",
+    "lowest": "Lowest",
     "Read more": "Read More",
     "Read less": "Read Less",
     "no information available": "No information available",
