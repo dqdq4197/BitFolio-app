@@ -72,15 +72,15 @@ const PriceAndDate = ({ id, lastUpdatedPrice, lastUpdatedDate, percentage_24h }:
     return datum.x || Date.parse(lastUpdatedDate);
   }, [datum, lastUpdatedDate])
 
-  
+
   const percentage = useMemo(() => {
+    if(!data) return 0;
+
     if(chartTimeFrame === 1 && percentage_24h) {
       return percentage_24h;
-    } else {
-      if(!data) return 0;
-
-      return (lastUpdatedPrice - data.prices[0][1]) / data.prices[0][1] * 100;
     }
+
+    return (lastUpdatedPrice - data.prices[0][1]) / data.prices[0][1] * 100;
   }, [chartTimeFrame, data, percentage_24h])
 
   return (

@@ -83,7 +83,7 @@ const CandlesticChart = ({
             style={{ 
               tickLabels: {
                 fill: theme.base.text[200],
-                fontSize: theme.size.font_s,
+                fontSize: parseInt(theme.size.font_s),
                 padding: -10
               },
               axis: {

@@ -13,6 +13,7 @@ import GlobalIndicator from '/components/common/GlobalIndicator';
 import useMarketLineChartData from '/hooks/useMarketLineChartData';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import useLocales from '/hooks/useLocales';
+import { useAppSelector } from '/hooks/useRedux';
 import { CONTENT_SPACING } from '/lib/constant';
 import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat';
 import Cursor from './Cursor';
@@ -29,10 +30,11 @@ interface ConstType {
 }
 
 interface ChartProps extends ConstType {
-  id: string,
-  chartOption: "prices" | "total_volumes" | "market_caps",
-  lastUpdatedPrice: number,
-  lastUpdatedPercentage: number,
+  id: string
+  chartOption: "prices" | "total_volumes" | "market_caps"
+  lastUpdatedPrice: number
+  lastUpdatedPercentage: number
+  price_24h_ago: number
 }
 
 const BaseLineLabel = React.memo((props: any) => {
@@ -97,9 +99,11 @@ const LineChart = ({
   WIDTH,
   HEIGHT,
   PADDING,
-  VOLUME_HEIGHT
+  VOLUME_HEIGHT,
+  price_24h_ago
 }: ChartProps) => {
   const { t } = useTranslation();
+  const { chartTimeFrame } = useAppSelector(state => state.baseSettingReducer);
   const [isCursorActive, setIsCursorActive] = useState(false);
   const { data, isValidating, highestPrice, lowestPrice } = useMarketLineChartData({ id })
   const { theme } = useGlobalTheme();
@@ -108,14 +112,16 @@ const LineChart = ({
   const strokeColor = useMemo(() => {
     if(!data) return ;
 
-    const percentage = (lastUpdatedPrice - data.prices[0][1]) / data.prices[0][1] * 100;
+    const timeAgoPrice = chartTimeFrame === 1
+      ? lastUpdatedPrice - price_24h_ago
+      : lastUpdatedPrice - data.prices[0][1]
 
-    return  percentage  > 0 
+    return  timeAgoPrice  > 0 
       ? theme.base.upColor
-      : percentage === 0 
+      : timeAgoPrice === 0 
         ? theme.base.background[200]
         : theme.base.downColor
-  }, [lastUpdatedPrice, data, theme])
+  }, [lastUpdatedPrice, data, theme, price_24h_ago])
   
   const handleCursorActiveChange = (state: boolean) => {
     if(isCursorActive && state) return ;
@@ -165,7 +171,14 @@ const LineChart = ({
                 strokeDasharray: 3,
               }
             }}
-            data={data[chartOption].map(v => [v[0], data[chartOption][0][1]])}
+            data={ data[chartOption].map(
+              (v) => [
+                v[0], 
+                chartTimeFrame === 1
+                  ? price_24h_ago
+                  : data[chartOption][0][1]
+              ]
+            ) }
             x={0}
             y={1} 
             interpolation="linear"
@@ -178,7 +191,7 @@ const LineChart = ({
               }
             }}
             animate={{
-              duration: 300
+              duration: 200
             }}
             data={data[chartOption]} 
             x={0}
@@ -197,7 +210,7 @@ const LineChart = ({
             style={{ 
               tickLabels: {
                 fill: isCursorActive ? theme.base.text[200]: 'transparent',
-                fontSize: theme.size.font_s,
+                fontSize: parseInt(theme.size.font_s),
               },
               axis: {
                 stroke: 'transparent'
@@ -209,11 +222,17 @@ const LineChart = ({
             }} 
           />
           <BaseLineLabel 
-            y={ data[chartOption][0][1] }
+            y={ 
+              chartTimeFrame === 1
+              ? price_24h_ago
+              : data[chartOption][0][1] 
+            }
             dy={ -5 }
             text={ 
               currencyFormat({ 
-                value: data[chartOption][0][1], 
+                value: chartTimeFrame === 1
+                  ? price_24h_ago
+                  : data[chartOption][0][1], 
                 prefix: getCurrencySymbol(currency)
               }) 
             }

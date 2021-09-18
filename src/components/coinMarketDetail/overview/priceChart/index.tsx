@@ -9,17 +9,19 @@ const VOLUME_HEIGHT = 50
 const { width: WIDTH } = Dimensions.get("window");
 
 type ContainerProps = {
-  id: string,
-  chartOption: "prices" | "total_volumes" | "market_caps" | 'ohlc',
-  lastUpdatedPrice: number,
-  lastUpdatedPercentage: number,
+  id: string
+  chartOption: "prices" | "total_volumes" | "market_caps" | 'ohlc'
+  lastUpdatedPrice: number
+  lastUpdatedPercentage: number
+  price_24h_ago: number
 }
 
 const ChartContainer = ({ 
   chartOption,
   id,
   lastUpdatedPrice,
-  lastUpdatedPercentage
+  lastUpdatedPercentage,
+  price_24h_ago
 }: ContainerProps) => {
   return (
     <>
@@ -39,6 +41,7 @@ const ChartContainer = ({
           PADDING={PADDING}
           WIDTH={WIDTH}
           VOLUME_HEIGHT={VOLUME_HEIGHT}
+          price_24h_ago={price_24h_ago}
         />
     }
     </>

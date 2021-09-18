@@ -63,6 +63,10 @@ const Layout = () => {
             chartOption={chartOption}
             lastUpdatedPrice={data.market_data.current_price[currency]}
             lastUpdatedPercentage={data.market_data.price_change_percentage_24h_in_currency[currency]}
+            price_24h_ago={
+              data.market_data.current_price[currency]
+              - data.market_data.price_change_24h_in_currency[currency]
+            }
           />
           <ChartTab 
             lastUpdatedPercentage={data.market_data.price_change_percentage_24h_in_currency[currency]} 
