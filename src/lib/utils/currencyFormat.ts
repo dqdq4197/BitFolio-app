@@ -12,6 +12,7 @@ type OnlyDecimalProps = {
   minLength: number
   maxLength?: number
   zeroMask?: string
+  noneZeroCnt?: number
 }
 export function limitToScale(numStr: string, scale: number, fixedDecimalScale: boolean) {
   let str = ''
@@ -52,6 +53,7 @@ export function AddSeparator(value: string | number) {
  * @param  {number} value - 변경할 숫자
  * @param  {number} minLength - 소수점 최소 자릿수 
  * @param  {number|undefined} maxLength - 소수점 최대 자릿수 * undefined -> 0이 아닌 수 나올때 까지 리턴
+ * @param  {number|undefined} maxLength - 리턴할 값에 0이 아닌 숫자 갯수
  * @param  {string} zeroMask - [default: '00'] 소수 자리가 없을 경우 mask
  */
 
@@ -59,6 +61,7 @@ export function getOnlyDecimal({
   value, 
   minLength,
   maxLength, 
+  noneZeroCnt = 2,
   zeroMask = '00'
 }: OnlyDecimalProps):string {
   let result = value.toString().split('.');
@@ -68,14 +71,14 @@ export function getOnlyDecimal({
   } else {
     let maxTemp = maxLength ?? minLength;
     let nonZeroCnt = 0;
-
+    
     if(maxLength === undefined) {
       for(let i = 0; i < result[1].length; i++) {
         if(result[1][i] !== '0') {
-          if(i > minLength)
+          if(i >= minLength) 
             maxTemp = Math.max(i + 1, maxTemp) 
-            nonZeroCnt++;
-          if(nonZeroCnt === 2) break;
+          nonZeroCnt++;
+          if(nonZeroCnt === noneZeroCnt) break;
         }
       }
     }  
@@ -187,5 +190,7 @@ export const exponentToNumber = (num: number) => {
         temp += (new Array(e+1)).join('0');
     }
   }
+
+  // console.log(temp)
   return temp;
 }

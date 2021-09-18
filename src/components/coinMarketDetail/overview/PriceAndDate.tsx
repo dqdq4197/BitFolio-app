@@ -32,6 +32,8 @@ const PriceAndDate = ({ id, lastUpdatedPrice, lastUpdatedDate, percentage_24h }:
   const translateY = useRef(new Animated.Value(-DATE_HEIGHT)).current;
   const opacity = useRef(new Animated.Value(0)).current;
 
+  // console.log(exponentToNumber(datum.y))
+  // console.log(getOnlyDecimal({ value: exponentToNumber(datum.y), minLength: 2 }))
   useEffect(() => {
     if(datum.y !== 0 && !isCursorActive) {
       setIsCursorActive(true);
@@ -83,6 +85,7 @@ const PriceAndDate = ({ id, lastUpdatedPrice, lastUpdatedDate, percentage_24h }:
     return (lastUpdatedPrice - data.prices[0][1]) / data.prices[0][1] * 100;
   }, [chartTimeFrame, data, percentage_24h])
 
+  console.log(exponentToNumber(datum.y))
   return (
     <Container>
       <AnimatedView>
@@ -116,22 +119,29 @@ const PriceAndDate = ({ id, lastUpdatedPrice, lastUpdatedDate, percentage_24h }:
           <Text fontML color100 heavy>
             { 
               datum.y !== 0
-                ? getOnlyDecimal({ value: exponentToNumber(datum.y), minLength: 2 })
-                : getOnlyDecimal({ value: exponentToNumber(lastUpdatedPrice), minLength: 2 })
+                ? getOnlyDecimal({ 
+                    value: exponentToNumber(datum.y), 
+                    minLength: 2, 
+                    noneZeroCnt: exponentToNumber(datum.y) < 1 ? 3 : 2 
+                  })
+                : getOnlyDecimal({ 
+                    value: exponentToNumber(lastUpdatedPrice), 
+                    minLength: 2, 
+                    noneZeroCnt: exponentToNumber(lastUpdatedPrice) < 1 ? 3 : 2
+                  })
             }
           </Text>
         </PriceWrap>
         <PercentageWrap>
-          <IncreaseDecreaseValue
-            heavy 
-            fontML
-            value={ 
-              data !== undefined
-                ? digitToFixed(percentage, 2) 
-                : null
-            }
-            afterPrefix="%"
-          />
+          { data !== undefined
+            ? <IncreaseDecreaseValue
+                heavy 
+                fontML
+                value={ digitToFixed(percentage, 2) }
+                afterPrefix="%"
+              />
+            : <Text> -- </Text>
+          }
         </PercentageWrap>
       </Row>
     </Container>
