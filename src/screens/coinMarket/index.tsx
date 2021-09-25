@@ -42,7 +42,7 @@ const CoinMarketStack = ({ navigation }:StackScreenProps<any, any>) => {
   }
 
   return (
-    <Stack.Navigator headerMode='screen'>
+    <Stack.Navigator>
       <Stack.Screen 
         name="CoinMarketHome" 
         component={HomeScreen}

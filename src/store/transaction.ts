@@ -1,3 +1,4 @@
+import 'react-native-get-random-values';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
 import { FormData, SubmitNumericData } from '/components/portfolio/transactionModal/FormModal';

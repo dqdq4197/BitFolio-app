@@ -15,7 +15,7 @@ const { width } = Dimensions.get('window');
 const IMAGE_SIZE = 60;
 type ItemProps = {
   item: NewsData;
-  currentCategory: string;
+  currentCategory: string | null;
 }
 const Item = ({ item, currentCategory }: ItemProps) => {
   const { theme } = useGlobalTheme();
@@ -83,8 +83,8 @@ const Item = ({ item, currentCategory }: ItemProps) => {
 export default Item;
 
 const Container = styled.TouchableHighlight`
-  width: ${width}px;
-  padding: ${({ theme }) => theme.content.surfacePadding};
+  width: ${ width }px;
+  padding: ${({ theme }) => theme.content.spacing};
 `
 
 const FlexBox = styled.View`

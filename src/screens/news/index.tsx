@@ -3,13 +3,11 @@ import { Dimensions } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
 import useGlobalTheme from '/hooks/useGlobalTheme';
-import HomeScreen from './HomeScreen';
-import EditorScreen from './EditorScreen';
+import OverviewScreen from './Overview';
 
 
 type RootStackParamList = {
-  DiscusionHome: undefined;
-  Editor: undefined;
+  NewsOverview: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>()
@@ -48,14 +46,9 @@ const News = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen 
-        name="DiscusionHome" 
-        component={HomeScreen}
-        options={NavigationOptions('List')}
-      />
-      <Stack.Screen 
-        name="Editor" 
-        component={EditorScreen}
-        options={NavigationOptions('Editor')}
+        name="NewsOverview" 
+        component={OverviewScreen}
+        options={NavigationOptions('News')}
       />
     </Stack.Navigator>
   )

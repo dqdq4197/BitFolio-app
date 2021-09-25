@@ -47,15 +47,24 @@ export const Cryptocompare = {
      * @param {number} params.lang - Preferred language - English (EN) or Portuguese (PT) [ Min length - 1] [ Max length - 4] [ Default - EN]
      * @param {boolean} params.sortOrder The order to return news articles - latest or popular [ Min length - 1] [ Max length - 8] [ Default - latest]
      * @param {boolean} params.sign If set to true, the server will sign the requests (by default we don't sign them), this is useful for usage in smart contracts [ Default - false]
-     * @param {boolean} params.extraParams The name of your application (we recommend you send it) [ Min length - 1] [ Max length - 2000] [ Default - NotAvailable]
+     * @param {string} params.extraParams The name of your application (we recommend you send it) [ Min length - 1] [ Max length - 2000] [ Default - NotAvailable]
      * @returns {ReturnObject}
      */
     articles: (params: ArticleParams) => {
       if(Array.isArray(params.categories)) {
-        params.categories = params.categories.join(',');
+        if(params.categories.length === 0) {
+          delete params.categories;
+        } else {
+          params.categories = params.categories.join(',');
+        }
       }
+
       if(Array.isArray(params.feeds)) {
-        params.feeds = params.feeds.join(',');
+        if(params.feeds.length === 0) {
+          delete params.feeds;
+        } else {
+          params.feeds = params.feeds.join(',');
+        }
       }
       params.extraParams = APP_NAME;
       return {

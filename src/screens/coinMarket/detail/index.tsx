@@ -30,7 +30,7 @@ const DetailTab = ({ route, navigation }:any) => {
     navigation.setOptions({
       title: symbol ? symbol.toUpperCase() : (id.charAt(0).toUpperCase() + id.slice(1)),
       headerTitleStyle: {
-        fontSize: theme.size.font_l,
+        fontSize: parseInt(theme.size.font_l),
         fontWeight: 'bold',
       },
       headerRight: () => (

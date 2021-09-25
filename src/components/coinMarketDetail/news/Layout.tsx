@@ -9,23 +9,31 @@ import Header from './Header';
 import Item from './Item';
 
 const Layout = () => {
-  const { theme } =useGlobalTheme();
+  const { theme } = useGlobalTheme();
   const { symbol } = useCoinIdContext();
   const { data: categories } = useNewsCategories({});
-  const [category, setCategory] = useState('altcoin');
-  const { data, mutate } = useNewsArticles({ categories: category });
+  const [category, setCategory] = useState<string | null>(null);
+  const { data, mutate } = useNewsArticles({ 
+    categories: category ?? '',
+    willNotRequest: category === null
+  });
   const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
+    let isContain = false;
     if(categories) {
       for(let i = 0; i < categories?.length; i++) {
         if(categories[i].categoryName.toLowerCase() === symbol) {
+          isContain = true;
           setCategory(symbol);
           break;
         }
       }
+      if(!isContain) {
+        setCategory('altcoin')
+      }
     }
-  }, [])
+  }, [categories])
 
   const handleRefresh = useCallback(async() => {
     setRefreshing(true);

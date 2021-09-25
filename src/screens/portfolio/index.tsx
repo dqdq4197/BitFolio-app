@@ -37,7 +37,7 @@ const PortfolioStack = ({ navigation }:StackScreenProps<any, any>) => {
   }
 
   return (
-    <Stack.Navigator headerMode='screen'>
+    <Stack.Navigator>
       <Stack.Screen 
         name="portfolioOverview" 
         component={OverviewScreen}

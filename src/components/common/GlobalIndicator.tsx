@@ -48,4 +48,5 @@ const IndicatorWrap = styled.View<WrapProps>`
     : theme.base.background[200]
   };
   left: 0;
+  z-index: 111;
 `

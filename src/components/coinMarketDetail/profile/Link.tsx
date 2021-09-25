@@ -29,7 +29,7 @@ type LinkProps = {
 }
 
 const RowComponent = ({ url, title, icon, color }: RowComponentProps) => {
-  const { theme } =useGlobalTheme();
+  const { theme } = useGlobalTheme();
   return (
     <Row 
       onPress={() => {
@@ -138,13 +138,13 @@ const Link = ( props : LinkProps) => {
       { 
         renderLink().map((row, index) => (
           <RowWrap key={row.title}>
-            { index !== 0 && <HorizontalLine /> }
             <RowComponent
               url={row.url}
               title={row.title}
               icon={row.icon}
               color={color}
-            />
+              />
+              <HorizontalLine />
           </RowWrap>
         ))
       }

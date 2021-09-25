@@ -5,7 +5,6 @@ import {
 } from 'react-native';
 import styled from 'styled-components/native';
 import CircleCloseButton from '/components/common/CircleCloseButton';
-import Text from '/components/common/Text';
 
 type ModalProps = {
   visible: boolean;

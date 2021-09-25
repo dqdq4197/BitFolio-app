@@ -40,6 +40,7 @@ export default function useRequestInfinite<Data = unknown, Error = unknown>(
   } = useSWRInfinite<AxiosResponse<Data>, AxiosError<Error>>(
     (pageIndex, previousPageData) => {
       const key = request(pageIndex, previousPageData)
+      
       return key ? JSON.stringify(key) : null
     }, 
     (request: any) => axios(JSON.parse(request)),

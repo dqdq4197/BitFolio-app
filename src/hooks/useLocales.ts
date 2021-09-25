@@ -2,7 +2,7 @@ import i18n from 'i18next';
 import { baseTypes } from 'base-types';
 import { useAppSelector, useAppDispatch } from './useRedux';
 import { changeCurrency } from '/store/baseSetting';
-import { onLanguageChange } from '/lib/lang/i18n';
+import { onLanguageChange, getDeviceLanguage } from '/lib/lang/i18n';
 
 type LanguageType = Exclude<baseTypes.Language, 'default'>
 
@@ -17,7 +17,7 @@ const useLocales = () => {
   const onCurrencyChange = (currency: baseTypes.Currency) => {
     dispatch(changeCurrency(currency))
   }
-  return { language, currency, onLanguageChange, onCurrencyChange }
+  return { language, currency, onLanguageChange, onCurrencyChange, getDeviceLanguage }
 }
 
 export default useLocales;

@@ -16,6 +16,7 @@ import marketDetailReducer from './coinMarketDetail';
 import portfolioReducer from './portfolio';
 import transactionReducer from './transaction';
 import globalStateReducer from './globalState';
+import newsReducer from './news';
 
 const persistConfig = {
   key: 'root',
@@ -23,7 +24,8 @@ const persistConfig = {
   whitelist: [
     'baseSettingReducer', 
     'portfolioReducer', 
-    'transactionReducer'
+    'transactionReducer',
+    'newsReducer'
   ], 
   blacklist: [
     'marketDetailReducer',
@@ -37,7 +39,8 @@ const rootReducer = combineReducers({
   marketDetailReducer,
   portfolioReducer,
   transactionReducer,
-  globalStateReducer
+  globalStateReducer,
+  newsReducer
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

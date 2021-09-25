@@ -153,5 +153,18 @@
     "tap the": "",
     "n.is already in your portfolio": "{{n}}는 이미 귀하의 포트폴리오에 있습니다.",
     "would you like to add a transaction to.n?": "{{n}}에 거래를 추가하시겠습니까?"
+  },
+  "news": {
+    "latest": "최신",
+    "popular": "인기",
+    "feeds": "피드",
+    "categories": "카테고리",
+    "reset filter": "필터 재설정",
+    "see original": "원문 보기",
+    "translate to n": "{{n}}로 번역",
+    "all news categories": "모든 뉴스 카테고리",
+    "all news feeds": "모든 뉴스 피드",
+    "save categories": "카테고리 저장",
+    "save feeds": "피드 저장"
   }
 }

@@ -32,7 +32,7 @@ const CustomImage = ({
       setUpdatedWidth(win);
       setUpdatedHeight(height * ratio)
     }
-  }, [])
+  }, [width, height])
   
   const handleLoadEnd = () => {
     setIsLoaded(true);

@@ -153,5 +153,18 @@
     "tap the": "Tap the",
     "n.is already in your portfolio": "{{n}} is already in your portfolio",
     "would you like to add a transaction to.n?": "Would you like to add a transaction to {{n}}?"
+  },
+  "news": {
+    "latest": "Latest",
+    "popular": "Popular",
+    "feeds": "Feeds",
+    "categories": "Categories",
+    "reset filter": "Reset filter",
+    "see original": "See original",
+    "translate to n": "Translate to {{n}}",
+    "all news categories": "All News Categories",
+    "all news feeds": "All News Feeds",
+    "save categories": "Save Categories",
+    "save feeds": "Save Feeds"
   }
 }
