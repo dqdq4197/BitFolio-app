@@ -24,9 +24,6 @@ const News = () => {
         shadowColor: 'transparent', // theme.base.background[300]
       },
       headerTintColor: theme.base.text[100],
-      headerRight: () => (
-        <Ionicons name="md-settings-outline" size={24} color="white" />
-      ),
       headerBackTitleVisible: false,
       headerLeftContainerStyle: {
         paddingLeft: 10,

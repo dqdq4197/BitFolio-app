@@ -104,13 +104,25 @@
     "global metrics": "Global Metrics"
   },
   "setting": {
+    "app settings": "App Settings",
+    "screen theme": "Screen Theme",
+    "screen theme settings": "Screen Theme Settings",
     "dark mode": "Dark Mode",
+    "light mode": "Light Mode",
+    "light": "Light",
+    "dark": "Dark",
+    "system theme": "System Theme",
     "language": "Language",
+    "language settings": "Language Settings",
     "english": "English",
     "korean": "Korean",
     "default currencies": "Default Currencies",
-    "app settings": "App Settings",
-    "launch screen": "Launch Screen"
+    "launch screen": "Launch Screen",
+    "launch screen settings": "Launch Screen Settings",
+    "default currency settings": "Default Currency Settings",
+    "portfolio settings": "Protfolio Settings",
+    "support": "Support",
+    "app version": "App Version"
   },
   "search": {
     "recent searches": "Recent searches",

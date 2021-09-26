@@ -77,6 +77,9 @@ export const baseSettingSlice = createSlice({
       temp.unshift(action.payload);
       if(temp.length > 7) temp.pop();
       state.recentSearches = temp;
+    },
+    changeLaunchScreen: (state, action: PayloadAction<keyof typeof TAB_ROUTE_NAME >) => {
+      state.launchScreen = action.payload;
     }
   }
 })
@@ -89,6 +92,7 @@ export const {
   changeChartTimeFrame,
   changeRecentlyViewed,
   changeWatchList,
-  changeRecentSearches
+  changeRecentSearches,
+  changeLaunchScreen
 } = baseSettingSlice.actions;
 export default baseSettingSlice.reducer;

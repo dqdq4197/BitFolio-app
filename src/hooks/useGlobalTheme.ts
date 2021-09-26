@@ -19,6 +19,7 @@ const useGlobarTheme = () => {
   return { 
     theme: scheme === 'dark' ? darkTheme : lightTheme, 
     scheme,
+    localScheme,
     onSchemeChange 
   }
 }

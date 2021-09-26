@@ -104,13 +104,25 @@
     "global metrics": "글로벌 메트릭"
   },
   "setting": {
-    "dark mode": "다크모드",
+    "app settings": "앱 설정",
+    "screen theme": "화면 테마",
+    "screen theme settings": "화면 테마 설정",
+    "dark mode": "어두운 모드",
+    "light mode": "밝은 모드",
+    "light": "밝은",
+    "dark": "어두운",
+    "system theme": "시스템 테마",
     "language": "언어",
+    "language settings": "언어 설정",
     "english": "영어",
     "korean": "한국어",
     "default currencies": "기본 통화",
-    "app settings": "앱 설정",
-    "launch screen": "실행 화면"
+    "launch screen": "실행 화면",
+    "launch screen settings": "실행 화면 설정",
+    "default currency settings": "기본 통화 설정",
+    "portfolio settings": "포트폴리오 설정",
+    "support": "지원",
+    "app version": "앱 버전"
   },
   "search": {
     "recent searches": "최근 검색",

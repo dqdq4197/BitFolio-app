@@ -2,6 +2,8 @@
 // ----- BASE CONST ----------------
 
 const APP_NAME = 'bitfolio';
+const APP_VERSION = '1.0.0';
+
 enum TAB_ROUTE_NAME {
   home= 'home',
   portfolio= 'portfolio',
@@ -260,6 +262,7 @@ const ACTIONS = {
 
 export {
   APP_NAME,
+  APP_VERSION,
   LANGUAGE_STORAGE_KEY,
   TRANSLATE_PREFIX,
   GOOGLE_PLATFROM_KEY,

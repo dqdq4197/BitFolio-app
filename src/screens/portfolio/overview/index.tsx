@@ -14,10 +14,10 @@ import { PortfolioDataProvider } from '/components/portfolio/PortfolioDataContex
 
 const OverviewScreen = ({ navigation }: StackScreenProps<any>) => {
   const { theme } = useGlobalTheme();
-  const mainModalRef = useRef<BottomSheetModal>(null);
+  const settingModalRef = useRef<BottomSheetModal>(null);
 
   const handleSettingPress = useCallback(() => {
-    mainModalRef.current?.present();
+    settingModalRef.current?.present();
   }, []);
 
   useLayoutEffect(() => {
@@ -37,7 +37,7 @@ const OverviewScreen = ({ navigation }: StackScreenProps<any>) => {
   return (
     <GeneralTemplate>
       <ErrorBoundaryAndSuspense skeleton={<CoinHomeSkeleton />}>
-        <SettingModal ref={mainModalRef}/>
+        <SettingModal ref={settingModalRef}/>
         <PortfolioDataProvider>
           <Overview/>
         </PortfolioDataProvider>

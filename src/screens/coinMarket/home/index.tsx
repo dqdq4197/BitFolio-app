@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef } from 'react';
+import React, { useLayoutEffect, useRef, useCallback } from 'react';
 import styled from 'styled-components/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
@@ -12,12 +12,12 @@ import SettingModal from '/components/setting/SettingModal';
  
 
 const HomeScreen = ({ navigation }: StackScreenProps<any>) => {
-  const mainModalRef = useRef<BottomSheetModal>(null);
+  const settingModalRef = useRef<BottomSheetModal>(null);
   const { theme } = useGlobalTheme();
 
-  const handleSettingPress = () => {
-    mainModalRef.current?.present();
-  }
+  const handleSettingPress = useCallback(() => {
+    settingModalRef.current?.present();
+  }, [settingModalRef])
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -46,8 +46,8 @@ const HomeScreen = ({ navigation }: StackScreenProps<any>) => {
   return (
     <GeneralTemplate>
       <ErrorBoundaryAndSuspense skeleton={<CoinHomeSkeleton />}>
+        <SettingModal ref={settingModalRef}/>
         <Layout />
-        <SettingModal ref={mainModalRef}/>
       </ErrorBoundaryAndSuspense>
     </GeneralTemplate>
   )

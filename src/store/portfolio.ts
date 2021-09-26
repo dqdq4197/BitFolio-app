@@ -66,19 +66,6 @@ const initialState: InitialState = {
   portfolios: [{
     id: 'qwesfzcv-asd', // uuid 적용하기
     coins: [],
-    // {
-    //   id: 'bitcoin',
-    //   state: 'watching',
-    //   symbol: 'btc',
-    //   name: "Bitcoin",
-    //   image: 'https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1547033579'
-    // }, {
-    //   id: 'tether',
-    //   state: 'watching',
-    //   symbol: 'usdt',
-    //   name: "Tether",
-    //   image: 'https://assets.coingecko.com/coins/images/325/large/Tether-logo.png?1598003707'
-    // }
     assetSortType: 'default',
     mode: 'public',
     showValueMode: 'short',
