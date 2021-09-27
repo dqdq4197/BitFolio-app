@@ -15,7 +15,7 @@ type ButtonProps = {
 const CloseButton = forwardRef<any, ButtonProps>(
   ({ SIZE, STROKEWIDTH, RADIUS, CIRCUMFERENCE, onModalClose }, ref) => {
 
-  const { theme } = useGlobalTheme();
+  const { theme, scheme } = useGlobalTheme();
 
   return (
     <Conatiner size={SIZE} style={{ width: SIZE, height: SIZE}}>
@@ -42,8 +42,13 @@ const CloseButton = forwardRef<any, ButtonProps>(
       <Icon onPress={onModalClose}>
         <AntDesign 
           name="closecircle" 
-          size={SIZE - 5} 
-          color={ theme.base.text[200] }
+          size={SIZE - 6} 
+          color={ 
+            scheme === 'light'
+              ? theme.base.background[500] 
+              : theme.base.text[200] 
+            
+          }
         />
       </Icon>
     </Conatiner>

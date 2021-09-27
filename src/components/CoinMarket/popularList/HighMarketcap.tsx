@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { Animated, FlatList } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
 import Item from './Item'
 import useCoinMarketData from '/hooks/useCoinMarketData';
@@ -10,10 +11,14 @@ import FlatListHeader from './FlatListHeader';
 import Footer from './Footer';
 
 const HighMarketcap = () => {
+  const { t } = useTranslation();
   const { theme } = useGlobalTheme();
   const [refreshing, setRefreshing] = useState(false);
   const { data, mutate } = useCoinMarketData({ per_page: 100 });
-  const { scrollY } = useAnimatedHeaderTitle({ title: '시가 총액 Top100', triggerPoint: 30 });
+  const { scrollY } = useAnimatedHeaderTitle({ 
+    title: t(`common.market cap`) + ' ' + 'Top 100', 
+    triggerPoint: 30 
+  });
   const navigation = useNavigation();
 
   const handleRefresh = useCallback(async() => {
@@ -52,8 +57,10 @@ const HighMarketcap = () => {
         scrollEventThrottle={16}
         ListHeaderComponent={
           <FlatListHeader
-            title="시가 총액 Top100"
-            description="시가 총액은 사용 가능한 암호화폐 공급량 × 현재 암호화폐 가격으로 계산되었어요. 시가 총액이 높은 코인들을 살펴보세요"
+            title={ t(`common.market cap`) + ' ' + 'Top 100' }
+            description={
+              t(`coinMarketHome.the market cap was calculated as the available cryptocurrency supply × the current cryptocurrency price. Take a look at coins with high market cap`)
+            }
           />
         }
         ListFooterComponent={<Footer />}

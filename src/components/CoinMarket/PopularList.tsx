@@ -21,13 +21,13 @@ const PopularList = ({ }: ListProps) => {
   const { theme } = useGlobalTheme();
 
   const data = [{
-    title: '24h \n' + t('coinMarketHome.gainers'),
+    title: 'Top \n' + t('coinMarketHome.gainers'),
     route: 'Gainers',
     start: '#d9a4fc',
     end: '#be63f9',
     icon: <CoinSvg name="rise" width={ICON_SIZE} height={ICON_SIZE}/>
   }, {
-    title: '24h \n' + t('coinMarketHome.losers'),
+    title: 'Top \n' + t('coinMarketHome.losers'),
     route: 'Losers',
     start: '#fd907e',
     end: '#fc573b',

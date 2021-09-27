@@ -111,6 +111,7 @@ const ScrollCloseModal = ({
         { headerComponent }
         <ScrollView
           as={Animated.ScrollView}
+          keyboardDismissMode='on-drag'
           onScroll={handleScroll}
           scrollEventThrottle={1}
           footerHeight={footerHeight}

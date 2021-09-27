@@ -352,12 +352,21 @@ const FormModalLayout = ({
                   opacity: secondPageOpacity
                 }}
               >
-                <MaterialIcons 
-                  name="arrow-back-ios"
-                  size={28} 
-                  color={theme.base.text[100]} 
+                <BackButtonWrap
+                  activeOpacity={0.6}
                   onPress={handleBackButtonPress}
-                />
+                  hitSlop={{
+                    top: 5,
+                    left: parseInt(theme.content.spacing),
+                    bottom: 5
+                  }}
+                >
+                  <MaterialIcons 
+                    name="arrow-back-ios"
+                    size={28} 
+                    color={theme.base.text[100]} 
+                  />
+                </BackButtonWrap>
               </Animated.View>
             }
             <Title
@@ -478,4 +487,8 @@ const Title = styled.View`
 
 const ScrollTextView = styled.ScrollView<ScrollTextViewProps>`
   max-width: ${ ({ maxWidth }) => maxWidth }px;
+`
+
+const BackButtonWrap = styled.TouchableOpacity`
+
 `

@@ -52,9 +52,12 @@ const SetPricePerCoinView = ({
         onPress={onIsPriceFiexedChange}
       >
         <Circle isPriceFixed={isPriceFixed}/>
-        <Text fontL color100>
+        <CustomText 
+          isPriceFixed={isPriceFixed} 
+          fontL 
+        >
           { t(`portfolio.fixing the price`) }
-        </Text>
+        </CustomText>
       </PriceFixedButton>
     </Container>
   )
@@ -107,4 +110,13 @@ const View = styled.View`
   flex-direction: row;
   justify-content: center;
   align-items: flex-end;
+`
+
+const CustomText = styled(Text)<PriceFixedProps>`
+  color: ${({ theme, isPriceFixed }) => isPriceFixed
+    ? theme.dark
+      ? theme.base.text[100]
+      : theme.base.dark100
+    : theme.base.text[200]
+  }
 `

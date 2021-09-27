@@ -196,7 +196,6 @@ const Container = styled.View<ContainerProps>`
   justify-content: center;
 `
 
-
 const TransactionTypeWrap = styled.View`
   flex-direction: row;
   justify-content: space-between;

@@ -10,6 +10,7 @@ export const darkTheme: DefaultTheme = {
       '200': '#1B1B1B',
       '300': '#242424',
       '400': '#323232',
+      '500': '#525252',
       'surface': '#121212',
       'hovered': 'rgba(18, 18, 18, .96)', // #121212 + overlay 0.04
     },
@@ -67,7 +68,8 @@ export const lightTheme: DefaultTheme = {
       '100': '#f4f4f4',
       '200': '#F8F8F8',
       '300': '#f3f2f7',
-      '400': '#616161',
+      '400': '#d4d2d9',
+      '500': '#99989c',
       'surface': '#ffffff',
       'hovered': 'rgba(18, 18, 18, .96)'
     },

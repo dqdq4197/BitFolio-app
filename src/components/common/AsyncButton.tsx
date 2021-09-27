@@ -27,7 +27,7 @@ const AsyncButton = ({
   ...textStyle 
 }: AsyncButtonProps) => {
 
-  const { theme } = useGlobalTheme();
+  const { theme, scheme } = useGlobalTheme();
 
   return (
     <Container
@@ -83,7 +83,9 @@ const Container = styled.TouchableOpacity<ContainerProps>`
     height: ${ height }px;
     background-color: ${ 
       isDisabled 
-        ? theme.base.background[400] 
+        ? theme.dark
+          ? theme.base.background[400] 
+          : theme.base.background[500] 
         : initialBgColor || theme.base.primaryColor 
     };
   `}

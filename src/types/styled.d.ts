@@ -9,6 +9,7 @@ declare module 'styled-components/native' {
         '200': string,
         '300': string,
         '400': string,
+        '500': string,
         'surface': string,
         'hovered': string,
       },

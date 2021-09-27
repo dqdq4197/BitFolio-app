@@ -86,6 +86,7 @@
     "all transactions and holdings related to this coin will be removed": "All transactions and holdings related to this coin will be removed."
   },
   "coinMarketHome": {
+    "24h": "24 hours",
     "market": "Market",
     "show all": "Show All",
     "search": "Search",
@@ -101,7 +102,10 @@
     "top market cap": "Top Market Cap",
     "top volume": "Top Volume",
     "add coins": "Add Coins",
-    "global metrics": "Global Metrics"
+    "global metrics": "Global Metrics",
+    "only cryptocurrencies with trading volume greater than US$50,000 in the last 24 hours are displayed.": "Only cryptocurrencies with trading volume greater than US$50,000 in the last 24 hours are displayed.",
+    "total volume of all trading pairs over a 24-hour period. Take a look at the most traded coins": "Total volume of all trading pairs over a 24-hour period. Take a look at the most traded coins",
+    "the market cap was calculated as the available cryptocurrency supply × the current cryptocurrency price. Take a look at coins with high market cap": "The market cap was calculated as the available cryptocurrency supply × the current cryptocurrency price. Take a look at coins with high market cap"
   },
   "setting": {
     "app settings": "App Settings",

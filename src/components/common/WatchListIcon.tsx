@@ -12,7 +12,7 @@ type IconProps = {
 const WatchListIcon = ({ id, size }: IconProps) => {
 
   const { watchList } = useAppSelector(state => state.baseSettingReducer);
-  const { theme } =useGlobalTheme();
+  const { theme, scheme } =useGlobalTheme();
   const dispatch = useAppDispatch();
 
   const handleHeartPress = () => {
@@ -28,7 +28,9 @@ const WatchListIcon = ({ id, size }: IconProps) => {
       color={
         watchList.includes(id)
         ? theme.base.primaryColor
-        : theme.base.text[300]
+        : scheme === 'dark'
+          ? theme.base.text[300]
+          : theme.base.background[400]
       } 
     />
   )

@@ -38,7 +38,7 @@ const SetNotesView = ({
   return (
     <Container height={height}>
       <NotePadWrap>
-        <Text>
+        <Text bold>
           { t('common.notes') }
         </Text>
         <NotePad 
@@ -49,7 +49,7 @@ const SetNotesView = ({
           value={notes || ''}
         />
         <TextLengthWrap>
-          <Text>
+          <Text bold>
             { notes ? notes.length : 0 } / {notesMaxLength}
           </Text>
         </TextLengthWrap>

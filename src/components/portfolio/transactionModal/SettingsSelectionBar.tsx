@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/native';
+import { useTranslation } from 'react-i18next';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import { FocusedView, SettingsType } from './FormModal';
 import Text from '/components/common/Text';
@@ -19,8 +20,9 @@ const SettingsSelectionBar = ({
   SETTINGS,
   SELECT_TAB_HEIGHT
 }: SelectionBar) => {
-
+  const { t } = useTranslation();
   const { theme } = useGlobalTheme();
+
   return (
     <SelectionBarContainer
       height={SELECT_TAB_HEIGHT}
@@ -40,14 +42,16 @@ const SettingsSelectionBar = ({
               onPress={() => onSwitchFocusView(setting.key)}
               isFocused={isFocused}
             >
-              { setting.icon(isFocused ? theme.base.background[200] : theme.base.text[200]) }
+              { setting.icon(
+                isFocused ? theme.base.background[200] : theme.base.text[200]
+              ) }
               <SettingLabelText 
                 fontML 
                 bold 
                 margin="0 0 0 5px"
                 isFocused={isFocused}
               >
-                { setting.name }
+                { t(`common.${ setting.name.toLocaleLowerCase() }`) }
               </SettingLabelText> 
             </SelectionTab>
           )

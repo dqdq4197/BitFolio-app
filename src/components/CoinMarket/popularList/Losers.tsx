@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { Animated, FlatList } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
 import useCoinMarketData from '/hooks/useCoinMarketData';
 import useAnimatedHeaderTitle from '/hooks/useAnimatedHeaderTitle';
@@ -11,11 +12,15 @@ import Item from './Item';
 import Footer from './Footer';
 
 const Gainers = () => {
+  const { t } = useTranslation();
   const { theme } = useGlobalTheme();
   const [refreshing, setRefreshing] = useState(false);
   const { data: usdData, mutate: usdMutate } = useCoinMarketData({ currency: 'usd', order: ORDER.HOUR_24_ASC, per_page: 250 });
   const { data, mutate } = useCoinMarketData({ order: ORDER.HOUR_24_ASC, per_page: 250 });
-  const { scrollY } = useAnimatedHeaderTitle({ title: '24h 하락 종목', triggerPoint: 30 });
+  const { scrollY } = useAnimatedHeaderTitle({ 
+    title: t(`coinMarketHome.losers`), 
+    triggerPoint: 30 
+  });
   const navigation = useNavigation();
 
   const handleRefresh = useCallback(() => {
@@ -68,8 +73,10 @@ const Gainers = () => {
         scrollEventThrottle={16}
         ListHeaderComponent={
           <FlatListHeader
-            title="24h 하락 종목"
-            description="최근 24시간 동안 거래량이 US$50,000 이상인 암호화폐만 표시됩니다."
+            title={ t(`coinMarketHome.losers`) }
+            description={ 
+              t(`coinMarketHome.only cryptocurrencies with trading volume greater than US$50,000 in the last 24 hours are displayed.`) 
+            }
           />
         }
         ListFooterComponent={<Footer />}

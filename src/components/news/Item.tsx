@@ -104,10 +104,10 @@ const Item = ({ item, currentCategory }: ItemProps) => {
             return (
               <CategoryWrap key={category}>
                 { category.toLowerCase() === currentCategory 
-                  ? <Text primaryColor fontXS>
+                  ? <Text primaryColor fontXS bold>
                       { category }
                     </Text>
-                  : <Text color100 fontXS>
+                  : <Text color100 fontXS bold>
                       { category }
                     </Text>
                 }
@@ -183,13 +183,12 @@ const TranslateButton = styled.TouchableOpacity`
   align-self: baseline;
 `
 
-const IndicatorWrap = styled.View`
+const Indicator = styled.View`
   position: absolute;
+  width: ${ width }px; 
   flex: 1;
-  width: ${ width };
-  height: 100%;
+  height: 100px;
   align-items: center;
   justify-content: center;
-  border-radius: 25px;
-  z-index: 111;
+  background-color: white;
 `

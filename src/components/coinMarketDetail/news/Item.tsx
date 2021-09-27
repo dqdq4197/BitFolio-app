@@ -60,10 +60,10 @@ const Item = ({ item, currentCategory }: ItemProps) => {
             return (
               <CategoryWrap key={category}>
                 { category.toLowerCase() === currentCategory 
-                  ? <Text primaryColor fontXS>
+                  ? <Text primaryColor fontXS bold>
                       { category }
                     </Text>
-                  : <Text color100 fontXS>
+                  : <Text color100 fontXS bold>
                       { category }
                     </Text>
                 }
