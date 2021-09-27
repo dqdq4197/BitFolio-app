@@ -191,6 +191,5 @@ export const exponentToNumber = (num: number) => {
     }
   }
 
-  // console.log(temp)
   return temp;
 }

@@ -23,7 +23,7 @@ const DetailTab = ({ route, navigation }:any) => {
   const { param, screen } = route.params;
   const { theme } = useGlobalTheme();
   const dispatch = useAppDispatch();
-  console.log(param)
+  
   useLayoutEffect(() => {
     const { id, symbol } = param;
     

@@ -85,7 +85,6 @@ const PriceAndDate = ({ id, lastUpdatedPrice, lastUpdatedDate, percentage_24h }:
     return (lastUpdatedPrice - data.prices[0][1]) / data.prices[0][1] * 100;
   }, [chartTimeFrame, data, percentage_24h])
 
-  console.log(exponentToNumber(datum.y))
   return (
     <Container>
       <AnimatedView>

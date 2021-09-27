@@ -35,7 +35,6 @@ export const newsSlice = createSlice({
       state.sortOrder = action.payload;
     },
     resetFilters: (state, action: PayloadAction<undefined>) => {
-      console.log('press')
       state.feeds = 'ALL_NEWS_FEEDS';
       state.categories = 'ALL_NEWS_CATEGORIES';
     }

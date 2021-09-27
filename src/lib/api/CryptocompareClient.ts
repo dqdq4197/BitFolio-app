@@ -1,11 +1,10 @@
+import axios from 'axios';
+import { APP_NAME, CRYPTOCOMPARE_API_KEY } from '@env';
 import { 
   CTYPTOCOMPARE_PATH_PREFIX, 
-  APP_NAME, 
   CTYPTOCOMPARE_LANG, 
-  CRYPTOCOMPARE_API_KEY,
   CTYPTOCOMPARE_API_VERSION
 } from '/lib/constant';
-import axios from 'axios';
 
 
 export type LANG = typeof CTYPTOCOMPARE_LANG[keyof typeof CTYPTOCOMPARE_LANG];
