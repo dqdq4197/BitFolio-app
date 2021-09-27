@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from 'styled-components/native';
 import { useTranslation } from 'react-i18next';
 import SurfaceWrap from '/components/common/SurfaceWrap';
 import useCoinMarketData from '/hooks/useCoinMarketData';
@@ -26,24 +25,18 @@ const HighPricePreview = ({ onPressItem }: ListProps) => {
       paddingBottomZero
       parentPaddingZero
     >
-      <ListWrap>
-        { data?.map(res => {
-          return (
-            <Item 
-              key={ res.id }
-              item={ res }  
-              onPressItem={onPressItem}
-            />
-          )
-        }) }
-        <ShowAllButton route={'CoinHighMarketCap'}/>
-      </ListWrap>
+      { data?.map(res => {
+        return (
+          <Item 
+            key={ res.id }
+            item={ res }  
+            onPressItem={onPressItem}
+          />
+        )
+      }) }
+      <ShowAllButton route={'CoinHighMarketCap'}/>
     </SurfaceWrap>
   )
 }
 
 export default HighPricePreview;
-
-const ListWrap = styled.View`
-  flex: 1;
-`

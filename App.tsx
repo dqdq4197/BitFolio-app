@@ -24,12 +24,10 @@ const Tab = createBottomTabNavigator();
 LogBox.ignoreAllLogs();
 
 const RootNavigation = () => {
-  const { theme, onSchemeChange } = useGlobalTheme();
+  const { theme } = useGlobalTheme();
   const { t } = useTranslation();
   const { launchScreen } = useAppSelector(state => state.baseSettingReducer);
 
-  // onSchemeChange('dark');
-  
   return (
     <NavigationContainer>
       <Tab.Navigator 

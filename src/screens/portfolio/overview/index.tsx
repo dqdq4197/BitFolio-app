@@ -18,7 +18,7 @@ const OverviewScreen = ({ navigation }: StackScreenProps<any>) => {
 
   const handleSettingPress = useCallback(() => {
     settingModalRef.current?.present();
-  }, []);
+  }, [settingModalRef]);
 
   useLayoutEffect(() => {
     navigation.setOptions({

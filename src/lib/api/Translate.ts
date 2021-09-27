@@ -1,9 +1,6 @@
-import { 
-  PAPAGO_PREFIX,
-  NAVER_CLIENT_ID,
-  NAVER_CLIENT_SECRET
-} from '/lib/constant';
 import axios from 'axios';
+import { NAVER_CLIENT_ID, NAVER_CLIENT_SECRET } from '@env';
+import { PAPAGO_PREFIX } from '/lib/constant';
 
 type PapageParams = {
   query: string

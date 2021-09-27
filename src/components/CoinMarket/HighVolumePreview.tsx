@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from 'styled-components/native';
 import SurfaceWrap from '/components/common/SurfaceWrap';
 import useCoinMarketData from '/hooks/useCoinMarketData';
 import { ORDER } from '/lib/constant';
@@ -25,24 +24,18 @@ const HighVolumePreview = ({ onPressItem }: ListProps) => {
       paddingBottomZero
       parentPaddingZero
     >
-      <ListWrap>
-        { data?.map(res => {
-          return (
-            <Item 
-              key={ res.id }
-              item={ res }  
-              onPressItem={onPressItem}
-            />
-          )
-        }) }
-        <ShowAllButton route='CoinHighVolume'/>
-      </ListWrap>
+      { data?.map(res => {
+        return (
+          <Item 
+            key={ res.id }
+            item={ res }  
+            onPressItem={onPressItem}
+          />
+        )
+      }) }
+      <ShowAllButton route='CoinHighVolume'/>
     </SurfaceWrap>
   )
 }
 
 export default HighVolumePreview;
-
-const ListWrap = styled.View`
-  flex: 1;
-`

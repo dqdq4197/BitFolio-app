@@ -1,8 +1,8 @@
+import axios from 'axios';
+import { GOOGLE_PLATFROM_KEY } from '@env';
 import { 
   TRANSLATE_PREFIX,
-  GOOGLE_PLATFROM_KEY,
 } from '/lib/constant';
-import axios from 'axios';
 
 interface LangugesParams {
   target: string

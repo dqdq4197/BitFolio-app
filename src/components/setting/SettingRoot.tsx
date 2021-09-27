@@ -1,12 +1,13 @@
 import React from 'react';
 import styled, { css } from 'styled-components/native';
 import { baseTypes } from 'base-types';
+import { APP_VERSION } from '@env';
 import { useTranslation } from 'react-i18next';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useAppSelector, shallowEqual } from '/hooks/useRedux';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import useLocales from '/hooks/useLocales';
-import { CURRENCIES, APP_VERSION } from '/lib/constant';
+import { CURRENCIES } from '/lib/constant';
 import Text from '/components/common/Text';
 import SurfaceWrap from '/components/common/SurfaceWrap';
 import Blank from './Blank';
