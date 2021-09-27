@@ -259,6 +259,7 @@ const AddButton = styled.TouchableOpacity`
   border-radius: ${({ theme }) => theme.border.m};
   border-width: 1px;
   border-color: ${({ theme }) => theme.base.text[200]};
+  margin-right: 3px;
 `
 
 const AllocationBar = styled.View`

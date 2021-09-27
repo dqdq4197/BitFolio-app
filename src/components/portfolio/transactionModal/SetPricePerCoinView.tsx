@@ -88,7 +88,9 @@ const PriceFixedButton = styled.TouchableOpacity<PriceFixedProps>`
   height: 30px;
   align-items: center;
   justify-content: center;
-  background-color: ${({ isPriceFixed, theme }) => isPriceFixed ? 'rgb(77, 81, 100)' : theme.base.background[400]};
+  background-color: ${({ isPriceFixed, theme }) => isPriceFixed 
+    ? 'rgb(77, 81, 100)' 
+    : theme.base.background[400]};
   border-radius: ${({ theme }) => theme.border.m };
   padding: 5px 10px;
 `

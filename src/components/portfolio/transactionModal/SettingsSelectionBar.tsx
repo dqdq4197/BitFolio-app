@@ -80,7 +80,7 @@ const SelectionTab = styled.TouchableOpacity<SelectionProps>`
   height: 30px;
   padding: 0 12px;
   background-color: ${({ isFocused, theme }) => 
-    isFocused ? theme.base.text[100] : theme.base.background[300]};
+    isFocused ? theme.base.text[200] : theme.base.background[300]};
   align-items: center;
   justify-content: center;
   margin-right: 10px;

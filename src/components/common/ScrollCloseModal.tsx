@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
-import { 
-  NativeSyntheticEvent,
-  NativeScrollEvent
-} from 'react-native';
+import React, { useState, useRef, useEffect } from 'react';
+import { Animated } from 'react-native';
 import styled from 'styled-components/native';
+import * as Haptics from 'expo-haptics';
 import CircleCloseButton from '/components/common/CircleCloseButton';
+
+const SIZE = 35;
+const STROKEWIDTH = 2;
+const RADIUS = SIZE / 2 - STROKEWIDTH / 2;
+const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
 
 type ModalProps = {
   visible: boolean;
@@ -16,6 +19,7 @@ type ModalProps = {
   titleComponent?: React.ReactNode;
   footerHeight?: number;
 }
+
 const ScrollCloseModal = ({ 
   visible, 
   setVisible, 
@@ -27,26 +31,63 @@ const ScrollCloseModal = ({
   footerHeight=0
 }: ModalProps) => {
 
-  const [percentage, setPercentage] = useState(0);
+  const progressRef = useRef<any>(null);
+  const scrollY = useRef(new Animated.Value(0)).current;
+  const [isFullProgress, setIsFullProgress] = useState(false);
+
+  useEffect(() => {
+    // initail set strokeDashoffset
+    if(progressRef.current) {
+      progressRef.current.setNativeProps({
+        strokeDashoffset: CIRCUMFERENCE
+      })
+    }
+  }, [])
+
+  useEffect(() => {
+    scrollY.removeAllListeners();
+    scrollY.addListener(v => {
+      const { value } = v;
+
+      const offset = CIRCUMFERENCE - (CIRCUMFERENCE * -value) / 100;
+
+      let strokeDashoffset = offset >= CIRCUMFERENCE
+      ? CIRCUMFERENCE
+      : offset <= 0
+        ? 0
+        : offset
+      
+      if(progressRef.current) {
+        progressRef.current.setNativeProps({
+          strokeDashoffset
+        })
+      }
+
+      if(strokeDashoffset === 0 && !isFullProgress) {
+        setIsFullProgress(true);
+        Haptics.impactAsync();
+      } 
+      
+      if(strokeDashoffset !== 0 && isFullProgress) {
+        setIsFullProgress(false);
+      }
+    })    
+  }, [isFullProgress])
 
   const handleModalClose = () => {
     setVisible(false);
-    setPercentage(0);
   }
 
-  const handleTouchEnd = () => {
-    if(percentage >= 100) {
+  const handleScrollEndDrag = () => {
+    if(isFullProgress) {
       setVisible(false);
-      setPercentage(0);
     }
   }
 
-  const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-    const { nativeEvent: { contentOffset } } = event;
-    if(contentOffset.y < 3 && contentOffset.y >= -54) {
-      setPercentage(-contentOffset.y * 2);
-    }
-  }
+  const handleScroll = Animated.event(
+    [ { nativeEvent: { contentOffset: { y: scrollY } } } ], 
+    { useNativeDriver: false }
+  )
 
   return (
     <Modal 
@@ -58,14 +99,22 @@ const ScrollCloseModal = ({
       >
         <HeaderView>
           { titleComponent || <Blank></Blank> }
-          <CircleCloseButton percentage={percentage} onModalClose={handleModalClose}/>
+          <CircleCloseButton 
+            SIZE={SIZE} 
+            STROKEWIDTH={STROKEWIDTH}
+            RADIUS={RADIUS}
+            CIRCUMFERENCE={CIRCUMFERENCE}
+            onModalClose={handleModalClose}
+            ref={progressRef}
+          />
         </HeaderView>
         { headerComponent }
         <ScrollView
+          as={Animated.ScrollView}
           onScroll={handleScroll}
-          onTouchEnd={handleTouchEnd}
           scrollEventThrottle={1}
           footerHeight={footerHeight}
+          onScrollEndDrag={handleScrollEndDrag}
         >
           { children }
         </ScrollView>
