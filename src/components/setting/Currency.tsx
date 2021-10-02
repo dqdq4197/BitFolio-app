@@ -61,6 +61,7 @@ const Currency = ({ }: CurrencyProps) => {
       const { name, iso, unicode } = CURRENCIES[currency as Exclude<baseTypes.Currency, 'default'>];
       rows.push(
         <Row
+          key={ unicode }
           title={ name }
           subTitle={ `${iso} - ${unicode}` }
           onPress={() => onCurrencyChange(currency.toLowerCase() as baseTypes.Currency)}

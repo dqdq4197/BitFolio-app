@@ -1,6 +1,6 @@
 import i18n, { LanguageDetectorAsyncModule } from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import AsyncStorage  from '@react-native-community/async-storage';
+import AsyncStorage  from '@react-native-async-storage/async-storage';
 import { baseTypes } from 'base-types';
 import * as Localization from 'expo-localization';
 import translationEN from './en/translation.json';
@@ -24,8 +24,6 @@ export const onLanguageChange = async(value: baseTypes.Language) => {
     console.log('fails: save local language');
   }
 }
-
-onLanguageChange('ko');
 
 export const getDeviceLanguage = () => {
   const appLanguage = Localization.locale;

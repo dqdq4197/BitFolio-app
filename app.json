@@ -6,7 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/bitfolio_icon.png",
     "splash": {
-      "image": "./assets/bitfolio_splash.png",
+      "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#121212"
     },
@@ -19,16 +19,18 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.bitfolio.scribbles.ios"
+      "bundleIdentifier": "com.bitfolio.scribbles.ios",
+      "buildNumber": "1.0.0"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/bitfolio_splash.png",
+        "foregroundImage": "./assets/splash.png",
         "backgroundColor": "#121212"
-      }
+      },
+      "versionCode": 1
     },
     "web": {
-      "favicon": "./assets/bitfolio_splash.png"
+      "favicon": "./assets/splash.png"
     },
     "description": ""
   }

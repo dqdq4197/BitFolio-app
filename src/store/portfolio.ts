@@ -1,3 +1,4 @@
+import 'react-native-get-random-values';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -64,7 +65,7 @@ export type InitialState = {
 
 const initialState: InitialState = {
   portfolios: [{
-    id: 'qwesfzcv-asd', // uuid 적용하기
+    id: uuidv4(), // uuid 적용하기
     coins: [],
     assetSortType: 'default',
     mode: 'public',
