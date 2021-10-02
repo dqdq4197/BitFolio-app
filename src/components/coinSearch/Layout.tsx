@@ -8,14 +8,13 @@ import {
   EmitterSubscription,
   KeyboardEvent,
   LayoutAnimation,
-  UIManager
+  UIManager,
+  ActivityIndicator
 } from 'react-native';
+import styled from 'styled-components/native';
 import { useHeaderHeight } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 import useGlobalTheme from '/hooks/useGlobalTheme';
-import EmptyView from './EmptyView';
-import DefaultView from './DefaultView';
-import SearchBar from './SearchBar';
 import { SearchCoin } from '/lib/api/CoinGeckoReturnType';
 import useSearchData from '/hooks/useSearchData';
 import useSearchTranding from '/hooks/useSearchTranding';
@@ -25,6 +24,10 @@ import { changeRecentSearches } from '/store/baseSetting';
 import { useAppSelector } from '/hooks/useRedux';
 import { createFuzzyMatcher } from '/lib/utils';
 import Text from '/components/common/Text';
+import EmptyView from './EmptyView';
+import DefaultView from './DefaultView';
+import SearchBar from './SearchBar';
+import GlobalIndicator from '/components/common/GlobalIndicator';
 
 Platform.OS === "android" && UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
 
@@ -181,6 +184,13 @@ const Layout = () => {
 
   return(
     <>
+      { !data && (
+        <GlobalIndicator 
+          isLoaded={false}
+          size="large"
+          transparent
+        />
+      ) }
       <FlatList 
         data={coins}
         keyExtractor={(item, index) => item.id + index + item.name}
@@ -229,3 +239,17 @@ const Layout = () => {
 }
 
 export default Layout;
+
+const IndicatorWrap = styled.View`
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-30px);
+  z-index: 111;
+  background-color: ${({ theme }) => theme.base.background.surface};
+  align-items: center;
+  justify-content: center;
+  border-radius: ${({ theme }) => theme.border.l};
+`

@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useRef, useEffect } from 'react';
-import { Animated, ScrollView, LogBox } from 'react-native';
+import { Animated, ScrollView } from 'react-native';
 import styled from 'styled-components/native';
 import { Octicons, MaterialCommunityIcons  } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';

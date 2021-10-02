@@ -1,5 +1,7 @@
-
+import { baseTypes } from 'base-types';
 // ----- BASE CONST ----------------
+
+type Currency = baseTypes.Currency
 
 enum TAB_ROUTE_NAME {
   home= 'home',
@@ -10,7 +12,14 @@ const TRANSLATE_PREFIX = 'https://translation.googleapis.com/language/translate/
 const PAPAGO_PREFIX = 'https://openapi.naver.com/v1';
 const LANGUAGE_STORAGE_KEY = 'local_language';
 
-const CURRENCIES = {
+const CURRENCIES: {
+  [key in Exclude<baseTypes.Currency, 'default'>]: {
+    iso: string
+    symbol: string
+    unicode: string
+    name: string
+  }
+} = {
   krw: {
     iso: 'KRW',
     symbol: '₩',

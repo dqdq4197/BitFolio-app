@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { 
   Animated, 
   LayoutAnimation, 
@@ -8,6 +8,7 @@ import {
   FlatList
 } from 'react-native';
 import styled from 'styled-components/native';
+import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import * as Haptics from 'expo-haptics';
 import useNewsArticles from '/hooks/useNewsArticles';
@@ -79,9 +80,13 @@ const Title = ({ sortOrder, scrollY, onResetLTs }: TitleProps) => {
     </TitleWrap>
   )
 }
+
+
 const Overview = () => {
   const { t } = useTranslation();
+  const navigation = useNavigation();
   const { theme } = useGlobalTheme();
+  const flatListRef = useRef<FlatList>(null);
   const { categories, feeds, sortOrder } = useAppSelector(state => state.newsReducer);
   const { scrollY } = useAnimatedHeaderTitle({ 
     title: t(`news.${sortOrder}`) + ' ' + t(`common.news`), 
@@ -98,7 +103,19 @@ const Overview = () => {
     suspense: false
   });
 
-  React.useEffect(() => {
+  useEffect(() => {
+    navigation.setParams({
+      onScrollToTop
+    })
+  }, [flatListRef])
+
+
+  const onScrollToTop = () => {
+    if(!flatListRef.current) return ;
+    return flatListRef.current.scrollToOffset({ animated: true, offset: 0 });
+  }
+
+  useEffect(() => {
     if(data) {
       LayoutAnimation.configureNext(
         LayoutAnimation.create(
@@ -159,6 +176,7 @@ const Overview = () => {
         onResetLTs={onResetLTs}
       />
       <FlatList 
+        ref={flatListRef}
         data={newsData}
         onScroll={ handleScroll }
         ListHeaderComponent={

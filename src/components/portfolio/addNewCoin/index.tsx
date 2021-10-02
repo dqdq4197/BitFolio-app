@@ -26,6 +26,7 @@ import SearchBar from '/components/coinSearch/SearchBar';
 import Text from '/components/common/Text';
 import SearchItemListSkeleton from '/components/skeletonPlaceholder/SearchItemListSkeleton';
 import FormModal from '/components/portfolio/transactionModal/FormModal';
+import GlobalIndicator from '/components/common/GlobalIndicator';
 
 Platform.OS === "android" && UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
 
@@ -236,6 +237,13 @@ const Layout = () => {
 
   return(
     <>
+      { !data && (
+        <GlobalIndicator 
+          isLoaded={false}
+          size="large"
+          transparent
+        />
+      ) }
       <FlatList 
         data={coins}
         keyExtractor={(item, index) => item.id + index + item.name}

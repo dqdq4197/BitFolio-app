@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { baseTypes } from 'base-types';
-import i18n from '/lib/lang/i18n';
 import { TAB_ROUTE_NAME } from '/lib/constant';
 
 type DeviceSchemeType = Exclude<baseTypes.Theme, "default">

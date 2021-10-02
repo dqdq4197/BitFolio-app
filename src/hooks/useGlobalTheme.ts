@@ -9,7 +9,7 @@ const useGlobarTheme = () => {
 
   
   const scheme = useMemo(() => {
-    return localScheme === 'default' ? (deviceScheme || 'dark') : localScheme;
+    return localScheme === 'default' ? deviceScheme : localScheme;
   }, [localScheme, deviceScheme])
 
   const onSchemeChange = useCallback((scheme: LocalSchemeType) => {

@@ -76,14 +76,25 @@ const RootNavigationContainer = () => {
   const { theme } = useGlobalTheme();
   const dispatch = useAppDispatch();
   
-  useEffect(() => {
-    Appearance.addChangeListener(onDeviceSchemeChange)
-    return () => Appearance.removeChangeListener(onDeviceSchemeChange);
-  }, [])
 
-  const onDeviceSchemeChange = ({ colorScheme }: Appearance.AppearancePreferences) => {
-    dispatch(changeDeviceScheme(colorScheme))
-  }
+  const initAppearanceListener = () => {
+    // https://github.com/facebook/react-native/issues/28525
+    // wrong color scheme issue ## 
+    // debounce로 임시 대처
+    let timer:any = null;
+    const listener: Appearance.AppearanceListener = ( /* <-- ignore */) => {
+      if(timer) clearTimeout(timer);
+      timer = setTimeout(() => {
+        dispatch(changeDeviceScheme(Appearance.getColorScheme()))
+      }, 200)
+    };
+    Appearance.addChangeListener(listener);
+    return () => Appearance.removeChangeListener(listener);
+  };
+
+  useEffect(() => {
+    initAppearanceListener();
+  }, [])
 
   return (
     <ThemeProvider 
