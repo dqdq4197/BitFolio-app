@@ -19,7 +19,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.bitfolio.scribbles.ios",
+      "bundleIdentifier": "com.bitfolio.cryptocurrencies.ios",
       "buildNumber": "1.0.0"
     },
     "android": {
