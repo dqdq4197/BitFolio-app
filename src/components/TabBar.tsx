@@ -2,6 +2,7 @@ import React from 'react';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import styled from 'styled-components/native';
 import * as habtics from 'expo-haptics';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { TAB_BAR_HEIGHT } from '/lib/constant';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import Text from '/components/common/Text';
@@ -13,7 +14,7 @@ type ParamsType = {
 const TabBar = ({ descriptors, state, navigation }: BottomTabBarProps) => {
   const { routes, index } = state;
   const { theme } = useGlobalTheme();
-
+  const insetBottom = useSafeAreaInsets().bottom;
   const focusedOptions = descriptors[routes[index].key].options;
 
   if(focusedOptions.tabBarVisible === false || routes[index].state?.index === 1 || routes[index].state?.index === 2 || routes[index].state?.index === 3 ) {
@@ -21,7 +22,7 @@ const TabBar = ({ descriptors, state, navigation }: BottomTabBarProps) => {
   }
 
   return (
-    <TabBarContainer>
+    <TabBarContainer insetBottom={insetBottom}>
       {routes.map((route, idx) => {
         const { options } = descriptors[route.key];
         const { tabBarIcon } = options;
@@ -92,12 +93,14 @@ type TabLabelProps = {
   isFocused: boolean,
 }
 
-const TabBarContainer = styled.View`
+const TabBarContainer = styled.View<{insetBottom: number}>`
   flex-direction: row;
-  height: ${TAB_BAR_HEIGHT + 'px'};
+  height: ${({ insetBottom }) => insetBottom + TAB_BAR_HEIGHT + 'px'};
   background-color: ${({theme}) => theme.base.background['surface']};
   border-top-width:1px;
   border-top-color:${({theme}) => theme.base.background[300]};
+  align-items: center;
+  padding-bottom: ${({ insetBottom }) => insetBottom}px;
 `
 
 const EachTabWrap = styled.TouchableOpacity`

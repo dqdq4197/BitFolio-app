@@ -1,7 +1,7 @@
 import React from 'react';
 import { StatusBar, Platform, Dimensions } from 'react-native';
 import styled from 'styled-components/native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useHeaderHeight } from '@react-navigation/stack';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 

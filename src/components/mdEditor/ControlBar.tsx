@@ -20,7 +20,7 @@ import { Foundation } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { Octicons } from '@expo/vector-icons';
-import { TYPES, ACTIONS, unicodes, TAB_BAR_HEIGHT } from '/lib/constant';
+import { TYPES, ACTIONS, unicodes } from '/lib/constant';
 import { 
   useMdEditorState, 
   useMdEditorDispatch, 
