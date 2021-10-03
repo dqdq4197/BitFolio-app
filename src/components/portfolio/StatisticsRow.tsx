@@ -8,16 +8,18 @@ import Text from '/components/common/Text';
 import useLocales from '/hooks/useLocales';
 import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat';
 import { digitToFixed } from '/lib/utils';
-import { CoinType } from '/store/portfolio';
+import { CoinType, ModeType } from '/store/portfolio';
 import { CoinStatType } from '/hooks/usePortfolioStats';
 import SkeletonContainer from '/components/skeletonPlaceholder/common/Container';
 import DynamicSizeText from '/components/common/DynamicSizeText';
+import PrivatePlaceholder from './PrivatePlaceholder';
 
 
 type RowProps = {
   COL_WIDTH: number
   coin: CoinType
   stats?: CoinStatType | null
+  mode: ModeType
   totalCosts: number
   priceStats?: {
     current_price: number;
@@ -57,6 +59,7 @@ StatisticsRow = ({
   COL_WIDTH,
   coin,
   stats,
+  mode,
   totalCosts,
   priceStats,
   onAddButtonPress
@@ -112,17 +115,34 @@ StatisticsRow = ({
             </Text>
           </AddButton>
         : stats && (
-          <> 
-            <DynamicSizeText color100 bold>
-              { currencyFormat({ 
-                value: stats.holding_costs,
-                prefix: getCurrencySymbol(currency)
-              }) }
-            </DynamicSizeText>
-            <DynamicSizeText bold>
-              { stats.holding_quantity + ' ' + coin.symbol.toUpperCase() }
-            </DynamicSizeText>
-          </>
+          mode === 'private' 
+            ? <> 
+                <PrivatePlaceholder 
+                  diameter={ 9 }
+                  color300
+                  numberOfCircle={ 5 }
+                  horizontalSpacing={ 5 }
+                />
+                <PrivateWrap>
+                  <PrivatePlaceholder 
+                    diameter={ 7 }
+                    color300
+                    numberOfCircle={ 3 }
+                    horizontalSpacing={ 5 }
+                  />
+                </PrivateWrap>
+              </>
+            : <>
+                <DynamicSizeText color100 bold>
+                  { currencyFormat({ 
+                    value: stats.holding_costs,
+                    prefix: getCurrencySymbol(currency)
+                  }) }
+                </DynamicSizeText>
+                <DynamicSizeText bold>
+                  { stats.holding_quantity + ' ' + coin.symbol.toUpperCase() }
+                </DynamicSizeText>
+              </>
         )
       }
     </>
@@ -135,17 +155,27 @@ StatisticsRow = ({
             --
           </Text>
         : stats && (
-          <>
-            <DynamicSizeText bold color100>
-              { currencyFormat({ 
-                value: stats.total_purchase_quantity === 0 
-                  ? 0 
-                  : stats.total_purchase_cost / stats.total_purchase_quantity,
-                prefix: getCurrencySymbol(currency)
-              }) }
-            </DynamicSizeText>
-            <Text></Text>
-          </>
+          mode === 'private'  
+          ? <>
+              <PrivatePlaceholder 
+                diameter={ 9 }
+                color300
+                numberOfCircle={ 5 }
+                horizontalSpacing={ 5 }
+              />
+              <Text></Text>
+            </>
+          : <>
+              <DynamicSizeText bold color100>
+                { currencyFormat({ 
+                  value: stats.total_purchase_quantity === 0 
+                    ? 0 
+                    : stats.total_purchase_cost / stats.total_purchase_quantity,
+                  prefix: getCurrencySymbol(currency)
+                }) }
+              </DynamicSizeText>
+              <Text></Text>
+            </>
         )
       }
     </>
@@ -276,4 +306,8 @@ const AllocationIndicator = styled.View<{rate: number}>`
   width: ${({ rate }) => rate}%;
   height: 100%;
   background-color: ${({ theme }) => theme.base.text[200]};
+`
+
+const PrivateWrap = styled.View`
+  margin-top: 8px;
 `

@@ -59,6 +59,11 @@ const BottomNotice = () => {
           </Text>
         </TextWrap>
       </Row>
+      <Row>
+        <Text color300 margin="20px 0 0 0">
+          - Powered by CoinGecko
+        </Text>
+      </Row>
     </Container>
   )
 }

@@ -88,7 +88,7 @@ const EmptyView = ({ isLoading }: EmptyViewProps) => {
 }
 
 const PortfolioAnalysisSheet = ({ portfolioStats }: SheetProps) => {
-  
+  const { t } = useTranslation();
   const { theme } = useGlobalTheme();
   const dispatch = useAppDispatch();
   const { isLoading } = usePortfolioContext();
@@ -163,7 +163,7 @@ const PortfolioAnalysisSheet = ({ portfolioStats }: SheetProps) => {
         <TabContainer>
           <Tab 
             tabKey="allocation"
-            title="Allocation"
+            title={ t(`portfolio.allocation`) }
             icon={
               <MaterialCommunityIcons
                 name="chart-arc" 
@@ -180,7 +180,7 @@ const PortfolioAnalysisSheet = ({ portfolioStats }: SheetProps) => {
           />
           <Tab 
             tabKey="statistics"
-            title="Statistics"
+            title={ t(`portfolio.statistics`) }
             icon={
               <Ionicons
                 name="analytics" 

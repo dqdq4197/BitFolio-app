@@ -137,7 +137,8 @@ const CoinListSheet = ({
     image: '',
     name: ''
   })
-  const { assetSortType } = portfolio[activeIndex];
+  const { assetSortType, mode } = portfolio[activeIndex];
+
 
   useEffect(() => {
     if(coinsData) {
@@ -309,6 +310,7 @@ const CoinListSheet = ({
                 coin={coin}
                 COL_WIDTH={COL_WIDTH}
                 stats={stats}
+                mode={mode}
                 totalCosts={portfolioTotalCosts}
                 priceStats={priceStats}
                 onAddButtonPress={handleAddButtonPress}
