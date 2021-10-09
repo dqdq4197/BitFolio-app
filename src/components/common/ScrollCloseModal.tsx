@@ -93,7 +93,6 @@ const ScrollCloseModal = ({
     { useNativeDriver: false }
   )
 
-  console.log(insets)
   return (
     <Modal 
       animationType='slide'

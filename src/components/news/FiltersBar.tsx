@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import styled from 'styled-components/native';
 import { MaterialIcons, FontAwesome } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
+import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import { useAppSelector, useAppDispatch, shallowEqual } from '/hooks/useRedux';
 import useNewsFeedsAndCategories from '/hooks/useNewsFeedsAndCategories';
@@ -9,7 +10,7 @@ import { ALL_NEWS_FEEDS, ALL_NEWS_CATEGORIES, resetFilters } from '/store/news';
 import Text from '/components/common/Text';
 import FeedFilterModal from './FeedFilterModal';
 import CategoryFilterModal from './CategoryFilterModal';
-
+import SkeletonContainer from '/components/skeletonPlaceholder/common/Container';
 
 const FiltersBar = () => {
   const { theme } = useGlobalTheme();
@@ -41,7 +42,17 @@ const FiltersBar = () => {
     setCategoriesVisible(true);
   }
 
-  if(!data) return <></>
+  if(!data) return (
+    <>
+      <SkeletonContainer>
+        <SkeletonPlaceholder.Item height={45} alignItems="center" flexDirection="row" paddingHorizontal={ parseInt(theme.content.spacing) }>
+          <SkeletonPlaceholder.Item width={100} height={30} marginRight={10} borderRadius={6} />
+          <SkeletonPlaceholder.Item width={50} height={30} marginRight={10} borderRadius={6} />
+          <SkeletonPlaceholder.Item width={75} height={30} marginRight={10} borderRadius={6} />
+        </SkeletonPlaceholder.Item>
+      </SkeletonContainer>
+    </>
+  )
 
   return (
     <Container

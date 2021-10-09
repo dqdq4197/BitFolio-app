@@ -8,5 +8,5 @@ const Blank = () => {
 export default Blank;
 
 const Container = styled.View`
-  height: 30px;
+  height: 200;
 `

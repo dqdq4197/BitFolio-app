@@ -76,6 +76,7 @@ const CategoryFilterModal = ({
           height={45}
           borderPosition={['top']}
           fontML
+          hasNotch
         />
       }
     >

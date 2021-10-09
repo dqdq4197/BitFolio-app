@@ -338,7 +338,6 @@ const TransactionDetailModal = forwardRef<BottomSheetModal, DetailProps>(
           </Text>
         </RemoveButton>
         </>
-        <Block></Block>
       </ScrollView>
     </Modal>
   )
@@ -388,8 +387,4 @@ const RemoveButton = styled.TouchableOpacity`
   justify-content: center;
   margin: 0 10px;
   margin-bottom: 10px;
-`
-
-const Block = styled.View`
-  height: 30px;
 `

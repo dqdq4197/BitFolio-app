@@ -14,13 +14,15 @@ import useGlobalTheme from '/hooks/useGlobalTheme';
 import Text from '/components/common/Text';
 import Image from '/components/common/Image';
 import GlobalIndicator from '/components/common/GlobalIndicator';
+import { CategoriesType } from '/store/news';
 
 const { width } = Dimensions.get('window');
 const IMAGE_SIZE = 60;
 type ItemProps = {
-  item: NewsData;
-  currentCategory: string | null;
+  item: NewsData
+  currentCategory: CategoriesType
 }
+
 const Item = ({ item, currentCategory }: ItemProps) => {
   const { t } = useTranslation();
   const { theme } = useGlobalTheme();
@@ -103,7 +105,7 @@ const Item = ({ item, currentCategory }: ItemProps) => {
           { item.categories.split('|').map(category => {
             return (
               <CategoryWrap key={category}>
-                { category.toLowerCase() === currentCategory 
+                { Array.isArray(currentCategory) && currentCategory.includes(category) 
                   ? <Text primaryColor fontXS bold>
                       { category }
                     </Text>

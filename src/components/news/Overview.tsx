@@ -200,7 +200,7 @@ const Overview = () => {
               <Item 
                 key={item.id}
                 item={item}
-                currentCategory={null}
+                currentCategory={categories}
               />
             )
           }

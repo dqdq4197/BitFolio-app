@@ -77,6 +77,7 @@ const FeedFilterModal = ({
           height={45}
           borderPosition={['top']}
           fontML
+          hasNotch
         />
       }
     >

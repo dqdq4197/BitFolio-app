@@ -89,7 +89,7 @@ const AllocationView = ({
 }: AllocationViewProps) => {
 
   const { theme } = useGlobalTheme();
-  const [activeIndex, setActiveIndex] = useState<ActiveIndex>(null);
+  const [activeIndex, setActiveIndex] = useState<ActiveIndex>(0);
   const colorScale = ["#7c0000","#ff4d2d","#ff2430","#00c4ff","#00ffff","#0045cf","#6fc400","#ea59ff","#8d9b00","#002aa8","#faaf00","#0071e9","#ffa23e","#5b8bff","#a05a00","#0093f9","#ff855d","#0043a0","#f3d28a","#ec71ff","#003600","#ff007b","#2ea577","#ef61c9","#055932","#ffbaff","#122c00","#ff7f6c","#003c89","#a2c47b","#580049","#b7ffff","#760000","#dadff1","#730000","#007957","#8c002d","#003f75","#69470a","#002f57","#8c0a26","#38576e","#520000","#c6b29b","#80184a","#1d2b00","#d27c8d","#282520","#b78876","#8b6a62"];
   const { currency } = useLocales();
   
