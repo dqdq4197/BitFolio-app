@@ -2,18 +2,29 @@ import React from 'react';
 import { Dimensions } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components/native';
+import * as WebBrowser from 'expo-web-browser';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import Text from '/components/common/Text';
 import useGlobalTheme from '/hooks/useGlobalTheme';
+import useLocales from '/hooks/useLocales';
+import Text from '/components/common/Text';
 
 
 const { width } = Dimensions.get('window');
+
+const PRIVACY_POLICY_EN = "https://lime-lint-eba.notion.site/Bitfolio-ios-Privacy-Policy-644e0d1e30da4c98ad0e75cfc8253a2e";
+const PRIVACY_POLICY_KO = "https://lime-lint-eba.notion.site/Bitfolio-ios-dad7db3124d74500b2a09d6340835631";
 
 const BottomNotice = () => {
 
   const { theme } = useGlobalTheme();
   const { t } = useTranslation();
-
+  const { language } = useLocales();
+  const handlePrivacyPolicyPress = () => {
+    WebBrowser.openBrowserAsync(language === 'en' ? PRIVACY_POLICY_EN : PRIVACY_POLICY_KO, {
+      toolbarColor: theme.base.background.surface,
+      enableBarCollapsing: true
+    })
+  }
 
   return (
     <Container>
@@ -62,6 +73,11 @@ const BottomNotice = () => {
       <Row>
         <Text color300 margin="20px 0 0 0">
           - Powered by CoinGecko
+        </Text>
+      </Row>
+      <Row>
+        <Text color300 onPress={ handlePrivacyPolicyPress }>
+          - { t(`common.bottom notice.privacy policy notice`) }
         </Text>
       </Row>
     </Container>
