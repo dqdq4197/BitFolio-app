@@ -22,7 +22,7 @@ const PrivatePlaceholder = ({
   
   useEffect(() => {
     setCircles(new Array(numberOfCircle).fill(1));
-  }, [])
+  }, [numberOfCircle])
 
   return (
     <Container>

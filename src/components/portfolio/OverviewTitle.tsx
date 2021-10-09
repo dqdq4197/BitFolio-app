@@ -40,7 +40,11 @@ const OverviewTitle = ({
       {
         mode === 'private'
           ? <PrivateWrap>
-              <Ionicons name="md-eye-off-outline" size={25} color={theme.base.text[200]} />
+              <Ionicons 
+                name="md-eye-off-outline" 
+                size={25} 
+                color={theme.base.text[200]} 
+              />
             </PrivateWrap>
           : <PublicWrap>
               <Text bold fontL color100>

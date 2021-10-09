@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { ScrollView, Animated, Dimensions } from 'react-native';
 import styled from 'styled-components/native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { format } from 'date-fns';
 import useHistorySnapshot from '/hooks/useHistorySnapshot';
 import { currencyFormat } from '/lib/utils/currencyFormat';
@@ -42,8 +43,9 @@ type ViewProps = {
 
 const { width, height } = Dimensions.get('window');
 
-const HEADER_HEIGHT = 65;
-const NUMERIC_PAD_HEIGHT = 250;
+const TITLE_HEIGHT = 55;
+const MINIMUM_INSERT_VIEW_HEIGHT = 212;
+const MAX_NUMERIC_PAD_HEIGHT = 330;
 const NOTES_MAX_LENGTH = 200;
 
 
@@ -61,7 +63,13 @@ const EnterDetailsView = ({
   SELECT_TAB_HEIGHT,
   FOOTER_HEIGHT
 }: ViewProps) => {
-  const VIEW_HEIGHT = height - HEADER_HEIGHT - SELECT_TAB_HEIGHT - FOOTER_HEIGHT;
+  const { top: insetTop, bottom: insetBottom } = useSafeAreaInsets();
+  const HEADER_HEIGHT = TITLE_HEIGHT + insetTop + 10;
+  const FOOTER_AREA_HEIGHT = FOOTER_HEIGHT + insetBottom;
+  const VIEW_HEIGHT = height - HEADER_HEIGHT - SELECT_TAB_HEIGHT - FOOTER_AREA_HEIGHT;
+  const NUMERIC_PAD_HEIGHT = VIEW_HEIGHT - MINIMUM_INSERT_VIEW_HEIGHT > MAX_NUMERIC_PAD_HEIGHT 
+    ? MAX_NUMERIC_PAD_HEIGHT 
+    : VIEW_HEIGHT - MINIMUM_INSERT_VIEW_HEIGHT;
   const { currency } = useLocales();
   const hScrollViewRef = useRef<ScrollView>(null); 
   const numericPadTranslateY = useRef(new Animated.Value(0)).current;

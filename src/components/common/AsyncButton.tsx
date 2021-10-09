@@ -1,6 +1,7 @@
 import React from 'react';
 import { ActivityIndicator } from 'react-native';
 import styled, { css } from 'styled-components/native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import Text, { TextStyleProps } from './Text';
 
@@ -8,6 +9,7 @@ export interface AsyncButtonProps extends TextStyleProps {
   text: string
   width?: number
   height: number
+  hasNotch?: boolean
   isDisabled: boolean
   isLoading: boolean
   onPress: () => void
@@ -19,6 +21,7 @@ const AsyncButton = ({
   text, 
   width, 
   height, 
+  hasNotch = false,
   isDisabled, 
   isLoading, 
   onPress, 
@@ -27,7 +30,8 @@ const AsyncButton = ({
   ...textStyle 
 }: AsyncButtonProps) => {
 
-  const { theme, scheme } = useGlobalTheme();
+  const { theme } = useGlobalTheme();
+  const { bottom } = useSafeAreaInsets();
 
   return (
     <Container
@@ -39,6 +43,7 @@ const AsyncButton = ({
       activeOpacity={0.6}
       initialBgColor={initialBgColor}
       onPress={onPress}
+      bottomInset={ hasNotch ? bottom : 0 }
     >
       <CustomText 
         {...textStyle} 
@@ -62,7 +67,9 @@ export default AsyncButton;
 type ContainerProps = Pick<
   AsyncButtonProps, 
   "borderPosition" | "height" | "isDisabled" | "width" | "initialBgColor"
->
+> & {
+  bottomInset: number
+}
 
 type TextProps = Pick<AsyncButtonProps, "isDisabled">
 
@@ -78,9 +85,9 @@ const Container = styled.TouchableOpacity<ContainerProps>`
     border-bottom-left-radius: ${({ theme }) => theme.border.l};
     border-bottom-right-radius: ${({ theme }) => theme.border.l};
   `}
-  ${({ theme, height, isDisabled, width, initialBgColor }) => css`
+  ${({ theme, height, isDisabled, width, initialBgColor, bottomInset }) => css`
     width: ${ width ? width + 'px' : '100%' };
-    height: ${ height }px;
+    height: ${ height + bottomInset }px;
     background-color: ${ 
       isDisabled 
         ? theme.dark
@@ -89,6 +96,7 @@ const Container = styled.TouchableOpacity<ContainerProps>`
         : initialBgColor || theme.base.primaryColor 
     };
   `}
+  padding-bottom: ${({ bottomInset }) => bottomInset}px;
 `
 
 const CustomText = styled(Text)<TextProps>`

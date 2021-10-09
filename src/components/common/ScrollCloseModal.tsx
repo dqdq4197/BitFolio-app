@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Animated } from 'react-native';
 import styled from 'styled-components/native';
+import Constants from 'expo-constants';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import * as Haptics from 'expo-haptics';
 import CircleCloseButton from '/components/common/CircleCloseButton';
 
@@ -30,10 +32,12 @@ const ScrollCloseModal = ({
   titleComponent,
   footerHeight=0
 }: ModalProps) => {
-
+  // const { currentHeight } = StatusBar
   const progressRef = useRef<any>(null);
   const scrollY = useRef(new Animated.Value(0)).current;
+  const insets = useSafeAreaInsets();
   const [isFullProgress, setIsFullProgress] = useState(false);
+  const { statusBarHeight } = Constants;
 
   useEffect(() => {
     // initail set strokeDashoffset
@@ -89,6 +93,7 @@ const ScrollCloseModal = ({
     { useNativeDriver: false }
   )
 
+  console.log(insets)
   return (
     <Modal 
       animationType='slide'
@@ -97,7 +102,7 @@ const ScrollCloseModal = ({
       <Container
         behavior="padding"
       >
-        <HeaderView>
+        <HeaderView insetTop={ insets.top }>
           { titleComponent || <Blank></Blank> }
           <CircleCloseButton 
             SIZE={SIZE} 
@@ -131,6 +136,7 @@ export default ScrollCloseModal;
 type ScrollViewProps = {
   footerHeight: number;
 }
+
 const Modal = styled.Modal``
 
 const Container = styled.KeyboardAvoidingView`
@@ -138,11 +144,13 @@ const Container = styled.KeyboardAvoidingView`
   background-color: ${({ theme }) => theme.base.background.surface};
 `
 
-const HeaderView = styled.View`
+const HeaderView = styled.View<{ insetTop: number }>`
   flex-direction: row;
   justify-content: space-between;
   margin-bottom: 16px;
-  padding: 30px ${({ theme }) => theme.content.spacing} 0;
+  padding: ${({ insetTop, theme }) => `
+    ${ insetTop + 10 }px ${ theme.content.spacing } 0
+  `};
 `
 
 const ScrollView = styled.ScrollView<ScrollViewProps>`

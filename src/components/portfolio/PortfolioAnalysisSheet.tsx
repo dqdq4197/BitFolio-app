@@ -99,6 +99,7 @@ const PortfolioAnalysisSheet = ({ portfolioStats }: SheetProps) => {
   const { 
     isHideAnalysisSheet: isHide, 
     analysisActiveTab: activeTab,
+    mode
   } = portfolio[activeIndex];
 
   const handleTabButtonPress = (tabKey: ActiveTabType) => {
@@ -207,6 +208,7 @@ const PortfolioAnalysisSheet = ({ portfolioStats }: SheetProps) => {
                   ? <AllocationView 
                       coins={portfolioStats.coins}
                       tatalCosts={portfolioStats?.total_costs}
+                      mode={mode}
                     />
                   : <StatisticsView 
                       coins={portfolioStats.coins}

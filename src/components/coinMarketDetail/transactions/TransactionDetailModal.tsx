@@ -1,5 +1,5 @@
 import React, { forwardRef, useMemo, MutableRefObject, useCallback, useState } from 'react';
-import { ScrollView, NativeSyntheticEvent, NativeScrollEvent, Alert } from 'react-native';
+import { NativeSyntheticEvent, NativeScrollEvent, Alert } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import styled, { css } from 'styled-components/native';
 import { LayoutAnimation, UIManager, Platform } from 'react-native';
@@ -135,7 +135,9 @@ const TransactionDetailModal = forwardRef<BottomSheetModal, DetailProps>(
       onDismiss={onDismiss}
     >
       <ScrollView 
-        onScroll={data?.type === 'transfer' && data?.notes ? handleScroll : undefined}
+        onScroll={
+          data?.type === 'transfer' && data?.notes ? handleScroll : undefined
+        }
         scrollEventThrottle={16}
       >
         <>
@@ -336,6 +338,7 @@ const TransactionDetailModal = forwardRef<BottomSheetModal, DetailProps>(
           </Text>
         </RemoveButton>
         </>
+        <Block></Block>
       </ScrollView>
     </Modal>
   )
@@ -343,6 +346,7 @@ const TransactionDetailModal = forwardRef<BottomSheetModal, DetailProps>(
 
 export default TransactionDetailModal;
 
+const ScrollView = styled.ScrollView``
 const Row = styled.View`
   flex-direction: row;
   justify-content: space-between;
@@ -384,4 +388,8 @@ const RemoveButton = styled.TouchableOpacity`
   justify-content: center;
   margin: 0 10px;
   margin-bottom: 10px;
+`
+
+const Block = styled.View`
+  height: 30px;
 `

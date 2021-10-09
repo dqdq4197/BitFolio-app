@@ -10,9 +10,11 @@ import {
 import { CoinStatType } from '/hooks/usePortfolioStats';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import useLocales from '/hooks/useLocales';
+import { convertUnits, digitToFixed } from '/lib/utils';
+import { ModeType } from '/store/portfolio';
 import Text from '/components/common/Text';
 import IncreaseDecreaseValue from '/components/common/IncreaseDecreaseValue';
-import { convertUnits, digitToFixed } from '/lib/utils';
+import PrivatePlaceholder from './PrivatePlaceholder';
 
 const { width } = Dimensions.get('window');
 
@@ -23,6 +25,7 @@ const INNER_RADIUS = 90;
 type AllocationViewProps = {
   coins?: { [key: string]: CoinStatType } 
   tatalCosts?: number
+  mode: ModeType
 }
 type ActiveIndex = number | null
 type LegendContainerProps = Merge<
@@ -82,6 +85,7 @@ const CustomSlice = ({...props}) => {
 const AllocationView = ({ 
   coins, 
   tatalCosts,
+  mode
 }: AllocationViewProps) => {
 
   const { theme } = useGlobalTheme();
@@ -187,14 +191,35 @@ const AllocationView = ({
       { activeIndex !== null
         ? (
           <PieLabel>
-            <Text fontL color100 bold>
-              { convertUnits(coinArr[activeIndex][1].holding_costs, currency) }
-            </Text>
-            <IncreaseDecreaseValue 
-              value={digitToFixed(coinArr[activeIndex][1].all_time_pl_percentage, 2)}
-              afterPrefix="%"
-              bold
-            />
+            { mode === 'private'
+              ? <>
+                  <PrivatePlaceholder 
+                    diameter={ 10 }
+                    numberOfCircle={ 5 }
+                    color300
+                    horizontalSpacing={ 8 }
+                  />
+                  <PrivateWrap>
+                    <PrivatePlaceholder 
+                      diameter={ 8 }
+                      numberOfCircle={ 3 }
+                      color300
+                      horizontalSpacing={ 6 }
+                    />
+                  </PrivateWrap>
+                </>
+              : <>
+                  <Text fontL color100 bold>
+                    { convertUnits(coinArr[activeIndex][1].holding_costs, currency) }
+                  </Text>
+                  <IncreaseDecreaseValue 
+                    value={digitToFixed(coinArr[activeIndex][1].all_time_pl_percentage, 2)}
+                    afterPrefix="%"
+                    bold
+                  />
+                </>
+            }
+            
             <Text bold center>
               { activeIndex !== null && (
                 Object.entries(coins)[activeIndex][0].charAt(0).toUpperCase() 
@@ -264,4 +289,8 @@ const PieLabel = styled.View`
   align-items: center;
   justify-content: center;
   z-index: -1;
+`
+
+const PrivateWrap = styled.View`
+  margin: 8px 0;
 `
