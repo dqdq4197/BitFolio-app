@@ -415,6 +415,7 @@ const FormModalLayout = ({
             onPress={activePage === 1 ? handleNextPress : handleAddTransactionPress}
             borderPosition={['top']}
             fontML
+            hasNotch
           />
         }
         footerHeight={FOOTER_HEIGHT}

@@ -87,7 +87,7 @@ const Container = styled.TouchableOpacity<ContainerProps>`
   `}
   ${({ theme, height, isDisabled, width, initialBgColor, bottomInset }) => css`
     width: ${ width ? width + 'px' : '100%' };
-    height: ${ height + bottomInset }px;
+    height: ${ height + (bottomInset - 20 > 0 ? bottomInset - 20 : 0) }px;
     background-color: ${ 
       isDisabled 
         ? theme.dark
@@ -96,7 +96,7 @@ const Container = styled.TouchableOpacity<ContainerProps>`
         : initialBgColor || theme.base.primaryColor 
     };
   `}
-  padding-bottom: ${({ bottomInset }) => bottomInset}px;
+  padding-bottom: ${({ bottomInset }) => bottomInset - 20 > 0 ? bottomInset - 20 : 0}px;
 `
 
 const CustomText = styled(Text)<TextProps>`
