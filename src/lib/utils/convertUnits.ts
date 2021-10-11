@@ -17,6 +17,7 @@ export default function(
   let beforePrefix = isNegative ? '-' : '';
   beforePrefix += addCurrencyMark ? currencyMark : '';
 
+  console.log(num, num.toString().indexOf('-') === 0 ? num.toString().slice(1) : num);
   if(currency === 'usd' || currency === 'eur') {
     switch(numToString.length) {
       case 7:
@@ -45,7 +46,7 @@ export default function(
         break;
 
       default :
-        result = krwFormat(num);
+        result = num.toString().indexOf('-') === 0 ? krwFormat(num).slice(1) : krwFormat(num);
         break;
     }
     return beforePrefix + result
@@ -84,7 +85,7 @@ export default function(
         break;
 
       default :
-        result = krwFormat(num);
+        result = num.toString().indexOf('-') === 0 ? krwFormat(num).slice(1) : krwFormat(num);
         break;
     }
     return beforePrefix + result
