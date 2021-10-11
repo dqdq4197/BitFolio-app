@@ -100,11 +100,11 @@ const RootNavigationContainer = () => {
     <ThemeProvider 
       theme={ theme }
     >
-      <BottomSheetModalProvider>
-        <SafeAreaProvider>
+      <SafeAreaProvider>
+        <BottomSheetModalProvider>
           <RootNavigation/>
-        </SafeAreaProvider>
-      </BottomSheetModalProvider>
+        </BottomSheetModalProvider>
+      </SafeAreaProvider>
     </ThemeProvider>
   )
 }
