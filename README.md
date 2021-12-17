@@ -1,14 +1,13 @@
 
 
-<div style="display:flex; align-items:center; justify-content:center;">
-    <img src="./assets/bitfolio_icon.png/" alt="drawing" style="width:50px; border-radius: 9px;"/>
-    <div style="font-size:32px; margin-left:10px;"> 
+<p align="center">
+    <img src="./assets/bitfolio_icon.png/" alt="logo" style="width:50px; border-radius: 9px;"/>
+    <h1 align="center"> 
         Bitfolio 
-    </div>
-</div>
+    </h1>
+</p>
 
-----------------------------------------
-    Bitfolio는 가상 화폐 투자에 관심이 있거나, 전 세계 10,000개 이상의 코인에 대한 정보를 얻고자 하는 사용자를 위한 앱입니다.
+Bitfolio는 가상 화폐 투자에 관심이 있거나, 전 세계 10,000개 이상의 코인에 대한 정보를 얻고자 하는 사용자를 위한 앱입니다.
 
 <div style="display:flex">
     <img src="./assets/iPhone_chart1.png/" width="130" style="border-radius: 6px;"/>
