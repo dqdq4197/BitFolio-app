@@ -1,98 +1,70 @@
-## Stack
-    React Native Client
-    Typescript
-    SWR
-    styled-components
-    d3
-    expo
-
-## Coin Detail Info
-------------------------------
-    id, symbol, name, description, categories (ex. cryptocurrency) 
-    관련 blockchain site정보 제공.
-    해당 coin official forum site url
-    reddit site url, facebook name, twitter_screen name, git repo url
-    high 24h, low 24h, total volume, fully_diluted_valuation, market cap
-    price change 24h #percentage & 1h & 7d & 14d & 30d & 60d & 200d & 1y
-    community data, developer data
-    tickers, trust_score, last traded_at
-
-## 제공할 수 있는 옵션? 
-
-### Markets
---------------------------------
-    Coin Rank순 정렬, Market Cap순 정렬, volume순 정렬
-    Coin 즐겨 찾기, 즐겨 찾기 보기
-    category별로 보기?..
-    Coin 검색
-    
-### icon license 
-
-    https://www.flaticon.com/kr/authors/pixel-perfect   
-    스토어에 표기
-
-### news api 목록..
-    https://cryptonews-api.com/
-    달 10달러 
-    or
-    cryptocompare 상업적 목적이 아니라면 무료 
-    월 10만 call 가능.. 
-    category가 매우 적음.. 
-
-### socket api 사용시 
-    - cryptocompare
-    최대 50명 사용가능.. socket은 하나로 
-    사용하게된다면 특정 가격페이지에만 사용 가능할듯
-
-### 배포 전 TODO
-    api key 숨기기 => .env 
 
 
-### transaction추가 시 주의
-    수수료, price per coin의 경우 trade date 설정 값에 따라 과거의 환율로 계산합니다.
+<div style="display:flex; align-items:center; justify-content:center;">
+    <img src="./assets/bitfolio_icon.png/" alt="drawing" style="width:50px; border-radius: 9px;"/>
+    <div style="font-size:32px; margin-left:10px;"> 
+        Bitfolio 
+    </div>
+</div>
 
-### portfolio statistics fomula for calculating
-    ※ PRICE => 시장 가치, 24시간 가격 변동률
-    ※ HOLDINGS => 시장 가치 x 홀딩 갯수, 홀딩 갯수
-    ※ 순비용 => 매도로 인한 수익의 합계 - 매수로 인한 비용의 합계 -  수수료
-    ※ 24H P/L => 
-        price: 시장 가치 + 매도로 인한 수익의 합계 - 매수로 인한 비용의 합계 -  수수료
-        percentage: 
-    ※ TOTAL P/L
-    =>  x = 현재 코인 시장 가치
-        y = 매수가격 - 매도 가격 
-        n = 매수한 코인 개수 합(buy) - 매도한 코인 개수 합(sell)
+----------------------------------------
+    Bitfolio는 가상 화폐 투자에 관심이 있거나, 전 세계 10,000개 이상의 코인에 대한 정보를 얻고자 하는 사용자를 위한 앱입니다.
 
-        P/L PRICE = nx - y
+<div style="display:flex">
+    <img src="./assets/iPhone_chart1.png/" width="130" style="border-radius: 6px;"/>
+    <img src="./assets/iPhone_chart2.png/" width="130" style="border-radius: 6px; margin-left:5px"/>
+    <img src="./assets/iPhone_portfolio2.png/" width="130" style="border-radius: 6px; margin-left:5px"/>
+    <img src="./assets/iPhone_portfolio1.png/" width="130" style="border-radius: 6px; margin-left:5px"/>
+    <img src="./assets/iPhone_news.png/" width="130" style="border-radius: 6px; margin-left:5px"/>
+</div>
+<br/>
 
-        - transfer 거래가 있을 경우 
+Bitfolio가 제공하는 주요 기능은 다음과 같습니다.
+1. 다양한 코인 정보 확인
+    - 수천 개의 코인 가격 차트, 정보, 관련 뉴스 등을 제공합니다.
+2. 코인추적과 포트폴리오 관리
+    - 무료로 코인을 추적하고, 모의 투자하며 포트폴리오를 관리해 볼 수 있습니다.
+3. 암호화폐관련 뉴스 확인
+    - 제공 출처와 카테고리별로 보고싶은 뉴스를 손쉽게 확인하실 수 있습니다.
+    - 뉴스의 언어가 사용자의 설정에 따른 언어로 번역할 수 있는 버튼을 제공합니다.
+4. 사용자 편의성 기능
+    - 언어 한국어 / 영어를 제공하고 있습니다.
+    - 어두운 곳에서도 편안하게 사용할 수 있도록 다크모드를 지원하고 있습니다.
+    - 최대 3개의 법정화폐 설정을 제공하고 있습니다.
+    - 최초 앱 실행 시 실행 화면을 설정하실 수 있습니다.
 
-        x = 현재 코인 시장 가치
-        y = 들어온 코인 개수 합(transfer in) - 나간 코인 개수 합(transfer out)
+### 향후 업데이트 방향 대표 3가지
+1. 자체 서버를 만들어 앱내 가상 화폐 커뮤니티 생성
+2. portfolio 가격 | 수익률 차트 생성
+3. 국내 유명 거래소별 가상 화폐 가격 제공
 
-        result = P/L PRICE + x * y
+## Bitfolio 사용하기
 
-    ※ TOTAL COST => 매수한 총 가격
-    ※ TOTAL P/L PERCENTAGE => 
-        TOTAL P/L / TOTAL COST * 100
+현재 IOS 모바일 기기로 사용해 보실 수 있습니다.
 
-    ※ TOTAL BALANCE
-    => 소유중인 코인 HOLDING COSTS 총합 
+| iOS |
+|:-:|
+| [<img src="./assets/appstore-badge.png" height="50"/>](https://apps.apple.com/kr/app/bitfolio-%EC%95%94%ED%98%B8%ED%99%94%ED%8F%90-%EC%B6%94%EC%A0%81/id1588559565) |
 
-    ※ portfolio each coin allocation 
-    =>  x = 해당 코인의 HOLDING COSTS
-        y = TOTAL BALANCE of non-negative holding costs
+## 프로젝트 스택
+다음 항목은 이 프로젝트에 사용된 핵심 프론트엔드 기술입니다.
+* Expo & React-Native
+* react navigation v5
+* SWR
+* Redux
+* styled-components
+* d3
+* i18next
+* react-native-reanimated
+* Typescript
 
-        result = x / y * 100
+## APIs
 
-    total balance 
++ 가상 화폐 대부분의 데이터는 [coingecko](https://www.coingecko.com/ko/api "coingecko api")에서 제공받고 있습니다.
++ 가상 화폐 관련 뉴스 데이터는 [cryptocompare](https://min-api.cryptocompare.com/ "cryptocompare api")에서 제공받고 있습니다.
 
-    ※ 24h price chagne
-    => now date - data < 24의 경우 price change 합해주기
-    => 나머지는 해당 asset의( change price 24 * 오늘 date로 추가한 transaction이 아닌 것의 quantity)
-    
-    위 두개의 합 
+## Etc.
+가상 화폐 투자 포트폴리오에서의 이익/손실, 점유율, 전체 잔액 등의 통계 계산식은 [여기서](./FOMULA.md) 확인하실 수 있습니다.
+## 프로젝트 설치 및 실행 방법
 
-
-### 지울것.?
-    BlurView
+Bitfolio를 개인 로컬 환경에 실행을 원하시면 [안내 문서](./GUIDELINES.md)를 확인하십시오.
