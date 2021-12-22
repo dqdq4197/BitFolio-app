@@ -93,9 +93,9 @@ const SettingRoot = ({
         onPress={onCurrencyPress}
         title={ t('setting.default currencies') }
         currentSettingTitle={ 
-          CURRENCIES[currency as Exclude<baseTypes.Currency, 'default'>].iso
+          CURRENCIES[currency as baseTypes.Currency].iso
           + ' - ' +
-          CURRENCIES[currency as Exclude<baseTypes.Currency, 'default'>].symbol
+          CURRENCIES[currency as baseTypes.Currency].symbol
         }
       />
       <Row

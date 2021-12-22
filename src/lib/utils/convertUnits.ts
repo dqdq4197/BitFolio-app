@@ -2,6 +2,12 @@ import { baseTypes } from 'base-types';
 import krwFormat from './krwFormat';
 import { CURRENCIES } from '/lib/constant';
 
+
+/**
+ * @param  {number} num num to format
+ * @param  {baseTypes.Currency} currency currency
+ * @param  {boolean} addCurrencyMark [default: true]
+ */
 export default function(
   num: number, 
   currency: baseTypes.Currency,
@@ -12,12 +18,11 @@ export default function(
     ? Math.floor(num).toString().substring(1) 
     : Math.floor(num).toString();
   let numLen = numToString.length;
-  let currencyMark = currency === 'default' ? '₩' : CURRENCIES[currency].symbol;
+  let currencyMark = CURRENCIES[currency].symbol;
   let result = '';
   let beforePrefix = isNegative ? '-' : '';
   beforePrefix += addCurrencyMark ? currencyMark : '';
 
-  console.log(num, num.toString().indexOf('-') === 0 ? num.toString().slice(1) : num);
   if(currency === 'usd' || currency === 'eur') {
     switch(numToString.length) {
       case 7:

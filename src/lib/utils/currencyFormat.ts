@@ -1,4 +1,5 @@
 import { baseTypes } from 'base-types';
+import { CURRENCIES } from '../constant';
 
 type CurrencyFormat = {
   value: string | number
@@ -83,6 +84,7 @@ export function getOnlyDecimal({
       }
     }  
     
+    
     if(result[1].length >= maxTemp) {
       return result[1].substr(0, maxTemp);
     } else {
@@ -95,26 +97,17 @@ export function getOnlyDecimal({
  * @param  {baseTypes.Currency} currency usd, eur, krw, etc.
  */
 export function getCurrencySymbol(currency: baseTypes.Currency): string {
-  switch (currency) {
-    case 'krw':
-      return '₩'
-    case 'eur':
-      return '€'
-
-    default: 
-      return '$'
-  }
+  return CURRENCIES[currency].symbol;
 }
 
 /**
  * @param  {string|number} value value to format
  * @param  {string | undefined} prefix currency symbol mark
- * @param  {string} zeroMask [default: '--'] 값이 0일 경우 mask 
+ * @param  {boolean} includeSeparator [default: true]
  */
 export function currencyFormat({
   value, 
   prefix, 
-  zeroMask= '--',
   includeSeparator = true
 }: CurrencyFormat): string {
   let numStr = typeof value === 'number' ? value.toString() : value;
@@ -129,46 +122,45 @@ export function currencyFormat({
   if(!decimalPart) {
     return sPrefix + AddSeparator(intPart);
   }
-
+  
   const intPartLength = intPart.length;
   const decimalPartLength = decimalPart.length;
   let result = '';
   let decimalCnt = 0;
   let decimalZeroCnt = 0;
-  if(numStr === '0') {
-    result = zeroMask;
-  } else {
-    if(Number(intPart) > 0) {
-      result = intPart + '.';
-      if(intPartLength === 1) {
-        decimalCnt = 3;
-      } else {
-        decimalCnt = 2;
-      }
+  
+  if(Number(intPart) > 0) {
+    result = intPart + '.';
+    if(intPartLength === 1) {
+      decimalCnt = 3;
     } else {
-      result = '0.';
-      for(let i = 0; i < decimalPartLength; i++) {
-        if(decimalPart[i] === '0') {
-          decimalZeroCnt++;
-        } else {
-          break;
-        }        
-      }
-
-      if(decimalZeroCnt < 4) {
-        decimalCnt = decimalZeroCnt + 4;
-      } else if(decimalZeroCnt === 4 || decimalZeroCnt === 5) {
-        decimalCnt = decimalZeroCnt + 3;
-      } else {
-        decimalCnt = decimalZeroCnt + 2;
-      }
+      decimalCnt = 2;
     }
-    for(let i = 0; i < decimalCnt; i++) {
-      if(i >= decimalPartLength) break;
-      result += decimalPart[i];
+  } else {
+    result = '0.';
+
+    for(let i = 0; i < decimalPartLength; i++) {
+      if(decimalPart[i] === '0') {
+        decimalZeroCnt++;
+      } else {
+        break;
+      }        
+    }
+
+    if(decimalZeroCnt < 4) {
+      decimalCnt = decimalZeroCnt + 4;
+    } else if(decimalZeroCnt === 4 || decimalZeroCnt === 5) {
+      decimalCnt = decimalZeroCnt + 3;
+    } else {
+      decimalCnt = decimalZeroCnt + 2;
     }
   }
-  
+
+  for(let i = 0; i < decimalCnt; i++) {
+    if(i >= decimalPartLength) break;
+    result += decimalPart[i];
+  }
+
   result = sPrefix + (includeSeparator ? AddSeparator(result) : result);
 
   return result;
