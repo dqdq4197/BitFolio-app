@@ -283,4 +283,3 @@ const responsivefy = svg => {
   /*
   svg.append('g').call(d3.axisLeft(yVolumeScale));
   */
-};

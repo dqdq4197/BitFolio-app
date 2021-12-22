@@ -3,12 +3,10 @@
 declare module 'base-types' {
   export namespace baseTypes { 
     type Theme = "light" | "dark" | "default" | null | undefined;
-    type Currency = 'krw' | 'usd' | 'eur' | 'default';
+    type Currency = 'krw' | 'usd' | 'eur';
     type Language = 'ko' | 'en' | 'default';
     type ChartTimeFrame = 1 | 7 | 30 | 365 | 'max';
-  } 
-
-  
+  }
 }
 
 declare module 'mapped-types' {

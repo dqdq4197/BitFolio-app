@@ -9,8 +9,13 @@ npm-debug.*
 *.orig.*
 web-build/
 
+
+# env
 @types/env.d.ts
 .env
+
+# testing
+coverage
 
 # macOS
 .DS_Store

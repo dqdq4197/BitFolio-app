@@ -58,7 +58,7 @@ const Currency = ({ }: CurrencyProps) => {
   const renderCurrencies = () => {
     const rows = [];
     for(const currency in CURRENCIES) {
-      const { name, iso, unicode } = CURRENCIES[currency as Exclude<baseTypes.Currency, 'default'>];
+      const { name, iso, unicode } = CURRENCIES[currency as baseTypes.Currency];
       rows.push(
         <Row
           key={ unicode }
