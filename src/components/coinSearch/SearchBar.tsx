@@ -7,13 +7,14 @@ import useGlobalTheme from '/hooks/useGlobalTheme';
 import SurfaceTopView from '/components/common/SurfaceTopView';
 
 type SearchBarProps = {
+  isLoading: boolean
   onQueryChange: (text:string) => void
   query: string
   coinsLength?: number
   onRemoveQuery: () => void
 }
 const SearchBar = forwardRef<TextInput, SearchBarProps>(
-  ({ onQueryChange, query, coinsLength, onRemoveQuery }, ref) => {
+  ({ isLoading, onQueryChange, query, coinsLength, onRemoveQuery }, ref) => {
 
   const { t } = useTranslation(); 
   const { scheme, theme } = useGlobalTheme();
@@ -30,7 +31,7 @@ const SearchBar = forwardRef<TextInput, SearchBarProps>(
           />
           <CustomTextInput 
             ref={ref}
-            autoFocus
+            editable={!isLoading}
             keyboardAppearance={scheme === 'dark' ? 'dark' : 'light'}
             onChangeText={onQueryChange}
             value={query}

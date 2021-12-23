@@ -4,7 +4,7 @@ import styled from 'styled-components/native';
 import { useTranslation } from 'react-i18next';
 import Text from '/components/common/Text';
 import RollingText from '/components/common/RollingText';
-import { currencySymbol } from '/lib/utils';
+import { getCurrencySymbol } from '/lib/utils/currencyFormat';
 import useLocales from '/hooks/useLocales';
 
 const { width } = Dimensions.get('window');
@@ -32,7 +32,7 @@ const SetPricePerCoinView = ({
       <View />
       <PriceView height={height}>
         <Text fontXL bold margin="0 5px 0 0">
-          { currencySymbol(currency) }
+          { getCurrencySymbol(currency) }
         </Text>
         <View>
           <RollingText 

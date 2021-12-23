@@ -65,7 +65,6 @@ const Overview = () => {
   const { id, coins, coinsData, initLoading, mutate } = usePortfolioContext();
   const { portfolioStats } = usePortfolioStats({ id, coinsData })
   const [refreshing, setRefreshing] = useState(false);
-  
 
   const { scrollY } = useAnimatedHeaderTitle({ 
     title: 
@@ -83,10 +82,7 @@ const Overview = () => {
   }, [scrollViewRef])
 
 
-  const onScrollToTop = () => {
-    
-    return scrollViewRef.current?.getNode().scrollTo({ x: 0, y: 0, animated: true });
-  }
+  const onScrollToTop = () => scrollViewRef.current?.getNode().scrollTo({ x: 0, y: 0, animated: true });
   
   const handleWatchCoinCoinPress = () => {
     navigation.navigate('AddNewCoin', { portfolioId: id });
