@@ -3,7 +3,7 @@ import { Dimensions } from 'react-native';
 import styled from 'styled-components/native';
 import Text from '/components/common/Text';
 import RollingText from '/components/common/RollingText';
-import { currencySymbol } from '/lib/utils';
+import { getCurrencySymbol } from '/lib/utils/currencyFormat';
 import useLocales from '/hooks/useLocales';
 
 const { width } = Dimensions.get('window');
@@ -25,7 +25,7 @@ const SetFeeView = ({
   return (
     <Container height={height}>
       <Text fontXL bold margin="0 5px 0 0">
-        { currencySymbol(currency) }
+        { getCurrencySymbol(currency) }
       </Text>
       <RollingText 
         text={fee}

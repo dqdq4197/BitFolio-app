@@ -8,8 +8,7 @@ import {
   EmitterSubscription,
   KeyboardEvent,
   LayoutAnimation,
-  UIManager,
-  ActivityIndicator
+  UIManager
 } from 'react-native';
 import styled from 'styled-components/native';
 import { useHeaderHeight } from '@react-navigation/stack';
@@ -37,15 +36,15 @@ export interface CoinsType extends SearchCoin {
 }
 
 const { height } = Dimensions.get('screen');
-const Layout = () => {
 
+const Layout = () => {
   const textInputRef = useRef<TextInput>(null);
   const { recentSearches } = useAppSelector(state => state.baseSettingReducer);
   const [coins, setCoins] = useState<CoinsType[]>([]);
   const [query, setQuery] = useState('');
   const [searchesData, setSearchesData] = useState<SearchCoin[]>([]);
   const [keyboardSpace, SetKeyBoardSpace] = useState(0);
-  const { data } = useSearchData({ suspense: false });
+  const { data, isLoading } = useSearchData({ suspense: false });
   const { data: trandingData } = useSearchTranding({ suspense: false});
   const { theme } = useGlobalTheme();
   const navigation = useNavigation();
@@ -204,6 +203,7 @@ const Layout = () => {
         ListHeaderComponent={
           <SearchBar 
             ref={textInputRef}
+            isLoading={isLoading}
             onQueryChange={handleQueryChange}
             query={query}
             coinsLength={coins.length}

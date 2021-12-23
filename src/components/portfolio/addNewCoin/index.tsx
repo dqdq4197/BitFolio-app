@@ -50,7 +50,7 @@ const Layout = () => {
     image: '',
     name: ''
   })
-  const { data } = useSearchData({ suspense: false });
+  const { data, isLoading } = useSearchData({ suspense: false });
   const { theme } = useGlobalTheme();
   const navigation = useNavigation();
   const headerHeight = useHeaderHeight();
@@ -257,6 +257,7 @@ const Layout = () => {
         ListHeaderComponent={
           <SearchBar 
             ref={textInputRef}
+            isLoading={isLoading}
             onQueryChange={handleQueryChange}
             coinsLength={coins.length}
             onRemoveQuery={handleRemoveQuery}
