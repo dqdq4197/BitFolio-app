@@ -1,8 +1,8 @@
-import React, { useCallback, useState, useRef, useEffect } from 'react';
+import React, { useCallback, useState, useRef } from 'react';
 import { Animated, ScrollView } from 'react-native';
 import styled from 'styled-components/native';
 import { Octicons, MaterialCommunityIcons  } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useScrollToTop } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import usePortfolioStats from '/hooks/usePortfolioStats';
 import useAnimatedHeaderTitle from '/hooks/useAnimatedHeaderTitle';
@@ -65,7 +65,6 @@ const Overview = () => {
   const { id, coins, coinsData, initLoading, mutate } = usePortfolioContext();
   const { portfolioStats } = usePortfolioStats({ id, coinsData })
   const [refreshing, setRefreshing] = useState(false);
-
   const { scrollY } = useAnimatedHeaderTitle({ 
     title: 
       <OverviewTitle 
@@ -75,15 +74,8 @@ const Overview = () => {
     triggerPoint: 60,
   })
 
-  useEffect(() => {
-    navigation.setParams({
-      onScrollToTop
-    })
-  }, [scrollViewRef])
+  useScrollToTop(scrollViewRef);
 
-
-  const onScrollToTop = () => scrollViewRef.current?.getNode().scrollTo({ x: 0, y: 0, animated: true });
-  
   const handleWatchCoinCoinPress = () => {
     navigation.navigate('AddNewCoin', { portfolioId: id });
   }

@@ -1,6 +1,6 @@
-import React, { useCallback, useRef, useEffect } from 'react';
+import React, { useCallback, useRef } from 'react';
 import { Animated, ScrollView } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useScrollToTop } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import PopularList from './PopularList';
 import useAnimatedHeaderTitle from '/hooks/useAnimatedHeaderTitle';
@@ -18,18 +18,8 @@ const Layout = () => {
   const navigation = useNavigation();
   const scrollViewRef = useRef<ScrollView>(null);
   const { scrollY } = useAnimatedHeaderTitle({ title: t('coinMarketHome.market'), triggerPoint: 30 });
-
-
-  useEffect(() => {
-    navigation.setParams({
-      onScrollToTop
-    })
-  }, [scrollViewRef])
-
-
-  const onScrollToTop = () => {
-    return scrollViewRef.current?.scrollTo({ x: 0, y: 0, animated: true });
-  }
+  
+  useScrollToTop(scrollViewRef);
 
   const handlePressItem = useCallback((id:string, symbol: string) => {
     navigation.navigate('CoinDetail', { param: { id, symbol }, screen: 'Overview' })
