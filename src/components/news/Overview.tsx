@@ -8,7 +8,7 @@ import {
   FlatList
 } from 'react-native';
 import styled from 'styled-components/native';
-import { useNavigation } from '@react-navigation/native';
+import { useScrollToTop } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import * as Haptics from 'expo-haptics';
 import useNewsArticles from '/hooks/useNewsArticles';
@@ -84,7 +84,6 @@ const Title = ({ sortOrder, scrollY, onResetLTs }: TitleProps) => {
 
 const Overview = () => {
   const { t } = useTranslation();
-  const navigation = useNavigation();
   const { theme } = useGlobalTheme();
   const flatListRef = useRef<FlatList>(null);
   const { categories, feeds, sortOrder } = useAppSelector(state => state.newsReducer);
@@ -102,18 +101,7 @@ const Overview = () => {
     feeds,
     suspense: false
   });
-
-  useEffect(() => {
-    navigation.setParams({
-      onScrollToTop
-    })
-  }, [flatListRef])
-
-
-  const onScrollToTop = () => {
-    if(!flatListRef.current) return ;
-    return flatListRef.current.scrollToOffset({ animated: true, offset: 0 });
-  }
+  useScrollToTop(flatListRef);
 
   useEffect(() => {
     if(data) {

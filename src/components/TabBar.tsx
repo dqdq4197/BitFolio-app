@@ -2,14 +2,10 @@ import React from 'react';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import styled from 'styled-components/native';
 import * as habtics from 'expo-haptics';
-import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { TAB_BAR_HEIGHT } from '/lib/constant';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import Text from '/components/common/Text';
-
-type ParamsType = {
-  onScrollToTop: () => void
-}
 
 const TabBar = ({ descriptors, state, navigation }: BottomTabBarProps) => {
   const { routes, index } = state;
@@ -38,10 +34,6 @@ const TabBar = ({ descriptors, state, navigation }: BottomTabBarProps) => {
           
         const onPress = () => {
           habtics.selectionAsync();
-          const params = route.state?.routes[0].params;
-          if(isFocused && params && (params as ParamsType).onScrollToTop) {
-            (params as ParamsType).onScrollToTop()
-          }
 
           const event = navigation.emit({
             type: 'tabPress',
