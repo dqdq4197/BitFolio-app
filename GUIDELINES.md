@@ -4,9 +4,9 @@ These insturctions will get you a copy of the project up and running on your loc
 
 ### Prerequistes
 
-- Node.js v8^
+- Node.js v12^
 - npm
-- expo-cli
+- expo-cli@~5.0.2
 
 ## Installation
 
