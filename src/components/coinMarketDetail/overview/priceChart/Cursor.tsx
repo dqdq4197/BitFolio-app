@@ -107,7 +107,7 @@ const Cursor = ({
   return (
     <LongPressGestureHandler
       {...{ onGestureEvent }}
-      minDurationMs={300}
+      minDurationMs={200}
     >
       <Animated.View 
         style={[

@@ -17,8 +17,6 @@ import PriceChangePercentage from './PriceChangePercentage';
 import Stats from './Stats';
 import MainChart from './priceChart';
 
-
-
 const { width } = Dimensions.get('window');
 
 const Layout = () => {

@@ -6,7 +6,7 @@ import { digitToFixed } from '/lib/utils';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import SurfaceWrap from '/components/common/SurfaceWrap';
 
-const padding = 30;
+const PADDING = 30;
 
 type ChangePercentageType = {
   percentage_24h?: number,
@@ -40,8 +40,8 @@ const PriceChangePercentage = ({
   percentage_1y
 } :ChangePercentageType ) => {
   const { t } = useTranslation();
-  const { theme } =useGlobalTheme();
-  
+  const { theme } = useGlobalTheme();
+
   return (
     <SurfaceWrap 
       title={ `${t('coinDetail.price change percentage')} (%)` } 
@@ -50,8 +50,8 @@ const PriceChangePercentage = ({
       <VictoryChart
         height={ 120 }
         padding={{
-          right: padding,
-          bottom: padding,
+          right: PADDING,
+          bottom: PADDING,
         }}
         domainPadding={{ x: 45, y: 30 }}
       >
