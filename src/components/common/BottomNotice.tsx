@@ -4,15 +4,13 @@ import { useTranslation } from 'react-i18next';
 import styled from 'styled-components/native';
 import * as WebBrowser from 'expo-web-browser';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { PRIVACY_POLICY_EN, PRIVACY_POLICY_KO } from '/lib/constant';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import useLocales from '/hooks/useLocales';
 import Text from '/components/common/Text';
 
 
 const { width } = Dimensions.get('window');
-
-const PRIVACY_POLICY_EN = "https://lime-lint-eba.notion.site/Bitfolio-ios-Privacy-Policy-644e0d1e30da4c98ad0e75cfc8253a2e";
-const PRIVACY_POLICY_KO = "https://lime-lint-eba.notion.site/Bitfolio-ios-dad7db3124d74500b2a09d6340835631";
 
 const BottomNotice = () => {
 

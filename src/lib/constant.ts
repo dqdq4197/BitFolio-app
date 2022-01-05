@@ -6,6 +6,9 @@ enum TAB_ROUTE_NAME {
   portfolio= 'portfolio',
   news= 'news'
 }
+
+const PRIVACY_POLICY_EN = "https://lime-lint-eba.notion.site/Bitfolio-ios-Privacy-Policy-644e0d1e30da4c98ad0e75cfc8253a2e";
+const PRIVACY_POLICY_KO = "https://lime-lint-eba.notion.site/Bitfolio-ios-dad7db3124d74500b2a09d6340835631";
 const TRANSLATE_PREFIX = 'https://translation.googleapis.com/language/translate/v2';
 const PAPAGO_PREFIX = 'https://openapi.naver.com/v1';
 const LANGUAGE_STORAGE_KEY = 'local_language';
@@ -264,6 +267,8 @@ const ACTIONS = {
 
 export {
   LANGUAGE_STORAGE_KEY,
+  PRIVACY_POLICY_EN,
+  PRIVACY_POLICY_KO,
   TRANSLATE_PREFIX,
   PAPAGO_PREFIX,
   TAB_ROUTE_NAME,
