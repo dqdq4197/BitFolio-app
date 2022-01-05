@@ -2,7 +2,7 @@
   "expo": {
     "name": "bitfolio",
     "slug": "bitfolio",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "orientation": "portrait",
     "icon": "./assets/bitfolio_icon.png",
     "splash": {
@@ -27,7 +27,8 @@
         "foregroundImage": "./assets/splash.png",
         "backgroundColor": "#121212"
       },
-      "versionCode": 1
+      "versionCode": 1,
+      "package": "com.bitfolio.cryptocurrencies.ios"
     },
     "web": {
       "favicon": "./assets/splash.png"
