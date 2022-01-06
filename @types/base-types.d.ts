@@ -7,6 +7,10 @@ declare module 'base-types' {
     type Language = 'ko' | 'en' | 'default';
     type ChartTimeFrame = 1 | 7 | 30 | 365 | 'max';
   }
+
+  export namespace chartType {
+    type percentageStatus = 'negative' | 'unchanged' | 'positive'
+  }
 }
 
 declare module 'mapped-types' {

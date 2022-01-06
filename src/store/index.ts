@@ -12,7 +12,6 @@ import {
 } from 'redux-persist'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import baseSettingReducer from './baseSetting';
-import marketDetailReducer from './coinMarketDetail';
 import portfolioReducer from './portfolio';
 import transactionReducer from './transaction';
 import globalStateReducer from './globalState';
@@ -28,7 +27,6 @@ const persistConfig = {
     'newsReducer'
   ], 
   blacklist: [
-    'marketDetailReducer',
     'globalStateReducer'
   ], // persist에 저장하지 않을 reducer들 
   debugger: true
@@ -36,7 +34,6 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   baseSettingReducer,
-  marketDetailReducer,
   portfolioReducer,
   transactionReducer,
   globalStateReducer,
