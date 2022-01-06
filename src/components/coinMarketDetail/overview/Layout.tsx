@@ -2,16 +2,17 @@ import React, { useState, useCallback } from 'react';
 import { Dimensions } from 'react-native';
 import styled from 'styled-components/native';
 import { BlurView } from 'expo-blur';
+
 import { useAppSelector, shallowEqual } from '/hooks/useRedux';
 import useCoinDetailData from '/hooks/useCoinDetailData';
 import { useCoinIdContext } from '/hooks/useCoinIdContext';
 import useLocales from '/hooks/useLocales';
 import useGlobalTheme from '/hooks/useGlobalTheme';
+
 import CustomRefreshControl from '/components/common/CustomRefreshControl';
 import ScrollView from '/components/common/ScrollView'
 import AddTransactionButton from '../AddTransactionButton';
 import WatchButton from '../WatchButton';
-import PriceAndDate from './PriceAndDate';
 import ChartTab from './ChartTab';
 import PriceChangePercentage from './PriceChangePercentage';
 import Stats from './Stats';
@@ -30,7 +31,7 @@ const Layout = () => {
   }), shallowEqual);
   const { currency } = useLocales();
   const { data, mutate } = useCoinDetailData({ id });
-
+  
   const handleRefresh = useCallback(async() => {
     setRefreshing(true);
     await mutate()
@@ -50,17 +51,11 @@ const Layout = () => {
         }
       >
         <ChartArea>
-          <PriceAndDate
-            id={id}
-            lastUpdatedPrice={data.market_data.current_price[currency]}
-            lastUpdatedDate={data.last_updated}
-            percentage_24h={data.market_data.price_change_percentage_24h_in_currency[currency]}
-          />
           <MainChart 
             id={id}
             chartOption={chartOption}
             lastUpdatedPrice={data.market_data.current_price[currency]}
-            lastUpdatedPercentage={data.market_data.price_change_percentage_24h_in_currency[currency]}
+            percentage_24h={data.market_data.price_change_percentage_24h_in_currency[currency]}
             price_24h_ago={
               data.market_data.current_price[currency]
               - data.market_data.price_change_24h_in_currency[currency]

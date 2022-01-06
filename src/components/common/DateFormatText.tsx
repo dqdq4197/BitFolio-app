@@ -24,8 +24,8 @@ const DateFormatText = ({
 }: FormatTextProps) => {
   const { language } = useLocales();
 
-  const CustomText = ({ children }: CustomText) => (
-    <Text
+  const CustomText = React.useCallback(({ children }: CustomText) => {
+    return (<Text
       {...textStyles}
     >
       { afterPrefix }
@@ -36,8 +36,8 @@ const DateFormatText = ({
       ) } 
       { children}
       { beforePrefix }
-    </Text>
-  )
+    </Text>)
+  }, [date])
   
   if(formatType === 'Pp') 
     return (

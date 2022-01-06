@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import styled from 'styled-components/native';
 import { useTranslation } from 'react-i18next';
 import { 
@@ -9,13 +9,16 @@ import {
   VictoryLabel,
   VictoryScatter,
 } from 'victory-native';
-import GlobalIndicator from '/components/common/GlobalIndicator';
+import Animated from "react-native-reanimated";
+
 import useMarketLineChartData from '/hooks/useMarketLineChartData';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import useLocales from '/hooks/useLocales';
 import { useAppSelector } from '/hooks/useRedux';
 import { CONTENT_SPACING } from '/lib/constant';
 import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat';
+
+import GlobalIndicator from '/components/common/GlobalIndicator';
 import Cursor from './Cursor';
 
 // const φ = (1 + Math.sqrt(5)) / 2;
@@ -33,8 +36,13 @@ interface ChartProps extends ConstType {
   id: string
   chartOption: "prices" | "total_volumes" | "market_caps"
   lastUpdatedPrice: number
-  lastUpdatedPercentage: number
   price_24h_ago: number
+  isCursorActive: boolean
+  datumX: Animated.SharedValue<string>
+  datumY: Animated.SharedValue<string[]> 
+  datumYChangePercentage: Animated.SharedValue<string>
+  onIsCursorActiveChange: (state: boolean) => void 
+  onPercentageStatusChange: (status: 'negative' | 'unchanged' | 'positive') => void
 }
 
 const BaseLineLabel = React.memo((props: any) => {
@@ -95,16 +103,20 @@ const LineChart = ({
   id,
   chartOption, 
   lastUpdatedPrice, 
-  lastUpdatedPercentage,
   WIDTH,
   HEIGHT,
   PADDING,
   VOLUME_HEIGHT,
-  price_24h_ago
+  price_24h_ago,
+  isCursorActive,
+  datumX,
+  datumY,
+  datumYChangePercentage,
+  onIsCursorActiveChange,
+  onPercentageStatusChange
 }: ChartProps) => {
   const { t } = useTranslation();
   const { chartTimeFrame } = useAppSelector(state => state.baseSettingReducer);
-  const [isCursorActive, setIsCursorActive] = useState(false);
   const { data, isValidating, highestPrice, lowestPrice } = useMarketLineChartData({ id })
   const { theme } = useGlobalTheme();
   const { currency } = useLocales();
@@ -122,11 +134,6 @@ const LineChart = ({
         ? theme.base.background[200]
         : theme.base.downColor
   }, [lastUpdatedPrice, data, theme, price_24h_ago])
-  
-  const handleCursorActiveChange = (state: boolean) => {
-    if(isCursorActive && state) return ;
-    setIsCursorActive(state);
-  }
 
   return (
     <ChartContainer
@@ -293,7 +300,12 @@ const LineChart = ({
               PADDING={PADDING}
               highestPrice={highestPrice}
               lowestPrice={lowestPrice}
-              onCursorActiveChange={handleCursorActiveChange}
+              onCursorActiveChange={onIsCursorActiveChange}
+              price_24h_ago={price_24h_ago}
+              datumX={datumX}
+              datumY={datumY}
+              datumYChangePercentage={datumYChangePercentage}
+              onPercentageStatusChange={onPercentageStatusChange}
             />
           }
         </CursorContainer>
