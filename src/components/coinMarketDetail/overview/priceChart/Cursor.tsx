@@ -32,7 +32,6 @@ interface CursorProps {
   PADDING: number
   highestPrice: number[]
   lowestPrice: number[]
-  price_24h_ago: number
   datumX: Animated.SharedValue<string>
   datumY: Animated.SharedValue<string[]> 
   datumYChangePercentage: Animated.SharedValue<string>
@@ -48,7 +47,6 @@ const Cursor = ({
   PADDING,
   highestPrice,
   lowestPrice,
-  price_24h_ago,
   datumX,
   datumY,
   datumYChangePercentage,
@@ -112,7 +110,7 @@ const Cursor = ({
 
     if(prevPoint !== i) {
       Haptics.selectionAsync();
-      const changePercentage = digitToFixed(100 * (currentPoint[1] - price_24h_ago) / price_24h_ago, 2);
+      const changePercentage = digitToFixed(100 * (currentPoint[1] - data[0][1]) / data[0][1], 2);
 
       datumX.value = `${ getFormatedDate(currentPoint[0]) }`
       datumY.value = [
@@ -187,7 +185,6 @@ export default Cursor;
 
 type WrapProps = Pick<CursorProps, 'CURSOR_SIZE'>
 
-const Container = styled.View``
 const CursorWrap = styled.View<WrapProps>`
   width: ${({ CURSOR_SIZE }) => CURSOR_SIZE }px;
   height: ${({ CURSOR_SIZE }) => CURSOR_SIZE }px;

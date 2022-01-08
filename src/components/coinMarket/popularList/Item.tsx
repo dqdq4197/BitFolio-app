@@ -2,12 +2,14 @@ import React from 'react';
 import { Dimensions } from 'react-native';
 import styled, { css } from 'styled-components/native';
 import { baseTypes } from 'base-types';
+
 import { CoinMarketReturn } from '/lib/api/CoinGeckoReturnType';
-import { digitToFixed } from '/lib/utils';
-import { convertUnits } from '/lib/utils';
+import { digitToFixed, convertUnits } from '/lib/utils';
+import { exponentToNumber } from '/lib/utils/currencyFormat';
 import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat';
 import useLocales from '/hooks/useLocales';
 import useGlobalTheme from '/hooks/useGlobalTheme';
+
 import Image from '/components/common/Image';
 import Text from '/components/common/Text';
 import WatchListIcon from '/components/common/WatchListIcon';
@@ -46,7 +48,7 @@ const ValueWithPercentage = ({ value, percentage, currency }: PercentageProps) =
     <Text fontML color100 right>
       { value >= 1000000 
         ? convertUnits(value, currency) 
-        : currencyFormat({ value, prefix: getCurrencySymbol(currency) })
+        : currencyFormat({ value: exponentToNumber(value), prefix: getCurrencySymbol(currency) })
       }
     </Text>
     <IncreaseDecreaseValue
@@ -68,7 +70,7 @@ const Item = ({
   const { currency } = useLocales();
   const { theme } = useGlobalTheme();
   const { id, symbol } = item;
-  
+
   return (
     <ItemContainer 
       onPress={() => onPressItem(item.id, item.symbol)} 
@@ -176,4 +178,3 @@ const ImageWrap = styled.View`
 const ValueWrap = styled.View`
   width: 100%;
 `
-

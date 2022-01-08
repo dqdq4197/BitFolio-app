@@ -301,7 +301,6 @@ const LineChart = ({
               highestPrice={highestPrice}
               lowestPrice={lowestPrice}
               onCursorActiveChange={onIsCursorActiveChange}
-              price_24h_ago={price_24h_ago}
               datumX={datumX}
               datumY={datumY}
               datumYChangePercentage={datumYChangePercentage}
