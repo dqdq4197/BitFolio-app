@@ -16,18 +16,22 @@ const useAnimatedHeaderTitle = ({ title,  triggerPoint }: HeaderTitleProps) => {
         title
       })
     }
-  }, [title])
+  }, [navigation, title])
 
   useEffect(() => {
     navigation.setOptions({
-      headerTitleStyle: {
-        opacity: scrollY.interpolate({
+      headerStyleInterpolator: () => {
+        const opacity = scrollY.interpolate({
           inputRange: [triggerPoint, triggerPoint + 20],
           outputRange: [0, 1]
-        })
-      },
+        });
+
+        return {
+          titleStyle: { opacity }
+        }
+      }
     })
-  }, [scrollY])
+  }, [navigation, scrollY])
 
   return { scrollY };
 }
