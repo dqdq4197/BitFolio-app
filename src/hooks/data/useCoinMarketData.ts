@@ -1,9 +1,10 @@
 import { AxiosResponse } from 'axios';
 import { baseTypes } from 'base-types';
-import useRequestInfinite from './useRequestInfinite';
+
+import useRequestInfinite from '../useRequestInfinite';
 import { CoinGecko, http } from '/lib/api/CoinGeckoClient'
-import { CoinMarketReturn } from '/lib/api/CoinGeckoReturnType';
-import { useAppSelector } from './useRedux';
+import { CoinMarketReturn } from '/types/CoinGeckoReturnType';
+import { useAppSelector } from '../useRedux';
 import { ORDER, PriceChangePercentageType } from '/lib/api/CoinGeckoClient';
 
 
@@ -23,11 +24,11 @@ export default ({
   per_page = 70, 
   order = 'market_cap_desc',
   ids,
-  suspense = true,
   refreshInterval,
-  sparkline = true,
   currency,
   price_change_percentage,
+  suspense = true,
+  sparkline = true,
   willNotRequest = false,
 }: ParamsType) => {
   const { currency: localCurrency } = useAppSelector(state => state.baseSettingReducer);

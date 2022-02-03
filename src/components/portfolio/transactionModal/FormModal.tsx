@@ -1,22 +1,24 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { Dimensions, Animated, Easing } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import { easeCubicOut } from 'd3-ease';
 import styled from 'styled-components/native';
 import { FontAwesome5, FontAwesome, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
+
 import useLocales from '/hooks/useLocales';
-import useCoinDetailData from '/hooks/useCoinDetailData';
+import useCoinDetail from '/hooks/data/useCoinDetail';
 import { useAppDispatch, useAppSelector } from '/hooks/useRedux';
 import useGlobalTheme from '/hooks/useGlobalTheme';
-import ScrollCloseModal from '/components/common/ScrollCloseModal';
-import Text from '/components/common/Text';
 import { addTransaction, editTransaction } from '/store/transaction';
 import { changeCoinState, addWatchingCoin } from '/store/portfolio';
+
+import ScrollCloseModal from '/components/common/ScrollCloseModal';
+import Text from '/components/common/Text';
 import Image from '/components/common/Image';
+import AsyncButton from '/components/common/AsyncButton';
 import EnterDetailsView from './EnterDetailsView';
 import SettingsSelectionBar from './SettingsSelectionBar';
 import TypeSelectView from './TypeSelectView';
-import { easeCubicOut } from 'd3-ease';
-import AsyncButton from '/components/common/AsyncButton';
 
 export type SettingsType = {
   name: string
@@ -116,7 +118,7 @@ const FormModalLayout = ({
   const secondPageAnimate = useRef(new Animated.Value(20)).current;
   const firstPageOpacity = useRef(new Animated.Value(1)).current;
   const secondPageOpacity = useRef(new Animated.Value(0)).current;
-  const { data: coinDetailData } = useCoinDetailData({ id, suspense: false });
+  const { data: coinDetailData } = useCoinDetail({ id, suspense: false });
   const [activePage, setActivePage] = useState(1);
   const [focusedView, setFocusedView] = useState<FocusedView>(SETTINGS[0].key);
   const [transitioning, setTransitioning] = useState(false);

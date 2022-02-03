@@ -4,18 +4,20 @@ import styled from 'styled-components/native';
 import { Octicons, MaterialCommunityIcons  } from '@expo/vector-icons';
 import { useNavigation, useScrollToTop } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
+
 import usePortfolioStats from '/hooks/usePortfolioStats';
 import useAnimatedHeaderTitle from '/hooks/useAnimatedHeaderTitle';
 import useGlobalTheme from '/hooks/useGlobalTheme';
-import SurfaceWrap from '/components/common/SurfaceWrap';
-import CustomScrollView from '/components/common/ScrollView';
-import Text from '/components/common/Text';
-import CustomRefreshControl from '/components/common/CustomRefreshControl';
+
 import { usePortfolioContext } from './PortfolioDataContext'
 import PortfolioAnalysisSheet from './PortfolioAnalysisSheet';
 import CoinListSheet from './CoinListSheet';
 import OverviewTitle from './OverviewTitle';
-import { CoinItem } from '/components/skeletonPlaceholder/common';
+import { CoinItem as CoinItemSkeleton } from '/components/skeletonPlaceholder/common';
+import SurfaceWrap from '/components/common/SurfaceWrap';
+import CustomScrollView from '/components/common/ScrollView';
+import Text from '/components/common/Text';
+import CustomRefreshControl from '/components/common/CustomRefreshControl';
 
 
 type EmptyViewProps = {
@@ -29,11 +31,11 @@ const EmptyCoinListView = ({ isLoading }: EmptyViewProps) => {
     <>
       { isLoading
         ? <>
-            <CoinItem />
-            <CoinItem />
-            <CoinItem />
-            <CoinItem />
-            <CoinItem />
+            <CoinItemSkeleton />
+            <CoinItemSkeleton />
+            <CoinItemSkeleton />
+            <CoinItemSkeleton />
+            <CoinItemSkeleton />
           </>
         : <EmptyViewContainer>
             <MaterialCommunityIcons 
@@ -57,7 +59,7 @@ const EmptyCoinListView = ({ isLoading }: EmptyViewProps) => {
   )
 }
 
-const Overview = () => {
+const Layout = () => {
   const { t } = useTranslation(); 
   const navigation = useNavigation();
   const { theme } = useGlobalTheme();
@@ -132,7 +134,7 @@ const Overview = () => {
   )
 }
 
-export default Overview;
+export default Layout;
 
 const AddCoinButton = styled.TouchableOpacity`
   flex-direction: row;

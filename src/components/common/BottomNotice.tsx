@@ -4,9 +4,11 @@ import { useTranslation } from 'react-i18next';
 import styled from 'styled-components/native';
 import * as WebBrowser from 'expo-web-browser';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+
 import { PRIVACY_POLICY_EN, PRIVACY_POLICY_KO } from '/lib/constant';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import useLocales from '/hooks/useLocales';
+
 import Text from '/components/common/Text';
 
 
@@ -17,8 +19,10 @@ const BottomNotice = () => {
   const { theme } = useGlobalTheme();
   const { t } = useTranslation();
   const { language } = useLocales();
+
   const handlePrivacyPolicyPress = () => {
-    WebBrowser.openBrowserAsync(language === 'en' ? PRIVACY_POLICY_EN : PRIVACY_POLICY_KO, {
+    WebBrowser.openBrowserAsync(
+      language === 'en' ? PRIVACY_POLICY_EN : PRIVACY_POLICY_KO, {
       toolbarColor: theme.base.background.surface,
       enableBarCollapsing: true
     })

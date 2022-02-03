@@ -2,10 +2,12 @@ import React, { useState, useCallback } from 'react';
 import styled from 'styled-components/native'
 import { useTranslation } from 'react-i18next';
 import { Octicons } from '@expo/vector-icons';
-import { FeedAndCategoryData } from '/lib/api/CryptoCompareReturnType';
+
 import { useAppSelector, useAppDispatch } from '/hooks/useRedux';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import { changeCategories, ALL_NEWS_CATEGORIES } from '/store/news';
+import { FeedAndCategoryData } from '/types/CryptoCompareReturnType';
+
 import ScrollCloseModal from '/components/common/ScrollCloseModal';
 import AsyncButton from '/components/common/AsyncButton';
 import Text from '/components/common/Text';

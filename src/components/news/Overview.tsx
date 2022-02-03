@@ -11,18 +11,20 @@ import styled from 'styled-components/native';
 import { useScrollToTop } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import * as Haptics from 'expo-haptics';
-import useNewsArticles from '/hooks/useNewsArticles';
+
+import useNewsArticles from '/hooks/data/useNewsArticles';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import { useAppSelector, useAppDispatch } from '/hooks/useRedux';
 import useAnimatedHeaderTitle from '/hooks/useAnimatedHeaderTitle';
 import { NewsStateType, changeSortOrder, SortOrderType } from '/store/news';
-import { NewsData } from '/lib/api/CryptoCompareReturnType'; 
+import { NewsData } from '/types/CryptoCompareReturnType'; 
+
 import Text from '/components/common/Text';
 import CustomRefreshControl from '/components/common/CustomRefreshControl';
 import ItemSkeleton from '/components/skeletonPlaceholder/news/Item';
 import SurfaceTopView from '/components/common/SurfaceTopView';
-import Item from './Item';
 import FiltersBar from './FiltersBar';
+import Item from './Item';
 
 if (Platform.OS === 'android') {
   UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);

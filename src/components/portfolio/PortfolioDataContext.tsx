@@ -1,9 +1,13 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { AxiosResponse } from 'axios';
+
+import useLocales from '/hooks/useLocales';
+import useRequest from '/hooks/useRequest';
 import { useAppSelector, shallowEqual } from '/hooks/useRedux';
-import useCoinMarketData from '/hooks/useCoinMarketData';
+import useCoinMarketData from '/hooks/data/useCoinMarketData';
 import { PortfolioType } from '/store/portfolio';
-import { CoinMarketReturn } from '/lib/api/CoinGeckoReturnType';
+import { CoinGecko, http } from '/lib/api/CoinGeckoClient';
+import { CoinMarketReturn } from '/types/CoinGeckoReturnType';
 
 
 interface ValueType extends Pick<PortfolioType, 'id' | 'coins'> {
@@ -24,8 +28,21 @@ export function PortfolioDataProvider({ children }: ContextProps) {
     portfolios: state.portfolioReducer.portfolios,
     activeIndex: state.portfolioReducer.activeIndex
   }), shallowEqual);
+  const { currency } = useLocales();
   const [coinIds, setCoinIds] = useState<string[]>([]);
   const [initLoading, setInitLoading] = useState(true);
+
+  // const { data: coinsData, isLoading, mutate } = useRequest<CoinMarketReturn[]>(
+  //   coinIds.length <= 0 
+  //     ? null
+  //     : CoinGecko.coin.markets({
+  //         vs_currency: currency,
+  //         ids: coinIds,
+  //         sparkline: true
+  //       }),
+  //   http,
+  //   {}
+  // )
   const { data: coinsData, isLoading, mutate } = useCoinMarketData({ 
     suspense: false, 
     sparkline: true,
@@ -64,7 +81,7 @@ export function PortfolioDataProvider({ children }: ContextProps) {
         coinsData,
         initLoading,
         isLoading,
-        mutate: mutateCoinsData 
+        mutate: mutateCoinsData
       }}
     >
       { children }

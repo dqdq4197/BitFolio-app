@@ -31,11 +31,14 @@ export type CoinMarketReturn = {
   }
 }
 
-export type CharDataReturn = {
+export type HistoricalOhlcReturn = [[number, number ,number, number, number]]
+
+export type ChartDataReturn = {
   prices: number[][],
   market_caps: number[][],
   total_volumes: number[][]
 }
+
 export interface CoinDetailDataReturn {
   id:                              string;
   symbol:                          string;

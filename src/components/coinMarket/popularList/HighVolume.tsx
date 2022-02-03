@@ -2,9 +2,15 @@ import React, { useState, useCallback } from 'react';
 import { Animated, FlatList } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
-import useCoinMarketData from '/hooks/useCoinMarketData';
+
+import useLocales from '/hooks/useLocales';
+import useRequest from '/hooks/useRequest';
 import useAnimatedHeaderTitle from '/hooks/useAnimatedHeaderTitle';
 import useGlobalTheme from '/hooks/useGlobalTheme';
+import { CoinGecko, http } from '/lib/api/CoinGeckoClient';
+import { ORDER } from '/lib/constant';
+import { CoinMarketReturn } from '/types/CoinGeckoReturnType';
+
 import CustomRefreshControl from '/components/common/CustomRefreshControl';
 import FlatListHeader from './FlatListHeader';
 import Item from './Item'
@@ -13,14 +19,23 @@ import Footer from './Footer';
 
 const HighVolume = () => {
   const { t } = useTranslation();
+  const navigation = useNavigation();
+  const { currency } = useLocales();
   const { theme } = useGlobalTheme();
   const [refreshing, setRefreshing] = useState(false);
-  const { data, mutate } = useCoinMarketData({ order: 'volume_desc', per_page: 100 });
   const { scrollY } = useAnimatedHeaderTitle({ 
     title: t(`common.volume`) + ' Top 100', 
     triggerPoint: 30 
   });
-  const navigation = useNavigation();
+  const { data, mutate } = useRequest<CoinMarketReturn[]>(
+    CoinGecko.coin.markets({
+      vs_currency: currency,
+      order: ORDER.VOLUME_DESC,
+      per_page: 100
+    }),
+    http,
+    { suspense: true }
+  )
 
   const handleRefresh = useCallback(async() => {
     setRefreshing(true);

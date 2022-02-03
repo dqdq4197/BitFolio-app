@@ -2,13 +2,16 @@ import { baseTypes } from 'base-types';
 // ----- BASE CONST ----------------
 
 enum TAB_ROUTE_NAME {
-  home= 'home',
-  portfolio= 'portfolio',
-  news= 'news'
+  home = 'home',
+  portfolio = 'portfolio',
+  news = 'news',
+  auth = 'auth'
 }
 
 const PRIVACY_POLICY_EN = "https://lime-lint-eba.notion.site/Bitfolio-ios-Privacy-Policy-644e0d1e30da4c98ad0e75cfc8253a2e";
 const PRIVACY_POLICY_KO = "https://lime-lint-eba.notion.site/Bitfolio-ios-dad7db3124d74500b2a09d6340835631";
+const TURMS_OF_SERVICE = "https://lime-lint-eba.notion.site/Bitfolio-8883e418432545c39ba504473a0f250e";
+
 const TRANSLATE_PREFIX = 'https://translation.googleapis.com/language/translate/v2';
 const PAPAGO_PREFIX = 'https://openapi.naver.com/v1';
 const LANGUAGE_STORAGE_KEY = 'local_language';
@@ -41,6 +44,23 @@ const CURRENCIES: {
   }
 }
 
+enum KEYBOARD_STATE {
+  UNDETERMINED = 0,
+  SHOWN,
+  HIDDEN,
+}
+
+const VALIDATIONS = {
+  email: {
+    // pattern => http://emailregex.com/
+    pattern: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+  },
+  password: {
+    // 숫자를 포함한 영소문자 8글자 이상  
+    minLen: 8,
+    pattern: /(?=.*\d)(?=.*[a-z]).{8,}/,
+  }
+}
 
 // 파파고 지원 언어만 포함. (* 구글 api사용시 문서 참고 재설정)
 const LANGUAGES: {[key: string]: string} = {
@@ -269,8 +289,11 @@ export {
   LANGUAGE_STORAGE_KEY,
   PRIVACY_POLICY_EN,
   PRIVACY_POLICY_KO,
+  TURMS_OF_SERVICE,
   TRANSLATE_PREFIX,
   PAPAGO_PREFIX,
+  VALIDATIONS,
+  KEYBOARD_STATE,
   TAB_ROUTE_NAME,
   LANGUAGES,
   CTYPTOCOMPARE_API_VERSION,

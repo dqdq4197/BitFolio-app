@@ -1,61 +1,81 @@
-import { COINGECKO_PATH_PREFIX, ORDER } from '/lib/constant';
-import { baseTypes } from 'base-types';
 import axios from 'axios';
+import { baseTypes } from 'base-types';
+import { ModifyPartial } from 'mapped-types';
+
+import { COINGECKO_PATH_PREFIX, ORDER } from '/lib/constant';
 
 export type ORDER = typeof ORDER[keyof typeof ORDER];
 
-export type CoinMarketsParams = {
-  vs_currency: baseTypes.Currency,
-  ids?: string[] | string,
-  order?: ORDER,
-  per_page?: number, // 1...250
-  page?: number,
-  sparkline?: boolean,
-  price_change_percentage?: PriceChangePercentageType | PriceChangePercentageType[] | string,
+export type PriceChangePercentageType = '1h' | '24h' | '7d' | '14d' | '30d' | '200d' | '1y'
+
+type CoinMarketsParams = {
+  vs_currency: baseTypes.Currency
+  ids?: string[] | string
+  order?: ORDER
+  per_page?: number // 1...250
+  page?: number
+  sparkline?: boolean
+  price_change_percentage?: PriceChangePercentageType | PriceChangePercentageType[] | string
 }
 
-export type PriceChangePercentageType = '1h' | '24h' | '7d' | '14d' | '30d' | '200d' | '1y'
 type SimplePriceParams = {
-  ids: string[] | string,
-  vs_currencies: baseTypes.Currency[] | string,
-  include_market_cap?: boolean,
-  include_24hr_vol?: boolean,
-  include_24hr_change?: boolean,
-  include_last_updated_at?: boolean,
+  ids: string[] | string
+  vs_currencies: baseTypes.Currency[] | string
+  include_market_cap?: boolean
+  include_24hr_vol?: boolean
+  include_24hr_change?: boolean
+  include_last_updated_at?: boolean
 }
+
 type MarketChartParams = {
-  vs_currency: baseTypes.Currency,
-  days: number | 'max',
+  vs_currency: baseTypes.Currency
+  days: number | 'max'
   interval?: 'daily' // 90일 이전 설정하더라도 daily 간격 출력
 }
 
-type HistorySnapshotParams = {
-  date: string,  //ex) dd-mm-yyyy
+export type HistorySnapshotParams = {
+  date: string  //ex) dd-mm-yyyy
   localization?: boolean
 }
 
 type MarketChartRangeParams = {
-  vs_currency:baseTypes.Currency,
-  from: number, //UNIX TimeStamp 
+  vs_currency:baseTypes.Currency
+  from: number //UNIX TimeStamp 
   to: number //UNIX TimeStamp
 }
 
 type SearchParams = {
-  locale: baseTypes.Language;
+  locale: baseTypes.Language
 }
 
 type HistoricalOhlcParams = {
-  vs_currency:baseTypes.Currency,
-  days: number | 'max', //Data up to number of days ago (1/7/14/30/90/180/365/max)
+  vs_currency:baseTypes.Currency
+  days: number | 'max' //Data up to number of days ago (1/7/14/30/90/180/365/max)
 }
 
-export type DetailInfoParams = {
-  localization: boolean,
-  tickers: boolean,
-  market_data: boolean,
-  community_data: boolean,
-  developer_data: boolean,
+type DetailInfoParams = {
+  localization: boolean
+  tickers: boolean
+  market_data: boolean
+  community_data: boolean
+  developer_data: boolean
   sparkline: boolean
+}
+
+type DefaultParamsType = {
+  markets: Pick<CoinMarketsParams, 'per_page' | 'order'>
+}
+
+type ParamsType<
+  T, 
+  U extends keyof DefaultParamsType
+> = ModifyPartial<T, Pick<DefaultParamsType, U>>
+
+const defaultParams: DefaultParamsType = {
+  markets: {
+    per_page: 70,
+    order: ORDER.MARKET_CAP_DESC
+  }
 }
 
 export const http = axios.create({
@@ -77,15 +97,71 @@ export const CoinGecko = {
      * @param {boolean} params.price_change_percentage Include price change percentage in 1h, 24h, 7d, 14d, 30d, 200d, 1y (eg. '1h,24h,7d' comma-separated, invalid values will be discarded)
      * @returns {ReturnObject}
      */
-    markets: (params: any) => {
-      if(Array.isArray(params.ids)) {
+    markets: (params: ParamsType<CoinMarketsParams, 'markets'>) => {
+      params = Object.assign({}, defaultParams.markets, params);
+
+      if(params.hasOwnProperty('ids') && Array.isArray(params.ids)) {
         params.ids = params.ids.join(',');
       }
-      if(Array.isArray(params.price_change_percentage)) {
+      
+      if(params.hasOwnProperty('price_change_percentage') && Array.isArray(params.price_change_percentage)) {
         params.price_change_percentage = params.price_change_percentage.join(',');
       }
       return {
         url: `/coins/markets`,
+        params
+      }
+    },
+    /**
+      * @description Get historical data (name, price, market, stats) at a given date for a coin
+      * @function coin.historySnapshot()
+      * @param {string} id - (Required) The coin id / eg. bitcoin
+      * @param {string} params.date - The date of data snapshot in dd-mm-yyyy eg. 30-12-2017
+      * @returns {ReturnObject}
+      */
+     historySnapshot: (id:string, params:HistorySnapshotParams) => {
+      return {
+        url: `/coins/${id}/history`,
+        params
+      }
+    },
+    /**
+      * @description Get historical market data include price, market cap, and 24h volume within a range of timestamp (granularity auto).
+      *   Minutely data will be used for duration within 1 day.
+      *   Hourly data will be used for duration between 1 day and 90 days.
+      *   Daily data will be used for duration above 90 days.
+      * @function coin.marketChartRange()
+      * @param {string} id - (Required) The coin id / eg. bitcoin
+      * @param {object} params - Parameters to pass through to the request
+      * @param {string} params.vs_currency [default: usd] - (Required) The target currency of market data (usd, eur, jpy, etc.)
+      * @param {number} params.from - (Required) From date in UNIX Timestamp (eg. 1392577232)
+      * @param {number} params.to - (Required) To date in UNIX Timestamp (eg. 1422577232)
+      * @returns {ReturnObject}
+      */
+    marketChartRange: (id:string, params:MarketChartRangeParams) => {
+      return {
+        url: `/coins/${id}/market_chart/range`,
+        params
+      }
+    },
+    /**
+      * @description Get historical market data include price, market cap, and 24h volume (granularity auto)
+      * @function coin.marketChart()
+      * @param {string} id - (Required) The coin id / eg. bitcoin
+      * @param {object} params - Parameters to pass through to the request
+      * @param {string} params.vs_currency [default: usd] - (Required) The target currency of market data (usd, eur, jpy, etc.)
+      * @param {string} params.days [default: 1] - (Required) Data up to number of days ago (eg. 1,14,30,max)
+      * @returns {ReturnObject}
+      */
+     marketChart: (id:string, params:MarketChartParams) => {
+      return {
+        url: `/coins/${id}/market_chart`,
+        params
+      }
+    },
+    historicalOhlc: (id:string, params:HistoricalOhlcParams) => {
+      return {
+        url: `/coins/${id}/ohlc`,
         params
       }
     },
@@ -113,21 +189,6 @@ export const CoinGecko = {
         params
       }
     },
-    /**
-      * @description Get historical market data include price, market cap, and 24h volume (granularity auto)
-      * @function coin.marketChart()
-      * @param {string} id - (Required) The coin id / eg. bitcoin
-      * @param {object} params - Parameters to pass through to the request
-      * @param {string} params.vs_currency [default: usd] - (Required) The target currency of market data (usd, eur, jpy, etc.)
-      * @param {string} params.days [default: 1] - (Required) Data up to number of days ago (eg. 1,14,30,max)
-      * @returns {ReturnObject}
-      */
-    marketChart: (id:string, params:MarketChartParams) => {
-      return {
-        url: `/coins/${id}/market_chart`,
-        params
-      }
-    },
     DetailInfo: (id:string, params:DetailInfoParams) => {
       return {
         url: `/coins/${id}`,
@@ -149,44 +210,6 @@ export const CoinGecko = {
       return {
         url: `/global`
       }
-    },
-    /**
-      * @description Get historical data (name, price, market, stats) at a given date for a coin
-      * @function coin.historySnapshot()
-      * @param {string} id - (Required) The coin id / eg. bitcoin
-      * @param {string} params.date - The date of data snapshot in dd-mm-yyyy eg. 30-12-2017
-      * @returns {ReturnObject}
-      */
-    historySnapshot: (id:string, params:HistorySnapshotParams) => {
-      return {
-        url: `/coins/${id}/history`,
-        params
-      }
-    },
-    /**
-      * @description Get historical market data include price, market cap, and 24h volume within a range of timestamp (granularity auto).
-      *   Minutely data will be used for duration within 1 day.
-      *   Hourly data will be used for duration between 1 day and 90 days.
-      *   Daily data will be used for duration above 90 days.
-      * @function coin.marketChartRange()
-      * @param {string} id - (Required) The coin id / eg. bitcoin
-      * @param {object} params - Parameters to pass through to the request
-      * @param {string} params.vs_currency [default: usd] - (Required) The target currency of market data (usd, eur, jpy, etc.)
-      * @param {number} params.from - (Required) From date in UNIX Timestamp (eg. 1392577232)
-      * @param {number} params.to - (Required) To date in UNIX Timestamp (eg. 1422577232)
-      * @returns {ReturnObject}
-      */
-    marketChartRange: (id:string, params:MarketChartRangeParams) => {
-      return {
-        url: `/coins/${id}/market_chart/range`,
-        params
-      }
-    },
-    historicalOhlc: (id:string, params:HistoricalOhlcParams) => {
-      return {
-        url: `/coins/${id}/ohlc`,
-        params
-      }
-    },   
+    }
   }
 } 

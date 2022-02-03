@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import styled from 'styled-components/native';
-import { SearchCoin } from '/lib/api/CoinGeckoReturnType';
+import { SearchCoin } from '/types/CoinGeckoReturnType';
 import Image from '/components/common/Image';
 import Text from '/components/common/Text';
 

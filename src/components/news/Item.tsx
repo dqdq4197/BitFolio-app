@@ -7,7 +7,7 @@ import { ko, enUS } from 'date-fns/locale';
 import * as WebBrowser from 'expo-web-browser';
 import translate from 'translate-google-api';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { NewsData } from '/lib/api/CryptoCompareReturnType';
+import { NewsData } from '/types/CryptoCompareReturnType';
 import { LANGUAGES } from '/lib/constant';
 import useLocales from '/hooks/useLocales';
 import useGlobalTheme from '/hooks/useGlobalTheme';

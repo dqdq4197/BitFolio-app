@@ -2,7 +2,7 @@ import React from 'react';
 import { Dimensions } from 'react-native';
 import styled from 'styled-components/native';
 import { useTranslation } from 'react-i18next';
-import { SearchTrandingCoin, SearchCoin } from '/lib/api/CoinGeckoReturnType';
+import { SearchTrandingCoin, SearchCoin } from '/types/CoinGeckoReturnType';
 import Item from './Item';
 import SurfaceWrap from '/components/common/SurfaceWrap';
 import Image from '/components/common/Image';

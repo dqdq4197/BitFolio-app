@@ -1,43 +1,43 @@
 import React from 'react';
-import { TextProps } from 'react-native';
+import { TextProps, Animated } from 'react-native';
 import styled from 'styled-components/native';
 
 
-
 export interface TextStyleProps extends TextProps {
-  as?: any;
-  margin?: string,
-  padding?: string,
-  color?: string,
-  lineHeight?: number,
-  color100?: boolean,  
-  color300?: boolean,  
-  color400?: boolean, 
-  primaryColor?: boolean,
-  dark100?: boolean,
-  light100?: boolean,
-  removeColor?: boolean,
-  fontXXXL?: boolean, 
-  fontXXL?: boolean, 
-  fontXL?: boolean, 
-  fontX?: boolean,
-  fontL?: boolean, 
-  fontML?: boolean, 
-  fontM?: boolean, 
-  fontS?: boolean, 
-  fontXS?: boolean,
-  light?: boolean, 
-  bold?: boolean, 
-  heavy?: boolean, 
-  black?: boolean,
-  center?: boolean, 
-  right?: boolean,
-  underline?: boolean,
-  italic?: boolean,
-  children?: any,
+  as?: Animated.AnimatedComponent<typeof Text>
+  margin?: string
+  padding?: string
+  color?: string
+  lineHeight?: number
+  color100?: boolean  
+  color300?: boolean  
+  color400?: boolean 
+  error?: boolean
+  primaryColor?: boolean
+  dark100?: boolean
+  light100?: boolean
+  removeColor?: boolean
+  fontXXXL?: boolean 
+  fontXXL?: boolean 
+  fontXL?: boolean 
+  fontX?: boolean
+  fontL?: boolean 
+  fontML?: boolean 
+  fontM?: boolean 
+  fontS?: boolean 
+  fontXS?: boolean
+  light?: boolean 
+  bold?: boolean 
+  heavy?: boolean 
+  black?: boolean
+  center?: boolean 
+  right?: boolean
+  underline?: boolean
+  italic?: boolean
+  children?: any
 }
 
-export default function TextStyle ({ ...props }:TextStyleProps) {
+export default function TextStyle ({ ...props }: TextStyleProps) {
   return <Text {...props}>{props.children}</Text>
 }
 
@@ -47,7 +47,7 @@ const Text = styled.Text<TextStyleProps>`
   
   ${(props) => props.lineHeight && `line-height: ${props.lineHeight}px`};
 
-  ${({ color, color100, color300, color400, primaryColor, removeColor, dark100, light100, theme }) => {
+  ${({ color, color100, color300, color400, error, primaryColor, removeColor, dark100, light100, theme }) => {
     if(color) return `color: ${color}`
     switch (true) {
       case color100:
@@ -64,6 +64,8 @@ const Text = styled.Text<TextStyleProps>`
         return `color: ${theme.base.dark100}`
       case light100:
         return `color: ${theme.base.light100}`
+      case error:
+        return `color: ${theme.base.error}`
         
       default:
         return `color: ${theme.base.text[200]}`  

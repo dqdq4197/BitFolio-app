@@ -10,18 +10,16 @@ import {
 export type LANG = typeof CTYPTOCOMPARE_LANG[keyof typeof CTYPTOCOMPARE_LANG];
 
 interface CommonParams {
-  extraParams?: string,
-  sign?: boolean,
+  extraParams?: FunctionStringCallback
+  sign?: boolean
 }
-interface ArticleParams extends CommonParams {
-  feeds?: string | string[],
-  categories?: string | string[],
-  excludeCategories?: string,
-  lTs?: number,
-  lang?: LANG,
+export interface ArticleParams extends CommonParams {
+  feeds?: string | string[]
+  categories?: string | string[]
+  excludeCategories?: string
+  lTs?: number
+  lang?: LANG
   sortOrder?: 'latest' | 'popular'
-  extraParams?: string,
-  sign?: boolean,
 }
 interface FeedPrams extends CommonParams {}
 interface CategoryPrams extends CommonParams {}
@@ -32,7 +30,9 @@ export const http = axios.create({
   headers: {
     'authorization': `Apikey ${CRYPTOCOMPARE_API_KEY}`
   },
+  params: { extraParams: APP_NAME }
 })
+
 export const Cryptocompare = {
   news: {
     /**
@@ -65,7 +65,6 @@ export const Cryptocompare = {
           params.feeds = params.feeds.join(',');
         }
       }
-      params.extraParams = APP_NAME;
       return {
         url: `${CTYPTOCOMPARE_API_VERSION}/news/`,
         params
@@ -80,7 +79,6 @@ export const Cryptocompare = {
      * @returns {ReturnObject}
      */
     feeds: (params: FeedPrams) => {
-      params.extraParams = APP_NAME;
       return {
         url: `/news/feeds`,
         params
@@ -95,7 +93,6 @@ export const Cryptocompare = {
      * @returns {ReturnObject}
      */
     categories: (params: CategoryPrams) => {
-      params.extraParams = APP_NAME;
       return {
         url: `/news/categories`,
         params
@@ -110,7 +107,6 @@ export const Cryptocompare = {
      * @returns {ReturnObject}
      */
     feedAndCategories: (params: FeedAndCategoryPrams) => {
-      params.extraParams = APP_NAME;
       return {
         url: `/news/feedsandcategories`,
         params

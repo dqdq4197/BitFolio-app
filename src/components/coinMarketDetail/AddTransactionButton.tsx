@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { Dimensions } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import FormModal from '/components/portfolio/transactionModal/FormModal';
-import useCoinDetailData from '/hooks/useCoinDetailData';
+import useCoinDetail from '/hooks/data/useCoinDetail';
 import { useCoinIdContext } from '/hooks/useCoinIdContext';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import AsyncButton from '/components/common/AsyncButton';
@@ -24,7 +24,7 @@ const AddTransactionButton = ({
   const { t } = useTranslation();
   const { theme } = useGlobalTheme();
   const { id } = useCoinIdContext();
-  const { data, isLoading } = useCoinDetailData({ id });
+  const { data, isLoading } = useCoinDetail({ id });
   const [visible, setVisible] = useState(false);
 
   const handleButtonPress = () => {

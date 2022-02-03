@@ -1,7 +1,7 @@
 import { baseTypes } from 'base-types';
-import { CharDataReturn } from '/lib/api/CoinGeckoReturnType';
+import { ChartDataReturn } from '/types/CoinGeckoReturnType';
 
-const filteredPriceData = (data: CharDataReturn, dateFrame: baseTypes.ChartTimeFrame): CharDataReturn => {
+const filteredPriceData = (data: ChartDataReturn, dateFrame: baseTypes.ChartTimeFrame): ChartDataReturn => {
   //data = [prices[number, number], marketCap[number,number] ...];
   if(!data) return data;
   let start = new Date().getTime();

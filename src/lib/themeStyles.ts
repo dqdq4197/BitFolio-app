@@ -15,7 +15,7 @@ export const darkTheme: DefaultTheme = {
       'hovered': 'rgba(18, 18, 18, .96)', // #121212 + overlay 0.04
     },
     text: {
-      '100': 'rgba(255, 255, 255, 0.87)',
+      '100': '#ffffffde',
       '200': 'rgba(255, 255, 255, 0.6)',
       '300': 'rgba(255, 255, 255, 0.38)',
       '400': 'rgb(134, 142, 150)'
@@ -24,7 +24,7 @@ export const darkTheme: DefaultTheme = {
     secondPrimaryColor: 'rgba(56, 97, 251,0.5)',
     light100: 'rgba(0, 0, 0, 0.96)',
     dark100: 'rgba(255, 255, 255, 0.87)',
-    error: '#CF6679',
+    error: '#e23636',
     upColor: '#00e676',
     downColor: '#ea3943',
     removeColor: '#F85149',
@@ -74,7 +74,7 @@ export const lightTheme: DefaultTheme = {
       'hovered': 'rgba(18, 18, 18, .96)'
     },
     text: {
-      '100': 'rgba(0, 0, 0, 0.96)',
+      '100': '#000000f5',
       '200': '#58667E',
       '300': '#aeaeae',
       '400': 'rgb(134, 142, 150)'
@@ -83,7 +83,7 @@ export const lightTheme: DefaultTheme = {
     secondPrimaryColor: 'rgba(56, 97, 251,0.7)',
     light100: 'rgba(0, 0, 0, 0.96)',
     dark100: 'rgba(255, 255, 255, 0.87)',
-    error: '#CF6679',
+    error: '#e23636',
     upColor: '#00e676',
     downColor: '#ea3943',
     removeColor: '#F85149',

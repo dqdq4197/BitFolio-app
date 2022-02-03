@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Dimensions } from 'react-native';
 import styled from 'styled-components/native';
-import { CoinMarketReturn } from '/lib/api/CoinGeckoReturnType';
+import { CoinMarketReturn } from '/types/CoinGeckoReturnType';
 import { digitToFixed } from '/lib/utils';
 import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat';
 import useLocales from '/hooks/useLocales';

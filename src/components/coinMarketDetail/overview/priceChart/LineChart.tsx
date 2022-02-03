@@ -11,7 +11,7 @@ import {
 } from 'victory-native';
 import Animated from "react-native-reanimated";
 
-import useMarketLineChartData from '/hooks/useMarketLineChartData';
+import useMarketChart from '/hooks/data/useMarketChart';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import useLocales from '/hooks/useLocales';
 import { useAppSelector } from '/hooks/useRedux';
@@ -117,7 +117,7 @@ const LineChart = ({
 }: ChartProps) => {
   const { t } = useTranslation();
   const { chartTimeFrame } = useAppSelector(state => state.baseSettingReducer);
-  const { data, isValidating, highestPrice, lowestPrice } = useMarketLineChartData({ id })
+  const { data, isValidating, highestPrice, lowestPrice } = useMarketChart({ id })
   const { theme } = useGlobalTheme();
   const { currency } = useLocales();
 

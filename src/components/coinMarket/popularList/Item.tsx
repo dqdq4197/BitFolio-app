@@ -3,7 +3,7 @@ import { Dimensions } from 'react-native';
 import styled, { css } from 'styled-components/native';
 import { baseTypes } from 'base-types';
 
-import { CoinMarketReturn } from '/lib/api/CoinGeckoReturnType';
+import { CoinMarketReturn } from '/types/CoinGeckoReturnType';
 import { digitToFixed, convertUnits } from '/lib/utils';
 import { exponentToNumber } from '/lib/utils/currencyFormat';
 import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat';

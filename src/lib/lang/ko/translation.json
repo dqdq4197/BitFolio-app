@@ -36,6 +36,8 @@
     "edit transaction": "거래 수정",
     "current value": "현재 가치",
     "fees included": "수수료 포함",
+    "terms of use": "이용 약관",
+    "privacy policy": "개인정보 처리방침",
     "bottom notice": {
       "title": "중요 고지 사항",
       "first": "당사는 콘텐츠와 관련하여 정확성 및 업데이트를 포함하되 이에 국한되지 않는 어떠한 종류의 보증도 하지 않습니다.",
@@ -43,6 +45,25 @@
       "third": "당사는 어떠한 콘텐츠도 권유 또는 제안을 의미하지 않습니다.",
       "privacy policy notice": "개인정보 처리방침 안내"
     }
+  },
+  "auth": {
+    "login": "로그인",
+    "email": "이메일",
+    "email address": "이메일 주소",
+    "password": "비밀번호",
+    "forgot your password?": "비밀번호를 잊으셨나요?",
+    "forgot password": "비밀번호 분실",
+    "don't have an account?": "계정이 없으세요?",
+    "create an account": "계정 생성",
+    "enter your email address": "이메일 주소를 입력해주세요..",
+    "enter your password": "비밀번호를 입력해주세요..",
+    "change password": "비밀번호 변경",
+    "no account found with that email address": "해당 이메일 주소로 계정을 찾을 수 없습니다",
+    "n.required": "{{n}}는 반드시 입력하셔야 합니다",
+    "email message": "이메일을 올바른 형식으로 입력해주세요",
+    "password message": "비밀번호는 문자와 숫자를 모두 포함해야 하며 최소 8자 이상이어야 합니다",
+    "agree to terms of use & privacy policy": "계속 진행할 경우 Bitfolio의 다음 규정에 동의하신 것으로 간주합니다.",
+    "already have an account?": "이미 계정이 있으신가요?"
   },
   "coinDetail": {
     "highest": "최고",

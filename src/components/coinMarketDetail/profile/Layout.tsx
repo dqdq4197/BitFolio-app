@@ -1,5 +1,5 @@
 import React from 'react';
-import useCoinDetailData from '/hooks/useCoinDetailData';
+import useCoinDetail from '/hooks/data/useCoinDetail';
 import useLocales from '/hooks/useLocales';
 import { useCoinIdContext } from '/hooks/useCoinIdContext';
 import ScrollView from '/components/common/ScrollView';
@@ -8,7 +8,7 @@ import Link from './Link';
   
 const Layout = () => {
   const { id } = useCoinIdContext();
-  const { data } = useCoinDetailData({ id });
+  const { data } = useCoinDetail({ id });
   const { language } = useLocales();
 
   if(!data) return <></>

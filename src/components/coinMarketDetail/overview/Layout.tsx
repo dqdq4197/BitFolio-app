@@ -4,7 +4,7 @@ import styled from 'styled-components/native';
 import { BlurView } from 'expo-blur';
 
 import { useAppSelector, shallowEqual } from '/hooks/useRedux';
-import useCoinDetailData from '/hooks/useCoinDetailData';
+import useCoinDetail from '/hooks/data/useCoinDetail';
 import { useCoinIdContext } from '/hooks/useCoinIdContext';
 import useLocales from '/hooks/useLocales';
 import useGlobalTheme from '/hooks/useGlobalTheme';
@@ -30,7 +30,7 @@ const Layout = () => {
     activeIndex: state.portfolioReducer.activeIndex
   }), shallowEqual);
   const { currency } = useLocales();
-  const { data, mutate } = useCoinDetailData({ id });
+  const { data, mutate } = useCoinDetail({ id });
   
   const handleRefresh = useCallback(async() => {
     setRefreshing(true);

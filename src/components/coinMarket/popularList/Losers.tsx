@@ -2,26 +2,49 @@ import React, { useState, useCallback } from 'react';
 import { Animated, FlatList } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
-import useCoinMarketData from '/hooks/useCoinMarketData';
+
+import useLocales from '/hooks/useLocales';
+import useRequest from '/hooks/useRequest';
 import useAnimatedHeaderTitle from '/hooks/useAnimatedHeaderTitle';
 import useGlobalTheme from '/hooks/useGlobalTheme';
+import { CoinGecko, http } from '/lib/api/CoinGeckoClient';
 import { ORDER } from '/lib/constant';
+import { CoinMarketReturn } from '/types/CoinGeckoReturnType';
+
 import CustomRefreshControl from '/components/common/CustomRefreshControl';
 import FlatListHeader from './FlatListHeader';
 import Item from './Item';
 import Footer from './Footer';
 
-const Gainers = () => {
+const Losers = () => {
   const { t } = useTranslation();
+  const navigation = useNavigation();
+  const { currency } = useLocales();
   const { theme } = useGlobalTheme();
   const [refreshing, setRefreshing] = useState(false);
-  const { data: usdData, mutate: usdMutate } = useCoinMarketData({ currency: 'usd', order: ORDER.HOUR_24_ASC, per_page: 250 });
-  const { data, mutate } = useCoinMarketData({ order: ORDER.HOUR_24_ASC, per_page: 250 });
   const { scrollY } = useAnimatedHeaderTitle({ 
     title: t(`coinMarketHome.losers`), 
     triggerPoint: 30 
   });
-  const navigation = useNavigation();
+
+  const { data: usdData, mutate: usdMutate } = useRequest<CoinMarketReturn[]>(
+    CoinGecko.coin.markets({
+      vs_currency: 'usd',
+      order: ORDER.HOUR_24_ASC,
+      per_page: 250
+    }),
+    http,
+    { suspense: true }
+  );
+  const { data, mutate } = useRequest<CoinMarketReturn[]>(
+    CoinGecko.coin.markets({
+      vs_currency: currency,
+      order: ORDER.HOUR_24_ASC,
+      per_page: 250
+    }),
+    http,
+    { suspense: true }
+  );
 
   const handleRefresh = useCallback(() => {
     setRefreshing(true);
@@ -95,4 +118,4 @@ const Gainers = () => {
   )
 }
 
-export default Gainers;
+export default Losers;

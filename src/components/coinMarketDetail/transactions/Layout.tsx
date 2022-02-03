@@ -11,7 +11,7 @@ import CustomRefreshControl from '/components/common/CustomRefreshControl';
 import { useAppSelector } from '/hooks/useRedux';
 import { useCoinIdContext } from '/hooks/useCoinIdContext';
 import { TransactionType } from '/store/transaction';
-import useCoinDetailData from '/hooks/useCoinDetailData';
+import useCoinDetail from '/hooks/data/useCoinDetail';
 import TransactionDetailModal from './TransactionDetailModal';
 import Item from './Item';
 import AddTransactionButton from '../AddTransactionButton';
@@ -47,7 +47,7 @@ const Layout = () => {
   const [filteredData, setFilteredData] = useState<TransactionType[] | null>(null);
   const [focusedTransactionId, setFocusedTransactionId] = useState<string | null>(null);
   const [refreshing, setRefreshing] = useState(false);
-  const { data, mutate } = useCoinDetailData({ id, suspense: false });
+  const { data, mutate } = useCoinDetail({ id, suspense: false });
 
   useEffect(() => {
     //filteredData => null의 경우 로딩중 | length === 0인 경우 거래 내역이 없음

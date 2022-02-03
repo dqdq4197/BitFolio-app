@@ -7,6 +7,8 @@ import {
 } from "react-native-gesture-handler";
 import Animated, {
   useAnimatedGestureHandler,
+  useAnimatedStyle,
+  useSharedValue,
   runOnJS,
 } from "react-native-reanimated";
 import * as d3 from 'd3';
@@ -53,9 +55,9 @@ const Cursor = ({
   onCursorActiveChange,
   onPercentageStatusChange
 }: CursorProps) => {
-  const [translateX, setTranslateX] = useState(-100);
-  const [translateY, setTranslateY] = useState(0);
-  const [prevPoint, setPrevPoint] = useState(0);
+  const translateX = useSharedValue(-100);
+  const translateY = useSharedValue(0);
+  const prevPoint = useSharedValue(-1);
   const { language } = useLocales();
   
   const getSvg = useMemo(() => {
@@ -98,21 +100,22 @@ const Cursor = ({
 
   const onChangeCoordinate = (x:number) => {
     if(x < 0 || x >= width) return;
-    const { svgPath, scaleX } = getSvg;
     onCursorActiveChange(true);
-    const y = getYForX(svgPath, x) || 0;
+    const { svgPath, scaleX } = getSvg;
+
     const x0 = scaleX.invert(x);
     const i = bisect(data, x0, 1);
-    const currentPoint = data[i];
-    setTranslateX(x);
-    setTranslateY(y as number);
-    setPrevPoint(i);
+    prevPoint.value = i;
 
-    if(prevPoint !== i) {
+    if(prevPoint.value !== i) {
       Haptics.selectionAsync();
+      const y = getYForX(svgPath, x) || 0;
+      const currentPoint = data[i];
+      translateX.value = x - CURSOR_SIZE / 2;
+      translateY.value = y - CURSOR_SIZE / 2;
       const changePercentage = digitToFixed(100 * (currentPoint[1] - data[0][1]) / data[0][1], 2);
 
-      datumX.value = `${ getFormatedDate(currentPoint[0]) }`
+      datumX.value = `${ getFormatedDate(currentPoint[0]) }`;
       datumY.value = [
         `${ AddSeparator(Math.floor(currentPoint[1])) }`,
         `${ getOnlyDecimal({ 
@@ -120,8 +123,8 @@ const Cursor = ({
             minLength: 2, 
             noneZeroCnt: exponentToNumber(currentPoint[1]) < 1 ? 3 : 2 
           }) }`
-      ]
-      datumYChangePercentage.value = `${ changePercentage }`
+      ];
+      datumYChangePercentage.value = `${ changePercentage }`;
       onPercentageStatusChange(
         changePercentage > 0 
         ? 'positive' 
@@ -135,21 +138,35 @@ const Cursor = ({
   const onChangeActive = (state:boolean) => {
     if(!state) {
       onCursorActiveChange(false);
-      setTranslateX(-100);
-      setTranslateY(0);
+      translateX.value = -100;
+      translateY.value = 0;
     } 
   }
   
-  const onGestureEvent = useAnimatedGestureHandler<LongPressGestureHandlerGestureEvent>({
+  const onGestureEvent = useAnimatedGestureHandler<
+    LongPressGestureHandlerGestureEvent
+  >({
     onStart: () => {
+      'worklet'
       runOnJS(onChangeActive)(true)
     },
     onActive: (event) => {
+      'worklet'
       runOnJS(onChangeCoordinate)(event.x)
     },
     onEnd: () => {
+      'worklet'
       runOnJS(onChangeActive)(false)
     },
+  });
+
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [
+        { translateX: translateX.value },
+        { translateY: translateY.value }
+      ],
+    };
   });
 
   return (
@@ -165,13 +182,9 @@ const Cursor = ({
         ]}
       >
         <CursorWrap 
+          as={Animated.View}
           CURSOR_SIZE={ CURSOR_SIZE }
-          style={{ 
-            transform: [
-              { translateX: translateX - CURSOR_SIZE / 2 },
-              { translateY: translateY - CURSOR_SIZE / 2 },
-            ]
-          }}
+          style={animatedStyle}
         >
           <CursorLine />
           <CursorBody />

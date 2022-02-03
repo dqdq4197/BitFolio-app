@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dimensions } from 'react-native';
+import styled from 'styled-components/native';
 import { 
   VictoryChart, 
   VictoryTheme, 
@@ -7,20 +7,24 @@ import {
   VictoryCandlestick, 
   VictoryLabel,
 } from 'victory-native';
-import useCandlesticChartData from '/hooks/useCandlesticChartData';
+
 import useGlobalTheme from '/hooks/useGlobalTheme';
+import { useAppSelector } from '/hooks/useRedux';
+import useRequest from '/hooks/useRequest';
+import { http, CoinGecko } from '/lib/api/CoinGeckoClient';
+import { HistoricalOhlcReturn } from '/types/CoinGeckoReturnType';
+
 import GlobalIndicator from '/components/common/GlobalIndicator';
-import styled from 'styled-components/native';
 
 
-interface ConstType {
-  WIDTH: number,
-  HEIGHT: number,
+interface IConst {
+  WIDTH: number
+  HEIGHT: number
   PADDING: number
 }
 
-interface ChartProps extends ConstType{
-  id: string,
+interface ChartProps extends IConst{
+  id: string
 }
 
 const CandlesticChart = ({ 
@@ -29,8 +33,14 @@ const CandlesticChart = ({
   HEIGHT,
   PADDING
 }:ChartProps) => {
-  const { data, isValidating } = useCandlesticChartData({ id });
   const { theme } = useGlobalTheme();
+  const { currency, chartTimeFrame } = useAppSelector(state => state.baseSettingReducer);
+  const { data, isValidating } = useRequest<HistoricalOhlcReturn>(
+    CoinGecko.coin.historicalOhlc(id, {
+      days: chartTimeFrame,
+      vs_currency: currency
+    }), http
+  );
 
   return (
     <ChartContainer
@@ -46,7 +56,6 @@ const CandlesticChart = ({
           height={HEIGHT + PADDING}
           padding={{
             top: PADDING,
-
             right: PADDING,
             bottom: PADDING
           }}
@@ -101,7 +110,7 @@ const CandlesticChart = ({
             high={2}
             low={3}
             close={4}
-            data={data as any}
+            data={data}
             candleColors={{ positive: "#00e676", negative: "#f44336" }}
             style={{
               data: {
@@ -117,7 +126,7 @@ const CandlesticChart = ({
 
 export default CandlesticChart;
 
-const ChartContainer = styled.View<ConstType>`
+const ChartContainer = styled.View<IConst>`
   overflow: hidden;
   margin: 30px 0 20px;
   width: ${({ WIDTH, PADDING }) => WIDTH + PADDING }px; 

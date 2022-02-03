@@ -3,31 +3,40 @@ import styled from 'styled-components/native';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
+
+import useGlobalTheme from '/hooks/useGlobalTheme';
+import { useAppSelector } from '/hooks/useRedux';
+import { CoinMarketReturn } from '/types/CoinGeckoReturnType';
+import useLocales from '/hooks/useLocales';
+import useRequest from '/hooks/useRequest';
+import { CoinGecko, http } from '/lib/api/CoinGeckoClient';
+import { digitToFixed } from '/lib/utils';
+
 import Text from '/components/common/Text';
 import SurfaceWrap from '/components/common/SurfaceWrap';
 import IncreaseDecreaseValue from '/components/common/IncreaseDecreaseValue';
 import Image from '/components/common/Image';
-import useGlobalTheme from '/hooks/useGlobalTheme';
-import { digitToFixed } from '/lib/utils';
 import WatchListIcon from '/components/common/WatchListIcon';
-import { useAppSelector } from '/hooks/useRedux';
-import useCoinMarketData from '/hooks/useCoinMarketData';
-import { CoinMarketReturn } from '/lib/api/CoinGeckoReturnType';
 
 type ListProps = {
   onPressItem: (id: string, symbol: string) => void;
 }
+
 const RecentlyViewedList = ({ onPressItem }: ListProps) => {
-  const navigation = useNavigation();
-  const { recentlyViewed } = useAppSelector(state => state.baseSettingReducer );
-  const [newData, setNewData] = useState<CoinMarketReturn[]>([]);
-  const { data, isValidating } = useCoinMarketData({ 
-    ids: recentlyViewed, 
-    suspense: false,
-    refreshInterval: 300000,
-  });
   const { t } = useTranslation();
   const { theme } = useGlobalTheme();
+  const navigation = useNavigation();
+  const { currency } = useLocales();
+  const { recentlyViewed } = useAppSelector(state => state.baseSettingReducer );
+  const [newData, setNewData] = useState<CoinMarketReturn[]>([]);
+  const { data, isValidating } = useRequest<CoinMarketReturn[]>(
+    CoinGecko.coin.markets({
+      vs_currency: currency,
+      ids: recentlyViewed
+    }),
+    http,
+    { refreshInterval: 1000 * 60 * 5 }
+  )
   
   useEffect(() => {
     if(data) {
