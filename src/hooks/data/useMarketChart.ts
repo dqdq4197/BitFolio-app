@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
-import useRequest from './useRequest';
+
+import useRequest from '../useRequest';
+import { useAppSelector } from '../useRedux';
 import { CoinGecko, http } from '/lib/api/CoinGeckoClient';
-import { CharDataReturn } from '/lib/api/CoinGeckoReturnType';
-import { useAppSelector } from './useRedux';
 import filteredPriceData from '/lib/utils/filteredPriceData';
+import { ChartDataReturn } from '/types/CoinGeckoReturnType';
 
 type ChartDataProps = {
   id: string,
@@ -13,7 +14,7 @@ type ChartDataProps = {
 
 export default ({ id, days, interval }:ChartDataProps) => {
   const { currency, chartTimeFrame } = useAppSelector(state => state.baseSettingReducer);
-  const [filteredData, setFilteredData] = useState<CharDataReturn>();
+  const [filteredData, setFilteredData] = useState<ChartDataReturn>();
   const [highestPrice, setHighestPrice] = useState<number[]>([]);
   const [lowestPrice, setLowestPrice] = useState<number[]>([]);
 
@@ -23,7 +24,7 @@ export default ({ id, days, interval }:ChartDataProps) => {
     interval
   })
 
-  const { data, ...args } = useRequest<CharDataReturn>(getKey, http);
+  const { data, ...args } = useRequest<ChartDataReturn>(getKey, http);
 
   useEffect(() => {
     if(data) {

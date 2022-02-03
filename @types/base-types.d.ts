@@ -1,5 +1,3 @@
-
-
 declare module 'base-types' {
   export namespace baseTypes { 
     type Theme = "light" | "dark" | "default" | null | undefined;
@@ -18,4 +16,6 @@ declare module 'mapped-types' {
     B) extends infer O
     ? { [K in keyof O]: O[K] }
     : never;
+
+  export type ModifyPartial<T, U> = Omit<T, keyof U> & Partial<U>
 }

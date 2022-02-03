@@ -1,11 +1,15 @@
-import React, { useState, useEffect, useCallback, useRef, useLayoutEffect } from 'react';
+import React, { 
+  useState, 
+  useEffect, 
+  useCallback, 
+  useMemo,
+  useRef, 
+  useLayoutEffect 
+} from 'react';
 import { 
   FlatList, 
   Platform, 
   Dimensions,
-  Keyboard,
-  EmitterSubscription,
-  KeyboardEvent,
   TextInput,
   Alert,
   UIManager,
@@ -14,12 +18,18 @@ import {
 import { useHeaderHeight } from '@react-navigation/stack';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
-import { SearchCoin } from '/lib/api/CoinGeckoReturnType';
-import { createFuzzyMatcher } from '/lib/utils';
+import Animated, { useAnimatedStyle, withSpring } from 'react-native-reanimated';
+
 import useGlobalTheme from '/hooks/useGlobalTheme';
-import useSearchData from '/hooks/useSearchData';
+import useLocales from '/hooks/useLocales';
+import useRequest from '/hooks/useRequest';
+import useKeyboard from '/hooks/useKeyboard';
 import { useAppDispatch, useAppSelector } from '/hooks/useRedux';
 import { addWatchingCoin } from '/store/portfolio';
+import { createFuzzyMatcher, getKeyboardAnimationConfigs } from '/lib/utils';
+import { CoinGecko, http } from '/lib/api/CoinGeckoClient';
+import { SearchCoin, SearchDataReturn } from '/types/CoinGeckoReturnType';
+
 import Item from '/components/coinSearch/Item';
 import EmptyView from '/components/coinSearch/EmptyView';
 import SearchBar from '/components/coinSearch/SearchBar';
@@ -39,10 +49,20 @@ const { height } = Dimensions.get('screen');
 
 const Layout = () => {
   const { t } = useTranslation();
+  const { language } = useLocales();
+  const { theme } = useGlobalTheme();
+  const navigation = useNavigation();
+  const headerHeight = useHeaderHeight();
+  const { params } = useRoute();
+  const dispatch = useAppDispatch();
+  const { 
+    height: animationKeyboardHeight,
+    animationDuration,
+    animationEasing
+  } = useKeyboard();
   const textInputRef = useRef<TextInput>(null);
   const [coins, setCoins] = useState<CoinsType[]>([]);
   const [query, setQuery] = useState('');
-  const [keyboardSpace, SetKeyBoardSpace] = useState(0);
   const [visible, setVisible] = useState(false);
   const [modalInitialState, setModalInitialState] = useState({
     id: '',
@@ -50,54 +70,18 @@ const Layout = () => {
     image: '',
     name: ''
   })
-  const { data, isLoading } = useSearchData({ suspense: false });
-  const { theme } = useGlobalTheme();
-  const navigation = useNavigation();
-  const headerHeight = useHeaderHeight();
-  const { params } = useRoute();
-  const dispatch = useAppDispatch();
   const { portfolios, activeIndex } = useAppSelector(state => ({
     portfolios: state.portfolioReducer.portfolios,
     activeIndex: state.portfolioReducer.activeIndex
   }))
   const { id: portfolioId, coins: portfolioCoins } = portfolios[activeIndex];
-
+  const { data, isLoading } = useRequest<SearchDataReturn>(
+    CoinGecko.coin.search({ locale: language }),
+    http
+  );
 
   useLayoutEffect(() => {
     navigation.setOptions({ title: t(`portfolio.add coin`) })
-  }, [])
-  
-  useEffect(() => {
-    let keyboardWillShowEvent: EmitterSubscription;
-    let keyboardWillHideEvent: EmitterSubscription;
-
-    if(Platform.OS === 'android') {
-      keyboardWillShowEvent = Keyboard.addListener(
-        'keyboardDidShow', 
-        updateKeyboardSpace
-      )
-
-      keyboardWillHideEvent = Keyboard.addListener(
-        'keyboardDidHide', 
-        resetKeyboardSpace
-      )
-    } else {
-      keyboardWillShowEvent = Keyboard.addListener(
-        'keyboardWillShow', 
-        updateKeyboardSpace
-      )
-
-      keyboardWillHideEvent = Keyboard.addListener(
-        'keyboardWillHide', 
-        resetKeyboardSpace
-      )
-    }
-    
-    return () => {
-      // keyboard event 해제
-      keyboardWillShowEvent && keyboardWillShowEvent.remove();
-      keyboardWillHideEvent && keyboardWillHideEvent.remove();
-    }
   }, [])
 
   useEffect(() => {
@@ -105,18 +89,9 @@ const Layout = () => {
       setCoins(data.coins)
   }, [data])
 
-  const updateKeyboardSpace = (event: KeyboardEvent) => {
-    SetKeyBoardSpace(event.endCoordinates.height)
-  }
-
-  const resetKeyboardSpace = () => {
-    SetKeyBoardSpace(0)
-  }
-
   const isAlreadyIncludeCoin = (id: string): boolean => {
     return portfolioCoins.find(coin => coin.id === id) !== undefined
   }
-
 
   const openAlert = (
     id: string,
@@ -234,6 +209,21 @@ const Layout = () => {
     textInputRef.current?.focus();
   }
 
+  const animationConfig = useMemo(() => {
+    return getKeyboardAnimationConfigs(
+      animationEasing.value,
+      animationDuration.value
+    )
+  }, [animationEasing, animationDuration, getKeyboardAnimationConfigs])
+
+  const FooterHeight = useAnimatedStyle(() => {
+    return {
+      height: withSpring(
+        animationKeyboardHeight.value, 
+        animationConfig
+      )
+    } 
+  }, [animationKeyboardHeight, animationConfig])
 
   return(
     <>
@@ -252,8 +242,12 @@ const Layout = () => {
         contentContainerStyle={{
           minHeight: height - headerHeight,
           backgroundColor: theme.base.background.surface,
-          paddingBottom: keyboardSpace
         }}
+        ListFooterComponent={
+          <Animated.View 
+            style={FooterHeight}
+          />
+        }
         ListHeaderComponent={
           <SearchBar 
             ref={textInputRef}
@@ -299,7 +293,6 @@ const Layout = () => {
         />
       )}
     </>
-
   )
 }
 

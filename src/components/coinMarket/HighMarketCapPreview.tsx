@@ -1,8 +1,12 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+
+import useRequest from '/hooks/useRequest';
+import useLocales from '/hooks/useLocales';
+import { CoinMarketReturn } from '/types/CoinGeckoReturnType';
+import { CoinGecko, http } from '/lib/api/CoinGeckoClient';
+
 import SurfaceWrap from '/components/common/SurfaceWrap';
-import useCoinMarketData from '/hooks/useCoinMarketData';
-import { ORDER } from '/lib/constant';
 import Item from './Item';
 import ShowAllButton from './ShowAllButton';
 
@@ -13,11 +17,17 @@ type ListProps = {
 
 const HighPricePreview = ({ onPressItem }: ListProps) => {
   const { t } = useTranslation();
-  const { data } = useCoinMarketData({ 
-    order: ORDER.MARKET_CAP_DESC, 
-    per_page: 5,
-    refreshInterval: 5 * 60 * 1000 
-  });
+  const { currency } = useLocales();
+  
+  const { data } = useRequest<CoinMarketReturn[]>(
+    CoinGecko.coin.markets({ 
+      vs_currency: currency,
+      per_page: 5,
+      sparkline: true
+    }),
+    http,
+    { refreshInterval: 5 * 60 * 1000, suspense: true }
+  );
 
   return (
     <SurfaceWrap 

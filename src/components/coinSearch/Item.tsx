@@ -2,7 +2,7 @@ import React from 'react';
 import { Dimensions } from 'react-native';
 import styled from 'styled-components/native';
 import useGlobalTheme from '/hooks/useGlobalTheme';
-import { SearchTrandingCoinItem } from '/lib/api/CoinGeckoReturnType';
+import { SearchTrandingCoinItem } from '/types/CoinGeckoReturnType';
 import Image from '/components/common/Image';
 import Text from '/components/common/Text';
 import { CoinsType } from './Layout';

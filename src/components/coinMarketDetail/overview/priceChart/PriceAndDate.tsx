@@ -6,7 +6,7 @@ import { ReText } from "react-native-redash";
 import styled from 'styled-components/native';
 
 import { useAppSelector, shallowEqual } from '/hooks/useRedux';
-import useMarketLineChartData from '/hooks/useMarketLineChartData';
+import useMarketChart from '/hooks/data/useMarketChart';
 import { digitToFixed } from '/lib/utils';
 import { AddSeparator, exponentToNumber } from '/lib/utils/currencyFormat';
 import { getOnlyDecimal, getCurrencySymbol } from '/lib/utils/currencyFormat';
@@ -37,7 +37,7 @@ const PriceAndDate = ({
   datumYChangePercentage,
   percentageStatus
  }: PriceAndDetailProsp) => {
-  const { data } = useMarketLineChartData({ id });
+  const { data } = useMarketChart({ id });
   const { currency, chartTimeFrame } = useAppSelector(state => ({
     currency: state.baseSettingReducer.currency,
     chartTimeFrame: state.baseSettingReducer.chartTimeFrame

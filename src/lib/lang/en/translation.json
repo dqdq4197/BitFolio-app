@@ -36,6 +36,8 @@
     "edit transaction": "Edit Transaction",
     "current value": "Current Value",
     "fees included": "Fees Included",
+    "terms of use": "Terms of Use",
+    "privacy policy": "Privacy Policy",
     "bottom notice": {
       "title": "Important Disclaimer",
       "first": "We make no warranties of any kind in relation to our content, including but not limited to accuracy and updatedness",
@@ -43,6 +45,25 @@
       "third": "No content on Bitfolio is meant to be a solicitation or offer.",
       "privacy policy notice": "Privacy Policy Notice"
     }
+  },
+  "auth": {
+    "login": "Log In",
+    "email": "Email",
+    "email address": "Email address",
+    "password": "Password",
+    "forgot your password?": "Forgot your password?",
+    "forgot password": "Forgot Password",
+    "don't have an account?": "Don't have an account?",
+    "create an account": "Create an Account",
+    "enter your email address": "Enter your email address..",
+    "enter your password": "Enter your password..",
+    "change password": "Change password",
+    "no account found with that email address": "No account found with that email address",
+    "n.required": "{{n}} cannot be empty",
+    "email message": "Please enter your email in the correct format",
+    "password message": "Password should contain both letter and number, with minimum length of 8 characters",
+    "agree to terms of use & privacy policy": "By proceeding, you agree to Bitfolio's",
+    "already have an account?": "Already have an account?"
   },
   "coinDetail": {
     "highest": "Highest",

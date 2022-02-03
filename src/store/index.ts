@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 import {
   persistStore,
   persistReducer,
@@ -11,6 +11,7 @@ import {
   REGISTER
 } from 'redux-persist'
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import baseSettingReducer from './baseSetting';
 import portfolioReducer from './portfolio';
 import transactionReducer from './transaction';
@@ -43,7 +44,7 @@ const rootReducer = combineReducers({
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 const store = configureStore({
   reducer: persistedReducer,
-  middleware: getDefaultMiddleware({
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware({
     serializableCheck: {
       ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
     }

@@ -1,32 +1,38 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { 
+  useState, 
+  useEffect, 
+  useRef, 
+  useCallback, 
+  useMemo 
+} from 'react';
 import { 
   FlatList, 
   Platform, 
   TextInput,
   Dimensions,
-  Keyboard,
-  EmitterSubscription,
-  KeyboardEvent,
   LayoutAnimation,
   UIManager
 } from 'react-native';
-import styled from 'styled-components/native';
 import { useHeaderHeight } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
+import Animated, { useAnimatedStyle, withSpring } from 'react-native-reanimated';
+
 import useGlobalTheme from '/hooks/useGlobalTheme';
-import { SearchCoin } from '/lib/api/CoinGeckoReturnType';
-import useSearchData from '/hooks/useSearchData';
-import useSearchTranding from '/hooks/useSearchTranding';
-import { useAppDispatch } from '/hooks/useRedux'
-import Item from './Item';
+import useLocales from '/hooks/useLocales';
+import useRequest from '/hooks/useRequest';
+import useKeyboard from '/hooks/useKeyboard';
+import { useAppDispatch, useAppSelector } from '/hooks/useRedux'
 import { changeRecentSearches } from '/store/baseSetting';
-import { useAppSelector } from '/hooks/useRedux';
-import { createFuzzyMatcher } from '/lib/utils';
+import { createFuzzyMatcher, getKeyboardAnimationConfigs } from '/lib/utils';
+import { CoinGecko, http } from '/lib/api/CoinGeckoClient';
+import { SearchTrandingReturn, SearchDataReturn, SearchCoin } from '/types/CoinGeckoReturnType';
+
 import Text from '/components/common/Text';
+import GlobalIndicator from '/components/common/GlobalIndicator';
 import EmptyView from './EmptyView';
 import DefaultView from './DefaultView';
 import SearchBar from './SearchBar';
-import GlobalIndicator from '/components/common/GlobalIndicator';
+import Item from './Item';
 
 Platform.OS === "android" && UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
 
@@ -38,55 +44,33 @@ export interface CoinsType extends SearchCoin {
 const { height } = Dimensions.get('screen');
 
 const Layout = () => {
+  const { language } = useLocales();
+  const { 
+    height: animationKeyboardHeight,
+    animationDuration,
+    animationEasing
+  } = useKeyboard();
   const textInputRef = useRef<TextInput>(null);
   const { recentSearches } = useAppSelector(state => state.baseSettingReducer);
   const [coins, setCoins] = useState<CoinsType[]>([]);
   const [query, setQuery] = useState('');
   const [searchesData, setSearchesData] = useState<SearchCoin[]>([]);
-  const [keyboardSpace, SetKeyBoardSpace] = useState(0);
-  const { data, isLoading } = useSearchData({ suspense: false });
-  const { data: trandingData } = useSearchTranding({ suspense: false});
   const { theme } = useGlobalTheme();
   const navigation = useNavigation();
   const headerHeight = useHeaderHeight();
   const dispatch = useAppDispatch();
+  const { data: searchData, isLoading } = useRequest<SearchDataReturn>(
+    CoinGecko.coin.search({ locale: language }),
+    http
+  );
+  const { data: trandingData } = useRequest<SearchTrandingReturn>(
+    CoinGecko.coin.searchTranding(),
+    http,
+  );
 
   useEffect(() => {
-    let keyboardWillShowEvent: EmitterSubscription;
-    let keyboardWillHideEvent: EmitterSubscription;
-
-    if(Platform.OS === 'android') {
-      keyboardWillShowEvent = Keyboard.addListener(
-        'keyboardDidShow', 
-        updateKeyboardSpace
-      )
-
-      keyboardWillHideEvent = Keyboard.addListener(
-        'keyboardDidHide', 
-        resetKeyboardSpace
-      )
-    } else {
-      keyboardWillShowEvent = Keyboard.addListener(
-        'keyboardWillShow', 
-        updateKeyboardSpace
-      )
-
-      keyboardWillHideEvent = Keyboard.addListener(
-        'keyboardWillHide', 
-        resetKeyboardSpace
-      )
-    }
-    
-    return () => {
-      // keyboard event 해제
-      keyboardWillShowEvent && keyboardWillShowEvent.remove();
-      keyboardWillHideEvent && keyboardWillHideEvent.remove();
-    }
-  }, [])
-
-  useEffect(() => {
-    if(data) {
-      let filteredData = data?.coins.filter(coin => recentSearches.includes(coin.id));
+    if(searchData) {
+      let filteredData = searchData?.coins.filter(coin => recentSearches.includes(coin.id));
       filteredData = filteredData.sort((a, b) => recentSearches.indexOf(a.id) - recentSearches.indexOf(b.id))
       filteredData = filteredData.filter((coin, index) => {
         let idx = filteredData.findIndex(res => res.id === coin.id)
@@ -94,15 +78,7 @@ const Layout = () => {
       })
       setSearchesData(filteredData)
     }
-  }, [recentSearches, data])
-
-  const updateKeyboardSpace = (event: KeyboardEvent) => {
-    SetKeyBoardSpace(event.endCoordinates.height)
-  }
-
-  const resetKeyboardSpace = (event: KeyboardEvent) => {
-    SetKeyBoardSpace(0)
-  }
+  }, [recentSearches, searchData])
 
   const handleItemPress = (id: string, symbol: string) => {
     navigation.navigate('CoinDetail', { param: { id, symbol }, screen:  'Overview' })
@@ -147,13 +123,13 @@ const Layout = () => {
       )
     );
     setQuery(text);
-    if(!data) return;
+    if(!searchData) return;
 
     if(text === '') {
       setCoins([]);
     } else {
       let regex = createFuzzyMatcher(text, {})
-      let result = data.coins
+      let result = searchData.coins
         .filter(coin => { 
           return regex.test(coin.name)
             || regex.test(coin.id)
@@ -181,9 +157,25 @@ const Layout = () => {
     textInputRef.current?.focus();
   }
 
+  const animationConfig = useMemo(() => {
+    return getKeyboardAnimationConfigs(
+      animationEasing.value,
+      animationDuration.value
+    )
+  }, [animationEasing, animationDuration, getKeyboardAnimationConfigs])
+
+  const FooterHeight = useAnimatedStyle(() => {
+    return {
+      height: withSpring(
+        animationKeyboardHeight.value, 
+        animationConfig
+      )
+    } 
+  }, [animationKeyboardHeight, animationConfig])
+
   return(
     <>
-      { !data && (
+      { !searchData && (
         <GlobalIndicator 
           isLoaded={false}
           size="large"
@@ -198,8 +190,12 @@ const Layout = () => {
         contentContainerStyle={{
           minHeight: height - headerHeight,
           backgroundColor: theme.base.background.surface,
-          paddingBottom: keyboardSpace
         }}
+        ListFooterComponent={
+          <Animated.View
+            style={FooterHeight}
+          />
+        }
         ListHeaderComponent={
           <SearchBar 
             ref={textInputRef}
@@ -239,17 +235,3 @@ const Layout = () => {
 }
 
 export default Layout;
-
-const IndicatorWrap = styled.View`
-  position: absolute;
-  width: 60px;
-  height: 60px;
-  top: 50%;
-  left: 50%;
-  transform: translateX(-30px);
-  z-index: 111;
-  background-color: ${({ theme }) => theme.base.background.surface};
-  align-items: center;
-  justify-content: center;
-  border-radius: ${({ theme }) => theme.border.l};
-`

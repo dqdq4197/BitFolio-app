@@ -1,24 +1,35 @@
 import React, { useState, useCallback } from 'react';
 import { Animated, FlatList, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { useHeaderHeight } from '@react-navigation/stack';
-import Item from './Item'
-import useCoinMarketData from '/hooks/useCoinMarketData';
+
+import useRequestInfinite from '/hooks/useRequestInfinite';
+import useLocales from '/hooks/useLocales';
 import useAnimatedHeaderTitle from '/hooks/useAnimatedHeaderTitle';
 import useGlobalTheme from '/hooks/useGlobalTheme';
+import { CoinGecko, http } from '/lib/api/CoinGeckoClient';
+import { CoinMarketReturn } from '/types/CoinGeckoReturnType';
+
 import MarketListSkeleton from '/components/skeletonPlaceholder/MarketListSkeleton';
 import CustomRefreshControl from '/components/common/CustomRefreshControl';
 import PopularList from './PopularList';
-
-const HEADER_HEIGHT = 100;
+import Item from './Item'
 
 const CoinMarketList = () => {
-  const navHeaderHeight = useHeaderHeight();
   const { theme } = useGlobalTheme();
-  const [refreshing, setRefreshing] = useState(false);
-  const { data, size, setSize, mutate } = useCoinMarketData({});
-  const { scrollY } = useAnimatedHeaderTitle({ triggerPoint: 30 });
   const navigation = useNavigation();
+  const { currency } = useLocales();
+  const [refreshing, setRefreshing] = useState(false);
+  const { scrollY } = useAnimatedHeaderTitle({ triggerPoint: 30 });
+
+  // api 콜 보정(검수) 필요
+  const { data, size, setSize, mutate } = useRequestInfinite<CoinMarketReturn[]>(
+    (pageIndex: number) => CoinGecko.coin.markets({
+      vs_currency: currency,
+      page: pageIndex + 1
+    }),
+    http,
+    { suspense: true,  }
+  )
 
   const handleRefresh = useCallback(async() => {
     setRefreshing(true);
@@ -37,38 +48,36 @@ const CoinMarketList = () => {
 
   return (
     <>
-      {/* <ScrollView> */}
-        <PopularList />
-        <View>
-          <FlatList 
-            data={data}
-            keyExtractor={item => item.id}
-            contentContainerStyle={{
-              backgroundColor: theme.base.background.surface,
-            }}
-            renderItem={
-              ({ item }) => 
-                <Item 
-                  item={item} 
-                  onPressItem={handlePressItem}
-                />
-            }
-            scrollEventThrottle={16}
-            ListFooterComponent={MarketListSkeleton}
-            // ListHeaderComponent={<FlatListHeader/>}
-            // stickyHeaderIndices={[0]}
-            onScroll={handleScroll}
-            refreshControl={
-              <CustomRefreshControl
-                onRefresh={handleRefresh}
-                refreshing={refreshing}
+      <PopularList />
+      <View>
+        <FlatList 
+          data={data?.flat()}
+          keyExtractor={item => item.id}
+          contentContainerStyle={{
+            backgroundColor: theme.base.background.surface,
+          }}
+          renderItem={
+            ({ item }) => 
+              <Item 
+                item={item} 
+                onPressItem={handlePressItem}
               />
-            }
-            onEndReached={() => setSize(size + 1)}
-            onEndReachedThreshold={0.5}
-          />
-        </View>
-      {/* </ScrollView> */}
+          }
+          scrollEventThrottle={16}
+          ListFooterComponent={MarketListSkeleton}
+          // ListHeaderComponent={<FlatListHeader/>}
+          // stickyHeaderIndices={[0]}
+          onScroll={handleScroll}
+          refreshControl={
+            <CustomRefreshControl
+              onRefresh={handleRefresh}
+              refreshing={refreshing}
+            />
+          }
+          onEndReached={() => setSize(size + 1)}
+          onEndReachedThreshold={0.5}
+        />
+      </View>
     </>
   )
 }

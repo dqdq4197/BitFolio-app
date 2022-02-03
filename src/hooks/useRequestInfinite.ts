@@ -1,12 +1,20 @@
-import { SWRInfiniteConfiguration, SWRInfiniteResponse, useSWRInfinite } from 'swr'
-import { AxiosInstance ,AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios'
+import useSWRInfinite, { 
+  SWRInfiniteConfiguration, 
+  SWRInfiniteResponse 
+} from 'swr/infinite';
+import { 
+  AxiosInstance, 
+  AxiosRequestConfig, 
+  AxiosResponse, 
+  AxiosError 
+} from 'axios'
 
 export type RequestType = AxiosRequestConfig | null
 
 interface Return<Data, Error>
   extends Pick<
     SWRInfiniteResponse<AxiosResponse<Data>, AxiosError<Error>>,
-    'isValidating' | 'revalidate' | 'error' | 'mutate' | 'size' | 'setSize'
+    'isValidating' | 'error' | 'mutate' | 'size' | 'setSize'
   > {
   data: Data[] | undefined
   response: AxiosResponse<Data>[] | undefined
@@ -16,9 +24,9 @@ interface Return<Data, Error>
 export interface Config<Data = unknown, Error = unknown>
   extends Omit<
     SWRInfiniteConfiguration<AxiosResponse<Data>, AxiosError<Error>>,
-    'initialData'
+    'fallbackData'
   > {
-  initialData?: Data[]
+  fallbackData?: Data[]
 }
 
 export default function useRequestInfinite<Data = unknown, Error = unknown>(
@@ -27,7 +35,7 @@ export default function useRequestInfinite<Data = unknown, Error = unknown>(
     previousPageData: AxiosResponse<Data> | null
   ) => RequestType,
   axios: AxiosInstance,
-  { initialData, ...config }: Config<Data, Error> = {}
+  { fallbackData, ...config }: Config<Data, Error> = {}
 ): Return<Data, Error> {
   const { 
     data: response,
@@ -35,7 +43,6 @@ export default function useRequestInfinite<Data = unknown, Error = unknown>(
     setSize, 
     mutate,
     isValidating,
-    revalidate,
     error 
   } = useSWRInfinite<AxiosResponse<Data>, AxiosError<Error>>(
     (pageIndex, previousPageData) => {
@@ -46,8 +53,8 @@ export default function useRequestInfinite<Data = unknown, Error = unknown>(
     (request: any) => axios(JSON.parse(request)),
     {
       ...config,
-      initialData:
-        initialData?.map((v) => ({
+      fallbackData:
+        fallbackData?.map((v) => ({
           status: 200,
           statusText: 'InitialData',
           config: {},
@@ -63,7 +70,6 @@ export default function useRequestInfinite<Data = unknown, Error = unknown>(
     setSize,
     mutate,
     error,
-    revalidate,
     isValidating,
     response,
     isLoading: (!response && !error) || (size > 0 && response !== undefined && typeof response[size - 1] === "undefined")

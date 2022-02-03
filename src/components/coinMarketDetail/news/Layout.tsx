@@ -1,9 +1,13 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { FlatList } from 'react-native';
-import useNewsCategories from '/hooks/useNewsCategories';
+
 import { useCoinIdContext } from '/hooks/useCoinIdContext';
-import useNewsArticles from '/hooks/useNewsArticles';
+import useNewsArticles from '/hooks/data/useNewsArticles';
 import useGlobalTheme from '/hooks/useGlobalTheme';
+import useRequest from '/hooks/useRequest';
+import { Cryptocompare, http } from '/lib/api/CryptocompareClient';
+import { CategoryReturn } from '/types/CryptoCompareReturnType';
+
 import CustomRefreshControl from '/components/common/CustomRefreshControl';
 import Header from './Header';
 import Item from './Item';
@@ -11,13 +15,17 @@ import Item from './Item';
 const Layout = () => {
   const { theme } = useGlobalTheme();
   const { symbol } = useCoinIdContext();
-  const { data: categories } = useNewsCategories({});
   const [category, setCategory] = useState<string | null>(null);
-  const { data, mutate } = useNewsArticles({ 
-    categories: category ?? '',
-    willNotRequest: category === null
-  });
   const [refreshing, setRefreshing] = useState(false);
+    const { data, mutate } = useNewsArticles({ 
+      categories: category ?? '',
+      willNotRequest: category === null
+    });
+  const { data: categories } = useRequest<CategoryReturn[]>(
+    Cryptocompare.news.categories({}),
+    http,
+    { suspense: true }
+  );
 
   useEffect(() => {
     let isContain = false;

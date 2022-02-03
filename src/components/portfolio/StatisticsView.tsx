@@ -7,7 +7,7 @@ import { CoinStatType, PortfolioStatsType } from '/hooks/usePortfolioStats';
 import useSparkLineModel from '/hooks/useSparkLineModel';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import useLocales from '/hooks/useLocales';
-import { CoinMarketReturn } from '/lib/api/CoinGeckoReturnType'
+import { CoinMarketReturn } from '/types/CoinGeckoReturnType'
 import { getCurrencySymbol, currencyFormat } from '/lib/utils/currencyFormat';
 import { digitToFixed } from '/lib/utils';
 import { usePortfolioContext } from './PortfolioDataContext';

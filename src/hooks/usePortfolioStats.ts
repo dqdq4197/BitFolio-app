@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppSelector } from '/hooks/useRedux';
 import useLocales from '/hooks/useLocales';
-import { CoinMarketReturn } from '/lib/api/CoinGeckoReturnType';
+import { CoinMarketReturn } from '/types/CoinGeckoReturnType';
 
 type StatsProps = {
   id: string

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components/native';
+
 import Text from '/components/common/Text';
-import SurfaceWrap from '/components/common/SurfaceWrap';
 import SurfaceTopView from '/components/common/SurfaceTopView';
 
 type HeaderProps = {

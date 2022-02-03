@@ -3,9 +3,9 @@ import { ScrollView, Animated, Dimensions } from 'react-native';
 import styled from 'styled-components/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { format } from 'date-fns';
-import useHistorySnapshot from '/hooks/useHistorySnapshot';
+import useHistorySnapshot from '/hooks/data/useHistorySnapshot';
 import { currencyFormat } from '/lib/utils/currencyFormat';
-import { CoinDetailDataReturn } from '/lib/api/CoinGeckoReturnType';
+import { CoinDetailDataReturn } from '/types/CoinGeckoReturnType';
 import SetQuantityView from './SetQuantityView';
 import SetDateView from './SetDateView'
 import SetPricePerCoinView from './SetPricePerCoinView';

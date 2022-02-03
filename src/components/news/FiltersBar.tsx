@@ -3,14 +3,18 @@ import styled from 'styled-components/native';
 import { MaterialIcons, FontAwesome } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import { useAppSelector, useAppDispatch, shallowEqual } from '/hooks/useRedux';
-import useNewsFeedsAndCategories from '/hooks/useNewsFeedsAndCategories';
+import useRequest from '/hooks/useRequest';
 import { ALL_NEWS_FEEDS, ALL_NEWS_CATEGORIES, resetFilters } from '/store/news';
+import { Cryptocompare, http } from '/lib/api/CryptocompareClient';
+import { FeedAndCategoryReturn } from '/types/CryptoCompareReturnType';
+
+import SkeletonContainer from '/components/skeletonPlaceholder/common/Container';
 import Text from '/components/common/Text';
 import FeedFilterModal from './FeedFilterModal';
 import CategoryFilterModal from './CategoryFilterModal';
-import SkeletonContainer from '/components/skeletonPlaceholder/common/Container';
 
 const FiltersBar = () => {
   const { theme } = useGlobalTheme();
@@ -20,9 +24,12 @@ const FiltersBar = () => {
     feeds: state.newsReducer.feeds,
     categories: state.newsReducer.categories
   }), shallowEqual);
-  const { data } = useNewsFeedsAndCategories({});
   const [feedsVisible, setFeedsVisible] = useState(false);
   const [categoriesVisible, setCategoriesVisible] = useState(false);
+  const { data } = useRequest<FeedAndCategoryReturn>(
+    Cryptocompare.news.feedAndCategories({}),
+    http,
+  );
 
   const activeReset = useMemo(() => {
     return feeds !== ALL_NEWS_FEEDS || categories !== ALL_NEWS_CATEGORIES;

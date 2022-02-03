@@ -4,7 +4,7 @@ import styled from 'styled-components/native';
 import { fromUnixTime, formatDistance } from 'date-fns';
 import { ko, enUS } from 'date-fns/locale';
 import * as WebBrowser from 'expo-web-browser';
-import { NewsData } from '/lib/api/CryptoCompareReturnType';
+import { NewsData } from '/types/CryptoCompareReturnType';
 import Text from '/components/common/Text';
 import Image from '/components/common/Image';
 import useLocales from '/hooks/useLocales';

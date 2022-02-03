@@ -2,15 +2,15 @@ import React, { useRef, useCallback, useLayoutEffect } from 'react';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { StackScreenProps } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
+
 import useGlobalTheme from '/hooks/useGlobalTheme';
+
 import GeneralTemplate from '/components/GeneralTemplate';
 import CoinHomeSkeleton from '/components/skeletonPlaceholder/CoinHomeSkeleton';
 import ErrorBoundaryAndSuspense from '/components/common/ErrorBoundaryAndSuspense';
 import SettingModal from '/components/setting/SettingModal';
-import Overview from '/components/portfolio/Overview';
+import Layout from '/components/portfolio/Layout';
 import { PortfolioDataProvider } from '/components/portfolio/PortfolioDataContext';
-
-
 
 const OverviewScreen = ({ navigation }: StackScreenProps<any>) => {
   const { theme } = useGlobalTheme();
@@ -39,7 +39,7 @@ const OverviewScreen = ({ navigation }: StackScreenProps<any>) => {
       <ErrorBoundaryAndSuspense skeleton={<CoinHomeSkeleton />}>
         <SettingModal ref={settingModalRef}/>
         <PortfolioDataProvider>
-          <Overview/>
+          <Layout/>
         </PortfolioDataProvider>
       </ErrorBoundaryAndSuspense>
     </GeneralTemplate>

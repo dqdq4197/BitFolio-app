@@ -1,10 +1,15 @@
 import React from 'react';
-import SurfaceWrap from '/components/common/SurfaceWrap';
-import useCoinMarketData from '/hooks/useCoinMarketData';
+import { useTranslation } from 'react-i18next';
+
+import useRequest from '/hooks/useRequest';
+import useLocales from '/hooks/useLocales';
+import { CoinGecko, http } from '/lib/api/CoinGeckoClient';
+import { CoinMarketReturn } from '/types/CoinGeckoReturnType';
 import { ORDER } from '/lib/constant';
+
+import SurfaceWrap from '/components/common/SurfaceWrap';
 import Item from './Item';
 import ShowAllButton from './ShowAllButton';
-import { useTranslation } from 'react-i18next';
 
 type ListProps = {
   onPressItem: (id: string, symbol: string) => void
@@ -12,11 +17,17 @@ type ListProps = {
 
 const HighVolumePreview = ({ onPressItem }: ListProps) => {
   const { t } = useTranslation();
-  const { data } = useCoinMarketData({ 
-    order: ORDER.VOLUME_DESC, 
-    per_page: 5,
-    refreshInterval: 5 * 60 * 1000  
-  });
+  const { currency } = useLocales();
+  const { data } = useRequest<CoinMarketReturn[]>(
+    CoinGecko.coin.markets({ 
+      vs_currency: currency,
+      order: ORDER.VOLUME_DESC,
+      per_page: 5,
+      sparkline: true
+    }),
+    http,
+    { refreshInterval: 5 * 60 * 1000, suspense: true }
+  )
 
   return (
     <SurfaceWrap 

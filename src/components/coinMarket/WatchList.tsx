@@ -4,10 +4,14 @@ import styled from 'styled-components/native';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
+
 import { useAppSelector } from '/hooks/useRedux';
-import useCoinMarketData from '/hooks/useCoinMarketData';
 import useGlobalTheme from '/hooks/useGlobalTheme';
-import { CoinMarketReturn } from '/lib/api/CoinGeckoReturnType';
+import useLocales from '/hooks/useLocales';
+import useRequest from '/hooks/useRequest';
+import { CoinGecko, http } from '/lib/api/CoinGeckoClient';
+import { CoinMarketReturn } from '/types/CoinGeckoReturnType';
+
 import Text from '/components/common/Text';
 import SurfaceWrap from '/components/common/SurfaceWrap';
 import Item from './popularList/Item';
@@ -47,15 +51,19 @@ const EmptyWatchListView = () => {
 }
 
 const WatchList = ({ onPressItem }: ListProps) => {
+  const { t } = useTranslation();
   const { theme } = useGlobalTheme();
+  const { currency } = useLocales();
   const { watchList } = useAppSelector(state => state.baseSettingReducer);
   const [newData, setNewData] = useState<CoinMarketReturn[]>([])
-  const { t } = useTranslation();
-  const { data, isValidating } = useCoinMarketData({ 
-    ids: watchList, 
-    suspense: false,
-    refreshInterval: 1000 * 60 * 3,
-  });
+  const { data, isValidating } = useRequest<CoinMarketReturn[]>(
+    CoinGecko.coin.markets({ 
+      vs_currency: currency,
+      ids: watchList 
+    }),
+    http,
+    { refreshInterval: 1000 * 60 * 3 }
+  )
 
   useEffect(() => {
     if(data) {

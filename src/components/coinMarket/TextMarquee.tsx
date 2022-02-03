@@ -1,16 +1,18 @@
 import React, { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import TextTicker from 'react-native-text-ticker';
 import { baseTypes } from 'base-types';
 import { Ionicons } from '@expo/vector-icons';
 import styled, { css } from 'styled-components/native';
 import { LinearGradient } from 'expo-linear-gradient';
-import TextTicker from 'react-native-text-ticker';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
-import { convertUnits } from '/lib/utils';
-import { AddSeparator, currencyFormat } from '/lib/utils/currencyFormat';
+
 import useLocales from '/hooks/useLocales';
 import useGlobalTheme from '/hooks/useGlobalTheme';
-import useMarkgetglobar from '/hooks/useMarkgetglobal';
+import useMarkgetglobar from '/hooks/data/useMarkgetGlobal';
+import { convertUnits } from '/lib/utils';
+import { AddSeparator, currencyFormat } from '/lib/utils/currencyFormat';
+
 import DateFormatText from '/components/common/DateFormatText';
 import Text from '/components/common/Text';
 import Modal from '/components/common/BottomSheetModal';
@@ -143,7 +145,7 @@ const ModalContents = ({
 
 const TextMarquee = ({ }: MarqueeProps) => {
   const { t } = useTranslation();
-  const { data: marketGlobarData } = useMarkgetglobar({ suspense: false });
+  const { data: marketGlobalData } = useMarkgetglobar({ suspense: false });
   const { currency } = useLocales();
   const { theme } = useGlobalTheme();
   const ModalRef = useRef<BottomSheetModal>(null);
@@ -152,8 +154,8 @@ const TextMarquee = ({ }: MarqueeProps) => {
     ModalRef.current?.present();
   }
 
-  if(!marketGlobarData) return <MarqueeTextSkeleton/>
-  const { data } = marketGlobarData;
+  if(!marketGlobalData) return <MarqueeTextSkeleton/>
+  const { data } = marketGlobalData;
 
   return (
     <Container

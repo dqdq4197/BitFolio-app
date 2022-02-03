@@ -3,13 +3,15 @@ import styled from 'styled-components/native';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
 import SkeletonPlaceholder from "react-native-skeleton-placeholder";
-import IncreaseDecreaseValue from '/components/common/IncreaseDecreaseValue';
-import Text from '/components/common/Text';
-import useLocales from '/hooks/useLocales';
+
 import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat';
 import { digitToFixed } from '/lib/utils';
 import { CoinType, ModeType } from '/store/portfolio';
+import useLocales from '/hooks/useLocales';
 import { CoinStatType } from '/hooks/usePortfolioStats';
+
+import IncreaseDecreaseValue from '/components/common/IncreaseDecreaseValue';
+import Text from '/components/common/Text';
 import SkeletonContainer from '/components/skeletonPlaceholder/common/Container';
 import DynamicSizeText from '/components/common/DynamicSizeText';
 import PrivatePlaceholder from './PrivatePlaceholder';
@@ -22,8 +24,8 @@ type RowProps = {
   mode: ModeType
   totalCosts: number
   priceStats?: {
-    current_price: number;
-    price_change_percentage_24h: number | null;
+    current_price: number
+    price_change_percentage_24h: number | null
   } 
   onAddButtonPress: (coin: CoinType) => void
 }
