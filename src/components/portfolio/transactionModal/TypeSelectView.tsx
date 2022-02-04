@@ -18,10 +18,10 @@ const { width, height } = Dimensions.get('window');
 const transactionTypes = [{
   key: 'buy',
   icon: (color: string) => <AntDesign name="swapleft" size={24} color={color} />,
-},{
+}, {
   key: 'sell',
   icon: (color: string) => <AntDesign name="swapright" size={24} color={color} />,
-},{
+}, {
   key: 'transfer',
   icon: (color: string) => <MaterialCommunityIcons name="transfer" size={24} color={color} />,
 }]
@@ -34,7 +34,7 @@ const transferTypes = [{
   icon: (color: string) => <AntDesign name="arrowup" size={18} color={color} />,
 }];
 
-const TypeSelectView = ({ 
+const TypeSelectView = ({
   setFormData,
   transactionType,
   transferType,
@@ -54,7 +54,7 @@ const TypeSelectView = ({
   }, [transferType])
 
   useEffect(() => {
-    if(transactionType === 'transfer') {
+    if (transactionType === 'transfer') {
       Animated.parallel([
         Animated.timing(opacity, {
           toValue: 1,
@@ -108,29 +108,29 @@ const TypeSelectView = ({
       })
     )
   }
-  
+
   return (
     <Container height={height - FOOTER_HEIGHT - 70}>
       <TransactionTypeWrap >
-        { transactionTypes.map(type => 
-          <TransactionType 
-            key={type.key} 
+        {transactionTypes.map(type =>
+          <TransactionType
+            key={type.key}
             activeOpacity={0.6}
             width={TransactionTypeWidth}
             isSelected={type.key === transactionType}
             onPress={() => onSwitchTransactionType(type.key)}
           >
-            { type.icon(type.key === transactionType ? theme.base.text[100] : theme.base.text[300]) }
-            <CustomText 
+            {type.icon(type.key === transactionType ? theme.base.text[100] : theme.base.text[300])}
+            <CustomText
               isSelected={type.key === transactionType}
               margin="0 0 0 5px"
-              color100 
-              bold 
+              color100
+              bold
               fontML
             >
-              { t(`common.${type.key}`) }
+              {t(`common.${type.key}`)}
             </CustomText>
-          </TransactionType>  
+          </TransactionType>
         )}
       </TransactionTypeWrap>
       <TransferTypeWrap
@@ -142,26 +142,26 @@ const TypeSelectView = ({
           opacity
         }}
       >
-        { transferTypes.map(type => 
-          <TransferType 
-            key={type.key} 
+        {transferTypes.map(type =>
+          <TransferType
+            key={type.key}
             width={TransferTypeWidth}
-            onPress={() => onSwitchTransferType(type.key)} 
+            onPress={() => onSwitchTransferType(type.key)}
             activeOpacity={0.6}
           >
-            { type.icon(type.key === transferType ? theme.base.text[100] : theme.base.text[300]) }
-            <CustomText 
+            {type.icon(type.key === transferType ? theme.base.text[100] : theme.base.text[300])}
+            <CustomText
               isSelected={type.key === transferType}
               margin="0 0 0 5px"
-              color100 
-              bold 
+              color100
+              bold
               fontML
             >
-              { t(`common.${type.key}`) }
+              {t(`common.${type.key}`)}
             </CustomText>
           </TransferType>
         )}
-        <Indicator 
+        <Indicator
           as={Animated.View}
           width={TransferTypeWidth}
           style={{
@@ -239,7 +239,7 @@ const Indicator = styled.View<TypeProps>`
   z-index: -1;
 `
 
-const CustomText = styled(Text)<TextProps>`
+const CustomText = styled(Text) <TextProps>`
   color: ${({ theme, isSelected }) => isSelected
     ? theme.base.text[100]
     : theme.base.text[300]

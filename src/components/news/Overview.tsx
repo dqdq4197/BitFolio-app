@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react';
-import { 
-  Animated, 
-  LayoutAnimation, 
+import {
+  Animated,
+  LayoutAnimation,
   ActivityIndicator,
   Platform,
   UIManager,
@@ -17,7 +17,7 @@ import useGlobalTheme from '/hooks/useGlobalTheme';
 import { useAppSelector, useAppDispatch } from '/hooks/useRedux';
 import useAnimatedHeaderTitle from '/hooks/useAnimatedHeaderTitle';
 import { NewsStateType, changeSortOrder, SortOrderType } from '/store/news';
-import { NewsData } from '/types/CryptoCompareReturnType'; 
+import { NewsData } from '/types/CryptoCompareReturnType';
 
 import Text from '/components/common/Text';
 import CustomRefreshControl from '/components/common/CustomRefreshControl';
@@ -58,22 +58,22 @@ const Title = ({ sortOrder, scrollY, onResetLTs }: TitleProps) => {
     >
       <TitleTextWrap>
         <Text
-          fontXL 
-          color100 
-          heavy 
+          fontXL
+          color100
+          heavy
           margin="0 15px 0 0"
         >
-          { sortOrder === 'latest' 
+          {sortOrder === 'latest'
             ? t(`news.latest`)
             : t(`news.popular`)
           }
         </Text>
-        <Text 
+        <Text
           onPress={() => handleSortOrderChange(sortOrder === 'latest' ? 'popular' : 'latest')}
-          fontL 
+          fontL
           heavy
         >
-          { sortOrder === 'latest' 
+          {sortOrder === 'latest'
             ? t(`news.popular`)
             : t(`news.latest`)
           }
@@ -89,14 +89,14 @@ const Overview = () => {
   const { theme } = useGlobalTheme();
   const flatListRef = useRef<FlatList>(null);
   const { categories, feeds, sortOrder } = useAppSelector(state => state.newsReducer);
-  const { scrollY } = useAnimatedHeaderTitle({ 
-    title: t(`news.${sortOrder}`) + ' ' + t(`common.news`), 
-    triggerPoint: 60 
+  const { scrollY } = useAnimatedHeaderTitle({
+    title: t(`news.${sortOrder}`) + ' ' + t(`common.news`),
+    triggerPoint: 60
   });
   const [newsData, setNewsData] = useState<NewsData[] | null>(null);
-  const [refreshing, setRefreshing] = useState(false);  
+  const [refreshing, setRefreshing] = useState(false);
   const [lTs, setLTs] = useState<number | undefined>(undefined);
-  const { data, mutate, isValidating } = useNewsArticles({ 
+  const { data, mutate, isValidating } = useNewsArticles({
     lTs,
     categories,
     sortOrder,
@@ -106,20 +106,20 @@ const Overview = () => {
   useScrollToTop(flatListRef);
 
   useEffect(() => {
-    if(data) {
+    if (data) {
       LayoutAnimation.configureNext(
         LayoutAnimation.create(
           300,
-          LayoutAnimation.Types.easeIn ,
+          LayoutAnimation.Types.easeIn,
           LayoutAnimation.Properties.opacity
         )
       );
-        
-      if(lTs === undefined || !newsData) {
+
+      if (lTs === undefined || !newsData) {
         setNewsData(data[0].Data);
       } else {
         // infinite loading ...
-        if(newsData.slice(-1)[0].published_on === data[0].Data.slice(-1)[0].published_on) return ;
+        if (newsData.slice(-1)[0].published_on === data[0].Data.slice(-1)[0].published_on) return;
 
         setNewsData(prevState => prevState ? [...prevState, ...data[0].Data] : null);
       }
@@ -127,13 +127,13 @@ const Overview = () => {
   }, [data])
 
   const handleScroll = Animated.event(
-    [ { nativeEvent: { contentOffset: { y: scrollY } } } ], 
+    [{ nativeEvent: { contentOffset: { y: scrollY } } }],
     { useNativeDriver: false }
   )
 
-  const handleRefresh = useCallback(async() => {
+  const handleRefresh = useCallback(async () => {
     setRefreshing(true);
-    if(lTs === undefined) {
+    if (lTs === undefined) {
       await mutate()
     } else {
       setLTs(undefined);
@@ -142,33 +142,33 @@ const Overview = () => {
   }, [refreshing, lTs]);
 
   const handleEndReached = () => {
-    if(!newsData || sortOrder === 'popular') return ;
-    
+    if (!newsData || sortOrder === 'popular') return;
+
     setLTs(newsData.slice(-1)[0].published_on);
   }
-  
+
   const onResetLTs = () => {
     setLTs(undefined);
   }
 
   return (
     <>
-      { isValidating && newsData && (
+      {isValidating && newsData && (
         <IndicatorWrap>
-          <ActivityIndicator 
+          <ActivityIndicator
             size="large"
           />
         </IndicatorWrap>
-      ) }
-      <Title 
-        sortOrder={sortOrder} 
+      )}
+      <Title
+        sortOrder={sortOrder}
         scrollY={scrollY}
         onResetLTs={onResetLTs}
       />
-      <FlatList 
+      <FlatList
         ref={flatListRef}
         data={newsData}
-        onScroll={ handleScroll }
+        onScroll={handleScroll}
         ListHeaderComponent={
           <>
             <SurfaceTopView />
@@ -183,11 +183,11 @@ const Overview = () => {
             refreshing={refreshing}
           />
         }
-        ListEmptyComponent={ <ItemSkeleton /> }
+        ListEmptyComponent={<ItemSkeleton />}
         renderItem={
           ({ item }) => {
             return (
-              <Item 
+              <Item
                 key={item.id}
                 item={item}
                 currentCategory={categories}

@@ -12,16 +12,16 @@ type LayoutProps = {
 
 const KEYBOARD_VERTICAL_OFFSET = Platform.OS === 'ios' ? Constants.statusBarHeight + 44 : 44;
 
-const FormLayout = ({ 
-  stickyFooterComponent, 
-  children 
+const FormLayout = ({
+  stickyFooterComponent,
+  children
 }: LayoutProps) => {
 
   const { theme } = useGlobalTheme();
   return (
-    <Container 
+    <Container
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      keyboardVerticalOffset={KEYBOARD_VERTICAL_OFFSET} 
+      keyboardVerticalOffset={KEYBOARD_VERTICAL_OFFSET}
     >
       <StyledScrollView
         keyboardShouldPersistTaps="always"
@@ -32,10 +32,10 @@ const FormLayout = ({
         }}
       >
         <StyledView>
-          { children }
+          {children}
         </StyledView>
       </StyledScrollView>
-      { stickyFooterComponent }
+      {stickyFooterComponent}
     </Container>
   )
 }

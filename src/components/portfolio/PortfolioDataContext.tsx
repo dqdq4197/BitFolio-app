@@ -43,8 +43,8 @@ export function PortfolioDataProvider({ children }: ContextProps) {
   //   http,
   //   {}
   // )
-  const { data: coinsData, isLoading, mutate } = useCoinMarketData({ 
-    suspense: false, 
+  const { data: coinsData, isLoading, mutate } = useCoinMarketData({
+    suspense: false,
     sparkline: true,
     ids: coinIds,
     willNotRequest: coinIds.length <= 0,
@@ -55,28 +55,28 @@ export function PortfolioDataProvider({ children }: ContextProps) {
   }
 
   useEffect(() => {
-    let temp:string[] = [];
+    let temp: string[] = [];
     const { coins } = portfolios[activeIndex];
 
     coins.map(coin => {
-      if(!temp.includes(coin.id)) {
+      if (!temp.includes(coin.id)) {
         temp.push(coin.id);
       }
     })
-    
+
     setCoinIds(temp)
   }, [portfolios[activeIndex].coins])
 
   useEffect(() => {
-    if(!isLoading && initLoading === true) {
+    if (!isLoading && initLoading === true) {
       setInitLoading(false);
     }
   }, [coinsData])
 
   return (
-    <PortfolioContext.Provider 
-      value={{ 
-        id: portfolios[activeIndex].id, 
+    <PortfolioContext.Provider
+      value={{
+        id: portfolios[activeIndex].id,
         coins: portfolios[activeIndex].coins,
         coinsData,
         initLoading,
@@ -84,14 +84,14 @@ export function PortfolioDataProvider({ children }: ContextProps) {
         mutate: mutateCoinsData
       }}
     >
-      { children }
+      {children}
     </PortfolioContext.Provider>
   )
 }
 
 export function usePortfolioContext() {
   const context = useContext(PortfolioContext);
-  if(!context) {
+  if (!context) {
     throw new Error(`Portfolio Context is undefined`);
   }
   return context;

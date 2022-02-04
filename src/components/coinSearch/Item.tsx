@@ -19,54 +19,54 @@ const IMAGE_WIDTH = 30;
 const RANK_WIDTH = 45;
 
 const Item = ({ item, onPressItem, index }: ItemProps) => {
-  
+
   const { theme } = useGlobalTheme();
-  
+
   return (
-    <Container 
-      underlayColor={ theme.base.underlayColor[100] }
+    <Container
+      underlayColor={theme.base.underlayColor[100]}
       onPress={() => onPressItem(item.id, item.symbol, item.large, item.name)}
     >
       <>
         <Col>
-          { index !== undefined 
+          {index !== undefined
             ? <Text fontML margin="0 20px 0 0">
-                { index + 1}
-              </Text>
+              {index + 1}
+            </Text>
             : <></>
           }
-          <Image uri={item.large} width={IMAGE_WIDTH} height={IMAGE_WIDTH} borderRedius="m"/>
+          <Image uri={item.large} width={IMAGE_WIDTH} height={IMAGE_WIDTH} borderRedius="m" />
           <NameWrap>
             <Text
-              color100 
-              fontML 
+              color100
+              fontML
               bold
               numberOfLines={1}
               ellipsizeMode="tail"
             >
-              { 
-                'highlightedName' in item 
+              {
+                'highlightedName' in item
                   ? item.highlightedName
-                  : item. name
+                  : item.name
               }
             </Text>
-            <Text 
+            <Text
               fontML
               numberOfLines={1}
               ellipsizeMode="tail"
             >
-              { 
-                'highlightedSymbol' in item 
+              {
+                'highlightedSymbol' in item
                   ? item.highlightedSymbol
-                  : item. symbol
+                  : item.symbol
               }
             </Text>
           </NameWrap>
         </Col>
         <RankWrap>
           <Text>
-            { item.market_cap_rank 
-              ? `#${item.market_cap_rank}` 
+            {item.market_cap_rank
+              ? `#${item.market_cap_rank}`
               : ''
             }
           </Text>
@@ -76,10 +76,10 @@ const Item = ({ item, onPressItem, index }: ItemProps) => {
   )
 }
 
-export default Item;  
+export default Item;
 
 const Container = styled.TouchableHighlight`
-  width: ${ width }px;
+  width: ${width}px;
   height: 60px;
   flex-direction: row;
   justify-content: space-between;
@@ -98,6 +98,6 @@ const NameWrap = styled.View`
 `
 
 const RankWrap = styled.View`
-  width: ${ RANK_WIDTH }px;
+  width: ${RANK_WIDTH}px;
   align-items: flex-end;
 `

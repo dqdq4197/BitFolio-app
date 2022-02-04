@@ -23,42 +23,42 @@ const RootNavigation = () => {
 
   return (
     <NavigationContainer>
-      <Tab.Navigator 
-        tabBar={props => <TabBar {...props}/>} 
-        initialRouteName={ launchScreen }
-        sceneContainerStyle={{ 
+      <Tab.Navigator
+        tabBar={props => <TabBar {...props} />}
+        initialRouteName={launchScreen}
+        sceneContainerStyle={{
           backgroundColor: theme.base.background[100]
         }}
       >
-        <Tab.Screen 
+        <Tab.Screen
           name={TAB_ROUTE_NAME.portfolio}
-          options={{ 
+          options={{
             tabBarLabel: t(`common.portfolio`),
             tabBarIcon: ({ color, size }) => (
               <FontAwesome name="pie-chart" size={size} color={color} />
             ),
-          }} 
-          component={Portfolio} 
+          }}
+          component={Portfolio}
         />
-        <Tab.Screen 
+        <Tab.Screen
           name={TAB_ROUTE_NAME.home}
-          options={{ 
+          options={{
             tabBarLabel: t(`common.home`),
             tabBarIcon: ({ color, size }) => (
               <Fontisto name="home" size={size} color={color} />
-            )
-          }} 
-          component={Home} 
+            ),
+          }}
+          component={Home}
         />
-        <Tab.Screen 
+        <Tab.Screen
           name={TAB_ROUTE_NAME.news}
-          options={{ 
+          options={{
             tabBarLabel: t(`common.news`),
             tabBarIcon: ({ color, size }) => (
               <Ionicons name="newspaper" size={size} color={color} />
-            )
-          }} 
-          component={News} 
+            ),
+          }}
+          component={News}
         />
         {/* <Tab.Screen 
           name={TAB_ROUTE_NAME.auth}
@@ -72,7 +72,7 @@ const RootNavigation = () => {
         /> */}
       </Tab.Navigator>
     </NavigationContainer>
-  )
-}
+  );
+};
 
 export default RootNavigation;

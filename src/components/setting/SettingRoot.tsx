@@ -29,24 +29,24 @@ type SettingRootProps = {
 const Row = ({ onPress, title, currentSettingTitle }: RowProps) => {
 
   const { theme } = useGlobalTheme();
-  
+
   return (
     <RowContainer
       onPress={onPress}
-      underlayColor={ theme.base.underlayColor[100] }
+      underlayColor={theme.base.underlayColor[100]}
     >
       <>
         <Text fontML bold>
-          { title }
+          {title}
         </Text>
         <ColRight>
           <Text bold color300>
-            { currentSettingTitle }
+            {currentSettingTitle}
           </Text>
-          <MaterialIcons 
-            name="keyboard-arrow-right" 
-            size={ 20 } 
-            color={ theme.base.text[200] }
+          <MaterialIcons
+            name="keyboard-arrow-right"
+            size={20}
+            color={theme.base.text[200]}
           />
         </ColRight>
       </>
@@ -54,9 +54,9 @@ const Row = ({ onPress, title, currentSettingTitle }: RowProps) => {
   )
 }
 
-const SettingRoot = ({ 
+const SettingRoot = ({
   onScreenThemePress,
-  onLanguagePress, 
+  onLanguagePress,
   onCurrencyPress,
   onLounchScreenPress
 }: SettingRootProps) => {
@@ -71,60 +71,60 @@ const SettingRoot = ({
 
   return (
     <>
-    <SurfaceWrap
-      title={ t(`setting.app settings`) }
-      parentPaddingZero
-      marginTopZero
-      fontML
-    >
-      <Row
-        onPress={onScreenThemePress}
-        title={ t('setting.screen theme') }
-        currentSettingTitle={ t(`setting.${ scheme }`) }
-      />
-      <Row
-        onPress={onLanguagePress}
-        title={ t('setting.language') }
-        currentSettingTitle={ 
-          language === 'en' ? t(`setting.english`) : t(`setting.korean`) 
-        }
-      />
-      <Row
-        onPress={onCurrencyPress}
-        title={ t('setting.default currencies') }
-        currentSettingTitle={ 
-          CURRENCIES[currency as baseTypes.Currency].iso
-          + ' - ' +
-          CURRENCIES[currency as baseTypes.Currency].symbol
-        }
-      />
-      <Row
-        onPress={onLounchScreenPress}
-        title={ t('setting.launch screen') }
-        currentSettingTitle={ t(`common.${ launchScreen }`) }
-      />
-      
-    </SurfaceWrap>
-    <SurfaceWrap
-      title={ t(`setting.support`) }
-      parentPaddingZero
-      fontML
-    >
-      <BasicRow
-        onPress={() => {}}
-        underlayColor={ theme.base.underlayColor[100] }
+      <SurfaceWrap
+        title={t(`setting.app settings`)}
+        parentPaddingZero
+        marginTopZero
+        fontML
       >
-        <>
-          <Text fontML bold>
-            { t('setting.app version') }
-          </Text>
-          <Text bold color300>
-            { APP_VERSION }
-          </Text>
-        </>
-      </BasicRow>
-      <Blank />
-    </SurfaceWrap>
+        <Row
+          onPress={onScreenThemePress}
+          title={t('setting.screen theme')}
+          currentSettingTitle={t(`setting.${scheme}`)}
+        />
+        <Row
+          onPress={onLanguagePress}
+          title={t('setting.language')}
+          currentSettingTitle={
+            language === 'en' ? t(`setting.english`) : t(`setting.korean`)
+          }
+        />
+        <Row
+          onPress={onCurrencyPress}
+          title={t('setting.default currencies')}
+          currentSettingTitle={
+            CURRENCIES[currency as baseTypes.Currency].iso
+            + ' - ' +
+            CURRENCIES[currency as baseTypes.Currency].symbol
+          }
+        />
+        <Row
+          onPress={onLounchScreenPress}
+          title={t('setting.launch screen')}
+          currentSettingTitle={t(`common.${launchScreen}`)}
+        />
+
+      </SurfaceWrap>
+      <SurfaceWrap
+        title={t(`setting.support`)}
+        parentPaddingZero
+        fontML
+      >
+        <BasicRow
+          onPress={() => { }}
+          underlayColor={theme.base.underlayColor[100]}
+        >
+          <>
+            <Text fontML bold>
+              {t('setting.app version')}
+            </Text>
+            <Text bold color300>
+              {APP_VERSION}
+            </Text>
+          </>
+        </BasicRow>
+        <Blank />
+      </SurfaceWrap>
     </>
   )
 }
@@ -139,11 +139,11 @@ const RowStyled = css`
   height: 48px;
 `
 const RowContainer = styled.TouchableHighlight`
-  ${ RowStyled }
+  ${RowStyled}
 `
 
 const BasicRow = styled.TouchableHighlight`
-  ${ RowStyled };
+  ${RowStyled};
 `
 
 const ColRight = styled.View`

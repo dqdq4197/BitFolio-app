@@ -12,20 +12,20 @@ interface IndicatorType {
   transparent?: boolean,
 }
 
-const GlobalIndicator = ({ 
-  size="large",
+const GlobalIndicator = ({
+  size = "large",
   isLoaded,
-  transparent=false 
-}:IndicatorType) => {
+  transparent = false
+}: IndicatorType) => {
 
   const { theme } = useGlobalTheme();
 
-  if(isLoaded) return <></>;
+  if (isLoaded) return <></>;
   return (
     <IndicatorWrap transparent={transparent}>
-      <ActivityIndicator 
-        size={size} 
-        color={ theme.base.text[100] }
+      <ActivityIndicator
+        size={size}
+        color={theme.base.text[100]}
       />
     </IndicatorWrap>
   )
@@ -33,13 +33,13 @@ const GlobalIndicator = ({
 
 export default GlobalIndicator;
 
-type WrapProps = { 
+type WrapProps = {
   transparent: boolean
 }
 const IndicatorWrap = styled.View<WrapProps>`
   position: absolute;
   flex: 1;
-  width: ${ width }px; 
+  width: ${width}px; 
   height: 100%;
   align-items: center;
   justify-content: center;

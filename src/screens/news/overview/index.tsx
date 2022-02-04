@@ -9,7 +9,7 @@ import GeneralTemplate from '/components/GeneralTemplate';
 import CoinDetailSkeleton from '/components/skeletonPlaceholder/CoinDetailSkeleton';
 import ErrorBoundaryAndSuspense from '/components/common/ErrorBoundaryAndSuspense';
 import Overview from '/components/news/Overview';
-import SettingModal from '/components/setting/SettingModal'
+import SettingModal from '/components/setting/SettingModal';
 
 const OverviewScreen = ({ navigation }: StackScreenProps<any>) => {
   const { theme } = useGlobalTheme();
@@ -22,24 +22,24 @@ const OverviewScreen = ({ navigation }: StackScreenProps<any>) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <Ionicons 
-          name="md-settings-outline" 
-          size={24} 
-          color={theme.base.text[200]} 
+        <Ionicons
+          name="md-settings-outline"
+          size={24}
+          color={theme.base.text[200]}
           onPress={handleSettingPress}
         />
-      )
-    })
-  }, [theme])
+      ),
+    });
+  }, [handleSettingPress, navigation, theme]);
 
   return (
     <GeneralTemplate>
-      <ErrorBoundaryAndSuspense skeleton={<CoinDetailSkeleton/>} >
-        <SettingModal ref={settingModalRef}/>
+      <ErrorBoundaryAndSuspense skeleton={<CoinDetailSkeleton />}>
+        <SettingModal ref={settingModalRef} />
         <Overview />
       </ErrorBoundaryAndSuspense>
     </GeneralTemplate>
-  )
-}
+  );
+};
 
 export default OverviewScreen;

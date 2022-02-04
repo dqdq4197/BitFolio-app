@@ -5,6 +5,7 @@ const getKeyboardAnimationConfigs = (
   easing: KeyboardEventEasing,
   duration: number
 ) => {
+  // eslint-disable-next-line default-case
   switch (easing) {
     case 'easeIn':
       return {

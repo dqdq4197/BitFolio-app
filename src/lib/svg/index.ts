@@ -1,1 +1,1 @@
-export { default as CoinSvg } from './Coin'
+export { default as CoinSvg } from './Coin';

@@ -8,12 +8,12 @@ import Text from '/components/common/Text';
 type SelectionBar = {
   onSwitchFocusView: (key: FocusedView) => void
   focusedView: FocusedView
-  SETTINGS:SettingsType[]
+  SETTINGS: SettingsType[]
   SELECT_TAB_HEIGHT: number
 }
 
-const SettingsSelectionBar = ({ 
-  onSwitchFocusView, 
+const SettingsSelectionBar = ({
+  onSwitchFocusView,
   focusedView,
   SETTINGS,
   SELECT_TAB_HEIGHT
@@ -31,26 +31,26 @@ const SettingsSelectionBar = ({
       }}
     >
       <SelectionBarWrap>
-        { SETTINGS.map(setting => {
+        {SETTINGS.map(setting => {
           const isFocused = setting.key === focusedView;
           return (
-            <SelectionTab 
+            <SelectionTab
               key={setting.key}
               activeOpacity={0.6}
               onPress={() => onSwitchFocusView(setting.key)}
               isFocused={isFocused}
             >
-              { setting.icon(
+              {setting.icon(
                 isFocused ? theme.base.background[200] : theme.base.text[200]
-              ) }
-              <SettingLabelText 
-                fontML 
-                bold 
+              )}
+              <SettingLabelText
+                fontML
+                bold
                 margin="0 0 0 5px"
                 isFocused={isFocused}
               >
-                { t(`common.${ setting.name.toLocaleLowerCase() }`) }
-              </SettingLabelText> 
+                {t(`common.${setting.name.toLocaleLowerCase()}`)}
+              </SettingLabelText>
             </SelectionTab>
           )
         })}
@@ -81,7 +81,7 @@ const SelectionTab = styled.TouchableOpacity<SelectionProps>`
   flex-direction: row;
   height: 30px;
   padding: 0 12px;
-  background-color: ${({ isFocused, theme }) => isFocused 
+  background-color: ${({ isFocused, theme }) => isFocused
     ? theme.base.text[100]
     : theme.base.background[300]
   };
@@ -89,13 +89,13 @@ const SelectionTab = styled.TouchableOpacity<SelectionProps>`
   justify-content: center;
   margin-right: 10px;
   border-radius: ${({ theme }) => theme.border.m};
-  /* border-color: ${({ isFocused, theme }) => 
+  /* border-color: ${({ isFocused, theme }) =>
     isFocused ? theme.base.primaryColor : 'transparent'}; */
   /* border-width: 1px; */
 `
 
-const SettingLabelText = styled(Text)<SelectionProps>`
-  color: ${({ isFocused, theme }) => 
-    isFocused ? theme.base.background[200] : theme.base.text[200]  
+const SettingLabelText = styled(Text) <SelectionProps>`
+  color: ${({ isFocused, theme }) =>
+    isFocused ? theme.base.background[200] : theme.base.text[200]
   };
 ` 

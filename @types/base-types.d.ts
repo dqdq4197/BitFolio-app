@@ -1,13 +1,13 @@
 declare module 'base-types' {
-  export namespace baseTypes { 
-    type Theme = "light" | "dark" | "default" | null | undefined;
+  export namespace baseTypes {
+    type Theme = 'light' | 'dark' | 'default' | null | undefined;
     type Currency = 'krw' | 'usd' | 'eur';
     type Language = 'ko' | 'en' | 'default';
     type ChartTimeFrame = 1 | 7 | 30 | 365 | 'max';
   }
 
   export namespace chartType {
-    type percentageStatus = 'negative' | 'unchanged' | 'positive'
+    type percentageStatus = 'negative' | 'unchanged' | 'positive';
   }
 }
 
@@ -17,5 +17,5 @@ declare module 'mapped-types' {
     ? { [K in keyof O]: O[K] }
     : never;
 
-  export type ModifyPartial<T, U> = Omit<T, keyof U> & Partial<U>
+  export type ModifyPartial<T, U> = Omit<T, keyof U> & Partial<U>;
 }

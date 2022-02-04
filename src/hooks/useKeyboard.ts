@@ -27,23 +27,24 @@ const useKeyboard = () => {
   const keyboardState = useSharedValue<KEYBOARD_STATE>(
     KEYBOARD_STATE.UNDETERMINED
   );
-  const keyboardAnimationEasing = useSharedValue<KeyboardEventEasing>('keyboard');
+  const keyboardAnimationEasing =
+    useSharedValue<KeyboardEventEasing>('keyboard');
   const keyboardAnimationDuration = useSharedValue(500);
 
-  const handleKeyboardEvent = useCallback((
-    state: KEYBOARD_STATE, 
-    height: number, 
-    duration: number, 
-    easing: KeyboardEventEasing
-  ) => {
-    keyboardHeight.value =
-        state === KEYBOARD_STATE.SHOWN
-          ? height
-          : 0;
-    keyboardAnimationDuration.value = duration;
-    keyboardAnimationEasing.value = easing;
-    keyboardState.value = state;
-  }, [getKeyboardAnimationConfigs])
+  const handleKeyboardEvent = useCallback(
+    (
+      state: KEYBOARD_STATE,
+      height: number,
+      duration: number,
+      easing: KeyboardEventEasing
+    ) => {
+      keyboardHeight.value = state === KEYBOARD_STATE.SHOWN ? height : 0;
+      keyboardAnimationDuration.value = duration;
+      keyboardAnimationEasing.value = easing;
+      keyboardState.value = state;
+    },
+    [getKeyboardAnimationConfigs]
+  );
 
   useEffect(() => {
     const handleOnKeyboardShow = (event: KeyboardEvent) => {
@@ -52,7 +53,7 @@ const useKeyboard = () => {
         event.endCoordinates.height,
         event.duration,
         event.easing
-      )
+      );
     };
     const handleOnKeyboardHide = (event: KeyboardEvent) => {
       handleKeyboardEvent(
@@ -60,7 +61,7 @@ const useKeyboard = () => {
         event.endCoordinates.height,
         event.duration,
         event.easing
-      )
+      );
     };
 
     const showSubscription = Keyboard.addListener(
@@ -84,7 +85,7 @@ const useKeyboard = () => {
     height: keyboardHeight,
     animationEasing: keyboardAnimationEasing,
     animationDuration: keyboardAnimationDuration,
-  }
-}
+  };
+};
 
 export default useKeyboard;

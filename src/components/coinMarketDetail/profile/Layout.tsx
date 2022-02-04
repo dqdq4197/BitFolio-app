@@ -5,13 +5,13 @@ import { useCoinIdContext } from '/hooks/useCoinIdContext';
 import ScrollView from '/components/common/ScrollView';
 import Description from './Description';
 import Link from './Link';
-  
+
 const Layout = () => {
   const { id } = useCoinIdContext();
   const { data } = useCoinDetail({ id });
   const { language } = useLocales();
 
-  if(!data) return <></>
+  if (!data) return <></>;
 
   return (
     <ScrollView>
@@ -21,7 +21,7 @@ const Layout = () => {
         content={data.description[language]}
         imageSrc={data.image.large}
       />
-      <Link 
+      <Link
         websites={data.links.homepage}
         explorers={data.links.blockchain_site}
         officialForums={data.links.official_forum_url}
@@ -31,7 +31,7 @@ const Layout = () => {
         facebookUsername={data.links.facebook_username}
       />
     </ScrollView>
-  )
-}
+  );
+};
 
 export default Layout;

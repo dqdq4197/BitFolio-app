@@ -22,40 +22,40 @@ interface PriceAndDetailProsp {
   percentage_24h?: number
   isCursorActive: boolean
   datumX: ReAnimated.SharedValue<string>
-  datumY: ReAnimated.SharedValue<string[]> 
+  datumY: ReAnimated.SharedValue<string[]>
   datumYChangePercentage: ReAnimated.SharedValue<string>
   percentageStatus: chartType.percentageStatus
 }
 
-const PriceAndDate = ({ 
-  id, 
-  lastUpdatedPrice, 
-  percentage_24h, 
+const PriceAndDate = ({
+  id,
+  lastUpdatedPrice,
+  percentage_24h,
   isCursorActive,
   datumX,
   datumY,
   datumYChangePercentage,
   percentageStatus
- }: PriceAndDetailProsp) => {
+}: PriceAndDetailProsp) => {
   const { data } = useMarketChart({ id });
   const { currency, chartTimeFrame } = useAppSelector(state => ({
     currency: state.baseSettingReducer.currency,
     chartTimeFrame: state.baseSettingReducer.chartTimeFrame
-    }),
+  }),
     shallowEqual
   );
   const translateY = useRef(new Animated.Value(-DATE_HEIGHT)).current;
   const opacity = useRef(new Animated.Value(0)).current;
-  const datumYInteger = useDerivedValue(() => `${ datumY.value[0] }.`);
-  const datumYDecimal = useDerivedValue(() => `${ datumY.value[1] }`);
+  const datumYInteger = useDerivedValue(() => `${datumY.value[0]}.`);
+  const datumYDecimal = useDerivedValue(() => `${datumY.value[1]}`);
   const datumYChangePercentageWithSign = useDerivedValue(() => {
-    return +datumYChangePercentage.value > 0 
+    return +datumYChangePercentage.value > 0
       ? '+' + datumYChangePercentage.value + '%'
       : datumYChangePercentage.value + '%'
   })
 
   useEffect(() => {
-    if(isCursorActive) {
+    if (isCursorActive) {
       Animated.parallel([
         Animated.timing(translateY, {
           toValue: 0,
@@ -85,9 +85,9 @@ const PriceAndDate = ({
   }, [isCursorActive])
 
   const percentage = useMemo(() => {
-    if(!data) return 0;
+    if (!data) return 0;
 
-    if(chartTimeFrame === 1 && percentage_24h) {
+    if (chartTimeFrame === 1 && percentage_24h) {
       return percentage_24h;
     }
 
@@ -99,7 +99,7 @@ const PriceAndDate = ({
       <AnimatedView>
         <Animated.View
           style={{
-            transform: [{ 
+            transform: [{
               translateY
             }],
             opacity: 1
@@ -107,50 +107,50 @@ const PriceAndDate = ({
         >
           <DatumXText text={datumX} />
           <Text bold color100 fontML>
-            { id.charAt(0).toUpperCase() + id.slice(1) }
+            {id.charAt(0).toUpperCase() + id.slice(1)}
           </Text>
         </Animated.View>
       </ AnimatedView>
       <Row>
         <PriceWrap>
           <Text style={{ textAlignVertical: 'bottom' }} fontL heavy color100 margin="0 5px 0 0" bold>
-            { getCurrencySymbol(currency) }
+            {getCurrencySymbol(currency)}
           </Text>
           {
-            isCursorActive 
+            isCursorActive
               ? <>
-                  <DatumYIntegerText text={datumYInteger} />
-                  <DatumYDecimalText text={datumYDecimal} />
-                </>
+                <DatumYIntegerText text={datumYInteger} />
+                <DatumYDecimalText text={datumYDecimal} />
+              </>
               : <>
-                  <Text fontXL heavy color100 style={{ transform: [{ translateY: 3 }]}}>
-                    { AddSeparator(Math.floor(lastUpdatedPrice)) }.
-                  </Text>
-                  <Text fontML color100 heavy>
-                    { 
-                      getOnlyDecimal({ 
-                        value: exponentToNumber(lastUpdatedPrice), 
-                        minLength: 2, 
-                        noneZeroCnt: exponentToNumber(lastUpdatedPrice) < 1 ? 3 : 2
-                      })
-                    }
-                  </Text>
-                </>
+                <Text fontXL heavy color100 style={{ transform: [{ translateY: 3 }] }}>
+                  {AddSeparator(Math.floor(lastUpdatedPrice))}.
+                </Text>
+                <Text fontML color100 heavy>
+                  {
+                    getOnlyDecimal({
+                      value: exponentToNumber(lastUpdatedPrice),
+                      minLength: 2,
+                      noneZeroCnt: exponentToNumber(lastUpdatedPrice) < 1 ? 3 : 2
+                    })
+                  }
+                </Text>
+              </>
           }
         </PriceWrap>
         <PercentageWrap>
-          { data !== undefined
-            ? isCursorActive 
-              ? <DatumYChangePercentageText 
-                  percentageStatus={percentageStatus}
-                  text={datumYChangePercentageWithSign}
-                />
+          {data !== undefined
+            ? isCursorActive
+              ? <DatumYChangePercentageText
+                percentageStatus={percentageStatus}
+                text={datumYChangePercentageWithSign}
+              />
               : <IncreaseDecreaseValue
-                  heavy 
-                  fontML
-                  value={ digitToFixed(percentage, 2) }
-                  afterPrefix="%"
-                />
+                heavy
+                fontML
+                value={digitToFixed(percentage, 2)}
+                afterPrefix="%"
+              />
             : <Text> -- </Text>
           }
         </PercentageWrap>
@@ -165,7 +165,7 @@ type PercentageTextProps = {
   percentageStatus: chartType.percentageStatus
 }
 const Container = styled.View`
-  padding: 0 ${({theme}) => theme.content.spacing};
+  padding: 0 ${({ theme }) => theme.content.spacing};
 `
 const Row = styled.View`
   flex-direction: row;
@@ -193,7 +193,7 @@ const DatumYDecimalText = styled(ReText)`
   color: ${({ theme }) => theme.base.text[100]};
   `
 
-const DatumYChangePercentageText = styled(ReText)<PercentageTextProps>`
+const DatumYChangePercentageText = styled(ReText) <PercentageTextProps>`
   font-size: ${({ theme }) => theme.size.font_ml};
   font-weight: 700;
   color: ${({ percentageStatus, theme }) => (
@@ -218,5 +218,5 @@ const PercentageWrap = styled.View`
 
 const AnimatedView = styled.View`
   overflow: hidden;
-  height: ${ DATE_HEIGHT }px;
+  height: ${DATE_HEIGHT}px;
 `

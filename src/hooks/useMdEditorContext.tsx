@@ -14,8 +14,8 @@ export type ParagraphType = {
     inlineStyles: InlineStyleType[] | [];
   }
 }
-export interface QuoteType extends ParagraphType {}
-export interface HeaderType extends ParagraphType {}
+export interface QuoteType extends ParagraphType { }
+export interface HeaderType extends ParagraphType { }
 export type DelimiterType = {
   type: string,
   payload: {}
@@ -56,8 +56,8 @@ export type SelectionType = {
   end: number
 }
 
-export type ContentsType = 
-  | ParagraphType | DelimiterType | EmbedType 
+export type ContentsType =
+  | ParagraphType | DelimiterType | EmbedType
   | ListType | HeaderType | ImageType;
 
 type Action =
@@ -66,7 +66,7 @@ type Action =
   | { type: 'REMOVE_PREVIOUS_LINE'; focusIndex: number }
   | { type: 'DIVIDE_CURRENT_LINE_AND_NEWLINE'; context: ContentsType[], focusIndex: number }
   | { type: 'UPDATE_FOCUS_STATE'; focusIndex: number, action: string }
-  | { type: 'UPDATE_SELECTION'; selection: SelectionType }  
+  | { type: 'UPDATE_SELECTION'; selection: SelectionType }
   | { type: 'REMOVE_CURRENT_LINE'; focusIndex: number }
   | { type: 'MERGE_PREVIOUS_LINE_WITH_CURRENT_LINE'; context: ContentsType[]; focusIndex: number }
   | { type: 'MERGE_PREVIOUS_LINE_WITH_NEXT_LINE'; context: ListType; focusIndex: number }
@@ -88,7 +88,7 @@ type InitailState = {
 }
 
 
-const initialState:InitailState = {
+const initialState: InitailState = {
   contentStorage: [
     {
       type: TYPES.PARAGRAPH,
@@ -100,7 +100,7 @@ const initialState:InitailState = {
             end: 5,
             styles: ['bold']
           }
-        ]        
+        ]
       }
     }
     , {
@@ -130,7 +130,7 @@ const initialState:InitailState = {
   selectionChangeDetect: false
 };
 
-function mdEditorReducer(state: InitailState, action:Action): InitailState {
+function mdEditorReducer(state: InitailState, action: Action): InitailState {
   switch (action.type) {
     case "UPDATE_CURRENT_LINE":
       return {
@@ -211,7 +211,7 @@ function mdEditorReducer(state: InitailState, action:Action): InitailState {
         }
       }
     case "FOCUS_ACTION_RESET":
-      if(action.focusIndex !== undefined) {
+      if (action.focusIndex !== undefined) {
         return {
           ...state,
           focusState: {
@@ -219,7 +219,7 @@ function mdEditorReducer(state: InitailState, action:Action): InitailState {
             action: ACTIONS.TYPING
           }
         }
-      } else if(state.focusState.action !== ACTIONS.TYPING) {
+      } else if (state.focusState.action !== ACTIONS.TYPING) {
         return {
           ...state,
           focusState: {
@@ -281,7 +281,7 @@ type HandlersType = {
 const MdEditorStateContext = createContext<InitailState | undefined>(undefined);
 const MdEditorDispatchHandlerContext = createContext<HandlersType | undefined>(undefined);
 
-export function MdEditorProvider({ children }:ProviderProps) {
+export function MdEditorProvider({ children }: ProviderProps) {
   const [state, dispatch] = useReducer(mdEditorReducer, initialState);
 
   const handlers = {
@@ -377,7 +377,7 @@ export function MdEditorProvider({ children }:ProviderProps) {
       })
     }
   }
-  
+
   return (
     <MdEditorStateContext.Provider value={state}>
       <MdEditorDispatchHandlerContext.Provider value={handlers}>
@@ -389,7 +389,7 @@ export function MdEditorProvider({ children }:ProviderProps) {
 
 export function useMdEditorState() {
   const context = useContext(MdEditorStateContext);
-  if(!context) {
+  if (!context) {
     throw new Error(`MdEditorStateContext is undefined`);
   }
   return context;
@@ -397,7 +397,7 @@ export function useMdEditorState() {
 
 export function useMdEditorDispatch() {
   const context = useContext(MdEditorDispatchHandlerContext);
-  if(!context) {
+  if (!context) {
     throw new Error(`MdEditorDispatchContext is undefined`);
   }
   return context

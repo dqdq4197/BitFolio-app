@@ -16,19 +16,19 @@ const EmptyView = ({ query }: EmptyViewProps) => {
 
   return (
     <Container>
-      <Ionicons 
-        name="search-sharp" 
-        size={28} 
-        color={theme.base.text[200]} 
+      <Ionicons
+        name="search-sharp"
+        size={28}
+        color={theme.base.text[200]}
       />
       <Text center fontX margin="10px 0 0 0">
-        { t(`search.no results for`) + ` '${ query }'` }
+        {t(`search.no results for`) + ` '${query}'`}
       </Text>
       <Text center fontML margin="10px 0 0 0">
-        { t(`search.we couldn't find anything matching your search`) }
+        {t(`search.we couldn't find anything matching your search`)}
       </Text>
       <Text center fontML margin="2px 0 0 0">
-        { t(`search.try again with a different term`) }
+        {t(`search.try again with a different term`)}
       </Text>
     </Container>
   )

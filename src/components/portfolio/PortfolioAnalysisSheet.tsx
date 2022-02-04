@@ -37,21 +37,21 @@ type SheetProps = {
 
 const Tab = ({ tabKey, title, icon, isActive, onPress }: TabProps) => {
   return (
-    <TabButton 
-      activeOpacity={0.6} 
+    <TabButton
+      activeOpacity={0.6}
       isActive={isActive}
       onPress={() => onPress(tabKey)}
     >
       <IconWrap>
-        { icon }
+        {icon}
       </IconWrap>
-      <CustomText 
-        color100 
-        bold 
+      <CustomText
+        color100
+        bold
         fontML
         isActive={isActive}
       >
-        { title }
+        {title}
       </CustomText>
     </TabButton>
   )
@@ -63,25 +63,25 @@ const EmptyView = ({ isLoading }: EmptyViewProps) => {
 
   return (
     <EmptyViewContainer>
-      { !isLoading 
+      {!isLoading
         ? <>
-            <MaterialCommunityIcons 
-              name="text-box-search-outline" 
-              size={32} 
-              color={ theme.base.text[300] }
-            />
-            <Text fontML bold margin="10px 0 0 0">
-              { t(`coinDetail.there is no transaction history`) }
-            </Text>
-            <Text margin="10px 0 0 0" bold color300>
-              { t(`coinDetail.add your first transaction`) }
-            </Text>
-          </>
-        : <GlobalIndicator 
-            isLoaded={false}
-            size="large"
-            transparent
+          <MaterialCommunityIcons
+            name="text-box-search-outline"
+            size={32}
+            color={theme.base.text[300]}
           />
+          <Text fontML bold margin="10px 0 0 0">
+            {t(`coinDetail.there is no transaction history`)}
+          </Text>
+          <Text margin="10px 0 0 0" bold color300>
+            {t(`coinDetail.add your first transaction`)}
+          </Text>
+        </>
+        : <GlobalIndicator
+          isLoaded={false}
+          size="large"
+          transparent
+        />
       }
     </EmptyViewContainer>
   )
@@ -96,29 +96,29 @@ const PortfolioAnalysisSheet = ({ portfolioStats }: SheetProps) => {
     portfolio: state.portfolioReducer.portfolios,
     activeIndex: state.portfolioReducer.activeIndex
   }), shallowEqual)
-  const { 
-    isHideAnalysisSheet: isHide, 
+  const {
+    isHideAnalysisSheet: isHide,
     analysisActiveTab: activeTab,
     mode
   } = portfolio[activeIndex];
 
   const handleTabButtonPress = (tabKey: ActiveTabType) => {
-    LayoutAnimation.configureNext({ 
-      duration: 500, 
-      create: { 
-        duration:300,
-        type: 'linear', 
-        property: 'opacity' 
-      }, 
-      update: { 
-        type: 'spring', 
+    LayoutAnimation.configureNext({
+      duration: 500,
+      create: {
+        duration: 300,
+        type: 'linear',
+        property: 'opacity'
+      },
+      update: {
+        type: 'spring',
         springDamping: 0.7
-      }, 
-      delete: { 
-        duration:200,
-        type: 'linear', 
-        property: 'opacity' 
-      } 
+      },
+      delete: {
+        duration: 200,
+        type: 'linear',
+        property: 'opacity'
+      }
     });
     dispatch(changeAnalysisActiveTab(tabKey))
     isHide && dispatch(onHideAnalysisSheet(false))
@@ -126,109 +126,109 @@ const PortfolioAnalysisSheet = ({ portfolioStats }: SheetProps) => {
 
   const handleHideButtonPress = () => {
     dispatch(onHideAnalysisSheet(!isHide))
-    LayoutAnimation.configureNext({ 
-      duration: 500, 
-      create: { 
-        duration:300,
-        type: 'linear', 
-        property: 'opacity' 
-      }, 
-      update: { 
-        type: 'spring', 
+    LayoutAnimation.configureNext({
+      duration: 500,
+      create: {
+        duration: 300,
+        type: 'linear',
+        property: 'opacity'
+      },
+      update: {
+        type: 'spring',
         springDamping: 0.7
-      }, 
-      delete: { 
-        duration:200,
-        type: 'linear', 
-        property: 'opacity' 
-      } 
+      },
+      delete: {
+        duration: 200,
+        type: 'linear',
+        property: 'opacity'
+      }
     });
   }
 
   return (
     <>
-    <SurfaceWrap 
-      marginTopZero
-    >
-      <CommonAnalysis 
-        total_balance={portfolioStats?.total_balance}
-        portfolio_change_percentage_24h={portfolioStats?.portfolio_change_percentage_24h}
-        portfolio_change_24h={portfolioStats?.portfolio_change_24h}
-      />
-    </SurfaceWrap>
-    <SurfaceWrap
-      paddingBottomZero
-      parentPaddingZero
-    >
-      <>
-        <TabContainer>
-          <Tab 
-            tabKey="allocation"
-            title={ t(`portfolio.allocation`) }
-            icon={
-              <MaterialCommunityIcons
-                name="chart-arc" 
-                size={20} 
-                color={
-                  activeTab === 'allocation'
-                    ? theme.base.text[100]
-                    : theme.base.text[200]
-                } 
-              />
-            }
-            isActive={activeTab === 'allocation'}
-            onPress={handleTabButtonPress}
-          />
-          <Tab 
-            tabKey="statistics"
-            title={ t(`portfolio.statistics`) }
-            icon={
-              <Ionicons
-                name="analytics" 
-                size={18} 
-                color={
-                  activeTab === 'statistics'
-                    ? theme.base.text[100]
-                    : theme.base.text[200]
-                } 
-              />
-            }
-            isActive={activeTab === 'statistics'}
-            onPress={handleTabButtonPress}
-          />
-        </TabContainer>
-        { !isHide && (
-          <ContentWrap
-            as={Animated.View}
-          >
-            { portfolioStats && !isLoading
-              ? Object.entries(portfolioStats.coins).length === 0
-                ? <EmptyView isLoading={false} />
-                : activeTab === 'allocation'
-                  ? <AllocationView 
+      <SurfaceWrap
+        marginTopZero
+      >
+        <CommonAnalysis
+          total_balance={portfolioStats?.total_balance}
+          portfolio_change_percentage_24h={portfolioStats?.portfolio_change_percentage_24h}
+          portfolio_change_24h={portfolioStats?.portfolio_change_24h}
+        />
+      </SurfaceWrap>
+      <SurfaceWrap
+        paddingBottomZero
+        parentPaddingZero
+      >
+        <>
+          <TabContainer>
+            <Tab
+              tabKey="allocation"
+              title={t(`portfolio.allocation`)}
+              icon={
+                <MaterialCommunityIcons
+                  name="chart-arc"
+                  size={20}
+                  color={
+                    activeTab === 'allocation'
+                      ? theme.base.text[100]
+                      : theme.base.text[200]
+                  }
+                />
+              }
+              isActive={activeTab === 'allocation'}
+              onPress={handleTabButtonPress}
+            />
+            <Tab
+              tabKey="statistics"
+              title={t(`portfolio.statistics`)}
+              icon={
+                <Ionicons
+                  name="analytics"
+                  size={18}
+                  color={
+                    activeTab === 'statistics'
+                      ? theme.base.text[100]
+                      : theme.base.text[200]
+                  }
+                />
+              }
+              isActive={activeTab === 'statistics'}
+              onPress={handleTabButtonPress}
+            />
+          </TabContainer>
+          {!isHide && (
+            <ContentWrap
+              as={Animated.View}
+            >
+              {portfolioStats && !isLoading
+                ? Object.entries(portfolioStats.coins).length === 0
+                  ? <EmptyView isLoading={false} />
+                  : activeTab === 'allocation'
+                    ? <AllocationView
                       coins={portfolioStats.coins}
                       tatalCosts={portfolioStats?.total_costs}
                       mode={mode}
                     />
-                  : <StatisticsView 
+                    : <StatisticsView
                       coins={portfolioStats.coins}
                       portfolio_all_time_pl={portfolioStats?.portfolio_all_time_pl}
                       portfolio_all_time_pl_percentage={portfolioStats?.portfolio_all_time_pl_percentage}
                     />
-              : <EmptyView isLoading={true} />
-            }
-          </ContentWrap>
-        ) }
-      </>
-      <HideButton 
-        underlayColor={theme.base.background[300]}
-        onPress={handleHideButtonPress}
-      >
-        <Arrow isHide={isHide}>
-          <MaterialIcons name="arrow-back-ios" size={24} color={theme.base.text[300]}  />
-        </Arrow>
-      </HideButton>
-    </SurfaceWrap>
+                : <EmptyView isLoading={true} />
+              }
+            </ContentWrap>
+          )}
+        </>
+        <HideButton
+          underlayColor={theme.base.background[300]}
+          onPress={handleHideButtonPress}
+        >
+          <Arrow isHide={isHide}>
+            <MaterialIcons name="arrow-back-ios" size={24} color={theme.base.text[300]} />
+          </Arrow>
+        </HideButton>
+      </SurfaceWrap>
     </>
   )
 }
@@ -263,7 +263,7 @@ const TabButton = styled.TouchableOpacity<ButtonProps>`
     ? theme.base.background[300]
     : theme.base.background[200]
   };
-  ${({ theme, isActive}) => isActive && (
+  ${({ theme, isActive }) => isActive && (
     `border: 1px solid ${theme.base.primaryColor}`
   )};
 `
@@ -286,15 +286,15 @@ const HideButton = styled.TouchableHighlight`
 `
 
 const Arrow = styled.View<HideType>`
-  top: ${({ isHide }) => isHide ? -2 : 6 }px;
+  top: ${({ isHide }) => isHide ? -2 : 6}px;
   transform: ${({ isHide }) => isHide
     ? `rotate(270deg)`
     : `rotate(90deg)`
   }  scaleX(1.5);
 `
 
-const CustomText = styled(Text)<ButtonProps>`
-  color: ${({ theme, isActive }) => isActive 
+const CustomText = styled(Text) <ButtonProps>`
+  color: ${({ theme, isActive }) => isActive
     ? theme.base.text[100]
     : theme.base.text[200]
   };

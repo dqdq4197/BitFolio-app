@@ -18,23 +18,23 @@ type RowProps = {
 const Row = ({ onPress, title, enabled }: RowProps) => {
 
   const { theme } = useGlobalTheme();
-  
+
   return (
     <RowContainer
       onPress={onPress}
-      underlayColor={ theme.base.underlayColor[100] }
+      underlayColor={theme.base.underlayColor[100]}
     >
       <>
         <Text fontML bold>
-          { title }
+          {title}
         </Text>
-        <Octicons 
-          name="check" 
-          size={28} 
+        <Octicons
+          name="check"
+          size={28}
           color={
-            enabled 
-            ? theme.base.primaryColor
-            : 'transparent'
+            enabled
+              ? theme.base.primaryColor
+              : 'transparent'
           }
         />
       </>
@@ -42,33 +42,33 @@ const Row = ({ onPress, title, enabled }: RowProps) => {
   )
 }
 
-const ScreenTheme = ({}: ScreenThemeProps) => {
+const ScreenTheme = ({ }: ScreenThemeProps) => {
   const { localScheme, onSchemeChange } = useGlobalTheme();
   const { t } = useTranslation();
 
   return (
     <SurfaceWrap
-      title={ t(`setting.screen theme settings`) }
+      title={t(`setting.screen theme settings`)}
       parentPaddingZero
       marginTopZero
       fontML
     >
-      <Row 
+      <Row
         onPress={() => onSchemeChange('dark')}
-        title={ t(`setting.dark mode`) }
-        enabled={ localScheme === 'dark' }
+        title={t(`setting.dark mode`)}
+        enabled={localScheme === 'dark'}
       />
-      <Row 
+      <Row
         onPress={() => onSchemeChange('light')}
-        title={ t(`setting.light mode`) }
-        enabled={ localScheme === 'light' }
+        title={t(`setting.light mode`)}
+        enabled={localScheme === 'light'}
       />
-      <Row 
+      <Row
         onPress={() => onSchemeChange('default')}
-        title={ t(`setting.system theme`) }
-        enabled={ localScheme === 'default' }
+        title={t(`setting.system theme`)}
+        enabled={localScheme === 'default'}
       />
-      <Blank/>
+      <Blank />
     </SurfaceWrap>
   )
 }

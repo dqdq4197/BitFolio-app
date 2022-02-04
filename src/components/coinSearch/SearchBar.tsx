@@ -8,7 +8,7 @@ import SurfaceTopView from '/components/common/SurfaceTopView';
 
 type SearchBarProps = {
   isLoading: boolean
-  onQueryChange: (text:string) => void
+  onQueryChange: (text: string) => void
   query: string
   coinsLength?: number
   onRemoveQuery: () => void
@@ -16,32 +16,32 @@ type SearchBarProps = {
 const SearchBar = forwardRef<TextInput, SearchBarProps>(
   ({ isLoading, onQueryChange, query, coinsLength, onRemoveQuery }, ref) => {
 
-  const { t } = useTranslation(); 
-  const { scheme, theme } = useGlobalTheme();
+    const { t } = useTranslation();
+    const { scheme, theme } = useGlobalTheme();
 
-  return (
-    <>
-      <SurfaceTopView />
-      <Container>
-        <SearchBarWrap>
-          <Ionicons 
-            name="search-sharp" 
-            size={24} 
-            color={theme.base.text[200]} 
-          />
-          <CustomTextInput 
-            ref={ref}
-            editable={!isLoading}
-            keyboardAppearance={scheme === 'dark' ? 'dark' : 'light'}
-            onChangeText={onQueryChange}
-            value={query}
-            placeholder={t('search.coin name or symbol search')}
-            placeholderTextColor={theme.base.text[400]}
-            spellCheck={false}
-            scrollEnabled={false}
-          />
-          { query.length 
-            ? <RemoveIconWrap
+    return (
+      <>
+        <SurfaceTopView />
+        <Container>
+          <SearchBarWrap>
+            <Ionicons
+              name="search-sharp"
+              size={24}
+              color={theme.base.text[200]}
+            />
+            <CustomTextInput
+              ref={ref}
+              editable={!isLoading}
+              keyboardAppearance={scheme === 'dark' ? 'dark' : 'light'}
+              onChangeText={onQueryChange}
+              value={query}
+              placeholder={t('search.coin name or symbol search')}
+              placeholderTextColor={theme.base.text[400]}
+              spellCheck={false}
+              scrollEnabled={false}
+            />
+            {query.length
+              ? <RemoveIconWrap
                 activeOpacity={0.6}
                 onPress={onRemoveQuery}
                 hitSlop={{
@@ -50,19 +50,19 @@ const SearchBar = forwardRef<TextInput, SearchBarProps>(
                   bottom: 10
                 }}
               >
-                <MaterialIcons 
-                  name="cancel" 
-                  size={18} 
-                  color={theme.base.text[300]} 
+                <MaterialIcons
+                  name="cancel"
+                  size={18}
+                  color={theme.base.text[300]}
                 />
               </RemoveIconWrap>
-            : null
-          }
-        </SearchBarWrap>
-      </Container>
-    </>
-  )
-})
+              : null
+            }
+          </SearchBarWrap>
+        </Container>
+      </>
+    )
+  })
 
 export default SearchBar;
 

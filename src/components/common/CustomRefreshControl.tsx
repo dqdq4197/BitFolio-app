@@ -7,9 +7,9 @@ type ControlProps = {
   refreshing: boolean,
 }
 
-const CustomRefreshControl = ({ onRefresh, refreshing }:ControlProps) => {
+const CustomRefreshControl = ({ onRefresh, refreshing }: ControlProps) => {
   const { theme } = useGlobalTheme();
-  
+
   return (
     <RefreshControl
       refreshing={refreshing}

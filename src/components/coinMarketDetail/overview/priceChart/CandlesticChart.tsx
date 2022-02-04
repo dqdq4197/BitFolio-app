@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import { 
-  VictoryChart, 
-  VictoryTheme, 
-  VictoryAxis, 
-  VictoryCandlestick, 
+import {
+  VictoryChart,
+  VictoryTheme,
+  VictoryAxis,
+  VictoryCandlestick,
   VictoryLabel,
 } from 'victory-native';
 
@@ -23,16 +23,16 @@ interface IConst {
   PADDING: number
 }
 
-interface ChartProps extends IConst{
+interface ChartProps extends IConst {
   id: string
 }
 
-const CandlesticChart = ({ 
-  id, 
+const CandlesticChart = ({
+  id,
   WIDTH,
   HEIGHT,
   PADDING
-}:ChartProps) => {
+}: ChartProps) => {
   const { theme } = useGlobalTheme();
   const { currency, chartTimeFrame } = useAppSelector(state => state.baseSettingReducer);
   const { data, isValidating } = useRequest<HistoricalOhlcReturn>(
@@ -48,8 +48,8 @@ const CandlesticChart = ({
       HEIGHT={HEIGHT}
       PADDING={PADDING}
     >
-      <GlobalIndicator isLoaded={!isValidating}/>
-      {data && 
+      <GlobalIndicator isLoaded={!isValidating} />
+      {data &&
         <VictoryChart
           theme={VictoryTheme.grayscale}
           width={WIDTH + PADDING}
@@ -62,8 +62,8 @@ const CandlesticChart = ({
           domainPadding={{ x: 25 }}
           scale={{ x: "time" }}
         >
-          <VictoryAxis 
-            style={{ 
+          <VictoryAxis
+            style={{
               axis: {
                 stroke: "transparent",
                 fill: theme.base.text[200]
@@ -72,24 +72,24 @@ const CandlesticChart = ({
                 stroke: "transparent",
               },
               tickLabels: {
-                fill:theme.base.text[200],
+                fill: theme.base.text[200],
               },
               grid: {
                 stroke: 'transparent'
-              }  
+              }
             }}
           />
-          <VictoryAxis 
+          <VictoryAxis
             dependentAxis
             fixLabelOverlap
             orientation='right'
             tickLabelComponent={
-              <VictoryLabel 
+              <VictoryLabel
                 verticalAnchor="middle"
                 textAnchor="end"
               />
             }
-            style={{ 
+            style={{
               tickLabels: {
                 fill: theme.base.text[200],
                 fontSize: parseInt(theme.size.font_s),
@@ -102,7 +102,7 @@ const CandlesticChart = ({
                 stroke: theme.base.background[300],
                 strokeDasharray: 8,
               }
-            }} 
+            }}
           />
           <VictoryCandlestick
             x={0}
@@ -129,6 +129,6 @@ export default CandlesticChart;
 const ChartContainer = styled.View<IConst>`
   overflow: hidden;
   margin: 30px 0 20px;
-  width: ${({ WIDTH, PADDING }) => WIDTH + PADDING }px; 
-  height: ${({ HEIGHT, PADDING }) => HEIGHT + PADDING }px;
+  width: ${({ WIDTH, PADDING }) => WIDTH + PADDING}px; 
+  height: ${({ HEIGHT, PADDING }) => HEIGHT + PADDING}px;
 `

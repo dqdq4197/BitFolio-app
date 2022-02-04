@@ -12,19 +12,19 @@ interface ValueProps extends TextStyleProps {
   isCurrencyFormat?: boolean
 }
 
-const IncreaseDecreaseValue = ({ 
-  value, 
-  beforePrefix, 
-  afterPrefix, 
-  isCurrencyFormat=false,
+const IncreaseDecreaseValue = ({
+  value,
+  beforePrefix,
+  afterPrefix,
+  isCurrencyFormat = false,
   ...props
 }: ValueProps) => {
 
   const { currency } = useLocales();
   const [returnValue, setReturnValue] = useState<string | number | null>(value);
-  
+
   useEffect(() => {
-    if(isCurrencyFormat && value !== null) {
+    if (isCurrencyFormat && value !== null) {
       setReturnValue(
         (value < 0 ? '-' : '') +
         currencyFormat({
@@ -39,11 +39,11 @@ const IncreaseDecreaseValue = ({
 
   return (
     <CustomText value={value} {...props}>
-      { value === null 
+      {value === null
         ? '--'
         : value > 0
-          ? `+${ beforePrefix ?? '' }${ returnValue }${ afterPrefix ?? '' }`
-          : `${ beforePrefix ?? '' }${ returnValue }${ afterPrefix ?? '' }`
+          ? `+${beforePrefix ?? ''}${returnValue}${afterPrefix ?? ''}`
+          : `${beforePrefix ?? ''}${returnValue}${afterPrefix ?? ''}`
       }
     </CustomText>
   )
@@ -51,14 +51,13 @@ const IncreaseDecreaseValue = ({
 
 export default IncreaseDecreaseValue;
 
-const CustomText = styled(Text)<ValueProps>`
-  color: ${
-    ({ theme, value }) => value === null
-      ? theme.base.text[200]
-      : value > 0 
-        ? theme.base.upColor
-        : value === 0 
-          ? theme.base.text[200]
-          : theme.base.downColor
+const CustomText = styled(Text) <ValueProps>`
+  color: ${({ theme, value }) => value === null
+    ? theme.base.text[200]
+    : value > 0
+      ? theme.base.upColor
+      : value === 0
+        ? theme.base.text[200]
+        : theme.base.downColor
   }
 `

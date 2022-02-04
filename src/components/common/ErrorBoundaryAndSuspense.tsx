@@ -5,13 +5,13 @@ import Text from '/components/common/Text';
 
 interface SkeletonType {
   skeleton: React.ReactNode,
-  
+
 }
-interface BoundaryProps extends SkeletonType{
+interface BoundaryProps extends SkeletonType {
   children: React.ReactNode
 }
 
-const ErrorFallback = ({error, resetErrorBoundary}:FallbackProps) => {
+const ErrorFallback = ({ error, resetErrorBoundary }: FallbackProps) => {
   return (
     <View >
       <Text>Something went wrong:</Text>
@@ -23,20 +23,20 @@ const ErrorFallback = ({error, resetErrorBoundary}:FallbackProps) => {
 const SuspenseFallback = ({ skeleton }: SkeletonType) => {
   return (
     <View>
-      { skeleton }
+      {skeleton}
     </View>
   )
-} 
+}
 
 
-const ErrorBoundaryAndSuspense = ({ skeleton, children } :BoundaryProps) => {
+const ErrorBoundaryAndSuspense = ({ skeleton, children }: BoundaryProps) => {
 
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
-      <Suspense 
-        fallback={<SuspenseFallback skeleton={skeleton}/>}
+      <Suspense
+        fallback={<SuspenseFallback skeleton={skeleton} />}
       >
-        { children }
+        {children}
       </Suspense>
     </ErrorBoundary>
   )

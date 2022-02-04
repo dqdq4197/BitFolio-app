@@ -1,13 +1,13 @@
-import React, { 
-  useState, 
-  useEffect, 
-  useRef, 
-  useCallback, 
-  useMemo 
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  useMemo
 } from 'react';
-import { 
-  FlatList, 
-  Platform, 
+import {
+  FlatList,
+  Platform,
   TextInput,
   Dimensions,
   LayoutAnimation,
@@ -45,7 +45,7 @@ const { height } = Dimensions.get('screen');
 
 const Layout = () => {
   const { language } = useLocales();
-  const { 
+  const {
     height: animationKeyboardHeight,
     animationDuration,
     animationEasing
@@ -69,7 +69,7 @@ const Layout = () => {
   );
 
   useEffect(() => {
-    if(searchData) {
+    if (searchData) {
       let filteredData = searchData?.coins.filter(coin => recentSearches.includes(coin.id));
       filteredData = filteredData.sort((a, b) => recentSearches.indexOf(a.id) - recentSearches.indexOf(b.id))
       filteredData = filteredData.filter((coin, index) => {
@@ -81,28 +81,28 @@ const Layout = () => {
   }, [recentSearches, searchData])
 
   const handleItemPress = (id: string, symbol: string) => {
-    navigation.navigate('CoinDetail', { param: { id, symbol }, screen:  'Overview' })
+    navigation.navigate('CoinDetail', { param: { id, symbol }, screen: 'Overview' })
     dispatch(changeRecentSearches(id));
   }
 
   const highlightText = useCallback((text: string, regex: RegExp, bold?: boolean) => {
     const match = text.match(regex);
     let newLetters: any = [];
-    if(match) {
+    if (match) {
       let matchLetters = match[0];
       let startIdx = text.indexOf(matchLetters);
       let endIdx = startIdx + matchLetters.length;
       newLetters.push(text.substring(0, startIdx));
-      if(bold) {
+      if (bold) {
         newLetters.push(
           <Text key={startIdx} primaryColor fontML bold>
-            { text.substring(startIdx, endIdx) }
+            {text.substring(startIdx, endIdx)}
           </Text>
         );
       } else {
         newLetters.push(
           <Text key={startIdx} primaryColor fontML>
-            { text.substring(startIdx, endIdx) }
+            {text.substring(startIdx, endIdx)}
           </Text>
         );
       }
@@ -123,18 +123,18 @@ const Layout = () => {
       )
     );
     setQuery(text);
-    if(!searchData) return;
+    if (!searchData) return;
 
-    if(text === '') {
+    if (text === '') {
       setCoins([]);
     } else {
       let regex = createFuzzyMatcher(text, {})
       let result = searchData.coins
-        .filter(coin => { 
+        .filter(coin => {
           return regex.test(coin.name)
             || regex.test(coin.id)
             || regex.test(coin.symbol)
-          }
+        }
         )
         .map(coin => {
           let coinName = highlightText(coin.name, regex, true);
@@ -167,22 +167,22 @@ const Layout = () => {
   const FooterHeight = useAnimatedStyle(() => {
     return {
       height: withSpring(
-        animationKeyboardHeight.value, 
+        animationKeyboardHeight.value,
         animationConfig
       )
-    } 
+    }
   }, [animationKeyboardHeight, animationConfig])
 
-  return(
+  return (
     <>
-      { !searchData && (
-        <GlobalIndicator 
+      {!searchData && (
+        <GlobalIndicator
           isLoaded={false}
           size="large"
           transparent
         />
-      ) }
-      <FlatList 
+      )}
+      <FlatList
         data={coins}
         keyExtractor={(item, index) => item.id + index + item.name}
         keyboardDismissMode={Platform.OS === 'ios' ? "interactive" : "on-drag"}
@@ -197,7 +197,7 @@ const Layout = () => {
           />
         }
         ListHeaderComponent={
-          <SearchBar 
+          <SearchBar
             ref={textInputRef}
             isLoading={isLoading}
             onQueryChange={handleQueryChange}
@@ -211,17 +211,17 @@ const Layout = () => {
           backgroundColor: theme.base.background.surface
         }}
         renderItem={
-          ({ item }) => 
-            <Item 
+          ({ item }) =>
+            <Item
               key={item.id}
-              item={item} 
+              item={item}
               onPressItem={handleItemPress}
             />
         }
         ListEmptyComponent={
-          query 
-          ? <EmptyView query={query}/>
-          : <DefaultView 
+          query
+            ? <EmptyView query={query} />
+            : <DefaultView
               data={trandingData?.coins}
               searchesData={searchesData}
               onPressItem={handleItemPress}

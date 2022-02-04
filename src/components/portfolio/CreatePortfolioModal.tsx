@@ -34,40 +34,40 @@ type CurrencyModalProps = {
   onCurrencyChange: (value: string, iso: string) => void;
 }
 
-const TextField = ({ 
-  title, 
-  textSideComponent, 
-  children, 
+const TextField = ({
+  title,
+  textSideComponent,
+  children,
   marginTop = 20,
   onPress
 }: TextFieldProps) => {
   return (
     <>
       <Text fontM bold margin={`${marginTop}px 0 0 0`}>
-        { title }
+        {title}
       </Text>
       <TextInputWrap onPress={onPress}>
-        { children }
+        {children}
         <TextSideView>
-          { textSideComponent }
+          {textSideComponent}
         </TextSideView>
       </TextInputWrap>
     </>
   )
 }
 
-const CurrencyModal = ({ 
-  visible, 
-  onModalClose, 
-  currentCurrency, 
-  onCurrencyChange 
+const CurrencyModal = ({
+  visible,
+  onModalClose,
+  currentCurrency,
+  onCurrencyChange
 }: CurrencyModalProps) => {
   const { theme } = useGlobalTheme();
   const AnimateRef = useRef(new Animated.Value(0)).current;
   const [isClosed, setIsClosed] = useState(true);
 
   useEffect(() => {
-    if(visible) {
+    if (visible) {
       setIsClosed(false);
       Animated.timing(AnimateRef, {
         toValue: 0.5,
@@ -87,7 +87,7 @@ const CurrencyModal = ({
 
   const renderCurrencies = () => {
     const rows = [];
-    for(const currency in CURRENCIES) {
+    for (const currency in CURRENCIES) {
       const { name, iso, unicode, symbol } = CURRENCIES[currency as baseTypes.Currency];
       const value = name + ' - ' + symbol
       rows.push(
@@ -97,19 +97,19 @@ const CurrencyModal = ({
         }}>
           <ColView>
             <Text fontML bold>
-              { name }
+              {name}
             </Text>
             <Text color300>
-              { iso } - { unicode } 
+              {iso} - {unicode}
             </Text>
           </ColView>
-          <Octicons 
-            name="check" 
-            size={28} 
+          <Octicons
+            name="check"
+            size={28}
             color={
               currentCurrency.iso === iso.toLowerCase()
-              ? theme.base.primaryColor
-              : 'transparent'
+                ? theme.base.primaryColor
+                : 'transparent'
             }
           />
         </Row>
@@ -124,18 +124,18 @@ const CurrencyModal = ({
       as={Animated.View}
       style={{
         opacity: AnimateRef,
-        display: isClosed ? 'none': 'flex'
+        display: isClosed ? 'none' : 'flex'
       }}
     >
       <Modal
         visible={visible}
         transparent={true}
         animationType="slide"
-        
+
       >
         <ModalContainer onPress={onModalClose} activeOpacity={1}>
           <ModalView activeOpacity={1}>
-            { renderCurrencies() }
+            {renderCurrencies()}
           </ModalView>
         </ModalContainer>
       </Modal>
@@ -157,7 +157,7 @@ const CreatePortfolioModal = ({ visible, setVisible }: FormModalProps) => {
   })
 
   const handleNameChange = (text: string) => {
-    if(text.length > 20) return; 
+    if (text.length > 20) return;
     setFormData(
       prev => ({
         ...prev,
@@ -165,7 +165,7 @@ const CreatePortfolioModal = ({ visible, setVisible }: FormModalProps) => {
       })
     )
   }
-  
+
   const handleCurrencyChange = (value: string, iso: string) => {
     setFormData(
       prev => ({
@@ -179,7 +179,7 @@ const CreatePortfolioModal = ({ visible, setVisible }: FormModalProps) => {
   }
 
   const handleNameFocus = () => {
-    if(formData.name === t('portfolio.new portfolio')) {
+    if (formData.name === t('portfolio.new portfolio')) {
       setFormData(
         prev => ({
           ...prev,
@@ -191,7 +191,7 @@ const CreatePortfolioModal = ({ visible, setVisible }: FormModalProps) => {
 
   const handleNameBlur = () => {
     let removedSpace = formData.name.replace(/\s/g, '')
-    if(removedSpace === '') {
+    if (removedSpace === '') {
       setFormData(
         prev => ({
           ...prev,
@@ -217,7 +217,7 @@ const CreatePortfolioModal = ({ visible, setVisible }: FormModalProps) => {
     //     currency: currency.iso as baseTypes.Currency
     //   })
     // )
-      
+
     // setVisible(false);
   }
 
@@ -228,7 +228,7 @@ const CreatePortfolioModal = ({ visible, setVisible }: FormModalProps) => {
         setVisible={setVisible}
         headerComponent={
           <Text fontXL bold color100 margin={`0 0 10px ${theme.content.spacing}`}>
-            { t('portfolio.portfolio creation') }
+            {t('portfolio.portfolio creation')}
           </Text>
         }
         footerComponent={
@@ -237,55 +237,55 @@ const CreatePortfolioModal = ({ visible, setVisible }: FormModalProps) => {
             onPress={handleConfirmPress}
           >
             <Text color100 fontL bold>
-              { t('common.confirm').toUpperCase() }
+              {t('common.confirm').toUpperCase()}
             </Text>
           </ConfirmButton>
         }
         extraComponent={
-          <CurrencyModal 
-            visible={ ModalVisible }
+          <CurrencyModal
+            visible={ModalVisible}
             onModalClose={onModalClose}
-            currentCurrency={ formData.currency }
+            currentCurrency={formData.currency}
             onCurrencyChange={handleCurrencyChange}
           />
         }
       >
-      <Container>
-        <TextField
-          title={ t('portfolio.portfolio name') }
-          textSideComponent={
-            <Text style={
-              formData.name.length === 20 && {
-                color: theme.base.primaryColor
-              }
-            }>
-              { `${formData.name.length}/20` } 
-            </Text>
-          }
-        >
-          <TextInput
-            spellCheck={false}
-            value={ formData.name }
-            onFocus={handleNameFocus}
-            onBlur={handleNameBlur}
-            onChangeText={handleNameChange}
-          />
-        </TextField>
-        <TextField
-          title={ t('portfolio.main fiat currency') }
-          onPress={onModalOpen}
-          textSideComponent={
-            <Ionicons 
-              name="ios-chevron-down" 
-              size={20} 
-              color={theme.base.text[200]}
+        <Container>
+          <TextField
+            title={t('portfolio.portfolio name')}
+            textSideComponent={
+              <Text style={
+                formData.name.length === 20 && {
+                  color: theme.base.primaryColor
+                }
+              }>
+                {`${formData.name.length}/20`}
+              </Text>
+            }
+          >
+            <TextInput
+              spellCheck={false}
+              value={formData.name}
+              onFocus={handleNameFocus}
+              onBlur={handleNameBlur}
+              onChangeText={handleNameChange}
             />
-          }
-        >
-          <Text color100 fontML bold>
-            { formData.currency.value }
-          </Text>
-        </TextField>
+          </TextField>
+          <TextField
+            title={t('portfolio.main fiat currency')}
+            onPress={onModalOpen}
+            textSideComponent={
+              <Ionicons
+                name="ios-chevron-down"
+                size={20}
+                color={theme.base.text[200]}
+              />
+            }
+          >
+            <Text color100 fontML bold>
+              {formData.currency.value}
+            </Text>
+          </TextField>
         </Container>
       </ScrollCloseModal>
     </>

@@ -17,17 +17,17 @@ type ChangePercentageType = {
 }
 
 const NegativeAwareTickLabel = ({
-  datum, 
+  datum,
   y,
-  dy, 
+  dy,
   ...rest
 }: VictoryLabelProps) => {
   return (
     <VictoryLabel
-      datum={ datum }
-      y={ 100 } 
-      dy={ Math.sign((datum as { y: number })?.y) >= 0 ? 15 : 0 }
-      {...rest} 
+      datum={datum}
+      y={100}
+      dy={Math.sign((datum as { y: number })?.y) >= 0 ? 15 : 0}
+      {...rest}
     />
   );
 };
@@ -38,24 +38,24 @@ const PriceChangePercentage = ({
   percentage_30d,
   percentage_200d,
   percentage_1y
-} :ChangePercentageType ) => {
+}: ChangePercentageType) => {
   const { t } = useTranslation();
   const { theme } = useGlobalTheme();
 
   return (
-    <SurfaceWrap 
-      title={ `${t('coinDetail.price change percentage')} (%)` } 
+    <SurfaceWrap
+      title={`${t('coinDetail.price change percentage')} (%)`}
       fontL
     >
       <VictoryChart
-        height={ 120 }
+        height={120}
         padding={{
           right: PADDING,
           bottom: PADDING,
         }}
         domainPadding={{ x: 45, y: 30 }}
       >
-        <VictoryGroup 
+        <VictoryGroup
           data={[
             { x: '24h', y: percentage_24h || 0 },
             { x: '7d', y: percentage_7d || 0 },
@@ -79,28 +79,28 @@ const PriceChangePercentage = ({
                 fill: theme.base.text[300]
               }
             }}
-            labels={({ datum }) => 
-              `${ digitToFixed(datum.y, 2) }`
+            labels={({ datum }) =>
+              `${digitToFixed(datum.y, 2)}`
             }
           />
           <VictoryBar
             labels={({ datum }) => `${datum.x}`}
             style={{
-              data: { 
-                fill: "none" 
+              data: {
+                fill: "none"
               },
               labels: {
                 fill: theme.base.text[200],
                 fontWeight: '600',
               },
             }}
-            labelComponent={ <NegativeAwareTickLabel /> }
+            labelComponent={<NegativeAwareTickLabel />}
           />
         </VictoryGroup>
-        <VictoryAxis 
+        <VictoryAxis
           style={{
-            tickLabels: { 
-              fill: "none" 
+            tickLabels: {
+              fill: "none"
             },
             axis: {
               stroke: 'transparent'

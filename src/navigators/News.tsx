@@ -1,18 +1,20 @@
 import React from 'react';
 import { Dimensions } from 'react-native';
-import { createStackNavigator, StackNavigationOptions } from '@react-navigation/stack';
+import {
+  createStackNavigator,
+  StackNavigationOptions,
+} from '@react-navigation/stack';
 
 import useGlobalTheme from '/hooks/useGlobalTheme';
 
 import { Overview } from '/screens/news';
 
-
 type RootStackParamList = {
   NewsOverview: undefined;
 };
 
-const Stack = createStackNavigator<RootStackParamList>()
-const { width } = Dimensions.get("window");
+const Stack = createStackNavigator<RootStackParamList>();
+const { width } = Dimensions.get('window');
 
 const News = () => {
   const { theme } = useGlobalTheme();
@@ -22,7 +24,7 @@ const News = () => {
       title,
       headerStyle: {
         backgroundColor: theme.base.background.surface,
-        shadowColor: 'transparent'
+        shadowColor: 'transparent',
       },
       headerTintColor: theme.base.text[100],
       headerBackTitleVisible: false,
@@ -30,26 +32,26 @@ const News = () => {
         paddingLeft: 10,
       },
       headerRightContainerStyle: {
-        paddingRight: 16
+        paddingRight: parseInt(theme.content.spacing, 10),
       },
       headerTitleStyle: {
-        fontSize: 18
+        fontSize: parseInt(theme.size.font_l, 10),
       },
       gestureResponseDistance: {
-        horizontal: width
+        horizontal: width,
       },
-    }
-  }
-  
+    };
+  };
+
   return (
     <Stack.Navigator>
-      <Stack.Screen 
-        name="NewsOverview" 
+      <Stack.Screen
+        name="NewsOverview"
         component={Overview}
         options={NavigationOptions('News')}
       />
     </Stack.Navigator>
-  )
-}
+  );
+};
 
 export default News;

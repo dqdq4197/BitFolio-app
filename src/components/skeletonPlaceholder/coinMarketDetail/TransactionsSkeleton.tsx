@@ -11,7 +11,7 @@ const CoinDetailSkeleton = () => {
   return (
     <ScrollView>
       <View>
-        <GlobalIndicator 
+        <GlobalIndicator
           isLoaded={false}
           size="large"
           transparent
@@ -25,7 +25,7 @@ export default CoinDetailSkeleton;
 
 const View = styled.View`
   flex: 1;
-  height: ${ height - 200 }px;
+  height: ${height - 200}px;
   align-items: center;
   justify-content: center;
 `

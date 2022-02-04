@@ -12,41 +12,35 @@ import Item from './Item';
 import ShowAllButton from './ShowAllButton';
 
 type ListProps = {
-  onPressItem: (id: string, symbol: string) => void
-}
+  onPressItem: (id: string, symbol: string) => void;
+};
 
 const HighVolumePreview = ({ onPressItem }: ListProps) => {
   const { t } = useTranslation();
   const { currency } = useLocales();
   const { data } = useRequest<CoinMarketReturn[]>(
-    CoinGecko.coin.markets({ 
+    CoinGecko.coin.markets({
       vs_currency: currency,
       order: ORDER.VOLUME_DESC,
       per_page: 5,
-      sparkline: true
+      sparkline: true,
     }),
     http,
     { refreshInterval: 5 * 60 * 1000, suspense: true }
-  )
+  );
 
   return (
-    <SurfaceWrap 
-      title={t('coinMarketHome.top volume')} 
+    <SurfaceWrap
+      title={t('coinMarketHome.top volume')}
       paddingBottomZero
       parentPaddingZero
     >
-      { data?.map(res => {
-        return (
-          <Item 
-            key={ res.id }
-            item={ res }  
-            onPressItem={onPressItem}
-          />
-        )
-      }) }
-      <ShowAllButton route='CoinHighVolume'/>
+      {data?.map(res => {
+        return <Item key={res.id} item={res} onPressItem={onPressItem} />;
+      })}
+      <ShowAllButton route="CoinHighVolume" />
     </SurfaceWrap>
-  )
-}
+  );
+};
 
 export default HighVolumePreview;

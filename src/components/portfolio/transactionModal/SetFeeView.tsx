@@ -14,7 +14,7 @@ type PricePerCoinViewProps = {
   height: number;
 }
 
-const SetFeeView = ({ 
+const SetFeeView = ({
   fee,
   unMountingList,
   height,
@@ -25,9 +25,9 @@ const SetFeeView = ({
   return (
     <Container height={height}>
       <Text fontXL bold margin="0 5px 0 0">
-        { getCurrencySymbol(currency) }
+        {getCurrencySymbol(currency)}
       </Text>
-      <RollingText 
+      <RollingText
         text={fee}
         unMountingList={unMountingList}
         fontXXXL
@@ -45,8 +45,8 @@ type ContainerType = {
 
 const Container = styled.View<ContainerType>`
   flex-direction: row;
-  width: ${ width }px;
-  height: ${({ height }) => height }px;
+  width: ${width}px;
+  height: ${({ height }) => height}px;
   justify-content: center;
   align-items: center;
   padding: 0 ${({ theme }) => theme.content.spacing};

@@ -17,9 +17,9 @@ interface ModalType extends Pick<FeedAndCategoryData, 'Categories'> {
   setVisible: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const CategoryFilterModal = ({ 
+const CategoryFilterModal = ({
   visible,
-  setVisible, 
+  setVisible,
   Categories: CategoriesData
 }: ModalType) => {
 
@@ -35,21 +35,21 @@ const CategoryFilterModal = ({
   }, [categoriesTemp])
 
   const handleRowPress = (key: string) => {
-    if(categoriesTemp === ALL_NEWS_CATEGORIES) {
-      if(key === ALL_NEWS_CATEGORIES) return ;
+    if (categoriesTemp === ALL_NEWS_CATEGORIES) {
+      if (key === ALL_NEWS_CATEGORIES) return;
 
       setCategoriesTemp([key]);
     } else {
-      if(key === ALL_NEWS_CATEGORIES) {
+      if (key === ALL_NEWS_CATEGORIES) {
         setCategoriesTemp(ALL_NEWS_CATEGORIES);
-        return ;
+        return;
       }
       const isContain = categoriesTemp.findIndex(category => category === key);
 
-      if(isContain === -1) {
+      if (isContain === -1) {
         setCategoriesTemp(prevState => [...prevState, key]);
       } else {
-        if(categoriesTemp.length === 1) {
+        if (categoriesTemp.length === 1) {
           setCategoriesTemp(ALL_NEWS_CATEGORIES);
         } else {
           setCategoriesTemp(prevState => (prevState as string[]).filter(category => category !== key));
@@ -65,13 +65,13 @@ const CategoryFilterModal = ({
       titleComponent={
         <TitleWrap>
           <Text fontX color100 bold>
-            { t(`news.categories`) }
+            {t(`news.categories`)}
           </Text>
         </TitleWrap>
       }
       footerComponent={
-        <AsyncButton 
-          text={ t(`news.save categories`) }
+        <AsyncButton
+          text={t(`news.save categories`)}
           onPress={handleSavePress}
           isDisabled={false}
           isLoading={false}
@@ -83,53 +83,53 @@ const CategoryFilterModal = ({
       }
     >
       <Container>
-        <Row 
-          underlayColor={ theme.base.underlayColor[100] }
+        <Row
+          underlayColor={theme.base.underlayColor[100]}
           onPress={() => handleRowPress(ALL_NEWS_CATEGORIES)}
           isActive={categoriesTemp === ALL_NEWS_CATEGORIES}
         >
           <>
             <Text color100 heavy margin="0 0 0 10px">
-              { t(`news.all news categories`) }
+              {t(`news.all news categories`)}
             </Text>
-            <Octicons 
-              name="check" 
-              size={24} 
-              color={ 
+            <Octicons
+              name="check"
+              size={24}
+              color={
                 categoriesTemp === ALL_NEWS_CATEGORIES
-                ? theme.base.primaryColor 
-                : 'transparent'
+                  ? theme.base.primaryColor
+                  : 'transparent'
               }
             />
           </>
         </Row>
-        { CategoriesData.map(category => {
+        {CategoriesData.map(category => {
           return (
-            <Row 
-              key={category.categoryName} 
-              underlayColor={ theme.base.underlayColor[100] }
+            <Row
+              key={category.categoryName}
+              underlayColor={theme.base.underlayColor[100]}
               onPress={() => handleRowPress(category.categoryName)}
               isActive={categoriesTemp !== ALL_NEWS_CATEGORIES}
             >
               <>
                 <Text color100 heavy margin="0 0 0 10px">
-                  { category.categoryName }
+                  {category.categoryName}
                 </Text>
-                <Octicons 
-                  name="check" 
-                  size={24} 
-                  color={ 
+                <Octicons
+                  name="check"
+                  size={24}
+                  color={
                     categoriesTemp !== ALL_NEWS_CATEGORIES && (
                       categoriesTemp.findIndex(temp => temp === category.categoryName) !== -1
                     )
-                    ? theme.base.primaryColor
-                    : 'transparent'
+                      ? theme.base.primaryColor
+                      : 'transparent'
                   }
                 />
               </>
             </Row>
           )
-        }) }
+        })}
       </Container>
     </ScrollCloseModal>
   )

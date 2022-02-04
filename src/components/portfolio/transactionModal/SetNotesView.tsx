@@ -15,7 +15,7 @@ type NotesViewProps = {
   notesMaxLength: number
 }
 
-const SetNotesView = ({ 
+const SetNotesView = ({
   height,
   isFocused,
   notes,
@@ -29,7 +29,7 @@ const SetNotesView = ({
 
 
   useEffect(() => {
-    if(isFocused) {
+    if (isFocused) {
       textInputRef.current?.focus();
     } else {
       Keyboard.dismiss();
@@ -39,9 +39,9 @@ const SetNotesView = ({
     <Container height={height}>
       <NotePadWrap>
         <Text bold>
-          { t('common.notes') }
+          {t('common.notes')}
         </Text>
-        <NotePad 
+        <NotePad
           ref={textInputRef}
           onChangeText={(text) => setNotes(text)}
           keyboardAppearance={scheme === 'dark' ? 'dark' : 'light'}
@@ -50,7 +50,7 @@ const SetNotesView = ({
         />
         <TextLengthWrap>
           <Text bold>
-            { notes ? notes.length : 0 } / {notesMaxLength}
+            {notes ? notes.length : 0} / {notesMaxLength}
           </Text>
         </TextLengthWrap>
       </NotePadWrap>
@@ -65,8 +65,8 @@ type ContainerType = {
 }
 
 const Container = styled.View<ContainerType>`
-  width: ${ width }px;
-  height: ${({ height }) => height }px;
+  width: ${width}px;
+  height: ${({ height }) => height}px;
   padding: 16px ${({ theme }) => theme.content.spacing};
 `
 
@@ -82,7 +82,7 @@ const NotePad = styled.TextInput`
   min-height: 120px;
   max-height: 180px;
   color: ${({ theme }) => theme.base.text[100]};
-  font-size: ${({ theme }) => theme.size.font_ml };
+  font-size: ${({ theme }) => theme.size.font_ml};
   margin: 5px 0;
 `
 

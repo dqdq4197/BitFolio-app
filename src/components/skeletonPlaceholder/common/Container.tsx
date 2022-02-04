@@ -6,15 +6,15 @@ type ContainerProps = {
   children: JSX.Element | JSX.Element[];
 }
 
-const Container = ({ children }: ContainerProps ) => {
+const Container = ({ children }: ContainerProps) => {
   const { theme } = useGlobalTheme();
 
   return (
-    <SkeletonPlaceholder 
-      backgroundColor={theme.base.background[200]} 
+    <SkeletonPlaceholder
+      backgroundColor={theme.base.background[200]}
       highlightColor={theme.base.background[300]}
     >
-      { children }
+      {children}
     </SkeletonPlaceholder>
   )
 }

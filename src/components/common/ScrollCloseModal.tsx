@@ -22,15 +22,15 @@ type ModalProps = {
   footerHeight?: number;
 }
 
-const ScrollCloseModal = ({ 
-  visible, 
-  setVisible, 
-  children, 
+const ScrollCloseModal = ({
+  visible,
+  setVisible,
+  children,
   headerComponent,
   footerComponent,
   extraComponent,
   titleComponent,
-  footerHeight=0
+  footerHeight = 0
 }: ModalProps) => {
   // const { currentHeight } = StatusBar
   const progressRef = useRef<any>(null);
@@ -41,7 +41,7 @@ const ScrollCloseModal = ({
 
   useEffect(() => {
     // initail set strokeDashoffset
-    if(progressRef.current) {
+    if (progressRef.current) {
       progressRef.current.setNativeProps({
         strokeDashoffset: CIRCUMFERENCE
       })
@@ -56,26 +56,26 @@ const ScrollCloseModal = ({
       const offset = CIRCUMFERENCE - (CIRCUMFERENCE * -value) / 100;
 
       let strokeDashoffset = offset >= CIRCUMFERENCE
-      ? CIRCUMFERENCE
-      : offset <= 0
-        ? 0
-        : offset
-      
-      if(progressRef.current) {
+        ? CIRCUMFERENCE
+        : offset <= 0
+          ? 0
+          : offset
+
+      if (progressRef.current) {
         progressRef.current.setNativeProps({
           strokeDashoffset
         })
       }
 
-      if(strokeDashoffset === 0 && !isFullProgress) {
+      if (strokeDashoffset === 0 && !isFullProgress) {
         setIsFullProgress(true);
         Haptics.impactAsync();
-      } 
-      
-      if(strokeDashoffset !== 0 && isFullProgress) {
+      }
+
+      if (strokeDashoffset !== 0 && isFullProgress) {
         setIsFullProgress(false);
       }
-    })    
+    })
   }, [isFullProgress])
 
   const handleModalClose = () => {
@@ -83,28 +83,28 @@ const ScrollCloseModal = ({
   }
 
   const handleScrollEndDrag = () => {
-    if(isFullProgress) {
+    if (isFullProgress) {
       setVisible(false);
     }
   }
 
   const handleScroll = Animated.event(
-    [ { nativeEvent: { contentOffset: { y: scrollY } } } ], 
+    [{ nativeEvent: { contentOffset: { y: scrollY } } }],
     { useNativeDriver: false }
   )
 
   return (
-    <Modal 
+    <Modal
       animationType='slide'
       visible={visible}
-    > 
+    >
       <Container
         behavior="padding"
       >
-        <HeaderView insetTop={ insets.top }>
-          { titleComponent || <Blank></Blank> }
-          <CircleCloseButton 
-            SIZE={SIZE} 
+        <HeaderView insetTop={insets.top}>
+          {titleComponent || <Blank></Blank>}
+          <CircleCloseButton
+            SIZE={SIZE}
             STROKEWIDTH={STROKEWIDTH}
             RADIUS={RADIUS}
             CIRCUMFERENCE={CIRCUMFERENCE}
@@ -112,7 +112,7 @@ const ScrollCloseModal = ({
             ref={progressRef}
           />
         </HeaderView>
-        { headerComponent }
+        {headerComponent}
         <ScrollView
           as={Animated.ScrollView}
           keyboardDismissMode='on-drag'
@@ -121,11 +121,11 @@ const ScrollCloseModal = ({
           footerHeight={footerHeight}
           onScrollEndDrag={handleScrollEndDrag}
         >
-          { children }
+          {children}
         </ScrollView>
-        { footerComponent }
+        {footerComponent}
       </Container>
-      { extraComponent }
+      {extraComponent}
     </Modal>
   )
 }
@@ -148,13 +148,13 @@ const HeaderView = styled.View<{ insetTop: number }>`
   justify-content: space-between;
   margin-bottom: 16px;
   padding: ${({ insetTop, theme }) => `
-    ${ insetTop + 10 }px ${ theme.content.spacing } 0
+    ${insetTop + 10}px ${theme.content.spacing} 0
   `};
 `
 
 const ScrollView = styled.ScrollView<ScrollViewProps>`
   width: 100%;
-  padding-bottom: ${({ footerHeight }) => footerHeight }px;
+  padding-bottom: ${({ footerHeight }) => footerHeight}px;
 `
 
 const Blank = styled.View``

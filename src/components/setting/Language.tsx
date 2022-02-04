@@ -20,28 +20,28 @@ type RowProps = {
 const Row = ({ onPress, title, subTitle, enabled }: RowProps) => {
 
   const { theme } = useGlobalTheme();
-  
+
   return (
     <RowContainer
       onPress={onPress}
-      underlayColor={ theme.base.underlayColor[100] }
+      underlayColor={theme.base.underlayColor[100]}
     >
       <>
         <ColLeft>
           <Text fontML bold>
-            { title }
+            {title}
           </Text>
           <Text bold color300 margin="5px 0 0 0">
-            { subTitle }
+            {subTitle}
           </Text>
         </ColLeft>
-        <Octicons 
-          name="check" 
-          size={28} 
+        <Octicons
+          name="check"
+          size={28}
           color={
-            enabled 
-            ? theme.base.primaryColor
-            : 'transparent'
+            enabled
+              ? theme.base.primaryColor
+              : 'transparent'
           }
         />
       </>
@@ -49,30 +49,30 @@ const Row = ({ onPress, title, subTitle, enabled }: RowProps) => {
   )
 }
 
-const Language = ({}: LanguageProps) => {
+const Language = ({ }: LanguageProps) => {
   const { language, onLanguageChange } = useLocales();
   const { t } = useTranslation();
 
   return (
     <SurfaceWrap
-      title={ t(`setting.language settings`) }
+      title={t(`setting.language settings`)}
       parentPaddingZero
       marginTopZero
       fontML
     >
-      <Row 
+      <Row
         onPress={() => onLanguageChange('en')}
-        title={ 'English' }
-        subTitle={ t(`setting.english`) }
-        enabled={ language === 'en'  }
+        title={'English'}
+        subTitle={t(`setting.english`)}
+        enabled={language === 'en'}
       />
-      <Row 
+      <Row
         onPress={() => onLanguageChange('ko')}
-        title={ '한국어' }
-        subTitle={ t(`setting.korean`) }
-        enabled={ language === 'ko' }
+        title={'한국어'}
+        subTitle={t(`setting.korean`)}
+        enabled={language === 'ko'}
       />
-      <Blank/>
+      <Blank />
     </SurfaceWrap>
   )
 }

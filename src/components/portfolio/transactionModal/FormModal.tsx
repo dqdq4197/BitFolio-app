@@ -71,7 +71,7 @@ export type FormData<T> = T & {
   transferType: null | string
 }
 
-const { width } = Dimensions.get('window'); 
+const { width } = Dimensions.get('window');
 const FOOTER_HEIGHT = 75; // confirm button height + padding bottom
 const SELECT_TAB_HEIGHT = 45;
 const SETTINGS: SettingsType[] = [{
@@ -96,12 +96,12 @@ const SETTINGS: SettingsType[] = [{
   icon: (color: string) => <MaterialCommunityIcons name="pencil" size={14} color={color} />
 }]
 
-const FormModalLayout = ({ 
-  visible, 
-  setVisible, 
+const FormModalLayout = ({
+  visible,
+  setVisible,
   portfolioId,
   id,
-  symbol, 
+  symbol,
   name,
   image,
   initialData,
@@ -137,7 +137,7 @@ const FormModalLayout = ({
   })
 
   useEffect(() => {
-    if(activePage === 1 && transitioning) {
+    if (activePage === 1 && transitioning) {
       Animated.parallel([
         Animated.timing(firstPageAnimate, {
           toValue: -20,
@@ -175,7 +175,7 @@ const FormModalLayout = ({
       )
     }
 
-    if(activePage === 2 && transitioning) {
+    if (activePage === 2 && transitioning) {
       firstPageAnimate.setValue(-20);
       firstPageOpacity.setValue(0);
       Animated.parallel([
@@ -223,28 +223,28 @@ const FormModalLayout = ({
   const isAlreadyHaveAsset = (): boolean => {
     const { coins } = portfolios.find(portfolio => portfolio.id === portfolioId)!;
 
-    return coins.find(coin => coin.id === id) !== undefined; 
+    return coins.find(coin => coin.id === id) !== undefined;
   }
 
   const handleAddTransactionPress = () => {
-    if(!coinDetailData || !formData['pricePerCoin']) return ;
+    if (!coinDetailData || !formData['pricePerCoin']) return;
 
     let convertedFormData = currencyConverter();
 
-    if(!convertedFormData || formData.quantity === '0') return ;
+    if (!convertedFormData || formData.quantity === '0') return;
 
-    if(formData.type !== 'transfer') {
+    if (formData.type !== 'transfer') {
       convertedFormData = {
         ...convertedFormData,
         transferType: null,
       }
     }
 
-    if(transactionId) {
+    if (transactionId) {
       dispatch(editTransaction({ transactionId, formData: convertedFormData }));
     } else {
 
-      if(!isAlreadyHaveAsset()) {
+      if (!isAlreadyHaveAsset()) {
         const payload = {
           portfolioId,
           coin: {
@@ -252,7 +252,7 @@ const FormModalLayout = ({
             image,
             name,
             symbol
-          } 
+          }
         }
         dispatch(addWatchingCoin(payload))
       }
@@ -260,19 +260,19 @@ const FormModalLayout = ({
       dispatch(addTransaction({ formData: convertedFormData }));
     }
 
-    if(portfolioId) {
+    if (portfolioId) {
       dispatch(
-        changeCoinState({ 
-          portfolioId, 
-          coinId: formData.coinId, 
-          state: 'trading' 
+        changeCoinState({
+          portfolioId,
+          coinId: formData.coinId,
+          state: 'trading'
         })
       )
     }
 
     setVisible(false);
 
-    if(afterAddTransactionTodo) {
+    if (afterAddTransactionTodo) {
       afterAddTransactionTodo();
     }
   }
@@ -295,12 +295,12 @@ const FormModalLayout = ({
     const feeRate = fee / current_price[currency];
     const pricePerCoinRate = pricePerCoin / current_price[currency];
 
-    let newValue: FormData<SubmitNumericData> | FormData<NumericData> | any = { 
+    let newValue: FormData<SubmitNumericData> | FormData<NumericData> | any = {
       ...formData,
       fee: {}
     };
 
-    for(let currency in current_price) {
+    for (let currency in current_price) {
       newValue = {
         ...formData,
         fee: {
@@ -325,7 +325,7 @@ const FormModalLayout = ({
         setVisible={setVisible}
         headerComponent={
           <>
-            { activePage === 2 && 
+            {activePage === 2 &&
               <Animated.View
                 style={{
                   transform: [{
@@ -334,7 +334,7 @@ const FormModalLayout = ({
                   opacity: secondPageOpacity
                 }}
               >
-                <SettingsSelectionBar 
+                <SettingsSelectionBar
                   onSwitchFocusView={onSwitchFocusView}
                   focusedView={focusedView}
                   SETTINGS={SETTINGS}
@@ -346,10 +346,10 @@ const FormModalLayout = ({
         }
         titleComponent={
           <TitleWrap>
-            { activePage === 2 &&
+            {activePage === 2 &&
               <Animated.View
                 style={{
-                  position: 'absolute', 
+                  position: 'absolute',
                   marginTop: 3,
                   opacity: secondPageOpacity
                 }}
@@ -363,10 +363,10 @@ const FormModalLayout = ({
                     bottom: 5
                   }}
                 >
-                  <MaterialIcons 
+                  <MaterialIcons
                     name="arrow-back-ios"
-                    size={28} 
-                    color={theme.base.text[100]} 
+                    size={28}
+                    color={theme.base.text[100]}
                   />
                 </BackButtonWrap>
               </Animated.View>
@@ -379,41 +379,41 @@ const FormModalLayout = ({
                 }]
               }}
             >
-              <Image 
+              <Image
                 uri={image}
                 height={23}
                 width={23}
               />
-              <ScrollTextView 
-                horizontal 
+              <ScrollTextView
+                horizontal
                 maxWidth={width / 2}
                 showsHorizontalScrollIndicator={false}
               >
                 <Text color100 bold fontX margin="0 0 0 7px">
-                  { name }
+                  {name}
                 </Text>
               </ScrollTextView>
-              <ScrollTextView 
-                horizontal 
+              <ScrollTextView
+                horizontal
                 maxWidth={width / 4}
                 showsHorizontalScrollIndicator={false}
               >
                 <Text bold fontML margin="0 0 0 10px">
-                  { symbol.toUpperCase() }
+                  {symbol.toUpperCase()}
                 </Text>
               </ScrollTextView>
             </Title>
           </TitleWrap>
         }
         footerComponent={
-          <AsyncButton 
-            text={ activePage === 1
+          <AsyncButton
+            text={activePage === 1
               ? t(`common.next`)
               : transactionId ? t(`common.edit transaction`) : t(`portfolio.add transaction`)
             }
-            height={FOOTER_HEIGHT - 30} 
-            isLoading={isLoading} 
-            isDisabled={(formData.quantity === '0' && activePage === 2) || isLoading} 
+            height={FOOTER_HEIGHT - 30}
+            isLoading={isLoading}
+            isDisabled={(formData.quantity === '0' && activePage === 2) || isLoading}
             onPress={activePage === 1 ? handleNextPress : handleAddTransactionPress}
             borderPosition={['top']}
             fontML
@@ -430,8 +430,8 @@ const FormModalLayout = ({
             opacity: firstPageOpacity,
             display: activePage === 1 ? 'flex' : 'none'
           }}
-        > 
-          <TypeSelectView 
+        >
+          <TypeSelectView
             transactionType={formData.type}
             transferType={formData.transferType}
             setFormData={setFormData}
@@ -446,8 +446,8 @@ const FormModalLayout = ({
             opacity: secondPageOpacity,
             display: activePage === 2 ? 'flex' : 'none'
           }}
-        > 
-          <EnterDetailsView 
+        >
+          <EnterDetailsView
             formData={formData}
             setFormData={setFormData}
             coinDetailData={coinDetailData}
@@ -489,7 +489,7 @@ const Title = styled.View`
 `
 
 const ScrollTextView = styled.ScrollView<ScrollTextViewProps>`
-  max-width: ${ ({ maxWidth }) => maxWidth }px;
+  max-width: ${({ maxWidth }) => maxWidth}px;
 `
 
 const BackButtonWrap = styled.TouchableOpacity`

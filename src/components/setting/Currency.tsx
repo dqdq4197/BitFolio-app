@@ -22,28 +22,28 @@ type RowProps = {
 const Row = ({ onPress, title, subTitle, enabled }: RowProps) => {
 
   const { theme } = useGlobalTheme();
-  
+
   return (
     <RowContainer
       onPress={onPress}
-      underlayColor={ theme.base.underlayColor[100] }
+      underlayColor={theme.base.underlayColor[100]}
     >
       <>
         <ColLeft>
           <Text fontML bold>
-            { title }
+            {title}
           </Text>
           <Text bold color300 margin="5px 0 0 0">
-            { subTitle }
+            {subTitle}
           </Text>
         </ColLeft>
-        <Octicons 
-          name="check" 
-          size={28} 
+        <Octicons
+          name="check"
+          size={28}
           color={
-            enabled 
-            ? theme.base.primaryColor
-            : 'transparent'
+            enabled
+              ? theme.base.primaryColor
+              : 'transparent'
           }
         />
       </>
@@ -53,19 +53,19 @@ const Row = ({ onPress, title, subTitle, enabled }: RowProps) => {
 
 const Currency = ({ }: CurrencyProps) => {
   const { t } = useTranslation();
-  const { currency: currentCurrency , onCurrencyChange } = useLocales();
+  const { currency: currentCurrency, onCurrencyChange } = useLocales();
 
   const renderCurrencies = () => {
     const rows = [];
-    for(const currency in CURRENCIES) {
+    for (const currency in CURRENCIES) {
       const { name, iso, unicode } = CURRENCIES[currency as baseTypes.Currency];
       rows.push(
         <Row
-          key={ unicode }
-          title={ name }
-          subTitle={ `${iso} - ${unicode}` }
+          key={unicode}
+          title={name}
+          subTitle={`${iso} - ${unicode}`}
           onPress={() => onCurrencyChange(currency.toLowerCase() as baseTypes.Currency)}
-          enabled={ currentCurrency === iso.toLowerCase() }
+          enabled={currentCurrency === iso.toLowerCase()}
         />
       )
     }
@@ -75,13 +75,13 @@ const Currency = ({ }: CurrencyProps) => {
 
   return (
     <SurfaceWrap
-      title={ t(`setting.default currency settings`) }
+      title={t(`setting.default currency settings`)}
       parentPaddingZero
       marginTopZero
       fontML
     >
-      { renderCurrencies() }
-      <Blank/>
+      {renderCurrencies()}
+      <Blank />
     </SurfaceWrap>
   )
 }

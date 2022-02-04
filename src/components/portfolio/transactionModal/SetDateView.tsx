@@ -18,7 +18,7 @@ type DateViewProps = {
   setDate: (date: number) => void
 }
 
-const SetDateView = ({ 
+const SetDateView = ({
   height,
   date,
   isFocused,
@@ -31,7 +31,7 @@ const SetDateView = ({
   const opacity = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-    if(isFocused) {
+    if (isFocused) {
       Animated.parallel([
         Animated.timing(translateY, {
           toValue: 0,
@@ -72,40 +72,40 @@ const SetDateView = ({
   return (
     <Container height={height}>
       <PickerSelectionWrap>
-        <Wrapper 
+        <Wrapper
           activeOpacity={0.6}
-          onPress={() => changePicker('date')} 
+          onPress={() => changePicker('date')}
           style={{ marginRight: 10 }}
         >
           <Text bold margin="0 0 7px 0">
             Date
           </Text>
           <Text color100 bold fontML>
-            { format(
+            {format(
               new Date(date), language === 'en' ? 'PP' : 'PPP', {
               locale: language === 'en' ? enUS : ko
-            }) }
+            })}
           </Text>
         </Wrapper>
-        <Wrapper 
-          activeOpacity={0.6} 
+        <Wrapper
+          activeOpacity={0.6}
           onPress={() => changePicker('time')}
         >
           <Text bold margin="0 0 7px 0">
             Time
           </Text>
           <Text color100 bold fontML>
-            { language === 'ko' && (
+            {language === 'ko' && (
               format(new Date(date), 'a', {
                 locale: ko
               }) + ' '
-            )} 
-            { language === 'ko' && (
+            )}
+            {language === 'ko' && (
               format(new Date(date), 'p', {
                 locale: enUS
               }).slice(0, -2)
             )}
-            { language === 'en' && (
+            {language === 'en' && (
               format(new Date(date), 'p', {
                 locale: enUS
               })
@@ -149,8 +149,8 @@ type ContainerType = {
 }
 
 const Container = styled.View<ContainerType>`
-  width: ${ width }px;
-  height: ${({ height }) => height }px;
+  width: ${width}px;
+  height: ${({ height }) => height}px;
   padding: 16px ${({ theme }) => theme.content.spacing} 0;
 `
 

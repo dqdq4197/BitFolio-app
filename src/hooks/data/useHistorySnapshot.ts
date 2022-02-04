@@ -1,26 +1,31 @@
 import useRequest, { Config } from '../useRequest';
-import { CoinGecko, http, HistorySnapshotParams } from '/lib/api/CoinGeckoClient';
+import {
+  CoinGecko,
+  http,
+  HistorySnapshotParams,
+} from '/lib/api/CoinGeckoClient';
 import { CoinHistorySnapshotReturn } from '/types/CoinGeckoReturnType';
 
-
 interface SearchDataProps extends HistorySnapshotParams, Config {
-  id: string
-  willNotRequest?: boolean
+  id: string;
+  willNotRequest?: boolean;
 }
 
-const useHistorySnapshot = ({ 
-  id, 
+const useHistorySnapshot = ({
+  id,
   date,
   willNotRequest = false,
   suspense = true,
 }: SearchDataProps) => {
-  
   return useRequest<CoinHistorySnapshotReturn>(
-    willNotRequest 
-    ? null 
-    : CoinGecko.coin.historySnapshot(id, {
-        date
-      }), http, { suspense })
-}
+    willNotRequest
+      ? null
+      : CoinGecko.coin.historySnapshot(id, {
+        date,
+      }),
+    http,
+    { suspense }
+  );
+};
 
 export default useHistorySnapshot;

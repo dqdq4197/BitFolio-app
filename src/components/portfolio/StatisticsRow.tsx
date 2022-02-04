@@ -26,7 +26,7 @@ type RowProps = {
   priceStats?: {
     current_price: number
     price_change_percentage_24h: number | null
-  } 
+  }
   onAddButtonPress: (coin: CoinType) => void
 }
 
@@ -40,69 +40,69 @@ const Skeleton = React.memo(() => {
   return (
     <SkeletonContainer>
       <SkeletonPlaceholder.Item justifyContent="flex-end" alignItems="flex-end">
-        <SkeletonPlaceholder.Item width={80} height={13} borderRadius={3}/>
-        <SkeletonPlaceholder.Item width={50} height={13} marginTop={10} borderRadius={3}/>
+        <SkeletonPlaceholder.Item width={80} height={13} borderRadius={3} />
+        <SkeletonPlaceholder.Item width={50} height={13} marginTop={10} borderRadius={3} />
       </SkeletonPlaceholder.Item>
     </SkeletonContainer>
   )
 })
 
-const Col = ({ width, children, isLoading }: ColProps ) => {
+const Col = ({ width, children, isLoading }: ColProps) => {
   return (
     <ColWrap width={width}>
-      { isLoading ? <Skeleton /> : children }
+      {isLoading ? <Skeleton /> : children}
     </ColWrap>
   )
 }
 
-const 
+const
 
-StatisticsRow = ({ 
-  COL_WIDTH,
-  coin,
-  stats,
-  mode,
-  totalCosts,
-  priceStats,
-  onAddButtonPress
-}: RowProps) => {
-  const { t } = useTranslation();
-  const { currency } = useLocales();
-  const navigation = useNavigation();
+  StatisticsRow = ({
+    COL_WIDTH,
+    coin,
+    stats,
+    mode,
+    totalCosts,
+    priceStats,
+    onAddButtonPress
+  }: RowProps) => {
+    const { t } = useTranslation();
+    const { currency } = useLocales();
+    const navigation = useNavigation();
 
-  const handleRowPress = () => {
-    const { id, symbol } = coin; 
-    navigation.navigate('portfolioCoinDetail', {
-      param: { id, symbol }, 
-      screen: t('coinDetail.transactions')
-    })
-  }
+    const handleRowPress = () => {
+      const { id, symbol } = coin;
+      navigation.navigate('portfolioCoinDetail', {
+        param: { id, symbol },
+        screen: t('coinDetail.transactions')
+      })
+    }
 
-  const PriceTab = useMemo(() => (
-    <>
-      { priceStats !== undefined && (
-        <>
-          <DynamicSizeText color100 bold>
-            { currencyFormat({ 
-              value: priceStats.current_price,
-              prefix: getCurrencySymbol(currency)
-            }) }
-          </DynamicSizeText>
-          <IncreaseDecreaseValue
-            value={ digitToFixed(priceStats.price_change_percentage_24h ?? 0, 2) }
-            afterPrefix="%"
-            right
-            bold
-          />
-        </>
-      ) }
-    </>
-  ), [currency, priceStats])
-  
-  const HoldingsTab = useMemo(() => (
-    <>
-      { coin.state === 'watching' 
-        ? <AddButton
+    const PriceTab = useMemo(() => (
+      <>
+        {priceStats !== undefined && (
+          <>
+            <DynamicSizeText color100 bold>
+              {currencyFormat({
+                value: priceStats.current_price,
+                prefix: getCurrencySymbol(currency)
+              })}
+            </DynamicSizeText>
+            <IncreaseDecreaseValue
+              value={digitToFixed(priceStats.price_change_percentage_24h ?? 0, 2)}
+              afterPrefix="%"
+              right
+              bold
+            />
+          </>
+        )}
+      </>
+    ), [currency, priceStats])
+
+    const HoldingsTab = useMemo(() => (
+      <>
+        {coin.state === 'watching'
+          ? <AddButton
             onPress={() => onAddButtonPress(coin)}
             activeOpacity={0.6}
             hitSlop={{
@@ -113,161 +113,161 @@ StatisticsRow = ({
             }}
           >
             <Text bold>
-              { t(`common.add`) }
+              {t(`common.add`)}
             </Text>
           </AddButton>
-        : stats && (
-          mode === 'private' 
-            ? <> 
-                <PrivatePlaceholder 
-                  diameter={ 9 }
+          : stats && (
+            mode === 'private'
+              ? <>
+                <PrivatePlaceholder
+                  diameter={9}
                   color300
-                  numberOfCircle={ 5 }
-                  horizontalSpacing={ 5 }
+                  numberOfCircle={5}
+                  horizontalSpacing={5}
                 />
                 <PrivateWrap>
-                  <PrivatePlaceholder 
-                    diameter={ 7 }
+                  <PrivatePlaceholder
+                    diameter={7}
                     color300
-                    numberOfCircle={ 3 }
-                    horizontalSpacing={ 5 }
+                    numberOfCircle={3}
+                    horizontalSpacing={5}
                   />
                 </PrivateWrap>
               </>
-            : <>
+              : <>
                 <DynamicSizeText color100 bold>
-                  { currencyFormat({ 
+                  {currencyFormat({
                     value: stats.holding_costs,
                     prefix: getCurrencySymbol(currency)
-                  }) }
+                  })}
                 </DynamicSizeText>
                 <DynamicSizeText bold>
-                  { stats.holding_quantity + ' ' + coin.symbol.toUpperCase() }
+                  {stats.holding_quantity + ' ' + coin.symbol.toUpperCase()}
                 </DynamicSizeText>
               </>
-        )
-      }
-    </>
-  ), [stats, coin, onAddButtonPress])
+          )
+        }
+      </>
+    ), [stats, coin, onAddButtonPress])
 
-  const BuyAvgPrice = useMemo(() => (
-    <>
-      { coin.state === 'watching'
-        ? <Text>
+    const BuyAvgPrice = useMemo(() => (
+      <>
+        {coin.state === 'watching'
+          ? <Text>
             --
           </Text>
-        : stats && (
-          mode === 'private'  
-          ? <>
-              <PrivatePlaceholder 
-                diameter={ 9 }
-                color300
-                numberOfCircle={ 5 }
-                horizontalSpacing={ 5 }
-              />
-              <Text></Text>
-            </>
-          : <>
-              <DynamicSizeText bold color100>
-                { currencyFormat({ 
-                  value: stats.total_purchase_quantity === 0 
-                    ? 0 
-                    : stats.total_purchase_cost / stats.total_purchase_quantity,
-                  prefix: getCurrencySymbol(currency)
-                }) }
-              </DynamicSizeText>
-              <Text></Text>
-            </>
-        )
-      }
-    </>
-  ), [coin, stats, currency])
+          : stats && (
+            mode === 'private'
+              ? <>
+                <PrivatePlaceholder
+                  diameter={9}
+                  color300
+                  numberOfCircle={5}
+                  horizontalSpacing={5}
+                />
+                <Text></Text>
+              </>
+              : <>
+                <DynamicSizeText bold color100>
+                  {currencyFormat({
+                    value: stats.total_purchase_quantity === 0
+                      ? 0
+                      : stats.total_purchase_cost / stats.total_purchase_quantity,
+                    prefix: getCurrencySymbol(currency)
+                  })}
+                </DynamicSizeText>
+                <Text></Text>
+              </>
+          )
+        }
+      </>
+    ), [coin, stats, currency])
 
-  const PLTab = useMemo(() => (
-    <>  
-      { coin.state === 'watching' 
-        ? <Text>
+    const PLTab = useMemo(() => (
+      <>
+        {coin.state === 'watching'
+          ? <Text>
             --
-          </Text> 
-        : stats && (
-          <>
-            <DynamicSizeText bold color100>
-              { currencyFormat({ 
-                value: stats.all_time_pl,
-                prefix: stats.all_time_pl > 0 
-                  ? '+' + getCurrencySymbol(currency)
-                  : getCurrencySymbol(currency)
-              }) }
-            </DynamicSizeText>
-            <IncreaseDecreaseValue
-              value={ 
-                digitToFixed(stats.total_purchase_quantity === 0 
-                  ? 0 
-                  : stats.all_time_pl_percentage ?? 0, 2) 
-              }
-              afterPrefix="%"
-              right
-            />
-          </>
-        )
-      }
-    </>
-  ), [stats, currency]) 
+          </Text>
+          : stats && (
+            <>
+              <DynamicSizeText bold color100>
+                {currencyFormat({
+                  value: stats.all_time_pl,
+                  prefix: stats.all_time_pl > 0
+                    ? '+' + getCurrencySymbol(currency)
+                    : getCurrencySymbol(currency)
+                })}
+              </DynamicSizeText>
+              <IncreaseDecreaseValue
+                value={
+                  digitToFixed(stats.total_purchase_quantity === 0
+                    ? 0
+                    : stats.all_time_pl_percentage ?? 0, 2)
+                }
+                afterPrefix="%"
+                right
+              />
+            </>
+          )
+        }
+      </>
+    ), [stats, currency])
 
-  const AllocationTab = useMemo(() => {
-    const rate = stats && totalCosts 
-      ? stats.holding_costs / totalCosts * 100  < 0
-        ? 0
-        : stats.holding_costs / totalCosts * 100
-      : 0
+    const AllocationTab = useMemo(() => {
+      const rate = stats && totalCosts
+        ? stats.holding_costs / totalCosts * 100 < 0
+          ? 0
+          : stats.holding_costs / totalCosts * 100
+        : 0
+
+      return (
+        <>
+          <Text bold margin="0 0 3px 0" color100>
+            {currencyFormat({ value: rate })}%
+          </Text>
+          <AllocationBar>
+            <AllocationIndicator
+              rate={rate}
+            />
+          </AllocationBar>
+        </>
+      )
+    }, [stats, totalCosts])
 
     return (
-      <>
-        <Text bold margin="0 0 3px 0" color100>
-          { currencyFormat({ value: rate }) }%
-        </Text>
-        <AllocationBar>
-          <AllocationIndicator 
-            rate={rate}
-          />
-        </AllocationBar>
-      </>
+      <Container
+        activeOpacity={0.6}
+        onPress={handleRowPress}
+      >
+        <Col
+          width={COL_WIDTH}
+          isLoading={priceStats === undefined}
+          children={PriceTab}
+        />
+        <Col
+          width={COL_WIDTH}
+          isLoading={!stats && coin.state !== 'watching'}
+          children={HoldingsTab}
+        />
+        <Col
+          width={COL_WIDTH}
+          isLoading={!stats && coin.state !== 'watching'}
+          children={BuyAvgPrice}
+        />
+        <Col
+          width={COL_WIDTH}
+          isLoading={!stats && coin.state !== 'watching'}
+          children={PLTab}
+        />
+        <Col
+          width={COL_WIDTH}
+          isLoading={false}
+          children={AllocationTab}
+        />
+      </Container>
     )
-  }, [stats, totalCosts])
-  
-  return (
-    <Container 
-      activeOpacity={0.6}
-      onPress={handleRowPress}
-    >
-      <Col 
-        width={COL_WIDTH} 
-        isLoading={priceStats === undefined}
-        children={PriceTab}
-      />
-      <Col 
-        width={COL_WIDTH} 
-        isLoading={!stats && coin.state !== 'watching'}
-        children={HoldingsTab}
-      />
-      <Col 
-        width={COL_WIDTH} 
-        isLoading={!stats && coin.state !== 'watching'}
-        children={BuyAvgPrice}
-      />
-      <Col 
-        width={COL_WIDTH} 
-        isLoading={!stats && coin.state !== 'watching'} 
-        children={PLTab}
-      />
-      <Col 
-        width={COL_WIDTH} 
-        isLoading={false}
-        children={AllocationTab}
-      />
-    </Container>
-  )
-}
+  }
 
 export default StatisticsRow;
 
@@ -278,7 +278,7 @@ const Container = styled.TouchableOpacity`
 `
 
 const ColWrap = styled.View<{ width: number }>`
-  width: ${({ width }) => width }px;
+  width: ${({ width }) => width}px;
   align-items: flex-end;
   justify-content: center;
 `
@@ -302,7 +302,7 @@ const AllocationBar = styled.View`
   overflow: hidden;
 `
 
-const AllocationIndicator = styled.View<{rate: number}>`
+const AllocationIndicator = styled.View<{ rate: number }>`
   position: absolute;
   top: 0;
   width: ${({ rate }) => rate}%;

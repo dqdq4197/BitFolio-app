@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
-import { useForm, Controller } from "react-hook-form";
+import { useForm, Controller } from 'react-hook-form';
 import styled from 'styled-components/native';
 
 import { VALIDATIONS } from '/lib/constant';
@@ -14,31 +14,31 @@ import FormLayout from '/components/common/FormLayout';
 const SUBMIT_BUTTON_HEIGTH = 50;
 
 const ForgotPassword = () => {
-  const { t } = useTranslation(); 
+  const { t } = useTranslation();
   const navigation = useNavigation();
   const { control, handleSubmit, setFocus, watch, formState: { errors } } = useForm({
     mode: 'onSubmit',
     defaultValues: {
-      email: ''
-    }
+      email: '',
+    },
   });
 
   useEffect(() => {
-    setTimeout(() => setFocus('email'), 500)
-  }, [setFocus])
+    setTimeout(() => setFocus('email'), 500);
+  }, [setFocus]);
 
   const onSubmit = (data: Object) => {
     console.log(data);
-  }
-    
+  };
+
   const moveToRegisterScreen = () => {
     navigation.navigate('Register');
-  }
-  
+  };
+
   return (
     <FormLayout
       stickyFooterComponent={
-        <AsyncButton 
+        <AsyncButton
           fontML
           text={t(`auth.login`)}
           isDisabled={!watch().email.length}
@@ -55,14 +55,14 @@ const ForgotPassword = () => {
           required: `${t(`auth.n.required`, { n: t(`auth.email address`) })}`,
           pattern: {
             value: VALIDATIONS.email.pattern,
-            message: `${t(`auth.email message`)}`
-          }
+            message: `${t(`auth.email message`)}`,
+          },
         }}
         render={({ field: { onChange, onBlur, value, ref, name } }) => (
-          <TextField 
-            label={ t(`auth.email`) }
+          <TextField
+            label={t(`auth.email`)}
             placeholder={t(`auth.enter your email address`)}
-            keyboardType='email-address'
+            keyboardType="email-address"
             textContentType="emailAddress"
             value={value}
             ref={ref}
@@ -75,7 +75,7 @@ const ForgotPassword = () => {
         name="email"
       />
     </FormLayout>
-  )
-}
+  );
+};
 
 export default ForgotPassword;

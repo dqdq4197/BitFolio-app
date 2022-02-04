@@ -41,7 +41,7 @@ const Item = ({ item, currentCategory }: ItemProps) => {
   }
 
   const handleTranslatePress = () => {
-    if(!didTranslate) {
+    if (!didTranslate) {
       setTranslateLoading(true);
       const translateTitle = translate(item.title, {
         tld: "com",
@@ -51,15 +51,15 @@ const Item = ({ item, currentCategory }: ItemProps) => {
         tld: "com",
         to: deviceLanguage,
       });
-  
+
       Promise.all([translateTitle, translateContent])
-      .then(res => {
-        setTitle(res[0][0]);
-        setContent(res[1][0]);
-        setDidTranslate(true);
-        setTranslateLoading(false);
-      })
-      .catch(e => console.log('Error: google translate', e));
+        .then(res => {
+          setTitle(res[0][0]);
+          setContent(res[1][0]);
+          setDidTranslate(true);
+          setTranslateLoading(false);
+        })
+        .catch(e => console.log('Error: google translate', e));
     } else {
       setTitle(item.title);
       setContent(item.body);
@@ -68,74 +68,74 @@ const Item = ({ item, currentCategory }: ItemProps) => {
   }
 
   return (
-    <Container 
+    <Container
       activeOpacity={0.6}
       onPress={handleItemPress}
-      underlayColor={ theme.base.background[300] }
+      underlayColor={theme.base.background[300]}
     >
       <>
-        { translateLoading && (
-          <GlobalIndicator 
+        {translateLoading && (
+          <GlobalIndicator
             isLoaded={false}
             size="small"
             transparent
           />
-        ) }
+        )}
         <Text fontS>
-          { formatDistance( 
-              fromUnixTime(item.published_on), new Date(),
-              { addSuffix: true, locale: language === 'ko' ? ko : enUS },
-            )
-          } ∙ { item.source }
+          {formatDistance(
+            fromUnixTime(item.published_on), new Date(),
+            { addSuffix: true, locale: language === 'ko' ? ko : enUS },
+          )
+          } ∙ {item.source}
         </Text>
         <FlexBox>
           <TitleWrap>
             <Text fontL color100 bold margin="0 10px 0 0">
-              { title }        
+              {title}
             </Text>
           </TitleWrap>
-          <Image 
-            uri={item.imageurl} 
-            width={IMAGE_SIZE} 
+          <Image
+            uri={item.imageurl}
+            width={IMAGE_SIZE}
             height={IMAGE_SIZE}
             borderRedius='m'
           />
         </FlexBox>
         <CategoriesWrap>
-          { item.categories.split('|').map(category => {
+          {item.categories.split('|').map(category => {
             return (
               <CategoryWrap key={category}>
-                { Array.isArray(currentCategory) && currentCategory.includes(category) 
+                {Array.isArray(currentCategory) && currentCategory.includes(category)
                   ? <Text primaryColor fontXS bold>
-                      { category }
-                    </Text>
+                    {category}
+                  </Text>
                   : <Text color100 fontXS bold>
-                      { category }
-                    </Text>
+                    {category}
+                  </Text>
                 }
 
               </CategoryWrap>
             )
-          }) }
+          })}
         </CategoriesWrap>
         <Text fontML numberOfLines={5} margin="10px 0 0 0">
-          { content }        
+          {content}
         </Text>
-        <TranslateButton 
+        <TranslateButton
           activeOpacity={0.6}
           onPress={handleTranslatePress}
           hitSlop={{ top: 10, bottom: 25, left: 10, right: 40 }}
         >
-          <MaterialCommunityIcons name="google-translate" size={16} color={ theme.base.text[200] } />
+          <MaterialCommunityIcons name="google-translate" size={16} color={theme.base.text[200]} />
           <Text margin="0 0 0 3px" fontS>
-            { !didTranslate 
-              ? t(`news.translate to n`, { 
-                n: deviceLanguage === 'ko' 
-                  ? '한국어' 
-                  : LANGUAGES[deviceLanguage] === undefined 
+            {!didTranslate
+              ? t(`news.translate to n`, {
+                n: deviceLanguage === 'ko'
+                  ? '한국어'
+                  : LANGUAGES[deviceLanguage] === undefined
                     ? deviceLanguage
                     : LANGUAGES[deviceLanguage]
-              }) 
+              })
               : t(`news.see original`)
             }
           </Text>
@@ -148,7 +148,7 @@ const Item = ({ item, currentCategory }: ItemProps) => {
 export default Item;
 
 const Container = styled.TouchableHighlight`
-  width: ${ width }px;
+  width: ${width}px;
   padding: ${({ theme }) => theme.content.spacing};
 `
 
@@ -187,7 +187,7 @@ const TranslateButton = styled.TouchableOpacity`
 
 const Indicator = styled.View`
   position: absolute;
-  width: ${ width }px; 
+  width: ${width}px; 
   flex: 1;
   height: 100px;
   align-items: center;

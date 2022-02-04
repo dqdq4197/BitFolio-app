@@ -45,45 +45,45 @@ interface StatisticsViewProps extends Pick<PortfolioStatsType, 'coins'> {
 
 const SparkLine = ({ prices, isRising, oneDayAgoPrice }: SparkLineProps) => {
   const { theme } = useGlobalTheme();
-  
+
   const XSIZE = useMemo(() => {
     return (width - parseInt(theme.content.spacing) * 2) / 2 - 26 - CARD_SPACING;
   }, [theme, width])
 
-  const { path, scaleY } = useSparkLineModel({ 
+  const { path, scaleY } = useSparkLineModel({
     prices: prices.slice(-100),
     xSize: XSIZE,
     ySize: YSIZE
   });
 
   return (
-      <Svg width={XSIZE} height={YSIZE}>
-        <Path 
-          d={path}
-          stroke={
-            isRising === null 
-              ? theme.base.text[200]
-              : isRising 
-                ? theme.base.upColor
-                : theme.base.downColor
-          }
-        />
-        <Line 
-          x1={0}
-          y1={scaleY(oneDayAgoPrice)}
-          x2={XSIZE}
-          y2={scaleY(oneDayAgoPrice)}
-          stroke={theme.base.text[200]}
-          strokeWidth="1"
-          strokeDasharray="5, 5"
-        />
-      </Svg>
+    <Svg width={XSIZE} height={YSIZE}>
+      <Path
+        d={path}
+        stroke={
+          isRising === null
+            ? theme.base.text[200]
+            : isRising
+              ? theme.base.upColor
+              : theme.base.downColor
+        }
+      />
+      <Line
+        x1={0}
+        y1={scaleY(oneDayAgoPrice)}
+        x2={XSIZE}
+        y2={scaleY(oneDayAgoPrice)}
+        stroke={theme.base.text[200]}
+        strokeWidth="1"
+        strokeDasharray="5, 5"
+      />
+    </Svg>
   )
 }
 
 const TopPerPormerCard = ({ renderKey, data }: PerformerCardProps) => {
 
-  if(!data) return <></>
+  if (!data) return <></>
 
   const { t } = useTranslation();
   const { currency } = useLocales();
@@ -92,14 +92,14 @@ const TopPerPormerCard = ({ renderKey, data }: PerformerCardProps) => {
   return (
     <CardContainer>
       <Row>
-        <Image 
-          uri={stats.image} 
+        <Image
+          uri={stats.image}
           width={30}
-          height={30} 
+          height={30}
           borderRedius='m'
         />
         <Text color100 fontML bold margin="5px 0 0 10px">
-          { stats.symbol.toUpperCase() }
+          {stats.symbol.toUpperCase()}
         </Text>
       </Row>
       <SparkLine
@@ -108,29 +108,29 @@ const TopPerPormerCard = ({ renderKey, data }: PerformerCardProps) => {
         oneDayAgoPrice={stats.oneDayAgoPrice}
       />
       <Text bold margin="10px 0 5px 0">
-        { renderKey === 'bestPerformer'
+        {renderKey === 'bestPerformer'
           ? '24h ' + t(`portfolio.best performer`)
           : '24h ' + t(`portfolio.worst performer`)
         }
       </Text>
-      <DynamicSizeText 
-        heavy 
-        color100 
+      <DynamicSizeText
+        heavy
+        color100
         margin="0 0 3px 0"
         defaultSize="font_ml"
       >
-        { currencyFormat({ 
+        {currencyFormat({
           value: stats.pl_24h,
-          prefix: stats.pl_24h > 0 
+          prefix: stats.pl_24h > 0
             ? '+' + getCurrencySymbol(currency)
             : getCurrencySymbol(currency)
-        }) }
+        })}
       </DynamicSizeText>
       <IncreaseDecreaseValue
-        value={ 
-          digitToFixed(stats.total_purchase_quantity === 0 
-            ? 0 
-            : stats.pl_percentage_24h ?? 0, 2) 
+        value={
+          digitToFixed(stats.total_purchase_quantity === 0
+            ? 0
+            : stats.pl_percentage_24h ?? 0, 2)
         }
         afterPrefix="%"
         bold
@@ -139,7 +139,7 @@ const TopPerPormerCard = ({ renderKey, data }: PerformerCardProps) => {
   )
 }
 
-const StatisticsView = ({ 
+const StatisticsView = ({
   coins,
   portfolio_all_time_pl,
   portfolio_all_time_pl_percentage
@@ -151,7 +151,7 @@ const StatisticsView = ({
   const [topPerformers, setTopPerformers] = useState<PerformersType | null>(null);
 
   useEffect(() => {
-    if(coinsData) {
+    if (coinsData) {
       let sortedCoins = Object.entries(coins).sort((a, b) => {
         return b[1].pl_24h - a[1].pl_24h;
       })
@@ -167,9 +167,9 @@ const StatisticsView = ({
       const worstPerformerStats = sortedCoins.slice(-1)[0][1];
 
       const BestPerformerOneDayAgoPrice = (
-          bestPerformerStats.price - (bestPerformerStats.pl_24h / bestPerformerStats.holding_quantity)
-        ) / bestPerformerStats.price_per_usd;
-      
+        bestPerformerStats.price - (bestPerformerStats.pl_24h / bestPerformerStats.holding_quantity)
+      ) / bestPerformerStats.price_per_usd;
+
       const WorstPerformerOneDayAgoPrice = (
         worstPerformerStats.price - (worstPerformerStats.pl_24h / worstPerformerStats.holding_quantity)
       ) / worstPerformerStats.price_per_usd;
@@ -197,30 +197,30 @@ const StatisticsView = ({
     }
   }, [coins, coinsData])
 
-  if(portfolio_all_time_pl === undefined || portfolio_all_time_pl_percentage === undefined || topPerformers === undefined) {
+  if (portfolio_all_time_pl === undefined || portfolio_all_time_pl_percentage === undefined || topPerformers === undefined) {
     return <></>
   }
-  
+
   return (
     <>
       <AllTimePLContainer>
         <Text bold>
-          { t(`portfolio.all time profit/loss`) }
+          {t(`portfolio.all time profit/loss`)}
         </Text>
         <AllTimePLValueWrap>
           <Text right bold fontML margin="0 0 5px 0">
-            { currencyFormat({ 
+            {currencyFormat({
               value: portfolio_all_time_pl,
-              prefix: portfolio_all_time_pl > 0 
+              prefix: portfolio_all_time_pl > 0
                 ? '+' + getCurrencySymbol(currency)
                 : getCurrencySymbol(currency)
-            }) }
+            })}
           </Text>
           <IncreaseDecreaseValue
-            value={ 
-              digitToFixed(portfolio_all_time_pl_percentage === 0 
-                ? 0 
-                : portfolio_all_time_pl_percentage ?? 0, 2) 
+            value={
+              digitToFixed(portfolio_all_time_pl_percentage === 0
+                ? 0
+                : portfolio_all_time_pl_percentage ?? 0, 2)
             }
             afterPrefix="%"
             bold
@@ -229,11 +229,11 @@ const StatisticsView = ({
         </AllTimePLValueWrap>
       </AllTimePLContainer>
       <TopPerformerContents>
-        <TopPerPormerCard 
+        <TopPerPormerCard
           renderKey="bestPerformer"
           data={topPerformers}
         />
-        <TopPerPormerCard 
+        <TopPerPormerCard
           renderKey="worstPerformer"
           data={topPerformers}
         />
@@ -248,7 +248,7 @@ const AllTimePLContainer = styled.View`
   flex-direction: row;
   justify-content: space-between;
   background-color: ${({ theme }) => theme.base.background[200]};
-  border-radius: ${({ theme }) => theme.border.m };
+  border-radius: ${({ theme }) => theme.border.m};
   padding: 10px 13px;
   margin-top: 15px;
 `

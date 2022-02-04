@@ -14,19 +14,19 @@ const CoinDetailSkeleton = () => {
     <>
       <Container>
         <SkeletonPlaceholder.Item paddingHorizontal={parseInt(spacing)} paddingVertical={15} >
-          <SkeletonPlaceholder.Item height={38.5} width={200} borderRadius={6}/>
-          <SkeletonPlaceholder.Item height={19} width={149} marginTop={5} borderRadius={6}/>
-          <SkeletonPlaceholder.Item marginTop={30} height={280} width={width - parseInt(spacing) * 2} borderRadius={6}/>
+          <SkeletonPlaceholder.Item height={38.5} width={200} borderRadius={6} />
+          <SkeletonPlaceholder.Item height={19} width={149} marginTop={5} borderRadius={6} />
+          <SkeletonPlaceholder.Item marginTop={30} height={280} width={width - parseInt(spacing) * 2} borderRadius={6} />
           <SkeletonPlaceholder.Item marginTop={20} width={width - parseInt(spacing) * 2} borderRadius={6} justifyContent="space-between" flexDirection="row">
-            <SkeletonPlaceholder.Item height={30} width={36.5} borderRadius={6}/>
-            <SkeletonPlaceholder.Item height={30} width={36.5} borderRadius={6}/>
-            <SkeletonPlaceholder.Item height={30} width={36.5} borderRadius={6}/>
-            <SkeletonPlaceholder.Item height={30} width={36.5} borderRadius={6}/>
-            <SkeletonPlaceholder.Item height={30} width={36.5} borderRadius={6}/>
-            <SkeletonPlaceholder.Item height={30} width={36.5} borderRadius={6}/>
-            <SkeletonPlaceholder.Item height={30} width={36.5} borderRadius={6}/>
+            <SkeletonPlaceholder.Item height={30} width={36.5} borderRadius={6} />
+            <SkeletonPlaceholder.Item height={30} width={36.5} borderRadius={6} />
+            <SkeletonPlaceholder.Item height={30} width={36.5} borderRadius={6} />
+            <SkeletonPlaceholder.Item height={30} width={36.5} borderRadius={6} />
+            <SkeletonPlaceholder.Item height={30} width={36.5} borderRadius={6} />
+            <SkeletonPlaceholder.Item height={30} width={36.5} borderRadius={6} />
+            <SkeletonPlaceholder.Item height={30} width={36.5} borderRadius={6} />
           </SkeletonPlaceholder.Item>
-          <SkeletonPlaceholder.Item marginTop={35} height={22} width={80} borderRadius={6}/>
+          <SkeletonPlaceholder.Item marginTop={35} height={22} width={80} borderRadius={6} />
         </SkeletonPlaceholder.Item>
       </Container>
     </>

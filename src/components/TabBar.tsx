@@ -14,7 +14,7 @@ const TabBar = ({ descriptors, state, navigation }: BottomTabBarProps) => {
   const focusedOptions = descriptors[routes[index].key].options;
 
   const getVisibility = () => {
-    if(focusedOptions.tabBarVisible === false || routes[index].state?.index === 1 || routes[index].state?.index === 2 || routes[index].state?.index === 3 ) {
+    if (focusedOptions.tabBarVisible === false || routes[index].state?.index === 1 || routes[index].state?.index === 2 || routes[index].state?.index === 3) {
       return false;
     }
     return true;
@@ -25,16 +25,16 @@ const TabBar = ({ descriptors, state, navigation }: BottomTabBarProps) => {
       {routes.map((route, idx) => {
         const { options } = descriptors[route.key];
         const { tabBarIcon } = options;
-        
+
         const label =
           options.tabBarLabel !== undefined
             ? options.tabBarLabel
             : options.title !== undefined
-            ? options.title
-            : route.name;
+              ? options.title
+              : route.name;
 
         const isFocused = index === idx;
-          
+
         const onPress = () => {
           habtics.selectionAsync();
 
@@ -43,7 +43,7 @@ const TabBar = ({ descriptors, state, navigation }: BottomTabBarProps) => {
             target: route.key,
             canPreventDefault: true,
           });
-          if(!isFocused && !event.defaultPrevented) {
+          if (!isFocused && !event.defaultPrevented) {
             navigation.navigate(route.name)
           }
         };
@@ -64,16 +64,16 @@ const TabBar = ({ descriptors, state, navigation }: BottomTabBarProps) => {
             onPress={onPress}
             onLongPress={onLongPress}
           >
-            { tabBarIcon && 
+            {tabBarIcon &&
               tabBarIcon({ focused: isFocused, color: iconColor, size: 20 })
             }
-            <TabLabel 
-              isFocused={isFocused} 
+            <TabLabel
+              isFocused={isFocused}
               heavy
               margin="3px 0 0 0"
               fontXS
             >
-              { label }
+              {label}
             </TabLabel>
           </EachTabWrap>
         )
@@ -95,9 +95,9 @@ type TabLabelProps = {
 const TabBarContainer = styled.View<TabBarContainerType>`
   flex-direction: row;
   height: ${({ insetBottom, visible }) => visible ? insetBottom + TAB_BAR_HEIGHT + 'px' : 0};
-  background-color: ${({theme}) => theme.base.background['surface']};
+  background-color: ${({ theme }) => theme.base.background['surface']};
   border-top-width:1px;
-  border-top-color:${({theme}) => theme.base.background[300]};
+  border-top-color:${({ theme }) => theme.base.background[300]};
   align-items: center;
   padding-bottom: ${({ insetBottom }) => insetBottom}px;
 `
@@ -107,6 +107,6 @@ const EachTabWrap = styled.TouchableOpacity`
   justify-content: center;
   flex: 1;
 `
-const TabLabel = styled(Text)<TabLabelProps>`
+const TabLabel = styled(Text) <TabLabelProps>`
   color: ${(props) => props.isFocused ? props.theme.base.text[100] : props.theme.base.text[400]};
 `

@@ -8,15 +8,15 @@ type CustomText = {
   children: React.ReactNode;
 }
 
-interface FormatTextProps extends TextStyleProps{
+interface FormatTextProps extends TextStyleProps {
   formatType: 'Pp'
   date: number | Date
   afterPrefix?: string
   beforePrefix?: string
 }
 
-const DateFormatText = ({ 
-  formatType, 
+const DateFormatText = ({
+  formatType,
   date,
   afterPrefix,
   beforePrefix,
@@ -28,37 +28,37 @@ const DateFormatText = ({
     return (<Text
       {...textStyles}
     >
-      { afterPrefix }
-      { afterPrefix && (
+      {afterPrefix}
+      {afterPrefix && (
         <Text>
           &nbsp;
         </Text>
-      ) } 
-      { children}
-      { beforePrefix }
+      )}
+      {children}
+      {beforePrefix}
     </Text>)
   }, [date])
-  
-  if(formatType === 'Pp') 
+
+  if (formatType === 'Pp')
     return (
       <CustomText>
-        { format(
+        {format(
           new Date(date), language === 'en' ? 'PP' : 'PPP', {
           locale: language === 'en' ? enUS : ko
-        }) } 
+        })}
         &nbsp;
-        { language === 'ko' && (
+        {language === 'ko' && (
           format(new Date(date), 'a', {
             locale: ko
           }) + ' '
-        )} 
-        { language === 'ko' 
+        )}
+        {language === 'ko'
           ? format(new Date(date), 'p', {
-              locale: enUS
-            }).slice(0, -2)
+            locale: enUS
+          }).slice(0, -2)
           : format(new Date(date), 'p', {
-              locale: enUS
-            })
+            locale: enUS
+          })
         }
       </CustomText>
     )

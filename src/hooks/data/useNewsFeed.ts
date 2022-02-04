@@ -3,13 +3,14 @@ import { Cryptocompare, http } from '/lib/api/CryptocompareClient';
 import { FeedReturn } from '/types/CryptoCompareReturnType';
 
 type FeedProps = {
-  suspense?: boolean,
-  refreshInterval?: number,
-}
-const useNewsFeed = ({ suspense, refreshInterval }: FeedProps) => {
-  const getKey = Cryptocompare.news.feeds({})
+  suspense?: boolean;
+  refreshInterval?: number;
+};
 
-  return useRequest<FeedReturn[]>(getKey, http, { suspense, refreshInterval })
-}
+const useNewsFeed = ({ suspense, refreshInterval }: FeedProps) => {
+  const getKey = Cryptocompare.news.feeds({});
+
+  return useRequest<FeedReturn[]>(getKey, http, { suspense, refreshInterval });
+};
 
 export default useNewsFeed;

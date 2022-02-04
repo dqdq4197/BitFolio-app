@@ -4,19 +4,22 @@ import styled from 'styled-components/native';
 import { fromUnixTime, formatDistance } from 'date-fns';
 import { ko, enUS } from 'date-fns/locale';
 import * as WebBrowser from 'expo-web-browser';
-import { NewsData } from '/types/CryptoCompareReturnType';
-import Text from '/components/common/Text';
-import Image from '/components/common/Image';
+
 import useLocales from '/hooks/useLocales';
 import useGlobalTheme from '/hooks/useGlobalTheme';
+import { NewsData } from '/types/CryptoCompareReturnType';
 
+import Text from '/components/common/Text';
+import Image from '/components/common/Image';
 
 const { width } = Dimensions.get('window');
 const IMAGE_SIZE = 60;
+
 type ItemProps = {
   item: NewsData;
   currentCategory: string | null;
-}
+};
+
 const Item = ({ item, currentCategory }: ItemProps) => {
   const { theme } = useGlobalTheme();
   const { language } = useLocales();
@@ -24,87 +27,89 @@ const Item = ({ item, currentCategory }: ItemProps) => {
   const handleItemPress = () => {
     return WebBrowser.openBrowserAsync(item.url, {
       toolbarColor: theme.base.background.surface,
-      enableBarCollapsing: true
-    })
-  }
+      enableBarCollapsing: true,
+    });
+  };
 
   return (
-    <Container 
+    <Container
       activeOpacity={0.6}
       onPress={handleItemPress}
-      underlayColor={ theme.base.background[300] }
+      underlayColor={theme.base.background[300]}
     >
       <>
         <Text fontS>
-          { formatDistance( 
-              fromUnixTime(item.published_on), new Date(),
-              { addSuffix: true, locale: language === 'ko' ? ko : enUS },
-            )
-          } ∙ { item.source }
+          {formatDistance(
+            fromUnixTime(item.published_on), new Date(),
+            { addSuffix: true, locale: language === 'ko' ? ko : enUS },
+          )
+          } ∙ {item.source}
         </Text>
         <FlexBox>
           <TitleWrap>
             <Text fontL color100 bold margin="0 10px 0 0">
-              { item.title }        
+              {item.title}
             </Text>
           </TitleWrap>
-          <Image 
-            uri={item.imageurl} 
-            width={IMAGE_SIZE} 
+          <Image
+            uri={item.imageurl}
+            width={IMAGE_SIZE}
             height={IMAGE_SIZE}
-            borderRedius='m'
+            borderRedius="m"
           />
         </FlexBox>
         <CategoriesWrap>
-          { item.categories.split('|').map(category => {
+          {item.categories.split('|').map(category => {
             return (
               <CategoryWrap key={category}>
-                { category.toLowerCase() === currentCategory 
-                  ? <Text primaryColor fontXS bold>
-                      { category }
-                    </Text>
-                  : <Text color100 fontXS bold>
-                      { category }
-                    </Text>
-                }
-
+                {category.toLowerCase() === currentCategory ? (
+                  <Text primaryColor fontXS bold>
+                    {category}
+                  </Text>
+                ) : (
+                  <Text color100 fontXS bold>
+                    {category}
+                  </Text>
+                )}
               </CategoryWrap>
-            )
-          }) }
+            );
+          })}
         </CategoriesWrap>
         <Text fontML numberOfLines={5} margin="10px 0 0 0">
-          { item.body }        
+          {item.body}
         </Text>
       </>
     </Container>
-  )
-}
+  );
+};
 
 export default Item;
 
 const Container = styled.TouchableHighlight`
-  width: ${ width }px;
+  width: ${width}px;
   padding: ${({ theme }) => theme.content.spacing};
-`
+`;
 
 const FlexBox = styled.View`
   flex-direction: row;
   margin-top: 10px;
   justify-content: space-between;
-`
+`;
+
 const TitleWrap = styled.View`
   // 10 => margin-right value of title text
-  width: ${({ theme }) => width - parseInt(theme.content.spacing) * 2 - IMAGE_SIZE - 10}px;
-`
+  width: ${({ theme }) =>
+    width - parseInt(theme.content.spacing, 10) * 2 - IMAGE_SIZE - 10}px;
+`;
 
 const CategoriesWrap = styled.View`
   flex-direction: row;
   margin-top: 5px;
-`
+`;
 
 const CategoryWrap = styled.View`
   padding: 3px 5px;
   border-radius: ${({ theme }) => theme.border.s};
   background-color: ${({ theme }) => theme.base.background[300]};
   margin-right: 5px;
-`
+`;

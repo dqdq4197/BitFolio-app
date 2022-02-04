@@ -23,27 +23,27 @@ const OverviewScreen = ({ navigation }: StackScreenProps<any>) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <Ionicons 
-          name="md-settings-outline" 
-          size={24} 
-          color={theme.base.text[200]} 
+        <Ionicons
+          name="md-settings-outline"
+          size={24}
+          color={theme.base.text[200]}
           onPress={handleSettingPress}
         />
-      )
+      ),
     })
-  }, [theme])
+  }, [theme]);
 
-  
+
   return (
     <GeneralTemplate>
       <ErrorBoundaryAndSuspense skeleton={<CoinHomeSkeleton />}>
-        <SettingModal ref={settingModalRef}/>
+        <SettingModal ref={settingModalRef} />
         <PortfolioDataProvider>
-          <Layout/>
+          <Layout />
         </PortfolioDataProvider>
       </ErrorBoundaryAndSuspense>
     </GeneralTemplate>
-  )
-}
+  );
+};
 
 export default OverviewScreen;

@@ -36,7 +36,7 @@ const FiltersBar = () => {
   }, [feeds, categories])
 
   const handleResetPress = () => {
-    if(!activeReset) return ;
+    if (!activeReset) return;
 
     dispatch(resetFilters());
   }
@@ -49,10 +49,10 @@ const FiltersBar = () => {
     setCategoriesVisible(true);
   }
 
-  if(!data) return (
+  if (!data) return (
     <>
       <SkeletonContainer>
-        <SkeletonPlaceholder.Item height={45} alignItems="center" flexDirection="row" paddingHorizontal={ parseInt(theme.content.spacing) }>
+        <SkeletonPlaceholder.Item height={45} alignItems="center" flexDirection="row" paddingHorizontal={parseInt(theme.content.spacing)}>
           <SkeletonPlaceholder.Item width={100} height={30} marginRight={10} borderRadius={6} />
           <SkeletonPlaceholder.Item width={50} height={30} marginRight={10} borderRadius={6} />
           <SkeletonPlaceholder.Item width={75} height={30} marginRight={10} borderRadius={6} />
@@ -69,55 +69,55 @@ const FiltersBar = () => {
         activeOpacity={0.6}
         onPress={handleResetPress}
       >
-        <MaterialIcons 
-          name="refresh" 
-          size={18} 
-          color={ 
+        <MaterialIcons
+          name="refresh"
+          size={18}
+          color={
             activeReset
-            ? theme.base.removeColor
-            : theme.base.text[300]
-          } 
+              ? theme.base.removeColor
+              : theme.base.text[300]
+          }
         />
-        <CustomText 
+        <CustomText
           isActive={activeReset}
-          margin="0 0 0 5px" 
-          bold 
+          margin="0 0 0 5px"
+          bold
         >
-          { t(`news.reset filter`) }
+          {t(`news.reset filter`)}
         </CustomText>
       </Button>
       <Button
         activeOpacity={0.6}
         onPress={handleFeedsPress}
       >
-        <FontAwesome  name="filter" size={14} color={ theme.base.text[100] }/>
+        <FontAwesome name="filter" size={14} color={theme.base.text[100]} />
         <Text margin="0 0 0 5px" bold color100 >
-          { t(`news.feeds`) }
+          {t(`news.feeds`)}
         </Text>
       </Button>
       <Button
         activeOpacity={0.6}
         onPress={handleCategoriesPress}
       >
-        <FontAwesome  name="filter" size={14} color={ theme.base.text[100] }/>
+        <FontAwesome name="filter" size={14} color={theme.base.text[100]} />
         <Text margin="0 0 0 5px" bold color100 >
-          { t(`news.categories`) }
+          {t(`news.categories`)}
         </Text>
       </Button>
-      { feedsVisible && (
-        <FeedFilterModal 
+      {feedsVisible && (
+        <FeedFilterModal
           visible={feedsVisible}
           setVisible={setFeedsVisible}
           Feeds={data.Data.Feeds}
         />
-      ) }
-      { categoriesVisible && (
-        <CategoryFilterModal 
+      )}
+      {categoriesVisible && (
+        <CategoryFilterModal
           visible={categoriesVisible}
           setVisible={setCategoriesVisible}
           Categories={data.Data.Categories}
         />
-      ) }
+      )}
     </Container>
   )
 }
@@ -135,7 +135,7 @@ const Container = styled.ScrollView`
   padding: 5px ${({ theme }) => theme.content.spacing} 10px;
 `
 
-const CustomText = styled(Text)<TextProps>`
+const CustomText = styled(Text) <TextProps>`
   color: ${({ theme, isActive }) => isActive
     ? theme.base.removeColor
     : theme.base.text[300]

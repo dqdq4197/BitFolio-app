@@ -4,20 +4,20 @@ import { createStackNavigator } from '@react-navigation/stack';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 
 import { Overview, AddNewCoin } from '/screens/portfolio';
-import CoinDetail from './CoinDetail'
+import CoinDetail from './CoinDetail';
 
-const Stack = createStackNavigator()
+const Stack = createStackNavigator();
 
-const PortfolioStack = ({ }) => {
+const PortfolioStack = () => {
   const { theme } = useGlobalTheme();
 
   return (
-    <Stack.Navigator 
+    <Stack.Navigator
       screenOptions={{
-        title: "",
+        title: '',
         headerStyle: {
           backgroundColor: theme.base.background.surface,
-          shadowColor: 'transparent'
+          shadowColor: 'transparent',
         },
         headerTintColor: theme.base.text[100],
         headerBackTitleVisible: false,
@@ -25,31 +25,22 @@ const PortfolioStack = ({ }) => {
           paddingLeft: 10,
         },
         headerRightContainerStyle: {
-          paddingRight: 16
+          paddingRight: parseInt(theme.content.spacing, 10),
         },
         headerTitleStyle: {
-          fontSize: 18,
+          fontSize: parseInt(theme.size.font_l, 10),
         },
         gestureEnabled: true,
         gestureResponseDistance: {
-          horizontal: 20
-        }
+          horizontal: 20,
+        },
       }}
     >
-      <Stack.Screen 
-        name="portfolioOverview" 
-        component={Overview}
-      />
-      <Stack.Screen 
-        name="AddNewCoin" 
-        component={AddNewCoin}
-      />
-      <Stack.Screen 
-        name="portfolioCoinDetail" 
-        component={CoinDetail}
-      />
+      <Stack.Screen name="portfolioOverview" component={Overview} />
+      <Stack.Screen name="AddNewCoin" component={AddNewCoin} />
+      <Stack.Screen name="portfolioCoinDetail" component={CoinDetail} />
     </Stack.Navigator>
-  )
-}
+  );
+};
 
 export default PortfolioStack;

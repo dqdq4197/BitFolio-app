@@ -33,42 +33,42 @@ const BottomNotice = () => {
       <TitleWrap>
         <MaterialCommunityIcons name="information" size={19} color={theme.base.text[200]} />
         <Text fontML bold margin="0 0 0 5px">
-          { t(`common.bottom notice.title`) }
+          {t(`common.bottom notice.title`)}
         </Text>
       </TitleWrap>
       <Row>
         <BulletCol>
           <Text color300 bold fontL>
-            { '\u2022' }
+            {'\u2022'}
           </Text>
         </BulletCol>
         <TextWrap>
           <Text color300 lineHeight={18}>
-            { t(`common.bottom notice.first`) }
+            {t(`common.bottom notice.first`)}
           </Text>
         </TextWrap>
       </Row>
       <Row>
         <BulletCol>
           <Text color300 bold fontL>
-            { '\u2022' }
+            {'\u2022'}
           </Text>
         </BulletCol>
         <TextWrap>
           <Text color300 lineHeight={18}>
-            { t(`common.bottom notice.second`) }
+            {t(`common.bottom notice.second`)}
           </Text>
         </TextWrap>
       </Row>
       <Row>
         <BulletCol>
           <Text color300 bold fontL>
-            { '\u2022' }
+            {'\u2022'}
           </Text>
         </BulletCol>
         <TextWrap>
           <Text color300 lineHeight={18}>
-            { t(`common.bottom notice.third`) }
+            {t(`common.bottom notice.third`)}
           </Text>
         </TextWrap>
       </Row>
@@ -78,8 +78,8 @@ const BottomNotice = () => {
         </Text>
       </Row>
       <Row>
-        <Text color300 onPress={ handlePrivacyPolicyPress }>
-          - { t(`common.bottom notice.privacy policy notice`) }
+        <Text color300 onPress={handlePrivacyPolicyPress}>
+          - {t(`common.bottom notice.privacy policy notice`)}
         </Text>
       </Row>
     </Container>

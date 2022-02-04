@@ -10,7 +10,7 @@ type ImageBlockProps = {
 const ImageBlock = ({ index, uri, width, height }: ImageBlockProps) => {
 
   return (
-    <Image 
+    <Image
       uri={uri}
       width={150}
       height={100}

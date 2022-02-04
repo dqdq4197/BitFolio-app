@@ -4,13 +4,12 @@ import DiscussionLayout from '/components/coinMarketDetail/discussion/Layout';
 import MarketListSkeleton from '/components/skeletonPlaceholder/MarketListSkeleton';
 import ErrorBoundaryAndSuspense from '/components/common/ErrorBoundaryAndSuspense';
 
-
 const Discussion = () => {
   return (
-    <ErrorBoundaryAndSuspense skeleton={<MarketListSkeleton/>} >
-      <DiscussionLayout/>
+    <ErrorBoundaryAndSuspense skeleton={<MarketListSkeleton />}>
+      <DiscussionLayout />
     </ErrorBoundaryAndSuspense>
-  )
-}
+  );
+};
 
 export default Discussion;

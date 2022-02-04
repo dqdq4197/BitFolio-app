@@ -25,12 +25,12 @@ type SearchesItemProps = {
 }
 
 const SearchesEmptyView = () => {
-  const { t } = useTranslation();  
+  const { t } = useTranslation();
 
   return (
     <SearchesEmptyContainer>
       <Text fontML bold>
-        { t(`search.there are no recent searches`) }
+        {t(`search.there are no recent searches`)}
       </Text>
     </SearchesEmptyContainer>
   )
@@ -38,29 +38,29 @@ const SearchesEmptyView = () => {
 
 const SearchesItem = ({ item, onPressItem }: SearchesItemProps) => {
   return (
-    <SearchesItemContainer 
+    <SearchesItemContainer
       onPress={() => onPressItem(item.id, item.symbol)}
       activeOpacity={0.8}
     >
       <Image uri={item.large} width={30} height={30} borderRedius="m" />
-      <Text 
-        fontML 
-        bold 
-        color100 
+      <Text
+        fontML
+        bold
+        color100
         numberOfLines={1}
         ellipsizeMode="tail"
         margin="8px 0 0 0"
       >
-        { item.name }
+        {item.name}
       </Text>
-      <Text 
-        fontM 
+      <Text
+        fontM
         bold
         numberOfLines={1}
         ellipsizeMode="tail"
         margin="2px 0 0 0"
       >
-        { item.symbol }
+        {item.symbol}
       </Text>
     </SearchesItemContainer>
   )
@@ -73,50 +73,50 @@ const DefaultView = ({ data, searchesData, onPressItem }: DefaultViewProps) => {
 
   return (
     <Container>
-      <SurfaceWrap 
-        title={t('search.recent searches')} 
-        marginTopZero 
+      <SurfaceWrap
+        title={t('search.recent searches')}
+        marginTopZero
         parentPaddingZero
       >
-        { searchesData.length === 0 
+        {searchesData.length === 0
           ? <SearchesEmptyView />
           : <SearchesScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={{
-                paddingHorizontal: parseInt(theme.content.spacing)
-              }}
-            >
-              { data 
-                ? searchesData.map((coin, index) => (
-                  <SearchesItem 
-                    key={coin.id + coin.name + index}
-                    item={coin}
-                    onPressItem={onPressItem}
-                  /> )) 
-                : <SearchesLoadingView>
-                    <GlobalIndicator 
-                      transparent
-                      isLoaded={false}
-                      size='large'
-                    />
-                  </SearchesLoadingView>
-              }
-            </SearchesScrollView>
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{
+              paddingHorizontal: parseInt(theme.content.spacing)
+            }}
+          >
+            {data
+              ? searchesData.map((coin, index) => (
+                <SearchesItem
+                  key={coin.id + coin.name + index}
+                  item={coin}
+                  onPressItem={onPressItem}
+                />))
+              : <SearchesLoadingView>
+                <GlobalIndicator
+                  transparent
+                  isLoaded={false}
+                  size='large'
+                />
+              </SearchesLoadingView>
+            }
+          </SearchesScrollView>
         }
       </SurfaceWrap>
       <SurfaceWrap
         title={t('search.trending search')}
         parentPaddingZero
       >
-        { data?.map((coin, index) => {
+        {data?.map((coin, index) => {
           const { item } = coin;
-          
+
           return (
-            <Item 
+            <Item
               key={item.coin_id}
               index={index}
-              item={item} 
+              item={item}
               onPressItem={() => onPressItem(item.id, item.symbol)}
             />
           )

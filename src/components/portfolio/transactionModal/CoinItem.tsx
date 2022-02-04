@@ -12,26 +12,26 @@ type ItemProps = {
 const CoinItem = ({ item, onPressItem }: ItemProps) => {
   return (
     <Container onPress={() => onPressItem(item.id, item.symbol)}>
-      <Image uri={item.large} width={30} height={30}/>
+      <Image uri={item.large} width={30} height={30} />
       <NameWrap>
-        <Text 
-          color100 
-          fontML 
+        <Text
+          color100
+          fontML
           bold
-          numberOfLines={ 1 } 
+          numberOfLines={1}
           ellipsizeMode='tail'
         >
-          { item.name }
+          {item.name}
         </Text>
         <Text fontML>
-          { item.symbol }
+          {item.symbol}
         </Text>
       </NameWrap>
     </Container>
   )
 }
 
-export default CoinItem;  
+export default CoinItem;
 
 const Container = styled.TouchableOpacity`
   flex-direction: row;

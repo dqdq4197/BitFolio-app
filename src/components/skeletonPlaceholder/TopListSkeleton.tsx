@@ -14,22 +14,22 @@ const HighVolumeSkeleton = () => {
     <>
       <Container>
         <SkeletonPlaceholder.Item paddingHorizontal={parseInt(spacing)} paddingVertical={20} >
-          <SkeletonPlaceholder.Item height={30} width={130} borderRadius={6}/>
-          <SkeletonPlaceholder.Item height={18} width={width - parseInt(spacing) * 2} marginTop={10} borderRadius={6}/>
-          <SkeletonPlaceholder.Item height={18} width={width - parseInt(spacing) * 2} marginTop={5} borderRadius={6}/>
+          <SkeletonPlaceholder.Item height={30} width={130} borderRadius={6} />
+          <SkeletonPlaceholder.Item height={18} width={width - parseInt(spacing) * 2} marginTop={10} borderRadius={6} />
+          <SkeletonPlaceholder.Item height={18} width={width - parseInt(spacing) * 2} marginTop={5} borderRadius={6} />
         </SkeletonPlaceholder.Item>
       </Container>
-      <CoinItem/>
-      <CoinItem/>
-      <CoinItem/>
-      <CoinItem/>
-      <CoinItem/>
-      <CoinItem/>
-      <CoinItem/>
-      <CoinItem/>
-      <CoinItem/>
-      <CoinItem/>
-      <CoinItem/>
+      <CoinItem />
+      <CoinItem />
+      <CoinItem />
+      <CoinItem />
+      <CoinItem />
+      <CoinItem />
+      <CoinItem />
+      <CoinItem />
+      <CoinItem />
+      <CoinItem />
+      <CoinItem />
     </>
   )
 }

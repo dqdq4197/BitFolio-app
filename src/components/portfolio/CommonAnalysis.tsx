@@ -32,17 +32,17 @@ type ContentProps = {
   isLoading: boolean
 }
 
-const ConditionalContent = ({ 
+const ConditionalContent = ({
   mode,
   privatePlaceholder,
-  children, 
-  skeletonSize, 
-  isLoading 
+  children,
+  skeletonSize,
+  isLoading
 }: ContentProps) => {
-  if(mode === 'private' && privatePlaceholder) {
+  if (mode === 'private' && privatePlaceholder) {
     return privatePlaceholder
   } else {
-    if(isLoading) {
+    if (isLoading) {
       const { width, height } = skeletonSize;
 
       return (
@@ -71,7 +71,7 @@ const CommonAnalysis = ({
   const { currency } = useLocales();
 
   const onPortfolioModeChange = () => {
-    if(mode === 'private') {
+    if (mode === 'private') {
       habtics.impactAsync();
       dispatch(changeMode('public'));
     } else {
@@ -81,9 +81,9 @@ const CommonAnalysis = ({
   }
 
   const showFullValue = () => {
-    if(mode === 'private') return ;
+    if (mode === 'private') return;
 
-    if(showValueMode === 'full') {
+    if (showValueMode === 'full') {
       dispatch(changeShowValueMode('short'))
     } else {
       dispatch(changeShowValueMode('full'))
@@ -92,17 +92,17 @@ const CommonAnalysis = ({
   return (
     <Container>
       <Text fontML bold margin="0 0 5px 0">
-        { t(`portfolio.total balance`) }
+        {t(`portfolio.total balance`)}
       </Text>
       <SpaceBetweenView
         activeOpacity={0.6}
         onLongPress={onPortfolioModeChange}
         onPress={showFullValue}
       >
-        <ConditionalContent 
+        <ConditionalContent
           mode={mode}
           privatePlaceholder={
-            <PrivatePlaceholder 
+            <PrivatePlaceholder
               color100
               diameter={13}
               numberOfCircle={5}
@@ -115,21 +115,21 @@ const CommonAnalysis = ({
             height: 35
           }}
         >
-          { showValueMode === 'short'
+          {showValueMode === 'short'
             ? <Text fontXXL heavy color100>
-                { total_balance !== undefined && convertUnits(total_balance, currency) }
-               </Text>
+              {total_balance !== undefined && convertUnits(total_balance, currency)}
+            </Text>
             : <Text fontXL heavy color100>
-                { total_balance && currencyFormat({
-                  value: total_balance,
-                  prefix: getCurrencySymbol(currency)
-                }) }
-              </Text>
+              {total_balance && currencyFormat({
+                value: total_balance,
+                prefix: getCurrencySymbol(currency)
+              })}
+            </Text>
           }
-         
+
         </ConditionalContent>
         <Block>
-          <ConditionalContent 
+          <ConditionalContent
             isLoading={isLoading}
             skeletonSize={{
               width: 50,
@@ -137,11 +137,11 @@ const CommonAnalysis = ({
             }}
           >
             <IncreaseDecreaseValue
-              heavy 
+              heavy
               fontL
-              value={ 
+              value={
                 portfolio_change_percentage_24h !== undefined && isFinite(portfolio_change_percentage_24h)
-                  ? digitToFixed(portfolio_change_percentage_24h, 2) 
+                  ? digitToFixed(portfolio_change_percentage_24h, 2)
                   : null
               }
               afterPrefix="%"
@@ -149,10 +149,10 @@ const CommonAnalysis = ({
           </ConditionalContent>
         </Block>
       </SpaceBetweenView>
-      <ConditionalContent 
+      <ConditionalContent
         mode={mode}
         privatePlaceholder={
-          <PrivatePlaceholder 
+          <PrivatePlaceholder
             diameter={8}
             numberOfCircle={3}
             horizontalSpacing={13}
@@ -166,13 +166,13 @@ const CommonAnalysis = ({
       >
         <Row>
           <Text fontML bold>
-            { portfolio_change_24h && ( showValueMode === 'short'
+            {portfolio_change_24h && (showValueMode === 'short'
               ? (portfolio_change_24h > 0 ? '+ ' : '') + convertUnits(portfolio_change_24h, currency)
               : (portfolio_change_24h > 0 ? '+ ' : '') + currencyFormat({
-                  value: portfolio_change_24h,
-                  prefix: getCurrencySymbol(currency)
-                })
-            ) }
+                value: portfolio_change_24h,
+                prefix: getCurrencySymbol(currency)
+              })
+            )}
           </Text>
           <Wrap>
             <Text primaryColor bold>

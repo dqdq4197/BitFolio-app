@@ -6,10 +6,10 @@ import ErrorBoundaryAndSuspense from '/components/common/ErrorBoundaryAndSuspens
 
 const News = () => {
   return (
-    <ErrorBoundaryAndSuspense skeleton={<MarketListSkeleton/>} >
-      <NewsLayout/>
+    <ErrorBoundaryAndSuspense skeleton={<MarketListSkeleton />}>
+      <NewsLayout />
     </ErrorBoundaryAndSuspense>
-  )
-}
+  );
+};
 
 export default News;

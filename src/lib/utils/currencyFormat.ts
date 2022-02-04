@@ -1,24 +1,26 @@
 import { baseTypes } from 'base-types';
+
 import { CURRENCIES } from '../constant';
 
 type CurrencyFormat = {
-  value: string | number
-  prefix?: string
-  zeroMask?: string
-  includeSeparator?: boolean
-}
+  value: string | number;
+  prefix?: string;
+  zeroMask?: string;
+  includeSeparator?: boolean;
+};
 
 type OnlyDecimalProps = {
-  value:number
-  minLength: number
-  maxLength?: number
-  zeroMask?: string
-  noneZeroCnt?: number
-}
+  value: number;
+  minLength: number;
+  maxLength?: number;
+  zeroMask?: string;
+  noneZeroCnt?: number;
+};
+
 export function limitToScale(numStr: string, scale: number, fixedDecimalScale: boolean) {
-  let str = ''
+  let str = '';
   const filler = fixedDecimalScale ? '0' : '';
-  for (let i = 0; i <= scale - 1; i++) {
+  for (let i = 0; i <= scale - 1; i += 1) {
     str += numStr[i] || filler;
   }
   return str;
@@ -43,9 +45,9 @@ export function AddSeparator(value: string | number) {
   var x2 = x.length > 1 ? '.' + x[1] : '';
   var rgx = /(\d+)(\d{3})/;
   while (rgx.test(x1)) {
-      x1 = x1.replace(rgx, '$1' + ',' + '$2');
+    x1 = x1.replace(rgx, '$1' + ',' + '$2');
   }
-  
+
   return x1 + x2;
 }
 
@@ -59,33 +61,33 @@ export function AddSeparator(value: string | number) {
  */
 
 export function getOnlyDecimal({
-  value, 
+  value,
   minLength,
-  maxLength, 
+  maxLength,
   noneZeroCnt = 2,
   zeroMask = '00'
-}: OnlyDecimalProps):string {
+}: OnlyDecimalProps): string {
   let result = value.toString().split('.');
 
-  if(!result[1]) {
+  if (!result[1]) {
     return zeroMask;
   } else {
     let maxTemp = maxLength ?? minLength;
     let nonZeroCnt = 0;
-    
-    if(maxLength === undefined) {
-      for(let i = 0; i < result[1].length; i++) {
-        if(result[1][i] !== '0') {
-          if(i >= minLength) 
-            maxTemp = Math.max(i + 1, maxTemp) 
+
+    if (maxLength === undefined) {
+      for (let i = 0; i < result[1].length; i++) {
+        if (result[1][i] !== '0') {
+          if (i >= minLength)
+            maxTemp = Math.max(i + 1, maxTemp)
           nonZeroCnt++;
-          if(nonZeroCnt === noneZeroCnt) break;
+          if (nonZeroCnt === noneZeroCnt) break;
         }
       }
-    }  
-    
-    
-    if(result[1].length >= maxTemp) {
+    }
+
+
+    if (result[1].length >= maxTemp) {
       return result[1].substr(0, maxTemp);
     } else {
       return result[1];
@@ -106,32 +108,32 @@ export function getCurrencySymbol(currency: baseTypes.Currency): string {
  * @param  {boolean} includeSeparator [default: true]
  */
 export function currencyFormat({
-  value, 
-  prefix, 
+  value,
+  prefix,
   includeSeparator = true
 }: CurrencyFormat): string {
   let numStr = typeof value === 'number' ? value.toString() : value;
   let [intPart, decimalPart] = numStr.split('.');
   const isNegative = Number(value) < 0;
   let sPrefix = prefix ?? '';
-  if(isNegative) {
+  if (isNegative) {
     intPart = intPart.substr(1);
     sPrefix = '-' + sPrefix;
   }
 
-  if(!decimalPart) {
+  if (!decimalPart) {
     return sPrefix + AddSeparator(intPart);
   }
-  
+
   const intPartLength = intPart.length;
   const decimalPartLength = decimalPart.length;
   let result = '';
   let decimalCnt = 0;
   let decimalZeroCnt = 0;
-  
-  if(Number(intPart) > 0) {
+
+  if (Number(intPart) > 0) {
     result = intPart + '.';
-    if(intPartLength === 1) {
+    if (intPartLength === 1) {
       decimalCnt = 3;
     } else {
       decimalCnt = 2;
@@ -139,25 +141,25 @@ export function currencyFormat({
   } else {
     result = '0.';
 
-    for(let i = 0; i < decimalPartLength; i++) {
-      if(decimalPart[i] === '0') {
+    for (let i = 0; i < decimalPartLength; i++) {
+      if (decimalPart[i] === '0') {
         decimalZeroCnt++;
       } else {
         break;
-      }        
+      }
     }
 
-    if(decimalZeroCnt < 4) {
+    if (decimalZeroCnt < 4) {
       decimalCnt = decimalZeroCnt + 4;
-    } else if(decimalZeroCnt === 4 || decimalZeroCnt === 5) {
+    } else if (decimalZeroCnt === 4 || decimalZeroCnt === 5) {
       decimalCnt = decimalZeroCnt + 3;
     } else {
       decimalCnt = decimalZeroCnt + 2;
     }
   }
 
-  for(let i = 0; i < decimalCnt; i++) {
-    if(i >= decimalPartLength) break;
+  for (let i = 0; i < decimalCnt; i++) {
+    if (i >= decimalPartLength) break;
     result += decimalPart[i];
   }
 
@@ -171,15 +173,15 @@ export const exponentToNumber = (num: number) => {
   if (Math.abs(num) < 1.0) {
     var e = parseInt(num.toString().split('e-')[1]);
     if (e) {
-      temp *= Math.pow(10, e-1);
+      temp *= Math.pow(10, e - 1);
       temp = '0.' + (new Array(e)).join('0') + temp.toString().substring(2);
     }
   } else {
     var e = parseInt(temp.toString().split('+')[1]);
     if (e > 20) {
-        e -= 20;
-        temp /= Math.pow(10,e);
-        temp += (new Array(e+1)).join('0');
+      e -= 20;
+      temp /= Math.pow(10, e);
+      temp += (new Array(e + 1)).join('0');
     }
   }
 

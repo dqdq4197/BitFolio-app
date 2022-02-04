@@ -21,23 +21,23 @@ type RowProps = {
 const Row = ({ onPress, title, enabled }: RowProps) => {
 
   const { theme } = useGlobalTheme();
-  
+
   return (
     <RowContainer
       onPress={onPress}
-      underlayColor={ theme.base.underlayColor[100] }
+      underlayColor={theme.base.underlayColor[100]}
     >
       <>
         <Text fontML bold>
-          { title }
+          {title}
         </Text>
-        <Octicons 
-          name="check" 
-          size={28} 
+        <Octicons
+          name="check"
+          size={28}
           color={
-            enabled 
-            ? theme.base.primaryColor
-            : 'transparent'
+            enabled
+              ? theme.base.primaryColor
+              : 'transparent'
           }
         />
       </>
@@ -45,7 +45,7 @@ const Row = ({ onPress, title, enabled }: RowProps) => {
   )
 }
 
-const LaunchScreen = ({}: LaunchScreenProps) => {
+const LaunchScreen = ({ }: LaunchScreenProps) => {
 
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
@@ -57,27 +57,27 @@ const LaunchScreen = ({}: LaunchScreenProps) => {
 
   return (
     <SurfaceWrap
-      title={ t(`setting.launch screen settings`) }
+      title={t(`setting.launch screen settings`)}
       parentPaddingZero
       marginTopZero
       fontML
     >
-      <Row 
+      <Row
         onPress={() => onLaunchScreenChange(TAB_ROUTE_NAME.portfolio)}
-        title={ t(`common.${ TAB_ROUTE_NAME.portfolio }`) }
-        enabled={ launchScreen === TAB_ROUTE_NAME.portfolio }
+        title={t(`common.${TAB_ROUTE_NAME.portfolio}`)}
+        enabled={launchScreen === TAB_ROUTE_NAME.portfolio}
       />
-      <Row 
+      <Row
         onPress={() => onLaunchScreenChange(TAB_ROUTE_NAME.home)}
-        title={ t(`common.${ TAB_ROUTE_NAME.home }`) }
-        enabled={ launchScreen === TAB_ROUTE_NAME.home }
+        title={t(`common.${TAB_ROUTE_NAME.home}`)}
+        enabled={launchScreen === TAB_ROUTE_NAME.home}
       />
-      <Row 
+      <Row
         onPress={() => onLaunchScreenChange(TAB_ROUTE_NAME.news)}
-        title={ t(`common.${ TAB_ROUTE_NAME.news }`) }
-        enabled={ launchScreen === TAB_ROUTE_NAME.news }
+        title={t(`common.${TAB_ROUTE_NAME.news}`)}
+        enabled={launchScreen === TAB_ROUTE_NAME.news}
       />
-      <Blank/>
+      <Blank />
     </SurfaceWrap>
   )
 }

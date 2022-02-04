@@ -7,8 +7,8 @@ import {
   TextInputSelectionChangeEventData,
   TextInputFocusEventData,
 } from 'react-native';
-import { 
-  useMdEditorDispatch, 
+import {
+  useMdEditorDispatch,
   useMdEditorState,
   ParagraphType,
   EmbedType,
@@ -28,18 +28,18 @@ interface PlainTextProps {
   type: string,
 }
 
-const PlainTextBlock = ({ index, type, payload }: PlainTextProps ) => {
+const PlainTextBlock = ({ index, type, payload }: PlainTextProps) => {
   const { scheme } = useGlobalTheme();
   const handlers = useMdEditorDispatch();
   const textInputRef = useRef<TextInput | null>(null);
   const { contentStorage, isTextRendered, selection, focusState, selectionChangeDetect } = useMdEditorState();
 
   useEffect(() => {
-    if(textInputRef.current && isTextRendered) {
+    if (textInputRef.current && isTextRendered) {
       const { action, index } = focusState;
       const { ENTER, BACKSPACE, LINEPOP } = ACTIONS;
-      
-      if(action === LINEPOP) {
+
+      if (action === LINEPOP) {
         setTimeout(() => {
           textInputRef.current?.focus();
         })
@@ -53,10 +53,10 @@ const PlainTextBlock = ({ index, type, payload }: PlainTextProps ) => {
     }
   }, [focusState, isTextRendered])
 
-  const searchYoutubeUrl = (text:string) => {
+  const searchYoutubeUrl = (text: string) => {
     const regExp = /(?:http(?:s)?:\/\/)?(?:www\.)?(?:m\.)?(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
     let match = text.match(regExp);
-    
+
     // youtube video unique id length => 11
     if (match && match[1].length == 11) {
       return {
@@ -68,23 +68,23 @@ const PlainTextBlock = ({ index, type, payload }: PlainTextProps ) => {
     }
   }
 
-  const handleInputChangeText = (text:string) => {
+  const handleInputChangeText = (text: string) => {
     const lineBreak = /\r|\n/.exec(text);
     const { action } = focusState;
     const { PARAGRAPH, EMBED } = TYPES;
     if (lineBreak) {
-      return ;
+      return;
     }
 
-    if(action === ACTIONS.LINEPOP || action === ACTIONS.BACKSPACE) {
-      return ;
+    if (action === ACTIONS.LINEPOP || action === ACTIONS.BACKSPACE) {
+      return;
     }
 
     const currentContext = contentStorage[index] as ParagraphType;
     const nextContext = contentStorage[index + 1];
     const embedInfo = searchYoutubeUrl(text);
 
-    if(embedInfo) {
+    if (embedInfo) {
       const { id, source, index: sourceIndex, input } = embedInfo;
       const [beforeURL, afterURL] = input?.split(source) as [string, string];
       let focusIndex = index + 1;
@@ -97,10 +97,10 @@ const PlainTextBlock = ({ index, type, payload }: PlainTextProps ) => {
             id,
             caption: ""
           }
-        } 
+        }
       ]
 
-      if(beforeURL !== "") {
+      if (beforeURL !== "") {
         newContext.unshift({
           type: PARAGRAPH,
           payload: {
@@ -109,9 +109,9 @@ const PlainTextBlock = ({ index, type, payload }: PlainTextProps ) => {
           }
         })
         focusIndex += 1;
-      } 
-      
-      if(afterURL !== "" || nextContext?.type !== PARAGRAPH) {
+      }
+
+      if (afterURL !== "" || nextContext?.type !== PARAGRAPH) {
         newContext.push({
           type: PARAGRAPH,
           payload: {
@@ -136,17 +136,17 @@ const PlainTextBlock = ({ index, type, payload }: PlainTextProps ) => {
   }
 
   const handleInputKeyPress = (
-    event:NativeSyntheticEvent<TextInputKeyPressEventData>, 
+    event: NativeSyntheticEvent<TextInputKeyPressEventData>,
   ) => {
-    if(focusState.index !== index) return ;
+    if (focusState.index !== index) return;
     const { key } = event.nativeEvent;
     const { PARAGRAPH, DELIMITER, EMBED, LIST, IMAGE } = TYPES;
     const { BACKSPACE, ENTER, LINEPOP } = ACTIONS;
     const { start, end } = selection;
     const currentContext = contentStorage[index] as ParagraphType;
     const currentText = currentContext.payload.text;
-    
-    if(key === 'Enter') {
+
+    if (key === 'Enter') {
       const editedText = currentText.slice(0, start);
       currentContext.payload.text = editedText;
 
@@ -168,11 +168,11 @@ const PlainTextBlock = ({ index, type, payload }: PlainTextProps ) => {
       })
     }
 
-    if(key === "Backspace" && index !== 0 && end === 0) {
+    if (key === "Backspace" && index !== 0 && end === 0) {
       const prevContext = contentStorage[index - 1];
       const nextContext = contentStorage[index + 1];
 
-      switch(prevContext.type) {
+      switch (prevContext.type) {
         case DELIMITER:
         case IMAGE:
         case EMBED:
@@ -182,7 +182,7 @@ const PlainTextBlock = ({ index, type, payload }: PlainTextProps ) => {
             start: 0,
             end: 0
           })
-          return ;
+          return;
         case LIST:
           const { payload: { items: prevItems, style: prevStyle } } = prevContext as ListType;
           let newContext = {
@@ -195,9 +195,9 @@ const PlainTextBlock = ({ index, type, payload }: PlainTextProps ) => {
               ]
             }
           }
-          if(nextContext?.type === LIST) {
+          if (nextContext?.type === LIST) {
             const { payload: { items: nextItems, style: nextStyle } } = nextContext as ListType;
-            if(prevStyle === nextStyle) {
+            if (prevStyle === nextStyle) {
               newContext.payload.items.push(...nextItems)
               handlers.mergePreviousLineWithNextLine(newContext as ListType, index);
             } else {
@@ -212,14 +212,14 @@ const PlainTextBlock = ({ index, type, payload }: PlainTextProps ) => {
             start: prevItems[prevItems.length - 1].length,
             end: prevItems[prevItems.length - 1].length
           })
-          if(currentText.length) {
+          if (currentText.length) {
             handlers.selectionChangeDetected(true);
           }
-          return ;
+          return;
         default:
           const { payload } = prevContext as ParagraphType;
           const prevText = payload.text;
-          if(currentText === "") {
+          if (currentText === "") {
             //onPress backspace remove current line
             handlers.removeCurrentLine(index);
             handlers.updateFocusState(index - 1, LINEPOP);
@@ -240,7 +240,7 @@ const PlainTextBlock = ({ index, type, payload }: PlainTextProps ) => {
             });
 
           }
-          return ;
+          return;
       }
     }
   }
@@ -253,19 +253,19 @@ const PlainTextBlock = ({ index, type, payload }: PlainTextProps ) => {
     const { index: focusIndex, action } = focusState;
     const { ENTER, LINEPOP, BACKSPACE } = ACTIONS;
 
-    if(focusIndex === index) {
+    if (focusIndex === index) {
       console.log('selection change')
-      if(action === ENTER) {
+      if (action === ENTER) {
         console.log('4')
         textInputRef.current?.setNativeProps({ selection })
-      } else if(action === LINEPOP) {
+      } else if (action === LINEPOP) {
         // todo when action is pop
-      } else if(action === BACKSPACE) {
+      } else if (action === BACKSPACE) {
         // todo when action is backspace
         console.log(1)
         textInputRef.current?.setNativeProps({ selection })
       } else {
-        if(selectionChangeDetect) {
+        if (selectionChangeDetect) {
           // textInputRef.current?.setNativeProps({ selection })
           console.log('ㅋㅋㅋㅋ')
           handlers.selectionChangeDetected(false);
@@ -278,13 +278,13 @@ const PlainTextBlock = ({ index, type, payload }: PlainTextProps ) => {
   }
 
   const handleFocus = (
-    event:NativeSyntheticEvent<TextInputFocusEventData>, 
+    event: NativeSyntheticEvent<TextInputFocusEventData>,
   ) => {
     const { text } = event.nativeEvent;
     const { ENTER, BACKSPACE, LINEPOP, TYPING } = ACTIONS;
     const { action } = focusState;
 
-    if(action === TYPING) {
+    if (action === TYPING) {
       textInputRef.current?.setNativeProps({
         selection: {
           start: text.length,
@@ -299,8 +299,8 @@ const PlainTextBlock = ({ index, type, payload }: PlainTextProps ) => {
     //     end: 0
     //   })
     // }
-    
-    if(selectionChangeDetect) {
+
+    if (selectionChangeDetect) {
       textInputRef.current?.setNativeProps({ selection })
     }
     console.log(3)
@@ -316,17 +316,17 @@ const PlainTextBlock = ({ index, type, payload }: PlainTextProps ) => {
       value={""}
       spellCheck={false}
       scrollEnabled={false}
-      onChangeText={handleInputChangeText} 
+      onChangeText={handleInputChangeText}
       onKeyPress={handleInputKeyPress}
       onSelectionChange={handleSelectionChange}
       onFocus={handleFocus}
       type={type}
     >
-      <RenderText 
+      <RenderText
         type={type}
         index={index}
       >
-        { payload.text }
+        {payload.text}
       </RenderText>
     </StyledTextInput>
   )
@@ -341,9 +341,9 @@ const StyledTextInput = styled.TextInput<TextInputProps>`
   color: white;
   /* background-color: rgba(255,255,255, .2); */
 
-  ${(props) => { 
-    switch(props.type) {
-      case TYPES.QUOTE: 
+  ${(props) => {
+    switch (props.type) {
+      case TYPES.QUOTE:
         return StyledQuote
       case TYPES.HEADER:
         return StyledHeader
@@ -354,7 +354,7 @@ const StyledTextInput = styled.TextInput<TextInputProps>`
 `
 
 const StyledParagraph = css`
-  font-size:${({theme}) => theme.size.font_l};
+  font-size:${({ theme }) => theme.size.font_l};
   padding: 5px 15px;
 `
 

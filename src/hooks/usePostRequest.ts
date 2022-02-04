@@ -12,7 +12,7 @@ type UseRequestReturnType<R> = [
 ];
 
 export default function useRequest<R = any>(
-  promiseCreator: PromiseCreator<R>,
+  promiseCreator: PromiseCreator<R>
 ): UseRequestReturnType<R> {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<R | null>(null);
@@ -31,7 +31,7 @@ export default function useRequest<R = any>(
       setLoading(false);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
+    []
   );
 
   const onReset = () => {

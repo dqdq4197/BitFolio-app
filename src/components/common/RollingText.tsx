@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import { Animated, Easing, LayoutAnimation, Platform, UIManager } from 'react-native';
 import styled from 'styled-components/native';
-import { easeQuadOut} from 'd3-ease';
+import { easeQuadOut } from 'd3-ease';
 import Text, { TextStyleProps } from '/components/common/Text';
 
 Platform.OS === "android" && UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -20,10 +20,10 @@ type AnimatedTextProps = {
   totalLength: number
 }
 
-const AnimatedText = ({ 
-  text, 
-  index, 
-  integerLength, 
+const AnimatedText = ({
+  text,
+  index,
+  integerLength,
   unMountingList,
   textStyleProps,
   totalLength
@@ -49,29 +49,29 @@ const AnimatedText = ({
       })
     ]).start(
       () => {
-        LayoutAnimation.configureNext({ 
-          duration: 500, 
-          create: { 
+        LayoutAnimation.configureNext({
+          duration: 500,
+          create: {
             duration: 0,
-            type: 'linear', 
-            property: 'opacity' 
-          }, 
-          update: { 
-            type: 'spring', 
+            type: 'linear',
+            property: 'opacity'
+          },
+          update: {
+            type: 'spring',
             springDamping: 0.7
-          }, 
-          delete: { 
-            duration:10,
-            type: 'linear', 
-            property: 'opacity' 
-          } 
+          },
+          delete: {
+            duration: 10,
+            type: 'linear',
+            property: 'opacity'
+          }
         });
       }
     )
   }, [text])
 
   useEffect(() => {
-    if(unMountingList.includes(index)) {
+    if (unMountingList.includes(index)) {
       Animated.parallel([
         Animated.timing(translateY, {
           toValue: -50,
@@ -88,22 +88,22 @@ const AnimatedText = ({
         })
       ]).start(
         () => {
-          LayoutAnimation.configureNext({ 
-            duration: 500, 
-            create: { 
+          LayoutAnimation.configureNext({
+            duration: 500,
+            create: {
               duration: 0,
-              type: 'linear', 
-              property: 'opacity' 
-            }, 
-            update: { 
-              type: 'spring', 
+              type: 'linear',
+              property: 'opacity'
+            },
+            update: {
+              type: 'spring',
               springDamping: 0.7
-            }, 
-            delete: { 
-              duration:10,
-              type: 'linear', 
-              property: 'opacity' 
-            } 
+            },
+            delete: {
+              duration: 10,
+              type: 'linear',
+              property: 'opacity'
+            }
           });
         }
       )
@@ -122,9 +122,9 @@ const AnimatedText = ({
       totalLength={totalLength}
       {...textStyleProps}
     >
-      { (integerLength - index) % 3 === 1 && (integerLength - index) > 3
+      {(integerLength - index) % 3 === 1 && (integerLength - index) > 3
         ? text + ','
-        : text 
+        : text
       }
     </CustomText>
   )
@@ -137,7 +137,7 @@ const RollingText = ({ text, unMountingList, ...textStyle }: RollingTextProps) =
       {
         text.split('').map((letter, index, arr) => {
           return (
-            <AnimatedText 
+            <AnimatedText
               key={letter + index}
               text={letter}
               index={index}
@@ -162,7 +162,7 @@ const Container = styled.View`
   flex-direction: row;
 `
 
-const CustomText = styled(Text)<TextProps>`
+const CustomText = styled(Text) <TextProps>`
   color: ${({ theme }) => theme.base.text[100]};
   ${({ totalLength, theme }) => {
     switch (totalLength) {

@@ -13,10 +13,10 @@ import SetFeeView from './SetFeeView';
 import SetNotesView from './SetNotesView';
 import NumericPad from '/components/common/NumericPad';
 import useLocales from '/hooks/useLocales';
-import { 
-  FormData, 
-  NumericData, 
-  SettingsType, 
+import {
+  FormData,
+  NumericData,
+  SettingsType,
   FocusedView,
 } from './FormModal';
 
@@ -49,9 +49,9 @@ const MAX_NUMERIC_PAD_HEIGHT = 330;
 const NOTES_MAX_LENGTH = 200;
 
 
-const EnterDetailsView = ({ 
-  formData, 
-  setFormData, 
+const EnterDetailsView = ({
+  formData,
+  setFormData,
   initialDummyData,
   id,
   symbol,
@@ -67,11 +67,11 @@ const EnterDetailsView = ({
   const HEADER_HEIGHT = TITLE_HEIGHT + insetTop + 10;
   const FOOTER_AREA_HEIGHT = FOOTER_HEIGHT + insetBottom;
   const VIEW_HEIGHT = height - HEADER_HEIGHT - SELECT_TAB_HEIGHT - FOOTER_AREA_HEIGHT;
-  const NUMERIC_PAD_HEIGHT = VIEW_HEIGHT - MINIMUM_INSERT_VIEW_HEIGHT > MAX_NUMERIC_PAD_HEIGHT 
-    ? MAX_NUMERIC_PAD_HEIGHT 
+  const NUMERIC_PAD_HEIGHT = VIEW_HEIGHT - MINIMUM_INSERT_VIEW_HEIGHT > MAX_NUMERIC_PAD_HEIGHT
+    ? MAX_NUMERIC_PAD_HEIGHT
     : VIEW_HEIGHT - MINIMUM_INSERT_VIEW_HEIGHT;
   const { currency } = useLocales();
-  const hScrollViewRef = useRef<ScrollView>(null); 
+  const hScrollViewRef = useRef<ScrollView>(null);
   const numericPadTranslateY = useRef(new Animated.Value(0)).current;
   const numericPadOpacity = useRef(new Animated.Value(1)).current;
   const [isHideNumericPad, setIsHideNumericPad] = useState(false);
@@ -90,7 +90,7 @@ const EnterDetailsView = ({
     id,
     date: format(formData.date, 'dd-MM-yyyy'),
     suspense: false,
-    willNotRequest: 
+    willNotRequest:
       format(formData.date, 'dd-MM-yyyy') === format(new Date(), 'dd-MM-yyyy')
       || isPriceFixed
   })
@@ -99,15 +99,15 @@ const EnterDetailsView = ({
   useEffect(() => {
     const index = SETTINGS.findIndex(setting => setting.key === focusedView);
 
-    if(hScrollViewRef.current) {
+    if (hScrollViewRef.current) {
       hScrollViewRef.current.scrollTo({
         x: width * index,
       })
-    } 
+    }
   }, [focusedView])
 
   useEffect(() => {
-    if(coinDetailData && !initialDummyData) {
+    if (coinDetailData && !initialDummyData) {
       const { market_data: { current_price } } = coinDetailData;
       setFormData(
         prev => ({
@@ -127,7 +127,7 @@ const EnterDetailsView = ({
   useEffect(() => {
     let containNumericPadView = ['quantity', 'pricePerCoin', 'fee'];
 
-    if(containNumericPadView.includes(focusedView)) {
+    if (containNumericPadView.includes(focusedView)) {
       setIsHideNumericPad(false);
       Animated.parallel([
         Animated.timing(numericPadTranslateY, {
@@ -163,18 +163,18 @@ const EnterDetailsView = ({
     }
   }, [focusedView])
 
-  
+
   useEffect(() => {
     // date바꿀 시 price per coin 해당 date로 초기화
-    if(historySnapshotData && !isPriceFixed) {
-      if(historySnapshotData.market_data) {
+    if (historySnapshotData && !isPriceFixed) {
+      if (historySnapshotData.market_data) {
         const { current_price } = historySnapshotData.market_data;
         setFormData(
           prev => ({
             ...prev,
             pricePerCoin: {
               ...current_price,
-              [currency]: currencyFormat({ 
+              [currency]: currencyFormat({
                 value: current_price[currency],
                 includeSeparator: false
               })
@@ -186,7 +186,7 @@ const EnterDetailsView = ({
             ...prev,
             pricePerCoin: {
               ...current_price,
-              [currency]: currencyFormat({ 
+              [currency]: currencyFormat({
                 value: current_price[currency],
                 includeSeparator: false
               })
@@ -222,7 +222,7 @@ const EnterDetailsView = ({
   const handleBackspacePress = useCallback(() => {
     const dummyKey = focusedView as 'quantity' | 'fee'
     const value = formData[dummyKey];
-    if(value !== '0' && value.length > 0) {
+    if (value !== '0' && value.length > 0) {
       setUnMountingList(
         prev => ({
           ...prev,
@@ -236,13 +236,13 @@ const EnterDetailsView = ({
     const dummyKey = focusedView as 'quantity' | 'fee';
     const value = formData[dummyKey] as string;
 
-    if(key === 'backspace' && value !== '0') {
+    if (key === 'backspace' && value !== '0') {
       setFormData(
         prev => ({
           ...prev,
-          [focusedView]: 
-            value.length === 1 
-              ? '0' 
+          [focusedView]:
+            value.length === 1
+              ? '0'
               : value.slice(0, value.length - 1)
         })
       )
@@ -256,8 +256,8 @@ const EnterDetailsView = ({
         setDummyFormData(
           prev => ({
             ...prev,
-            [focusedView]: 
-              prev[dummyKey].length === 1 
+            [focusedView]:
+              prev[dummyKey].length === 1
                 ? '0'
                 : prev[dummyKey].slice(0, prev[dummyKey].length - 1)
           })
@@ -265,11 +265,11 @@ const EnterDetailsView = ({
       }, 200)
     }
 
-    if(key !== 'backspace') {
-      if(!value.includes('.') && value.length > 11 && key !== '.') return;
-      if(value.includes('.') && value.split('.')[1].length > 6) return ;
-      if(key === '.') {
-        if(value.indexOf('.') === -1) {
+    if (key !== 'backspace') {
+      if (!value.includes('.') && value.length > 11 && key !== '.') return;
+      if (value.includes('.') && value.split('.')[1].length > 6) return;
+      if (key === '.') {
+        if (value.indexOf('.') === -1) {
           setDummyFormData(
             prev => ({
               ...prev,
@@ -283,9 +283,9 @@ const EnterDetailsView = ({
             })
           )
         }
-        return ;
+        return;
       }
-      if(value === '0') {
+      if (value === '0') {
         setDummyFormData(
           prev => ({
             ...prev,
@@ -333,7 +333,7 @@ const EnterDetailsView = ({
     const dummyKey = focusedView as 'pricePerCoin'
     const value = formData[dummyKey]![currency].toString();
 
-    if(value !== '0' && value.length > 0) {
+    if (value !== '0' && value.length > 0) {
       setUnMountingList(
         prev => ({
           ...prev,
@@ -345,12 +345,12 @@ const EnterDetailsView = ({
 
 
   const handlePricePercoinNumericKeyPress = useCallback((key: string) => {
-    if(!formData.pricePerCoin) return;
+    if (!formData.pricePerCoin) return;
 
     const value = formData.pricePerCoin[currency].toString();
     const dummyKey = focusedView as 'pricePerCoin';
 
-    if(key === 'backspace' && value !== '0') {
+    if (key === 'backspace' && value !== '0') {
       setFormData(
         prev => ({
           ...prev,
@@ -358,7 +358,7 @@ const EnterDetailsView = ({
             [currency]: value.length === 1
               ? '0'
               : value.slice(0, value.length - 1)
-          } 
+          }
         })
       )
       setTimeout(() => {
@@ -372,20 +372,20 @@ const EnterDetailsView = ({
           prev => ({
             ...prev,
             [focusedView]: {
-              [currency]: prev[dummyKey]![currency].toString().length === 1 
+              [currency]: prev[dummyKey]![currency].toString().length === 1
                 ? '0'
                 : prev[dummyKey]![currency].toString().slice(0, prev[dummyKey]![currency].toString().length - 1)
-            } 
+            }
           })
         )
       }, 200)
     }
 
-    if(key !== 'backspace') {
-      if(!value.includes('.') && value.length > 11 && key !== '.') return;
-      if(value.includes('.') && value.split('.')[1].length > 6) return ;
-      if(key === '.') {
-        if(value.indexOf('.') === -1) {
+    if (key !== 'backspace') {
+      if (!value.includes('.') && value.length > 11 && key !== '.') return;
+      if (value.includes('.') && value.split('.')[1].length > 6) return;
+      if (key === '.') {
+        if (value.indexOf('.') === -1) {
           setDummyFormData(
             prev => ({
               ...prev,
@@ -403,9 +403,9 @@ const EnterDetailsView = ({
             })
           )
         }
-        return ;
+        return;
       }
-      if(value === '0') {
+      if (value === '0') {
         setDummyFormData(
           prev => ({
             ...prev,
@@ -444,7 +444,7 @@ const EnterDetailsView = ({
   }, [formData, focusedView])
 
   const setNotes = (text: string) => {
-    if(text.length > NOTES_MAX_LENGTH) return ;
+    if (text.length > NOTES_MAX_LENGTH) return;
 
     setFormData(
       prev => ({
@@ -456,12 +456,12 @@ const EnterDetailsView = ({
 
   return (
     <Container height={VIEW_HEIGHT}>
-      <HorizontalScrollView 
+      <HorizontalScrollView
         ref={hScrollViewRef}
         horizontal
         scrollEnabled={false}
       >
-        <SetQuantityView 
+        <SetQuantityView
           height={VIEW_HEIGHT - NUMERIC_PAD_HEIGHT}
           quantity={dummyFormData.quantity}
           unMountingList={unMountingList.quantity}
@@ -469,25 +469,25 @@ const EnterDetailsView = ({
           pricePerCoin={formData.pricePerCoin ? formData.pricePerCoin[currency].toString() : '0'}
           onSwitchFocusView={onSwitchFocusView}
         />
-        <SetDateView 
+        <SetDateView
           height={VIEW_HEIGHT}
           isFocused={focusedView === 'date'}
           date={formData.date}
           setDate={setDate}
         />
-        <SetPricePerCoinView 
+        <SetPricePerCoinView
           height={VIEW_HEIGHT - NUMERIC_PAD_HEIGHT}
           pricePerCoin={dummyFormData.pricePerCoin ? dummyFormData.pricePerCoin[currency].toString() : '0'}
           unMountingList={unMountingList.pricePerCoin}
           isPriceFixed={isPriceFixed}
           onIsPriceFiexedChange={onIsPriceFiexedChange}
         />
-        <SetFeeView 
+        <SetFeeView
           height={VIEW_HEIGHT - NUMERIC_PAD_HEIGHT}
           fee={dummyFormData.fee as string}
           unMountingList={unMountingList.fee}
         />
-        <SetNotesView 
+        <SetNotesView
           height={VIEW_HEIGHT}
           isFocused={focusedView === 'notes'}
           notes={formData.notes}
@@ -496,21 +496,21 @@ const EnterDetailsView = ({
         />
       </HorizontalScrollView>
       <PadWrap
-        as={Animated.View} 
+        as={Animated.View}
         style={{
           transform: [{
             translateY: numericPadTranslateY
           }],
           opacity: numericPadOpacity,
-          display: isHideNumericPad ? 'none': 'flex'
+          display: isHideNumericPad ? 'none' : 'flex'
         }}
       >
-        <NumericPad 
+        <NumericPad
           height={NUMERIC_PAD_HEIGHT}
           onNumericKeyPress={focusedView === 'pricePerCoin' ? handlePricePercoinNumericKeyPress : handleNumericKeyPress}
-          onBackspacePress={focusedView === 'pricePerCoin' ? handlePricePerCoinBackspacePress:  handleBackspacePress}
+          onBackspacePress={focusedView === 'pricePerCoin' ? handlePricePerCoinBackspacePress : handleBackspacePress}
         />
-        
+
       </PadWrap>
     </Container>
   )

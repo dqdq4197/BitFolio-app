@@ -7,18 +7,17 @@ import CoinDetailSkeleton from '/components/skeletonPlaceholder/CoinDetailSkelet
 import ErrorBoundaryAndSuspense from '/components/common/ErrorBoundaryAndSuspense';
 
 const Auth = () => {
-  
   const navigation = useNavigation();
-  
-      return (
-      <GeneralTemplate>
-        <ErrorBoundaryAndSuspense skeleton={<CoinDetailSkeleton/>} >
-          <Text fontX onPress={() => navigation.navigate('Login')}>
-            로그인하러 가기 
-          </Text>
-        </ErrorBoundaryAndSuspense>
-      </GeneralTemplate>
-    )
-  }
-  
-  export default Auth;
+
+  return (
+    <GeneralTemplate>
+      <ErrorBoundaryAndSuspense skeleton={<CoinDetailSkeleton />}>
+        <Text fontX onPress={() => navigation.navigate('Login')}>
+          {/* 로그인하러 가기 */}
+        </Text>
+      </ErrorBoundaryAndSuspense>
+    </GeneralTemplate>
+  );
+};
+
+export default Auth;

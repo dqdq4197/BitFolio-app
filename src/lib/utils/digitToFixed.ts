@@ -1,6 +1,3 @@
-
-
-
 /**
  * @description 소수점 이하 몇 까지 반환
  * @param  {number} num - 변경할 숫자
@@ -8,9 +5,9 @@
  * @returns {number} type number
  */
 export default function digitToFixed(
-  num: number, 
+  num: number,
   numOfDecimals: number
 ): number {
-  let temp = Math.pow(10, numOfDecimals);
-  return Math.floor(num * temp) / temp
+  const temp = 10 ** numOfDecimals;
+  return Math.floor(num * temp) / temp;
 }

@@ -17,9 +17,9 @@ type QuantityViewProps = {
   onSwitchFocusView: (key: FocusedView) => void;
   height: number;
 }
-const SetQuantityView = ({ 
-  quantity, 
-  unMountingList, 
+const SetQuantityView = ({
+  quantity,
+  unMountingList,
   symbol,
   pricePerCoin,
   onSwitchFocusView,
@@ -34,19 +34,19 @@ const SetQuantityView = ({
           Total Price
         </Text>
         <Text margin="5px 0 0 0">
-          { currencyFormat({ value: parseFloat(pricePerCoin) * parseFloat(quantity), zeroMask: '0', prefix: getCurrencySymbol(currency) }) }
+          {currencyFormat({ value: parseFloat(pricePerCoin) * parseFloat(quantity), zeroMask: '0', prefix: getCurrencySymbol(currency) })}
         </Text>
       </TotalPriceView>
       <View>
         <QuantityView>
-          <RollingText 
+          <RollingText
             text={quantity}
             unMountingList={unMountingList}
             fontXXXL
             bold
           />
           <Text fontL bold margin="0 0 8px 10px">
-            { symbol.toUpperCase() }
+            {symbol.toUpperCase()}
           </Text>
         </QuantityView>
         <PricePerCoinView
@@ -54,7 +54,7 @@ const SetQuantityView = ({
           onPress={() => onSwitchFocusView('pricePerCoin')}
         >
           <Text fontML>
-            { currencyFormat({ value: pricePerCoin, zeroMask: '0', prefix: getCurrencySymbol(currency) }) } per coin
+            {currencyFormat({ value: pricePerCoin, zeroMask: '0', prefix: getCurrencySymbol(currency) })} per coin
           </Text>
         </PricePerCoinView>
       </View>
@@ -70,8 +70,8 @@ type ContainerType = {
 }
 
 const Container = styled.View<ContainerType>`
-  width: ${ width }px;
-  height: ${({ height }) => height }px;
+  width: ${width}px;
+  height: ${({ height }) => height}px;
   justify-content: space-around;
   align-items: center;
   padding: 0 ${({ theme }) => theme.content.spacing};

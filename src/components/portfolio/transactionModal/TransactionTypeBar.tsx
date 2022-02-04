@@ -12,11 +12,11 @@ type BarProps = {
   onSwitchTransactionType: (label: string) => void
   type: string
 }
-const TransactionTypeBar = ({ 
-  labels, 
-  height, 
-  onSwitchTransactionType, 
-  type 
+const TransactionTypeBar = ({
+  labels,
+  height,
+  onSwitchTransactionType,
+  type
 }: BarProps) => {
 
   const translateX = useRef(new Animated.Value(0)).current;
@@ -41,24 +41,24 @@ const TransactionTypeBar = ({
   return (
     <Container height={height}>
       <IndicatorWrap>
-        { labels.map(label => 
-          <Label 
-            key={label} 
+        {labels.map(label =>
+          <Label
+            key={label}
             width={LabelWidth}
-            onPress={() => onSwitchTransactionType(label)} 
+            onPress={() => onSwitchTransactionType(label)}
             activeOpacity={0.6}
           >
-            <CustomText 
+            <CustomText
               isFocused={label.toLowerCase() === type}
-              color100 
-              bold 
+              color100
+              bold
               fontML
             >
-              { label }
+              {label}
             </CustomText>
-          </Label>  
+          </Label>
         )}
-        <Indicator 
+        <Indicator
           as={Animated.View}
           width={LabelWidth}
           style={{
@@ -113,7 +113,7 @@ const Indicator = styled.View<LabelWidthType>`
   z-index: 1;
 `
 
-const CustomText = styled(Text)<TextProps>`
+const CustomText = styled(Text) <TextProps>`
   color: ${({ theme, isFocused }) => isFocused
     ? theme.base.text[100]
     : theme.base.text[200]

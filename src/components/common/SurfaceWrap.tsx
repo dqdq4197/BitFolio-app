@@ -12,10 +12,10 @@ interface TitleWrapProps extends TextStyleProps {
   marginBottomZero?: boolean;
   transparent?: boolean
 }
-const SurfaceWrap = ({ 
-  title, 
-  children, 
-  paddingBottomZero = false, 
+const SurfaceWrap = ({
+  title,
+  children,
+  paddingBottomZero = false,
   parentPaddingZero = false,
   marginTopZero = false,
   marginBottomZero = false,
@@ -24,28 +24,28 @@ const SurfaceWrap = ({
 }: TitleWrapProps) => {
 
   return (
-    <Container 
-      paddingBottomZero={paddingBottomZero} 
+    <Container
+      paddingBottomZero={paddingBottomZero}
       parentPaddingZero={parentPaddingZero}
       marginTopZero={marginTopZero}
       transparent={transparent}
     >
-      { title &&
+      {title &&
         <TitleWrap marginBottomZero={marginBottomZero} parentPaddingZero={parentPaddingZero}>
-          { typeof title === 'string'
-            ? <Text 
-                fontL
-                color100 
-                bold 
-                { ...textStyles }
-              >
-                { title }
-              </Text>
+          {typeof title === 'string'
+            ? <Text
+              fontL
+              color100
+              bold
+              {...textStyles}
+            >
+              {title}
+            </Text>
             : title
           }
         </TitleWrap>
       }
-      { children }
+      {children}
     </Container>
   )
 }
@@ -53,27 +53,27 @@ const SurfaceWrap = ({
 export default SurfaceWrap;
 
 type Props = Pick<
-  TitleWrapProps, 
-  | 'paddingBottomZero' 
-  | 'parentPaddingZero' 
-  | 'marginTopZero' 
+  TitleWrapProps,
+  | 'paddingBottomZero'
+  | 'parentPaddingZero'
+  | 'marginTopZero'
   | 'marginBottomZero'
   | 'transparent'
-> 
+>
 
 const Container = styled.View<Props>`
-  background-color: ${({ theme, transparent }) => 
-    transparent ? 'transparent' : theme.base.background.surface };
+  background-color: ${({ theme, transparent }) =>
+    transparent ? 'transparent' : theme.base.background.surface};
   padding: ${({ theme }) => `${theme.content.surfacePadding} ${theme.content.spacing}`};
-  ${ (props) => props.parentPaddingZero && css`
+  ${(props) => props.parentPaddingZero && css`
     padding-left: 0;
     padding-right: 0;
   `}
-  ${ (props) => props.paddingBottomZero && css`
+  ${(props) => props.paddingBottomZero && css`
     padding-bottom: 0;
   `
   }
-  ${ (props) => !props.marginTopZero && css`
+  ${(props) => !props.marginTopZero && css`
     margin-top: ${props.theme.content.blankSpacing};
   `
   }

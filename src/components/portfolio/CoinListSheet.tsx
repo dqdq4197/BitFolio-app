@@ -34,8 +34,8 @@ type SheetProps = {
 
 type AssetRowProps = {
   id: string
-  image: string 
-  symbol: string 
+  image: string
+  symbol: string
   name: string
 }
 
@@ -47,29 +47,29 @@ const SortTab = ({ name, onPress, align = 'right', sortTypes }: TabProps) => {
   }))
   const { assetSortType } = portfolios[activeIndex];
   const active = sortTypes.indexOf(assetSortType);
-  
+
   return (
     <Tab align={align} onPress={onPress} activeOpacity={0.6}>
-      <CustomText 
+      <CustomText
         margin="0 2px 0 0" heavy
         isActive={active === 0 || active === 1}
       >
-        { name }
+        {name}
       </CustomText>
-      { (active === 0 || active === -1) && (
-        <Ionicons 
-            name="ios-chevron-down" 
-            size={12} 
-            color={active === 0 ? theme.base.text[100] : theme.base.text[200]}
-          />
-      ) }
-      { active === 1 && (
-        <Ionicons 
-          name="ios-chevron-up" 
-          size={12} 
+      {(active === 0 || active === -1) && (
+        <Ionicons
+          name="ios-chevron-down"
+          size={12}
+          color={active === 0 ? theme.base.text[100] : theme.base.text[200]}
+        />
+      )}
+      {active === 1 && (
+        <Ionicons
+          name="ios-chevron-up"
+          size={12}
           color={theme.base.text[100]}
         />
-      ) }
+      )}
     </Tab>
   )
 
@@ -80,37 +80,37 @@ const AssetRow = ({ id, image, symbol, name }: AssetRowProps) => {
 
   const handleRowPress = () => {
     navigation.navigate('portfolioCoinDetail', {
-      param: { id, symbol }, 
-      screen: 'Overview' 
+      param: { id, symbol },
+      screen: 'Overview'
     })
   }
 
   return (
-    <Row 
-      activeOpacity={0.6} 
+    <Row
+      activeOpacity={0.6}
       onPress={handleRowPress}
     >
-      <Image 
-        uri={image} 
+      <Image
+        uri={image}
         width={30}
-        height={30} 
+        height={30}
         borderRedius='m'
       />
       <NameWrap>
-        <DynamicSizeText 
-          color100 
+        <DynamicSizeText
+          color100
           bold
         >
-          { symbol.toUpperCase() }
+          {symbol.toUpperCase()}
         </DynamicSizeText>
         <AssetIdWrap>
           <Text
-            bold 
+            bold
             fontXS
             ellipsizeMode="tail"
-            numberOfLines={ 2 }
+            numberOfLines={2}
           >
-            { id.charAt(0).toUpperCase() + id.slice(1) }
+            {id.charAt(0).toUpperCase() + id.slice(1)}
           </Text>
         </AssetIdWrap>
       </NameWrap>
@@ -118,7 +118,7 @@ const AssetRow = ({ id, image, symbol, name }: AssetRowProps) => {
   )
 }
 
-const CoinListSheet = ({ 
+const CoinListSheet = ({
   coinsStats,
   portfolioTotalCosts
 }: SheetProps) => {
@@ -128,7 +128,7 @@ const CoinListSheet = ({
     portfolio: state.portfolioReducer.portfolios,
     activeIndex: state.portfolioReducer.activeIndex
   }), shallowEqual);
-  const { id: portfolioId, coins, coinsData } = usePortfolioContext(); 
+  const { id: portfolioId, coins, coinsData } = usePortfolioContext();
   const [visible, setVisible] = useState(false);
   const [sortedCoins, setSortedCoins] = useState<CoinType[]>([]);
   const [modalInitailState, setModalInitialState] = useState({
@@ -141,14 +141,14 @@ const CoinListSheet = ({
 
 
   useEffect(() => {
-    if(coinsData) {
+    if (coinsData) {
       let temp = coins.slice();
-      
-      switch(assetSortType) {
+
+      switch (assetSortType) {
         case 'name_asc':
         case 'name_desc':
           temp.sort((a, b) => {
-            return assetSortType === 'name_asc' 
+            return assetSortType === 'name_asc'
               ? a.symbol < b.symbol ? -1 : 1
               : a.symbol > b.symbol ? -1 : 1
           });
@@ -178,16 +178,16 @@ const CoinListSheet = ({
         case 'buyPrice_asc':
         case 'buyPrice_desc':
           temp.sort((a, b) => {
-            const aBuyAvgPrice = coinsStats[a.id] 
-              ? coinsStats[a.id].total_purchase_quantity === 0 
+            const aBuyAvgPrice = coinsStats[a.id]
+              ? coinsStats[a.id].total_purchase_quantity === 0
                 ? 0
-                : coinsStats[a.id].total_purchase_cost / coinsStats[a.id].total_purchase_quantity  
+                : coinsStats[a.id].total_purchase_cost / coinsStats[a.id].total_purchase_quantity
               : null;
-            
+
             const bBuyAvgPrice = coinsStats[b.id]
-              ? coinsStats[b.id].total_purchase_quantity === 0 
+              ? coinsStats[b.id].total_purchase_quantity === 0
                 ? 0
-                : coinsStats[b.id].total_purchase_cost / coinsStats[b.id].total_purchase_quantity  
+                : coinsStats[b.id].total_purchase_cost / coinsStats[b.id].total_purchase_quantity
               : null;
 
             return assetSortType === 'buyPrice_asc'
@@ -204,7 +204,7 @@ const CoinListSheet = ({
             return assetSortType === 'pl_asc'
               ? ((aPL === null) ? 1 : 0) - ((bPL === null) ? 1 : 0) || aPL! - bPL!
               : ((bPL !== null) ? 1 : 0) - ((aPL !== null) ? 1 : 0) || bPL! - aPL!
-          }) 
+          })
           break;
         default:
           break;
@@ -221,7 +221,7 @@ const CoinListSheet = ({
   }
 
   const sortBySymbol = useCallback(() => {
-    if(assetSortType === 'name_asc') {
+    if (assetSortType === 'name_asc') {
       dispatch(changeSortType('name_desc'));
     } else {
       dispatch(changeSortType('name_asc'));
@@ -229,9 +229,9 @@ const CoinListSheet = ({
   }, [assetSortType])
 
   const sortByStats = useCallback((asc: SortType, desc: SortType) => {
-    if(!coinsData) return ;
-    
-    if(assetSortType === asc) {
+    if (!coinsData) return;
+
+    if (assetSortType === asc) {
       dispatch(changeSortType(desc));
     } else {
       dispatch(changeSortType(asc));
@@ -242,24 +242,24 @@ const CoinListSheet = ({
     <Container>
       <StickyColWrap>
         <SortTab
-          name={ t('portfolio.asset') }
+          name={t('portfolio.asset')}
           align="left"
           onPress={sortBySymbol}
           sortTypes={['name_asc', 'name_desc']}
         />
-        { sortedCoins.map(coin => 
-          <AssetRow 
+        {sortedCoins.map(coin =>
+          <AssetRow
             key={coin.id}
             id={coin.id}
             image={coin.image}
             name={coin.name}
             symbol={coin.symbol}
           />
-        ) }
+        )}
       </StickyColWrap>
       <ScrollView
         horizontal
-        snapToInterval={ COL_WIDTH }
+        snapToInterval={COL_WIDTH}
         snapToAlignment='start'
         decelerationRate="fast"
         bounces={false}
@@ -267,45 +267,45 @@ const CoinListSheet = ({
       >
         <View>
           <SortBarContainer>
-            <SortTab 
-              name={ t('portfolio.price') }
+            <SortTab
+              name={t('portfolio.price')}
               onPress={() => sortByStats('price_asc', 'price_desc')}
               sortTypes={['price_asc', 'price_desc']}
             />
             <SortTab
-              name={ t('portfolio.holdings') }
+              name={t('portfolio.holdings')}
               onPress={() => sortByStats('holding_asc', 'holding_desc')}
               sortTypes={['holding_asc', 'holding_desc']}
             />
             <SortTab
-              name={ t('portfolio.buy price(avg)') }
+              name={t('portfolio.buy price(avg)')}
               onPress={() => sortByStats('buyPrice_asc', 'buyPrice_desc')}
               sortTypes={['buyPrice_asc', 'buyPrice_desc']}
             />
             <SortTab
-              name={ t('portfolio.profit/loss') }
+              name={t('portfolio.profit/loss')}
               onPress={() => sortByStats('pl_asc', 'pl_desc')}
-              sortTypes={['pl_asc', 'pl_desc']} 
+              sortTypes={['pl_asc', 'pl_desc']}
             />
             <SortTab
-              name={ t('portfolio.share') }
+              name={t('portfolio.share')}
               onPress={() => sortByStats('allocation_asc', 'allocation_desc')}
               sortTypes={['allocation_asc', 'allocation_desc']}
             />
           </SortBarContainer>
-          { sortedCoins.map(coin => {
+          {sortedCoins.map(coin => {
             const stats: CoinStatType | undefined | null = coinsStats ? coinsStats[coin.id] : undefined;
             const coinData = coinsData?.find(coinData => coinData.id === coin.id);
 
-            const priceStats = coinData 
-              ? { 
-                  current_price: coinData.current_price,
-                  price_change_percentage_24h: coinData.price_change_percentage_24h
-                } 
+            const priceStats = coinData
+              ? {
+                current_price: coinData.current_price,
+                price_change_percentage_24h: coinData.price_change_percentage_24h
+              }
               : undefined;
-            
+
             return (
-              <StatisticsRow 
+              <StatisticsRow
                 key={coin.id}
                 coin={coin}
                 COL_WIDTH={COL_WIDTH}
@@ -316,10 +316,10 @@ const CoinListSheet = ({
                 onAddButtonPress={handleAddButtonPress}
               />
             )
-          }) }
+          })}
         </View>
       </ScrollView>
-      { visible && modalInitailState.id && (
+      {visible && modalInitailState.id && (
         <FormModal
           visible={visible}
           setVisible={setVisible}
@@ -359,14 +359,14 @@ const Row = styled.TouchableOpacity`
 `
 
 const StickyColWrap = styled.View`
-  width: ${ COL_WIDTH }px;
+  width: ${COL_WIDTH}px;
 `
 const AssetIdWrap = styled.View`
-  width: ${ COL_WIDTH - 40 }px;
+  width: ${COL_WIDTH - 40}px;
 `
 
 const Tab = styled.TouchableOpacity<{ align: 'right' | 'left' }>`
-  width: ${ COL_WIDTH }px;
+  width: ${COL_WIDTH}px;
   height: 25px;
   flex-direction: row;
   align-items: center;
@@ -376,7 +376,7 @@ const Tab = styled.TouchableOpacity<{ align: 'right' | 'left' }>`
   };
 `
 
-const CustomText = styled(Text)<TextProps>`
+const CustomText = styled(Text) <TextProps>`
   color: ${({ theme, isActive }) => isActive
     ? theme.base.text[100]
     : theme.base.text[200]

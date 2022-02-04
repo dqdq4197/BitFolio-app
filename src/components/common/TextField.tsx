@@ -1,11 +1,11 @@
 import React, { useState, useRef, forwardRef, useEffect } from 'react';
-import { 
-  TextInputProps, 
-  Animated, 
-  TextInput, 
-  LayoutAnimation, 
+import {
+  TextInputProps,
+  Animated,
+  TextInput,
+  LayoutAnimation,
   UIManager,
-  Platform 
+  Platform
 } from 'react-native';
 import styled from 'styled-components/native';
 import { Ionicons } from '@expo/vector-icons';
@@ -23,7 +23,7 @@ interface TextFieldProps extends TextInputProps {
   marginBottom?: number
 }
 type ErrorTextProps = Pick<
-  TextFieldProps, 
+  TextFieldProps,
   | 'errorMessage'
   | 'alertMessage'
 >
@@ -47,132 +47,132 @@ const ErrorText = ({ errorMessage, alertMessage }: ErrorTextProps) => {
 
   return (
     <>
-      {errorMessage 
+      {errorMessage
         ? <Text error margin="8px 0 0 0">
-            { errorMessage }
-          </Text>
+          {errorMessage}
+        </Text>
         : alertMessage && (
           <Text margin="8px 0 0 0" lineHeight={16}>
-            { alertMessage }            
+            {alertMessage}
           </Text>
         )
-       }
+      }
     </>
   )
 }
 
 
 const TextField = forwardRef<TextInput, TextFieldProps>(
-  ({ 
-    label, 
-    type = "text", 
+  ({
+    label,
+    type = "text",
     errorMessage,
     alertMessage,
     marginBottom,
     ...textInputProps
   }, ref) => {
-  const { theme } = useGlobalTheme();
-  const [isSecure, setIsSecure] = useState(type === 'password');
-  const [currentStatus, setCurrentStatus] = useState(status.normal);
-  const statusAni = useRef(new Animated.Value(status.normal)).current;
+    const { theme } = useGlobalTheme();
+    const [isSecure, setIsSecure] = useState(type === 'password');
+    const [currentStatus, setCurrentStatus] = useState(status.normal);
+    const statusAni = useRef(new Animated.Value(status.normal)).current;
 
-  useEffect(() => {
-    if(errorMessage) {
-      if(currentStatus !== status.focus) {
-        changeStatus(status.error);
+    useEffect(() => {
+      if (errorMessage) {
+        if (currentStatus !== status.focus) {
+          changeStatus(status.error);
+        }
+      } else {
+        changeStatus(
+          currentStatus === status.focus
+            ? status.focus
+            : status.normal
+        );
       }
-    } else {
-      changeStatus(
-        currentStatus === status.focus 
-        ? status.focus 
-        : status.normal
-      );
+    }, [errorMessage])
+
+    const changeStatus = (toValue: number) => {
+      Animated.timing(statusAni, {
+        toValue,
+        duration: 300,
+        useNativeDriver: false
+      }).start();
+      setCurrentStatus(toValue);
     }
-  }, [errorMessage])
 
-  const changeStatus = (toValue: number) => {
-    Animated.timing(statusAni, {
-      toValue,
-      duration: 300,
-      useNativeDriver: false
-    }).start();
-    setCurrentStatus(toValue);
-  }
+    const handleInputFocus = () => {
+      changeStatus(status.focus);
+    }
 
-  const handleInputFocus = () => {
-    changeStatus(status.focus);
-  }
+    const handleInputBlur = () => {
+      changeStatus(errorMessage ? status.error : status.normal);
+    }
 
-  const handleInputBlur = () => {
-    changeStatus(errorMessage ? status.error : status.normal);
-  }
+    const color = statusAni.interpolate({
+      inputRange: [0, 1, 2],
+      outputRange: [theme.base.text[100], theme.base.primaryColor, theme.base.error],
+    })
 
-  const color = statusAni.interpolate({
-    inputRange: [0, 1, 2],
-    outputRange: [theme.base.text[100], theme.base.primaryColor, theme.base.error],
-  })
+    const backgroundColor = statusAni.interpolate({
+      inputRange: [0, 1, 2],
+      outputRange: [theme.base.background[200], theme.base.background[300], theme.base.background[200]]
+    })
 
-  const backgroundColor = statusAni.interpolate({
-    inputRange: [0, 1, 2],
-    outputRange: [theme.base.background[200], theme.base.background[300], theme.base.background[200]]
-  })
+    const borderColor = statusAni.interpolate({
+      inputRange: [0, 1, 2],
+      outputRange: [theme.base.background[200], theme.base.background[300], theme.base.error]
+    })
 
-  const borderColor = statusAni.interpolate({
-    inputRange: [0, 1, 2],
-    outputRange: [theme.base.background[200], theme.base.background[300], theme.base.error]
-  })
+    const handleSecureIconPress = () => {
+      setIsSecure(prev => !prev);
+    }
 
-  const handleSecureIconPress = () => {
-    setIsSecure(prev => !prev);
-  }
-
-  return (
-    <Container 
-      marginBottom={marginBottom}
-    >
-      <Text 
-        as={Animated.Text}
-        color100 
-        style={ Object.assign({ color })}
-        fontML 
-        bold 
-        margin="0 0 15px 0"
+    return (
+      <Container
+        marginBottom={marginBottom}
       >
-        { label }
-      </Text>
-      <TextInputWrapper 
-        as={Animated.View}
-        style={{
-          backgroundColor,
-          borderColor
-        }}
-      >
-        <StyledTextInput 
-          {...textInputProps}
-          ref={ref}
-          spellCheck={false}
-          autoCapitalize='none'
-          secureTextEntry={isSecure}
-          clearButtonMode={type === 'password' ? 'never' : 'always'}
-          onFocus={handleInputFocus}
-          onBlur={handleInputBlur}
-        />
-        { type === 'password' && (
-          <SecureIcon 
-            onPress={handleSecureIconPress}
-            name={isSecure ? "eye-off-outline" : "eye-outline"} 
-            size={20} 
-            color={theme.base.text[200]} 
+        <Text
+          as={Animated.Text}
+          color100
+          style={Object.assign({ color })}
+          fontML
+          bold
+          margin="0 0 15px 0"
+        >
+          {label}
+        </Text>
+        <TextInputWrapper
+          as={Animated.View}
+          style={{
+            backgroundColor,
+            borderColor
+          }}
+        >
+          <StyledTextInput
+            {...textInputProps}
+            ref={ref}
+            spellCheck={false}
+            autoCapitalize='none'
+            secureTextEntry={isSecure}
+            clearButtonMode={type === 'password' ? 'never' : 'always'}
+            onFocus={handleInputFocus}
+            onBlur={handleInputBlur}
           />
-        )}
-      </TextInputWrapper>
-      <ErrorText 
-        errorMessage={errorMessage}
-        alertMessage={alertMessage}
-      />
-    </Container>
-  )
-})
+          {type === 'password' && (
+            <SecureIcon
+              onPress={handleSecureIconPress}
+              name={isSecure ? "eye-off-outline" : "eye-outline"}
+              size={20}
+              color={theme.base.text[200]}
+            />
+          )}
+        </TextInputWrapper>
+        <ErrorText
+          errorMessage={errorMessage}
+          alertMessage={alertMessage}
+        />
+      </Container>
+    )
+  })
 
 export default TextField;
 

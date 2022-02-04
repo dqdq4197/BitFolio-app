@@ -12,26 +12,26 @@ type IconProps = {
 const WatchListIcon = ({ id, size }: IconProps) => {
 
   const { watchList } = useAppSelector(state => state.baseSettingReducer);
-  const { theme, scheme } =useGlobalTheme();
+  const { theme, scheme } = useGlobalTheme();
   const dispatch = useAppDispatch();
 
   const handleHeartPress = () => {
     dispatch(changeWatchList(id))
-    Haptics.impactAsync(); 
+    Haptics.impactAsync();
   }
 
   return (
-    <Ionicons 
-      onPress={handleHeartPress} 
-      name="heart-sharp" 
-      size={size} 
+    <Ionicons
+      onPress={handleHeartPress}
+      name="heart-sharp"
+      size={size}
       color={
         watchList.includes(id)
-        ? theme.base.primaryColor
-        : scheme === 'dark'
-          ? theme.base.text[300]
-          : theme.base.background[400]
-      } 
+          ? theme.base.primaryColor
+          : scheme === 'dark'
+            ? theme.base.text[300]
+            : theme.base.background[400]
+      }
     />
   )
 }
