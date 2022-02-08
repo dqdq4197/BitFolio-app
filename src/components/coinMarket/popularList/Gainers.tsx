@@ -66,7 +66,7 @@ const Gainers = () => {
   const handleScroll = Animated.event(
     [{ nativeEvent: { contentOffset: { y: scrollY } } }],
     { useNativeDriver: false }
-  )
+  );
 
   if (!data || !usdData) return <></>;
   return (
@@ -101,9 +101,7 @@ const Gainers = () => {
       ListHeaderComponent={
         <FlatListHeader
           title={t(`coinMarketHome.gainers`)}
-          description={t(
-            `coinMarketHome.only cryptocurrencies with trading volume greater than US$50,000 in the last 24 hours are displayed.`
-          )}
+          description={t(`coinMarketHome.popular list summary.gainers`)}
         />
       }
       ListFooterComponent={<Footer />}

@@ -35,7 +35,7 @@ export const getDeviceLanguage = () => {
 };
 
 const languageDetector: LanguageDetectorAsyncModule = {
-  init: () => { },
+  init: () => {},
   type: 'languageDetector',
   async: true, // flags below detection to be async
   detect: async (callback: (lng: string) => void) => {
@@ -48,7 +48,7 @@ const languageDetector: LanguageDetectorAsyncModule = {
 
     callback(deviceLang);
   },
-  cacheUserLanguage: () => { }
+  cacheUserLanguage: () => {},
 };
 
 const options = {

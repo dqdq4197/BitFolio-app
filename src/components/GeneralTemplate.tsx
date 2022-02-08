@@ -22,7 +22,7 @@ const GeneralTemplate = ({ children }: TemplateProps) => {
       <StatusBar
         translucent
         animated
-        backgroundColor={'transparent'}
+        backgroundColor="transparent"
         barStyle={scheme === 'dark' ? 'light-content' : 'dark-content'}
       />
       {children}

@@ -4,6 +4,7 @@ import type { KeyboardEventEasing } from 'react-native';
 const getKeyboardAnimationConfigs = (
   easing: KeyboardEventEasing,
   duration: number
+  // eslint-disable-next-line consistent-return
 ) => {
   // eslint-disable-next-line default-case
   switch (easing) {

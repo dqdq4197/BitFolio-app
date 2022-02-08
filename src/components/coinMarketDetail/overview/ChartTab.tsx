@@ -10,8 +10,9 @@ import { useAppDispatch, useAppSelector } from '/hooks/useRedux';
 import { changeChartTimeFrame, changeChartOption } from '/store/baseSetting';
 
 if (Platform.OS === 'android') {
-  UIManager.setLayoutAnimationEnabledExperimental &&
+  if (UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
+  }
 }
 
 const { width } = Dimensions.get('window');
@@ -101,8 +102,8 @@ const ChartTab = ({ lastUpdatedPercentage }: TabProps) => {
               lastUpdatedPercentage > 0
                 ? theme.base.upColor
                 : lastUpdatedPercentage === 0
-                  ? theme.base.background[200]
-                  : theme.base.downColor
+                ? theme.base.background[200]
+                : theme.base.downColor
             }
           />
         </Selector>
@@ -120,15 +121,15 @@ const ChartTab = ({ lastUpdatedPercentage }: TabProps) => {
               lastUpdatedPercentage > 0
                 ? theme.base.downColor
                 : lastUpdatedPercentage === 0
-                  ? theme.base.background[200]
-                  : theme.base.upColor
+                ? theme.base.background[200]
+                : theme.base.upColor
             }
             scdColor={
               lastUpdatedPercentage > 0
                 ? theme.base.upColor
                 : lastUpdatedPercentage === 0
-                  ? theme.base.background[200]
-                  : theme.base.downColor
+                ? theme.base.background[200]
+                : theme.base.downColor
             }
           />
         </Selector>

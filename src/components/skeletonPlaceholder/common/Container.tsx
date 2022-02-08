@@ -1,10 +1,11 @@
 import React from 'react';
-import SkeletonPlaceholder from "react-native-skeleton-placeholder";
+import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+
 import useGlobalTheme from '/hooks/useGlobalTheme';
 
 type ContainerProps = {
   children: JSX.Element | JSX.Element[];
-}
+};
 
 const Container = ({ children }: ContainerProps) => {
   const { theme } = useGlobalTheme();
@@ -16,7 +17,7 @@ const Container = ({ children }: ContainerProps) => {
     >
       {children}
     </SkeletonPlaceholder>
-  )
-}
+  );
+};
 
 export default Container;

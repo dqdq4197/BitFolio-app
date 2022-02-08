@@ -55,7 +55,7 @@ const HighVolume = () => {
   const handleScroll = Animated.event(
     [{ nativeEvent: { contentOffset: { y: scrollY } } }],
     { useNativeDriver: false }
-  )
+  );
 
   if (!data) return <></>;
   return (
@@ -77,9 +77,7 @@ const HighVolume = () => {
       ListHeaderComponent={
         <FlatListHeader
           title={`${t(`common.volume`)} Top 100`}
-          description={
-            t(`coinMarketHome.total volume of all trading pairs over a 24-hour period. Take a look at the most traded coins`)
-          }
+          description={t(`coinMarketHome.popular list summary.high volume`)}
         />
       }
       ListFooterComponent={<Footer />}

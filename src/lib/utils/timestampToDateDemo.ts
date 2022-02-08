@@ -1,13 +1,13 @@
 import { baseTypes } from 'base-types';
 import { format } from 'date-fns';
-import { ko, enUS } from 'date-fns/locale'
+import { ko, enUS } from 'date-fns/locale';
 
 type DateProps = {
   timestamp: number;
   isUnix?: boolean;
   pattern: 'PPpp' | 'PP';
   language: baseTypes.Language;
-}
+};
 
 const timestampToDate = ({
   timestamp,

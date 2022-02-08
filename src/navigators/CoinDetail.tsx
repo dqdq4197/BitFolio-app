@@ -35,16 +35,16 @@ const DetailTab = ({ route, navigation }: any) => {
         ? symbol.toUpperCase()
         : id.charAt(0).toUpperCase() + id.slice(1),
       headerTitleStyle: {
-        fontSize: parseInt(theme.size.font_l),
+        fontSize: parseInt(theme.size.font_l, 10),
         fontWeight: 'bold',
       },
       headerRight: () => <WatchListIcon id={id} size={28} />,
     });
-  }, []);
+  }, [navigation, param, theme]);
 
   useEffect(() => {
     dispatch(changeRecentlyViewed(param.id));
-  }, []);
+  }, [dispatch, param.id]);
 
   return (
     <GeneralTemplate>
@@ -53,6 +53,7 @@ const DetailTab = ({ route, navigation }: any) => {
           sceneContainerStyle={{
             backgroundColor: theme.base.background[100],
           }}
+          // eslint-disable-next-line react/jsx-props-no-spreading
           tabBar={props => <TabBar {...props} />}
           initialRouteName={screen}
         >

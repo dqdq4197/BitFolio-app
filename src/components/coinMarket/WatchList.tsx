@@ -17,8 +17,9 @@ import SurfaceWrap from '/components/common/SurfaceWrap';
 import Item from './popularList/Item';
 
 if (Platform.OS === 'android') {
-  UIManager.setLayoutAnimationEnabledExperimental &&
+  if (UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
+  }
 }
 
 type ListProps = {

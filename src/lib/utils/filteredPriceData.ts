@@ -8,6 +8,7 @@ const filteredPriceData = (
 ): ChartDataReturn => {
   // data = [prices[number, number], marketCap[number,number] ...];
   if (!data) return data;
+  const { prices, market_caps, total_volumes } = data;
   const start = new Date().getTime();
   let timeInterval = 0;
   // eslint-disable-next-line default-case
@@ -30,31 +31,31 @@ const filteredPriceData = (
   }
   timeInterval *= 60 * 1000;
   let tempTime = 0;
-  let pricesResult = [];
-  let marketcapsResult = [];
-  let volumesResult = [];
+  const pricesResult = [];
+  const marketcapsResult = [];
+  const volumesResult = [];
 
-  for (let i = 0; i < data.prices.length; i++) {
+  for (let i = 0; i < prices.length; i += 1) {
     if (i === 0) {
-      pricesResult.push(data.prices[0]);
-      marketcapsResult.push(data.market_caps[0]);
-      volumesResult.push(data.total_volumes[0]);
-      tempTime = data.prices[0][0];
+      pricesResult.push(prices[0]);
+      marketcapsResult.push(market_caps[0]);
+      volumesResult.push(total_volumes[0]);
+      tempTime = prices[0][0];
       continue;
     }
 
-    if (data.prices.length - 1 === i) {
-      pricesResult.push(data.prices[i]);
-      marketcapsResult.push(data.market_caps[i]);
-      volumesResult.push(data.total_volumes[i]);
+    if (prices.length - 1 === i) {
+      pricesResult.push(prices[i]);
+      marketcapsResult.push(market_caps[i]);
+      volumesResult.push(total_volumes[i]);
       break;
     }
 
-    if (data.prices[i][0] >= tempTime + timeInterval) {
-      pricesResult.push(data.prices[i]);
-      marketcapsResult.push(data.market_caps[i]);
-      volumesResult.push(data.total_volumes[i]);
-      tempTime = data.prices[i][0];
+    if (prices[i][0] >= tempTime + timeInterval) {
+      pricesResult.push(prices[i]);
+      marketcapsResult.push(market_caps[i]);
+      volumesResult.push(total_volumes[i]);
+      tempTime = prices[i][0];
     }
   }
 

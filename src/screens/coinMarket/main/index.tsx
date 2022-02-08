@@ -9,9 +9,8 @@ import useGlobalTheme from '/hooks/useGlobalTheme';
 import GeneralTemplate from '/components/GeneralTemplate';
 import Layout from '/components/coinMarket/Layout';
 import CoinHomeSkeleton from '/components/skeletonPlaceholder/CoinHomeSkeleton';
-import ErrorBoundaryAndSuspense from '/components/common/ErrorBoundaryAndSuspense';
+import AsyncBoundary from '/components/common/AsyncBoundary';
 import SettingModal from '/components/setting/SettingModal';
-
 
 const HomeScreen = ({ navigation }: StackScreenProps<any>) => {
   const settingModalRef = useRef<BottomSheetModal>(null);
@@ -29,6 +28,7 @@ const HomeScreen = ({ navigation }: StackScreenProps<any>) => {
             name="search-sharp"
             size={28}
             color={theme.base.text[200]}
+            // eslint-disable-next-line react-native/no-inline-styles
             style={{
               marginRight: 20,
             }}
@@ -42,15 +42,15 @@ const HomeScreen = ({ navigation }: StackScreenProps<any>) => {
           />
         </IconWrap>
       ),
-    })
-  }, [theme]);
+    });
+  }, [handleSettingPress, navigation, theme]);
 
   return (
     <GeneralTemplate>
-      <ErrorBoundaryAndSuspense skeleton={<CoinHomeSkeleton />}>
+      <AsyncBoundary skeleton={<CoinHomeSkeleton />}>
         <SettingModal ref={settingModalRef} />
         <Layout />
-      </ErrorBoundaryAndSuspense>
+      </AsyncBoundary>
     </GeneralTemplate>
   );
 };

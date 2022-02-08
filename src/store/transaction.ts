@@ -1,6 +1,5 @@
 import 'react-native-get-random-values';
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { v4 as uuidv4 } from 'uuid';
+import { createSlice, PayloadAction, nanoid } from '@reduxjs/toolkit';
 
 import {
   FormData,
@@ -49,7 +48,7 @@ export const transactionSlice = createSlice({
         ...state.transactions,
         {
           ...formData,
-          id: uuidv4(),
+          id: nanoid(),
           symbol: formData.symbol,
           createdAt: +new Date(),
           quantity: Number(formData.quantity),

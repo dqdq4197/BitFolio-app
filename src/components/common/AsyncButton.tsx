@@ -97,7 +97,7 @@ const Container = styled.TouchableOpacity<ContainerProps>`
     bottomInset - 20 > 0 ? bottomInset - 20 : 0}px;
 `;
 
-const CustomText = styled(Text) <TextProps>`
+const CustomText = styled(Text)<TextProps>`
   color: ${({ isDisabled }) =>
     isDisabled ? 'rgba(255,255,255,0.6)' : 'rgba(255,255,255,1)'};
 `;

@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import styled, { css } from 'styled-components/native';
 import { useTranslation } from 'react-i18next';
 import { baseTypes } from 'base-types';

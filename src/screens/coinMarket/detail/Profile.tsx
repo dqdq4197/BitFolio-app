@@ -1,14 +1,14 @@
 import React from 'react';
 
+import AsyncBoundary from '/components/common/AsyncBoundary';
 import ProfileLayout from '/components/coinMarketDetail/profile/Layout';
 import CoinDetailSkeleton from '/components/skeletonPlaceholder/CoinDetailSkeleton';
-import ErrorBoundaryAndSuspense from '/components/common/ErrorBoundaryAndSuspense';
 
 const Profile = () => {
   return (
-    <ErrorBoundaryAndSuspense skeleton={<CoinDetailSkeleton />}>
+    <AsyncBoundary skeleton={<CoinDetailSkeleton />}>
       <ProfileLayout />
-    </ErrorBoundaryAndSuspense>
+    </AsyncBoundary>
   );
 };
 

@@ -1,1 +1,6 @@
 babel.config.*
+
+
+# 임시 개발 보류 
+*/components/mdEditor
+*/hooks/useMdEditorContext.tsx

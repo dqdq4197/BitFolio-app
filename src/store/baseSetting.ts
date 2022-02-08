@@ -81,7 +81,7 @@ export const baseSettingSlice = createSlice({
       state.watchList = [...newWatchList];
     },
     changeRecentSearches: (state, action: PayloadAction<string>) => {
-      let temp = state.recentSearches.filter(
+      const temp = state.recentSearches.filter(
         coinId => coinId !== action.payload
       );
       temp.unshift(action.payload);

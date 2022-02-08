@@ -11,27 +11,31 @@ import useLocales from '/hooks/useLocales';
 
 import Text from '/components/common/Text';
 
-
 const { width } = Dimensions.get('window');
 
 const BottomNotice = () => {
-
   const { theme } = useGlobalTheme();
   const { t } = useTranslation();
   const { language } = useLocales();
 
   const handlePrivacyPolicyPress = () => {
     WebBrowser.openBrowserAsync(
-      language === 'en' ? PRIVACY_POLICY_EN : PRIVACY_POLICY_KO, {
-      toolbarColor: theme.base.background.surface,
-      enableBarCollapsing: true
-    })
-  }
+      language === 'en' ? PRIVACY_POLICY_EN : PRIVACY_POLICY_KO,
+      {
+        toolbarColor: theme.base.background.surface,
+        enableBarCollapsing: true,
+      }
+    );
+  };
 
   return (
     <Container>
       <TitleWrap>
-        <MaterialCommunityIcons name="information" size={19} color={theme.base.text[200]} />
+        <MaterialCommunityIcons
+          name="information"
+          size={19}
+          color={theme.base.text[200]}
+        />
         <Text fontML bold margin="0 0 0 5px">
           {t(`common.bottom notice.title`)}
         </Text>
@@ -83,32 +87,34 @@ const BottomNotice = () => {
         </Text>
       </Row>
     </Container>
-  )
-}
+  );
+};
 
 export default BottomNotice;
 
 const Container = styled.View`
   padding: 30px ${({ theme }) => theme.content.spacing};
-`
+`;
 
 const TitleWrap = styled.View`
   flex-direction: row;
   margin-bottom: 5px;
   align-items: center;
-`
+`;
 
 const Row = styled.View`
   width: 100%;
   flex-direction: row;
   align-items: flex-start;
   margin-top: 5px;
-`
+`;
+
 const BulletCol = styled.View`
   width: 20px;
- `
+`;
 
 const TextWrap = styled.View`
-  width: ${({ theme }) => width - parseInt(theme.content.spacing) * 2 - 20}px;
+  width: ${({ theme }) =>
+    width - parseInt(theme.content.spacing, 10) * 2 - 20}px;
   padding-top: 3px;
-`
+`;

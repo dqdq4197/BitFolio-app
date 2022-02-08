@@ -1,11 +1,13 @@
 import React from 'react';
 import { Dimensions } from 'react-native';
 import styled from 'styled-components/native';
+
+import useLocales from '/hooks/useLocales';
+import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat';
+
 import Text from '/components/common/Text';
 import RollingText from '/components/common/RollingText';
 import { FocusedView } from './FormModal';
-import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat';
-import useLocales from '/hooks/useLocales';
 
 const { width } = Dimensions.get('window');
 
@@ -16,7 +18,8 @@ type QuantityViewProps = {
   pricePerCoin: string;
   onSwitchFocusView: (key: FocusedView) => void;
   height: number;
-}
+};
+
 const SetQuantityView = ({
   quantity,
   unMountingList,
@@ -34,7 +37,11 @@ const SetQuantityView = ({
           Total Price
         </Text>
         <Text margin="5px 0 0 0">
-          {currencyFormat({ value: parseFloat(pricePerCoin) * parseFloat(quantity), zeroMask: '0', prefix: getCurrencySymbol(currency) })}
+          {currencyFormat({
+            value: parseFloat(pricePerCoin) * parseFloat(quantity),
+            zeroMask: '0',
+            prefix: getCurrencySymbol(currency),
+          })}
         </Text>
       </TotalPriceView>
       <View>
@@ -54,20 +61,24 @@ const SetQuantityView = ({
           onPress={() => onSwitchFocusView('pricePerCoin')}
         >
           <Text fontML>
-            {currencyFormat({ value: pricePerCoin, zeroMask: '0', prefix: getCurrencySymbol(currency) })} per coin
+            {`${currencyFormat({
+              value: pricePerCoin,
+              zeroMask: '0',
+              prefix: getCurrencySymbol(currency),
+            })} per coin`}
           </Text>
         </PricePerCoinView>
       </View>
       <View />
     </Container>
-  )
-}
+  );
+};
 
 export default SetQuantityView;
 
 type ContainerType = {
   height: number;
-}
+};
 
 const Container = styled.View<ContainerType>`
   width: ${width}px;
@@ -75,23 +86,25 @@ const Container = styled.View<ContainerType>`
   justify-content: space-around;
   align-items: center;
   padding: 0 ${({ theme }) => theme.content.spacing};
-`
+`;
+
 const QuantityView = styled.View`
   flex-direction: row;
   align-items: center;
   height: 60px;
-`
+`;
 
 const TotalPriceView = styled.View`
   align-items: center;
-`
+`;
 
 const PricePerCoinView = styled.TouchableOpacity`
   background-color: ${({ theme }) => theme.base.background[300]};
   padding: 5px 8px;
   margin-top: 5px;
   border-radius: ${({ theme }) => theme.border.m};
-`
+`;
+
 const View = styled.View`
   align-items: center;
-`
+`;

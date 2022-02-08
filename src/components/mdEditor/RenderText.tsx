@@ -1,11 +1,21 @@
-import React, { useState, useLayoutEffect, createContext, useContext } from 'react';
+import React, {
+  useState,
+  useLayoutEffect,
+  createContext,
+  useContext,
+} from 'react';
 import reactStringReplace from 'react-string-replace';
 import styled, { css } from 'styled-components/native';
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
-import Text from '/components/common/Text';
+
+import {
+  useMdEditorDispatch,
+  useMdEditorState,
+} from '/hooks/useMdEditorContext';
 import { unicodes, TYPES, ACTIONS } from '/lib/constant';
-import { useMdEditorDispatch, useMdEditorState } from '/hooks/useMdEditorContext';
+
+import Text from '/components/common/Text';
 // import * as babel from 'babel-core';
 
 
@@ -99,7 +109,7 @@ const RenderText = ({ type, children, index }: RenderTextProps) => {
             return stringToBold(text)
           }
         } else {
-          return text
+          return text;
         }
       })
       context = context.flat();

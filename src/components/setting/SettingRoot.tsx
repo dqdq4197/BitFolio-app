@@ -4,30 +4,30 @@ import { baseTypes } from 'base-types';
 import { APP_VERSION } from '@env';
 import { useTranslation } from 'react-i18next';
 import { MaterialIcons } from '@expo/vector-icons';
+
 import { useAppSelector, shallowEqual } from '/hooks/useRedux';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import useLocales from '/hooks/useLocales';
 import { CURRENCIES } from '/lib/constant';
+
 import Text from '/components/common/Text';
 import SurfaceWrap from '/components/common/SurfaceWrap';
 import Blank from './Blank';
 
 type RowProps = {
-  onPress: () => void
-  title: string
-  currentSettingTitle: string
-}
+  onPress: () => void;
+  title: string;
+  currentSettingTitle: string;
+};
 
 type SettingRootProps = {
-  onLanguagePress: () => void
-  onCurrencyPress: () => void
-  onScreenThemePress: () => void
-  onLounchScreenPress: () => void
-}
-
+  onLanguagePress: () => void;
+  onCurrencyPress: () => void;
+  onScreenThemePress: () => void;
+  onLounchScreenPress: () => void;
+};
 
 const Row = ({ onPress, title, currentSettingTitle }: RowProps) => {
-
   const { theme } = useGlobalTheme();
 
   return (
@@ -51,23 +51,25 @@ const Row = ({ onPress, title, currentSettingTitle }: RowProps) => {
         </ColRight>
       </>
     </RowContainer>
-  )
-}
+  );
+};
 
 const SettingRoot = ({
   onScreenThemePress,
   onLanguagePress,
   onCurrencyPress,
-  onLounchScreenPress
+  onLounchScreenPress,
 }: SettingRootProps) => {
-
   const { t } = useTranslation();
   const { scheme } = useGlobalTheme();
   const { theme } = useGlobalTheme();
   const { currency, language } = useLocales();
-  const { launchScreen } = useAppSelector(state => ({
-    launchScreen: state.baseSettingReducer.launchScreen,
-  }), shallowEqual);
+  const { launchScreen } = useAppSelector(
+    state => ({
+      launchScreen: state.baseSettingReducer.launchScreen,
+    }),
+    shallowEqual
+  );
 
   return (
     <>
@@ -92,28 +94,18 @@ const SettingRoot = ({
         <Row
           onPress={onCurrencyPress}
           title={t('setting.default currencies')}
-          currentSettingTitle={
+          currentSettingTitle={`${
             CURRENCIES[currency as baseTypes.Currency].iso
-            + ' - ' +
-            CURRENCIES[currency as baseTypes.Currency].symbol
-          }
+          } - ${CURRENCIES[currency as baseTypes.Currency].symbol}`}
         />
         <Row
           onPress={onLounchScreenPress}
           title={t('setting.launch screen')}
           currentSettingTitle={t(`common.${launchScreen}`)}
         />
-
       </SurfaceWrap>
-      <SurfaceWrap
-        title={t(`setting.support`)}
-        parentPaddingZero
-        fontML
-      >
-        <BasicRow
-          onPress={() => { }}
-          underlayColor={theme.base.underlayColor[100]}
-        >
+      <SurfaceWrap title={t(`setting.support`)} parentPaddingZero fontML>
+        <BasicRow underlayColor={theme.base.underlayColor[100]}>
           <>
             <Text fontML bold>
               {t('setting.app version')}
@@ -126,8 +118,8 @@ const SettingRoot = ({
         <Blank />
       </SurfaceWrap>
     </>
-  )
-}
+  );
+};
 
 export default SettingRoot;
 
@@ -137,16 +129,17 @@ const RowStyled = css`
   align-items: center;
   padding: 0 ${({ theme }) => theme.content.spacing};
   height: 48px;
-`
+`;
+
 const RowContainer = styled.TouchableHighlight`
   ${RowStyled}
-`
+`;
 
 const BasicRow = styled.TouchableHighlight`
   ${RowStyled};
-`
+`;
 
 const ColRight = styled.View`
   flex-direction: row;
   align-items: center;
-`
+`;

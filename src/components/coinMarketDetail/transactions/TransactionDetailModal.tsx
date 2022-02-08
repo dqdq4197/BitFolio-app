@@ -41,8 +41,9 @@ import IncreaseDecreaseValue from '/components/common/IncreaseDecreaseValue';
 import EditButton from './EditTransactionButton';
 
 if (Platform.OS === 'android') {
-  UIManager.setLayoutAnimationEnabledExperimental &&
+  if (UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
+  }
 }
 
 type DetailProps = {
@@ -192,7 +193,8 @@ const TransactionDetailModal = forwardRef<BottomSheetModal, DetailProps>(
                   </SubTitleWrap>
                   <Text fontML color100 bold>
                     {t(
-                      `common.${data.type === 'transfer' ? data.transferType : data.type
+                      `common.${
+                        data.type === 'transfer' ? data.transferType : data.type
                       }`
                     )}
                   </Text>
@@ -332,15 +334,14 @@ const TransactionDetailModal = forwardRef<BottomSheetModal, DetailProps>(
                     <Text fontML>{t(`common.value`)}</Text>
                     <Text color100 fontML bold>
                       {changePrice < 0
-                        ? '-' + currencyFormat({
-                          value: Math.sign(changePrice) * changePrice,
-                          prefix: getCurrencySymbol(currency)
-                        })
-                        : '+' + currencyFormat({
-                          value: changePrice,
-                          prefix: getCurrencySymbol(currency)
-                        })
-                      }
+                        ? `-${currencyFormat({
+                            value: Math.sign(changePrice) * changePrice,
+                            prefix: getCurrencySymbol(currency),
+                          })}`
+                        : `+${currencyFormat({
+                            value: changePrice,
+                            prefix: getCurrencySymbol(currency),
+                          })}`}
                     </Text>
                   </Row>
                   <Row>
@@ -369,7 +370,7 @@ const TransactionDetailModal = forwardRef<BottomSheetModal, DetailProps>(
                 pricePerCoin: data.pricePerCoin,
                 quantity: data.quantity,
                 type: data.type,
-                transferType: data.transferType
+                transferType: data.transferType,
               }}
             />
             <RemoveButton onPress={handleRemoveButtonPress} activeOpacity={0.6}>

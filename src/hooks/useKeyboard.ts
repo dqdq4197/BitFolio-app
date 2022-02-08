@@ -8,7 +8,6 @@ import {
 } from 'react-native';
 import { useSharedValue } from 'react-native-reanimated';
 
-import { getKeyboardAnimationConfigs } from '/lib/utils';
 import { KEYBOARD_STATE } from '/lib/constant';
 
 const KEYBOARD_EVENT_MAPPER = {
@@ -43,7 +42,8 @@ const useKeyboard = () => {
       keyboardAnimationEasing.value = easing;
       keyboardState.value = state;
     },
-    [getKeyboardAnimationConfigs]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
   );
 
   useEffect(() => {

@@ -27,7 +27,7 @@ const RootNavigation = () => {
         tabBar={props => <TabBar {...props} />}
         initialRouteName={launchScreen}
         sceneContainerStyle={{
-          backgroundColor: theme.base.background[100]
+          backgroundColor: theme.base.background[100],
         }}
       >
         <Tab.Screen

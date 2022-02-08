@@ -16,10 +16,12 @@ export const http = axios.create({
 export const Cryptocompare = {
   translate: {
     languages: (params: LangugesParams) => {
-      params.key = GOOGLE_PLATFROM_KEY;
       return {
         url: `/languages`,
-        params,
+        params: {
+          ...params,
+          key: GOOGLE_PLATFROM_KEY,
+        },
       };
     },
   },

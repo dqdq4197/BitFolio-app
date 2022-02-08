@@ -20,87 +20,90 @@ const FiltersBar = () => {
   const { theme } = useGlobalTheme();
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const { feeds, categories } = useAppSelector(state => ({
-    feeds: state.newsReducer.feeds,
-    categories: state.newsReducer.categories
-  }), shallowEqual);
+  const { feeds, categories } = useAppSelector(
+    state => ({
+      feeds: state.newsReducer.feeds,
+      categories: state.newsReducer.categories,
+    }),
+    shallowEqual
+  );
   const [feedsVisible, setFeedsVisible] = useState(false);
   const [categoriesVisible, setCategoriesVisible] = useState(false);
   const { data } = useRequest<FeedAndCategoryReturn>(
     Cryptocompare.news.feedAndCategories({}),
-    http,
+    http
   );
 
   const activeReset = useMemo(() => {
     return feeds !== ALL_NEWS_FEEDS || categories !== ALL_NEWS_CATEGORIES;
-  }, [feeds, categories])
+  }, [feeds, categories]);
 
   const handleResetPress = () => {
     if (!activeReset) return;
 
     dispatch(resetFilters());
-  }
+  };
 
   const handleFeedsPress = () => {
     setFeedsVisible(true);
-  }
+  };
 
   const handleCategoriesPress = () => {
     setCategoriesVisible(true);
-  }
+  };
 
-  if (!data) return (
-    <>
+  if (!data)
+    return (
       <SkeletonContainer>
-        <SkeletonPlaceholder.Item height={45} alignItems="center" flexDirection="row" paddingHorizontal={parseInt(theme.content.spacing)}>
-          <SkeletonPlaceholder.Item width={100} height={30} marginRight={10} borderRadius={6} />
-          <SkeletonPlaceholder.Item width={50} height={30} marginRight={10} borderRadius={6} />
-          <SkeletonPlaceholder.Item width={75} height={30} marginRight={10} borderRadius={6} />
+        <SkeletonPlaceholder.Item
+          height={45}
+          alignItems="center"
+          flexDirection="row"
+          paddingHorizontal={parseInt(theme.content.spacing, 10)}
+        >
+          <SkeletonPlaceholder.Item
+            width={100}
+            height={30}
+            marginRight={10}
+            borderRadius={6}
+          />
+          <SkeletonPlaceholder.Item
+            width={50}
+            height={30}
+            marginRight={10}
+            borderRadius={6}
+          />
+          <SkeletonPlaceholder.Item
+            width={75}
+            height={30}
+            marginRight={10}
+            borderRadius={6}
+          />
         </SkeletonPlaceholder.Item>
       </SkeletonContainer>
-    </>
-  )
+    );
 
   return (
-    <Container
-      horizontal
-    >
-      <Button
-        activeOpacity={0.6}
-        onPress={handleResetPress}
-      >
+    <Container horizontal>
+      <Button activeOpacity={0.6} onPress={handleResetPress}>
         <MaterialIcons
           name="refresh"
           size={18}
-          color={
-            activeReset
-              ? theme.base.removeColor
-              : theme.base.text[300]
-          }
+          color={activeReset ? theme.base.removeColor : theme.base.text[300]}
         />
-        <CustomText
-          isActive={activeReset}
-          margin="0 0 0 5px"
-          bold
-        >
+        <CustomText isActive={activeReset} margin="0 0 0 5px" bold>
           {t(`news.reset filter`)}
         </CustomText>
       </Button>
-      <Button
-        activeOpacity={0.6}
-        onPress={handleFeedsPress}
-      >
+      <Button activeOpacity={0.6} onPress={handleFeedsPress}>
         <FontAwesome name="filter" size={14} color={theme.base.text[100]} />
-        <Text margin="0 0 0 5px" bold color100 >
+        <Text margin="0 0 0 5px" bold color100>
           {t(`news.feeds`)}
         </Text>
       </Button>
-      <Button
-        activeOpacity={0.6}
-        onPress={handleCategoriesPress}
-      >
+      <Button activeOpacity={0.6} onPress={handleCategoriesPress}>
         <FontAwesome name="filter" size={14} color={theme.base.text[100]} />
-        <Text margin="0 0 0 5px" bold color100 >
+        <Text margin="0 0 0 5px" bold color100>
           {t(`news.categories`)}
         </Text>
       </Button>
@@ -119,28 +122,25 @@ const FiltersBar = () => {
         />
       )}
     </Container>
-  )
-}
-
+  );
+};
 
 export default FiltersBar;
 
 type TextProps = {
-  isActive: boolean
-}
+  isActive: boolean;
+};
 
 const Container = styled.ScrollView`
   height: 45px;
   background-color: ${({ theme }) => theme.base.background.surface};
   padding: 5px ${({ theme }) => theme.content.spacing} 10px;
-`
+`;
 
-const CustomText = styled(Text) <TextProps>`
-  color: ${({ theme, isActive }) => isActive
-    ? theme.base.removeColor
-    : theme.base.text[300]
-  }
-`
+const CustomText = styled(Text)<TextProps>`
+  color: ${({ theme, isActive }) =>
+    isActive ? theme.base.removeColor : theme.base.text[300]};
+`;
 
 const Button = styled.TouchableOpacity`
   flex-direction: row;
@@ -151,4 +151,4 @@ const Button = styled.TouchableOpacity`
   border-radius: ${({ theme }) => theme.border.m};
   padding: 2px 6px;
   margin-right: 10px;
-`
+`;

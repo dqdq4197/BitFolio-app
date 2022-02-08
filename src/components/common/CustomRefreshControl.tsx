@@ -3,9 +3,9 @@ import { RefreshControl } from 'react-native';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 
 type ControlProps = {
-  onRefresh: () => void,
-  refreshing: boolean,
-}
+  onRefresh: () => void;
+  refreshing: boolean;
+};
 
 const CustomRefreshControl = ({ onRefresh, refreshing }: ControlProps) => {
   const { theme } = useGlobalTheme();
@@ -17,7 +17,7 @@ const CustomRefreshControl = ({ onRefresh, refreshing }: ControlProps) => {
       style={{ zIndex: 999 }}
       tintColor={theme.base.text[300]}
     />
-  )
-}
+  );
+};
 
 export default CustomRefreshControl;

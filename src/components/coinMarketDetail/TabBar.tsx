@@ -5,7 +5,7 @@ import {
   LayoutChangeEvent,
   LayoutAnimation,
   Platform,
-  UIManager
+  UIManager,
 } from 'react-native';
 import styled from 'styled-components/native';
 import { MaterialTopTabBarProps } from '@react-navigation/material-top-tabs';
@@ -19,11 +19,12 @@ import useGlobalTheme from '/hooks/useGlobalTheme';
 import Tab from './Tab';
 
 if (Platform.OS === 'android') {
-  UIManager.setLayoutAnimationEnabledExperimental &&
+  if (UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true);
+  }
 }
 
-const { width } = Dimensions.get('window');
+const { width: DWidth } = Dimensions.get('window');
 
 type TabsMeasureType = {
   left: number;
@@ -40,12 +41,14 @@ const TabBar = ({
 }: MaterialTopTabBarProps) => {
   const { theme } = useGlobalTheme();
   const scrollViewRef = useRef<ScrollView>(null);
-  const [tabsMeasurements, setTabsMeasurements] = useState<TabsMeasureType[]>(Array.from({ length: state.routes.length }));
+  const [tabsMeasurements, setTabsMeasurements] = useState<TabsMeasureType[]>(
+    Array.from({ length: state.routes.length })
+  );
 
   useEffect(() => {
     if (scrollViewRef.current && measurementsCompleted()) {
       const { index } = state;
-      const screenCenterXPos = width / 2 - tabsMeasurements[index].width / 2;
+      const screenCenterXPos = DWidth / 2 - tabsMeasurements[index].width / 2;
       scrollViewRef.current.scrollTo({
         x: tabsMeasurements[index].left - screenCenterXPos,
         y: 0,
@@ -55,7 +58,7 @@ const TabBar = ({
         LayoutAnimation.create(200, 'easeInEaseOut', 'opacity')
       );
     }
-  }, [state.index, tabsMeasurements])
+  }, [state.index, tabsMeasurements]);
 
   const measurementsCompleted = (): boolean => {
     return tabsMeasurements.findIndex(measure => measure === undefined) === -1;
@@ -65,16 +68,16 @@ const TabBar = ({
 
   const indicatorWidth = measurementsCompleted()
     ? interpolateNode(position, {
-      inputRange,
-      outputRange: tabsMeasurements.map(measure => measure.width + 10),
-    })
+        inputRange,
+        outputRange: tabsMeasurements.map(measure => measure.width + 10),
+      })
     : 0;
 
   const translateX = measurementsCompleted()
     ? interpolateNode(position, {
-      inputRange,
-      outputRange: tabsMeasurements.map(measure => measure.left)
-    })
+        inputRange,
+        outputRange: tabsMeasurements.map(measure => measure.left),
+      })
     : 0;
 
   const onLayoutHandler = useCallback(
@@ -104,8 +107,8 @@ const TabBar = ({
               options.tabBarLabel !== undefined
                 ? options.tabBarLabel
                 : options.title !== undefined
-                  ? options.title
-                  : name;
+                ? options.title
+                : name;
 
             const isFocused = state.index === index;
 

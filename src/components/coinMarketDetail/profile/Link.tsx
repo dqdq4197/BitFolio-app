@@ -1,3 +1,6 @@
+/* eslint-disable react/no-unused-prop-types */
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable default-case */
 import React, { useCallback } from 'react';
 import styled from 'styled-components/native';
 import { useTranslation } from 'react-i18next';
@@ -60,7 +63,6 @@ const RowComponent = ({ url, title, icon, color }: RowComponentProps) => {
   );
 };
 
-
 const Link = (props: LinkProps) => {
   // telegram, explorers 추가 하기
   const { t } = useTranslation();
@@ -68,62 +70,74 @@ const Link = (props: LinkProps) => {
   const color = theme.base.text[200];
 
   const renderLink = useCallback(() => {
-    let rows = [];
-    for (let [key, value] of Object.entries(props)) {
+    const rows = [];
+    for (const [key, value] of Object.entries(props)) {
       switch (key) {
         case 'websites':
           if (value[0])
             rows.push({
               url: value[0],
               title: t('coinDetail.Website'),
-              icon: <MaterialCommunityIcons name="web" size={20} color={color} />
-            })
+              icon: (
+                <MaterialCommunityIcons name="web" size={20} color={color} />
+              ),
+            });
           break;
         case 'githubs':
           if (value[0])
             rows.push({
               url: value[0],
               title: t('coinDetail.Source code'),
-              icon: <Entypo name="code" size={20} color={color} />
-            })
+              icon: <Entypo name="code" size={20} color={color} />,
+            });
           break;
         case 'officialForums':
           if (value[0])
             rows.push({
               url: value[0],
               title: t('coinDetail.Official Forum'),
-              icon: <MaterialCommunityIcons name="forum" size={20} color={color} />
-            })
+              icon: (
+                <MaterialCommunityIcons name="forum" size={20} color={color} />
+              ),
+            });
           break;
         case 'facebookUsername':
           if (value)
             rows.push({
               url: `${FACEBOOK_PREFIX}${value}`,
               title: t('coinDetail.Facebook'),
-              icon: <MaterialIcons name="facebook" size={20} color={color} />
-            })
+              icon: <MaterialIcons name="facebook" size={20} color={color} />,
+            });
           break;
         case 'twitterScreenName':
           if (value)
             rows.push({
               url: `${TWITTER_PREFIX}${value}`,
               title: t('coinDetail.Twitter'),
-              icon: <MaterialCommunityIcons name="twitter" size={20} color={color} />
-            })
+              icon: (
+                <MaterialCommunityIcons
+                  name="twitter"
+                  size={20}
+                  color={color}
+                />
+              ),
+            });
           break;
         case 'reddit':
           if (value)
             rows.push({
               url: value as string,
               title: t('coinDetail.Reddit'),
-              icon: <MaterialCommunityIcons name="reddit" size={20} color={color} />
-            })
+              icon: (
+                <MaterialCommunityIcons name="reddit" size={20} color={color} />
+              ),
+            });
           break;
       }
     }
 
     return rows;
-  }, []);
+  }, [color, props, t]);
 
   return (
     <SurfaceWrap

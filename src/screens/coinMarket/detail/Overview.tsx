@@ -2,13 +2,13 @@ import React from 'react';
 
 import OverviewLayout from '/components/coinMarketDetail/overview/Layout';
 import CoinDetailSkeleton from '/components/skeletonPlaceholder/CoinDetailSkeleton';
-import ErrorBoundaryAndSuspense from '/components/common/ErrorBoundaryAndSuspense';
+import AsyncBoundary from '/components/common/AsyncBoundary';
 
 const Overview = () => {
   return (
-    <ErrorBoundaryAndSuspense skeleton={<CoinDetailSkeleton />}>
+    <AsyncBoundary skeleton={<CoinDetailSkeleton />}>
       <OverviewLayout />
-    </ErrorBoundaryAndSuspense>
+    </AsyncBoundary>
   );
 };
 

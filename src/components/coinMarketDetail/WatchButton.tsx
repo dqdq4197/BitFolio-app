@@ -36,7 +36,7 @@ const WatchButton = ({
 
   const initailWidth = useMemo(() => {
     return DWidth - parseInt(theme.content.spacing, 10) * 2;
-  }, [DWidth, theme]);
+  }, [theme]);
 
   const isAlreadyWatch = useMemo(() => {
     const { coins } = portfolios[activeIndex];
@@ -55,13 +55,15 @@ const WatchButton = ({
     };
 
     dispatch(addWatchingCoin(payload));
-  }, [portfolios, activeIndex, portfolioId, id]);
+  }, [id, symbol, image, name, portfolioId, portfolios, activeIndex, dispatch]);
 
   // eslint-disable-next-line @typescript-eslint/no-shadow
   const openAlert = (portfolioId: string, coinId: string) => {
     Alert.alert(
       t(`coinDetail.are you sure you want unwatch this coin?`),
-      t(`coinDetail.all transactions and holdings related to this coin will be removed`),
+      t(
+        `coinDetail.all transactions and holdings related to this coin will be removed`
+      ),
       [
         {
           text: t(`common.cancel`),
@@ -101,7 +103,7 @@ const WatchButton = ({
     } else {
       dispatch(unWatchingCoin(payload));
     }
-  }, [portfolios, id, portfolioId])
+  }, [portfolios, id, portfolioId, activeIndex]);
 
   return (
     <AsyncButton

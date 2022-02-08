@@ -10,8 +10,8 @@ export type RequestType = AxiosRequestConfig | null;
 
 export interface Return<Data, Error>
   extends Pick<
-  SWRResponse<AxiosResponse<Data>, AxiosError<Error>>,
-  'isValidating' | 'error' | 'mutate'
+    SWRResponse<AxiosResponse<Data>, AxiosError<Error>>,
+    'isValidating' | 'error' | 'mutate'
   > {
   data: Data | undefined;
   response: AxiosResponse<Data> | undefined;
@@ -20,8 +20,8 @@ export interface Return<Data, Error>
 
 export interface Config<Data = unknown, Error = unknown>
   extends Omit<
-  SWRConfiguration<AxiosResponse<Data>, AxiosError<Error>>,
-  'fallbackData'
+    SWRConfiguration<AxiosResponse<Data>, AxiosError<Error>>,
+    'fallbackData'
   > {
   fallbackData?: Data;
 }

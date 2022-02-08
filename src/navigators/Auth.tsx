@@ -8,12 +8,7 @@ import { useTranslation } from 'react-i18next';
 
 import useGlobalTheme from '/hooks/useGlobalTheme';
 
-import {
-  Login,
-  Register,
-  ForgotPassword,
-  ChangePassword,
-} from '/screens/auth';
+import { Login, Register, ForgotPassword, ChangePassword } from '/screens/auth';
 import AuthMainTest from './AuthMainTest';
 
 type RootStackParamList = {
@@ -36,7 +31,7 @@ const News = () => {
       title,
       headerStyle: {
         backgroundColor: theme.base.background.surface,
-        shadowColor: 'transparent'
+        shadowColor: 'transparent',
       },
       headerTintColor: theme.base.text[100],
       headerBackTitleVisible: false,

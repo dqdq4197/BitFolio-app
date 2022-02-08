@@ -5,16 +5,15 @@ import { AntDesign } from '@expo/vector-icons';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 
 type ButtonProps = {
-  SIZE: number
-  STROKEWIDTH: number
-  RADIUS: number
-  CIRCUMFERENCE: number
-  onModalClose: () => void
-}
+  SIZE: number;
+  STROKEWIDTH: number;
+  RADIUS: number;
+  CIRCUMFERENCE: number;
+  onModalClose: () => void;
+};
 
 const CloseButton = forwardRef<any, ButtonProps>(
   ({ SIZE, STROKEWIDTH, RADIUS, CIRCUMFERENCE, onModalClose }, ref) => {
-
     const { theme, scheme } = useGlobalTheme();
 
     return (
@@ -47,13 +46,13 @@ const CloseButton = forwardRef<any, ButtonProps>(
               scheme === 'light'
                 ? theme.base.background[500]
                 : theme.base.text[200]
-
             }
           />
         </Icon>
       </Conatiner>
-    )
-  })
+    );
+  }
+);
 
 export default CloseButton;
 
@@ -62,8 +61,8 @@ const Conatiner = styled.View<{ size: number }>`
   justify-content: center;
   background-color: ${({ theme }) => theme.base.background.surface};
   border-radius: ${({ size }) => size / 2}px;
-`
+`;
 
 const Icon = styled.TouchableOpacity`
   position: absolute;
-`
+`;

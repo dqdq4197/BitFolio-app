@@ -1,16 +1,16 @@
 import React from 'react';
 
+import AsyncBoundary from '/components/common/AsyncBoundary';
 import GeneralTemplate from '/components/GeneralTemplate';
 import NewCoin from '/components/coinMarket/popularList/NewCoin';
 import MarketListSkeleton from '/components/skeletonPlaceholder/MarketListSkeleton';
-import ErrorBoundaryAndSuspense from '/components/common/ErrorBoundaryAndSuspense';
 
 const NewCoinScreen = () => {
   return (
     <GeneralTemplate>
-      <ErrorBoundaryAndSuspense skeleton={<MarketListSkeleton />}>
+      <AsyncBoundary skeleton={<MarketListSkeleton />}>
         <NewCoin />
-      </ErrorBoundaryAndSuspense>
+      </AsyncBoundary>
     </GeneralTemplate>
   );
 };

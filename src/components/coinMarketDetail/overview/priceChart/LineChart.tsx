@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo } from 'react';
 import styled from 'styled-components/native';
 import { useTranslation } from 'react-i18next';
 import {
@@ -9,7 +9,7 @@ import {
   VictoryLabel,
   VictoryScatter,
 } from 'victory-native';
-import Animated from "react-native-reanimated";
+import Animated from 'react-native-reanimated';
 
 import useMarketChart from '/hooks/data/useMarketChart';
 import useGlobalTheme from '/hooks/useGlobalTheme';
@@ -26,23 +26,25 @@ import Cursor from './Cursor';
 const CURSOR_SIZE = 16;
 
 interface ConstType {
-  WIDTH: number,
-  HEIGHT: number,
-  PADDING: number,
-  VOLUME_HEIGHT: number,
+  WIDTH: number;
+  HEIGHT: number;
+  PADDING: number;
+  VOLUME_HEIGHT: number;
 }
 
 interface ChartProps extends ConstType {
-  id: string
-  chartOption: "prices" | "total_volumes" | "market_caps"
-  lastUpdatedPrice: number
-  price_24h_ago: number
-  isCursorActive: boolean
-  datumX: Animated.SharedValue<string>
-  datumY: Animated.SharedValue<string[]>
-  datumYChangePercentage: Animated.SharedValue<string>
-  onIsCursorActiveChange: (state: boolean) => void
-  onPercentageStatusChange: (status: 'negative' | 'unchanged' | 'positive') => void
+  id: string;
+  chartOption: 'prices' | 'total_volumes' | 'market_caps';
+  lastUpdatedPrice: number;
+  price_24h_ago: number;
+  isCursorActive: boolean;
+  datumX: Animated.SharedValue<string>;
+  datumY: Animated.SharedValue<string[]>;
+  datumYChangePercentage: Animated.SharedValue<string>;
+  onIsCursorActiveChange: (state: boolean) => void;
+  onPercentageStatusChange: (
+    status: 'negative' | 'unchanged' | 'positive'
+  ) => void;
 }
 
 const BaseLineLabel = React.memo((props: any) => {
@@ -58,19 +60,22 @@ const BaseLineLabel = React.memo((props: any) => {
       y={y}
       style={{
         fill: isCursorActive ? theme.base.text[200] : 'transparent',
-        fontSize: parseInt(theme.size.font_s)
+        fontSize: parseInt(theme.size.font_s, 10),
       }}
       backgroundStyle={{
         fill: isCursorActive ? theme.base.background.surface : 'transparent',
-        borderRadius: 100
+        borderRadius: 100,
       }}
       textAnchor="start"
       backgroundPadding={{
-        left: 10, right: 10, top: 5, bottom: 5
+        left: 10,
+        right: 10,
+        top: 5,
+        bottom: 5,
       }}
     />
-  )
-})
+  );
+});
 
 const CustomLabel = (props: any) => {
   const { isCursorActive, color, text, x, y, dy, width } = props;
@@ -81,23 +86,15 @@ const CustomLabel = (props: any) => {
       x={x}
       y={y}
       dy={dy}
-      style={[
-        {
-          fill: isCursorActive ? 'transparent' : color,
-          fontSize: parseInt(theme.size.font_s)
-        }
-      ]}
-      textAnchor={
-        x < 45
-          ? 'start'
-          : width - x < 45
-            ? 'end'
-            : 'middle'
-      }
+      style={{
+        fill: isCursorActive ? 'transparent' : color,
+        fontSize: parseInt(theme.size.font_s, 10),
+      }}
+      textAnchor={x < 45 ? 'start' : width - x < 45 ? 'end' : 'middle'}
       text={text}
     />
-  )
-}
+  );
+};
 
 const LineChart = ({
   id,
@@ -113,7 +110,7 @@ const LineChart = ({
   datumY,
   datumYChangePercentage,
   onIsCursorActiveChange,
-  onPercentageStatusChange
+  onPercentageStatusChange,
 }: ChartProps) => {
   const { t } = useTranslation();
   const { chartTimeFrame } = useAppSelector(state => state.baseSettingReducer);
@@ -124,16 +121,18 @@ const LineChart = ({
   const strokeColor = useMemo(() => {
     if (!data) return;
 
-    const timeAgoPrice = chartTimeFrame === 1
-      ? lastUpdatedPrice - price_24h_ago
-      : lastUpdatedPrice - data.prices[0][1]
+    const timeAgoPrice =
+      chartTimeFrame === 1
+        ? lastUpdatedPrice - price_24h_ago
+        : lastUpdatedPrice - data.prices[0][1];
 
     return timeAgoPrice > 0
       ? theme.base.upColor
       : timeAgoPrice === 0
-        ? theme.base.background[200]
-        : theme.base.downColor
-  }, [lastUpdatedPrice, data, theme, price_24h_ago])
+      ? theme.base.background[200]
+      : theme.base.downColor;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lastUpdatedPrice, data, theme, price_24h_ago]);
 
   return (
     <ChartContainer
@@ -143,7 +142,7 @@ const LineChart = ({
       VOLUME_HEIGHT={VOLUME_HEIGHT}
     >
       <GlobalIndicator isLoaded={!isValidating} />
-      {data &&
+      {data && (
         <>
           <VictoryChart
             width={WIDTH + PADDING - CONTENT_SPACING * 2}
@@ -151,9 +150,9 @@ const LineChart = ({
             padding={{
               right: PADDING,
               top: PADDING,
-              bottom: PADDING
+              bottom: PADDING,
             }}
-            scale={{ x: "time", y: 'linear' }}
+            scale={{ x: 'time', y: 'linear' }}
           >
             <VictoryAxis
               dependentAxis
@@ -162,12 +161,12 @@ const LineChart = ({
                   fill: 'transparent',
                 },
                 axis: {
-                  stroke: 'transparent'
+                  stroke: 'transparent',
                 },
                 grid: {
                   stroke: theme.base.background[300],
                   strokeDasharray: 8,
-                }
+                },
               }}
             />
             <VictoryLine
@@ -176,16 +175,12 @@ const LineChart = ({
                   stroke: theme.base.text[300],
                   strokeWidth: 1,
                   strokeDasharray: 3,
-                }
+                },
               }}
-              data={data[chartOption].map(
-                (v) => [
-                  v[0],
-                  chartTimeFrame === 1
-                    ? price_24h_ago
-                    : data[chartOption][0][1]
-                ]
-              )}
+              data={data[chartOption].map(v => [
+                v[0],
+                chartTimeFrame === 1 ? price_24h_ago : data[chartOption][0][1],
+              ])}
               x={0}
               y={1}
               interpolation="linear"
@@ -195,10 +190,10 @@ const LineChart = ({
                 data: {
                   stroke: strokeColor,
                   strokeWidth: 1.5,
-                }
+                },
               }}
               animate={{
-                duration: 200
+                duration: 200,
               }}
               data={data[chartOption]}
               x={0}
@@ -207,42 +202,34 @@ const LineChart = ({
             />
             <VictoryAxis
               dependentAxis
-              orientation='right'
+              orientation="right"
               tickLabelComponent={
-                <VictoryLabel
-                  verticalAnchor="middle"
-                  textAnchor="end"
-                />
+                <VictoryLabel verticalAnchor="middle" textAnchor="end" />
               }
               style={{
                 tickLabels: {
                   fill: isCursorActive ? theme.base.text[200] : 'transparent',
-                  fontSize: parseInt(theme.size.font_s),
+                  fontSize: parseInt(theme.size.font_s, 10),
                 },
                 axis: {
-                  stroke: 'transparent'
+                  stroke: 'transparent',
                 },
                 grid: {
                   stroke: 'transparent',
                   strokeDasharray: 8,
-                }
+                },
               }}
             />
             <BaseLineLabel
-              y={
-                chartTimeFrame === 1
-                  ? price_24h_ago
-                  : data[chartOption][0][1]
-              }
+              y={chartTimeFrame === 1 ? price_24h_ago : data[chartOption][0][1]}
               dy={-5}
-              text={
-                currencyFormat({
-                  value: chartTimeFrame === 1
+              text={currencyFormat({
+                value:
+                  chartTimeFrame === 1
                     ? price_24h_ago
                     : data[chartOption][0][1],
-                  prefix: getCurrencySymbol(currency)
-                })
-              }
+                prefix: getCurrencySymbol(currency),
+              })}
               isCursorActive={isCursorActive}
             />
             <VictoryScatter
@@ -251,11 +238,13 @@ const LineChart = ({
               style={{
                 data: {
                   fill: isCursorActive ? 'transparent' : strokeColor,
-                }
+                },
               }}
               labels={[
-                t('coinDetail.highest') + ' ' +
-                currencyFormat({ value: highestPrice[1], prefix: getCurrencySymbol(currency) })
+                `${t('coinDetail.highest')} ${currencyFormat({
+                  value: highestPrice[1],
+                  prefix: getCurrencySymbol(currency),
+                })}`,
               ]}
               labelComponent={
                 <CustomLabel
@@ -269,12 +258,14 @@ const LineChart = ({
               size={2}
               style={{
                 data: {
-                  fill: isCursorActive ? 'transparent' : strokeColor
-                }
+                  fill: isCursorActive ? 'transparent' : strokeColor,
+                },
               }}
               labels={[
-                t('coinDetail.lowest') + ' ' +
-                currencyFormat({ value: lowestPrice[1], prefix: getCurrencySymbol(currency) })
+                `${t('coinDetail.lowest')} ${currencyFormat({
+                  value: lowestPrice[1],
+                  prefix: getCurrencySymbol(currency),
+                })}`,
               ]}
               labelComponent={
                 <CustomLabel
@@ -291,7 +282,7 @@ const LineChart = ({
             PADDING={PADDING}
             VOLUME_HEIGHT={VOLUME_HEIGHT}
           >
-            {data &&
+            {data && (
               <Cursor
                 data={data[chartOption]}
                 width={WIDTH - CONTENT_SPACING * 2}
@@ -306,56 +297,56 @@ const LineChart = ({
                 datumYChangePercentage={datumYChangePercentage}
                 onPercentageStatusChange={onPercentageStatusChange}
               />
-            }
+            )}
           </CursorContainer>
           <VictoryChart
             width={WIDTH + PADDING - CONTENT_SPACING * 2}
             height={VOLUME_HEIGHT}
             padding={{
               right: PADDING,
-              bottom: PADDING
+              bottom: PADDING,
             }}
-            scale={{ x: "time", y: 'linear' }}
+            scale={{ x: 'time', y: 'linear' }}
           >
             <VictoryBar
-              data={data['total_volumes']}
+              data={data.total_volumes}
               x={0}
               y={1}
               domain={{
                 y: [
-                  Math.min(...data['total_volumes'].map(v => v[1])),
-                  Math.max(...data['total_volumes'].map(v => v[1]))
-                ]
+                  Math.min(...data.total_volumes.map(v => v[1])),
+                  Math.max(...data.total_volumes.map(v => v[1])),
+                ],
               }}
               range={{
-                y: [VOLUME_HEIGHT, 0]
+                y: [VOLUME_HEIGHT, 0],
               }}
               style={{
                 data: {
-                  fill: theme.base.text[300]
-                }
+                  fill: theme.base.text[300],
+                },
               }}
             />
             <VictoryAxis
               fixLabelOverlap
               style={{
                 axis: {
-                  stroke: "transparent",
-                  fill: theme.base.text[200]
+                  stroke: 'transparent',
+                  fill: theme.base.text[200],
                 },
                 ticks: {
-                  stroke: "transparent",
-                  fill: theme.base.text[200]
+                  stroke: 'transparent',
+                  fill: theme.base.text[200],
                 },
                 tickLabels: {
                   fill: theme.base.text[200],
-                  fontSize: parseInt(theme.size.font_m),
+                  fontSize: parseInt(theme.size.font_m, 10),
                 },
               }}
             />
           </VictoryChart>
         </>
-      }
+      )}
     </ChartContainer>
   );
 };
@@ -366,15 +357,17 @@ const ChartContainer = styled.View<ConstType>`
   overflow: hidden;
   margin-top: 30px;
   width: ${({ WIDTH, PADDING }) => WIDTH + PADDING}px;
-  height: ${({ HEIGHT, PADDING, VOLUME_HEIGHT }) => HEIGHT + PADDING + VOLUME_HEIGHT}px ;
+  height: ${({ HEIGHT, PADDING, VOLUME_HEIGHT }) =>
+    HEIGHT + PADDING + VOLUME_HEIGHT}px;
   align-items: center;
-`
+`;
 
 const CursorContainer = styled.View<ConstType>`
   position: absolute;
   overflow: hidden;
-  width: ${({ WIDTH, PADDING }) => WIDTH + PADDING - CONTENT_SPACING * 2}px; 
-  height: ${({ HEIGHT, VOLUME_HEIGHT, PADDING }) => HEIGHT + VOLUME_HEIGHT - PADDING}px;
+  width: ${({ WIDTH, PADDING }) => WIDTH + PADDING - CONTENT_SPACING * 2}px;
+  height: ${({ HEIGHT, VOLUME_HEIGHT, PADDING }) =>
+    HEIGHT + VOLUME_HEIGHT - PADDING}px;
   z-index: 2;
   align-items: center;
-`
+`;

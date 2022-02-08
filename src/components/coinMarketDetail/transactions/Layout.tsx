@@ -68,7 +68,7 @@ const Layout = () => {
     filteredTransactions.sort((a, b) => b.date - a.date);
 
     setFilteredData([...filteredTransactions]);
-  }, [transactions]);
+  }, [id, transactions]);
 
   // eslint-disable-next-line consistent-return
   const focusedTransactionData = useMemo(() => {
@@ -106,9 +106,7 @@ const Layout = () => {
   return (
     <Container>
       <ScrollView
-        contentContainerStyle={{
-          paddingBottom: 20,
-        }}
+        contentContainerStyle={{ paddingBottom: 20 }}
         refreshControl={
           <CustomRefreshControl
             onRefresh={handleRefresh}

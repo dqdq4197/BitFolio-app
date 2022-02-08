@@ -2,14 +2,16 @@ import React from 'react';
 import styled from 'styled-components/native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
-import { TransactionType } from '/store/transaction';
-import Text from '/components/common/Text';
-import useGlobalTheme from '/hooks/useGlobalTheme';
-import useLocales from '/hooks/useLocales';
 import { format } from 'date-fns';
 import { ko, enUS } from 'date-fns/locale';
+
+import useGlobalTheme from '/hooks/useGlobalTheme';
+import useLocales from '/hooks/useLocales';
+import { TransactionType } from '/store/transaction';
 import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat';
+
 import IncreaseDecreaseValue from '/components/common/IncreaseDecreaseValue';
+import Text from '/components/common/Text';
 
 type ItemProps = {
   data: TransactionType;
@@ -26,14 +28,14 @@ type TypesType = {
 };
 
 const TYPES: TypesType = {
-  'buy': {
+  buy: {
     name: 'buy',
     icon: (color: string) => (
       <Ionicons name="ios-arrow-down-circle-sharp" size={24} color={color} />
     ),
     symbol: 'positive',
   },
-  'sell': {
+  sell: {
     name: 'sell',
     icon: (color: string) => (
       <Ionicons name="ios-arrow-up-circle-sharp" size={24} color={color} />
@@ -74,7 +76,8 @@ const Item = ({ data, symbol, onItemPress }: ItemProps) => {
           <TypeValue>
             <Text color100 bold fontML>
               {t(
-                `common.${data.type === 'transfer' ? data.transferType : data.type
+                `common.${
+                  data.type === 'transfer' ? data.transferType : data.type
                 }`
               )}
             </Text>
@@ -88,15 +91,14 @@ const Item = ({ data, symbol, onItemPress }: ItemProps) => {
         <QuantityWrap>
           <Text color100 bold>
             {TYPES[type].symbol === 'negative'
-              ? '-' + currencyFormat({
-                value: data.pricePerCoin[currency] * data.quantity,
-                prefix: getCurrencySymbol(currency)
-              })
-              : '+' + currencyFormat({
-                value: data.pricePerCoin[currency] * data.quantity,
-                prefix: getCurrencySymbol(currency)
-              })
-            }
+              ? `-${currencyFormat({
+                  value: data.pricePerCoin[currency] * data.quantity,
+                  prefix: getCurrencySymbol(currency),
+                })}`
+              : `+${currencyFormat({
+                  value: data.pricePerCoin[currency] * data.quantity,
+                  prefix: getCurrencySymbol(currency),
+                })}`}
           </Text>
           <IncreaseDecreaseValue
             value={

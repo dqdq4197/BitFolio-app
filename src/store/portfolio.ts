@@ -1,6 +1,5 @@
 import 'react-native-get-random-values';
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { v4 as uuidv4 } from 'uuid';
+import { createSlice, PayloadAction, nanoid } from '@reduxjs/toolkit';
 
 export type SortType =
   | 'default'
@@ -67,7 +66,7 @@ export type InitialState = {
 const initialState: InitialState = {
   portfolios: [
     {
-      id: uuidv4(),
+      id: nanoid(),
       coins: [],
       assetSortType: 'default',
       mode: 'public',

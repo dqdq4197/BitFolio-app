@@ -2,15 +2,15 @@ import React from 'react';
 
 import GeneralTemplate from '/components/GeneralTemplate';
 import CoinDetailSkeleton from '/components/skeletonPlaceholder/CoinDetailSkeleton';
-import ErrorBoundaryAndSuspense from '/components/common/ErrorBoundaryAndSuspense';
+import AsyncBoundary from '/components/common/AsyncBoundary';
 import Login from '/components/auth/Login';
 
 const LoginScreen = () => {
   return (
     <GeneralTemplate>
-      <ErrorBoundaryAndSuspense skeleton={<CoinDetailSkeleton />}>
+      <AsyncBoundary skeleton={<CoinDetailSkeleton />}>
         <Login />
-      </ErrorBoundaryAndSuspense>
+      </AsyncBoundary>
     </GeneralTemplate>
   );
 };

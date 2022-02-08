@@ -21,8 +21,8 @@ const useHistorySnapshot = ({
     willNotRequest
       ? null
       : CoinGecko.coin.historySnapshot(id, {
-        date,
-      }),
+          date,
+        }),
     http,
     { suspense }
   );

@@ -2,63 +2,73 @@ import React, { useReducer, useContext, createContext } from 'react';
 import { TYPES, unicodes, ACTIONS, style } from '/lib/constant';
 
 export type InlineStyleType = {
-  start: number,
-  end: number,
-  styles: string[],
-  url?: string,
-}
+  start: number;
+  end: number;
+  styles: string[];
+  url?: string;
+};
+
 export type ParagraphType = {
-  type: string,
+  type: string;
   payload: {
-    text: string,
+    text: string;
     inlineStyles: InlineStyleType[] | [];
-  }
-}
+  };
+};
+
 export interface QuoteType extends ParagraphType { }
 export interface HeaderType extends ParagraphType { }
 export type DelimiterType = {
-  type: string,
+  type: string;
   payload: {}
-}
+};
+
 export type EmbedType = {
-  type: string,
+  type: string;
   payload: {
-    source: string,
-    id: string,
-    caption: string,
-  }
-}
+    source: string;
+    id: string;
+    caption: string;
+  };
+};
+
 export type ListType = {
-  type: string,
+  type: string;
   payload: {
-    style: "ordered" | "unordered",
-    items: string[]
-  }
-}
+    style: 'ordered' | 'unordered';
+    items: string[];
+  };
+};
+
 export type ImageType = {
-  type: string,
+  type: string;
   payload: {
     file: {
-      uri: string,
-      width: number,
-      height: number
-    },
-    caption: string
-  }
-}
+      uri: string;
+      width: number;
+      height: number;
+    };
+    caption: string;
+  };
+};
 
 export type FocusStateType = {
-  index: number,
-  action: string
-}
+  index: number;
+  action: string;
+};
+
 export type SelectionType = {
-  start: number,
-  end: number
-}
+  start: number;
+  end: number;
+};
 
 export type ContentsType =
-  | ParagraphType | DelimiterType | EmbedType
-  | ListType | HeaderType | ImageType;
+  | ParagraphType
+  | DelimiterType
+  | EmbedType
+  | ListType
+  | HeaderType
+  | ImageType;
 
 type Action =
   | { type: 'UPDATE_CURRENT_LINE'; context: ContentsType; focusIndex: number }
@@ -79,14 +89,13 @@ type Action =
   | { type: 'SELECTION_CHANGE_DETECTOR', detected: boolean }
 
 type InitailState = {
-  contentStorage: ContentsType[],
-  focusState: FocusStateType,
-  selection: SelectionType,
-  listFocusIndex: number,
-  isTextRendered: boolean,
-  selectionChangeDetect: boolean
-}
-
+  contentStorage: ContentsType[];
+  focusState: FocusStateType;
+  selection: SelectionType;
+  listFocusIndex: number;
+  isTextRendered: boolean;
+  selectionChangeDetect: boolean;
+};
 
 const initialState: InitailState = {
   contentStorage: [
@@ -259,27 +268,41 @@ function mdEditorReducer(state: InitailState, action: Action): InitailState {
 
 type ProviderProps = {
   children: React.ReactChild;
-}
+};
 
 type HandlersType = {
-  updateCurrentLine: (context: ContentsType, focusIndex: number) => void,
-  insertNewLineAfter: (context: ContentsType[], focusIndex: number) => void,
-  removePreviousLine: (focusIndex: number) => void,
-  divideCurrentLineAndNewLine: (context: ContentsType[], focusIndex: number) => void,
-  removeCurrentLine: (focusIndex: number) => void,
-  mergePreviousLineWithCurrentLine: (context: ContentsType[], focusIndex: number) => void,
-  mergePreviousLineWithNextLine: (context: ListType, focusIndex: number) => void,
-  mergeNextLineWithCurrentLine: (context: ListType[], focusIndex: number) => void,
-  updateFocusState: (focusIndex: number, action: string) => void,
-  focusActionReset: (focusIndex?: number) => void,
-  updateSelection: (selection: SelectionType) => void,
-  setIsTextRendered: (isRendered: boolean) => void,
-  updateListFocusIndex: (focusIndex: number) => void,
-  selectionChangeDetected: (detected: boolean) => void,
+  updateCurrentLine: (context: ContentsType, focusIndex: number) => void;
+  insertNewLineAfter: (context: ContentsType[], focusIndex: number) => void;
+  removePreviousLine: (focusIndex: number) => void;
+  divideCurrentLineAndNewLine: (
+    context: ContentsType[],
+    focusIndex: number
+  ) => void;
+  removeCurrentLine: (focusIndex: number) => void;
+  mergePreviousLineWithCurrentLine: (
+    context: ContentsType[],
+    focusIndex: number
+  ) => void;
+  mergePreviousLineWithNextLine: (
+    context: ListType,
+    focusIndex: number
+  ) => void;
+  mergeNextLineWithCurrentLine: (
+    context: ListType[],
+    focusIndex: number
+  ) => void;
+  updateFocusState: (focusIndex: number, action: string) => void;
+  focusActionReset: (focusIndex?: number) => void;
+  updateSelection: (selection: SelectionType) => void;
+  setIsTextRendered: (isRendered: boolean) => void;
+  updateListFocusIndex: (focusIndex: number) => void;
+  selectionChangeDetected: (detected: boolean) => void;
 }
 
 const MdEditorStateContext = createContext<InitailState | undefined>(undefined);
-const MdEditorDispatchHandlerContext = createContext<HandlersType | undefined>(undefined);
+const MdEditorDispatchHandlerContext = createContext<HandlersType | undefined>(
+  undefined
+);
 
 export function MdEditorProvider({ children }: ProviderProps) {
   const [state, dispatch] = useReducer(mdEditorReducer, initialState);
@@ -384,7 +407,7 @@ export function MdEditorProvider({ children }: ProviderProps) {
         {children}
       </MdEditorDispatchHandlerContext.Provider>
     </MdEditorStateContext.Provider>
-  )
+  );
 }
 
 export function useMdEditorState() {
@@ -400,5 +423,5 @@ export function useMdEditorDispatch() {
   if (!context) {
     throw new Error(`MdEditorDispatchContext is undefined`);
   }
-  return context
+  return context;
 }

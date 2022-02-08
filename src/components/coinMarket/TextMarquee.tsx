@@ -65,8 +65,9 @@ const ModalContents = ({
           <Col>
             <Title>
               <Text fontM bold>
-                {t('coinMarketHome.market cap') +
-                  ` (${currency.toUpperCase()}) `}
+                {`${t(
+                  'coinMarketHome.market cap'
+                )} (${currency.toUpperCase()})`}
               </Text>
             </Title>
             <Text fontM bold color100>
@@ -76,11 +77,9 @@ const ModalContents = ({
           <Col left>
             <Title>
               <Text fontM bold>
-                {t('common.n.hour', { n: 24 })
-                  + ' '
-                  + t('coinMarketHome.volume')
-                  + ` (${currency.toUpperCase()}) `
-                }
+                {`${t('common.n.hour', { n: 24 })} ${t(
+                  'coinMarketHome.volume'
+                )} (${currency.toUpperCase()})`}
               </Text>
             </Title>
             <Text fontM bold color100>
@@ -114,25 +113,27 @@ const ModalContents = ({
           <Col>
             <Title>
               <Text fontM bold>
-                {'BTC ' + t('common.dominance')}
+                {`BTC ${t('common.dominance')}`}
               </Text>
             </Title>
             <Text fontM bold color100>
               {currencyFormat({
                 value: btcDominance,
-              })}%
+              })}
+              %
             </Text>
           </Col>
           <Col left>
             <Title>
               <Text fontM bold>
-                {'ETH ' + t('common.dominance')}
+                {`ETH ${t('common.dominance')}`}
               </Text>
             </Title>
             <Text fontM bold color100>
               {currencyFormat({
                 value: ethDominance,
-              })}%
+              })}
+              %
             </Text>
           </Col>
         </Row>
@@ -159,16 +160,17 @@ const TextMarquee = () => {
     <Container activeOpacity={0.8} onPress={handleMarqueePress}>
       <TextTicker loop duration={40000} repeatSpacer={30}>
         <Text fontM dark100 bold>
-          {`${t(`common.cryptocurrencies`)}: ${data.active_cryptocurrencies
-            } • ${t('common.exchanges')}: ${data.markets} • ${t(
-              'coinMarketHome.market cap'
-            )}: ${convertUnits(data.total_market_cap[currency], currency)} • ${t(
-              'common.n.hour',
-              { n: 24 }
-            )} ${t('coinMarketHome.volume')}: ${convertUnits(
-              data.total_volume[currency],
-              currency
-            )}`}
+          {`${t(`common.cryptocurrencies`)}: ${
+            data.active_cryptocurrencies
+          } • ${t('common.exchanges')}: ${data.markets} • ${t(
+            'coinMarketHome.market cap'
+          )}: ${convertUnits(data.total_market_cap[currency], currency)} • ${t(
+            'common.n.hour',
+            { n: 24 }
+          )} ${t('coinMarketHome.volume')}: ${convertUnits(
+            data.total_volume[currency],
+            currency
+          )}`}
         </Text>
       </TextTicker>
       <IconWrap

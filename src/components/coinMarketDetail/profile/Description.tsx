@@ -3,15 +3,19 @@ import { LayoutAnimation, UIManager, Platform } from 'react-native';
 import styled from 'styled-components/native';
 import { useTranslation } from 'react-i18next';
 import * as WebBrowser from 'expo-web-browser';
+import { MaterialIcons } from '@expo/vector-icons';
+
+import useGlobalTheme from '/hooks/useGlobalTheme';
+
 import Text from '/components/common/Text';
 import Image from '/components/common/Image';
 import HorizontalLine from '/components/common/HorizontalLine';
-import useGlobalTheme from '/hooks/useGlobalTheme';
-import { MaterialIcons } from '@expo/vector-icons';
 
-Platform.OS === 'android' &&
-  UIManager.setLayoutAnimationEnabledExperimental &&
-  UIManager.setLayoutAnimationEnabledExperimental(true);
+if (Platform.OS === 'android') {
+  if (UIManager.setLayoutAnimationEnabledExperimental) {
+    UIManager.setLayoutAnimationEnabledExperimental(true);
+  }
+}
 
 type DescriptionProps = {
   localization: string;
@@ -41,12 +45,13 @@ const Description = ({
   };
 
   useEffect(() => {
-    let regExp = new RegExp(/<a[\s]+([^>]+)>((?:.(?!\<\/a\>))*.)<\/a>/, 'g');
-    let match = content.split(regExp);
-    let replacedText = [];
-    for (let i = 0; i < match.length; i++) {
+    const regExp = new RegExp(/<a[\s]+([^>]+)>((?:.(?!\<\/a\>))*.)<\/a>/, 'g');
+    const match = content.split(regExp);
+    const replacedText = [];
+    for (let i = 0; i < match.length; i += 1) {
       const href = match[i].match(/href=(["'])(.*?)\1/);
       if (href) {
+        i += 1;
         replacedText.push(
           <LinkText
             key={i.toString()}
@@ -59,7 +64,7 @@ const Description = ({
             }}
           >
             <Text bold primaryColor>
-              {match[++i]}
+              {match[i]}
             </Text>
           </LinkText>
         );
@@ -68,7 +73,7 @@ const Description = ({
       }
     }
     setUpdatedContent(replacedText);
-  }, []);
+  }, [content, theme]);
 
   return (
     <Container>

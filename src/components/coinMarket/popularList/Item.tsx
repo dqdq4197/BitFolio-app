@@ -25,8 +25,8 @@ type ItemProps = {
   index: number;
   valueKey: 'total_volume' | 'market_cap' | 'current_price';
   percentageKey?:
-  | 'market_cap_change_percentage_24h'
-  | 'price_change_percentage_24h';
+    | 'market_cap_change_percentage_24h'
+    | 'price_change_percentage_24h';
   onPressItem: (id: string, symbol: string) => void;
   NoneUnderLine?: boolean;
 };
@@ -58,9 +58,9 @@ const ValueWithPercentage = ({
       {value >= 1000000
         ? convertUnits(value, currency)
         : currencyFormat({
-          value: exponentToNumber(value),
-          prefix: getCurrencySymbol(currency),
-        })}
+            value: exponentToNumber(value),
+            prefix: getCurrencySymbol(currency),
+          })}
     </Text>
     <IncreaseDecreaseValue
       value={digitToFixed(percentage ?? 0, 2)}
@@ -89,22 +89,12 @@ const Item = ({
       NoneUnderLine={NoneUnderLine}
     >
       <>
-        <ItemColumn
-          column={0.35}
-          style={{
-            justifyContent: 'flex-start',
-          }}
-        >
+        <ItemColumn column={0.35} justifyContent="flex-start">
           <Text fontM color100 bold>
             {index + 1}
           </Text>
         </ItemColumn>
-        <ItemColumn
-          column={1.4}
-          style={{
-            justifyContent: 'flex-start',
-          }}
-        >
+        <ItemColumn column={1.4} justifyContent="flex-start">
           <ImageWrap>
             <Image uri={item.image} width={30} height={30} />
           </ImageWrap>
@@ -126,7 +116,7 @@ const Item = ({
             <OnlyValue value={item[valueKey]} currency={currency} />
           )}
         </ItemColumn>
-        <ItemColumn column={0.5} style={{ justifyContent: 'flex-end' }}>
+        <ItemColumn column={0.5} justifyContent="flex-end">
           <WatchListIcon id={item.id} size={28} />
         </ItemColumn>
       </>
@@ -142,13 +132,15 @@ type ContainerProps = {
 
 type ColumnProps = {
   column: number;
+  justifyContent?: 'flex-end' | 'flex-start' | 'center';
 };
 
 /* height값 바꿀 시 주의
    flexList getItemLayout 수치 똑같이 바꿔주기.
 */
 const ItemContainer = styled.TouchableHighlight<ContainerProps>`
-  /* width: ${({ theme }) => width - parseInt(theme.content.spacing, 10) * 2}px; */
+  /* width: ${({ theme }) =>
+    width - parseInt(theme.content.spacing, 10) * 2}px; */
   height: 60px;
   flex-direction: row;
   padding: 0 ${({ theme }) => theme.content.spacing};
@@ -164,13 +156,13 @@ const ItemColumn = styled.View<ColumnProps>`
   flex: ${props => props.column};
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: ${({ justifyContent }) => justifyContent || 'center'};
 `;
 
 const NameWrap = styled.View`
   /* 전체 넓이 - spacing를 2.5등분 * 1.2 후 - 이미지 넓이 + 이미지 margin right*/
   width: ${({ theme }) =>
-    ((width - parseInt(theme.content.spacing) * 2) / 2.5) * 1.2 - 40}px;
+    ((width - parseInt(theme.content.spacing, 10) * 2) / 2.5) * 1.2 - 40}px;
 `;
 
 const ImageWrap = styled.View`

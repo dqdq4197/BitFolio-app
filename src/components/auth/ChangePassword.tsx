@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
-import { useForm, Controller } from "react-hook-form";
+import { useForm, Controller } from 'react-hook-form';
 
 import { VALIDATIONS } from '/lib/constant';
 
@@ -14,7 +14,13 @@ const SUBMIT_BUTTON_HEIGTH = 50;
 const ChangePassword = () => {
   const { t } = useTranslation();
   const navigation = useNavigation();
-  const { control, handleSubmit, setFocus, watch, formState: { errors } } = useForm({
+  const {
+    control,
+    handleSubmit,
+    setFocus,
+    watch,
+    formState: { errors },
+  } = useForm({
     mode: 'onSubmit',
     defaultValues: {
       email: '',

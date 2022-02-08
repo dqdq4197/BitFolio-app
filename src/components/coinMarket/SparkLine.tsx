@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import Svg, { Path } from 'react-native-svg';
 import styled from 'styled-components/native';
 
@@ -21,20 +21,22 @@ const SparkLine = ({ prices, isRising }: SparkLineProps) => {
   });
   const { theme } = useGlobalTheme();
 
+  const strokeColor = useMemo(() => {
+    if (isRising === null) {
+      return theme.base.text[200];
+    }
+
+    if (isRising) {
+      return theme.base.upColor;
+    }
+
+    return theme.base.downColor;
+  }, [isRising, theme]);
+
   return (
     <SparkLineWrap width={XSIZE}>
       <Svg height={YSIZE} width={XSIZE}>
-        <Path
-          d={path}
-          stroke={
-            isRising === null
-              ? theme.base.text[200]
-              : isRising
-                ? theme.base.upColor
-                : theme.base.downColor
-          }
-          fill="transparent"
-        />
+        <Path d={path} stroke={strokeColor} fill="transparent" />
       </Svg>
     </SparkLineWrap>
   );

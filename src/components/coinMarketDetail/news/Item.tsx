@@ -39,11 +39,10 @@ const Item = ({ item, currentCategory }: ItemProps) => {
     >
       <>
         <Text fontS>
-          {formatDistance(
-            fromUnixTime(item.published_on), new Date(),
-            { addSuffix: true, locale: language === 'ko' ? ko : enUS },
-          )
-          } ∙ {item.source}
+          {`${formatDistance(fromUnixTime(item.published_on), new Date(), {
+            addSuffix: true,
+            locale: language === 'ko' ? ko : enUS,
+          })} ∙ ${item.source}`}
         </Text>
         <FlexBox>
           <TitleWrap>

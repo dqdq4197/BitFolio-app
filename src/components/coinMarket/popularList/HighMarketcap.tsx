@@ -75,9 +75,7 @@ const HighMarketcap = () => {
       ListHeaderComponent={
         <FlatListHeader
           title={`${t(`common.market cap`)} Top 100`}
-          description={
-            t(`coinMarketHome.the market cap was calculated as the available cryptocurrency supply × the current cryptocurrency price. Take a look at coins with high market cap`)
-          }
+          description={t(`coinMarketHome.popular list summary.high market cap`)}
         />
       }
       ListFooterComponent={<Footer />}

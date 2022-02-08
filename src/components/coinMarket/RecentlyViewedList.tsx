@@ -62,7 +62,7 @@ const RecentlyViewedList = ({ onPressItem }: ListProps) => {
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={{
-          paddingHorizontal: 16,
+          paddingHorizontal: parseInt(theme.content.spacing, 10),
         }}
       >
         {newData?.map(coin => {

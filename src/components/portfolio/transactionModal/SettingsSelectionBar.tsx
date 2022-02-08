@@ -1,22 +1,24 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import { useTranslation } from 'react-i18next';
+
 import useGlobalTheme from '/hooks/useGlobalTheme';
-import { FocusedView, SettingsType } from './FormModal';
+
 import Text from '/components/common/Text';
+import { FocusedView, SettingsType } from './FormModal';
 
 type SelectionBar = {
-  onSwitchFocusView: (key: FocusedView) => void
-  focusedView: FocusedView
-  SETTINGS: SettingsType[]
-  SELECT_TAB_HEIGHT: number
-}
+  onSwitchFocusView: (key: FocusedView) => void;
+  focusedView: FocusedView;
+  SETTINGS: SettingsType[];
+  SELECT_TAB_HEIGHT: number;
+};
 
 const SettingsSelectionBar = ({
   onSwitchFocusView,
   focusedView,
   SETTINGS,
-  SELECT_TAB_HEIGHT
+  SELECT_TAB_HEIGHT,
 }: SelectionBar) => {
   const { t } = useTranslation();
   const { theme } = useGlobalTheme();
@@ -27,7 +29,7 @@ const SettingsSelectionBar = ({
       horizontal
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={{
-        paddingHorizontal: parseInt(theme.content.spacing)
+        paddingHorizontal: parseInt(theme.content.spacing, 10),
       }}
     >
       <SelectionBarWrap>
@@ -52,39 +54,37 @@ const SettingsSelectionBar = ({
                 {t(`common.${setting.name.toLocaleLowerCase()}`)}
               </SettingLabelText>
             </SelectionTab>
-          )
+          );
         })}
       </SelectionBarWrap>
     </SelectionBarContainer>
-  )
-}
+  );
+};
 
 export default SettingsSelectionBar;
 
 type ContainerProps = {
-  height: number
-}
+  height: number;
+};
 
 type SelectionProps = {
   isFocused: boolean;
-}
+};
 
 const SelectionBarContainer = styled.ScrollView<ContainerProps>`
   height: ${({ height }) => height}px;
-`
+`;
 
 const SelectionBarWrap = styled.View`
   flex-direction: row;
-`
+`;
 
 const SelectionTab = styled.TouchableOpacity<SelectionProps>`
   flex-direction: row;
   height: 30px;
   padding: 0 12px;
-  background-color: ${({ isFocused, theme }) => isFocused
-    ? theme.base.text[100]
-    : theme.base.background[300]
-  };
+  background-color: ${({ isFocused, theme }) =>
+    isFocused ? theme.base.text[100] : theme.base.background[300]};
   align-items: center;
   justify-content: center;
   margin-right: 10px;
@@ -92,10 +92,9 @@ const SelectionTab = styled.TouchableOpacity<SelectionProps>`
   /* border-color: ${({ isFocused, theme }) =>
     isFocused ? theme.base.primaryColor : 'transparent'}; */
   /* border-width: 1px; */
-`
+`;
 
-const SettingLabelText = styled(Text) <SelectionProps>`
+const SettingLabelText = styled(Text)<SelectionProps>`
   color: ${({ isFocused, theme }) =>
-    isFocused ? theme.base.background[200] : theme.base.text[200]
-  };
-` 
+    isFocused ? theme.base.background[200] : theme.base.text[200]};
+`;

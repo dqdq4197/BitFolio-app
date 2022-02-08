@@ -184,9 +184,9 @@ export default function createFuzzyMatcher(
           patterns.push(
             `${String.fromCharCode(
               baseCode +
-              medialOffset * FINALES.length +
-              FINALES.join('').search(MIXED[finale][0]) +
-              1
+                medialOffset * FINALES.length +
+                FINALES.join('').search(MIXED[finale][0]) +
+                1
             )}${getInitialSearchRegExp(MIXED[finale][1])}`
           );
         }
@@ -248,4 +248,4 @@ export default function createFuzzyMatcher(
       .replace(RegExp(IGNORE_SPACE, 'g'), '\\s*');
   }
   return RegExp(pattern, 'gi');
-};
+}

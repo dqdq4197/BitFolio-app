@@ -13,8 +13,8 @@ export type RequestType = AxiosRequestConfig | null;
 
 interface Return<Data, Error>
   extends Pick<
-  SWRInfiniteResponse<AxiosResponse<Data>, AxiosError<Error>>,
-  'isValidating' | 'error' | 'mutate' | 'size' | 'setSize'
+    SWRInfiniteResponse<AxiosResponse<Data>, AxiosError<Error>>,
+    'isValidating' | 'error' | 'mutate' | 'size' | 'setSize'
   > {
   data: Data[] | undefined;
   response: AxiosResponse<Data>[] | undefined;
@@ -23,8 +23,8 @@ interface Return<Data, Error>
 
 export interface Config<Data = unknown, Error = unknown>
   extends Omit<
-  SWRInfiniteConfiguration<AxiosResponse<Data>, AxiosError<Error>>,
-  'fallbackData'
+    SWRInfiniteConfiguration<AxiosResponse<Data>, AxiosError<Error>>,
+    'fallbackData'
   > {
   fallbackData?: Data[];
 }

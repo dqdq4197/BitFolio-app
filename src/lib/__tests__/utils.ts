@@ -87,4 +87,4 @@ describe('currencyFormat & converter utils testing', () => {
     );
     expect(convertUnits(1231.1234, 'usd', false)).toBe(`1,231.123`);
   });
-})
+});

@@ -1,7 +1,6 @@
 import { AxiosResponse } from 'axios';
 import { baseTypes } from 'base-types';
 
-import useRequestInfinite from '../useRequestInfinite';
 import {
   CoinGecko,
   http,
@@ -10,6 +9,7 @@ import {
 } from '/lib/api/CoinGeckoClient';
 import { CoinMarketReturn } from '/types/CoinGeckoReturnType';
 import { useAppSelector } from '../useRedux';
+import useRequestInfinite from '../useRequestInfinite';
 
 type ParamsType = {
   per_page?: number;
@@ -20,8 +20,8 @@ type ParamsType = {
   sparkline?: boolean;
   currency?: baseTypes.Currency;
   price_change_percentage?:
-  | PriceChangePercentageType
-  | PriceChangePercentageType[];
+    | PriceChangePercentageType
+    | PriceChangePercentageType[];
   willNotRequest?: boolean;
 };
 

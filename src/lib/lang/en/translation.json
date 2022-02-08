@@ -9,11 +9,11 @@
     "volume": "Volume",
     "cryptocurrencies": "Cryptocurrencies",
     "exchanges": "Exchanges",
-    "n.hour":  "{{n}}h",
+    "n.hour": "{{n}}h",
     "as of": "As of",
     "fee": "Fee",
     "price": "Price",
-    "dominance": "Dominance", 
+    "dominance": "Dominance",
     "price per coin": "Price Per Coin",
     "quantity": "Quantity",
     "total spent": "Total Spent",
@@ -125,9 +125,12 @@
     "top volume": "Top Volume",
     "add coins": "Add Coins",
     "global metrics": "Global Metrics",
-    "only cryptocurrencies with trading volume greater than US$50,000 in the last 24 hours are displayed.": "Only cryptocurrencies with trading volume greater than US$50,000 in the last 24 hours are displayed.",
-    "total volume of all trading pairs over a 24-hour period. Take a look at the most traded coins": "Total volume of all trading pairs over a 24-hour period. Take a look at the most traded coins",
-    "the market cap was calculated as the available cryptocurrency supply × the current cryptocurrency price. Take a look at coins with high market cap": "The market cap was calculated as the available cryptocurrency supply × the current cryptocurrency price. Take a look at coins with high market cap"
+    "popular list summary": {
+      "high market cap": "The market cap was calculated as the available cryptocurrency supply × the current cryptocurrency price. Take a look at coins with high market cap",
+      "gainers": "Only cryptocurrencies with trading volume greater than US$50,000 in the last 24 hours are displayed.",
+      "losers": "Only cryptocurrencies with trading volume greater than US$50,000 in the last 24 hours are displayed.",
+      "high volume": "Total volume of all trading pairs over a 24-hour period. Take a look at the most traded coins"
+    }
   },
   "setting": {
     "app settings": "App Settings",

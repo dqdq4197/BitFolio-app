@@ -21,9 +21,9 @@ export interface ArticleParams extends CommonParams {
   lang?: LANG;
   sortOrder?: 'latest' | 'popular';
 }
-interface FeedPrams extends CommonParams { }
-interface CategoryPrams extends CommonParams { }
-interface FeedAndCategoryPrams extends CommonParams { }
+interface FeedPrams extends CommonParams {}
+interface CategoryPrams extends CommonParams {}
+interface FeedAndCategoryPrams extends CommonParams {}
 
 export const http = axios.create({
   baseURL: CTYPTOCOMPARE_PATH_PREFIX,

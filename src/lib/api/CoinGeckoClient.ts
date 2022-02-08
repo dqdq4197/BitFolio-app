@@ -23,9 +23,9 @@ type CoinMarketsParams = {
   page?: number;
   sparkline?: boolean;
   price_change_percentage?:
-  | PriceChangePercentageType
-  | PriceChangePercentageType[]
-  | string;
+    | PriceChangePercentageType
+    | PriceChangePercentageType[]
+    | string;
 };
 
 type SimplePriceParams = {

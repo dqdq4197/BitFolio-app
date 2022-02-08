@@ -3,15 +3,15 @@ import { StackScreenProps } from '@react-navigation/stack';
 
 import GeneralTemplate from '/components/GeneralTemplate';
 import CoinHomeSkeleton from '/components/skeletonPlaceholder/CoinHomeSkeleton';
-import ErrorBoundaryAndSuspense from '/components/common/ErrorBoundaryAndSuspense';
+import AsyncBoundary from '/components/common/AsyncBoundary';
 import Layout from '/components/portfolio/addNewCoin';
 
 const AddNewCoinScreen = ({ navigation }: StackScreenProps<any>) => {
   return (
     <GeneralTemplate>
-      <ErrorBoundaryAndSuspense skeleton={<CoinHomeSkeleton />}>
+      <AsyncBoundary skeleton={<CoinHomeSkeleton />}>
         <Layout />
-      </ErrorBoundaryAndSuspense>
+      </AsyncBoundary>
     </GeneralTemplate>
   );
 };

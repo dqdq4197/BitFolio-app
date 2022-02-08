@@ -4,17 +4,19 @@ import { useTranslation } from 'react-i18next';
 import styled from 'styled-components/native';
 import { Ionicons, Octicons } from '@expo/vector-icons';
 import { baseTypes } from 'base-types';
+
 import useGlobalTheme from '/hooks/useGlobalTheme';
-import Text from '/components/common/Text';
 import useLocales from '/hooks/useLocales';
 import { CURRENCIES } from '/lib/constant';
+
 // import { createPortfolio } from '/store/portfolio';
+import Text from '/components/common/Text';
 import ScrollCloseModal from '/components/common/ScrollCloseModal';
 
 type FormModalProps = {
   visible: boolean;
   setVisible: React.Dispatch<React.SetStateAction<boolean>>;
-}
+};
 
 type TextFieldProps = {
   title: string;
@@ -22,24 +24,24 @@ type TextFieldProps = {
   children: React.ReactNode;
   marginTop?: number;
   onPress?: () => void;
-}
+};
 
 type CurrencyModalProps = {
   visible: boolean;
   onModalClose: () => void;
   currentCurrency: {
-    value: string,
-    iso: string
+    value: string;
+    iso: string;
   };
   onCurrencyChange: (value: string, iso: string) => void;
-}
+};
 
 const TextField = ({
   title,
   textSideComponent,
   children,
   marginTop = 20,
-  onPress
+  onPress,
 }: TextFieldProps) => {
   return (
     <>
@@ -48,19 +50,17 @@ const TextField = ({
       </Text>
       <TextInputWrap onPress={onPress}>
         {children}
-        <TextSideView>
-          {textSideComponent}
-        </TextSideView>
+        <TextSideView>{textSideComponent}</TextSideView>
       </TextInputWrap>
     </>
-  )
-}
+  );
+};
 
 const CurrencyModal = ({
   visible,
   onModalClose,
   currentCurrency,
-  onCurrencyChange
+  onCurrencyChange,
 }: CurrencyModalProps) => {
   const { theme } = useGlobalTheme();
   const AnimateRef = useRef(new Animated.Value(0)).current;
@@ -80,21 +80,25 @@ const CurrencyModal = ({
         duration: 300,
         useNativeDriver: true,
       }).start(() => {
-        setIsClosed(true)
+        setIsClosed(true);
       });
     }
-  }, [visible])
+  }, [visible]);
 
   const renderCurrencies = () => {
     const rows = [];
     for (const currency in CURRENCIES) {
-      const { name, iso, unicode, symbol } = CURRENCIES[currency as baseTypes.Currency];
-      const value = name + ' - ' + symbol
+      const { name, iso, unicode, symbol } =
+        CURRENCIES[currency as baseTypes.Currency];
+      const value = `${name} - ${symbol}`;
       rows.push(
-        <Row key={name} onPress={() => {
-          onModalClose();
-          onCurrencyChange(value, iso.toLocaleLowerCase());
-        }}>
+        <Row
+          key={name}
+          onPress={() => {
+            onModalClose();
+            onCurrencyChange(value, iso.toLocaleLowerCase());
+          }}
+        >
           <ColView>
             <Text fontML bold>
               {name}
@@ -113,37 +117,30 @@ const CurrencyModal = ({
             }
           />
         </Row>
-      )
+      );
     }
 
     return rows;
-  }
+  };
 
   return (
     <FadeInOutView
       as={Animated.View}
       style={{
         opacity: AnimateRef,
-        display: isClosed ? 'none' : 'flex'
+        display: isClosed ? 'none' : 'flex',
       }}
     >
-      <Modal
-        visible={visible}
-        transparent={true}
-        animationType="slide"
-
-      >
+      <Modal visible={visible} transparent animationType="slide">
         <ModalContainer onPress={onModalClose} activeOpacity={1}>
-          <ModalView activeOpacity={1}>
-            {renderCurrencies()}
-          </ModalView>
+          <ModalView activeOpacity={1}>{renderCurrencies()}</ModalView>
         </ModalContainer>
       </Modal>
     </FadeInOutView>
-  )
-}
-const CreatePortfolioModal = ({ visible, setVisible }: FormModalProps) => {
+  );
+};
 
+const CreatePortfolioModal = ({ visible, setVisible }: FormModalProps) => {
   const { t } = useTranslation();
   const { theme } = useGlobalTheme();
   const { currency } = useLocales();
@@ -151,63 +148,55 @@ const CreatePortfolioModal = ({ visible, setVisible }: FormModalProps) => {
   const [formData, setFormData] = useState({
     name: t('portfolio.new portfolio'),
     currency: {
-      value: CURRENCIES[currency].name + ' - ' + CURRENCIES[currency].symbol,
-      iso: currency as string
-    }
-  })
+      value: `${CURRENCIES[currency].name} - ${CURRENCIES[currency].symbol}`,
+      iso: currency as string,
+    },
+  });
 
   const handleNameChange = (text: string) => {
     if (text.length > 20) return;
-    setFormData(
-      prev => ({
-        ...prev,
-        name: text
-      })
-    )
-  }
+    setFormData(prev => ({
+      ...prev,
+      name: text,
+    }));
+  };
 
   const handleCurrencyChange = (value: string, iso: string) => {
-    setFormData(
-      prev => ({
-        ...prev,
-        currency: {
-          value,
-          iso
-        }
-      })
-    )
-  }
+    setFormData(prev => ({
+      ...prev,
+      currency: {
+        value,
+        iso,
+      },
+    }));
+  };
 
   const handleNameFocus = () => {
     if (formData.name === t('portfolio.new portfolio')) {
-      setFormData(
-        prev => ({
-          ...prev,
-          name: ''
-        })
-      )
+      setFormData(prev => ({
+        ...prev,
+        name: '',
+      }));
     }
-  }
+  };
 
   const handleNameBlur = () => {
-    let removedSpace = formData.name.replace(/\s/g, '')
+    const removedSpace = formData.name.replace(/\s/g, '');
     if (removedSpace === '') {
-      setFormData(
-        prev => ({
-          ...prev,
-          name: t('portfolio.new portfolio')
-        })
-      )
+      setFormData(prev => ({
+        ...prev,
+        name: t('portfolio.new portfolio'),
+      }));
     }
-  }
+  };
 
   const onModalOpen = () => {
     setModalVible(true);
-  }
+  };
 
   const onModalClose = () => {
     setModalVible(false);
-  }
+  };
 
   const handleConfirmPress = () => {
     // const { name, currency } = formData;
@@ -217,105 +206,104 @@ const CreatePortfolioModal = ({ visible, setVisible }: FormModalProps) => {
     //     currency: currency.iso as baseTypes.Currency
     //   })
     // )
-
     // setVisible(false);
-  }
+  };
 
   return (
-    <>
-      <ScrollCloseModal
-        visible={visible}
-        setVisible={setVisible}
-        headerComponent={
-          <Text fontXL bold color100 margin={`0 0 10px ${theme.content.spacing}`}>
-            {t('portfolio.portfolio creation')}
+    <ScrollCloseModal
+      visible={visible}
+      setVisible={setVisible}
+      headerComponent={
+        <Text fontXL bold color100 margin={`0 0 10px ${theme.content.spacing}`}>
+          {t('portfolio.portfolio creation')}
+        </Text>
+      }
+      footerComponent={
+        <ConfirmButton activeOpacity={0.8} onPress={handleConfirmPress}>
+          <Text color100 fontL bold>
+            {t('common.confirm').toUpperCase()}
           </Text>
-        }
-        footerComponent={
-          <ConfirmButton
-            activeOpacity={0.8}
-            onPress={handleConfirmPress}
-          >
-            <Text color100 fontL bold>
-              {t('common.confirm').toUpperCase()}
-            </Text>
-          </ConfirmButton>
-        }
-        extraComponent={
-          <CurrencyModal
-            visible={ModalVisible}
-            onModalClose={onModalClose}
-            currentCurrency={formData.currency}
-            onCurrencyChange={handleCurrencyChange}
-          />
-        }
-      >
-        <Container>
-          <TextField
-            title={t('portfolio.portfolio name')}
-            textSideComponent={
-              <Text style={
+        </ConfirmButton>
+      }
+      extraComponent={
+        <CurrencyModal
+          visible={ModalVisible}
+          onModalClose={onModalClose}
+          currentCurrency={formData.currency}
+          onCurrencyChange={handleCurrencyChange}
+        />
+      }
+    >
+      <Container>
+        <TextField
+          title={t('portfolio.portfolio name')}
+          textSideComponent={
+            <Text
+              style={
                 formData.name.length === 20 && {
-                  color: theme.base.primaryColor
+                  color: theme.base.primaryColor,
                 }
-              }>
-                {`${formData.name.length}/20`}
-              </Text>
-            }
-          >
-            <TextInput
-              spellCheck={false}
-              value={formData.name}
-              onFocus={handleNameFocus}
-              onBlur={handleNameBlur}
-              onChangeText={handleNameChange}
-            />
-          </TextField>
-          <TextField
-            title={t('portfolio.main fiat currency')}
-            onPress={onModalOpen}
-            textSideComponent={
-              <Ionicons
-                name="ios-chevron-down"
-                size={20}
-                color={theme.base.text[200]}
-              />
-            }
-          >
-            <Text color100 fontML bold>
-              {formData.currency.value}
+              }
+            >
+              {`${formData.name.length}/20`}
             </Text>
-          </TextField>
-        </Container>
-      </ScrollCloseModal>
-    </>
-  )
-}
+          }
+        >
+          <TextInput
+            spellCheck={false}
+            value={formData.name}
+            onFocus={handleNameFocus}
+            onBlur={handleNameBlur}
+            onChangeText={handleNameChange}
+          />
+        </TextField>
+        <TextField
+          title={t('portfolio.main fiat currency')}
+          onPress={onModalOpen}
+          textSideComponent={
+            <Ionicons
+              name="ios-chevron-down"
+              size={20}
+              color={theme.base.text[200]}
+            />
+          }
+        >
+          <Text color100 fontML bold>
+            {formData.currency.value}
+          </Text>
+        </TextField>
+      </Container>
+    </ScrollCloseModal>
+  );
+};
 
 export default CreatePortfolioModal;
 
-const Modal = styled.Modal``
+const Modal = styled.Modal``;
 
 const Container = styled.View`
   padding: 0 ${({ theme }) => theme.content.spacing};
-`
+`;
+
 const TextInputWrap = styled.TouchableOpacity`
   height: 40px;
   flex-direction: row;
   background-color: ${({ theme }) => theme.base.background[300]};
   border-radius: ${({ theme }) => theme.border.m};
   justify-content: space-between;
-  align-items:center;
+  align-items: center;
   margin-top: 5px;
   padding: 0 10px;
-`
+`;
+
 const TextInput = styled.TextInput`
   width: 85%;
   height: 40px;
   color: ${({ theme }) => theme.base.text[100]};
   font-weight: bold;
   font-size: ${({ theme }) => theme.size.font_ml};
-`
+`;
+
 const ConfirmButton = styled.TouchableOpacity`
   height: 45px;
   background-color: ${({ theme }) => theme.base.primaryColor};
@@ -323,11 +311,13 @@ const ConfirmButton = styled.TouchableOpacity`
   border-top-right-radius: ${({ theme }) => theme.border.l};
   align-items: center;
   justify-content: center;
-`
+`;
+
 const TextSideView = styled.View`
   width: 40px;
   align-items: flex-end;
-`
+`;
+
 const FadeInOutView = styled.View`
   position: absolute;
   top: 0;
@@ -336,13 +326,13 @@ const FadeInOutView = styled.View`
   bottom: 0;
   background-color: black;
   opacity: 0.5;
-`
+`;
 
 const ModalContainer = styled.TouchableOpacity`
   flex: 1;
   background-color: transparent;
   justify-content: flex-end;
-`
+`;
 
 const ModalView = styled.TouchableOpacity`
   width: 100%;
@@ -350,7 +340,7 @@ const ModalView = styled.TouchableOpacity`
   background-color: ${({ theme }) => theme.base.background[200]};
   border-top-left-radius: ${({ theme }) => theme.border.ml};
   border-top-right-radius: ${({ theme }) => theme.border.ml};
-`
+`;
 
 const Row = styled.TouchableOpacity`
   flex-direction: row;
@@ -358,8 +348,6 @@ const Row = styled.TouchableOpacity`
   align-items: center;
   padding: 0 ${({ theme }) => theme.content.spacing};
   margin-top: 30px;
-`
+`;
 
-const ColView = styled.View`
-
-`
+const ColView = styled.View``;

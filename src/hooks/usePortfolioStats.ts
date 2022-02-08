@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import { useEffect, useState } from 'react';
 import { useAppSelector } from '/hooks/useRedux';
 import useLocales from '/hooks/useLocales';
@@ -86,7 +87,7 @@ export type PortfolioStatsType = {
     portfolio_change_percentage_24h: portfolio_change_24h / (total_balance - portfolio_change_24h) * 100
   */
   portfolio_change_percentage_24h: number;
-  coins: { [key: string]: CoinStatType } | {};
+  coins: { [key: string]: CoinStatType };
 };
 
 const usePortfolioStats = ({ id, coinsData }: StatsProps) => {
@@ -118,15 +119,17 @@ const usePortfolioStats = ({ id, coinsData }: StatsProps) => {
         const coinData = coinsData.find(coin => coin.id === coinId);
         if (!coinData) return;
 
-        const pricePerUsd = pricePerCoin[currency] / pricePerCoin['usd'];
+        const pricePerUsd = pricePerCoin[currency] / pricePerCoin.usd;
 
         if (coinStats.hasOwnProperty(coinId)) {
-          let targetCoinStats = coinStats[coinId];
+          const targetCoinStats = coinStats[coinId];
           if (type === 'buy') {
             targetCoinStats.order_quantity += quantity;
             targetCoinStats.fee += fee[currency];
-            targetCoinStats.order_income_costs += quantity * pricePerCoin[currency];
-            targetCoinStats.total_purchase_cost += quantity * pricePerCoin[currency];
+            targetCoinStats.order_income_costs +=
+              quantity * pricePerCoin[currency];
+            targetCoinStats.total_purchase_cost +=
+              quantity * pricePerCoin[currency];
             targetCoinStats.total_purchase_quantity += quantity;
             targetCoinStats.income_quantity_within_24h +=
               now - date < oneDay ? quantity : 0;
@@ -135,7 +138,8 @@ const usePortfolioStats = ({ id, coinsData }: StatsProps) => {
           if (type === 'sell') {
             targetCoinStats.order_quantity -= quantity;
             targetCoinStats.fee += fee[currency];
-            targetCoinStats.order_income_costs -= quantity * pricePerCoin[currency];
+            targetCoinStats.order_income_costs -=
+              quantity * pricePerCoin[currency];
             targetCoinStats.income_quantity_within_24h +=
               now - date < oneDay ? -quantity : 0;
           }
@@ -160,36 +164,36 @@ const usePortfolioStats = ({ id, coinsData }: StatsProps) => {
               symbol,
               price: coinData!.current_price,
               price_change_24h: coinData!.price_change_24h,
-              price_change_percentage_24h: coinData!.price_change_percentage_24h,
+              price_change_percentage_24h:
+                coinData!.price_change_percentage_24h,
               fee: fee[currency],
               order_income_costs:
                 type === 'buy'
                   ? quantity * pricePerCoin[currency]
                   : type === 'sell'
-                    ? -quantity * pricePerCoin[currency]
-                    : 0,
+                  ? -quantity * pricePerCoin[currency]
+                  : 0,
               order_quantity:
                 type === 'buy' ? quantity : type === 'sell' ? -quantity : 0,
-              transfer_quantity: type === 'transfer'
-                ? transferType === 'transfer in'
-                  ? quantity
-                  : -quantity
-                : 0,
-              total_purchase_cost: type === 'buy'
-                ? pricePerCoin[currency] * quantity
-                : 0,
-              total_purchase_quantity: type === 'buy'
-                ? quantity
-                : 0,
+              transfer_quantity:
+                type === 'transfer'
+                  ? transferType === 'transfer in'
+                    ? quantity
+                    : -quantity
+                  : 0,
+              total_purchase_cost:
+                type === 'buy' ? pricePerCoin[currency] * quantity : 0,
+              total_purchase_quantity: type === 'buy' ? quantity : 0,
               holding_costs: 0,
               holding_quantity: 0,
-              income_quantity_within_24h: now - date < oneDay
-                ? type === 'buy' || transferType === 'transfer in'
-                  ? quantity
-                  : type === 'sell' || transferType === 'transfer out'
+              income_quantity_within_24h:
+                now - date < oneDay
+                  ? type === 'buy' || transferType === 'transfer in'
+                    ? quantity
+                    : type === 'sell' || transferType === 'transfer out'
                     ? -quantity
                     : 0
-                : 0,
+                  : 0,
               all_time_pl: 0,
               all_time_pl_percentage: 0,
               pl_24h: 0,
@@ -198,8 +202,7 @@ const usePortfolioStats = ({ id, coinsData }: StatsProps) => {
             },
           };
         }
-      }
-      )
+      });
 
       let total_balance = 0;
       let total_costs = 0;
@@ -231,7 +234,9 @@ const usePortfolioStats = ({ id, coinsData }: StatsProps) => {
           : 0;
 
         portfolio_all_time_pl += coinStats[key].all_time_pl;
-        coinStats[key].pl_24h = pl_after_24h + coinStats[key].income_quantity_within_24h * coinStats[key].price;
+        coinStats[key].pl_24h =
+          pl_after_24h +
+          coinStats[key].income_quantity_within_24h * coinStats[key].price;
         coinStats[key].pl_percentage_24h =
           (coinStats[key].pl_24h / coinStats[key].total_purchase_cost) * 100;
 
@@ -240,10 +245,12 @@ const usePortfolioStats = ({ id, coinsData }: StatsProps) => {
 
         if (coinStats[key].holding_costs >= 0)
           total_costs += coinStats[key].holding_costs;
-      })
+      });
 
-      const portfolio_all_time_pl_percentage = portfolio_all_time_pl / (total_balance - portfolio_all_time_pl) * 100;
-      const portfolio_change_percentage_24h = portfolio_change_24h / (total_balance - portfolio_change_24h) * 100;
+      const portfolio_all_time_pl_percentage =
+        (portfolio_all_time_pl / (total_balance - portfolio_all_time_pl)) * 100;
+      const portfolio_change_percentage_24h =
+        (portfolio_change_24h / (total_balance - portfolio_change_24h)) * 100;
 
       setPortfolioStats({
         total_balance,
@@ -265,6 +272,7 @@ const usePortfolioStats = ({ id, coinsData }: StatsProps) => {
         coins: portfolioStats ? { ...portfolioStats.coins } : {},
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, transactions, currency, coinsData]);
 
   return { portfolioStats };

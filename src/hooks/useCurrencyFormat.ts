@@ -1,6 +1,8 @@
 import { useState, useLayoutEffect } from 'react';
+
 import { useAppSelector } from '/hooks/useRedux';
 import { krwFormat, digitToFixed } from '/lib/utils';
+import { getCurrencySymbol } from '/lib/utils/currencyFormat';
 
 const useCurrencyFormat = (
   currentPrice: number,
@@ -11,23 +13,15 @@ const useCurrencyFormat = (
 
   useLayoutEffect(() => {
     if (includeCurrencySymbol) {
-      if (currency === 'krw') {
-        setPrice(`₩${krwFormat(digitToFixed(currentPrice as number, 2))}`);
-      } else if (currency === 'usd') {
-        setPrice(`$${krwFormat(digitToFixed(currentPrice as number, 2))}`);
-      } else if (currency === 'eur') {
-        setPrice(`€${krwFormat(digitToFixed(currentPrice as number, 2))}`);
-      }
+      const symbol = getCurrencySymbol(currency);
+
+      setPrice(
+        `${symbol}${krwFormat(digitToFixed(currentPrice as number, 2))}`
+      );
     } else {
-      if (currency === 'krw') {
-        setPrice(krwFormat(digitToFixed(currentPrice as number, 2)));
-      } else if (currency === 'usd') {
-        setPrice(krwFormat(digitToFixed(currentPrice as number, 2)));
-      } else if (currency === 'eur') {
-        setPrice(krwFormat(digitToFixed(currentPrice as number, 2)));
-      }
+      setPrice(krwFormat(digitToFixed(currentPrice as number, 2)));
     }
-  }, [currency, currentPrice]);
+  }, [currency, currentPrice, includeCurrencySymbol]);
 
   return price as string;
 };

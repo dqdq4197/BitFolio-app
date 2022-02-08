@@ -10,7 +10,7 @@ import useLocales from '/hooks/useLocales';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 
 import CustomRefreshControl from '/components/common/CustomRefreshControl';
-import ScrollView from '/components/common/ScrollView'
+import ScrollView from '/components/common/ScrollView';
 import AddTransactionButton from '../AddTransactionButton';
 import WatchButton from '../WatchButton';
 import ChartTab from './ChartTab';

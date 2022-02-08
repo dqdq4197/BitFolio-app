@@ -24,7 +24,7 @@
     "project": "./tsconfig.json"
   },
   "rules": {
-    "import/no-unresolved": "error",
+    "import/no-unresolved": "off",
     "react/jsx-filename-extension": [
       1,
       {
@@ -46,31 +46,32 @@
     "react/function-component-definition": [
       "off"
     ],
-    "react/no-unstable-nested-components": "off",
-    "import/no-absolute-path": "off",
-    "import/no-extraneous-dependencies": "off",
-    "camelcase": "off",
-    "no-use-before-define": "off",
-    "@typescript-eslint/no-use-before-define": [
-      "off"
+    "no-param-reassign": [
+      "error",
+      {
+        "props": true,
+        "ignorePropertyModificationsFor": [
+          "state"
+        ]
+      }
     ],
+    "react/require-default-props": 0,
+    "react/no-unstable-nested-components": 0,
+    "import/no-absolute-path": 0,
+    "import/no-extraneous-dependencies": 0,
+    "camelcase": 0,
+    "no-use-before-define": 0,
+    "@typescript-eslint/no-use-before-define": 0,
+    "react/prop-types": 0,
+    "no-shadow": 0,
+    "@typescript-eslint/no-shadow": 0,
+    "no-underscore-dangle": 0,
+    "import/prefer-default-export": 0,
+    "no-console": 0,
+    "react-native/no-inline-styles": 0,
     "import/extensions": [
       "error",
       "never"
-    ],
-    "react/prop-types": 0,
-    "no-shadow": "off",
-    "@typescript-eslint/no-shadow": [
-      "error"
-    ],
-    "no-underscore-dangle": [
-      "off"
-    ],
-    "import/prefer-default-export": [
-      "off"
-    ],
-    "no-console": [
-      "off"
     ]
   },
   "settings": {

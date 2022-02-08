@@ -15,6 +15,7 @@ const useLocales = () => {
     return i18n.language as LanguageType;
   })();
 
+  // eslint-disable-next-line @typescript-eslint/no-shadow
   const onCurrencyChange = (currency: baseTypes.Currency) => {
     dispatch(changeCurrency(currency));
   };

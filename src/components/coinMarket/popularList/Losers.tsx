@@ -101,9 +101,7 @@ const Losers = () => {
       ListHeaderComponent={
         <FlatListHeader
           title={t(`coinMarketHome.losers`)}
-          description={
-            t(`coinMarketHome.only cryptocurrencies with trading volume greater than US$50,000 in the last 24 hours are displayed.`)
-          }
+          description={t(`coinMarketHome.popular list summary.losers`)}
         />
       }
       ListFooterComponent={<Footer />}

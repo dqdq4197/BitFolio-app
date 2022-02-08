@@ -33,7 +33,8 @@ export default ({
     });
   };
 
-  return useRequestInfinite<NewsReturn>(
-    getKey, http, { suspense, refreshInterval }
-  );
+  return useRequestInfinite<NewsReturn>(getKey, http, {
+    suspense,
+    refreshInterval,
+  });
 };
