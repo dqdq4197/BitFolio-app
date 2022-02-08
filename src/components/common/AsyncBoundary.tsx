@@ -4,47 +4,38 @@ import styled from 'styled-components/native';
 import Text from '/components/common/Text';
 
 interface SkeletonType {
-  skeleton: React.ReactNode,
-  
+  skeleton: React.ReactNode;
 }
-interface BoundaryProps extends SkeletonType{
-  children: React.ReactNode
+interface BoundaryProps extends SkeletonType {
+  children: React.ReactNode;
 }
 
-const ErrorFallback = ({error, resetErrorBoundary}:FallbackProps) => {
+const ErrorFallback = ({ error }: FallbackProps) => {
   return (
-    <View >
+    <View>
       <Text>Something went wrong:</Text>
       <Text>{error.message}</Text>
     </View>
-  )
-}
+  );
+};
 
 const SuspenseFallback = ({ skeleton }: SkeletonType) => {
-  return (
-    <View>
-      { skeleton }
-    </View>
-  )
-} 
+  return <View>{skeleton}</View>;
+};
 
-
-const ErrorBoundaryAndSuspense = ({ skeleton, children } :BoundaryProps) => {
-
+const AsyncBoundary = ({ skeleton, children }: BoundaryProps) => {
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
-      <Suspense 
-        fallback={<SuspenseFallback skeleton={skeleton}/>}
-      >
-        { children }
+      <Suspense fallback={<SuspenseFallback skeleton={skeleton} />}>
+        {children}
       </Suspense>
     </ErrorBoundary>
-  )
-}
+  );
+};
 
-export default ErrorBoundaryAndSuspense;
+export default AsyncBoundary;
 
 const View = styled.View`
   flex: 1;
   background-color: ${({ theme }) => theme.base.background.surface};
-`
+`;

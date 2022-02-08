@@ -13,9 +13,8 @@ import { CoinMarketReturn } from '/types/CoinGeckoReturnType';
 
 import CustomRefreshControl from '/components/common/CustomRefreshControl';
 import FlatListHeader from './FlatListHeader';
-import Item from './Item'
+import Item from './Item';
 import Footer from './Footer';
-
 
 const HighVolume = () => {
   const { t } = useTranslation();
@@ -23,76 +22,79 @@ const HighVolume = () => {
   const { currency } = useLocales();
   const { theme } = useGlobalTheme();
   const [refreshing, setRefreshing] = useState(false);
-  const { scrollY } = useAnimatedHeaderTitle({ 
-    title: t(`common.volume`) + ' Top 100', 
-    triggerPoint: 30 
+  const { scrollY } = useAnimatedHeaderTitle({
+    title: `${t(`common.volume`)} Top 100`,
+    triggerPoint: 30,
   });
   const { data, mutate } = useRequest<CoinMarketReturn[]>(
     CoinGecko.coin.markets({
       vs_currency: currency,
       order: ORDER.VOLUME_DESC,
-      per_page: 100
+      per_page: 100,
     }),
     http,
     { suspense: true }
-  )
+  );
 
-  const handleRefresh = useCallback(async() => {
+  const handleRefresh = useCallback(async () => {
     setRefreshing(true);
-    await mutate()
+    await mutate();
     setRefreshing(false);
-  }, []);
+  }, [mutate]);
 
-  const handlePressItem = useCallback((id:string, symbol: string) => {
-    navigation.navigate('CoinDetail', { param: { id, symbol }, screen: 'Overview' })
-  }, [])
+  const handlePressItem = useCallback(
+    (id: string, symbol: string) => {
+      navigation.navigate('CoinDetail', {
+        param: { id, symbol },
+        screen: 'Overview',
+      });
+    },
+    [navigation]
+  );
 
   const handleScroll = Animated.event(
-    [ { nativeEvent: { contentOffset: { y: scrollY } } } ], 
+    [{ nativeEvent: { contentOffset: { y: scrollY } } }],
     { useNativeDriver: false }
-  )
+  );
 
-  if(!data) return <></>
+  if (!data) return <></>;
   return (
-    <>
-      <FlatList 
-        data={data}
-        keyExtractor={item => item.id + item.name}
-        contentContainerStyle={{
-          backgroundColor: theme.base.background.surface,
-        }}
-        renderItem={
-          ({ item, index }) => 
-            <Item 
-              item={ item } 
-              index={ index }
-              valueKey='total_volume'
-              onPressItem={handlePressItem}
-            />
-        }
-        scrollEventThrottle={8}
-        ListHeaderComponent={
-          <FlatListHeader
-            title={ t(`common.volume`) + ' Top 100' }
-            description={
-              t(`coinMarketHome.total volume of all trading pairs over a 24-hour period. Take a look at the most traded coins`) 
-            }
-          />
-        }
-        ListFooterComponent={<Footer />}
-        onScroll={handleScroll}
-        refreshControl={
-          <CustomRefreshControl
-            onRefresh={handleRefresh}
-            refreshing={refreshing}
-          />
-        }
-        getItemLayout={(data, index) => (
-          {length: 60, offset: 60 * index, index}
-        )}
-      />
-    </>
-  )
-}
+    <FlatList
+      data={data}
+      keyExtractor={item => item.id + item.name}
+      contentContainerStyle={{
+        backgroundColor: theme.base.background.surface,
+      }}
+      renderItem={({ item, index }) => (
+        <Item
+          item={item}
+          index={index}
+          valueKey="total_volume"
+          onPressItem={handlePressItem}
+        />
+      )}
+      scrollEventThrottle={8}
+      ListHeaderComponent={
+        <FlatListHeader
+          title={`${t(`common.volume`)} Top 100`}
+          description={t(`coinMarketHome.popular list summary.high volume`)}
+        />
+      }
+      ListFooterComponent={<Footer />}
+      onScroll={handleScroll}
+      refreshControl={
+        <CustomRefreshControl
+          onRefresh={handleRefresh}
+          refreshing={refreshing}
+        />
+      }
+      getItemLayout={(_, index) => ({
+        length: 60,
+        offset: 60 * index,
+        index,
+      })}
+    />
+  );
+};
 
 export default HighVolume;

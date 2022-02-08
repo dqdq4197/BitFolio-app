@@ -13,7 +13,7 @@ import { CoinMarketReturn } from '/types/CoinGeckoReturnType';
 import CustomRefreshControl from '/components/common/CustomRefreshControl';
 import FlatListHeader from './FlatListHeader';
 import Footer from './Footer';
-import Item from './Item'
+import Item from './Item';
 
 const HighMarketcap = () => {
   const { t } = useTranslation();
@@ -24,72 +24,75 @@ const HighMarketcap = () => {
   const { data, mutate } = useRequest<CoinMarketReturn[]>(
     CoinGecko.coin.markets({
       vs_currency: currency,
-      per_page: 100
+      per_page: 100,
     }),
     http,
     { suspense: true }
   );
-  const { scrollY } = useAnimatedHeaderTitle({ 
-    title: t(`common.market cap`) + ' ' + 'Top 100', 
-    triggerPoint: 30 
+  const { scrollY } = useAnimatedHeaderTitle({
+    title: `${t(`common.market cap`)} Top 100`,
+    triggerPoint: 30,
   });
 
-  const handleRefresh = useCallback(async() => {
+  const handleRefresh = useCallback(async () => {
     setRefreshing(true);
-    await mutate()
+    await mutate();
     setRefreshing(false);
-  }, []);
+  }, [mutate]);
 
-  const handlePressItem = useCallback((id:string, symbol: string) => {
-    navigation.navigate('CoinDetail', { param: { id, symbol }, screen: 'Overview' })
-  }, [])
+  const handlePressItem = useCallback(
+    (id: string, symbol: string) => {
+      navigation.navigate('CoinDetail', {
+        param: { id, symbol },
+        screen: 'Overview',
+      });
+    },
+    [navigation]
+  );
 
   const handleScroll = Animated.event(
-    [ { nativeEvent: { contentOffset: { y: scrollY } } } ], 
+    [{ nativeEvent: { contentOffset: { y: scrollY } } }],
     { useNativeDriver: false }
-  )
+  );
 
   return (
-    <>
-      <FlatList 
-        data={data}
-        keyExtractor={item => item.id}
-        contentContainerStyle={{
-          backgroundColor: theme.base.background.surface,
-        }}
-        renderItem={
-          ({ item, index }) => 
-            <Item 
-              item={item} 
-              index={index}
-              valueKey='market_cap'
-              percentageKey='market_cap_change_percentage_24h'
-              onPressItem={handlePressItem}
-            />
-        }
-        scrollEventThrottle={16}
-        ListHeaderComponent={
-          <FlatListHeader
-            title={ t(`common.market cap`) + ' ' + 'Top 100' }
-            description={
-              t(`coinMarketHome.the market cap was calculated as the available cryptocurrency supply × the current cryptocurrency price. Take a look at coins with high market cap`)
-            }
-          />
-        }
-        ListFooterComponent={<Footer />}
-        onScroll={handleScroll}
-        refreshControl={
-          <CustomRefreshControl
-            onRefresh={handleRefresh}
-            refreshing={refreshing}
-          />
-        }
-        getItemLayout={(data, index) => (
-          {length: 60, offset: 60 * index, index}
-        )}
-      />
-    </>
-  )
-}
+    <FlatList
+      data={data}
+      keyExtractor={item => item.id}
+      contentContainerStyle={{
+        backgroundColor: theme.base.background.surface,
+      }}
+      renderItem={({ item, index }) => (
+        <Item
+          item={item}
+          index={index}
+          valueKey="market_cap"
+          percentageKey="market_cap_change_percentage_24h"
+          onPressItem={handlePressItem}
+        />
+      )}
+      scrollEventThrottle={16}
+      ListHeaderComponent={
+        <FlatListHeader
+          title={`${t(`common.market cap`)} Top 100`}
+          description={t(`coinMarketHome.popular list summary.high market cap`)}
+        />
+      }
+      ListFooterComponent={<Footer />}
+      onScroll={handleScroll}
+      refreshControl={
+        <CustomRefreshControl
+          onRefresh={handleRefresh}
+          refreshing={refreshing}
+        />
+      }
+      getItemLayout={(_, index) => ({
+        length: 60,
+        offset: 60 * index,
+        index,
+      })}
+    />
+  );
+};
 
 export default HighMarketcap;

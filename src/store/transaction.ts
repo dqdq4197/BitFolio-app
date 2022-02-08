@@ -1,76 +1,98 @@
 import 'react-native-get-random-values';
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { v4 as uuidv4 } from 'uuid';
-import { FormData, SubmitNumericData } from '/components/portfolio/transactionModal/FormModal';
+import { createSlice, PayloadAction, nanoid } from '@reduxjs/toolkit';
 
+import {
+  FormData,
+  SubmitNumericData,
+} from '/components/portfolio/transactionModal/FormModal';
 
 type RemoveAllTransactionProps = {
-  portfolioId: string
-  coinId: string
-}
+  portfolioId: string;
+  coinId: string;
+};
 export interface TransactionType {
-  id: string
-  portfolioId: string | null
-  coinId: string
-  symbol: string
-  type: string
-  date: number
-  quantity: number
-  pricePerCoin: { [key: string]: number }
-  fee: { [key: string]: number }
-  notes: string | null
-  transferType: null | string
-  createdAt: number
-  updatedAt: number | null
+  id: string;
+  portfolioId: string | null;
+  coinId: string;
+  symbol: string;
+  type: string;
+  date: number;
+  quantity: number;
+  pricePerCoin: { [key: string]: number };
+  fee: { [key: string]: number };
+  notes: string | null;
+  transferType: null | string;
+  createdAt: number;
+  updatedAt: number | null;
 }
 
 interface InitialState {
-  transactions: TransactionType[] | []
+  transactions: TransactionType[] | [];
 }
 
 const initialState: InitialState = {
-  transactions: []
-}
+  transactions: [],
+};
 
 export const transactionSlice = createSlice({
   name: 'transaction',
   initialState,
   reducers: {
-    addTransaction: (state, action: PayloadAction<{ formData: FormData<SubmitNumericData> }>) => {
+    addTransaction: (
+      state,
+      action: PayloadAction<{ formData: FormData<SubmitNumericData> }>
+    ) => {
       const { formData } = action.payload;
 
       state.transactions = [
-        ...state.transactions, {
+        ...state.transactions,
+        {
           ...formData,
-          id: uuidv4(),
+          id: nanoid(),
           symbol: formData.symbol,
           createdAt: +new Date(),
           quantity: Number(formData.quantity),
-          updatedAt: null
-        }
-      ]
+          updatedAt: null,
+        },
+      ];
     },
-    removeTransaction: (state, action: PayloadAction<{id: string}>) => {
+    removeTransaction: (state, action: PayloadAction<{ id: string }>) => {
       const { id } = action.payload;
 
       state.transactions = state.transactions.filter(
         transaction => transaction.id !== id
-      )
+      );
     },
-    removeAllTransaction: (state, action: PayloadAction<RemoveAllTransactionProps>) => {
+    removeAllTransaction: (
+      state,
+      action: PayloadAction<RemoveAllTransactionProps>
+    ) => {
       const { coinId, portfolioId } = action.payload;
 
       state.transactions = state.transactions.filter(
-        transaction => transaction.portfolioId !== portfolioId || transaction.coinId !== coinId
-      )
+        transaction =>
+          transaction.portfolioId !== portfolioId ||
+          transaction.coinId !== coinId
+      );
     },
     editTransaction: (
-      state, 
-      action: PayloadAction<{ transactionId: string, formData: FormData<SubmitNumericData> }>
+      state,
+      action: PayloadAction<{
+        transactionId: string;
+        formData: FormData<SubmitNumericData>;
+      }>
     ) => {
-      const { 
-        transactionId, 
-        formData: { quantity, fee, notes, type, transferType, pricePerCoin, date }
+      const {
+        transactionId,
+        formData: {
+          quantity,
+          fee,
+          notes,
+          type,
+          transferType,
+          pricePerCoin,
+          date,
+        },
       } = action.payload;
 
       const targetIndex = state.transactions.findIndex(
@@ -86,16 +108,16 @@ export const transactionSlice = createSlice({
         notes,
         type,
         transferType,
-        updatedAt: +new Date()
-      }
-    }
-  }
-})
+        updatedAt: +new Date(),
+      };
+    },
+  },
+});
 
-export const { 
+export const {
   addTransaction,
   removeTransaction,
   removeAllTransaction,
-  editTransaction
+  editTransaction,
 } = transactionSlice.actions;
 export default transactionSlice.reducer;

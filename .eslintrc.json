@@ -1,0 +1,82 @@
+{
+  "extends": [
+    "airbnb",
+    "airbnb/hooks",
+    "plugin:@typescript-eslint/recommended",
+    "prettier",
+    "plugin:prettier/recommended",
+    "plugin:react-native/all"
+  ],
+  "plugins": [
+    "@typescript-eslint",
+    "react",
+    "react-native",
+    "prettier",
+    "import"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 2018,
+    "sourceType": "module",
+    "project": "./tsconfig.json"
+  },
+  "rules": {
+    "import/no-unresolved": "off",
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [
+          ".ts",
+          ".tsx"
+        ]
+      }
+    ],
+    "prettier/prettier": [
+      "error",
+      {
+        "singleQuote": true,
+        "trailingComma": "es5",
+        "arrowParens": "avoid",
+        "endOfLine": "auto"
+      }
+    ],
+    "react/function-component-definition": [
+      "off"
+    ],
+    "no-param-reassign": [
+      "error",
+      {
+        "props": true,
+        "ignorePropertyModificationsFor": [
+          "state"
+        ]
+      }
+    ],
+    "react/require-default-props": 0,
+    "react/no-unstable-nested-components": 0,
+    "import/no-absolute-path": 0,
+    "import/no-extraneous-dependencies": 0,
+    "camelcase": 0,
+    "no-use-before-define": 0,
+    "@typescript-eslint/no-use-before-define": 0,
+    "react/prop-types": 0,
+    "no-shadow": 0,
+    "@typescript-eslint/no-shadow": 0,
+    "no-underscore-dangle": 0,
+    "import/prefer-default-export": 0,
+    "no-console": 0,
+    "react-native/no-inline-styles": 0,
+    "import/extensions": [
+      "error",
+      "never"
+    ]
+  },
+  "settings": {
+    "import/resolver": {
+      "typescript": {} // this loads <rootdir>/tsconfig.json to eslint
+    }
+  }
+}

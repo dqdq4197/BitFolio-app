@@ -1,18 +1,18 @@
 import React from 'react';
+
 import GeneralTemplate from '/components/GeneralTemplate';
-import DiscussionHome from '../../components/discussionHome';
+import DiscussionHome from '/components/discussionHome';
 import CoinDetailSkeleton from '/components/skeletonPlaceholder/CoinDetailSkeleton';
-import ErrorBoundaryAndSuspense from '/components/common/ErrorBoundaryAndSuspense';
+import AsyncBoundary from '/components/common/AsyncBoundary';
 
 const HomeScreen = () => {
-
   return (
     <GeneralTemplate>
-      <ErrorBoundaryAndSuspense skeleton={<CoinDetailSkeleton/>} >
-        <DiscussionHome/>
-      </ErrorBoundaryAndSuspense>
+      <AsyncBoundary skeleton={<CoinDetailSkeleton />}>
+        <DiscussionHome />
+      </AsyncBoundary>
     </GeneralTemplate>
-  )
-}
+  );
+};
 
 export default HomeScreen;

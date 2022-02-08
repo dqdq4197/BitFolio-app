@@ -2,76 +2,71 @@ import React from 'react';
 import styled from 'styled-components/native';
 import { useTranslation } from 'react-i18next';
 import { Octicons } from '@expo/vector-icons';
+
 import useGlobalTheme from '/hooks/useGlobalTheme';
+
 import Text from '/components/common/Text';
 import SurfaceWrap from '/components/common/SurfaceWrap';
 import Blank from './Blank';
 
-type ScreenThemeProps = {}
-
 type RowProps = {
-  onPress: () => void
-  title: string
-  enabled: boolean
-}
+  onPress: () => void;
+  title: string;
+  enabled: boolean;
+};
 
 const Row = ({ onPress, title, enabled }: RowProps) => {
-
   const { theme } = useGlobalTheme();
-  
+
   return (
     <RowContainer
       onPress={onPress}
-      underlayColor={ theme.base.underlayColor[100] }
+      underlayColor={theme.base.underlayColor[100]}
     >
       <>
         <Text fontML bold>
-          { title }
+          {title}
         </Text>
-        <Octicons 
-          name="check" 
-          size={28} 
-          color={
-            enabled 
-            ? theme.base.primaryColor
-            : 'transparent'
-          }
+        <Octicons
+          name="check"
+          size={28}
+          color={enabled ? theme.base.primaryColor : 'transparent'}
         />
       </>
     </RowContainer>
-  )
-}
+  );
+};
 
-const ScreenTheme = ({}: ScreenThemeProps) => {
+const ScreenTheme = () => {
   const { localScheme, onSchemeChange } = useGlobalTheme();
   const { t } = useTranslation();
 
   return (
     <SurfaceWrap
-      title={ t(`setting.screen theme settings`) }
+      title={t(`setting.screen theme settings`)}
       parentPaddingZero
       marginTopZero
       fontML
     >
-      <Row 
+      <Row
         onPress={() => onSchemeChange('dark')}
-        title={ t(`setting.dark mode`) }
-        enabled={ localScheme === 'dark' }
+        title={t(`setting.dark mode`)}
+        enabled={localScheme === 'dark'}
       />
-      <Row 
+      <Row
         onPress={() => onSchemeChange('light')}
-        title={ t(`setting.light mode`) }
-        enabled={ localScheme === 'light' }
+        title={t(`setting.light mode`)}
+        enabled={localScheme === 'light'}
       />
-      <Row 
+      <Row
         onPress={() => onSchemeChange('default')}
-        title={ t(`setting.system theme`) }
-        enabled={ localScheme === 'default' }
+        title={t(`setting.system theme`)}
+        enabled={localScheme === 'default'}
       />
-      <Blank/>
+      <Blank />
     </SurfaceWrap>
-  )
-}
+  );
+};
 
 export default ScreenTheme;
 
@@ -81,4 +76,4 @@ const RowContainer = styled.TouchableHighlight`
   align-items: center;
   padding: 0 ${({ theme }) => theme.content.spacing};
   height: 48px;
-`
+`;

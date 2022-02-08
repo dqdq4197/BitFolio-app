@@ -1,21 +1,25 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { baseTypes } from 'base-types';
+
 import { TAB_ROUTE_NAME } from '/lib/constant';
 
-type DeviceSchemeType = Exclude<baseTypes.Theme, "default">
-export type LocalSchemeType = Extract<baseTypes.Theme, "light" | "dark" | "default">
-type ChartOptionType = 'prices' | 'total_volumes' | 'market_caps' | 'ohlc'
+type DeviceSchemeType = Exclude<baseTypes.Theme, 'default'>;
+export type LocalSchemeType = Extract<
+  baseTypes.Theme,
+  'light' | 'dark' | 'default'
+>;
+type ChartOptionType = 'prices' | 'total_volumes' | 'market_caps' | 'ohlc';
 
 interface BaseSettingState {
-  deviceScheme: DeviceSchemeType
-  localScheme: LocalSchemeType
-  currency: baseTypes.Currency
-  chartOption: ChartOptionType
-  chartTimeFrame: baseTypes.ChartTimeFrame
-  recentlyViewed: string[]
-  watchList: string[]
-  recentSearches: string[]
-  launchScreen: keyof typeof TAB_ROUTE_NAME 
+  deviceScheme: DeviceSchemeType;
+  localScheme: LocalSchemeType;
+  currency: baseTypes.Currency;
+  chartOption: ChartOptionType;
+  chartTimeFrame: baseTypes.ChartTimeFrame;
+  recentlyViewed: string[];
+  watchList: string[];
+  recentSearches: string[];
+  launchScreen: keyof typeof TAB_ROUTE_NAME;
 }
 
 const initialState: BaseSettingState = {
@@ -27,44 +31,49 @@ const initialState: BaseSettingState = {
   recentlyViewed: [],
   watchList: [],
   recentSearches: [''],
-  launchScreen: TAB_ROUTE_NAME.home
-}
+  launchScreen: TAB_ROUTE_NAME.home,
+};
 
 export const baseSettingSlice = createSlice({
   name: 'baseSetting',
   initialState,
   reducers: {
     changeDeviceScheme: (state, action: PayloadAction<DeviceSchemeType>) => {
-      state.deviceScheme = action.payload
+      state.deviceScheme = action.payload;
     },
     changeLocalScheme: (state, action: PayloadAction<LocalSchemeType>) => {
-      state.localScheme = action.payload
+      state.localScheme = action.payload;
     },
     changeCurrency: (state, action: PayloadAction<baseTypes.Currency>) => {
-      state.currency = action.payload
+      state.currency = action.payload;
     },
     changeChartOption: (state, action: PayloadAction<ChartOptionType>) => {
-      state.chartOption = action.payload
+      state.chartOption = action.payload;
     },
-    changeChartTimeFrame: (state, action: PayloadAction<baseTypes.ChartTimeFrame>) => {
-      state.chartTimeFrame = action.payload
+    changeChartTimeFrame: (
+      state,
+      action: PayloadAction<baseTypes.ChartTimeFrame>
+    ) => {
+      state.chartTimeFrame = action.payload;
     },
     changeRecentlyViewed: (state, action: PayloadAction<string>) => {
       const { payload } = action;
       let newRecentlyViewed = [];
-      if(state.recentlyViewed.includes(payload)) {
-        newRecentlyViewed = state.recentlyViewed.filter(coinId => coinId !== payload);
+      if (state.recentlyViewed.includes(payload)) {
+        newRecentlyViewed = state.recentlyViewed.filter(
+          coinId => coinId !== payload
+        );
         newRecentlyViewed = [...newRecentlyViewed, payload];
       } else {
         newRecentlyViewed = [...state.recentlyViewed, payload];
       }
-      if(newRecentlyViewed.length > 7) newRecentlyViewed.shift();
+      if (newRecentlyViewed.length > 7) newRecentlyViewed.shift();
       state.recentlyViewed = newRecentlyViewed;
     },
     changeWatchList: (state, action: PayloadAction<string>) => {
       const { payload } = action;
       let newWatchList = [];
-      if(state.watchList.includes(payload)) {
+      if (state.watchList.includes(payload)) {
         newWatchList = state.watchList.filter(coinId => coinId !== payload);
       } else {
         newWatchList = [...state.watchList, payload];
@@ -72,18 +81,23 @@ export const baseSettingSlice = createSlice({
       state.watchList = [...newWatchList];
     },
     changeRecentSearches: (state, action: PayloadAction<string>) => {
-      let temp = state.recentSearches.filter(coinId => coinId !== action.payload);
+      const temp = state.recentSearches.filter(
+        coinId => coinId !== action.payload
+      );
       temp.unshift(action.payload);
-      if(temp.length > 7) temp.pop();
+      if (temp.length > 7) temp.pop();
       state.recentSearches = temp;
     },
-    changeLaunchScreen: (state, action: PayloadAction<keyof typeof TAB_ROUTE_NAME >) => {
+    changeLaunchScreen: (
+      state,
+      action: PayloadAction<keyof typeof TAB_ROUTE_NAME>
+    ) => {
       state.launchScreen = action.payload;
-    }
-  }
-})
+    },
+  },
+});
 
-export const { 
+export const {
   changeDeviceScheme,
   changeLocalScheme,
   changeCurrency,
@@ -92,6 +106,6 @@ export const {
   changeRecentlyViewed,
   changeWatchList,
   changeRecentSearches,
-  changeLaunchScreen
+  changeLaunchScreen,
 } = baseSettingSlice.actions;
 export default baseSettingSlice.reducer;

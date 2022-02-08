@@ -1,4 +1,3 @@
-
 import { DefaultTheme } from 'styled-components/native';
 import { pallete } from './pallete';
 
@@ -6,19 +5,19 @@ export const darkTheme: DefaultTheme = {
   dark: true,
   base: {
     background: {
-      '100': '#000000',   // '#100F10',
+      '100': '#000000', // '#100F10',
       '200': '#1B1B1B',
       '300': '#242424',
       '400': '#323232',
       '500': '#525252',
-      'surface': '#121212',
-      'hovered': 'rgba(18, 18, 18, .96)', // #121212 + overlay 0.04
+      surface: '#121212',
+      hovered: 'rgba(18, 18, 18, .96)', // #121212 + overlay 0.04
     },
     text: {
       '100': '#ffffffde',
       '200': 'rgba(255, 255, 255, 0.6)',
       '300': 'rgba(255, 255, 255, 0.38)',
-      '400': 'rgb(134, 142, 150)'
+      '400': 'rgb(134, 142, 150)',
     },
     primaryColor: '#3861fb',
     secondPrimaryColor: 'rgba(56, 97, 251,0.5)',
@@ -30,8 +29,8 @@ export const darkTheme: DefaultTheme = {
     removeColor: '#F85149',
     underlayColor: {
       '100': '#1B1B1B',
-      '200': ''
-    }
+      '200': '',
+    },
   },
   colors: {
     ...pallete,
@@ -45,7 +44,7 @@ export const darkTheme: DefaultTheme = {
     font_ml: '15px',
     font_m: '13px',
     font_s: '11px',
-    font_xs: '10px'
+    font_xs: '10px',
   },
   content: {
     spacing: '16px',
@@ -53,13 +52,13 @@ export const darkTheme: DefaultTheme = {
     surfacePadding: '20px',
   },
   border: {
-    's': '3px',
-    'm': '6px',
-    'l': '9px',
-    'ml': '12px',
-    'xl': '20px',
-  }
-}
+    s: '3px',
+    m: '6px',
+    l: '9px',
+    ml: '12px',
+    xl: '20px',
+  },
+};
 
 export const lightTheme: DefaultTheme = {
   dark: false,
@@ -70,14 +69,14 @@ export const lightTheme: DefaultTheme = {
       '300': '#f3f2f7',
       '400': '#d4d2d9',
       '500': '#99989c',
-      'surface': '#ffffff',
-      'hovered': 'rgba(18, 18, 18, .96)'
+      surface: '#ffffff',
+      hovered: 'rgba(18, 18, 18, .96)',
     },
     text: {
       '100': '#000000f5',
       '200': '#58667E',
       '300': '#aeaeae',
-      '400': 'rgb(134, 142, 150)'
+      '400': 'rgb(134, 142, 150)',
     },
     primaryColor: '#3861fb',
     secondPrimaryColor: 'rgba(56, 97, 251,0.7)',
@@ -89,11 +88,11 @@ export const lightTheme: DefaultTheme = {
     removeColor: '#F85149',
     underlayColor: {
       '100': '#f2f3f5',
-      '200': ''
-    }
+      '200': '',
+    },
   },
   colors: {
-    ...pallete
+    ...pallete,
   },
   size: {
     font_xxxl: '48px',
@@ -104,19 +103,18 @@ export const lightTheme: DefaultTheme = {
     font_ml: '15px',
     font_m: '13px',
     font_s: '11px',
-    font_xs: '10px'
+    font_xs: '10px',
   },
   content: {
     spacing: '16px',
     blankSpacing: '16px',
-    surfacePadding: '20px'
+    surfacePadding: '20px',
   },
   border: {
-    's': '3px',
-    'm': '6px',
-    'l': '9px',
-    'ml': '12px',
-    'xl': '20px',
-  }
-}
-
+    s: '3px',
+    m: '6px',
+    l: '9px',
+    ml: '12px',
+    xl: '20px',
+  },
+};

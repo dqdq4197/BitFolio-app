@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import { 
+import {
   TextInput,
   NativeSyntheticEvent,
   TextInputKeyPressEventData,
@@ -26,28 +26,28 @@ const ListTextBlock = ({
   style,
   listIndex,
   contentIndex,
-}:ListProps) => {
+}: ListProps) => {
   const { scheme } = useGlobalTheme();
   const { listFocusIndex, contentStorage, focusState, selection, selectionChangeDetect } = useMdEditorState();
   const { ENTER, BACKSPACE, LINEPOP, TYPING } = ACTIONS;
   const handlers = useMdEditorDispatch();
   const textInputRef = useRef<TextInput>(null);
-  
+
   useEffect(() => {
-    if(textInputRef.current) {
+    if (textInputRef.current) {
       const { action } = focusState;
       textInputRef.current.focus();
-      if(action === ENTER || action === BACKSPACE) {
+      if (action === ENTER || action === BACKSPACE) {
         textInputRef.current.setNativeProps({ selection })
       }
     }
-    
+
   }, [listFocusIndex, focusState.index])
 
   const handleInputChangeText = (text: string) => {
     const lineBreak = /\r|\n/.exec(text);
     if (lineBreak) {
-      return ;
+      return;
     }
     const currentContext = contentStorage[contentIndex] as ListType;
     currentContext.payload.items[listIndex] = text;
@@ -55,7 +55,7 @@ const ListTextBlock = ({
   }
 
   const handleInputKeyPress = (
-    event:NativeSyntheticEvent<TextInputKeyPressEventData>
+    event: NativeSyntheticEvent<TextInputKeyPressEventData>
   ) => {
     const { key } = event.nativeEvent;
     const currentContext = contentStorage[contentIndex] as ListType;
@@ -63,25 +63,25 @@ const ListTextBlock = ({
     const currentItem = items[listIndex];
     const itemAfterSelection = currentItem.slice(selection.end, currentItem.length);
     console.log(key);
-    if(key === 'Enter') {
-      console.log('asdasd',currentItem);
-      if(currentItem.length === 0) {
+    if (key === 'Enter') {
+      console.log('asdasd', currentItem);
+      if (currentItem.length === 0) {
         divideList(items, listIndex)
         console.log('divide')
       } else {
         const editedText = currentItem.slice(0, selection.start);
-  
+
         currentContext.payload.items = [
           ...items.slice(0, listIndex),
           editedText,
           itemAfterSelection,
           ...items.slice(listIndex + 1, items.length)
         ]
-        
+
         handlers.updateCurrentLine(currentContext, contentIndex);
         handlers.updateFocusState(contentIndex, ENTER);
-        
-        if(itemAfterSelection.length) {
+
+        if (itemAfterSelection.length) {
           handlers.selectionChangeDetected(true);
           console.log('있음')
         } else {
@@ -95,7 +95,7 @@ const ListTextBlock = ({
       }
     }
 
-    if(key === 'Backspace' && selection.end === 0) {
+    if (key === 'Backspace' && selection.end === 0) {
       divideList(items, listIndex)
     }
   }
@@ -111,7 +111,7 @@ const ListTextBlock = ({
         inlineStyles: []
       }
     }]
-    if(itemsBeforeFocusIndex.length) {
+    if (itemsBeforeFocusIndex.length) {
       newContext.unshift({
         type: TYPES.LIST,
         payload: {
@@ -120,7 +120,7 @@ const ListTextBlock = ({
         }
       })
     }
-    if(itemsAfterFocusIndex.length) {
+    if (itemsAfterFocusIndex.length) {
       newContext.push({
         type: TYPES.LIST,
         payload: {
@@ -130,24 +130,24 @@ const ListTextBlock = ({
       })
     }
     handlers.divideCurrentLineAndNewLine(newContext, contentIndex);
-    if(listIndex === 0) {
+    if (listIndex === 0) {
       handlers.updateFocusState(contentIndex, BACKSPACE);
     } else {
       handlers.updateFocusState(contentIndex + 1, BACKSPACE);
     }
     handlers.updateListFocusIndex(-1);
-    if(currentItem.length) {
+    if (currentItem.length) {
       handlers.selectionChangeDetected(true);
     }
   }
 
   const handleFocus = (
-    event:NativeSyntheticEvent<TextInputFocusEventData>
+    event: NativeSyntheticEvent<TextInputFocusEventData>
   ) => {
     const { text } = event.nativeEvent;
 
-    if(listIndex !== listFocusIndex) {
-      if(focusState.action === TYPING) {
+    if (listIndex !== listFocusIndex) {
+      if (focusState.action === TYPING) {
         console.log('actionssss', text.length);
         handlers.updateSelection({
           start: text.length,
@@ -191,7 +191,7 @@ const ListTextBlock = ({
     // }
 
     console.log('list 1', selection)
-    if(selectionChangeDetect) {
+    if (selectionChangeDetect) {
       textInputRef.current?.setNativeProps({ selection })
     }
     handlers.updateListFocusIndex(listIndex);
@@ -203,17 +203,17 @@ const ListTextBlock = ({
   ) => {
     const { selection: nativeSelection } = event.nativeEvent;
     const { action } = focusState;
-    if(listIndex === listFocusIndex) console.log('돔황챠')
-    if(listIndex !== listFocusIndex) return ;
+    if (listIndex === listFocusIndex) console.log('돔황챠')
+    if (listIndex !== listFocusIndex) return;
     console.log('ㅋㅌㅇ마ㅣ넝미나어미')
-    if(action === ENTER) {
+    if (action === ENTER) {
       // todo when action is Enter
-    } else if(action === LINEPOP) {
+    } else if (action === LINEPOP) {
       // todo when action is pop
-    } else if(action === BACKSPACE) {
+    } else if (action === BACKSPACE) {
       // todo when action is backspace
     } else {
-      if(selectionChangeDetect) {
+      if (selectionChangeDetect) {
         // textInputRef.current?.setNativeProps({ selection })
         handlers.selectionChangeDetected(false);
         console.log('detected selection change')
@@ -223,7 +223,7 @@ const ListTextBlock = ({
       }
     }
   }
-  
+
   return (
     <ListView>
       <ListMark>
@@ -248,11 +248,11 @@ const ListTextBlock = ({
           })
         }}
       >
-        <RenderText 
+        <RenderText
           type={TYPES.LIST}
           index={contentIndex}
         >
-          { text }
+          {text}
         </RenderText>
       </StyledTextInput>
     </ListView>
@@ -271,13 +271,13 @@ const ListMark = styled.Text`
   width: 35px;
   color: white;
   /* background-color: rgba(255,255,255, .2); */
-  font-size:${({theme}) => theme.size.font_l};
+  font-size:${({ theme }) => theme.size.font_l};
 `
 
 const StyledTextInput = styled.TextInput`
   width: 100%;
   /* background-color: rgba(255,255,255, .2); */
-  font-size:${({theme}) => theme.size.font_l};
+  font-size:${({ theme }) => theme.size.font_l};
   color:white;
   padding: 0 15px 0 0;
 `

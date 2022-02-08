@@ -1,10 +1,21 @@
 import React, { useRef, useEffect } from 'react';
-import { Animated, Easing, LayoutAnimation, Platform, UIManager } from 'react-native';
+import {
+  Animated,
+  Easing,
+  LayoutAnimation,
+  Platform,
+  UIManager,
+} from 'react-native';
 import styled from 'styled-components/native';
-import { easeQuadOut} from 'd3-ease';
+import { easeQuadOut } from 'd3-ease';
+
 import Text, { TextStyleProps } from '/components/common/Text';
 
-Platform.OS === "android" && UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
+if (Platform.OS === 'android') {
+  if (UIManager.setLayoutAnimationEnabledExperimental) {
+    UIManager.setLayoutAnimationEnabledExperimental(true);
+  }
+}
 
 interface RollingTextProps extends TextStyleProps {
   text: string;
@@ -17,18 +28,17 @@ type AnimatedTextProps = {
   integerLength: number;
   unMountingList: number[];
   textStyleProps?: TextStyleProps;
-  totalLength: number
-}
+  totalLength: number;
+};
 
-const AnimatedText = ({ 
-  text, 
-  index, 
-  integerLength, 
+const AnimatedText = ({
+  text,
+  index,
+  integerLength,
   unMountingList,
   textStyleProps,
-  totalLength
+  totalLength,
 }: AnimatedTextProps) => {
-
   const translateY = useRef(new Animated.Value(-40)).current;
   const opacity = useRef(new Animated.Value(0)).current;
 
@@ -46,32 +56,30 @@ const AnimatedText = ({
         delay: 0,
         duration: 300,
         useNativeDriver: true,
-      })
-    ]).start(
-      () => {
-        LayoutAnimation.configureNext({ 
-          duration: 500, 
-          create: { 
-            duration: 0,
-            type: 'linear', 
-            property: 'opacity' 
-          }, 
-          update: { 
-            type: 'spring', 
-            springDamping: 0.7
-          }, 
-          delete: { 
-            duration:10,
-            type: 'linear', 
-            property: 'opacity' 
-          } 
-        });
-      }
-    )
-  }, [text])
+      }),
+    ]).start(() => {
+      LayoutAnimation.configureNext({
+        duration: 500,
+        create: {
+          duration: 0,
+          type: 'linear',
+          property: 'opacity',
+        },
+        update: {
+          type: 'spring',
+          springDamping: 0.7,
+        },
+        delete: {
+          duration: 10,
+          type: 'linear',
+          property: 'opacity',
+        },
+      });
+    });
+  }, [opacity, text, translateY]);
 
   useEffect(() => {
-    if(unMountingList.includes(index)) {
+    if (unMountingList.includes(index)) {
       Animated.parallel([
         Animated.timing(translateY, {
           toValue: -50,
@@ -85,82 +93,79 @@ const AnimatedText = ({
           delay: 0,
           duration: 200,
           useNativeDriver: true,
-        })
-      ]).start(
-        () => {
-          LayoutAnimation.configureNext({ 
-            duration: 500, 
-            create: { 
-              duration: 0,
-              type: 'linear', 
-              property: 'opacity' 
-            }, 
-            update: { 
-              type: 'spring', 
-              springDamping: 0.7
-            }, 
-            delete: { 
-              duration:10,
-              type: 'linear', 
-              property: 'opacity' 
-            } 
-          });
-        }
-      )
+        }),
+      ]).start(() => {
+        LayoutAnimation.configureNext({
+          duration: 500,
+          create: {
+            duration: 0,
+            type: 'linear',
+            property: 'opacity',
+          },
+          update: {
+            type: 'spring',
+            springDamping: 0.7,
+          },
+          delete: {
+            duration: 10,
+            type: 'linear',
+            property: 'opacity',
+          },
+        });
+      });
     }
-  }, [unMountingList])
+  }, [index, opacity, translateY, unMountingList]);
 
   return (
     <CustomText
       as={Animated.Text}
-      style={
-        Object.assign({
-          transform: [{ translateY }],
-          opacity
-        })
-      }
+      style={Object.assign({
+        transform: [{ translateY }],
+        opacity,
+      })}
       totalLength={totalLength}
       {...textStyleProps}
     >
-      { (integerLength - index) % 3 === 1 && (integerLength - index) > 3
-        ? text + ','
-        : text 
-      }
+      {(integerLength - index) % 3 === 1 && integerLength - index > 3
+        ? `${text},`
+        : text}
     </CustomText>
-  )
-}
+  );
+};
 
-const RollingText = ({ text, unMountingList, ...textStyle }: RollingTextProps) => {
-
+const RollingText = ({
+  text,
+  unMountingList,
+  ...textStyle
+}: RollingTextProps) => {
   return (
     <Container>
-      {
-        text.split('').map((letter, index, arr) => {
-          return (
-            <AnimatedText 
-              key={letter + index}
-              text={letter}
-              index={index}
-              integerLength={arr.join('').split('.')[0].length}
-              unMountingList={unMountingList}
-              textStyleProps={textStyle}
-              totalLength={text.length}
-            />
-          )
-        })
-      }
+      {text.split('').map((letter, index, arr) => {
+        return (
+          <AnimatedText
+            key={`${letter}num${index + 1}`}
+            text={letter}
+            index={index}
+            integerLength={arr.join('').split('.')[0].length}
+            unMountingList={unMountingList}
+            textStyleProps={textStyle}
+            totalLength={text.length}
+          />
+        );
+      })}
     </Container>
-  )
-}
+  );
+};
 
 export default RollingText;
 
 type TextProps = {
-  totalLength: number
-}
+  totalLength: number;
+};
+
 const Container = styled.View`
   flex-direction: row;
-`
+`;
 
 const CustomText = styled(Text)<TextProps>`
   color: ${({ theme }) => theme.base.text[100]};
@@ -173,18 +178,17 @@ const CustomText = styled(Text)<TextProps>`
       case 4:
       case 5:
       case 6:
-        return `font-size: ${theme.size.font_xxxl}`
+        return `font-size: ${theme.size.font_xxxl}`;
       case 7:
       case 8:
       case 9:
-        return `font-size: ${theme.size.font_xxl}`
+        return `font-size: ${theme.size.font_xxl}`;
       case 10:
       case 11:
       case 12:
-        return `font-size: ${theme.size.font_xl}`
-
+        return `font-size: ${theme.size.font_xl}`;
       default:
-        return `font-size: ${theme.size.font_x}`
+        return `font-size: ${theme.size.font_x}`;
     }
   }}
-`
+`;

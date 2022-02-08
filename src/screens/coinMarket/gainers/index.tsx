@@ -1,18 +1,18 @@
 import React from 'react';
+
 import GeneralTemplate from '/components/GeneralTemplate';
 import Gainers from '/components/coinMarket/popularList/Gainers';
 import TopListSkeleton from '/components/skeletonPlaceholder/TopListSkeleton';
-import ErrorBoundaryAndSuspense from '/components/common/ErrorBoundaryAndSuspense';
+import AsyncBoundary from '/components/common/AsyncBoundary';
 
-const GainersScreen = ({}) => {
-
+const GainersScreen = () => {
   return (
     <GeneralTemplate>
-      <ErrorBoundaryAndSuspense skeleton={<TopListSkeleton />}>
+      <AsyncBoundary skeleton={<TopListSkeleton />}>
         <Gainers />
-      </ErrorBoundaryAndSuspense>
+      </AsyncBoundary>
     </GeneralTemplate>
-  )
-}
+  );
+};
 
 export default GainersScreen;

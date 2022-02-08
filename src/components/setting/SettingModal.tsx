@@ -1,6 +1,8 @@
 import React, { useRef, useCallback, forwardRef } from 'react';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
+
 import useGlobalTheme from '/hooks/useGlobalTheme';
+
 import Modal from '/components/common/BottomSheetModal';
 import SettingRoot from './SettingRoot';
 import ScreenTheme from './ScreenTheme';
@@ -8,9 +10,7 @@ import Language from './Language';
 import Currency from './Currency';
 import LaunchScreen from './LaunchScreen';
 
-
-const SettingButton = forwardRef<BottomSheetModal, {}>((props, ref) => {
-
+const SettingButton = forwardRef<BottomSheetModal>((_props, ref) => {
   const { theme } = useGlobalTheme();
   const languageModalRef = useRef<BottomSheetModal>(null);
   const currencyModalRef = useRef<BottomSheetModal>(null);
@@ -19,19 +19,19 @@ const SettingButton = forwardRef<BottomSheetModal, {}>((props, ref) => {
 
   const handleLanguagePress = useCallback(() => {
     languageModalRef.current?.present();
-  }, [languageModalRef])
+  }, [languageModalRef]);
 
   const handleCurrencyPress = useCallback(() => {
     currencyModalRef.current?.present();
-  }, [currencyModalRef])
+  }, [currencyModalRef]);
 
   const handleScreenThemePress = useCallback(() => {
     screenThemeModalRef.current?.present();
-  }, [screenThemeModalRef])
+  }, [screenThemeModalRef]);
 
   const handleLaunchScreenPress = useCallback(() => {
     launchScreenModalRef.current?.present();
-  }, [launchScreenModalRef]) 
+  }, [launchScreenModalRef]);
 
   return (
     <>
@@ -39,10 +39,10 @@ const SettingButton = forwardRef<BottomSheetModal, {}>((props, ref) => {
         key="main"
         ref={ref}
         snapPoints={['62%']}
-        bgColor={ theme.base.background[100] }
-        handleColor={ theme.base.background.surface }
+        bgColor={theme.base.background[100]}
+        handleColor={theme.base.background.surface}
       >
-        <SettingRoot 
+        <SettingRoot
           onLanguagePress={handleLanguagePress}
           onCurrencyPress={handleCurrencyPress}
           onScreenThemePress={handleScreenThemePress}
@@ -53,8 +53,8 @@ const SettingButton = forwardRef<BottomSheetModal, {}>((props, ref) => {
         key="screen_theme"
         ref={screenThemeModalRef}
         snapPoints={['35%']}
-        bgColor={ theme.base.background[100] }
-        handleColor={ theme.base.background.surface }
+        bgColor={theme.base.background[100]}
+        handleColor={theme.base.background.surface}
       >
         <ScreenTheme />
       </Modal>
@@ -62,8 +62,8 @@ const SettingButton = forwardRef<BottomSheetModal, {}>((props, ref) => {
         key="language"
         ref={languageModalRef}
         snapPoints={['30%']}
-        bgColor={ theme.base.background[100] }
-        handleColor={ theme.base.background.surface }
+        bgColor={theme.base.background[100]}
+        handleColor={theme.base.background.surface}
       >
         <Language />
       </Modal>
@@ -71,8 +71,8 @@ const SettingButton = forwardRef<BottomSheetModal, {}>((props, ref) => {
         key="currency"
         ref={currencyModalRef}
         snapPoints={['40%']}
-        bgColor={ theme.base.background[100] }
-        handleColor={ theme.base.background.surface }
+        bgColor={theme.base.background[100]}
+        handleColor={theme.base.background.surface}
       >
         <Currency />
       </Modal>
@@ -80,13 +80,13 @@ const SettingButton = forwardRef<BottomSheetModal, {}>((props, ref) => {
         key="launch_screen"
         ref={launchScreenModalRef}
         snapPoints={['35%']}
-        bgColor={ theme.base.background[100] }
-        handleColor={ theme.base.background.surface }
+        bgColor={theme.base.background[100]}
+        handleColor={theme.base.background.surface}
       >
         <LaunchScreen />
       </Modal>
     </>
-  )
-})
+  );
+});
 
 export default SettingButton;

@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import styled from 'styled-components/native'
+import styled from 'styled-components/native';
 import { useTranslation } from 'react-i18next';
 import { Octicons } from '@expo/vector-icons';
 
@@ -13,16 +13,15 @@ import AsyncButton from '/components/common/AsyncButton';
 import Text from '/components/common/Text';
 
 interface ModalType extends Pick<FeedAndCategoryData, 'Categories'> {
-  visible: boolean
-  setVisible: React.Dispatch<React.SetStateAction<boolean>>
+  visible: boolean;
+  setVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const CategoryFilterModal = ({ 
+const CategoryFilterModal = ({
   visible,
-  setVisible, 
-  Categories: CategoriesData
+  setVisible,
+  Categories: CategoriesData,
 }: ModalType) => {
-
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const { theme } = useGlobalTheme();
@@ -32,31 +31,31 @@ const CategoryFilterModal = ({
   const handleSavePress = useCallback(() => {
     dispatch(changeCategories(categoriesTemp));
     setVisible(false);
-  }, [categoriesTemp])
+  }, [categoriesTemp]);
 
   const handleRowPress = (key: string) => {
-    if(categoriesTemp === ALL_NEWS_CATEGORIES) {
-      if(key === ALL_NEWS_CATEGORIES) return ;
+    if (categoriesTemp === ALL_NEWS_CATEGORIES) {
+      if (key === ALL_NEWS_CATEGORIES) return;
 
       setCategoriesTemp([key]);
     } else {
-      if(key === ALL_NEWS_CATEGORIES) {
+      if (key === ALL_NEWS_CATEGORIES) {
         setCategoriesTemp(ALL_NEWS_CATEGORIES);
-        return ;
+        return;
       }
       const isContain = categoriesTemp.findIndex(category => category === key);
 
-      if(isContain === -1) {
+      if (isContain === -1) {
         setCategoriesTemp(prevState => [...prevState, key]);
+      } else if (categoriesTemp.length === 1) {
+        setCategoriesTemp(ALL_NEWS_CATEGORIES);
       } else {
-        if(categoriesTemp.length === 1) {
-          setCategoriesTemp(ALL_NEWS_CATEGORIES);
-        } else {
-          setCategoriesTemp(prevState => (prevState as string[]).filter(category => category !== key));
-        }
+        setCategoriesTemp(prevState =>
+          (prevState as string[]).filter(category => category !== key)
+        );
       }
     }
-  }
+  };
 
   return (
     <ScrollCloseModal
@@ -65,13 +64,13 @@ const CategoryFilterModal = ({
       titleComponent={
         <TitleWrap>
           <Text fontX color100 bold>
-            { t(`news.categories`) }
+            {t(`news.categories`)}
           </Text>
         </TitleWrap>
       }
       footerComponent={
-        <AsyncButton 
-          text={ t(`news.save categories`) }
+        <AsyncButton
+          text={t(`news.save categories`)}
           onPress={handleSavePress}
           isDisabled={false}
           isLoading={false}
@@ -83,71 +82,73 @@ const CategoryFilterModal = ({
       }
     >
       <Container>
-        <Row 
-          underlayColor={ theme.base.underlayColor[100] }
+        <Row
+          underlayColor={theme.base.underlayColor[100]}
           onPress={() => handleRowPress(ALL_NEWS_CATEGORIES)}
           isActive={categoriesTemp === ALL_NEWS_CATEGORIES}
         >
           <>
             <Text color100 heavy margin="0 0 0 10px">
-              { t(`news.all news categories`) }
+              {t(`news.all news categories`)}
             </Text>
-            <Octicons 
-              name="check" 
-              size={24} 
-              color={ 
+            <Octicons
+              name="check"
+              size={24}
+              color={
                 categoriesTemp === ALL_NEWS_CATEGORIES
-                ? theme.base.primaryColor 
-                : 'transparent'
+                  ? theme.base.primaryColor
+                  : 'transparent'
               }
             />
           </>
         </Row>
-        { CategoriesData.map(category => {
+        {CategoriesData.map(category => {
           return (
-            <Row 
-              key={category.categoryName} 
-              underlayColor={ theme.base.underlayColor[100] }
+            <Row
+              key={category.categoryName}
+              underlayColor={theme.base.underlayColor[100]}
               onPress={() => handleRowPress(category.categoryName)}
               isActive={categoriesTemp !== ALL_NEWS_CATEGORIES}
             >
               <>
                 <Text color100 heavy margin="0 0 0 10px">
-                  { category.categoryName }
+                  {category.categoryName}
                 </Text>
-                <Octicons 
-                  name="check" 
-                  size={24} 
-                  color={ 
-                    categoriesTemp !== ALL_NEWS_CATEGORIES && (
-                      categoriesTemp.findIndex(temp => temp === category.categoryName) !== -1
-                    )
-                    ? theme.base.primaryColor
-                    : 'transparent'
+                <Octicons
+                  name="check"
+                  size={24}
+                  color={
+                    categoriesTemp !== ALL_NEWS_CATEGORIES &&
+                    categoriesTemp.findIndex(
+                      temp => temp === category.categoryName
+                    ) !== -1
+                      ? theme.base.primaryColor
+                      : 'transparent'
                   }
                 />
               </>
             </Row>
-          )
-        }) }
+          );
+        })}
       </Container>
     </ScrollCloseModal>
-  )
-}
+  );
+};
 
 export default CategoryFilterModal;
 
 type RowProps = {
-  isActive: boolean
-}
+  isActive: boolean;
+};
+
 const Container = styled.View`
   padding-bottom: 30px;
-`
+`;
 const TitleWrap = styled.View`
   align-items: flex-end;
   justify-content: center;
-  
-`
+`;
+
 const Row = styled.TouchableHighlight<RowProps>`
   flex-direction: row;
   height: 60px;
@@ -156,5 +157,5 @@ const Row = styled.TouchableHighlight<RowProps>`
   padding: 0 ${({ theme }) => theme.content.spacing};
   border-bottom-width: 1px;
   border-bottom-color: ${({ theme }) => theme.base.background[300]};
-  opacity: ${({ isActive }) => isActive ? 1 : 0.6};
-`
+  opacity: ${({ isActive }) => (isActive ? 1 : 0.6)};
+`;

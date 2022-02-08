@@ -5,20 +5,28 @@ import { useAppSelector, useAppDispatch } from './useRedux';
 import { changeCurrency } from '/store/baseSetting';
 import { onLanguageChange, getDeviceLanguage } from '/lib/lang/i18n';
 
-type LanguageType = Exclude<baseTypes.Language, 'default'>
+type LanguageType = Exclude<baseTypes.Language, 'default'>;
 
 const useLocales = () => {
   const { currency } = useAppSelector(state => state.baseSettingReducer);
   const dispatch = useAppDispatch();
-  
-  const language = (() => {
-    return i18n.language as LanguageType
-  })()
 
+  const language = (() => {
+    return i18n.language as LanguageType;
+  })();
+
+  // eslint-disable-next-line @typescript-eslint/no-shadow
   const onCurrencyChange = (currency: baseTypes.Currency) => {
-    dispatch(changeCurrency(currency))
-  }
-  return { language, currency, onLanguageChange, onCurrencyChange, getDeviceLanguage }
-}
+    dispatch(changeCurrency(currency));
+  };
+
+  return {
+    language,
+    currency,
+    onLanguageChange,
+    onCurrencyChange,
+    getDeviceLanguage,
+  };
+};
 
 export default useLocales;

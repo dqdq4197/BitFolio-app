@@ -1,51 +1,55 @@
-import React, { useState, useMemo } from "react";
-import { StyleSheet, Dimensions } from "react-native";
+import React, { useMemo } from 'react';
+import { StyleSheet, Dimensions } from 'react-native';
 import styled from 'styled-components/native';
-import { 
-  LongPressGestureHandler, 
-  LongPressGestureHandlerGestureEvent
-} from "react-native-gesture-handler";
+import {
+  LongPressGestureHandler,
+  LongPressGestureHandlerGestureEvent,
+} from 'react-native-gesture-handler';
 import Animated, {
   useAnimatedGestureHandler,
   useAnimatedStyle,
   useSharedValue,
   runOnJS,
-} from "react-native-reanimated";
+} from 'react-native-reanimated';
 import * as d3 from 'd3';
-import * as shape from "d3-shape";
-import { scaleTime, scaleLinear } from "d3-scale";
-import { getYForX, parse } from "react-native-redash";
+import * as shape from 'd3-shape';
+import { scaleTime, scaleLinear } from 'd3-scale';
+import { getYForX, parse } from 'react-native-redash';
 import * as Haptics from 'expo-haptics';
 import { format } from 'date-fns';
 import { ko, enUS } from 'date-fns/locale';
 import { chartType } from 'base-types';
 
 import useLocales from '/hooks/useLocales';
-import { AddSeparator, exponentToNumber, getOnlyDecimal } from '/lib/utils/currencyFormat';
+import {
+  AddSeparator,
+  exponentToNumber,
+  getOnlyDecimal,
+} from '/lib/utils/currencyFormat';
 import { digitToFixed } from '/lib/utils';
 
-const { height } = Dimensions.get('window');
+const { height: DHeight } = Dimensions.get('window');
 
 interface CursorProps {
-  data: number[][]
-  width: number
-  height: number
-  CURSOR_SIZE: number
-  PADDING: number
-  highestPrice: number[]
-  lowestPrice: number[]
-  datumX: Animated.SharedValue<string>
-  datumY: Animated.SharedValue<string[]> 
-  datumYChangePercentage: Animated.SharedValue<string>
-  onCursorActiveChange: (state: boolean) => void
-  onPercentageStatusChange: (status: chartType.percentageStatus) => void
+  data: number[][];
+  width: number;
+  height: number;
+  CURSOR_SIZE: number;
+  PADDING: number;
+  highestPrice: number[];
+  lowestPrice: number[];
+  datumX: Animated.SharedValue<string>;
+  datumY: Animated.SharedValue<string[]>;
+  datumYChangePercentage: Animated.SharedValue<string>;
+  onCursorActiveChange: (state: boolean) => void;
+  onPercentageStatusChange: (status: chartType.percentageStatus) => void;
 }
 
-const Cursor = ({ 
-  data, 
-  width, 
-  height, 
-  CURSOR_SIZE, 
+const Cursor = ({
+  data,
+  width,
+  height,
+  CURSOR_SIZE,
   PADDING,
   highestPrice,
   lowestPrice,
@@ -53,53 +57,53 @@ const Cursor = ({
   datumY,
   datumYChangePercentage,
   onCursorActiveChange,
-  onPercentageStatusChange
+  onPercentageStatusChange,
 }: CursorProps) => {
   const translateX = useSharedValue(-100);
   const translateY = useSharedValue(0);
   const prevPoint = useSharedValue(-1);
   const { language } = useLocales();
-  
+
   const getSvg = useMemo(() => {
     const xDomain = [...data.map(d => d[0]), highestPrice[0], lowestPrice[0]];
     const yDomain = [...data.map(d => d[1]), highestPrice[1], lowestPrice[1]];
-    
+
     const scaleX = scaleTime()
       .domain([Math.min(...xDomain), Math.max(...xDomain)])
       .range([0, width]);
     const scaleY = scaleLinear()
       .domain([Math.min(...yDomain), Math.max(...yDomain)])
-      .range([height - PADDING * 2 , 0]);
-    const d = 
-      shape
+      .range([height - PADDING * 2, 0]);
+    const d = shape
       .line<number[]>()
       .x(p => scaleX(p[0]))
       .y(p => scaleY(p[1]))
-      .curve(shape.curveCatmullRom)(data) as string
-    
-      return {
-        scaleX,
-        scaleY,
-        svgPath: parse(d),
-    }
-  }, [data, width, height, highestPrice, lowestPrice])
+      .curve(shape.curveCatmullRom)(data) as string;
+
+    return {
+      scaleX,
+      scaleY,
+      svgPath: parse(d),
+    };
+  }, [data, highestPrice, lowestPrice, width, height, PADDING]);
 
   const bisect = d3.bisector((d: number[]) => {
-    return d[0]
+    return d[0];
   }).left;
 
   const getFormatedDate = (date: number) => {
     const newDate = new Date(date);
     const currentLocale = language === 'en' ? enUS : ko;
-    const cFormat = (type: string, locale = currentLocale) => format(newDate, type, { locale });
+    const cFormat = (type: string, locale = currentLocale) =>
+      format(newDate, type, { locale });
 
-    return language === 'en' 
-      ? cFormat('PP') + ' ' + cFormat('p')
-      : cFormat('PPP') + ' ' + cFormat('a') + ' ' + cFormat('p', enUS).slice(0, -2);
-  }
+    return language === 'en'
+      ? `${cFormat('PP')} ${cFormat('p')}`
+      : `${cFormat('PPP')} ${cFormat('a')} ${cFormat('p', enUS).slice(0, -2)}`;
+  };
 
-  const onChangeCoordinate = (x:number) => {
-    if(x < 0 || x >= width) return;
+  const onChangeCoordinate = (x: number) => {
+    if (x < 0 || x >= width) return;
     onCursorActiveChange(true);
     const { svgPath, scaleX } = getSvg;
 
@@ -107,64 +111,69 @@ const Cursor = ({
     const i = bisect(data, x0, 1);
     prevPoint.value = i;
 
-    if(prevPoint.value !== i) {
+    if (prevPoint.value !== i) {
       Haptics.selectionAsync();
       const y = getYForX(svgPath, x) || 0;
       const currentPoint = data[i];
       translateX.value = x - CURSOR_SIZE / 2;
       translateY.value = y - CURSOR_SIZE / 2;
-      const changePercentage = digitToFixed(100 * (currentPoint[1] - data[0][1]) / data[0][1], 2);
+      const changePercentage = digitToFixed(
+        (100 * (currentPoint[1] - data[0][1])) / data[0][1],
+        2
+      );
 
-      datumX.value = `${ getFormatedDate(currentPoint[0]) }`;
+      datumX.value = `${getFormatedDate(currentPoint[0])}`;
       datumY.value = [
-        `${ AddSeparator(Math.floor(currentPoint[1])) }`,
-        `${ getOnlyDecimal({ 
-            value: exponentToNumber(currentPoint[1]), 
-            minLength: 2, 
-            noneZeroCnt: exponentToNumber(currentPoint[1]) < 1 ? 3 : 2 
-          }) }`
+        `${AddSeparator(Math.floor(currentPoint[1]))}`,
+        `${getOnlyDecimal({
+          value: exponentToNumber(currentPoint[1]),
+          minLength: 2,
+          noneZeroCnt: exponentToNumber(currentPoint[1]) < 1 ? 3 : 2,
+        })}`,
       ];
-      datumYChangePercentage.value = `${ changePercentage }`;
+      datumYChangePercentage.value = `${changePercentage}`;
       onPercentageStatusChange(
-        changePercentage > 0 
-        ? 'positive' 
-        : changePercentage === 0 
-          ? 'unchanged' 
+        changePercentage > 0
+          ? 'positive'
+          : changePercentage === 0
+          ? 'unchanged'
           : 'negative'
-      )
+      );
     }
-  }
+  };
 
-  const onChangeActive = (state:boolean) => {
-    if(!state) {
+  const onChangeActive = (state: boolean) => {
+    if (!state) {
       onCursorActiveChange(false);
       translateX.value = -100;
       translateY.value = 0;
-    } 
-  }
-  
-  const onGestureEvent = useAnimatedGestureHandler<
-    LongPressGestureHandlerGestureEvent
-  >({
-    onStart: () => {
-      'worklet'
-      runOnJS(onChangeActive)(true)
-    },
-    onActive: (event) => {
-      'worklet'
-      runOnJS(onChangeCoordinate)(event.x)
-    },
-    onEnd: () => {
-      'worklet'
-      runOnJS(onChangeActive)(false)
-    },
-  });
+    }
+  };
+
+  const onGestureEvent =
+    useAnimatedGestureHandler<LongPressGestureHandlerGestureEvent>({
+      onStart: () => {
+        'worklet';
+
+        runOnJS(onChangeActive)(true);
+      },
+      onActive: event => {
+        'worklet';
+
+        runOnJS(onChangeCoordinate)(event.x);
+      },
+      onEnd: () => {
+        'worklet';
+
+        runOnJS(onChangeActive)(false);
+      },
+    });
 
   const animatedStyle = useAnimatedStyle(() => {
     return {
       transform: [
         { translateX: translateX.value },
-        { translateY: translateY.value }
+        { translateY: translateY.value },
       ],
     };
   });
@@ -175,15 +184,15 @@ const Cursor = ({
       onBegan={() => onChangeActive(true)}
       minDurationMs={100}
     >
-      <Animated.View 
+      <Animated.View
         style={[
-          StyleSheet.absoluteFill, 
-          { paddingTop: PADDING, paddingBottom: PADDING }
+          StyleSheet.absoluteFill,
+          { paddingTop: PADDING, paddingBottom: PADDING },
         ]}
       >
-        <CursorWrap 
+        <CursorWrap
           as={Animated.View}
-          CURSOR_SIZE={ CURSOR_SIZE }
+          CURSOR_SIZE={CURSOR_SIZE}
           style={animatedStyle}
         >
           <CursorLine />
@@ -196,28 +205,28 @@ const Cursor = ({
 
 export default Cursor;
 
-type WrapProps = Pick<CursorProps, 'CURSOR_SIZE'>
+type WrapProps = Pick<CursorProps, 'CURSOR_SIZE'>;
 
 const CursorWrap = styled.View<WrapProps>`
-  width: ${({ CURSOR_SIZE }) => CURSOR_SIZE }px;
-  height: ${({ CURSOR_SIZE }) => CURSOR_SIZE }px;
-  border-radius: ${({ CURSOR_SIZE }) => CURSOR_SIZE  / 2}px;
+  width: ${({ CURSOR_SIZE }) => CURSOR_SIZE}px;
+  height: ${({ CURSOR_SIZE }) => CURSOR_SIZE}px;
+  border-radius: ${({ CURSOR_SIZE }) => CURSOR_SIZE / 2}px;
   border-width: 3px;
   border-color: ${({ theme }) => theme.base.text[200]};
   justify-content: center;
   align-items: center;
-`
+`;
 
 const CursorLine = styled.View`
   position: absolute;
-  height: ${height}px;
+  height: ${DHeight}px;
   width: 1px;
   background-color: ${({ theme }) => theme.base.text[200]};
-`
+`;
 
 const CursorBody = styled.View`
   width: 4px;
   height: 4px;
   border-radius: 2px;
-  background-color: ${({ theme }) => theme.base.text[100]};;
-`
+  background-color: ${({ theme }) => theme.base.text[100]};
+`;

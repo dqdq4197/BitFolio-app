@@ -1,25 +1,25 @@
 import axios from 'axios';
 import { APP_NAME, CRYPTOCOMPARE_API_KEY } from '@env';
-import { 
-  CTYPTOCOMPARE_PATH_PREFIX, 
-  CTYPTOCOMPARE_LANG, 
-  CTYPTOCOMPARE_API_VERSION
-} from '/lib/constant';
 
+import {
+  CTYPTOCOMPARE_PATH_PREFIX,
+  CTYPTOCOMPARE_LANG,
+  CTYPTOCOMPARE_API_VERSION,
+} from '/lib/constant';
 
 export type LANG = typeof CTYPTOCOMPARE_LANG[keyof typeof CTYPTOCOMPARE_LANG];
 
 interface CommonParams {
-  extraParams?: FunctionStringCallback
-  sign?: boolean
+  extraParams?: FunctionStringCallback;
+  sign?: boolean;
 }
 export interface ArticleParams extends CommonParams {
-  feeds?: string | string[]
-  categories?: string | string[]
-  excludeCategories?: string
-  lTs?: number
-  lang?: LANG
-  sortOrder?: 'latest' | 'popular'
+  feeds?: string | string[];
+  categories?: string | string[];
+  excludeCategories?: string;
+  lTs?: number;
+  lang?: LANG;
+  sortOrder?: 'latest' | 'popular';
 }
 interface FeedPrams extends CommonParams {}
 interface CategoryPrams extends CommonParams {}
@@ -28,10 +28,10 @@ interface FeedAndCategoryPrams extends CommonParams {}
 export const http = axios.create({
   baseURL: CTYPTOCOMPARE_PATH_PREFIX,
   headers: {
-    'authorization': `Apikey ${CRYPTOCOMPARE_API_KEY}`
+    authorization: `Apikey ${CRYPTOCOMPARE_API_KEY}`,
   },
-  params: { extraParams: APP_NAME }
-})
+  params: { extraParams: APP_NAME },
+});
 
 export const Cryptocompare = {
   news: {
@@ -50,16 +50,16 @@ export const Cryptocompare = {
      * @returns {ReturnObject}
      */
     articles: (params: ArticleParams) => {
-      if(Array.isArray(params.categories)) {
-        if(params.categories.length === 0) {
+      if (Array.isArray(params.categories)) {
+        if (params.categories.length === 0) {
           delete params.categories;
         } else {
           params.categories = params.categories.join(',');
         }
       }
 
-      if(Array.isArray(params.feeds)) {
-        if(params.feeds.length === 0) {
+      if (Array.isArray(params.feeds)) {
+        if (params.feeds.length === 0) {
           delete params.feeds;
         } else {
           params.feeds = params.feeds.join(',');
@@ -67,8 +67,8 @@ export const Cryptocompare = {
       }
       return {
         url: `${CTYPTOCOMPARE_API_VERSION}/news/`,
-        params
-      }
+        params,
+      };
     },
     /**
      * @description Returns all the news feeds (providers) that CryptoCompare has integrated with.
@@ -81,8 +81,8 @@ export const Cryptocompare = {
     feeds: (params: FeedPrams) => {
       return {
         url: `/news/feeds`,
-        params
-      }
+        params,
+      };
     },
     /**
      * @description Returns news articles categories, you can use them to filter news.
@@ -95,8 +95,8 @@ export const Cryptocompare = {
     categories: (params: CategoryPrams) => {
       return {
         url: `/news/categories`,
-        params
-      }
+        params,
+      };
     },
     /**
      * @description Returns all the news feeds (providers) that CryptoCompare has integrated with and the full list of categories.
@@ -109,9 +109,8 @@ export const Cryptocompare = {
     feedAndCategories: (params: FeedAndCategoryPrams) => {
       return {
         url: `/news/feedsandcategories`,
-        params
-      }
+        params,
+      };
     },
-  }
-  
-}
+  },
+};

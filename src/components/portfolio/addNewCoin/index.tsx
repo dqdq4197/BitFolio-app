@@ -1,24 +1,27 @@
-import React, { 
-  useState, 
-  useEffect, 
-  useCallback, 
+import React, {
+  useState,
+  useEffect,
+  useCallback,
   useMemo,
-  useRef, 
-  useLayoutEffect 
+  useRef,
+  useLayoutEffect,
 } from 'react';
-import { 
-  FlatList, 
-  Platform, 
+import {
+  FlatList,
+  Platform,
   Dimensions,
   TextInput,
   Alert,
   UIManager,
-  LayoutAnimation
+  LayoutAnimation,
 } from 'react-native';
 import { useHeaderHeight } from '@react-navigation/stack';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
-import Animated, { useAnimatedStyle, withSpring } from 'react-native-reanimated';
+import Animated, {
+  useAnimatedStyle,
+  withSpring,
+} from 'react-native-reanimated';
 
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import useLocales from '/hooks/useLocales';
@@ -38,11 +41,15 @@ import SearchItemListSkeleton from '/components/skeletonPlaceholder/SearchItemLi
 import FormModal from '/components/portfolio/transactionModal/FormModal';
 import GlobalIndicator from '/components/common/GlobalIndicator';
 
-Platform.OS === "android" && UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
+if (Platform.OS === 'android') {
+  if (UIManager.setLayoutAnimationEnabledExperimental) {
+    UIManager.setLayoutAnimationEnabledExperimental(true);
+  }
+}
 
 export interface CoinsType extends SearchCoin {
-  highlightedName?: Array<string | React.ReactNode>
-  highlightedSymbol?: Array<string | React.ReactNode>
+  highlightedName?: Array<string | React.ReactNode>;
+  highlightedSymbol?: Array<string | React.ReactNode>;
 }
 
 const { height } = Dimensions.get('screen');
@@ -53,12 +60,11 @@ const Layout = () => {
   const { theme } = useGlobalTheme();
   const navigation = useNavigation();
   const headerHeight = useHeaderHeight();
-  const { params } = useRoute();
   const dispatch = useAppDispatch();
-  const { 
+  const {
     height: animationKeyboardHeight,
     animationDuration,
-    animationEasing
+    animationEasing,
   } = useKeyboard();
   const textInputRef = useRef<TextInput>(null);
   const [coins, setCoins] = useState<CoinsType[]>([]);
@@ -68,12 +74,12 @@ const Layout = () => {
     id: '',
     symbol: '',
     image: '',
-    name: ''
-  })
+    name: '',
+  });
   const { portfolios, activeIndex } = useAppSelector(state => ({
     portfolios: state.portfolioReducer.portfolios,
-    activeIndex: state.portfolioReducer.activeIndex
-  }))
+    activeIndex: state.portfolioReducer.activeIndex,
+  }));
   const { id: portfolioId, coins: portfolioCoins } = portfolios[activeIndex];
   const { data, isLoading } = useRequest<SearchDataReturn>(
     CoinGecko.coin.search({ locale: language }),
@@ -81,17 +87,16 @@ const Layout = () => {
   );
 
   useLayoutEffect(() => {
-    navigation.setOptions({ title: t(`portfolio.add coin`) })
-  }, [])
+    navigation.setOptions({ title: t(`portfolio.add coin`) });
+  }, [navigation, t]);
 
   useEffect(() => {
-    if(data)
-      setCoins(data.coins)
-  }, [data])
+    if (data) setCoins(data.coins);
+  }, [data]);
 
   const isAlreadyIncludeCoin = (id: string): boolean => {
-    return portfolioCoins.find(coin => coin.id === id) !== undefined
-  }
+    return portfolioCoins.find(coin => coin.id === id) !== undefined;
+  };
 
   const openAlert = (
     id: string,
@@ -99,67 +104,66 @@ const Layout = () => {
     image: string,
     name: string
   ) => {
-    Alert.alert(              
-      t(`portfolio.n.is already in your portfolio`, { n: symbol }),            
-      t(`portfolio.would you like to add a transaction to.n?`, { n: symbol }),                        
-      [                              
+    Alert.alert(
+      t(`portfolio.n.is already in your portfolio`, { n: symbol }),
+      t(`portfolio.would you like to add a transaction to.n?`, { n: symbol }),
+      [
         {
-          text: t(`common.cancel`),                              
-          onPress: () => console.log("cancel add transaction"),
-          style: "cancel"
+          text: t(`common.cancel`),
+          onPress: () => console.log('cancel add transaction'),
+          style: 'cancel',
         },
-        { 
-          text: t(`portfolio.add transaction`), 
+        {
+          text: t(`portfolio.add transaction`),
           onPress: () => {
-            setModalInitialState({ id, symbol, image, name })
+            setModalInitialState({ id, symbol, image, name });
             setVisible(true);
           },
-          style: "destructive"
-        }
+          style: 'destructive',
+        },
       ],
       { cancelable: false }
     );
-  }
+  };
 
-  const handleItemPress = useCallback((
-    id: string, 
-    symbol: string,
-    image: string,
-    name: string
-  ) => {
-    if(portfolioId) {
-      if(isAlreadyIncludeCoin(id)) {
-        return openAlert(id, symbol, image, name);
+  const handleItemPress = useCallback(
+    (id: string, symbol: string, image: string, name: string) => {
+      if (portfolioId) {
+        if (isAlreadyIncludeCoin(id)) {
+          return openAlert(id, symbol, image, name);
+        }
+
+        const payload = {
+          portfolioId,
+          coin: { id, image, name, symbol },
+        };
+
+        dispatch(addWatchingCoin(payload));
+        navigation.navigate('portfolioOverview');
       }
-
-      const payload = {
-        portfolioId, 
-        coin: { id, image, name, symbol }
-      }
-
-      dispatch(addWatchingCoin(payload))
-      navigation.navigate('portfolioOverview')
-    } 
-  }, [data, params])
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [portfolioId]
+  );
 
   const highlightText = (text: string, regex: RegExp, bold?: boolean) => {
     const match = text.match(regex);
     let newLetters: any = [];
-    if(match) {
-      let matchLetters = match[0];
-      let startIdx = text.indexOf(matchLetters);
-      let endIdx = startIdx + matchLetters.length;
+    if (match) {
+      const matchLetters = match[0];
+      const startIdx = text.indexOf(matchLetters);
+      const endIdx = startIdx + matchLetters.length;
       newLetters.push(text.substring(0, startIdx));
-      if(bold) {
+      if (bold) {
         newLetters.push(
           <Text key={startIdx} primaryColor fontML bold>
-            { text.substring(startIdx, endIdx) }
+            {text.substring(startIdx, endIdx)}
           </Text>
         );
       } else {
         newLetters.push(
           <Text key={startIdx} primaryColor fontML>
-            { text.substring(startIdx, endIdx) }
+            {text.substring(startIdx, endIdx)}
           </Text>
         );
       }
@@ -169,7 +173,7 @@ const Layout = () => {
     }
 
     return newLetters;
-  }
+  };
 
   const handleQueryChange = (text: string) => {
     LayoutAnimation.configureNext(
@@ -180,76 +184,63 @@ const Layout = () => {
       )
     );
     setQuery(text);
-    if(!data) return;
+    if (!data) return;
 
-    let regex = createFuzzyMatcher(text, {})
-    let result = data.coins
-      .filter(coin => { 
-        return regex.test(coin.name)
-          || regex.test(coin.id)
-          || regex.test(coin.symbol)
-        }
-      )
+    const regex = createFuzzyMatcher(text, {});
+    const result = data.coins
+      .filter(coin => {
+        return (
+          regex.test(coin.name) ||
+          regex.test(coin.id) ||
+          regex.test(coin.symbol)
+        );
+      })
       .map(coin => {
-        let coinName = highlightText(coin.name, regex, true);
-        let coinSymbol = highlightText(coin.symbol, regex);
+        const coinName = highlightText(coin.name, regex, true);
+        const coinSymbol = highlightText(coin.symbol, regex);
         return {
           ...coin,
           highlightedName: coinName,
-          highlightedSymbol: coinSymbol
-        }
-      })
-    setCoins(result)
-  }
+          highlightedSymbol: coinSymbol,
+        };
+      });
+    setCoins(result);
+  };
 
   const handleRemoveQuery = () => {
     setQuery('');
-    if(data)
-      setCoins(data.coins);
+    if (data) setCoins(data.coins);
     textInputRef.current?.focus();
-  }
+  };
 
   const animationConfig = useMemo(() => {
     return getKeyboardAnimationConfigs(
       animationEasing.value,
       animationDuration.value
-    )
-  }, [animationEasing, animationDuration, getKeyboardAnimationConfigs])
+    );
+  }, [animationEasing, animationDuration]);
 
   const FooterHeight = useAnimatedStyle(() => {
     return {
-      height: withSpring(
-        animationKeyboardHeight.value, 
-        animationConfig
-      )
-    } 
-  }, [animationKeyboardHeight, animationConfig])
+      height: withSpring(animationKeyboardHeight.value, animationConfig),
+    };
+  }, [animationKeyboardHeight, animationConfig]);
 
-  return(
+  return (
     <>
-      { !data && (
-        <GlobalIndicator 
-          isLoaded={false}
-          size="large"
-          transparent
-        />
-      ) }
-      <FlatList 
+      {!data && <GlobalIndicator isLoaded={false} size="large" transparent />}
+      <FlatList
         data={coins}
         keyExtractor={(item, index) => item.id + index + item.name}
-        keyboardDismissMode={Platform.OS === 'ios' ? "interactive" : "on-drag"}
+        keyboardDismissMode={Platform.OS === 'ios' ? 'interactive' : 'on-drag'}
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={{
           minHeight: height - headerHeight,
           backgroundColor: theme.base.background.surface,
         }}
-        ListFooterComponent={
-          <Animated.View 
-            style={FooterHeight}
-          />
-        }
+        ListFooterComponent={<Animated.View style={FooterHeight} />}
         ListHeaderComponent={
-          <SearchBar 
+          <SearchBar
             ref={textInputRef}
             isLoading={isLoading}
             onQueryChange={handleQueryChange}
@@ -259,28 +250,27 @@ const Layout = () => {
           />
         }
         ListHeaderComponentStyle={{
-          paddingHorizontal: parseInt(theme.content.spacing),
-          backgroundColor: theme.base.background.surface
+          paddingHorizontal: parseInt(theme.content.spacing, 10),
+          backgroundColor: theme.base.background.surface,
         }}
-        renderItem={
-          ({ item }) => (
-            <Item 
-              item={item} 
-              onPressItem={handleItemPress}
-            />
-          )
-        }
+        renderItem={({ item }) => (
+          <Item item={item} onPressItem={handleItemPress} />
+        )}
         ListEmptyComponent={
-          data 
-            ? query 
-                ? <EmptyView query={query}/>
-                : <></>
-            : <SearchItemListSkeleton />
+          data ? (
+            query ? (
+              <EmptyView query={query} />
+            ) : (
+              <></>
+            )
+          ) : (
+            <SearchItemListSkeleton />
+          )
         }
         initialNumToRender={7}
         stickyHeaderIndices={[0]}
       />
-      { visible && modalInitialState.id && (
+      {visible && modalInitialState.id && (
         <FormModal
           visible={visible}
           setVisible={setVisible}
@@ -289,11 +279,13 @@ const Layout = () => {
           symbol={modalInitialState.symbol}
           name={modalInitialState.name}
           image={modalInitialState.image}
-          afterAddTransactionTodo={() => navigation.navigate('portfolioOverview')}
+          afterAddTransactionTodo={() =>
+            navigation.navigate('portfolioOverview')
+          }
         />
       )}
     </>
-  )
-}
+  );
+};
 
 export default Layout;

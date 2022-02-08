@@ -1,25 +1,22 @@
-import React from "react";
-import { SvgXml } from "react-native-svg";  
-
+import React from 'react';
+import { SvgXml } from 'react-native-svg';
 
 type SvgProps = {
-  name: 'rise' | 'decrease' | 'badge'
-    | 'coinstack' | 'coins' | 'candlestick'
-  width: number
-  height: number
-  fstColor?: string
-  scdColor?: string
-  trdColor?: string
-}
-export default function SvgComponent({ 
-  name, 
-  width, 
+  name: 'rise' | 'decrease' | 'badge' | 'coinstack' | 'coins' | 'candlestick';
+  width: number;
+  height: number;
+  fstColor?: string;
+  scdColor?: string;
+};
+
+export default function SvgComponent({
+  name,
+  width,
   height,
-  fstColor,
-  scdColor,
-  trdColor
-}: SvgProps){  
-  let xmls = {
+  fstColor = 'white',
+  scdColor = 'white',
+}: SvgProps) {
+  const xmls = {
     rise: `
       <svg height="512" viewBox="0 0 32 32" width="512" xmlns="http://www.w3.org/2000/svg"
       ><path 
@@ -69,20 +66,20 @@ export default function SvgComponent({
       <g>
         <polygon class="st0" points="195.047,75.844 178.797,75.844 178.797,109.047 138.156,109.047 138.156,320.344 178.797,320.344 
           178.797,360.297 195.047,360.297 195.047,320.344 235.688,320.344 235.688,109.047 195.047,109.047 	" 
-          fill="${ scdColor || 'white' }"></polygon>
+          fill="${scdColor || 'white'}"></polygon>
         <polygon class="st0" points="512,49.438 471.375,49.438 471.375,16.25 455.109,16.25 455.109,49.438 414.469,49.438 
           414.469,293.25 455.109,293.25 455.109,333.203 471.375,333.203 471.375,293.25 512,293.25 	" 
-          fill="${ scdColor || 'white' }"></polygon>
+          fill="${scdColor || 'white'}"></polygon>
         <path class="st0" d="M56.875,203.172h-16.25v36.578H0v219.422h40.625v36.578h16.25v-36.578h40.656V239.75H56.875V203.172z
            M81.281,256v186.922H16.25V256H81.281z" 
-          fill="${ fstColor || 'white' }"></path>
+          fill="${fstColor || 'white'}"></path>
         <path class="st0" d="M333.203,151.703h-16.25v33.188h-40.641v227.563h40.641v39.953h16.25v-39.953h40.641V184.891h-40.641V151.703z
           M357.594,201.156v195.047h-65.031V201.156H357.594z" 
-          fill="${ fstColor || 'white' }"></path>
+          fill="${fstColor || 'white'}"></path>
       </g>
       </svg>
-    `
-  } 
+    `,
+  };
 
-  return <SvgXml xml={xmls[name]} width={width} height={height} />;  
+  return <SvgXml xml={xmls[name]} width={width} height={height} />;
 }

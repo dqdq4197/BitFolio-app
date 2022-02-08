@@ -1,15 +1,15 @@
 import React from 'react';
+
 import TransactionsLayout from '/components/coinMarketDetail/transactions/Layout';
-import ErrorBoundaryAndSuspense from '/components/common/ErrorBoundaryAndSuspense';
+import AsyncBoundary from '/components/common/AsyncBoundary';
 import TransactionsSkeleton from '/components/skeletonPlaceholder/coinMarketDetail/TransactionsSkeleton';
 
 const Transactions = () => {
   return (
-    <ErrorBoundaryAndSuspense skeleton={<TransactionsSkeleton/>} >
-      <TransactionsLayout/>
-    </ErrorBoundaryAndSuspense>
-
-  )
-}
+    <AsyncBoundary skeleton={<TransactionsSkeleton />}>
+      <TransactionsLayout />
+    </AsyncBoundary>
+  );
+};
 
 export default Transactions;

@@ -27,7 +27,7 @@ const OverviewTitle = ({
   }), shallowEqual)
   const { mode, showValueMode } = portfolio[activeIndex];
 
-  if(total_balance === undefined || portfolio_change_percentage_24h === undefined) {
+  if (total_balance === undefined || portfolio_change_percentage_24h === undefined) {
     return (
       <Text bold fontX>
         --
@@ -40,36 +40,36 @@ const OverviewTitle = ({
       {
         mode === 'private'
           ? <PrivateWrap>
-              <Ionicons 
-                name="md-eye-off-outline" 
-                size={25} 
-                color={theme.base.text[200]} 
-              />
-            </PrivateWrap>
+            <Ionicons
+              name="md-eye-off-outline"
+              size={25}
+              color={theme.base.text[200]}
+            />
+          </PrivateWrap>
           : <PublicWrap>
-              <Text bold fontL color100>
-                { 
-                  showValueMode === 'short'
-                    ? convertUnits(total_balance, currency)
-                    : currencyFormat({ 
-                        value: total_balance,
-                        prefix: getCurrencySymbol(currency)
-                      })
-                } 
-              </Text>
-              <PercentageWrap>
-                <IncreaseDecreaseValue 
-                  value={
-                    !isFinite(portfolio_change_percentage_24h)
-                      ? null
-                      : digitToFixed(portfolio_change_percentage_24h, 2)
-                  }
-                  afterPrefix="%"
-                  heavy
-                  fontML
-                />
-              </PercentageWrap>
-            </PublicWrap>
+            <Text bold fontL color100>
+              {
+                showValueMode === 'short'
+                  ? convertUnits(total_balance, currency)
+                  : currencyFormat({
+                    value: total_balance,
+                    prefix: getCurrencySymbol(currency)
+                  })
+              }
+            </Text>
+            <PercentageWrap>
+              <IncreaseDecreaseValue
+                value={
+                  !isFinite(portfolio_change_percentage_24h)
+                    ? null
+                    : digitToFixed(portfolio_change_percentage_24h, 2)
+                }
+                afterPrefix="%"
+                heavy
+                fontML
+              />
+            </PercentageWrap>
+          </PublicWrap>
       }
     </>
   )
@@ -94,7 +94,7 @@ const PublicWrap = styled.View`
 `
 
 const PercentageWrap = styled.View`
-  background-color: ${({ theme }) => theme.base.background[200] };
+  background-color: ${({ theme }) => theme.base.background[200]};
   border-radius: ${({ theme }) => theme.border.m};
   padding: 3px 3px;
   margin-left: 5px;

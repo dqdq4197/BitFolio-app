@@ -1,18 +1,28 @@
-import React, { useState, useLayoutEffect, createContext, useContext } from 'react';
+import React, {
+  useState,
+  useLayoutEffect,
+  createContext,
+  useContext,
+} from 'react';
 import reactStringReplace from 'react-string-replace';
 import styled, { css } from 'styled-components/native';
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
-import Text from '/components/common/Text';
+
+import {
+  useMdEditorDispatch,
+  useMdEditorState,
+} from '/hooks/useMdEditorContext';
 import { unicodes, TYPES, ACTIONS } from '/lib/constant';
-import { useMdEditorDispatch, useMdEditorState } from '/hooks/useMdEditorContext';
+
+import Text from '/components/common/Text';
 // import * as babel from 'babel-core';
 
 
 interface RenderTextProps {
   type: string,
   children: string,
-  index:number
+  index: number
 }
 
 interface TextProps {
@@ -22,7 +32,7 @@ interface TextProps {
 
 const TypeContext = createContext<string | null>(null);
 
-const makeRegex = (unicode:string) => {
+const makeRegex = (unicode: string) => {
   return new RegExp(`${unicode}(.*?)${unicode}`, "g");
 }
 
@@ -31,7 +41,7 @@ const stringToMarker = (child: string) => {
     <MarkerText key={uuidv4()} child={match} />
   ))
 }
-const stringToLink = (child:string) => {
+const stringToLink = (child: string) => {
   return reactStringReplace(child, makeRegex(unicodes.TEXT_LINK), (match, i) => (
     <LinkText key={uuidv4()} child={match} />
   ))
@@ -57,7 +67,7 @@ const MarkerText = ({ child }: TextProps) => {
 const LinkText = ({ child }: TextProps) => {
   const type = useContext(TypeContext);
   let content = stringToItalic(unicodes.TEXT_LINK + child + unicodes.TEXT_LINK);
-  
+
   return <DefaultText type={type as string} underline>{content}</DefaultText>
 }
 
@@ -77,7 +87,7 @@ const BoldText = ({ child }: TextProps) => {
 // priority:
 // link > code > i > b  
 const RenderText = ({ type, children, index }: RenderTextProps) => {
-  
+
   const [content, setContent] = useState<React.ReactNodeArray | null>(null)
   const { focusState } = useMdEditorState();
   const handlers = useMdEditorDispatch();
@@ -88,18 +98,18 @@ const RenderText = ({ type, children, index }: RenderTextProps) => {
     const { action } = focusState;
     const { ENTER, BACKSPACE, LINEPOP } = ACTIONS;
     // console.log(index, ':',type);
-    while(i++ < 3) {
+    while (i++ < 3) {
       context = context.map(text => {
-        if(typeof text === 'string') {
-          if(i === 1) 
+        if (typeof text === 'string') {
+          if (i === 1)
             return stringToLink(text)
-          if(i === 2)
+          if (i === 2)
             return stringToItalic(text)
-          if(i === 3) {
+          if (i === 3) {
             return stringToBold(text)
           }
         } else {
-          return text
+          return text;
         }
       })
       context = context.flat();
@@ -107,14 +117,14 @@ const RenderText = ({ type, children, index }: RenderTextProps) => {
     setContent(context);
     // console.log(index,children)
 
-    if(action === ENTER || action === BACKSPACE || action === LINEPOP)
+    if (action === ENTER || action === BACKSPACE || action === LINEPOP)
       handlers.setIsTextRendered(true);
   }, [children, index])
-  
+
   return (
     <TypeContext.Provider value={type}>
       <DefaultText type={type}>
-        { children }
+        {children}
       </DefaultText>
     </TypeContext.Provider>
 
@@ -128,7 +138,7 @@ interface TextWrapProps {
 }
 const DefaultText = styled(Text)`
   ${(props: TextWrapProps) => {
-    switch(props.type) {
+    switch (props.type) {
       case TYPES.HEADER:
         return StyledHeader;
       default:
@@ -138,14 +148,14 @@ const DefaultText = styled(Text)`
 `
 
 const StyleParagraph = css`
-  font-size: ${({theme}) => theme.size.font_l};
+  font-size: ${({ theme }) => theme.size.font_l};
 `
 
 const StyledHeader = css`
-  font-size: ${({theme}) => theme.size.font_xxl};
+  font-size: ${({ theme }) => theme.size.font_xxl};
   font-weight: bold;
 `
 
 const Marker = styled(DefaultText)`
-  background-color: ${({theme}) => theme.colors.green[900]};
+  background-color: ${({ theme }) => theme.colors.green[900]};
 `

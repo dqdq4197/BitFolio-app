@@ -6,7 +6,7 @@ import Text from '/components/common/Text';
 const ImageBlock = () => {
 
   return (
-    <StyledDelimiter> 
+    <StyledDelimiter>
       <DelimiterText fontXXXL>
         * * *
       </DelimiterText>

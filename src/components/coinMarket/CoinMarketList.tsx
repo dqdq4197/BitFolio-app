@@ -12,7 +12,7 @@ import { CoinMarketReturn } from '/types/CoinGeckoReturnType';
 import MarketListSkeleton from '/components/skeletonPlaceholder/MarketListSkeleton';
 import CustomRefreshControl from '/components/common/CustomRefreshControl';
 import PopularList from './PopularList';
-import Item from './Item'
+import Item from './Item';
 
 const CoinMarketList = () => {
   const { theme } = useGlobalTheme();
@@ -22,47 +22,49 @@ const CoinMarketList = () => {
   const { scrollY } = useAnimatedHeaderTitle({ triggerPoint: 30 });
 
   // api 콜 보정(검수) 필요
-  const { data, size, setSize, mutate } = useRequestInfinite<CoinMarketReturn[]>(
-    (pageIndex: number) => CoinGecko.coin.markets({
-      vs_currency: currency,
-      page: pageIndex + 1
-    }),
+  const { data, size, setSize, mutate } = useRequestInfinite<
+    CoinMarketReturn[]
+  >(
+    (pageIndex: number) =>
+      CoinGecko.coin.markets({
+        vs_currency: currency,
+        page: pageIndex + 1,
+      }),
     http,
-    { suspense: true,  }
-  )
+    { suspense: true }
+  );
 
-  const handleRefresh = useCallback(async() => {
+  const handleRefresh = useCallback(async () => {
     setRefreshing(true);
-    await mutate()
+    await mutate();
     setRefreshing(false);
-  }, []);
+  }, [mutate]);
 
-  const handlePressItem = useCallback((id:string) => {
-    navigation.navigate('CoinDetail', { param: { id }, screen: 'Overview' })
-  }, [])
+  const handlePressItem = useCallback(
+    (id: string) => {
+      navigation.navigate('CoinDetail', { param: { id }, screen: 'Overview' });
+    },
+    [navigation]
+  );
 
   const handleScroll = Animated.event(
-    [ { nativeEvent: { contentOffset: { y: scrollY } } } ], 
+    [{ nativeEvent: { contentOffset: { y: scrollY } } }],
     { useNativeDriver: false }
-  )
+  );
 
   return (
     <>
       <PopularList />
       <View>
-        <FlatList 
+        <FlatList
           data={data?.flat()}
           keyExtractor={item => item.id}
           contentContainerStyle={{
             backgroundColor: theme.base.background.surface,
           }}
-          renderItem={
-            ({ item }) => 
-              <Item 
-                item={item} 
-                onPressItem={handlePressItem}
-              />
-          }
+          renderItem={({ item }) => (
+            <Item item={item} onPressItem={handlePressItem} />
+          )}
           scrollEventThrottle={16}
           ListFooterComponent={MarketListSkeleton}
           // ListHeaderComponent={<FlatListHeader/>}
@@ -79,7 +81,7 @@ const CoinMarketList = () => {
         />
       </View>
     </>
-  )
-}
+  );
+};
 
 export default CoinMarketList;

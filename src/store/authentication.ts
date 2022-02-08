@@ -21,7 +21,7 @@
 //   }
 // })
 
-// export const { 
+// export const {
 //   changeActiveTabIndex
 // } = authenticationSlice.actions;
 // export default authenticationSlice.reducer;

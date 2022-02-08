@@ -1,27 +1,33 @@
 import { useMemo, useCallback } from 'react';
 
+import { changeLocalScheme, LocalSchemeType } from '/store/baseSetting';
 import { darkTheme, lightTheme } from '../lib/themeStyles';
 import { useAppSelector, useAppDispatch } from './useRedux';
-import { changeLocalScheme, LocalSchemeType } from '/store/baseSetting';
 
 const useGlobarTheme = () => {
   const dispatch = useAppDispatch();
-  const { localScheme, deviceScheme } = useAppSelector(state => state.baseSettingReducer);
-  
+  const { localScheme, deviceScheme } = useAppSelector(
+    state => state.baseSettingReducer
+  );
+
   const scheme = useMemo(() => {
     return localScheme === 'default' ? deviceScheme : localScheme;
-  }, [localScheme, deviceScheme])
+  }, [localScheme, deviceScheme]);
 
-  const onSchemeChange = useCallback((scheme: LocalSchemeType) => {
-    dispatch(changeLocalScheme(scheme))
-  }, [localScheme])
+  const onSchemeChange = useCallback(
+    // eslint-disable-next-line @typescript-eslint/no-shadow
+    (scheme: LocalSchemeType) => {
+      dispatch(changeLocalScheme(scheme));
+    },
+    [dispatch]
+  );
 
-  return { 
-    theme: scheme === 'dark' ? darkTheme : lightTheme, 
+  return {
+    theme: scheme === 'dark' ? darkTheme : lightTheme,
     scheme,
     localScheme,
-    onSchemeChange 
-  }
-}
+    onSchemeChange,
+  };
+};
 
 export default useGlobarTheme;

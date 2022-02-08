@@ -7,7 +7,7 @@ import useGlobalTheme from '/hooks/useGlobalTheme';
 
 import GeneralTemplate from '/components/GeneralTemplate';
 import CoinHomeSkeleton from '/components/skeletonPlaceholder/CoinHomeSkeleton';
-import ErrorBoundaryAndSuspense from '/components/common/ErrorBoundaryAndSuspense';
+import AsyncBoundary from '/components/common/AsyncBoundary';
 import SettingModal from '/components/setting/SettingModal';
 import Layout from '/components/portfolio/Layout';
 import { PortfolioDataProvider } from '/components/portfolio/PortfolioDataContext';
@@ -23,27 +23,26 @@ const OverviewScreen = ({ navigation }: StackScreenProps<any>) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <Ionicons 
-          name="md-settings-outline" 
-          size={24} 
-          color={theme.base.text[200]} 
+        <Ionicons
+          name="md-settings-outline"
+          size={24}
+          color={theme.base.text[200]}
           onPress={handleSettingPress}
         />
-      )
-    })
-  }, [theme])
+      ),
+    });
+  }, [handleSettingPress, navigation, theme]);
 
-  
   return (
     <GeneralTemplate>
-      <ErrorBoundaryAndSuspense skeleton={<CoinHomeSkeleton />}>
-        <SettingModal ref={settingModalRef}/>
+      <AsyncBoundary skeleton={<CoinHomeSkeleton />}>
+        <SettingModal ref={settingModalRef} />
         <PortfolioDataProvider>
-          <Layout/>
+          <Layout />
         </PortfolioDataProvider>
-      </ErrorBoundaryAndSuspense>
+      </AsyncBoundary>
     </GeneralTemplate>
-  )
-}
+  );
+};
 
 export default OverviewScreen;

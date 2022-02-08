@@ -11,7 +11,7 @@ type EmbedAreaProps = {
   content: EmbedType,
   index: number,
 }
-const EmbedArea = ({ content, index }:EmbedAreaProps) => {
+const EmbedArea = ({ content, index }: EmbedAreaProps) => {
 
   const { payload } = content;
   const { contentStorage } = useMdEditorState();
@@ -19,7 +19,7 @@ const EmbedArea = ({ content, index }:EmbedAreaProps) => {
   const { scheme } = useGlobalTheme();
 
 
-  const handleCaptionChange = (text:string) => {
+  const handleCaptionChange = (text: string) => {
     const currentContext = contentStorage[index] as EmbedType;
     currentContext.payload.caption = text;
     handlers.updateCurrentLine(currentContext, index);
@@ -41,7 +41,7 @@ const EmbedArea = ({ content, index }:EmbedAreaProps) => {
     })
   }
 
-  const handleFocus = () => { 
+  const handleFocus = () => {
     return handlers.focusActionReset(index);
   }
 
@@ -51,7 +51,7 @@ const EmbedArea = ({ content, index }:EmbedAreaProps) => {
         height={211}
         videoId={payload.id}
       />
-      <CaptionTextInput 
+      <CaptionTextInput
         keyboardAppearance={scheme === 'dark' ? 'dark' : 'light'}
         value={payload.caption}
         multiline
@@ -59,7 +59,7 @@ const EmbedArea = ({ content, index }:EmbedAreaProps) => {
         returnKeyType="next"
         textAlignVertical="center"
         placeholder={"Enter a caption"}
-        placeholderTextColor="rgba(201,201,204,.48)" 
+        placeholderTextColor="rgba(201,201,204,.48)"
         onChangeText={handleCaptionChange}
         onFocus={handleFocus}
         onSubmitEditing={handleCaptionSubmitEditing}
@@ -76,8 +76,8 @@ const EmbedView = styled.View`
 
 const CaptionTextInput = styled.TextInput`
   color: white;
-  background-color: ${({theme}) => theme.colors.grey['900']};
+  background-color: ${({ theme }) => theme.colors.grey['900']};
   padding: 7px 15px;
-  font-size: ${({theme}) => theme.size.font_l};
+  font-size: ${({ theme }) => theme.size.font_l};
   font-style: italic;
 `

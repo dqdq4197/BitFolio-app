@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { 
-  Dimensions, 
-  Platform, 
-  Keyboard, 
-  EmitterSubscription, 
-  Animated, 
+import {
+  Dimensions,
+  Platform,
+  Keyboard,
+  EmitterSubscription,
+  Animated,
   KeyboardEvent,
   StatusBar,
   Easing,
@@ -21,9 +21,9 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { Octicons } from '@expo/vector-icons';
 import { TYPES, ACTIONS, unicodes } from '/lib/constant';
-import { 
-  useMdEditorState, 
-  useMdEditorDispatch, 
+import {
+  useMdEditorState,
+  useMdEditorDispatch,
   ParagraphType,
   ListType,
   HeaderType,
@@ -41,10 +41,10 @@ interface ControlBarProps {
 
 const SelectionContorlBar = () => {
 
-  const { 
-    focusState: { index, action }, 
-    contentStorage, 
-    selection: { start, end } 
+  const {
+    focusState: { index, action },
+    contentStorage,
+    selection: { start, end }
   } = useMdEditorState();
   const handlers = useMdEditorDispatch();
 
@@ -60,9 +60,9 @@ const SelectionContorlBar = () => {
   const handleBoldPress = () => {
     const currentContext = contentStorage[index] as ParagraphType;
     const currentText = currentContext.payload.text;
-    
+
     const editedText = replaceRange(currentText, start, end, unicodes.TEXT_BOLD)
-    
+
     currentContext.payload.text = editedText;
 
     handlers.updateCurrentLine(currentContext, index);
@@ -112,33 +112,33 @@ const DefaultControlBar = () => {
       }
     }
     let newContext = [];
-    if(prevRestItems.length && nextRestItems.length) {
+    if (prevRestItems.length && nextRestItems.length) {
       newContext = [prevNewContext, otherContext, nextNewContext]
       handlers.divideCurrentLineAndNewLine(newContext, index);
       handlers.updateFocusState(index + 1, ACTIONS.TYPING)
-    } else if(prevRestItems.length) {
+    } else if (prevRestItems.length) {
       newContext = [prevNewContext, otherContext]
       handlers.divideCurrentLineAndNewLine(newContext, index);
       handlers.updateFocusState(index + 1, ACTIONS.TYPING)
-    } else if(nextRestItems.length) {
+    } else if (nextRestItems.length) {
       newContext = [otherContext, nextNewContext]
       handlers.divideCurrentLineAndNewLine(newContext, index);
     } else {
       handlers.updateCurrentLine(otherContext, index);
     }
-      handlers.updateListFocusIndex(0);
+    handlers.updateListFocusIndex(0);
   }
 
 
   const handleHeaderPress = () => {
     const currentContext = contentStorage[index];
 
-    switch(currentContext.type) {
+    switch (currentContext.type) {
       case HEADER:
         currentContext.type = PARAGRAPH;
         return handlers.updateCurrentLine(currentContext, index);
-      case EMBED: 
-        return ;
+      case EMBED:
+        return;
       case LIST:
         const { payload: { items } } = currentContext as ListType
         const newContext = {
@@ -148,23 +148,23 @@ const DefaultControlBar = () => {
           }
         }
         return convertListToOther(newContext)
-      default: 
+      default:
         currentContext.type = HEADER;
         return handlers.updateCurrentLine(currentContext, index);
     }
 
-    
+
   }
 
   const handleQuotePress = () => {
     const currentContext = contentStorage[index];
 
-    switch(currentContext.type) {
+    switch (currentContext.type) {
       case QUOTE:
         currentContext.type = PARAGRAPH;
         return handlers.updateCurrentLine(currentContext, index);
       case EMBED:
-        return ;
+        return;
       case LIST:
         const { payload: { items } } = currentContext as ListType;
         const newContext = {
@@ -174,7 +174,7 @@ const DefaultControlBar = () => {
           }
         }
         return convertListToOther(newContext);
-      default: 
+      default:
         currentContext.type = QUOTE;
         return handlers.updateCurrentLine(currentContext, index);
     }
@@ -190,13 +190,13 @@ const DefaultControlBar = () => {
     const nextContext = contentStorage[index + 1];
     const { type } = currentContext;
 
-    if(type === LIST) {
+    if (type === LIST) {
       const { payload: { style: curStyle, items: curItems } } = currentContext as ListType;
-      if(curStyle === UL) {
+      if (curStyle === UL) {
         // unordered -> ordered
         const isPrevStyleOL = prevContext?.type === LIST && (prevContext as ListType).payload.style === OL;
         const isNextStyleOL = nextContext?.type === LIST && (nextContext as ListType).payload.style === OL;
-        if(isPrevStyleOL && isNextStyleOL && curItems.length === 1) {
+        if (isPrevStyleOL && isNextStyleOL && curItems.length === 1) {
           const { payload: { items: prevItems } } = prevContext as ListType;
           const { payload: { items: nextItems } } = nextContext as ListType;
           const newContext = {
@@ -209,7 +209,7 @@ const DefaultControlBar = () => {
           handlers.mergePreviousLineWithNextLine(newContext as ListType, index);
           handlers.updateFocusState(index - 1, ACTIONS.TYPING);
           handlers.updateListFocusIndex(prevItems.length);
-        } else if(isPrevStyleOL && listFocusIndex === 0) {
+        } else if (isPrevStyleOL && listFocusIndex === 0) {
           const { payload: { items: prevItems } } = prevContext as ListType;
           const [curItem, restItems] = [curItems[0], curItems.slice(1, curItems.length)];
           const newContext = [{
@@ -219,7 +219,7 @@ const DefaultControlBar = () => {
               items: [...prevItems, curItem]
             }
           }]
-          if(restItems.length) {
+          if (restItems.length) {
             newContext.push({
               ...currentContext,
               payload: {
@@ -231,7 +231,7 @@ const DefaultControlBar = () => {
           handlers.mergePreviousLineWithCurrentLine(newContext as ListType[], index);
           handlers.updateFocusState(index - 1, ACTIONS.TYPING);
           handlers.updateListFocusIndex(prevItems.length);
-        } else if(isNextStyleOL && listFocusIndex === curItems.length - 1) {
+        } else if (isNextStyleOL && listFocusIndex === curItems.length - 1) {
           const { payload: { items: nextItems } } = nextContext as ListType;
           const [restItems, curItem] = [curItems.slice(0, curItems.length - 1), curItems.slice(-1)]
           const newContext = [{
@@ -241,7 +241,7 @@ const DefaultControlBar = () => {
               items: [...curItem, ...nextItems]
             }
           }]
-          if(restItems.length) {
+          if (restItems.length) {
             newContext.unshift({
               ...currentContext,
               payload: {
@@ -258,7 +258,7 @@ const DefaultControlBar = () => {
           const newContext = {
             type: LIST,
             payload: {
-              items: [ curItem ],
+              items: [curItem],
               style: OL
             }
           }
@@ -276,14 +276,14 @@ const DefaultControlBar = () => {
         }
         handlers.selectionChangeDetected(true);
         return convertListToOther(newContext);
-      } 
+      }
     }
-    if(type === HEADER || type === QUOTE || type === PARAGRAPH) {
+    if (type === HEADER || type === QUOTE || type === PARAGRAPH) {
       const { payload: { text } } = currentContext as ParagraphType | QuoteType | HeaderType;
       // plainText -> unordered
       const isPrevStyleUL = prevContext?.type === LIST && (prevContext as ListType).payload.style === UL;
       const isNextStyleUL = nextContext?.type === LIST && (nextContext as ListType).payload.style === UL;
-      if(isPrevStyleUL && isNextStyleUL) {
+      if (isPrevStyleUL && isNextStyleUL) {
         const { payload: { items: prevItems } } = prevContext as ListType;
         const { payload: { items: nextItems } } = nextContext as ListType;
         const newContext = {
@@ -296,7 +296,7 @@ const DefaultControlBar = () => {
         handlers.mergePreviousLineWithNextLine(newContext as ListType, index);
         handlers.updateListFocusIndex(prevItems.length);
         handlers.updateFocusState(index - 1, ACTIONS.TYPING);
-      } else if(isPrevStyleUL) {
+      } else if (isPrevStyleUL) {
         const { payload: { items: prevItems } } = prevContext as ListType;
         const newContext = [{
           ...prevContext,
@@ -308,7 +308,7 @@ const DefaultControlBar = () => {
         handlers.mergePreviousLineWithCurrentLine(newContext as ListType[], index);
         handlers.updateListFocusIndex(prevItems.length);
         handlers.updateFocusState(index - 1, ACTIONS.TYPING);
-      } else if(isNextStyleUL) {
+      } else if (isNextStyleUL) {
         const { payload: { items: nextItems } } = nextContext as ListType;
         const newContext = {
           ...nextContext,
@@ -343,7 +343,7 @@ const DefaultControlBar = () => {
     }]
 
     // if not plaintext
-    if(nextContext?.type !== HEADER && nextContext?.type !== PARAGRAPH && nextContext?.type !== QUOTE) {
+    if (nextContext?.type !== HEADER && nextContext?.type !== PARAGRAPH && nextContext?.type !== QUOTE) {
       newContext.push({
         type: PARAGRAPH,
         payload: {
@@ -354,7 +354,7 @@ const DefaultControlBar = () => {
 
     handlers.insertNewLineAfter(newContext, index);
     handlers.updateFocusState(index + 2, ACTIONS.TYPING)
-    if(nextContext?.type !== HEADER && nextContext?.type !== PARAGRAPH && nextContext?.type !== QUOTE) {
+    if (nextContext?.type !== HEADER && nextContext?.type !== PARAGRAPH && nextContext?.type !== QUOTE) {
       handlers.updateSelection({
         start: 0,
         end: 0
@@ -368,7 +368,7 @@ const DefaultControlBar = () => {
     }
   }
 
-  const handleImagePress = async() => {
+  const handleImagePress = async () => {
     const options = ['Take photo', 'Choose from library', 'Cancel'];
     const cancelButtonIndex = 2;
 
@@ -376,11 +376,11 @@ const DefaultControlBar = () => {
       {
         options,
         cancelButtonIndex,
-        textStyle: {color: 'black'}
+        textStyle: { color: 'black' }
       },
       async (buttonIndex) => {
         // Do something here depending on the button index selected
-        if(buttonIndex === 0) {
+        if (buttonIndex === 0) {
           (async () => {
             if (Platform.OS !== 'web') {
               const { status } = await ImagePicker.requestCameraPermissionsAsync();
@@ -394,7 +394,7 @@ const DefaultControlBar = () => {
             }
           })();
         }
-        if(buttonIndex === 1) {
+        if (buttonIndex === 1) {
           (async () => {
             if (Platform.OS !== 'web') {
               const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -466,34 +466,34 @@ const DefaultControlBar = () => {
   )
 }
 
-const ControlBar = ({ selecting }:ControlBarProps ) => {
+const ControlBar = ({ selecting }: ControlBarProps) => {
   const topValue = useRef(new Animated.Value(0)).current;
   useEffect(() => {
     let keyboardWillShowEvent: EmitterSubscription;
     let keyboardWillHideEvent: EmitterSubscription;
 
-    if(Platform.OS === 'android') {
+    if (Platform.OS === 'android') {
       keyboardWillShowEvent = Keyboard.addListener(
-        'keyboardDidShow', 
+        'keyboardDidShow',
         updateKeyboardSpace
       )
 
       keyboardWillHideEvent = Keyboard.addListener(
-        'keyboardDidHide', 
+        'keyboardDidHide',
         resetKeyboardSpace
       )
     } else {
       keyboardWillShowEvent = Keyboard.addListener(
-        'keyboardWillShow', 
+        'keyboardWillShow',
         updateKeyboardSpace
       )
 
       keyboardWillHideEvent = Keyboard.addListener(
-        'keyboardWillHide', 
+        'keyboardWillHide',
         resetKeyboardSpace
       )
     }
-    
+
     return () => {
       // keyboard event 해제
       keyboardWillShowEvent && keyboardWillShowEvent.remove();
@@ -503,7 +503,7 @@ const ControlBar = ({ selecting }:ControlBarProps ) => {
 
   const updateKeyboardSpace = (event: KeyboardEvent) => {
     const keyboardHeight = event.startCoordinates?.height;
-    if(keyboardHeight) {
+    if (keyboardHeight) {
       Animated.timing(topValue, {
         toValue: -keyboardHeight,
         duration: event.duration,
@@ -527,12 +527,14 @@ const ControlBar = ({ selecting }:ControlBarProps ) => {
   return (
     <Container
       as={Animated.View}
-      style={{transform: [{
-        translateY: topValue
-      }]}}
+      style={{
+        transform: [{
+          translateY: topValue
+        }]
+      }}
     >
-      {selecting 
-        ? <SelectionContorlBar/>
+      {selecting
+        ? <SelectionContorlBar />
         : <DefaultControlBar />
       }
     </Container>
@@ -548,11 +550,11 @@ const Container = styled.View`
   flex-direction: row;
   align-items: center;
   padding: 0 10px;
-  height: ${ CONTROLBAR_HEIGHT }px; 
-  background-color: ${({theme}) => theme.base.background[200]};
+  height: ${CONTROLBAR_HEIGHT}px; 
+  background-color: ${({ theme }) => theme.base.background[200]};
 `
 const UtilsWrap = styled.View<UtilsWrapProps>`
-  flex: ${ props => props.flex };
+  flex: ${props => props.flex};
   flex-direction: row;
 `
 const UtilBtn = styled.TouchableOpacity`
@@ -560,7 +562,7 @@ const UtilBtn = styled.TouchableOpacity`
 `
 
 const SelectingView = styled.View`
-  width: ${ width }px;
+  width: ${width}px;
   flex-direction: row;
   justify-content: space-around;
 `

@@ -1,16 +1,21 @@
 import useSWR, { SWRConfiguration, SWRResponse } from 'swr';
-import { AxiosInstance, AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
+import {
+  AxiosInstance,
+  AxiosRequestConfig,
+  AxiosResponse,
+  AxiosError,
+} from 'axios';
 
-export type RequestType = AxiosRequestConfig | null
+export type RequestType = AxiosRequestConfig | null;
 
 export interface Return<Data, Error>
   extends Pick<
     SWRResponse<AxiosResponse<Data>, AxiosError<Error>>,
     'isValidating' | 'error' | 'mutate'
   > {
-  data: Data | undefined
-  response: AxiosResponse<Data> | undefined,
-  isLoading: boolean
+  data: Data | undefined;
+  response: AxiosResponse<Data> | undefined;
+  isLoading: boolean;
 }
 
 export interface Config<Data = unknown, Error = unknown>
@@ -18,7 +23,7 @@ export interface Config<Data = unknown, Error = unknown>
     SWRConfiguration<AxiosResponse<Data>, AxiosError<Error>>,
     'fallbackData'
   > {
-  fallbackData?: Data
+  fallbackData?: Data;
 }
 
 export default function useRequest<Data = unknown, Error = unknown>(
@@ -26,10 +31,12 @@ export default function useRequest<Data = unknown, Error = unknown>(
   axios: AxiosInstance,
   { fallbackData, ...config }: Config<Data, Error> = {}
 ): Return<Data, Error> {
-  const { data: response, error, isValidating, mutate } = useSWR<
-    AxiosResponse<Data>,
-    AxiosError<Error>
-  >(
+  const {
+    data: response,
+    error,
+    isValidating,
+    mutate,
+  } = useSWR<AxiosResponse<Data>, AxiosError<Error>>(
     request && JSON.stringify(request),
     () => axios(request!),
     {
@@ -39,10 +46,10 @@ export default function useRequest<Data = unknown, Error = unknown>(
         statusText: 'InitialData',
         config: request!,
         headers: {},
-        data: fallbackData
-      }
+        data: fallbackData,
+      },
     }
-  )
+  );
 
   return {
     data: response && response.data,
@@ -51,5 +58,5 @@ export default function useRequest<Data = unknown, Error = unknown>(
     isValidating,
     mutate,
     isLoading: !response?.data && !error,
-  }
+  };
 }

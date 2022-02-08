@@ -17,10 +17,10 @@ const Layout = () => {
   const { symbol } = useCoinIdContext();
   const [category, setCategory] = useState<string | null>(null);
   const [refreshing, setRefreshing] = useState(false);
-    const { data, mutate } = useNewsArticles({ 
-      categories: category ?? '',
-      willNotRequest: category === null
-    });
+  const { data, mutate } = useNewsArticles({
+    categories: category ?? '',
+    willNotRequest: category === null,
+  });
   const { data: categories } = useRequest<CategoryReturn[]>(
     Cryptocompare.news.categories({}),
     http,
@@ -29,54 +29,46 @@ const Layout = () => {
 
   useEffect(() => {
     let isContain = false;
-    if(categories) {
-      for(let i = 0; i < categories?.length; i++) {
-        if(categories[i].categoryName.toLowerCase() === symbol) {
+    if (categories) {
+      for (let i = 0; i < categories?.length; i += 1) {
+        if (categories[i].categoryName.toLowerCase() === symbol) {
           isContain = true;
           setCategory(symbol);
           break;
         }
       }
-      if(!isContain) {
-        setCategory('altcoin')
+      if (!isContain) {
+        setCategory('altcoin');
       }
     }
-  }, [categories])
+  }, [categories, symbol]);
 
-  const handleRefresh = useCallback(async() => {
+  const handleRefresh = useCallback(async () => {
     setRefreshing(true);
-    await mutate()
+    await mutate();
     setRefreshing(false);
-  }, []);
+  }, [mutate]);
 
-  if(!data) return <></>
-  
+  if (!data) return <></>;
+
   return (
-    <>
-      <FlatList 
-        data={data[0].Data}
-        keyExtractor={item => item.id}
-        contentContainerStyle={{
-          backgroundColor: theme.base.background.surface,
-        }}
-        renderItem={
-          ({ item }) => 
-            <Item 
-              item={item} 
-              currentCategory={category}
-            />
-        }
-        scrollEventThrottle={16}
-        ListHeaderComponent={Header}
-        refreshControl={
-          <CustomRefreshControl
-            onRefresh={handleRefresh}
-            refreshing={refreshing}
-          />
-        }
-      />
-    </>
-  )
-}
+    <FlatList
+      data={data[0].Data}
+      keyExtractor={item => item.id}
+      contentContainerStyle={{
+        backgroundColor: theme.base.background.surface,
+      }}
+      renderItem={({ item }) => <Item item={item} currentCategory={category} />}
+      scrollEventThrottle={16}
+      ListHeaderComponent={Header}
+      refreshControl={
+        <CustomRefreshControl
+          onRefresh={handleRefresh}
+          refreshing={refreshing}
+        />
+      }
+    />
+  );
+};
 
 export default Layout;

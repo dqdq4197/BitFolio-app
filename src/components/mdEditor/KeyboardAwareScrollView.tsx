@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, forwardRef } from 'react';
-import { 
+import {
   Platform,
   Keyboard,
   ScrollView,
@@ -27,41 +27,41 @@ const KeyboardAwareScrollView = forwardRef(({
   extraScrollHeight = 0,
   autoScrollDependency,
   children
-}:KeyboardAwareProps, ref?:React.Ref<ScrollView>) => {
+}: KeyboardAwareProps, ref?: React.Ref<ScrollView>) => {
 
   const positionRef = useRef<number>(0);
   const headerHeight = useHeaderHeight();
   const [keyboardSpace, SetKeyBoardSpace] = useState(
     viewIsInsideTabBar ? TAB_BAR_HEIGHT + extraScrollHeight : extraScrollHeight
   );
-  
+
 
   useEffect(() => {
     let keyboardWillShowEvent: EmitterSubscription;
     let keyboardWillHideEvent: EmitterSubscription;
 
-    if(Platform.OS === 'android') {
+    if (Platform.OS === 'android') {
       keyboardWillShowEvent = Keyboard.addListener(
-        'keyboardDidShow', 
+        'keyboardDidShow',
         updateKeyboardSpace
       )
 
       keyboardWillHideEvent = Keyboard.addListener(
-        'keyboardDidHide', 
+        'keyboardDidHide',
         resetKeyboardSpace
       )
     } else {
       keyboardWillShowEvent = Keyboard.addListener(
-        'keyboardWillShow', 
+        'keyboardWillShow',
         updateKeyboardSpace
       )
 
       keyboardWillHideEvent = Keyboard.addListener(
-        'keyboardWillHide', 
+        'keyboardWillHide',
         resetKeyboardSpace
       )
     }
-    
+
     return () => {
       // keyboard event 해제
       keyboardWillShowEvent && keyboardWillShowEvent.remove();
@@ -70,26 +70,26 @@ const KeyboardAwareScrollView = forwardRef(({
   }, [])
 
   useEffect(() => {
-      // textInputRef.current.measure((fy:number ,y:number, width:number, _height:number, pageX:number, pageY:number) => {
-      //   const offsetToTop = y - scrollRef.current;
-      //   const offsetToKeyboard = offsetToTop - keyboardHeight;
-      //   if(offsetToTop < TEXTINPUT_HEIGHT) {
-      //     scrollViewRef.current?.scrollTo({
-      //       x: 0,
-      //       y: y - TOPTOSCROLL
-      //     })
-      //   }
-      //   if(offsetToKeyboard > 0) {
-      //     scrollViewRef.current?.scrollTo({
-      //       x: 0,
-      //       y: y - (height - keyboardHeight) + 175
-      //     })
-      //   }
-      // })
+    // textInputRef.current.measure((fy:number ,y:number, width:number, _height:number, pageX:number, pageY:number) => {
+    //   const offsetToTop = y - scrollRef.current;
+    //   const offsetToKeyboard = offsetToTop - keyboardHeight;
+    //   if(offsetToTop < TEXTINPUT_HEIGHT) {
+    //     scrollViewRef.current?.scrollTo({
+    //       x: 0,
+    //       y: y - TOPTOSCROLL
+    //     })
+    //   }
+    //   if(offsetToKeyboard > 0) {
+    //     scrollViewRef.current?.scrollTo({
+    //       x: 0,
+    //       y: y - (height - keyboardHeight) + 175
+    //     })
+    //   }
+    // })
   }, [autoScrollDependency])
 
   const updateKeyboardSpace = (event: KeyboardEvent) => {
-    if(viewIsInsideTabBar) {
+    if (viewIsInsideTabBar) {
       SetKeyBoardSpace(TAB_BAR_HEIGHT + extraScrollHeight + event.endCoordinates.height)
     } else {
       SetKeyBoardSpace(extraScrollHeight + event.endCoordinates.height)
@@ -97,7 +97,7 @@ const KeyboardAwareScrollView = forwardRef(({
   }
 
   const resetKeyboardSpace = (event: KeyboardEvent) => {
-    if(viewIsInsideTabBar) {
+    if (viewIsInsideTabBar) {
       SetKeyBoardSpace(TAB_BAR_HEIGHT + extraScrollHeight)
     } else {
       SetKeyBoardSpace(extraScrollHeight)
@@ -128,7 +128,7 @@ const KeyboardAwareScrollView = forwardRef(({
         onScroll={handleOnScroll}
         keyboardShouldPersistTaps="handled"
       >
-        { children }
+        {children}
       </ScrollView>
     </Container>
   )

@@ -9,7 +9,7 @@
     "volume": "거래량",
     "cryptocurrencies": "암호 화폐",
     "exchanges": "거래소",
-    "n.hour":  "{{n}}시간",
+    "n.hour": "{{n}}시간",
     "as of": "기준",
     "fee": "수수료",
     "price": "가격",
@@ -125,9 +125,12 @@
     "top volume": "거래량이 가장 많은",
     "add coins": "추가하기",
     "global metrics": "글로벌 메트릭",
-    "only cryptocurrencies with trading volume greater than US$50,000 in the last 24 hours are displayed.": "최근 24시간 동안 거래량이 US$50,000 이상인 암호화폐만 표시됩니다.",
-    "total volume of all trading pairs over a 24-hour period. Take a look at the most traded coins": "24시간 동안 모든 ​​거래 쌍의 총거래량입니다. 가장 거래가 많았던 코인들을 살펴보세요",
-    "the market cap was calculated as the available cryptocurrency supply × the current cryptocurrency price. Take a look at coins with high market cap": "시가 총액은 사용 가능한 암호화폐 공급량 × 현재 암호화폐 가격으로 계산되었어요. 시가 총액이 높은 코인들을 살펴보세요"
+    "popular list summary": {
+      "high market cap": "시가 총액은 사용 가능한 암호화폐 공급량 × 현재 암호화폐 가격으로 계산되었어요. 시가 총액이 높은 코인들을 살펴보세요",
+      "gainers": "최근 24시간 동안 거래량이 US$50,000 이상인 암호화폐만 표시됩니다.",
+      "losers": "최근 24시간 동안 거래량이 US$50,000 이상인 암호화폐만 표시됩니다.",
+      "high volume": "24시간 동안 모든 ​​거래 쌍의 총거래량입니다. 가장 거래가 많았던 코인들을 살펴보세요"
+    }
   },
   "setting": {
     "app settings": "앱 설정",

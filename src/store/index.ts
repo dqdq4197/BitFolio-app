@@ -8,8 +8,8 @@ import {
   PAUSE,
   PERSIST,
   PURGE,
-  REGISTER
-} from 'redux-persist'
+  REGISTER,
+} from 'redux-persist';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import baseSettingReducer from './baseSetting';
@@ -22,36 +22,35 @@ const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
   whitelist: [
-    'baseSettingReducer', 
-    'portfolioReducer', 
+    'baseSettingReducer',
+    'portfolioReducer',
     'transactionReducer',
-    'newsReducer'
-  ], 
-  blacklist: [
-    'globalStateReducer'
-  ], // persist에 저장하지 않을 reducer들 
-  debugger: true
-}
+    'newsReducer',
+  ],
+  blacklist: ['globalStateReducer'], // persist에 저장하지 않을 reducer들
+  debugger: true,
+};
 
 const rootReducer = combineReducers({
   baseSettingReducer,
   portfolioReducer,
   transactionReducer,
   globalStateReducer,
-  newsReducer
-})
+  newsReducer,
+});
 
-const persistedReducer = persistReducer(persistConfig, rootReducer)
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 const store = configureStore({
   reducer: persistedReducer,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware({
-    serializableCheck: {
-      ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
-    }
-  })
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
 });
 const persistor = persistStore(store);
 
-export { store, persistor }
-export type RootState = ReturnType<typeof store.getState>
-export type AppDispatch = typeof store.dispatch
+export { store, persistor };
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
