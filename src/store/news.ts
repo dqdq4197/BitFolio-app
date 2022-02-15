@@ -4,8 +4,8 @@ export const ALL_NEWS_FEEDS = 'ALL_NEWS_FEEDS';
 export const ALL_NEWS_CATEGORIES = 'ALL_NEWS_CATEGORIES';
 
 export type SortOrderType = 'latest' | 'popular';
-export type FeedsType = 'ALL_NEWS_FEEDS' | string[];
-export type CategoriesType = 'ALL_NEWS_CATEGORIES' | string[];
+export type FeedsType = typeof ALL_NEWS_FEEDS | string[];
+export type CategoriesType = typeof ALL_NEWS_CATEGORIES | string[];
 
 export interface NewsStateType {
   feeds: FeedsType;
@@ -35,8 +35,8 @@ export const newsSlice = createSlice({
       state.sortOrder = action.payload;
     },
     resetFilters: state => {
-      state.feeds = 'ALL_NEWS_FEEDS';
-      state.categories = 'ALL_NEWS_CATEGORIES';
+      state.feeds = ALL_NEWS_FEEDS;
+      state.categories = ALL_NEWS_CATEGORIES;
     },
   },
 });

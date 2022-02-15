@@ -10,3 +10,11 @@ declare module 'translate-google-api' {
 
   export default translate;
 }
+
+declare module 'text-decoding' {
+  export class TextDecoder {
+    constructor(label = 'utf-8', options = {});
+
+    decode(input: BufferSource, options = {}): string;
+  }
+}

@@ -18,8 +18,8 @@ import { getYForX, parse } from 'react-native-redash';
 import * as Haptics from 'expo-haptics';
 import { format } from 'date-fns';
 import { ko, enUS } from 'date-fns/locale';
-import { chartType } from 'base-types';
 
+import { useChartState } from '/hooks/context/useChartContext';
 import useLocales from '/hooks/useLocales';
 import {
   AddSeparator,
@@ -31,42 +31,31 @@ import { digitToFixed } from '/lib/utils';
 const { height: DHeight } = Dimensions.get('window');
 
 interface CursorProps {
-  data: number[][];
   width: number;
   height: number;
   CURSOR_SIZE: number;
   PADDING: number;
-  highestPrice: number[];
-  lowestPrice: number[];
-  datumX: Animated.SharedValue<string>;
-  datumY: Animated.SharedValue<string[]>;
-  datumYChangePercentage: Animated.SharedValue<string>;
-  onCursorActiveChange: (state: boolean) => void;
-  onPercentageStatusChange: (status: chartType.percentageStatus) => void;
 }
 
-const Cursor = ({
-  data,
-  width,
-  height,
-  CURSOR_SIZE,
-  PADDING,
-  highestPrice,
-  lowestPrice,
-  datumX,
-  datumY,
-  datumYChangePercentage,
-  onCursorActiveChange,
-  onPercentageStatusChange,
-}: CursorProps) => {
+const Cursor = ({ width, height, CURSOR_SIZE, PADDING }: CursorProps) => {
   const translateX = useSharedValue(-100);
   const translateY = useSharedValue(0);
   const prevPoint = useSharedValue(-1);
   const { language } = useLocales();
+  const {
+    points,
+    prevClosingPrice,
+    datumX,
+    datumY,
+    datumYChangePercentage,
+    setters: { setIsCursorActive, setChangeStatus },
+  } = useChartState();
 
   const getSvg = useMemo(() => {
-    const xDomain = [...data.map(d => d[0]), highestPrice[0], lowestPrice[0]];
-    const yDomain = [...data.map(d => d[1]), highestPrice[1], lowestPrice[1]];
+    const xDomain = [...points.map(d => d[0])];
+    // , highestPrice[0], lowestPrice[0]
+    const yDomain = [...points.map(d => d[1])];
+    // , highestPrice[1], lowestPrice[1]
 
     const scaleX = scaleTime()
       .domain([Math.min(...xDomain), Math.max(...xDomain)])
@@ -78,14 +67,14 @@ const Cursor = ({
       .line<number[]>()
       .x(p => scaleX(p[0]))
       .y(p => scaleY(p[1]))
-      .curve(shape.curveCatmullRom)(data) as string;
+      .curve(shape.curveBasis)(points) as string;
 
     return {
       scaleX,
       scaleY,
       svgPath: parse(d),
     };
-  }, [data, highestPrice, lowestPrice, width, height, PADDING]);
+  }, [points, width, height, PADDING]);
 
   const bisect = d3.bisector((d: number[]) => {
     return d[0];
@@ -104,24 +93,18 @@ const Cursor = ({
 
   const onChangeCoordinate = (x: number) => {
     if (x < 0 || x >= width) return;
-    onCursorActiveChange(true);
+    setIsCursorActive(true);
     const { svgPath, scaleX } = getSvg;
 
     const x0 = scaleX.invert(x);
-    const i = bisect(data, x0, 1);
+    const i = bisect(points, x0, 1);
     prevPoint.value = i;
 
     if (prevPoint.value !== i) {
-      Haptics.selectionAsync();
       const y = getYForX(svgPath, x) || 0;
-      const currentPoint = data[i];
+      const currentPoint = points[i];
       translateX.value = x - CURSOR_SIZE / 2;
       translateY.value = y - CURSOR_SIZE / 2;
-      const changePercentage = digitToFixed(
-        (100 * (currentPoint[1] - data[0][1])) / data[0][1],
-        2
-      );
-
       datumX.value = `${getFormatedDate(currentPoint[0])}`;
       datumY.value = [
         `${AddSeparator(Math.floor(currentPoint[1]))}`,
@@ -131,20 +114,21 @@ const Cursor = ({
           noneZeroCnt: exponentToNumber(currentPoint[1]) < 1 ? 3 : 2,
         })}`,
       ];
-      datumYChangePercentage.value = `${changePercentage}`;
-      onPercentageStatusChange(
-        changePercentage > 0
-          ? 'positive'
-          : changePercentage === 0
-          ? 'unchanged'
-          : 'negative'
+      const changePercentage = digitToFixed(
+        (100 * (currentPoint[1] - prevClosingPrice!)) / prevClosingPrice!,
+        2
       );
+      datumYChangePercentage.value = `${changePercentage}`;
+      setChangeStatus(
+        changePercentage > 0 ? 'RISE' : changePercentage === 0 ? 'EVEN' : 'FALL'
+      );
+      Haptics.selectionAsync();
     }
   };
 
   const onChangeActive = (state: boolean) => {
     if (!state) {
-      onCursorActiveChange(false);
+      setIsCursorActive(false);
       translateX.value = -100;
       translateY.value = 0;
     }

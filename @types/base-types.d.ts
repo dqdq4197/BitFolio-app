@@ -4,10 +4,11 @@ declare module 'base-types' {
     type Currency = 'krw' | 'usd' | 'eur';
     type Language = 'ko' | 'en' | 'default';
     type ChartTimeFrame = 1 | 7 | 30 | 365 | 'max';
+    type Exchange = 'globalAverage' | 'upbit' | 'binance';
   }
 
   export namespace chartType {
-    type percentageStatus = 'negative' | 'unchanged' | 'positive';
+    type changeStatus = 'RISE' | 'EVEN' | 'FALL';
   }
 }
 

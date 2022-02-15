@@ -1,6 +1,6 @@
 import React, { createContext, useContext } from 'react';
 
-export const CoinIdContext = createContext<ValueType | undefined>(undefined);
+const CoinIdContext = createContext<ValueType | undefined>(undefined);
 
 type ValueType = {
   id: string;

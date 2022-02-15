@@ -8,11 +8,8 @@ import {
   VictoryLabel,
 } from 'victory-native';
 
+import { useChartState } from '/hooks/context/useChartContext';
 import useGlobalTheme from '/hooks/useGlobalTheme';
-import { useAppSelector } from '/hooks/useRedux';
-import useRequest from '/hooks/useRequest';
-import { http, CoinGecko } from '/lib/api/CoinGeckoClient';
-import { HistoricalOhlcReturn } from '/types/CoinGeckoReturnType';
 
 import GlobalIndicator from '/components/common/GlobalIndicator';
 
@@ -28,21 +25,13 @@ interface ChartProps extends IConst {
 
 const CandlesticChart = ({ id, WIDTH, HEIGHT, PADDING }: ChartProps) => {
   const { theme } = useGlobalTheme();
-  const { currency, chartTimeFrame } = useAppSelector(
-    state => state.baseSettingReducer
-  );
-  const { data, isValidating } = useRequest<HistoricalOhlcReturn>(
-    CoinGecko.coin.historicalOhlc(id, {
-      days: chartTimeFrame,
-      vs_currency: currency,
-    }),
-    http
-  );
+  const { candles, isLoading } = useChartState();
 
+  // console.log(candles.slice(-5));
   return (
     <ChartContainer WIDTH={WIDTH} HEIGHT={HEIGHT} PADDING={PADDING}>
-      <GlobalIndicator isLoaded={!isValidating} />
-      {data && (
+      <GlobalIndicator isLoaded={!isLoading} />
+      {candles && (
         <VictoryChart
           theme={VictoryTheme.grayscale}
           width={WIDTH + PADDING}
@@ -56,6 +45,7 @@ const CandlesticChart = ({ id, WIDTH, HEIGHT, PADDING }: ChartProps) => {
           scale={{ x: 'time' }}
         >
           <VictoryAxis
+            fixLabelOverlap
             style={{
               axis: {
                 stroke: 'transparent',
@@ -66,6 +56,7 @@ const CandlesticChart = ({ id, WIDTH, HEIGHT, PADDING }: ChartProps) => {
               },
               tickLabels: {
                 fill: theme.base.text[200],
+                fontSize: parseInt(theme.size.font_s, 10),
               },
               grid: {
                 stroke: 'transparent',
@@ -100,11 +91,11 @@ const CandlesticChart = ({ id, WIDTH, HEIGHT, PADDING }: ChartProps) => {
             high={2}
             low={3}
             close={4}
-            data={data}
+            data={candles}
             candleColors={{ positive: '#00e676', negative: '#f44336' }}
             style={{
               data: {
-                stroke: theme.base.text[300],
+                stroke: 'transparent',
               },
             }}
           />

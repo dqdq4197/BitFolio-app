@@ -39,7 +39,9 @@ const Item = ({ item, onPressItem, index }: ItemProps) => {
             <Text fontML margin="0 20px 0 0">
               {index + 1}
             </Text>
-          ) : <></>}
+          ) : (
+            <></>
+          )}
           <Image
             uri={item.large}
             width={IMAGE_WIDTH}

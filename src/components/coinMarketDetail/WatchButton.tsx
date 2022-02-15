@@ -31,7 +31,7 @@ const WatchButton = ({
   const { theme, scheme } = useGlobalTheme();
   const { portfolios, activeIndex } = useAppSelector(state => ({
     portfolios: state.portfolioReducer.portfolios,
-    activeIndex: state.portfolioReducer.activeIndex
+    activeIndex: state.portfolioReducer.activeIndex,
   }));
 
   const initailWidth = useMemo(() => {
@@ -73,7 +73,7 @@ const WatchButton = ({
         {
           text: t(`coinDetail.unwatch`),
           onPress: () => {
-            const payload = { portfolioId, coinId }
+            const payload = { portfolioId, coinId };
 
             dispatch(removeAllTransaction(payload));
             dispatch(unWatchingCoin(payload));
@@ -90,7 +90,7 @@ const WatchButton = ({
 
     const { coins } = portfolios[activeIndex];
     const portfolioIdTemp = portfolioId || portfolios[activeIndex].id;
-    const { state } = coins.find(coin => coin.id === id)!
+    const { state } = coins.find(coin => coin.id === id)!;
 
     const payload = {
       portfolioId: portfolioIdTemp,

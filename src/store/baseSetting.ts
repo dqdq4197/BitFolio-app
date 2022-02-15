@@ -2,6 +2,9 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { baseTypes } from 'base-types';
 
 import { TAB_ROUTE_NAME } from '/lib/constant';
+import type { ChartTimeIntervalType as UpbitInterval } from '/types/upbit';
+import type { ChartTimeIntervalType as CoingeckoInterval } from '/types/coingecko';
+import type { ChartTimeIntervalType as BinanceInterval } from '/types/binance';
 
 type DeviceSchemeType = Exclude<baseTypes.Theme, 'default'>;
 export type LocalSchemeType = Extract<
@@ -9,17 +12,35 @@ export type LocalSchemeType = Extract<
   'light' | 'dark' | 'default'
 >;
 type ChartOptionType = 'prices' | 'total_volumes' | 'market_caps' | 'ohlc';
+interface ChartSettingState {
+  exchange: baseTypes.Exchange; // 활성화된 거래소
+  chartOptions: {
+    globalAverage: {
+      interval: CoingeckoInterval;
+    };
+    upbit: {
+      interval: UpbitInterval;
+    };
+    binance: {
+      interval: BinanceInterval;
+    };
+  };
+}
 
-interface BaseSettingState {
-  deviceScheme: DeviceSchemeType;
-  localScheme: LocalSchemeType;
-  currency: baseTypes.Currency;
+type ChangeChartInterval = Pick<ChartSettingState, 'exchange'> & {
+  interval: number | string;
+};
+
+interface BaseSettingState extends ChartSettingState {
+  deviceScheme: DeviceSchemeType; // 기기에 설정된 scheme
+  localScheme: LocalSchemeType; // 앱 설정 scheme
+  currency: baseTypes.Currency; // 앱 설정 통화
   chartOption: ChartOptionType;
   chartTimeFrame: baseTypes.ChartTimeFrame;
-  recentlyViewed: string[];
-  watchList: string[];
-  recentSearches: string[];
-  launchScreen: keyof typeof TAB_ROUTE_NAME;
+  recentlyViewed: string[]; // 최근 본 코인 목록
+  watchList: string[]; // 즐겨찾기 리스트
+  recentSearches: string[]; // 최근 검색 목록
+  launchScreen: keyof typeof TAB_ROUTE_NAME; // 최초 앱 실행 screen
 }
 
 const initialState: BaseSettingState = {
@@ -32,6 +53,18 @@ const initialState: BaseSettingState = {
   watchList: [],
   recentSearches: [''],
   launchScreen: TAB_ROUTE_NAME.home,
+  exchange: 'upbit',
+  chartOptions: {
+    globalAverage: {
+      interval: 1,
+    },
+    upbit: {
+      interval: 1,
+    },
+    binance: {
+      interval: '1m',
+    },
+  },
 };
 
 export const baseSettingSlice = createSlice({
@@ -50,11 +83,14 @@ export const baseSettingSlice = createSlice({
     changeChartOption: (state, action: PayloadAction<ChartOptionType>) => {
       state.chartOption = action.payload;
     },
-    changeChartTimeFrame: (
+    changeChartInterval: (
       state,
-      action: PayloadAction<baseTypes.ChartTimeFrame>
+      action: PayloadAction<ChangeChartInterval>
     ) => {
-      state.chartTimeFrame = action.payload;
+      const {
+        payload: { exchange, interval },
+      } = action;
+      state.chartOptions[exchange].interval = interval;
     },
     changeRecentlyViewed: (state, action: PayloadAction<string>) => {
       const { payload } = action;
@@ -102,7 +138,7 @@ export const {
   changeLocalScheme,
   changeCurrency,
   changeChartOption,
-  changeChartTimeFrame,
+  changeChartInterval,
   changeRecentlyViewed,
   changeWatchList,
   changeRecentSearches,

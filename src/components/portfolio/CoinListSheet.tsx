@@ -177,7 +177,7 @@ const CoinListSheet = ({ coinsStats, portfolioTotalCosts }: SheetProps) => {
               : (bHoldingCosts !== null ? 1 : 0) -
                   (aHoldingCosts !== null ? 1 : 0) ||
                   bHoldingCosts! - aHoldingCosts!;
-          })
+          });
           break;
         case 'buyPrice_asc':
         case 'buyPrice_desc':
@@ -222,7 +222,6 @@ const CoinListSheet = ({ coinsStats, portfolioTotalCosts }: SheetProps) => {
       setSortedCoins(temp);
     }
   }, [assetSortType, coinsData, coinsStats]);
-
 
   const handleAddButtonPress = (coin: CoinType) => {
     const { id, symbol, name, image } = coin;

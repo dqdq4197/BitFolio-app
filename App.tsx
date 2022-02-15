@@ -42,6 +42,7 @@ const RootNavigationContainer = () => {
   };
   useEffect(() => {
     initAppearanceListener();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

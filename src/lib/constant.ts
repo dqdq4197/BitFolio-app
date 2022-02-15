@@ -178,14 +178,10 @@ const LANGUAGES: { [key: string]: string } = {
   zu: 'Zulu',
 };
 
-// ---------------------------------
-
 // ---- UI CONST --------------
 
 const TAB_BAR_HEIGHT = 55;
 const CONTENT_SPACING = 16;
-
-// ----------------------------
 
 // ---- COINGECKO API CONST ----------
 
@@ -234,7 +230,7 @@ const STATUS_UPDATE_CATEGORY = {
 
 // -------------------------
 
-// ---- COINGECKO API CONST ----------
+// ---- CTYPTOCOMPARE API CONST ----------
 
 const CTYPTOCOMPARE_API_VERSION = 'v2';
 const CTYPTOCOMPARE_BASE = 'https://min-api.cryptocompare.com/data/';

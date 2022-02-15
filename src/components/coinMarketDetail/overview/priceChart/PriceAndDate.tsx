@@ -1,12 +1,12 @@
 import React, { useEffect, useMemo, useRef } from 'react';
 import { Animated } from 'react-native';
-import ReAnimated, { useDerivedValue } from 'react-native-reanimated';
+import { useDerivedValue } from 'react-native-reanimated';
 import { chartType } from 'base-types';
 import { ReText } from 'react-native-redash';
 import styled from 'styled-components/native';
 
-import { useAppSelector, shallowEqual } from '/hooks/useRedux';
-import useMarketChart from '/hooks/data/useMarketChart';
+import { useAppSelector } from '/hooks/useRedux';
+import { useChartState } from '/hooks/context/useChartContext';
 import { digitToFixed } from '/lib/utils';
 import {
   AddSeparator,
@@ -24,31 +24,24 @@ interface PriceAndDetailProsp {
   id: string;
   lastUpdatedPrice: number;
   percentage_24h?: number;
-  isCursorActive: boolean;
-  datumX: ReAnimated.SharedValue<string>;
-  datumY: ReAnimated.SharedValue<string[]>;
-  datumYChangePercentage: ReAnimated.SharedValue<string>;
-  percentageStatus: chartType.percentageStatus;
 }
 
 const PriceAndDate = ({
   id,
   lastUpdatedPrice,
   percentage_24h,
-  isCursorActive,
-  datumX,
-  datumY,
-  datumYChangePercentage,
-  percentageStatus,
 }: PriceAndDetailProsp) => {
-  const { data } = useMarketChart({ id });
-  const { currency, chartTimeFrame } = useAppSelector(
-    state => ({
-      currency: state.baseSettingReducer.currency,
-      chartTimeFrame: state.baseSettingReducer.chartTimeFrame,
-    }),
-    shallowEqual
-  );
+  const { currency } = useAppSelector(state => state.baseSettingReducer);
+  const {
+    latestPrice,
+    changeRate,
+    isCursorActive,
+    datumX,
+    datumY,
+    datumYChangePercentage,
+    isLoading,
+    changeStatus,
+  } = useChartState();
   const translateY = useRef(new Animated.Value(-DATE_HEIGHT)).current;
   const opacity = useRef(new Animated.Value(0)).current;
   const datumYInteger = useDerivedValue(() => `${datumY.value[0]}.`);
@@ -89,15 +82,15 @@ const PriceAndDate = ({
     }
   }, [isCursorActive, opacity, translateY]);
 
-  const percentage = useMemo(() => {
-    if (!data) return 0;
+  // const percentage = useMemo(() => {
+  //   if (!data) return 0;
 
-    if (chartTimeFrame === 1 && percentage_24h) {
-      return percentage_24h;
-    }
+  //   if (chartTimeFrame === 1 && percentage_24h) {
+  //     return percentage_24h;
+  //   }
 
-    return ((lastUpdatedPrice - data.prices[0][1]) / data.prices[0][1]) * 100;
-  }, [chartTimeFrame, data, lastUpdatedPrice, percentage_24h]);
+  //   return ((lastUpdatedPrice - data.prices[0][1]) / data.prices[0][1]) * 100;
+  // }, [chartTimeFrame, data, lastUpdatedPrice, percentage_24h]);
 
   return (
     <Container>
@@ -143,30 +136,33 @@ const PriceAndDate = ({
                 color100
                 style={{ transform: [{ translateY: 3 }] }}
               >
-                {AddSeparator(Math.floor(lastUpdatedPrice))}.
+                {latestPrice && AddSeparator(Math.floor(latestPrice))}.
               </Text>
               <Text fontML color100 heavy>
-                {getOnlyDecimal({
-                  value: exponentToNumber(lastUpdatedPrice),
-                  minLength: 2,
-                  noneZeroCnt: exponentToNumber(lastUpdatedPrice) < 1 ? 3 : 2,
-                })}
+                {latestPrice &&
+                  getOnlyDecimal({
+                    value: exponentToNumber(latestPrice),
+                    minLength: 2,
+                    noneZeroCnt: exponentToNumber(latestPrice) < 1 ? 3 : 2,
+                  })}
               </Text>
             </>
           )}
         </PriceWrap>
         <PercentageWrap>
-          {data !== undefined ? (
+          {!isLoading ? (
             isCursorActive ? (
               <DatumYChangePercentageText
-                percentageStatus={percentageStatus}
+                changeStatus={changeStatus}
                 text={datumYChangePercentageWithSign}
               />
             ) : (
               <IncreaseDecreaseValue
                 heavy
                 fontML
-                value={digitToFixed(percentage, 2)}
+                value={
+                  changeRate !== undefined ? digitToFixed(changeRate, 2) : null
+                }
                 afterPrefix="%"
               />
             )
@@ -182,7 +178,7 @@ const PriceAndDate = ({
 export default PriceAndDate;
 
 type PercentageTextProps = {
-  percentageStatus: chartType.percentageStatus;
+  changeStatus: chartType.changeStatus;
 };
 
 const Container = styled.View`
@@ -218,10 +214,10 @@ const DatumYDecimalText = styled(ReText)`
 const DatumYChangePercentageText = styled(ReText)<PercentageTextProps>`
   font-size: ${({ theme }) => theme.size.font_ml};
   font-weight: 700;
-  color: ${({ percentageStatus, theme }) =>
-    percentageStatus === 'negative'
+  color: ${({ changeStatus, theme }) =>
+    changeStatus === 'FALL'
       ? theme.base.downColor
-      : percentageStatus === 'positive'
+      : changeStatus === 'RISE'
       ? theme.base.upColor
       : theme.base.text[200]};
 `;

@@ -1,13 +1,15 @@
 import React from 'react';
 import { Dimensions, LayoutAnimation, UIManager, Platform } from 'react-native';
 import styled from 'styled-components/native';
-import { baseTypes } from 'base-types';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { CoinSvg } from '/lib/svg';
+
 import useGlobalTheme from '/hooks/useGlobalTheme';
-import Text from '/components/common/Text';
 import { useAppDispatch, useAppSelector } from '/hooks/useRedux';
-import { changeChartTimeFrame, changeChartOption } from '/store/baseSetting';
+import { useChartState } from '/hooks/context/useChartContext';
+import { changeChartInterval, changeChartOption } from '/store/baseSetting';
+import { CoinSvg } from '/lib/svg';
+
+import Text from '/components/common/Text';
 
 if (Platform.OS === 'android') {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -16,30 +18,6 @@ if (Platform.OS === 'android') {
 }
 
 const { width } = Dimensions.get('window');
-const timeFrame = [
-  {
-    label: '1D',
-    value: 1,
-  },
-  {
-    label: '1W',
-    value: 7,
-  },
-  {
-    label: '1M',
-    value: 30,
-  },
-  {
-    label: '1Y',
-    value: 365,
-  },
-  {
-    label: 'All',
-    value: 'max',
-  },
-];
-
-type TimeFrameType = baseTypes.ChartTimeFrame;
 
 type TabProps = {
   lastUpdatedPercentage: number;
@@ -47,13 +25,19 @@ type TabProps = {
 
 const ChartTab = ({ lastUpdatedPercentage }: TabProps) => {
   const { theme } = useGlobalTheme();
-  const { chartTimeFrame, chartOption } = useAppSelector(
+  const { interval } = useChartState();
+  const { chartOption, exchange, chartOptions } = useAppSelector(
     state => state.baseSettingReducer
   );
   const dispatch = useAppDispatch();
 
   const handleTimeSelectorPress = (value: number | string) => {
-    dispatch(changeChartTimeFrame(value as TimeFrameType));
+    dispatch(
+      changeChartInterval({
+        exchange,
+        interval: value,
+      })
+    );
   };
 
   const handleChartSelectorPress = (value: 'prices' | 'ohlc') => {
@@ -65,20 +49,23 @@ const ChartTab = ({ lastUpdatedPercentage }: TabProps) => {
 
   return (
     <ChartTabWrap>
-      <ChartTimeSelectorScrollView horizontal>
-        {timeFrame.map(frame => {
+      <ChartTimeSelectorScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+      >
+        {interval.map(frame => {
           return (
             <Selector
               key={frame.value}
               onPress={() => handleTimeSelectorPress(frame.value)}
-              isSelected={frame.value === chartTimeFrame}
+              isSelected={frame.value === chartOptions[exchange].interval}
               activeOpacity={0.6}
             >
               <Text
                 fontM
                 bold
                 color={
-                  frame.value === chartTimeFrame
+                  frame.value === chartOptions[exchange].interval
                     ? theme.base.text[100]
                     : theme.base.text[200]
                 }

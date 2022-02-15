@@ -9,42 +9,21 @@ import {
   VictoryLabel,
   VictoryScatter,
 } from 'victory-native';
-import Animated from 'react-native-reanimated';
 
-import useMarketChart from '/hooks/data/useMarketChart';
 import useGlobalTheme from '/hooks/useGlobalTheme';
-import useLocales from '/hooks/useLocales';
-import { useAppSelector } from '/hooks/useRedux';
+import { useChartState } from '/hooks/context/useChartContext';
 import { CONTENT_SPACING } from '/lib/constant';
-import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat';
 
 import GlobalIndicator from '/components/common/GlobalIndicator';
 import Cursor from './Cursor';
 
-// const φ = (1 + Math.sqrt(5)) / 2;
-// const height = (1 - 1 / φ) * Dimensions.get("window").height;
 const CURSOR_SIZE = 16;
 
-interface ConstType {
+interface ChartProps {
   WIDTH: number;
   HEIGHT: number;
   PADDING: number;
   VOLUME_HEIGHT: number;
-}
-
-interface ChartProps extends ConstType {
-  id: string;
-  chartOption: 'prices' | 'total_volumes' | 'market_caps';
-  lastUpdatedPrice: number;
-  price_24h_ago: number;
-  isCursorActive: boolean;
-  datumX: Animated.SharedValue<string>;
-  datumY: Animated.SharedValue<string[]>;
-  datumYChangePercentage: Animated.SharedValue<string>;
-  onIsCursorActiveChange: (state: boolean) => void;
-  onPercentageStatusChange: (
-    status: 'negative' | 'unchanged' | 'positive'
-  ) => void;
 }
 
 const BaseLineLabel = React.memo((props: any) => {
@@ -96,43 +75,21 @@ const CustomLabel = (props: any) => {
   );
 };
 
-const LineChart = ({
-  id,
-  chartOption,
-  lastUpdatedPrice,
-  WIDTH,
-  HEIGHT,
-  PADDING,
-  VOLUME_HEIGHT,
-  price_24h_ago,
-  isCursorActive,
-  datumX,
-  datumY,
-  datumYChangePercentage,
-  onIsCursorActiveChange,
-  onPercentageStatusChange,
-}: ChartProps) => {
+const LineChart = ({ WIDTH, HEIGHT, PADDING, VOLUME_HEIGHT }: ChartProps) => {
   const { t } = useTranslation();
-  const { chartTimeFrame } = useAppSelector(state => state.baseSettingReducer);
-  const { data, isValidating, highestPrice, lowestPrice } = useMarketChart({ id })
   const { theme } = useGlobalTheme();
-  const { currency } = useLocales();
+  const { points, isCursorActive, volumes, isLoading, prevClosingPrice } =
+    useChartState();
 
   const strokeColor = useMemo(() => {
-    if (!data) return;
+    if (!prevClosingPrice) return theme.base.background[200];
+    if (prevClosingPrice > 0) return theme.base.upColor;
+    return theme.base.downColor;
+  }, [prevClosingPrice, theme]);
 
-    const timeAgoPrice =
-      chartTimeFrame === 1
-        ? lastUpdatedPrice - price_24h_ago
-        : lastUpdatedPrice - data.prices[0][1];
-
-    return timeAgoPrice > 0
-      ? theme.base.upColor
-      : timeAgoPrice === 0
-      ? theme.base.background[200]
-      : theme.base.downColor;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [lastUpdatedPrice, data, theme, price_24h_ago]);
+  const lastPoint = useMemo(() => {
+    return points.slice(-1)[0];
+  }, [points]);
 
   return (
     <ChartContainer
@@ -141,8 +98,8 @@ const LineChart = ({
       PADDING={PADDING}
       VOLUME_HEIGHT={VOLUME_HEIGHT}
     >
-      <GlobalIndicator isLoaded={!isValidating} />
-      {data && (
+      <GlobalIndicator isLoaded={!isLoading} />
+      {!isLoading && points.length && (
         <>
           <VictoryChart
             width={WIDTH + PADDING - CONTENT_SPACING * 2}
@@ -155,6 +112,7 @@ const LineChart = ({
             scale={{ x: 'time', y: 'linear' }}
           >
             <VictoryAxis
+              // grid만 사용 (x축 axis는 volume bar차트에서 출력)
               dependentAxis
               style={{
                 tickLabels: {
@@ -177,10 +135,7 @@ const LineChart = ({
                   strokeDasharray: 3,
                 },
               }}
-              data={data[chartOption].map(v => [
-                v[0],
-                chartTimeFrame === 1 ? price_24h_ago : data[chartOption][0][1],
-              ])}
+              data={points.map((v, _, arr) => [v[0], arr[0][1]])}
               x={0}
               y={1}
               interpolation="linear"
@@ -194,11 +149,14 @@ const LineChart = ({
               }}
               animate={{
                 duration: 200,
+                onLoad: {
+                  duration: 0,
+                },
               }}
-              data={data[chartOption]}
+              data={points}
               x={0}
               y={1}
-              interpolation="catmullRom"
+              interpolation="basis"
             />
             <VictoryAxis
               dependentAxis
@@ -209,7 +167,7 @@ const LineChart = ({
               style={{
                 tickLabels: {
                   fill: isCursorActive ? theme.base.text[200] : 'transparent',
-                  fontSize: parseInt(theme.size.font_s, 10),
+                  fontSize: parseInt(theme.size.font_xs, 10),
                 },
                 axis: {
                   stroke: 'transparent',
@@ -220,7 +178,7 @@ const LineChart = ({
                 },
               }}
             />
-            <BaseLineLabel
+            {/* <BaseLineLabel
               y={chartTimeFrame === 1 ? price_24h_ago : data[chartOption][0][1]}
               dy={-5}
               text={currencyFormat({
@@ -231,8 +189,28 @@ const LineChart = ({
                 prefix: getCurrencySymbol(currency),
               })}
               isCursorActive={isCursorActive}
-            />
+            /> */}
             <VictoryScatter
+              data={[
+                {
+                  x: lastPoint[0],
+                  y: lastPoint[1],
+                },
+              ]}
+              size={3}
+              animate={{
+                duration: 200,
+                onLoad: {
+                  duration: 0,
+                },
+              }}
+              style={{
+                data: {
+                  fill: strokeColor,
+                },
+              }}
+            />
+            {/* <VictoryScatter
               data={[{ x: highestPrice[0], y: highestPrice[1] }]}
               size={2}
               style={{
@@ -274,7 +252,7 @@ const LineChart = ({
                   dy={10}
                 />
               }
-            />
+            /> */}
           </VictoryChart>
           <CursorContainer
             WIDTH={WIDTH}
@@ -282,22 +260,14 @@ const LineChart = ({
             PADDING={PADDING}
             VOLUME_HEIGHT={VOLUME_HEIGHT}
           >
-            {data && (
-              <Cursor
-                data={data[chartOption]}
-                width={WIDTH - CONTENT_SPACING * 2}
-                height={HEIGHT}
-                CURSOR_SIZE={CURSOR_SIZE}
-                PADDING={PADDING}
-                highestPrice={highestPrice}
-                lowestPrice={lowestPrice}
-                onCursorActiveChange={onIsCursorActiveChange}
-                datumX={datumX}
-                datumY={datumY}
-                datumYChangePercentage={datumYChangePercentage}
-                onPercentageStatusChange={onPercentageStatusChange}
-              />
-            )}
+            <Cursor
+              width={WIDTH - CONTENT_SPACING * 2}
+              height={HEIGHT}
+              CURSOR_SIZE={CURSOR_SIZE}
+              PADDING={PADDING}
+              // highestPrice={highestPrice}
+              // lowestPrice={lowestPrice}
+            />
           </CursorContainer>
           <VictoryChart
             width={WIDTH + PADDING - CONTENT_SPACING * 2}
@@ -309,15 +279,15 @@ const LineChart = ({
             scale={{ x: 'time', y: 'linear' }}
           >
             <VictoryBar
-              data={data.total_volumes}
+              data={volumes}
               x={0}
               y={1}
-              domain={{
-                y: [
-                  Math.min(...data.total_volumes.map(v => v[1])),
-                  Math.max(...data.total_volumes.map(v => v[1])),
-                ],
-              }}
+              // domain={{
+              //   y: [
+              //     Math.min(...volumes.map(v => v[1])),
+              //     Math.max(...volumes.map(v => v[1])),
+              //   ],
+              // }}
               range={{
                 y: [VOLUME_HEIGHT, 0],
               }}
@@ -340,7 +310,7 @@ const LineChart = ({
                 },
                 tickLabels: {
                   fill: theme.base.text[200],
-                  fontSize: parseInt(theme.size.font_m, 10),
+                  fontSize: parseInt(theme.size.font_s, 10),
                 },
               }}
             />
@@ -353,7 +323,7 @@ const LineChart = ({
 
 export default LineChart;
 
-const ChartContainer = styled.View<ConstType>`
+const ChartContainer = styled.View<ChartProps>`
   overflow: hidden;
   margin-top: 30px;
   width: ${({ WIDTH, PADDING }) => WIDTH + PADDING}px;
@@ -362,7 +332,7 @@ const ChartContainer = styled.View<ConstType>`
   align-items: center;
 `;
 
-const CursorContainer = styled.View<ConstType>`
+const CursorContainer = styled.View<ChartProps>`
   position: absolute;
   overflow: hidden;
   width: ${({ WIDTH, PADDING }) => WIDTH + PADDING - CONTENT_SPACING * 2}px;

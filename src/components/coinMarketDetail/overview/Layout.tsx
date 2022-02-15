@@ -13,7 +13,6 @@ import CustomRefreshControl from '/components/common/CustomRefreshControl';
 import ScrollView from '/components/common/ScrollView';
 import AddTransactionButton from '../AddTransactionButton';
 import WatchButton from '../WatchButton';
-import ChartTab from './ChartTab';
 import PriceChangePercentage from './PriceChangePercentage';
 import Stats from './Stats';
 import MainChart from './priceChart';
@@ -43,6 +42,7 @@ const Layout = () => {
 
   if (!data) return <></>;
 
+  // console.log(wData);
   return (
     <>
       <ScrollView
@@ -64,11 +64,6 @@ const Layout = () => {
             price_24h_ago={
               data.market_data.current_price[currency] -
               data.market_data.price_change_24h_in_currency[currency]
-            }
-          />
-          <ChartTab
-            lastUpdatedPercentage={
-              data.market_data.price_change_percentage_24h_in_currency[currency]
             }
           />
         </ChartArea>

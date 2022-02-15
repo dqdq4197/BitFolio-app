@@ -3,6 +3,7 @@ import { baseTypes } from 'base-types';
 import { ModifyPartial } from 'mapped-types';
 
 import { COINGECKO_PATH_PREFIX, ORDER } from '/lib/constant';
+import { ChartTimeIntervalType } from '/types/coingecko';
 
 export type ORDER = typeof ORDER[keyof typeof ORDER];
 
@@ -39,7 +40,7 @@ type SimplePriceParams = {
 
 type MarketChartParams = {
   vs_currency: baseTypes.Currency;
-  days: number | 'max';
+  days: ChartTimeIntervalType;
   interval?: 'daily'; // 90일 이전 설정하더라도 daily 간격 출력
 };
 
@@ -60,7 +61,7 @@ type SearchParams = {
 
 type HistoricalOhlcParams = {
   vs_currency: baseTypes.Currency;
-  days: number | 'max'; // Data up to number of days ago (1/7/14/30/90/180/365/max)
+  days: ChartTimeIntervalType; // Data up to number of days ago (1/7/14/30/90/180/365/max)
 };
 
 type DetailInfoParams = {
@@ -111,8 +112,14 @@ export const CoinGecko = {
       params = Object.assign({}, defaultParams.markets, params);
 
       if (params.hasOwnProperty('ids') && Array.isArray(params.ids)) {
-        params.ids = params.ids.join(',');
+        if (params.ids.length > 0) {
+          params.ids = params.ids.join(',');
+        } else {
+          params.ids = 'null';
+        }
       }
+
+      // console.log(params.ids);
 
       if (
         params.hasOwnProperty('price_change_percentage') &&

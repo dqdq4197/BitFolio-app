@@ -1,10 +1,9 @@
-import { baseTypes } from 'base-types';
-
-import { ChartDataReturn } from '/types/CoinGeckoReturnType';
+import type { ChartDataReturn } from '/types/CoinGeckoReturnType';
+import type { ChartTimeIntervalType } from '/types/coingecko';
 
 const filteredPriceData = (
   data: ChartDataReturn,
-  dateFrame: baseTypes.ChartTimeFrame
+  dateFrame: ChartTimeIntervalType
 ): ChartDataReturn => {
   // data = [prices[number, number], marketCap[number,number] ...];
   if (!data) return data;
