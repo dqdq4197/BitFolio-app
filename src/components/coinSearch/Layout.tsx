@@ -21,18 +21,14 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import useGlobalTheme from '/hooks/useGlobalTheme';
-import useLocales from '/hooks/useLocales';
 import useRequest from '/hooks/useRequest';
 import useKeyboard from '/hooks/useKeyboard';
 import { useAppDispatch, useAppSelector } from '/hooks/useRedux';
+import { useInitData } from '/hooks/context/useInitDataContext';
 import { changeRecentSearches } from '/store/baseSetting';
 import { createFuzzyMatcher, getKeyboardAnimationConfigs } from '/lib/utils';
 import { CoinGecko, http } from '/lib/api/CoinGeckoClient';
-import {
-  SearchTrandingReturn,
-  SearchDataReturn,
-  SearchCoin,
-} from '/types/CoinGeckoReturnType';
+import { SearchTrandingReturn, SearchCoin } from '/types/CoinGeckoReturnType';
 
 import Text from '/components/common/Text';
 import GlobalIndicator from '/components/common/GlobalIndicator';
@@ -55,7 +51,6 @@ export interface CoinsType extends SearchCoin {
 const { height } = Dimensions.get('screen');
 
 const Layout = () => {
-  const { language } = useLocales();
   const {
     height: animationKeyboardHeight,
     animationDuration,
@@ -70,10 +65,8 @@ const Layout = () => {
   const navigation = useNavigation();
   const headerHeight = useHeaderHeight();
   const dispatch = useAppDispatch();
-  const { data: searchData, isLoading } = useRequest<SearchDataReturn>(
-    CoinGecko.coin.search({ locale: language }),
-    http
-  );
+  const { coingeckoAssets: searchData, coingeckoIsLoading: isLoading } =
+    useInitData();
   const { data: trandingData } = useRequest<SearchTrandingReturn>(
     CoinGecko.coin.searchTranding(),
     http

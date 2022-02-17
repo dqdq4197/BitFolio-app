@@ -12,12 +12,15 @@ import {
   CANDLE_PERIODICITY,
   UPBIT_WEBSOCKET_PREFIX,
 } from '/lib/constants/upbit';
+import { STREAM_TYPE } from '/lib/constant';
 import type {
   CandleReturn,
-  Ticker,
+  RealTimeTickerReturn,
   RCandlesCommon,
   CandleMinuteUnitType,
+  SanpshotTickerReturn,
 } from '/types/upbit';
+import type { TStreamType } from '/types/common';
 
 type TProps = {
   symbol: string;
@@ -45,23 +48,23 @@ const useUpbitChart = ({ symbol, enabled }: TProps) => {
   const [messageQueue, setMessageQueue] = useState<
     (Pick<RCandlesCommon, 'candle_acc_trade_volume'> &
       Pick<
-        Ticker,
+        RealTimeTickerReturn,
         | 'high_price'
         | 'low_price'
         | 'opening_price'
         | 'trade_price'
         | 'timestamp'
       > &
-      Partial<CandleReturn<'minutes'> & Ticker>)[]
+      Partial<CandleReturn<'minutes'> & RealTimeTickerReturn>)[]
   >([]);
   const [socketError, setSocketError] = useState<string | null>(null);
 
   const {
-    data: upbitData,
-    error,
-    isLoading,
+    data: snapshotData,
+    error: snapshotError,
+    isLoading: snapshotIsLoading,
     isValidating,
-  } = useRequest<CandleReturn<'minutes'>[]>(
+  } = useRequest<CandleReturn<'minutes'>[], Error>(
     enabled
       ? upbitClient.candles(
           timeFrame.periodicity,
@@ -71,22 +74,34 @@ const useUpbitChart = ({ symbol, enabled }: TProps) => {
             : undefined
         )
       : null,
-    http,
-    { suspense: true }
+    http
   );
 
+  const {
+    data: tickerData,
+    isLoading: tickerIsLoading,
+    error: tickerError,
+  } = useRequest<SanpshotTickerReturn>(
+    enabled
+      ? upbitClient.ticker({ markets: `KRW-${symbol.toUpperCase()}` })
+      : null,
+    http,
+    { refreshInterval: 3 * 60 * 1000 }
+  );
+
+  // console.log(tickerData[0].signed_change_rate);
   useEffect(() => {
     // * candles 스냅샷 데이터가 Timestamp 내림차순으로 옴.
-    if (upbitData) {
+    if (snapshotData) {
       // 불변성 유지를 위해 데이터 복사.
-      const mock = upbitData.slice();
+      const mock = snapshotData.slice();
       // 변하고있는 값이 아닌 interval간격의 가장 마지막 candle => mock[1]
       lastCandleTimestampRef.current = mock[1].timestamp;
       latestAccVolumeRef.current = mock[0].candle_acc_trade_volume;
 
       setMessageQueue(mock.sort((a, b) => a.timestamp - b.timestamp));
     }
-  }, [upbitData]);
+  }, [snapshotData]);
 
   /**
    * upbit의 경우 체결마다 실시간으로 새로운 가격을 할당하므로
@@ -99,7 +114,7 @@ const useUpbitChart = ({ symbol, enabled }: TProps) => {
    */
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const throttled = useCallback(
-    throttle((data: Ticker) => {
+    throttle((data: RealTimeTickerReturn) => {
       if (
         data.timestamp - lastCandleTimestampRef.current >=
         timeFrame.diffTimestamp
@@ -154,16 +169,16 @@ const useUpbitChart = ({ symbol, enabled }: TProps) => {
 
   const onMessage = useCallback(
     (event: WebSocketMessageEvent) => {
-      if (!upbitData) return;
+      if (!snapshotData) return;
       const enc = new TextDecoder('utf-8');
       const arr = new Uint8Array(event.data);
-      const data: Ticker = JSON.parse(enc.decode(arr));
+      const data: RealTimeTickerReturn = JSON.parse(enc.decode(arr));
 
       latestAccVolumeRef.current += data.trade_volume;
 
       throttled(data);
     },
-    [throttled, upbitData]
+    [throttled, snapshotData]
   );
 
   const onClose = useCallback((e: CloseEvent) => {
@@ -208,7 +223,51 @@ const useUpbitChart = ({ symbol, enabled }: TProps) => {
   }, [onMessage, isValidating]);
 
   const lastMessage = useMemo(() => {
-    return messageQueue.slice(-1)[0];
+    const endQueue = messageQueue.slice(-1)[0];
+
+    // snapshot return data에는 prevclosingprice가 없으므로
+    // 그것의 유무로 socket 데이터를 받아왔나 체크.
+    if (!endQueue) return undefined;
+
+    if ('prev_closing_price' in endQueue) {
+      return endQueue;
+    }
+
+    return {
+      ...endQueue,
+      timestamp: lastCandleTimestampRef.current + timeFrame.diffTimestamp,
+      signed_change_rate: tickerData && tickerData[0].signed_change_rate,
+      prev_closing_price: tickerData && tickerData[0].prev_closing_price,
+    };
+  }, [messageQueue, tickerData, timeFrame.diffTimestamp]);
+
+  const hlPoints = useMemo(() => {
+    if (messageQueue.length === 0) {
+      return undefined;
+    }
+    let lowestPriceIndex = 0;
+    let highestPriceIndex = 0;
+
+    for (let i = 1; i < messageQueue.length; i += 1) {
+      const { low_price: lowestPrice } = messageQueue[lowestPriceIndex];
+      const { high_price: highestPrice } = messageQueue[highestPriceIndex];
+      const { high_price, low_price } = messageQueue[i];
+      if (lowestPrice > low_price) {
+        lowestPriceIndex = i;
+      }
+
+      if (highestPrice < high_price) {
+        highestPriceIndex = i;
+      }
+    }
+
+    const highestCandle = messageQueue[highestPriceIndex];
+    const lowestCandle = messageQueue[lowestPriceIndex];
+
+    return [
+      [highestCandle.timestamp, highestCandle.high_price],
+      [lowestCandle.timestamp, lowestCandle.low_price],
+    ];
   }, [messageQueue]);
 
   return {
@@ -216,8 +275,10 @@ const useUpbitChart = ({ symbol, enabled }: TProps) => {
       message.timestamp,
       message.trade_price,
     ]),
-    candles: messageQueue.map(message => [
-      message.timestamp,
+    candles: messageQueue.map((message, index) => [
+      index !== messageQueue.length - 1
+        ? message.timestamp
+        : lastCandleTimestampRef.current + timeFrame.diffTimestamp,
       message.opening_price,
       message.high_price,
       message.low_price,
@@ -227,14 +288,15 @@ const useUpbitChart = ({ symbol, enabled }: TProps) => {
       message.timestamp,
       message.candle_acc_trade_volume,
     ]),
+    highestPoint: (hlPoints && hlPoints[0]) as number[],
+    lowestPoint: (hlPoints && hlPoints[1]) as number[],
     changeRate:
       lastMessage?.signed_change_rate && lastMessage.signed_change_rate * 100,
     latestPrice: lastMessage?.trade_price,
     prevClosingPrice: lastMessage?.prev_closing_price,
-    isLoading:
-      isLoading || !lastMessage || !('prev_closing_price' in lastMessage),
-    error: error || socketError,
-    streamType: 'REALTIME' as 'REALTIME' | 'SNAPSHOT',
+    isLoading: snapshotIsLoading || !lastMessage || tickerIsLoading,
+    error: snapshotError || socketError || tickerError,
+    streamType: STREAM_TYPE.REALTIME as TStreamType,
     interval: INTERVAL,
   };
 };

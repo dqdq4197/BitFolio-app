@@ -11,7 +11,7 @@ import styled from 'styled-components/native';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 
 import { useAppSelector } from '/hooks/useRedux';
-import { useCoinIdContext } from '/hooks/useCoinIdContext';
+import { useCoinIdContext } from '/hooks/context/useCoinIdContext';
 import useCoinDetail from '/hooks/data/useCoinDetail';
 import { TransactionType } from '/store/transaction';
 

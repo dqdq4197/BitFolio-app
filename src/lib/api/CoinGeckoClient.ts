@@ -2,7 +2,7 @@ import axios from 'axios';
 import { baseTypes } from 'base-types';
 import { ModifyPartial } from 'mapped-types';
 
-import { COINGECKO_PATH_PREFIX, ORDER } from '/lib/constant';
+import { COINGECKO_PATH_PREFIX, ORDER } from '/lib/constants/coingecko';
 import { ChartTimeIntervalType } from '/types/coingecko';
 
 export type ORDER = typeof ORDER[keyof typeof ORDER];

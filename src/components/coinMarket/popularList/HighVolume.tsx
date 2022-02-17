@@ -8,7 +8,7 @@ import useRequest from '/hooks/useRequest';
 import useAnimatedHeaderTitle from '/hooks/useAnimatedHeaderTitle';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import { CoinGecko, http } from '/lib/api/CoinGeckoClient';
-import { ORDER } from '/lib/constant';
+import { ORDER } from '/lib/constants/coingecko';
 import { CoinMarketReturn } from '/types/CoinGeckoReturnType';
 
 import CustomRefreshControl from '/components/common/CustomRefreshControl';

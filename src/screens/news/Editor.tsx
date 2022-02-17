@@ -1,7 +1,7 @@
 import React from 'react';
 import GeneralTemplate from '/components/GeneralTemplate';
 import Editor from '/components/mdEditor/Editor';
-import { MdEditorProvider } from '/hooks/useMdEditorContext';
+import { MdEditorProvider } from '/hooks/context/useMdEditorContext';
 
 const EditorScreen = () => {
   return (

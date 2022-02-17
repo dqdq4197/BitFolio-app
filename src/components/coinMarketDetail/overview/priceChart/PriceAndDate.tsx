@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Animated } from 'react-native';
 import { useDerivedValue } from 'react-native-reanimated';
 import { chartType } from 'base-types';
@@ -20,19 +20,10 @@ import IncreaseDecreaseValue from '/components/common/IncreaseDecreaseValue';
 
 const DATE_HEIGHT = 20;
 
-interface PriceAndDetailProsp {
-  id: string;
-  lastUpdatedPrice: number;
-  percentage_24h?: number;
-}
-
-const PriceAndDate = ({
-  id,
-  lastUpdatedPrice,
-  percentage_24h,
-}: PriceAndDetailProsp) => {
+const PriceAndDate = () => {
   const { currency } = useAppSelector(state => state.baseSettingReducer);
   const {
+    id,
     latestPrice,
     changeRate,
     isCursorActive,

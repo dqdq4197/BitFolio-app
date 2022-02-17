@@ -10,7 +10,7 @@ import {
 import styled from 'styled-components/native';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import { unicodes, ACTIONS, TYPES } from '/lib/constant';
-import { useMdEditorState, useMdEditorDispatch, ListType, ParagraphType } from '/hooks/useMdEditorContext';
+import { useMdEditorState, useMdEditorDispatch, ListType, ParagraphType } from '/hooks/context/useMdEditorContext';
 import RenderText from './RenderText';
 
 

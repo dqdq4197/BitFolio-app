@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Dimensions, LayoutAnimation, UIManager, Platform } from 'react-native';
 import styled from 'styled-components/native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -6,8 +6,13 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import { useAppDispatch, useAppSelector } from '/hooks/useRedux';
 import { useChartState } from '/hooks/context/useChartContext';
-import { changeChartInterval, changeChartOption } from '/store/baseSetting';
+import {
+  changeChartInterval,
+  changeChartType,
+  TChartType,
+} from '/store/baseSetting';
 import { CoinSvg } from '/lib/svg';
+import { CHART_TYPE } from '/lib/constant';
 
 import Text from '/components/common/Text';
 
@@ -19,14 +24,10 @@ if (Platform.OS === 'android') {
 
 const { width } = Dimensions.get('window');
 
-type TabProps = {
-  lastUpdatedPercentage: number;
-};
-
-const ChartTab = ({ lastUpdatedPercentage }: TabProps) => {
+const ChartTab = () => {
   const { theme } = useGlobalTheme();
-  const { interval } = useChartState();
-  const { chartOption, exchange, chartOptions } = useAppSelector(
+  const { interval, changeRate } = useChartState();
+  const { chartType, exchange, chartOptions } = useAppSelector(
     state => state.baseSettingReducer
   );
   const dispatch = useAppDispatch();
@@ -40,11 +41,19 @@ const ChartTab = ({ lastUpdatedPercentage }: TabProps) => {
     );
   };
 
-  const handleChartSelectorPress = (value: 'prices' | 'ohlc') => {
+  const color = useMemo(() => {
+    if (!changeRate || changeRate >= 0) {
+      return theme.base.upColor;
+    }
+
+    return theme.base.downColor;
+  }, [changeRate, theme]);
+
+  const handleChartSelectorPress = (value: TChartType) => {
     LayoutAnimation.configureNext(
       LayoutAnimation.create(200, 'easeInEaseOut', 'opacity')
     );
-    dispatch(changeChartOption(value));
+    dispatch(changeChartType(value));
   };
 
   return (
@@ -78,25 +87,19 @@ const ChartTab = ({ lastUpdatedPercentage }: TabProps) => {
       </ChartTimeSelectorScrollView>
       <ChartSelectorWrap>
         <Selector
-          isSelected={chartOption === 'prices'}
-          onPress={() => handleChartSelectorPress('prices')}
+          isSelected={chartType === CHART_TYPE.LINE}
+          onPress={() => handleChartSelectorPress(CHART_TYPE.LINE)}
           activeOpacity={0.6}
         >
           <MaterialCommunityIcons
             name="chart-line-variant"
             size={20}
-            color={
-              lastUpdatedPercentage > 0
-                ? theme.base.upColor
-                : lastUpdatedPercentage === 0
-                ? theme.base.background[200]
-                : theme.base.downColor
-            }
+            color={color}
           />
         </Selector>
         <Selector
-          isSelected={chartOption === 'ohlc'}
-          onPress={() => handleChartSelectorPress('ohlc')}
+          isSelected={chartType === CHART_TYPE.CANDLESTICK}
+          onPress={() => handleChartSelectorPress(CHART_TYPE.CANDLESTICK)}
           activeOpacity={0.6}
           marginRightZero
         >
@@ -105,19 +108,11 @@ const ChartTab = ({ lastUpdatedPercentage }: TabProps) => {
             width={20}
             height={20}
             fstColor={
-              lastUpdatedPercentage > 0
+              !changeRate || changeRate > 0
                 ? theme.base.downColor
-                : lastUpdatedPercentage === 0
-                ? theme.base.background[200]
                 : theme.base.upColor
             }
-            scdColor={
-              lastUpdatedPercentage > 0
-                ? theme.base.upColor
-                : lastUpdatedPercentage === 0
-                ? theme.base.background[200]
-                : theme.base.downColor
-            }
+            scdColor={color}
           />
         </Selector>
       </ChartSelectorWrap>

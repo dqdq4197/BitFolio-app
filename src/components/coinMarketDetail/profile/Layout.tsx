@@ -3,7 +3,7 @@ import React from 'react';
 
 import useCoinDetail from '/hooks/data/useCoinDetail';
 import useLocales from '/hooks/useLocales';
-import { useCoinIdContext } from '/hooks/useCoinIdContext';
+import { useCoinIdContext } from '/hooks/context/useCoinIdContext';
 
 import ScrollView from '/components/common/ScrollView';
 import Description from './Description';

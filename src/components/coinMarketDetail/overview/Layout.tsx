@@ -5,7 +5,7 @@ import { BlurView } from 'expo-blur';
 
 import { useAppSelector, shallowEqual } from '/hooks/useRedux';
 import useCoinDetail from '/hooks/data/useCoinDetail';
-import { useCoinIdContext } from '/hooks/useCoinIdContext';
+import { useCoinIdContext } from '/hooks/context/useCoinIdContext';
 import useLocales from '/hooks/useLocales';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 
@@ -15,7 +15,7 @@ import AddTransactionButton from '../AddTransactionButton';
 import WatchButton from '../WatchButton';
 import PriceChangePercentage from './PriceChangePercentage';
 import Stats from './Stats';
-import MainChart from './priceChart';
+import ChartContainer from './priceChart/ChartContainer';
 
 const { width } = Dimensions.get('window');
 
@@ -23,9 +23,8 @@ const Layout = () => {
   const { theme, scheme } = useGlobalTheme();
   const { id } = useCoinIdContext();
   const [refreshing, setRefreshing] = useState(false);
-  const { chartOption, portfolios, activeIndex } = useAppSelector(
+  const { portfolios, activeIndex } = useAppSelector(
     state => ({
-      chartOption: state.baseSettingReducer.chartOption,
       portfolios: state.portfolioReducer.portfolios,
       activeIndex: state.portfolioReducer.activeIndex,
     }),
@@ -54,18 +53,7 @@ const Layout = () => {
         }
       >
         <ChartArea>
-          <MainChart
-            id={id}
-            chartOption={chartOption}
-            lastUpdatedPrice={data.market_data.current_price[currency]}
-            percentage_24h={
-              data.market_data.price_change_percentage_24h_in_currency[currency]
-            }
-            price_24h_ago={
-              data.market_data.current_price[currency] -
-              data.market_data.price_change_24h_in_currency[currency]
-            }
-          />
+          <ChartContainer />
         </ChartArea>
         <Stats
           rank={data.market_data.market_cap_rank}

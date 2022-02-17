@@ -3,7 +3,7 @@ import { Dimensions } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
 import useCoinDetail from '/hooks/data/useCoinDetail';
-import { useCoinIdContext } from '/hooks/useCoinIdContext';
+import { useCoinIdContext } from '/hooks/context/useCoinIdContext';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 
 import FormModal from '/components/portfolio/transactionModal/FormModal';

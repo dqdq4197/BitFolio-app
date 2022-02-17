@@ -33,3 +33,19 @@ export const CHART_TIME_INTERVAL = {
   ...CANDLE_MINUTE_UNIT,
   ...CANDLE_PERIODICITY_UNIT,
 };
+
+export const MARKET_WARNING = t({
+  NONE: 'NONE', // 해당 사항 없음
+  CAUTION: 'CAUTION', // 투자유의
+});
+
+export const MARKET_STATE = t({
+  PREVIEW: 'PREVIEW',
+  ACTIVE: 'ACTIVE',
+  DELISTED: 'DELISTED',
+});
+
+export const ASC_BID = t({
+  ASK: 'ASK',
+  BID: 'BID',
+});

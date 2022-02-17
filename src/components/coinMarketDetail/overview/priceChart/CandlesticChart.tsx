@@ -13,25 +13,21 @@ import useGlobalTheme from '/hooks/useGlobalTheme';
 
 import GlobalIndicator from '/components/common/GlobalIndicator';
 
-interface IConst {
+interface ChartProps {
   WIDTH: number;
   HEIGHT: number;
   PADDING: number;
 }
 
-interface ChartProps extends IConst {
-  id: string;
-}
-
-const CandlesticChart = ({ id, WIDTH, HEIGHT, PADDING }: ChartProps) => {
+const CandlesticChart = ({ WIDTH, HEIGHT, PADDING }: ChartProps) => {
   const { theme } = useGlobalTheme();
-  const { candles, isLoading } = useChartState();
+  const { candles, isLoading, error } = useChartState();
+  // console.log(error.status);
 
-  // console.log(candles.slice(-5));
   return (
     <ChartContainer WIDTH={WIDTH} HEIGHT={HEIGHT} PADDING={PADDING}>
       <GlobalIndicator isLoaded={!isLoading} />
-      {candles && (
+      {!isLoading && (
         <VictoryChart
           theme={VictoryTheme.grayscale}
           width={WIDTH + PADDING}
@@ -91,7 +87,7 @@ const CandlesticChart = ({ id, WIDTH, HEIGHT, PADDING }: ChartProps) => {
             high={2}
             low={3}
             close={4}
-            data={candles}
+            data={candles.slice(-60)}
             candleColors={{ positive: '#00e676', negative: '#f44336' }}
             style={{
               data: {
@@ -107,7 +103,7 @@ const CandlesticChart = ({ id, WIDTH, HEIGHT, PADDING }: ChartProps) => {
 
 export default CandlesticChart;
 
-const ChartContainer = styled.View<IConst>`
+const ChartContainer = styled.View<ChartProps>`
   overflow: hidden;
   margin: 30px 0 20px;
   width: ${({ WIDTH, PADDING }) => WIDTH + PADDING}px;

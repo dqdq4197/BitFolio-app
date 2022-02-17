@@ -32,8 +32,8 @@ export default ({ id, enabled }: TProps) => {
 
   const [points, setPoints] = useState<number[][]>();
   const [volumes, setVolumes] = useState<number[][]>();
-  const [highestPrice, setHighestPrice] = useState<number[]>([]);
-  const [lowestPrice, setLowestPrice] = useState<number[]>([]);
+  const [highestPoint, setHighestPoint] = useState<number[]>([]);
+  const [lowestPoint, setLowestPoint] = useState<number[]>([]);
 
   const {
     data: candlesData,
@@ -74,6 +74,7 @@ export default ({ id, enabled }: TProps) => {
   });
 
   useEffect(() => {
+    // TODO. highest, lowest points => ohlc값으로 바꾸기.
     if (lineData) {
       console.log(lineData.prices.length);
       const { prices, total_volumes } = filteredPriceData(lineData, timeFrame);
@@ -81,8 +82,8 @@ export default ({ id, enabled }: TProps) => {
 
       setPoints(prices);
       setVolumes(total_volumes);
-      setHighestPrice(sortedPrices.slice(-1)[0]);
-      setLowestPrice(sortedPrices[0]);
+      setHighestPoint(sortedPrices.slice(-1)[0]);
+      setLowestPoint(sortedPrices[0]);
     }
   }, [timeFrame, lineData]);
 
@@ -104,6 +105,8 @@ export default ({ id, enabled }: TProps) => {
     points: points as number[][],
     candles: candlesData as HistoricalOhlcReturn,
     volumes: volumes as number[][],
+    highestPoint,
+    lowestPoint,
     changeRate:
       detailData?.market_data.price_change_percentage_24h_in_currency[currency],
     latestPrice,

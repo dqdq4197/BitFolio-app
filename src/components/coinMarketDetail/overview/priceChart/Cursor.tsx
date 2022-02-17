@@ -26,6 +26,7 @@ import {
   exponentToNumber,
   getOnlyDecimal,
 } from '/lib/utils/currencyFormat';
+import { CHANGE_STATE } from '/lib/constant';
 import { digitToFixed } from '/lib/utils';
 
 const { height: DHeight } = Dimensions.get('window');
@@ -44,6 +45,8 @@ const Cursor = ({ width, height, CURSOR_SIZE, PADDING }: CursorProps) => {
   const { language } = useLocales();
   const {
     points,
+    highestPoint,
+    lowestPoint,
     prevClosingPrice,
     datumX,
     datumY,
@@ -52,10 +55,13 @@ const Cursor = ({ width, height, CURSOR_SIZE, PADDING }: CursorProps) => {
   } = useChartState();
 
   const getSvg = useMemo(() => {
-    const xDomain = [...points.map(d => d[0])];
-    // , highestPrice[0], lowestPrice[0]
-    const yDomain = [...points.map(d => d[1])];
-    // , highestPrice[1], lowestPrice[1]
+    const xDomain = [...points.map(d => d[0]), highestPoint[0], lowestPoint[0]];
+    const yDomain = [
+      ...points.map(d => d[1]),
+      highestPoint[1],
+      lowestPoint[1],
+      prevClosingPrice as number,
+    ];
 
     const scaleX = scaleTime()
       .domain([Math.min(...xDomain), Math.max(...xDomain)])
@@ -74,7 +80,15 @@ const Cursor = ({ width, height, CURSOR_SIZE, PADDING }: CursorProps) => {
       scaleY,
       svgPath: parse(d),
     };
-  }, [points, width, height, PADDING]);
+  }, [
+    points,
+    width,
+    height,
+    PADDING,
+    highestPoint,
+    lowestPoint,
+    prevClosingPrice,
+  ]);
 
   const bisect = d3.bisector((d: number[]) => {
     return d[0];
@@ -120,7 +134,11 @@ const Cursor = ({ width, height, CURSOR_SIZE, PADDING }: CursorProps) => {
       );
       datumYChangePercentage.value = `${changePercentage}`;
       setChangeStatus(
-        changePercentage > 0 ? 'RISE' : changePercentage === 0 ? 'EVEN' : 'FALL'
+        changePercentage > 0
+          ? CHANGE_STATE.RISE
+          : changePercentage === 0
+          ? CHANGE_STATE.EVEN
+          : CHANGE_STATE.FALL
       );
       Haptics.selectionAsync();
     }

@@ -13,7 +13,7 @@ import {
   ParagraphType,
   EmbedType,
   ListType
-} from '/hooks/useMdEditorContext';
+} from '/hooks/context/useMdEditorContext';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 
 import RenderText from './RenderText';

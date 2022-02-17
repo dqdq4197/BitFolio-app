@@ -5,7 +5,7 @@ import useRequest from '/hooks/useRequest';
 import useLocales from '/hooks/useLocales';
 import { CoinGecko, http } from '/lib/api/CoinGeckoClient';
 import { CoinMarketReturn } from '/types/CoinGeckoReturnType';
-import { ORDER } from '/lib/constant';
+import { ORDER } from '/lib/constants/coingecko';
 
 import SurfaceWrap from '/components/common/SurfaceWrap';
 import Item from './Item';

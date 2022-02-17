@@ -18,38 +18,45 @@ import useGlobalTheme from '/hooks/useGlobalTheme';
 import { useAppDispatch } from '/hooks/useRedux';
 import '/lib/lang/i18n';
 
+import AppLoader from '/components/AppLoader';
+
 LogBox.ignoreAllLogs();
 
 const RootNavigationContainer = () => {
+  const timeout = React.useRef<NodeJS.Timeout | null>(null);
   const { theme } = useGlobalTheme();
   const dispatch = useAppDispatch();
 
-  const initAppearanceListener = () => {
-    /**
-     * https://github.com/facebook/react-native/issues/28525
-     * wrong color scheme issue ##
-     * debounce로 임시 대처
-     */
-    let timer: any = null;
-    const listener: Appearance.AppearanceListener = (/* <-- ignore */) => {
-      if (timer) clearTimeout(timer);
-      timer = setTimeout(() => {
-        dispatch(changeDeviceScheme(Appearance.getColorScheme()));
-      }, 200);
-    };
-    Appearance.addChangeListener(listener);
-    return () => Appearance.removeChangeListener(listener);
-  };
   useEffect(() => {
-    initAppearanceListener();
+    Appearance.addChangeListener(onColorSchemeChange);
+
+    return () => {
+      resetCurrentTimeout();
+      Appearance.removeChangeListener(onColorSchemeChange);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  function onColorSchemeChange(preferences: Appearance.AppearancePreferences) {
+    resetCurrentTimeout();
+    timeout.current = setTimeout(() => {
+      dispatch(changeDeviceScheme(preferences.colorScheme));
+    }, 500);
+  }
+
+  function resetCurrentTimeout() {
+    if (timeout.current) {
+      clearTimeout(timeout.current);
+    }
+  }
 
   return (
     <ThemeProvider theme={theme}>
       <SafeAreaProvider>
         <BottomSheetModalProvider>
-          <RootNavigation />
+          <AppLoader>
+            <RootNavigation />
+          </AppLoader>
         </BottomSheetModalProvider>
       </SafeAreaProvider>
     </ThemeProvider>

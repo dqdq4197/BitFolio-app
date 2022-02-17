@@ -1,26 +1,31 @@
 import React, { useContext, useState, createContext, useMemo } from 'react';
 import Animated, { useSharedValue } from 'react-native-reanimated';
-import type { chartType } from 'base-types';
 import { AxiosError } from 'axios';
 
-import { useCoinIdContext } from '/hooks/useCoinIdContext';
+import { useCoinIdContext } from './useCoinIdContext';
 import { useAppSelector } from '/hooks/useRedux';
 import useGlobalAverageChart from '/hooks/data/useGlobalAverageChart';
 import useUpbitChart from '/hooks/data/useUpbitChart';
+import { CHANGE_STATE } from '/lib/constant';
+import type { TStreamType, ChangeStatusType } from '/types/common';
 
 // * 중요
 // isLoading이 false일 경우 모든 데이터가 정상적으로 load되어있어야함
 
 type InitialData = {
+  id: string;
+  symbol: string;
   points: number[][];
   candles: number[][]; // tohlc
   volumes: number[][];
+  highestPoint: number[];
+  lowestPoint: number[];
   latestPrice: number | undefined;
   changeRate: number | undefined;
   prevClosingPrice: number | undefined;
   isLoading: boolean;
   error: string | AxiosError<unknown> | null | undefined;
-  streamType: 'REALTIME' | 'SNAPSHOT';
+  streamType: TStreamType;
   interval: {
     label: string;
     value: string | number;
@@ -29,12 +34,10 @@ type InitialData = {
   datumY: Animated.SharedValue<string[]>;
   datumYChangePercentage: Animated.SharedValue<string>;
   isCursorActive: boolean;
-  changeStatus: chartType.changeStatus;
+  changeStatus: ChangeStatusType;
   setters: {
     setIsCursorActive: React.Dispatch<React.SetStateAction<boolean>>;
-    setChangeStatus: React.Dispatch<
-      React.SetStateAction<chartType.changeStatus>
-    >;
+    setChangeStatus: React.Dispatch<React.SetStateAction<ChangeStatusType>>;
   };
 };
 
@@ -52,8 +55,8 @@ export const ChartDataProvider = ({ children }: ProviderProps) => {
   const datumY = useSharedValue(['-', '-']);
   const datumYChangePercentage = useSharedValue('-');
   const [isCursorActive, setIsCursorActive] = useState(false);
-  const [changeStatus, setChangeStatus] = useState<chartType.changeStatus>(
-    'RISE' || 'EVEN' || 'FALL'
+  const [changeStatus, setChangeStatus] = useState<ChangeStatusType>(
+    CHANGE_STATE.EVEN
   );
 
   const globalAverageData = useGlobalAverageChart({
@@ -72,7 +75,7 @@ export const ChartDataProvider = ({ children }: ProviderProps) => {
       datumY,
       datumYChangePercentage,
       isCursorActive,
-      changeStatus,
+      changeStatus: changeStatus as ChangeStatusType,
       setters: {
         setIsCursorActive,
         setChangeStatus,
@@ -93,8 +96,10 @@ export const ChartDataProvider = ({ children }: ProviderProps) => {
     () => ({
       ...asyncDatas,
       ...cursorStates,
+      id,
+      symbol,
     }),
-    [asyncDatas, cursorStates]
+    [asyncDatas, cursorStates, id, symbol]
   );
 
   return (

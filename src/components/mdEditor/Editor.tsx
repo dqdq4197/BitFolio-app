@@ -7,7 +7,7 @@ import {
   EmbedType,
   ListType,
   ImageType,
-} from '/hooks/useMdEditorContext';
+} from '/hooks/context/useMdEditorContext';
 import { TYPES } from '/lib/constant';
 
 import ControlBar from './ControlBar';

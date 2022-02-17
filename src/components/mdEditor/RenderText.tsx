@@ -12,7 +12,7 @@ import { v4 as uuidv4 } from 'uuid';
 import {
   useMdEditorDispatch,
   useMdEditorState,
-} from '/hooks/useMdEditorContext';
+} from '/hooks/context/useMdEditorContext';
 import { unicodes, TYPES, ACTIONS } from '/lib/constant';
 
 import Text from '/components/common/Text';

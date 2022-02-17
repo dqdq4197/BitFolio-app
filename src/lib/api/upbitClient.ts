@@ -14,4 +14,25 @@ export const upbitClient: UpBitClientType = {
       params,
     };
   },
+  market: () => {
+    return {
+      url: '/market/all',
+      params: {
+        isDetails: true,
+      },
+    };
+  },
+  ticker: params => {
+    let { markets } = params;
+    if (Array.isArray(markets)) {
+      markets = markets.join(',');
+    }
+
+    return {
+      url: '/ticker',
+      params: {
+        markets,
+      },
+    };
+  },
 };

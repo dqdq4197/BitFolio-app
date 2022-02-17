@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import YoutubePlayer from "react-native-youtube-iframe";
-import { EmbedType, useMdEditorDispatch, useMdEditorState } from '/hooks/useMdEditorContext';
+import { EmbedType, useMdEditorDispatch, useMdEditorState } from '/hooks/context/useMdEditorContext';
 import { TYPES, ACTIONS } from '/lib/constant';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 

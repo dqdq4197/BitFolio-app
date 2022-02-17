@@ -2,6 +2,8 @@ import React from 'react';
 import { Dimensions } from 'react-native';
 
 import { ChartDataProvider } from '/hooks/context/useChartContext';
+import { useAppSelector } from '/hooks/useRedux';
+import { CHART_TYPE } from '/lib/constant';
 
 import PriceAndDate from './PriceAndDate';
 import CandlesticChart from './CandlesticChart';
@@ -13,35 +15,13 @@ const PADDING = 25; // 차트 padding
 const VOLUME_HEIGHT = 50;
 const { width: WIDTH } = Dimensions.get('window');
 
-type ContainerProps = {
-  id: string;
-  chartOption: 'prices' | 'total_volumes' | 'market_caps' | 'ohlc';
-  lastUpdatedPrice: number;
-  percentage_24h?: number;
-  price_24h_ago: number;
-};
-
-const ChartContainer = ({
-  chartOption,
-  id,
-  lastUpdatedPrice,
-  percentage_24h,
-  price_24h_ago,
-}: ContainerProps) => {
+const ChartContainer = () => {
+  const { chartType } = useAppSelector(state => state.baseSettingReducer);
   return (
     <ChartDataProvider>
-      <PriceAndDate
-        id={id}
-        lastUpdatedPrice={lastUpdatedPrice}
-        percentage_24h={percentage_24h}
-      />
-      {chartOption === 'ohlc' ? (
-        <CandlesticChart
-          id={id}
-          HEIGHT={HEIGHT}
-          PADDING={PADDING}
-          WIDTH={WIDTH}
-        />
+      <PriceAndDate />
+      {chartType === CHART_TYPE.CANDLESTICK ? (
+        <CandlesticChart HEIGHT={HEIGHT} PADDING={PADDING} WIDTH={WIDTH} />
       ) : (
         <LineChart
           HEIGHT={HEIGHT}
@@ -50,7 +30,7 @@ const ChartContainer = ({
           VOLUME_HEIGHT={VOLUME_HEIGHT}
         />
       )}
-      <ChartTab lastUpdatedPercentage={percentage_24h as number} />
+      <ChartTab />
     </ChartDataProvider>
   );
 };

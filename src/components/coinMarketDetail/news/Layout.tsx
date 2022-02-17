@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { FlatList } from 'react-native';
 
-import { useCoinIdContext } from '/hooks/useCoinIdContext';
+import { useCoinIdContext } from '/hooks/context/useCoinIdContext';
 import useNewsArticles from '/hooks/data/useNewsArticles';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import useRequest from '/hooks/useRequest';

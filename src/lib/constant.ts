@@ -1,4 +1,7 @@
 import { baseTypes } from 'base-types';
+
+import { t } from '/lib/utils/mappedType';
+
 // ----- BASE CONST ----------------
 
 enum TAB_ROUTE_NAME {
@@ -20,14 +23,10 @@ const TRANSLATE_PREFIX =
 const PAPAGO_PREFIX = 'https://openapi.naver.com/v1';
 const LANGUAGE_STORAGE_KEY = 'local_language';
 
-const CURRENCIES: {
-  [key in baseTypes.Currency]: {
-    iso: string;
-    symbol: string;
-    unicode: string;
-    name: string;
-  };
-} = {
+const CURRENCIES: Record<
+  baseTypes.Currency,
+  { iso: string; symbol: string; unicode: string; name: string }
+> = {
   krw: {
     iso: 'KRW',
     symbol: '₩',
@@ -47,6 +46,22 @@ const CURRENCIES: {
     name: 'Euro',
   },
 };
+
+const CHART_TYPE = t({
+  CANDLESTICK: 'candlestick',
+  LINE: 'line',
+});
+
+export const STREAM_TYPE = t({
+  SNAPSHOT: 'SNAPSHOT',
+  REALTIME: 'REALTIME',
+});
+
+export const CHANGE_STATE = t({
+  RISE: 'RISE',
+  EVEN: 'EVEN',
+  FALL: 'FALL',
+});
 
 enum KEYBOARD_STATE {
   UNDETERMINED = 0,
@@ -183,65 +198,11 @@ const LANGUAGES: { [key: string]: string } = {
 const TAB_BAR_HEIGHT = 55;
 const CONTENT_SPACING = 16;
 
-// ---- COINGECKO API CONST ----------
-
-const COINGECKO_API_VERSION = '3';
-const COINGECKO_BASE = 'https://api.coingecko.com/api/';
-const COINGECKO_PATH_PREFIX = `${COINGECKO_BASE}v${COINGECKO_API_VERSION}`;
-
-const ORDER = {
-  GECKO_ASC: 'gecko_asc',
-  GECKO_DESC: 'gecko_desc',
-  MARKET_CAP_ASC: 'market_cap_asc',
-  MARKET_CAP_DESC: 'market_cap_desc',
-  VOLUME_ASC: 'volume_asc',
-  VOLUME_DESC: 'volume_desc',
-  COIN_NAME_ASC: 'coin_name_asc',
-  COIN_NAME_DESC: 'coin_name_desc',
-  PRICE_ASC: 'price_asc',
-  PRICE_DESC: 'price_desc',
-  HOUR_24_ASC: 'h24_change_asc',
-  HOUR_24_DESC: 'h24_change_desc',
-  TRUST_SCORE_DESC: 'trust_score_desc',
-  NAME_ASC: 'name_asc',
-  NAME_DESC: 'name_desc',
-  OPEN_INTEREST_BTC_ASC: 'open_interest_btc_asc',
-  OPEN_INTEREST_BTC_DESC: 'open_interest_btc_desc',
-  TRADE_VOLUME_24H_BTC_ASC: 'trade_volume_24h_btc_asc',
-  TRADE_VOLUME_24H_BTC_DESC: 'trade_volume_24h_btc_desc',
-} as const;
-
 const CURRENCY = {
   USD: 'usd',
   KRW: 'krw',
   EUR: 'eur',
 };
-
-const STATUS_UPDATE_CATEGORY = {
-  GENERAL: 'general',
-  MILESTONE: 'milestone',
-  PARTNERSHIP: 'partnership',
-  EXCHANGE_LISTING: 'exchange_listing',
-  SOFTWARE_RELEASE: 'software_release',
-  FUND_MOVEMENT: 'fund_movement',
-  NEW_LISTINGS: 'new_listings',
-  EVENT: 'event',
-};
-
-// -------------------------
-
-// ---- CTYPTOCOMPARE API CONST ----------
-
-const CTYPTOCOMPARE_API_VERSION = 'v2';
-const CTYPTOCOMPARE_BASE = 'https://min-api.cryptocompare.com/data/';
-const CTYPTOCOMPARE_PATH_PREFIX = `${CTYPTOCOMPARE_BASE}`;
-
-const CTYPTOCOMPARE_LANG = {
-  EN: 'en',
-  PT: 'pt', // 포르투갈어
-};
-
-// -----------------------------------
 
 // ---- MDEDITOR CONST ----
 
@@ -293,15 +254,10 @@ export {
   TRANSLATE_PREFIX,
   PAPAGO_PREFIX,
   VALIDATIONS,
+  CHART_TYPE,
   KEYBOARD_STATE,
   TAB_ROUTE_NAME,
   LANGUAGES,
-  CTYPTOCOMPARE_API_VERSION,
-  COINGECKO_PATH_PREFIX,
-  ORDER,
-  CTYPTOCOMPARE_PATH_PREFIX,
-  CTYPTOCOMPARE_LANG,
-  STATUS_UPDATE_CATEGORY,
   CURRENCY,
   CURRENCIES,
   TAB_BAR_HEIGHT,

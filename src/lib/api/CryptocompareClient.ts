@@ -5,7 +5,7 @@ import {
   CTYPTOCOMPARE_PATH_PREFIX,
   CTYPTOCOMPARE_LANG,
   CTYPTOCOMPARE_API_VERSION,
-} from '/lib/constant';
+} from '/lib/constants/cryptocompare';
 
 export type LANG = typeof CTYPTOCOMPARE_LANG[keyof typeof CTYPTOCOMPARE_LANG];
 
@@ -21,9 +21,6 @@ export interface ArticleParams extends CommonParams {
   lang?: LANG;
   sortOrder?: 'latest' | 'popular';
 }
-interface FeedPrams extends CommonParams {}
-interface CategoryPrams extends CommonParams {}
-interface FeedAndCategoryPrams extends CommonParams {}
 
 export const http = axios.create({
   baseURL: CTYPTOCOMPARE_PATH_PREFIX,
@@ -78,7 +75,7 @@ export const Cryptocompare = {
      * @param {boolean} params.extraParams The name of your application (we recommend you send it) [ Min length - 1] [ Max length - 2000] [ Default - NotAvailable]
      * @returns {ReturnObject}
      */
-    feeds: (params: FeedPrams) => {
+    feeds: (params: CommonParams) => {
       return {
         url: `/news/feeds`,
         params,
@@ -92,7 +89,7 @@ export const Cryptocompare = {
      * @param {boolean} params.extraParams The name of your application (we recommend you send it) [ Min length - 1] [ Max length - 2000] [ Default - NotAvailable]
      * @returns {ReturnObject}
      */
-    categories: (params: CategoryPrams) => {
+    categories: (params: CommonParams) => {
       return {
         url: `/news/categories`,
         params,
@@ -106,7 +103,7 @@ export const Cryptocompare = {
      * @param {boolean} params.extraParams The name of your application (we recommend you send it) [ Min length - 1] [ Max length - 2000] [ Default - NotAvailable]
      * @returns {ReturnObject}
      */
-    feedAndCategories: (params: FeedAndCategoryPrams) => {
+    feedAndCategories: (params: CommonParams) => {
       return {
         url: `/news/feedsandcategories`,
         params,

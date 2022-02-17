@@ -12,6 +12,8 @@ import {
 
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import { useChartState } from '/hooks/context/useChartContext';
+import useLocales from '/hooks/useLocales';
+import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat';
 import { CONTENT_SPACING } from '/lib/constant';
 
 import GlobalIndicator from '/components/common/GlobalIndicator';
@@ -78,14 +80,23 @@ const CustomLabel = (props: any) => {
 const LineChart = ({ WIDTH, HEIGHT, PADDING, VOLUME_HEIGHT }: ChartProps) => {
   const { t } = useTranslation();
   const { theme } = useGlobalTheme();
-  const { points, isCursorActive, volumes, isLoading, prevClosingPrice } =
-    useChartState();
+  const { currency } = useLocales();
+  const {
+    points,
+    isCursorActive,
+    volumes,
+    isLoading,
+    changeRate,
+    lowestPoint,
+    highestPoint,
+    prevClosingPrice,
+  } = useChartState();
 
   const strokeColor = useMemo(() => {
-    if (!prevClosingPrice) return theme.base.background[200];
-    if (prevClosingPrice > 0) return theme.base.upColor;
+    if (!changeRate) return theme.base.background[200];
+    if (changeRate > 0) return theme.base.upColor;
     return theme.base.downColor;
-  }, [prevClosingPrice, theme]);
+  }, [changeRate, theme]);
 
   const lastPoint = useMemo(() => {
     return points.slice(-1)[0];
@@ -135,7 +146,7 @@ const LineChart = ({ WIDTH, HEIGHT, PADDING, VOLUME_HEIGHT }: ChartProps) => {
                   strokeDasharray: 3,
                 },
               }}
-              data={points.map((v, _, arr) => [v[0], arr[0][1]])}
+              data={points.map(v => [v[0], prevClosingPrice])}
               x={0}
               y={1}
               interpolation="linear"
@@ -178,18 +189,60 @@ const LineChart = ({ WIDTH, HEIGHT, PADDING, VOLUME_HEIGHT }: ChartProps) => {
                 },
               }}
             />
-            {/* <BaseLineLabel
-              y={chartTimeFrame === 1 ? price_24h_ago : data[chartOption][0][1]}
+            <BaseLineLabel
+              y={prevClosingPrice}
               dy={-5}
               text={currencyFormat({
-                value:
-                  chartTimeFrame === 1
-                    ? price_24h_ago
-                    : data[chartOption][0][1],
+                value: prevClosingPrice as number,
                 prefix: getCurrencySymbol(currency),
               })}
               isCursorActive={isCursorActive}
-            /> */}
+            />
+            <VictoryScatter
+              data={[{ x: highestPoint[0], y: highestPoint[1] }]}
+              size={2}
+              style={{
+                data: {
+                  fill: isCursorActive ? 'transparent' : strokeColor,
+                  opacity: 0.5,
+                },
+              }}
+              labels={[
+                `${t('coinDetail.highest')} ${currencyFormat({
+                  value: highestPoint[1],
+                  prefix: getCurrencySymbol(currency),
+                })}`,
+              ]}
+              labelComponent={
+                <CustomLabel
+                  isCursorActive={isCursorActive}
+                  color={strokeColor}
+                />
+              }
+            />
+            <VictoryScatter
+              data={[{ x: lowestPoint[0], y: lowestPoint[1] }]}
+              size={2}
+              style={{
+                data: {
+                  fill: isCursorActive ? 'transparent' : strokeColor,
+                  opacity: 0.5,
+                },
+              }}
+              labels={[
+                `${t('coinDetail.lowest')} ${currencyFormat({
+                  value: lowestPoint[1],
+                  prefix: getCurrencySymbol(currency),
+                })}`,
+              ]}
+              labelComponent={
+                <CustomLabel
+                  isCursorActive={isCursorActive}
+                  color={strokeColor}
+                  dy={10}
+                />
+              }
+            />
             <VictoryScatter
               data={[
                 {
@@ -210,49 +263,6 @@ const LineChart = ({ WIDTH, HEIGHT, PADDING, VOLUME_HEIGHT }: ChartProps) => {
                 },
               }}
             />
-            {/* <VictoryScatter
-              data={[{ x: highestPrice[0], y: highestPrice[1] }]}
-              size={2}
-              style={{
-                data: {
-                  fill: isCursorActive ? 'transparent' : strokeColor,
-                },
-              }}
-              labels={[
-                `${t('coinDetail.highest')} ${currencyFormat({
-                  value: highestPrice[1],
-                  prefix: getCurrencySymbol(currency),
-                })}`,
-              ]}
-              labelComponent={
-                <CustomLabel
-                  isCursorActive={isCursorActive}
-                  color={strokeColor}
-                />
-              }
-            />
-            <VictoryScatter
-              data={[{ x: lowestPrice[0], y: lowestPrice[1] }]}
-              size={2}
-              style={{
-                data: {
-                  fill: isCursorActive ? 'transparent' : strokeColor,
-                },
-              }}
-              labels={[
-                `${t('coinDetail.lowest')} ${currencyFormat({
-                  value: lowestPrice[1],
-                  prefix: getCurrencySymbol(currency),
-                })}`,
-              ]}
-              labelComponent={
-                <CustomLabel
-                  isCursorActive={isCursorActive}
-                  color={strokeColor}
-                  dy={10}
-                />
-              }
-            /> */}
           </VictoryChart>
           <CursorContainer
             WIDTH={WIDTH}
@@ -265,8 +275,6 @@ const LineChart = ({ WIDTH, HEIGHT, PADDING, VOLUME_HEIGHT }: ChartProps) => {
               height={HEIGHT}
               CURSOR_SIZE={CURSOR_SIZE}
               PADDING={PADDING}
-              // highestPrice={highestPrice}
-              // lowestPrice={lowestPrice}
             />
           </CursorContainer>
           <VictoryChart
