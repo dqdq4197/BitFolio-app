@@ -1,19 +1,19 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { baseTypes } from 'base-types';
 
-import { TAB_ROUTE_NAME, CHART_TYPE } from '/lib/constant';
+import { TAB_ROUTE_NAME, CHART_TYPE, EXCHANGE, CURRENCY } from '/lib/constant';
 import type { ChartTimeIntervalType as UpbitInterval } from '/types/upbit';
 import type { ChartTimeIntervalType as CoingeckoInterval } from '/types/coingecko';
 import type { ChartTimeIntervalType as BinanceInterval } from '/types/binance';
+import type { ExchangeType, CurrencyType, ChartType } from '/types/common';
 
-export type TChartType = typeof CHART_TYPE[keyof typeof CHART_TYPE];
 type DeviceSchemeType = Exclude<baseTypes.Theme, 'default'>;
 export type LocalSchemeType = Extract<
   baseTypes.Theme,
   'light' | 'dark' | 'default'
 >;
 interface ChartSettingState {
-  exchange: baseTypes.Exchange; // 활성화된 거래소
+  exchange: ExchangeType; // 활성화된 거래소
   chartOptions: {
     globalAverage: {
       interval: CoingeckoInterval;
@@ -25,7 +25,7 @@ interface ChartSettingState {
       interval: BinanceInterval;
     };
   };
-  chartType: TChartType;
+  chartType: ChartType;
 }
 
 type ChangeChartInterval = Pick<ChartSettingState, 'exchange'> & {
@@ -35,7 +35,7 @@ type ChangeChartInterval = Pick<ChartSettingState, 'exchange'> & {
 interface BaseSettingState extends ChartSettingState {
   deviceScheme: DeviceSchemeType; // 기기에 설정된 scheme
   localScheme: LocalSchemeType; // 앱 설정 scheme
-  currency: baseTypes.Currency; // 앱 설정 통화
+  currency: CurrencyType; // 앱 설정 통화
   chartTimeFrame: baseTypes.ChartTimeFrame;
   recentlyViewed: string[]; // 최근 본 코인 목록
   watchList: string[]; // 즐겨찾기 리스트
@@ -46,13 +46,13 @@ interface BaseSettingState extends ChartSettingState {
 const initialState: BaseSettingState = {
   deviceScheme: 'dark',
   localScheme: 'default',
-  currency: 'krw',
+  currency: CURRENCY.KRW,
   chartTimeFrame: 1,
   recentlyViewed: [],
   watchList: [],
   recentSearches: [''],
   launchScreen: TAB_ROUTE_NAME.home,
-  exchange: 'upbit',
+  exchange: EXCHANGE.GLOBAL_AVERAGE,
   chartOptions: {
     globalAverage: {
       interval: 1,
@@ -64,7 +64,7 @@ const initialState: BaseSettingState = {
       interval: '1m',
     },
   },
-  chartType: 'line',
+  chartType: CHART_TYPE.LINE,
 };
 
 export const baseSettingSlice = createSlice({
@@ -80,8 +80,11 @@ export const baseSettingSlice = createSlice({
     changeCurrency: (state, action: PayloadAction<baseTypes.Currency>) => {
       state.currency = action.payload;
     },
-    changeChartType: (state, action: PayloadAction<TChartType>) => {
+    changeChartType: (state, action: PayloadAction<ChartType>) => {
       state.chartType = action.payload;
+    },
+    changeChartExchange: (state, action: PayloadAction<ExchangeType>) => {
+      state.exchange = action.payload;
     },
     changeChartInterval: (
       state,
@@ -138,6 +141,7 @@ export const {
   changeLocalScheme,
   changeCurrency,
   changeChartType,
+  changeChartExchange,
   changeChartInterval,
   changeRecentlyViewed,
   changeWatchList,

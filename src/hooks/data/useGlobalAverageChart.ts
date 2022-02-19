@@ -6,13 +6,16 @@ import useCoinDetail from './useCoinDetail';
 import { CoinGecko, http } from '/lib/api/CoinGeckoClient';
 import filteredPriceData from '/lib/utils/filteredPriceData';
 import { CHART_TIME_INTERVAL } from '/lib/constants/coingecko';
+import { CURRENCIES } from '/lib/constant';
 import type {
   ChartDataReturn,
   HistoricalOhlcReturn,
 } from '/types/CoinGeckoReturnType';
+import type { CurrencyType } from '/types/common';
 
 type TProps = {
   id: string;
+  symbol: string;
   enabled: boolean;
 };
 
@@ -21,7 +24,7 @@ const INTERVAL = Object.entries(CHART_TIME_INTERVAL).map(interval => ({
   value: interval[1],
 }));
 
-export default ({ id, enabled }: TProps) => {
+export default ({ id, symbol, enabled }: TProps) => {
   const { currency, chartOptions } = useAppSelector(
     state => state.baseSettingReducer
   );
@@ -34,6 +37,19 @@ export default ({ id, enabled }: TProps) => {
   const [volumes, setVolumes] = useState<number[][]>();
   const [highestPoint, setHighestPoint] = useState<number[]>([]);
   const [lowestPoint, setLowestPoint] = useState<number[]>([]);
+  const [activeTradingPair, setActiveTradingPair] =
+    useState<CurrencyType>(currency);
+
+  const tradingPairs = useMemo(() => {
+    return Object.entries(CURRENCIES).map(currency => {
+      const [key, asset] = currency;
+
+      return {
+        label: `${asset.iso} / ${symbol.toUpperCase()}`,
+        value: key,
+      };
+    });
+  }, [symbol]);
 
   const {
     data: candlesData,
@@ -42,12 +58,12 @@ export default ({ id, enabled }: TProps) => {
   } = useRequest<HistoricalOhlcReturn>(
     enabled
       ? CoinGecko.coin.historicalOhlc(id, {
-          vs_currency: currency,
+          vs_currency: activeTradingPair,
           days: timeFrame,
         })
       : null,
     http,
-    { suspense: true, refreshInterval: 3 * 60 * 1000 }
+    { refreshInterval: 3 * 60 * 1000 }
   );
 
   const {
@@ -57,12 +73,12 @@ export default ({ id, enabled }: TProps) => {
   } = useRequest<ChartDataReturn>(
     enabled
       ? CoinGecko.coin.marketChart(id, {
-          vs_currency: currency,
+          vs_currency: activeTradingPair,
           days: timeFrame,
         })
       : null,
     http,
-    { suspense: true, refreshInterval: 3 * 60 * 1000 }
+    { refreshInterval: 3 * 60 * 1000 }
   );
 
   const {
@@ -76,7 +92,6 @@ export default ({ id, enabled }: TProps) => {
   useEffect(() => {
     // TODO. highest, lowest points => ohlc값으로 바꾸기.
     if (lineData) {
-      console.log(lineData.prices.length);
       const { prices, total_volumes } = filteredPriceData(lineData, timeFrame);
       const sortedPrices = lineData.prices.slice().sort((a, b) => a[1] - b[1]);
 
@@ -96,10 +111,12 @@ export default ({ id, enabled }: TProps) => {
 
   const priceChange24h = useMemo(() => {
     if (detailData) {
-      return detailData?.market_data.price_change_24h_in_currency[currency];
+      return detailData?.market_data.price_change_24h_in_currency[
+        activeTradingPair
+      ];
     }
     return 0;
-  }, [detailData, currency]);
+  }, [detailData, activeTradingPair]);
 
   return {
     points: points as number[][],
@@ -108,12 +125,19 @@ export default ({ id, enabled }: TProps) => {
     highestPoint,
     lowestPoint,
     changeRate:
-      detailData?.market_data.price_change_percentage_24h_in_currency[currency],
+      detailData?.market_data.price_change_percentage_24h_in_currency[
+        activeTradingPair
+      ],
     latestPrice,
     prevClosingPrice: latestPrice - priceChange24h,
     isLoading: candlesIsLoading || lineIsLoading || detailIsLoading || !points,
     error: candlesError || lineError || detailError,
     streamType: 'SNAPSHOT' as 'REALTIME' | 'SNAPSHOT',
     interval: INTERVAL,
+    tradingPairs,
+    activeTradingPair,
+    setActiveTradingPair: setActiveTradingPair as React.Dispatch<
+      React.SetStateAction<string>
+    >,
   };
 };

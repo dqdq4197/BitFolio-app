@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { throttle } from 'lodash';
 
 import useRequest from '../useRequest';
+import { useInitData } from '/hooks/context/useInitDataContext';
 import { useAppSelector } from '/hooks/useRedux';
 import { upbitClient, http } from '/lib/api/upbitClient';
 import { intervalToTimeFrame } from '/lib/utils/upbit';
@@ -39,12 +40,17 @@ const useUpbitChart = ({ symbol, enabled }: TProps) => {
   const latestAccVolumeRef = useRef<number>(0);
 
   const { chartOptions } = useAppSelector(state => state.baseSettingReducer);
+  const [activeTradingPair, setActiveTradingPair] = useState('KRW');
 
   const timeFrame = useMemo(
     () => intervalToTimeFrame(chartOptions.upbit.interval),
     [chartOptions]
   );
-  const [marketCode] = useState(`KRW-${symbol.toUpperCase()}`);
+  const marketCode = useMemo(
+    () => `${activeTradingPair}-${symbol.toUpperCase()}`,
+    [activeTradingPair, symbol]
+  );
+
   const [messageQueue, setMessageQueue] = useState<
     (Pick<RCandlesCommon, 'candle_acc_trade_volume'> &
       Pick<
@@ -58,6 +64,8 @@ const useUpbitChart = ({ symbol, enabled }: TProps) => {
       Partial<CandleReturn<'minutes'> & RealTimeTickerReturn>)[]
   >([]);
   const [socketError, setSocketError] = useState<string | null>(null);
+  // TODO. error 불러오기.
+  const { upbitAssets, upbitIsLoading: assetIsLoading } = useInitData();
 
   const {
     data: snapshotData,
@@ -82,14 +90,11 @@ const useUpbitChart = ({ symbol, enabled }: TProps) => {
     isLoading: tickerIsLoading,
     error: tickerError,
   } = useRequest<SanpshotTickerReturn>(
-    enabled
-      ? upbitClient.ticker({ markets: `KRW-${symbol.toUpperCase()}` })
-      : null,
+    enabled ? upbitClient.ticker({ markets: marketCode }) : null,
     http,
     { refreshInterval: 3 * 60 * 1000 }
   );
 
-  // console.log(tickerData[0].signed_change_rate);
   useEffect(() => {
     // * candles 스냅샷 데이터가 Timestamp 내림차순으로 옴.
     if (snapshotData) {
@@ -193,7 +198,6 @@ const useUpbitChart = ({ symbol, enabled }: TProps) => {
   useEffect(() => {
     webSocketRef.current = new WebSocket(UPBIT_WEBSOCKET_PREFIX);
     const socket = webSocketRef.current;
-
     if (enabled) {
       socket.binaryType = 'arraybuffer';
 
@@ -221,6 +225,27 @@ const useUpbitChart = ({ symbol, enabled }: TProps) => {
       webSocketRef.current.onmessage = onMessage;
     }
   }, [onMessage, isValidating]);
+
+  const tradingPairs = useMemo(() => {
+    if (upbitAssets) {
+      const uppercaseSymbol = symbol.toUpperCase();
+      const pairs = upbitAssets
+        .filter(asset => {
+          const [, from] = asset.market.split('-');
+          return from === uppercaseSymbol;
+        })
+        .map(asset => {
+          const [to, from] = asset.market.split('-');
+          return {
+            label: `${to} / ${from}`,
+            value: to,
+          };
+        });
+
+      return pairs;
+    }
+    return [];
+  }, [symbol, upbitAssets]);
 
   const lastMessage = useMemo(() => {
     const endQueue = messageQueue.slice(-1)[0];
@@ -294,10 +319,14 @@ const useUpbitChart = ({ symbol, enabled }: TProps) => {
       lastMessage?.signed_change_rate && lastMessage.signed_change_rate * 100,
     latestPrice: lastMessage?.trade_price,
     prevClosingPrice: lastMessage?.prev_closing_price,
-    isLoading: snapshotIsLoading || !lastMessage || tickerIsLoading,
+    isLoading:
+      snapshotIsLoading || !lastMessage || tickerIsLoading || assetIsLoading,
     error: snapshotError || socketError || tickerError,
     streamType: STREAM_TYPE.REALTIME as TStreamType,
     interval: INTERVAL,
+    tradingPairs,
+    activeTradingPair,
+    setActiveTradingPair,
   };
 };
 

@@ -5,6 +5,7 @@ import { ChartDataProvider } from '/hooks/context/useChartContext';
 import { useAppSelector } from '/hooks/useRedux';
 import { CHART_TYPE } from '/lib/constant';
 
+import ExchangeAndPairSelector from './ExchangeAndPairSelector';
 import PriceAndDate from './PriceAndDate';
 import CandlesticChart from './CandlesticChart';
 import LineChart from './LineChart';
@@ -19,6 +20,7 @@ const ChartContainer = () => {
   const { chartType } = useAppSelector(state => state.baseSettingReducer);
   return (
     <ChartDataProvider>
+      <ExchangeAndPairSelector />
       <PriceAndDate />
       {chartType === CHART_TYPE.CANDLESTICK ? (
         <CandlesticChart HEIGHT={HEIGHT} PADDING={PADDING} WIDTH={WIDTH} />

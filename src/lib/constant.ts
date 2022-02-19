@@ -1,6 +1,7 @@
 import { baseTypes } from 'base-types';
 
 import { t } from '/lib/utils/mappedType';
+import type { ExchangeType } from '/types/common';
 
 // ----- BASE CONST ----------------
 
@@ -47,7 +48,333 @@ const CURRENCIES: Record<
   },
 };
 
-const CHART_TYPE = t({
+export const PAIR_CURRENCIES = {
+  btc: {
+    name: 'Bitcoin',
+    unit: 'BTC',
+    type: 'crypto',
+  },
+  eth: {
+    name: 'Ether',
+    unit: 'ETH',
+    type: 'crypto',
+  },
+  ltc: {
+    name: 'Litecoin',
+    unit: 'LTC',
+    type: 'crypto',
+  },
+  bch: {
+    name: 'Bitcoin Cash',
+    unit: 'BCH',
+    type: 'crypto',
+  },
+  bnb: {
+    name: 'Binance Coin',
+    unit: 'BNB',
+    type: 'crypto',
+  },
+  eos: {
+    name: 'EOS',
+    unit: 'EOS',
+    type: 'crypto',
+  },
+  xrp: {
+    name: 'XRP',
+    unit: 'XRP',
+    type: 'crypto',
+  },
+  xlm: {
+    name: 'Lumens',
+    unit: 'XLM',
+    type: 'crypto',
+  },
+  link: {
+    name: 'Chainlink',
+    unit: 'LINK',
+    type: 'crypto',
+  },
+  dot: {
+    name: 'Polkadot',
+    unit: 'DOT',
+    type: 'crypto',
+  },
+  yfi: {
+    name: 'Yearn.finance',
+    unit: 'YFI',
+    type: 'crypto',
+  },
+  usd: {
+    name: 'US Dollar',
+    unit: '$',
+    type: 'fiat',
+  },
+  aed: {
+    name: 'United Arab Emirates Dirham',
+    unit: 'DH',
+    type: 'fiat',
+  },
+  ars: {
+    name: 'Argentine Peso',
+    unit: '$',
+    type: 'fiat',
+  },
+  aud: {
+    name: 'Australian Dollar',
+    unit: 'A$',
+    type: 'fiat',
+  },
+  bdt: {
+    name: 'Bangladeshi Taka',
+    unit: '৳',
+    type: 'fiat',
+  },
+  bhd: {
+    name: 'Bahraini Dinar',
+    unit: 'BD',
+    type: 'fiat',
+  },
+  bmd: {
+    name: 'Bermudian Dollar',
+    unit: '$',
+    type: 'fiat',
+  },
+  brl: {
+    name: 'Brazil Real',
+    unit: 'R$',
+    type: 'fiat',
+  },
+  cad: {
+    name: 'Canadian Dollar',
+    unit: 'CA$',
+    type: 'fiat',
+  },
+  chf: {
+    name: 'Swiss Franc',
+    unit: 'Fr.',
+    type: 'fiat',
+  },
+  clp: {
+    name: 'Chilean Peso',
+    unit: 'CLP$',
+    type: 'fiat',
+  },
+  cny: {
+    name: 'Chinese Yuan',
+    unit: '¥',
+    type: 'fiat',
+  },
+  czk: {
+    name: 'Czech Koruna',
+    unit: 'Kč',
+    type: 'fiat',
+  },
+  dkk: {
+    name: 'Danish Krone',
+    unit: 'kr.',
+    type: 'fiat',
+  },
+  eur: {
+    name: 'Euro',
+    unit: '€',
+    type: 'fiat',
+  },
+  gbp: {
+    name: 'British Pound Sterling',
+    unit: '£',
+    type: 'fiat',
+  },
+  hkd: {
+    name: 'Hong Kong Dollar',
+    unit: 'HK$',
+    type: 'fiat',
+  },
+  huf: {
+    name: 'Hungarian Forint',
+    unit: 'Ft',
+    type: 'fiat',
+  },
+  idr: {
+    name: 'Indonesian Rupiah',
+    unit: 'Rp',
+    type: 'fiat',
+  },
+  ils: {
+    name: 'Israeli New Shekel',
+    unit: '₪',
+    type: 'fiat',
+  },
+  inr: {
+    name: 'Indian Rupee',
+    unit: '₹',
+    type: 'fiat',
+  },
+  jpy: {
+    name: 'Japanese Yen',
+    unit: '¥',
+    type: 'fiat',
+  },
+  krw: {
+    name: 'South Korean Won',
+    unit: '₩',
+    type: 'fiat',
+  },
+  kwd: {
+    name: 'Kuwaiti Dinar',
+    unit: 'KD',
+    type: 'fiat',
+  },
+  lkr: {
+    name: 'Sri Lankan Rupee',
+    unit: 'Rs',
+    type: 'fiat',
+  },
+  mmk: {
+    name: 'Burmese Kyat',
+    unit: 'K',
+    type: 'fiat',
+  },
+  mxn: {
+    name: 'Mexican Peso',
+    unit: 'MX$',
+    type: 'fiat',
+  },
+  myr: {
+    name: 'Malaysian Ringgit',
+    unit: 'RM',
+    type: 'fiat',
+  },
+  ngn: {
+    name: 'Nigerian Naira',
+    unit: '₦',
+    type: 'fiat',
+  },
+  nok: {
+    name: 'Norwegian Krone',
+    unit: 'kr',
+    type: 'fiat',
+  },
+  nzd: {
+    name: 'New Zealand Dollar',
+    unit: 'NZ$',
+    type: 'fiat',
+  },
+  php: {
+    name: 'Philippine Peso',
+    unit: '₱',
+    type: 'fiat',
+  },
+  pkr: {
+    name: 'Pakistani Rupee',
+    unit: '₨',
+    type: 'fiat',
+  },
+  pln: {
+    name: 'Polish Zloty',
+    unit: 'zł',
+    type: 'fiat',
+  },
+  rub: {
+    name: 'Russian Ruble',
+    unit: '₽',
+    type: 'fiat',
+  },
+  sar: {
+    name: 'Saudi Riyal',
+    unit: 'SR',
+    type: 'fiat',
+  },
+  sek: {
+    name: 'Swedish Krona',
+    unit: 'kr',
+    type: 'fiat',
+  },
+  sgd: {
+    name: 'Singapore Dollar',
+    unit: 'S$',
+    type: 'fiat',
+  },
+  thb: {
+    name: 'Thai Baht',
+    unit: '฿',
+    type: 'fiat',
+  },
+  try: {
+    name: 'Turkish Lira',
+    unit: '₺',
+    type: 'fiat',
+  },
+  twd: {
+    name: 'New Taiwan Dollar',
+    unit: 'NT$',
+    type: 'fiat',
+  },
+  uah: {
+    name: 'Ukrainian hryvnia',
+    unit: '₴',
+    type: 'fiat',
+  },
+  vef: {
+    name: 'Venezuelan bolívar fuerte',
+    unit: 'Bs.F',
+    type: 'fiat',
+  },
+  vnd: {
+    name: 'Vietnamese đồng',
+    unit: '₫',
+    type: 'fiat',
+  },
+  zar: {
+    name: 'South African Rand',
+    unit: 'R',
+    type: 'fiat',
+  },
+  xdr: {
+    name: 'IMF Special Drawing Rights',
+    unit: 'XDR',
+    type: 'fiat',
+  },
+  xag: {
+    name: 'Silver - Troy Ounce',
+    unit: 'XAG',
+    type: 'commodity',
+  },
+  xau: {
+    name: 'Gold - Troy Ounce',
+    unit: 'XAU',
+    type: 'commodity',
+  },
+  bits: {
+    name: 'Bits',
+    unit: 'μBTC',
+    type: 'crypto',
+  },
+  sats: {
+    name: 'Satoshi',
+    unit: 'sats',
+    type: 'crypto',
+  },
+};
+
+export const EXCHANGE = t({
+  GLOBAL_AVERAGE: 'globalAverage',
+  UPBIT: 'upbit',
+  BINANCE: 'binance',
+});
+
+export const EXCHANGES: Record<ExchangeType, { label: string }> = {
+  globalAverage: {
+    label: 'Global Average',
+  },
+  upbit: {
+    label: 'UPbit',
+  },
+  binance: {
+    label: 'Binance',
+  },
+};
+
+export const CHART_TYPE = t({
   CANDLESTICK: 'candlestick',
   LINE: 'line',
 });
@@ -198,11 +525,11 @@ const LANGUAGES: { [key: string]: string } = {
 const TAB_BAR_HEIGHT = 55;
 const CONTENT_SPACING = 16;
 
-const CURRENCY = {
+const CURRENCY = t({
   USD: 'usd',
   KRW: 'krw',
   EUR: 'eur',
-};
+});
 
 // ---- MDEDITOR CONST ----
 
@@ -254,7 +581,6 @@ export {
   TRANSLATE_PREFIX,
   PAPAGO_PREFIX,
   VALIDATIONS,
-  CHART_TYPE,
   KEYBOARD_STATE,
   TAB_ROUTE_NAME,
   LANGUAGES,

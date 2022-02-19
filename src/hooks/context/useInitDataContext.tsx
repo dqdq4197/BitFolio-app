@@ -9,7 +9,7 @@ import type { MarketReturn } from '/types/upbit';
 
 type InitialData = {
   coingeckoAssets?: SearchDataReturn;
-  upbitAssets?: MarketReturn;
+  upbitAssets?: MarketReturn[];
   upbitIsLoading: boolean;
   coingeckoIsLoading: boolean;
 };
@@ -23,10 +23,11 @@ const InitDataContext = createContext<InitialData | undefined>(undefined);
 export function InitDataProvider({ children }: ProviderProps) {
   const { language } = useLocales();
 
-  const { data: upbitMarketData, isLoading: upbitIsLoading } =
-    useRequest<MarketReturn>(upbitClient.market(), upbitHttp, {
-      refreshInterval: 30 * 60 * 1000,
-    });
+  const { data: upbitMarketData, isLoading: upbitIsLoading } = useRequest<
+    MarketReturn[]
+  >(upbitClient.market(), upbitHttp, {
+    refreshInterval: 30 * 60 * 1000,
+  });
 
   const { data: searchData, isLoading: coingeckoIsLoading } =
     useRequest<SearchDataReturn>(

@@ -44,7 +44,8 @@
       "second": "Trading is a highly risky activity that can lead to major losses, please therefore consult your financial advisor before making any decision.",
       "third": "No content on Bitfolio is meant to be a solicitation or offer.",
       "privacy policy notice": "Privacy Policy Notice"
-    }
+    },
+    "trading pairs": "Trading Pairs"
   },
   "auth": {
     "login": "Log In",

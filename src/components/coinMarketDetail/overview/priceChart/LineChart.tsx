@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import styled from 'styled-components/native';
 import { useTranslation } from 'react-i18next';
 import {
@@ -9,6 +9,15 @@ import {
   VictoryLabel,
   VictoryScatter,
 } from 'victory-native';
+import { VictoryScatterProps } from 'victory';
+import Svg, { Circle } from 'react-native-svg';
+import Animated, {
+  useSharedValue,
+  withTiming,
+  withRepeat,
+  Easing,
+  useAnimatedProps,
+} from 'react-native-reanimated';
 
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import { useChartState } from '/hooks/context/useChartContext';
@@ -27,6 +36,47 @@ interface ChartProps {
   PADDING: number;
   VOLUME_HEIGHT: number;
 }
+
+type AnimatedScatterProps = VictoryScatterProps & {
+  fill: string;
+};
+
+const AnimatedCircle = Animated.createAnimatedComponent(Circle);
+const AnimatedScatter = ({ x, y, size, fill }: AnimatedScatterProps) => {
+  const animate = useSharedValue(0);
+
+  useEffect(() => {
+    animate.value = withRepeat(
+      withTiming(1, { duration: 1000, easing: Easing.linear }),
+      -1,
+      false
+    );
+  }, [animate]);
+
+  const pongpong = useAnimatedProps(() => {
+    return {
+      r: animate.value * 12,
+      opacity: 1 - animate.value,
+    };
+  });
+
+  return (
+    <>
+      <AnimatedCircle
+        fill={fill}
+        r={size as number}
+        cx={x as number}
+        cy={y as number}
+      />
+      <AnimatedCircle
+        fill={fill}
+        cx={x as number}
+        cy={y as number}
+        animatedProps={pongpong}
+      />
+    </>
+  );
+};
 
 const BaseLineLabel = React.memo((props: any) => {
   const { theme } = useGlobalTheme();
@@ -90,15 +140,17 @@ const LineChart = ({ WIDTH, HEIGHT, PADDING, VOLUME_HEIGHT }: ChartProps) => {
     lowestPoint,
     highestPoint,
     prevClosingPrice,
+    streamType,
   } = useChartState();
 
   const strokeColor = useMemo(() => {
-    if (!changeRate) return theme.base.background[200];
+    if (!changeRate) return theme.base.text[200];
     if (changeRate > 0) return theme.base.upColor;
     return theme.base.downColor;
   }, [changeRate, theme]);
 
   const lastPoint = useMemo(() => {
+    if (!points) return [0, 0];
     return points.slice(-1)[0];
   }, [points]);
 
@@ -160,6 +212,9 @@ const LineChart = ({ WIDTH, HEIGHT, PADDING, VOLUME_HEIGHT }: ChartProps) => {
               }}
               animate={{
                 duration: 200,
+                onEnter: {
+                  duration: 0,
+                },
                 onLoad: {
                   duration: 0,
                 },
@@ -243,26 +298,29 @@ const LineChart = ({ WIDTH, HEIGHT, PADDING, VOLUME_HEIGHT }: ChartProps) => {
                 />
               }
             />
-            <VictoryScatter
-              data={[
-                {
-                  x: lastPoint[0],
-                  y: lastPoint[1],
-                },
-              ]}
-              size={3}
-              animate={{
-                duration: 200,
-                onLoad: {
-                  duration: 0,
-                },
-              }}
-              style={{
-                data: {
-                  fill: strokeColor,
-                },
-              }}
-            />
+            {streamType === 'REALTIME' && (
+              <VictoryScatter
+                data={[
+                  {
+                    x: lastPoint[0],
+                    y: lastPoint[1],
+                  },
+                ]}
+                dataComponent={<AnimatedScatter fill={strokeColor} />}
+                size={3}
+                animate={{
+                  duration: 200,
+                  onLoad: {
+                    duration: 0,
+                  },
+                }}
+                style={{
+                  data: {
+                    fill: strokeColor,
+                  },
+                }}
+              />
+            )}
           </VictoryChart>
           <CursorContainer
             WIDTH={WIDTH}
@@ -349,3 +407,5 @@ const CursorContainer = styled.View<ChartProps>`
   z-index: 2;
   align-items: center;
 `;
+
+const StyledCircle = styled(Circle)``;

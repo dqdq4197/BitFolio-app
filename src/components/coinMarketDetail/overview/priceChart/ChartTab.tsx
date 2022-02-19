@@ -6,13 +6,10 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import { useAppDispatch, useAppSelector } from '/hooks/useRedux';
 import { useChartState } from '/hooks/context/useChartContext';
-import {
-  changeChartInterval,
-  changeChartType,
-  TChartType,
-} from '/store/baseSetting';
+import { changeChartInterval, changeChartType } from '/store/baseSetting';
 import { CoinSvg } from '/lib/svg';
 import { CHART_TYPE } from '/lib/constant';
+import type { ChartType } from '/types/common';
 
 import Text from '/components/common/Text';
 
@@ -49,7 +46,7 @@ const ChartTab = () => {
     return theme.base.downColor;
   }, [changeRate, theme]);
 
-  const handleChartSelectorPress = (value: TChartType) => {
+  const handleChartSelectorPress = (value: ChartType) => {
     LayoutAnimation.configureNext(
       LayoutAnimation.create(200, 'easeInEaseOut', 'opacity')
     );

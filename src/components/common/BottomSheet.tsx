@@ -8,6 +8,7 @@ import Text from '/components/common/Text';
 
 type SheetProps = BottomSheetProps;
 
+// Incomplete
 // TODO. create scollable sheet
 const CustomBottomSheet = forwardRef(
   ({ snapPoints, onChange }: SheetProps, ref: React.Ref<BottomSheet>) => {

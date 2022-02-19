@@ -7,7 +7,11 @@ import { useAppSelector } from '/hooks/useRedux';
 import useGlobalAverageChart from '/hooks/data/useGlobalAverageChart';
 import useUpbitChart from '/hooks/data/useUpbitChart';
 import { CHANGE_STATE } from '/lib/constant';
-import type { TStreamType, ChangeStatusType } from '/types/common';
+import type {
+  TStreamType,
+  ChangeStatusType,
+  ExchangeType,
+} from '/types/common';
 
 // * 중요
 // isLoading이 false일 경우 모든 데이터가 정상적으로 load되어있어야함
@@ -15,6 +19,7 @@ import type { TStreamType, ChangeStatusType } from '/types/common';
 type InitialData = {
   id: string;
   symbol: string;
+  exchange: ExchangeType;
   points: number[][];
   candles: number[][]; // tohlc
   volumes: number[][];
@@ -35,6 +40,12 @@ type InitialData = {
   datumYChangePercentage: Animated.SharedValue<string>;
   isCursorActive: boolean;
   changeStatus: ChangeStatusType;
+  tradingPairs: {
+    label: string;
+    value: string;
+  }[];
+  activeTradingPair: string;
+  setActiveTradingPair: React.Dispatch<React.SetStateAction<string>>;
   setters: {
     setIsCursorActive: React.Dispatch<React.SetStateAction<boolean>>;
     setChangeStatus: React.Dispatch<React.SetStateAction<ChangeStatusType>>;
@@ -61,6 +72,7 @@ export const ChartDataProvider = ({ children }: ProviderProps) => {
 
   const globalAverageData = useGlobalAverageChart({
     id,
+    symbol,
     enabled: exchange === 'globalAverage',
   });
 
@@ -98,8 +110,9 @@ export const ChartDataProvider = ({ children }: ProviderProps) => {
       ...cursorStates,
       id,
       symbol,
+      exchange,
     }),
-    [asyncDatas, cursorStates, id, symbol]
+    [asyncDatas, cursorStates, exchange, id, symbol]
   );
 
   return (
