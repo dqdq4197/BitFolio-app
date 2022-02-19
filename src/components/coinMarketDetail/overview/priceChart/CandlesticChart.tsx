@@ -11,7 +11,7 @@ import {
 import { useChartState } from '/hooks/context/useChartContext';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 
-import GlobalIndicator from '/components/common/GlobalIndicator';
+import LoadBoundaryView from './LoadBoundaryView';
 
 interface ChartProps {
   WIDTH: number;
@@ -26,7 +26,10 @@ const CandlesticChart = ({ WIDTH, HEIGHT, PADDING }: ChartProps) => {
 
   return (
     <ChartContainer WIDTH={WIDTH} HEIGHT={HEIGHT} PADDING={PADDING}>
-      <GlobalIndicator isLoaded={!isLoading} />
+      <LoadBoundaryView
+        isLoading={isLoading}
+        isNotFound={error?.status === 404}
+      />
       {!isLoading && (
         <VictoryChart
           theme={VictoryTheme.grayscale}

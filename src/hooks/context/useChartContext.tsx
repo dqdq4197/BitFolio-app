@@ -30,7 +30,7 @@ type InitialData = {
   changeRate: number | undefined;
   prevClosingPrice: number | undefined;
   isLoading: boolean;
-  error: Error | undefined;
+  error: (Error & ExtendErrorType) | undefined;
   streamType: TStreamType;
   interval: {
     label: string;

@@ -25,7 +25,7 @@ import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat';
 import { CONTENT_SPACING } from '/lib/constant';
 
 import Cursor from './Cursor';
-import LoadBoundary from './LoadBoundary';
+import LoadBoundaryView from './LoadBoundaryView';
 
 const CURSOR_SIZE = 16;
 
@@ -163,7 +163,10 @@ const LineChart = ({ WIDTH, HEIGHT, PADDING, VOLUME_HEIGHT }: ChartProps) => {
       PADDING={PADDING}
       VOLUME_HEIGHT={VOLUME_HEIGHT}
     >
-      <LoadBoundary isLoading={isLoading} isNotFound={error?.status === 404} />
+      <LoadBoundaryView
+        isLoading={isLoading}
+        isNotFound={error?.status === 404}
+      />
       {!isLoading && points.length && (
         <>
           <VictoryChart

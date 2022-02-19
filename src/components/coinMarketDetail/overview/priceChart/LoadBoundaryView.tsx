@@ -13,7 +13,7 @@ type BoundaryProps = {
   isLoading: boolean;
 };
 
-const LoadBoundary = ({ isNotFound, isLoading }: BoundaryProps) => {
+const LoadBoundaryView = ({ isNotFound, isLoading }: BoundaryProps) => {
   const { t } = useTranslation();
   const { theme } = useGlobalTheme();
 
@@ -34,7 +34,7 @@ const LoadBoundary = ({ isNotFound, isLoading }: BoundaryProps) => {
   return <GlobalIndicator isLoaded={false} />;
 };
 
-export default LoadBoundary;
+export default LoadBoundaryView;
 
 const NotFoundViewContainer = styled.View`
   align-items: center;
