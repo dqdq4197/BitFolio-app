@@ -45,7 +45,8 @@
       "third": "당사는 어떠한 콘텐츠도 권유 또는 제안을 의미하지 않습니다.",
       "privacy policy notice": "개인정보 처리방침 안내"
     },
-    "trading pairs": "거래 쌍"
+    "trading pairs": "거래 쌍",
+    "global average": "글로벌 평균"
   },
   "auth": {
     "login": "로그인",
@@ -105,6 +106,8 @@
     "add your first transaction": "첫 트랜잭션을 추가해보세요",
     "watch": "주시하기",
     "unwatch": "주시 해제",
+    "not found fst": "선택한 거래소에 사용할 수 있는 데이터가 없습니다.",
+    "not found scd": "거래소 또는 거래 쌍을 변경해주세요",
     "are you sure you want unwatch this coin?": "정말 이 코인 주시 해제하시겠습니까?",
     "all transactions and holdings related to this coin will be removed": "이 코인과 관련된 모든 거래 및 보유는 제거됩니다."
   },

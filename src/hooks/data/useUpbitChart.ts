@@ -7,6 +7,7 @@ import useRequest from '../useRequest';
 import { useInitData } from '/hooks/context/useInitDataContext';
 import { useAppSelector } from '/hooks/useRedux';
 import { upbitClient, http } from '/lib/api/upbitClient';
+
 import { intervalToTimeFrame } from '/lib/utils/upbit';
 import {
   CHART_TIME_INTERVAL,
@@ -63,7 +64,7 @@ const useUpbitChart = ({ symbol, enabled }: TProps) => {
       > &
       Partial<CandleReturn<'minutes'> & RealTimeTickerReturn>)[]
   >([]);
-  const [socketError, setSocketError] = useState<string | null>(null);
+  const [socketError, setSocketError] = useState<Error | null>(null);
   // TODO. error 불러오기.
   const { upbitAssets, upbitIsLoading: assetIsLoading } = useInitData();
 
@@ -72,7 +73,7 @@ const useUpbitChart = ({ symbol, enabled }: TProps) => {
     error: snapshotError,
     isLoading: snapshotIsLoading,
     isValidating,
-  } = useRequest<CandleReturn<'minutes'>[], Error>(
+  } = useRequest<CandleReturn<'minutes'>[]>(
     enabled
       ? upbitClient.candles(
           timeFrame.periodicity,
@@ -192,7 +193,9 @@ const useUpbitChart = ({ symbol, enabled }: TProps) => {
   }, []);
 
   const onError = useCallback((error: WebSocketErrorEvent | any) => {
-    setSocketError(error.message);
+    const customError = new Error('socket error');
+    customError.message = error;
+    setSocketError(customError);
   }, []);
 
   useEffect(() => {

@@ -7,6 +7,7 @@ import { useAppSelector } from '/hooks/useRedux';
 import useGlobalAverageChart from '/hooks/data/useGlobalAverageChart';
 import useUpbitChart from '/hooks/data/useUpbitChart';
 import { CHANGE_STATE } from '/lib/constant';
+import type { ExtendErrorType } from '/hooks/useRequest';
 import type {
   TStreamType,
   ChangeStatusType,
@@ -29,7 +30,7 @@ type InitialData = {
   changeRate: number | undefined;
   prevClosingPrice: number | undefined;
   isLoading: boolean;
-  error: string | AxiosError<unknown> | null | undefined;
+  error: Error | undefined;
   streamType: TStreamType;
   interval: {
     label: string;

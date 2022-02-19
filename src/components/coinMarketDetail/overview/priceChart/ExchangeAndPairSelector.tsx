@@ -85,12 +85,22 @@ const ExchangeAndPairSelector = () => {
     modalRef.current?.present();
   };
 
+  const translatedExchange = useCallback(
+    (exchange: string) => {
+      if (exchange === EXCHANGES.globalAverage.label) {
+        return t(`common.global average`);
+      }
+      return exchange;
+    },
+    [t]
+  );
+
   return (
     <>
       <Container onPress={handleSelectorPress} activeOpacity={0.8}>
         <Selector borderPosition="left">
           <Text bold color={theme.base.dark100}>
-            {EXCHANGES[exchange].label}
+            {translatedExchange(EXCHANGES[exchange].label)}
           </Text>
         </Selector>
         <Selector borderPosition="right">
@@ -123,7 +133,8 @@ const ExchangeAndPairSelector = () => {
             <ExchagesView>
               {exchanges.map(({ label, value }) => (
                 <Row
-                  title={label}
+                  key={value}
+                  title={translatedExchange(label)}
                   enabled={value === exchange}
                   onPress={() => onExchangeChange(value)}
                 />
@@ -132,6 +143,7 @@ const ExchangeAndPairSelector = () => {
             <PairsView>
               {tradingPairs.map(({ label, value }) => (
                 <Row
+                  key={value}
                   title={label}
                   enabled={value === activeTradingPair}
                   onPress={() => onTradingPairChange(value)}
@@ -160,7 +172,8 @@ const Container = styled.TouchableOpacity`
 `;
 
 const Selector = styled.View<SelectorType>`
-  width: ${({ theme }) => DWidth / 2 - parseInt(theme.content.spacing, 10) - 5};
+  width: ${({ theme }) =>
+    DWidth / 2 - parseInt(theme.content.spacing, 10) - 5}px;
   height: 100%;
   flex-direction: row;
   background-color: #252933;

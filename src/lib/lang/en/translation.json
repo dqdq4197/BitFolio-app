@@ -45,7 +45,8 @@
       "third": "No content on Bitfolio is meant to be a solicitation or offer.",
       "privacy policy notice": "Privacy Policy Notice"
     },
-    "trading pairs": "Trading Pairs"
+    "trading pairs": "Trading Pairs",
+    "global average": "Global Average"
   },
   "auth": {
     "login": "Log In",
@@ -105,6 +106,8 @@
     "add your first transaction": "Add your first transaction",
     "watch": "Watch",
     "unwatch": "Unwatch",
+    "not found fst": "No data available for the selected exchange.",
+    "not found scd": "Please change exchanges or trading pairs",
     "are you sure you want unwatch this coin?": "Are you sure you want unwatch this coin?",
     "all transactions and holdings related to this coin will be removed": "All transactions and holdings related to this coin will be removed."
   },

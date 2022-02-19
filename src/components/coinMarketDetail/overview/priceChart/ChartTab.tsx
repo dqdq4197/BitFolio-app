@@ -129,6 +129,7 @@ const ChartTabWrap = styled.View`
   justify-content: space-between;
   width: ${width}px;
   padding: 0 ${({ theme }) => theme.content.spacing};
+  margin-top: 3px;
 `;
 
 const ChartTimeSelectorScrollView = styled.ScrollView``;

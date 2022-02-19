@@ -113,30 +113,36 @@ const PriceAndDate = () => {
           >
             {getCurrencySymbol(activeTradingPair)}
           </Text>
-          {isCursorActive ? (
-            <>
-              <DatumYIntegerText text={datumYInteger} />
-              <DatumYDecimalText text={datumYDecimal} />
-            </>
+          {!isLoading ? (
+            isCursorActive ? (
+              <>
+                <DatumYIntegerText text={datumYInteger} />
+                <DatumYDecimalText text={datumYDecimal} />
+              </>
+            ) : (
+              <>
+                <Text
+                  fontXL
+                  heavy
+                  color100
+                  style={{ transform: [{ translateY: 3 }] }}
+                >
+                  {latestPrice && AddSeparator(Math.floor(latestPrice))}.
+                </Text>
+                <Text fontML color100 heavy>
+                  {latestPrice &&
+                    getOnlyDecimal({
+                      value: exponentToNumber(latestPrice),
+                      minLength: 2,
+                      noneZeroCnt: exponentToNumber(latestPrice) < 1 ? 3 : 2,
+                    })}
+                </Text>
+              </>
+            )
           ) : (
-            <>
-              <Text
-                fontXL
-                heavy
-                color100
-                style={{ transform: [{ translateY: 3 }] }}
-              >
-                {latestPrice && AddSeparator(Math.floor(latestPrice))}.
-              </Text>
-              <Text fontML color100 heavy>
-                {latestPrice &&
-                  getOnlyDecimal({
-                    value: exponentToNumber(latestPrice),
-                    minLength: 2,
-                    noneZeroCnt: exponentToNumber(latestPrice) < 1 ? 3 : 2,
-                  })}
-              </Text>
-            </>
+            <Text fontL bold>
+              --
+            </Text>
           )}
         </PriceWrap>
         <PercentageWrap>

@@ -6,11 +6,16 @@ import {
   AxiosError,
 } from 'axios';
 
+export type ExtendErrorType = {
+  status?: number;
+  info?: string;
+  message?: string;
+};
 export type RequestType = AxiosRequestConfig | null;
 
 export interface Return<Data, Error>
   extends Pick<
-    SWRResponse<AxiosResponse<Data>, AxiosError<Error>>,
+    SWRResponse<AxiosResponse<Data>, AxiosError<Error> & ExtendErrorType>,
     'isValidating' | 'error' | 'mutate'
   > {
   data: Data | undefined;
@@ -36,7 +41,7 @@ export default function useRequest<Data = unknown, Error = unknown>(
     error,
     isValidating,
     mutate,
-  } = useSWR<AxiosResponse<Data>, AxiosError<Error>>(
+  } = useSWR<AxiosResponse<Data>, AxiosError<Error> & ExtendErrorType>(
     request && JSON.stringify(request),
     () =>
       axios(request!).catch(e => {

@@ -24,8 +24,8 @@ import { useChartState } from '/hooks/context/useChartContext';
 import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat';
 import { CONTENT_SPACING } from '/lib/constant';
 
-import GlobalIndicator from '/components/common/GlobalIndicator';
 import Cursor from './Cursor';
+import LoadBoundary from './LoadBoundary';
 
 const CURSOR_SIZE = 16;
 
@@ -41,6 +41,7 @@ type AnimatedScatterProps = VictoryScatterProps & {
 };
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
+
 const AnimatedScatter = ({ x, y, size, fill }: AnimatedScatterProps) => {
   const animate = useSharedValue(0);
 
@@ -140,6 +141,7 @@ const LineChart = ({ WIDTH, HEIGHT, PADDING, VOLUME_HEIGHT }: ChartProps) => {
     prevClosingPrice,
     streamType,
     activeTradingPair,
+    error,
   } = useChartState();
 
   const strokeColor = useMemo(() => {
@@ -153,6 +155,7 @@ const LineChart = ({ WIDTH, HEIGHT, PADDING, VOLUME_HEIGHT }: ChartProps) => {
     return points.slice(-1)[0];
   }, [points]);
 
+  // console.log(error?.status);
   return (
     <ChartContainer
       WIDTH={WIDTH}
@@ -160,7 +163,7 @@ const LineChart = ({ WIDTH, HEIGHT, PADDING, VOLUME_HEIGHT }: ChartProps) => {
       PADDING={PADDING}
       VOLUME_HEIGHT={VOLUME_HEIGHT}
     >
-      <GlobalIndicator isLoaded={!isLoading} />
+      <LoadBoundary isLoading={isLoading} isNotFound={error?.status === 404} />
       {!isLoading && points.length && (
         <>
           <VictoryChart
@@ -406,5 +409,3 @@ const CursorContainer = styled.View<ChartProps>`
   z-index: 2;
   align-items: center;
 `;
-
-const StyledCircle = styled(Circle)``;

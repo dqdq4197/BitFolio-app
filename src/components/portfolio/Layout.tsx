@@ -53,7 +53,8 @@ const EmptyCoinListView = ({ isLoading }: EmptyViewProps) => {
         <Text fontS bold>
           {`+ ${t(`portfolio.add new asset`)}`}
         </Text>
-        &nbsp; {t(`portfolio.button to add a transaction or to start watching coins`)}
+        &nbsp;{' '}
+        {t(`portfolio.button to add a transaction or to start watching coins`)}
       </Text>
     </EmptyViewContainer>
   );
@@ -110,14 +111,18 @@ const Layout = () => {
     >
       <PortfolioAnalysisSheet portfolioStats={portfolioStats} />
       <SurfaceWrap title={t(`portfolio.assets`)}>
-        {portfolioStats && !initLoading
-          ? coins.length !== 0
-            ? <CoinListSheet
+        {portfolioStats && !initLoading ? (
+          coins.length !== 0 ? (
+            <CoinListSheet
               coinsStats={portfolioStats.coins}
               portfolioTotalCosts={portfolioStats.total_costs}
             />
-            : <EmptyCoinListView isLoading={false} />
-          : <EmptyCoinListView isLoading={true} />}
+          ) : (
+            <EmptyCoinListView isLoading={false} />
+          )
+        ) : (
+          <EmptyCoinListView isLoading />
+        )}
         <AddCoinButton onPress={handleWatchCoinCoinPress}>
           <Octicons name="plus" size={14} color={theme.base.dark100} />
           <Text fontML dark100 heavy margin="0 0 0 5px">
