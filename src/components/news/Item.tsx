@@ -12,7 +12,7 @@ import useLocales from '/hooks/useLocales';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import { CategoriesType } from '/store/news';
 import { LANGUAGES } from '/lib/constant';
-import { NewsData } from '/types/CryptoCompareReturnType';
+import type { NewsData } from '/types/cryptoCompareReturnType';
 
 import Text from '/components/common/Text';
 import Image from '/components/common/Image';

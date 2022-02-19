@@ -1,12 +1,12 @@
 import React, { useState, useCallback } from 'react';
-import styled from 'styled-components/native'
+import styled from 'styled-components/native';
 import { Octicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 
 import { useAppSelector, useAppDispatch } from '/hooks/useRedux';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import { ALL_NEWS_FEEDS, changeFeeds } from '/store/news';
-import { FeedAndCategoryData } from '/types/CryptoCompareReturnType';
+import type { FeedAndCategoryData } from '/types/cryptoCompareReturnType';
 
 import ScrollCloseModal from '/components/common/ScrollCloseModal';
 import AsyncButton from '/components/common/AsyncButton';
@@ -14,16 +14,15 @@ import Text from '/components/common/Text';
 import Image from '/components/common/Image';
 
 interface ModalType extends Pick<FeedAndCategoryData, 'Feeds'> {
-  visible: boolean
-  setVisible: React.Dispatch<React.SetStateAction<boolean>>
+  visible: boolean;
+  setVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const FeedFilterModal = ({
   visible,
   setVisible,
-  Feeds: FeedsData
+  Feeds: FeedsData,
 }: ModalType) => {
-
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const { theme } = useGlobalTheme();
@@ -33,7 +32,7 @@ const FeedFilterModal = ({
   const handleSavePress = useCallback(() => {
     dispatch(changeFeeds(feedsTemp));
     setVisible(false);
-  }, [feedsTemp])
+  }, [feedsTemp]);
 
   const handleRowPress = (key: string) => {
     if (feedsTemp === ALL_NEWS_FEEDS) {
@@ -49,15 +48,15 @@ const FeedFilterModal = ({
 
       if (isContain === -1) {
         setFeedsTemp(prevState => [...prevState, key]);
+      } else if (feedsTemp.length === 1) {
+        setFeedsTemp(ALL_NEWS_FEEDS);
       } else {
-        if (feedsTemp.length === 1) {
-          setFeedsTemp(ALL_NEWS_FEEDS);
-        } else {
-          setFeedsTemp(prevState => (prevState as string[]).filter(category => category !== key));
-        }
+        setFeedsTemp(prevState =>
+          (prevState as string[]).filter(category => category !== key)
+        );
       }
     }
-  }
+  };
 
   return (
     <ScrollCloseModal
@@ -118,7 +117,7 @@ const FeedFilterModal = ({
                     width={25}
                     height={25}
                     uri={feed.img}
-                    borderRedius={'s'}
+                    borderRedius="s"
                   />
                   <Text color100 heavy margin="0 0 0 10px">
                     {feed.name}
@@ -128,35 +127,34 @@ const FeedFilterModal = ({
                   name="check"
                   size={24}
                   color={
-                    feedsTemp !== ALL_NEWS_FEEDS && (
-                      feedsTemp.findIndex(temp => temp === feed.key) !== -1
-                    )
+                    feedsTemp !== ALL_NEWS_FEEDS &&
+                    feedsTemp.findIndex(temp => temp === feed.key) !== -1
                       ? theme.base.primaryColor
                       : 'transparent'
                   }
                 />
               </>
             </Row>
-          )
+          );
         })}
       </Container>
     </ScrollCloseModal>
-  )
-}
+  );
+};
 
 export default FeedFilterModal;
 
 type RowProps = {
-  isActive: boolean
-}
+  isActive: boolean;
+};
 
 const Container = styled.View`
   padding-bottom: 30px;
-`
+`;
 
 const TitleWrap = styled.View`
   justify-content: center;
-`
+`;
 
 const Row = styled.TouchableHighlight<RowProps>`
   flex-direction: row;
@@ -166,10 +164,10 @@ const Row = styled.TouchableHighlight<RowProps>`
   padding: 0 ${({ theme }) => theme.content.spacing};
   border-bottom-width: 1px;
   border-bottom-color: ${({ theme }) => theme.base.background[300]};
-  opacity: ${({ isActive }) => isActive ? 1 : 0.6};
-`
+  opacity: ${({ isActive }) => (isActive ? 1 : 0.6)};
+`;
 
 const NameWrap = styled.View`
   flex-direction: row;
   align-items: center;
-`
+`;

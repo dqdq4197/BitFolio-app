@@ -5,7 +5,7 @@ import {
   http,
   ArticleParams,
 } from '/lib/api/CryptocompareClient';
-import { NewsReturn } from '/types/CryptoCompareReturnType';
+import type { NewsReturn } from '/types/cryptoCompareReturnType';
 
 import useRequestInfinite from '../useRequestInfinite';
 

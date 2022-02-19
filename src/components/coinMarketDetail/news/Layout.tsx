@@ -6,7 +6,7 @@ import useNewsArticles from '/hooks/data/useNewsArticles';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import useRequest from '/hooks/useRequest';
 import { Cryptocompare, http } from '/lib/api/CryptocompareClient';
-import { CategoryReturn } from '/types/CryptoCompareReturnType';
+import type { CategoryReturn } from '/types/cryptoCompareReturnType';
 
 import CustomRefreshControl from '/components/common/CustomRefreshControl';
 import Header from './Header';

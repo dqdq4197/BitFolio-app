@@ -1,6 +1,6 @@
 import useRequest from '../useRequest';
 import { Cryptocompare, http } from '/lib/api/CryptocompareClient';
-import { FeedReturn } from '/types/CryptoCompareReturnType';
+import type { FeedReturn } from '/types/cryptoCompareReturnType';
 
 type FeedProps = {
   suspense?: boolean;

@@ -4,7 +4,10 @@ import styled from 'styled-components/native';
 import { useTranslation } from 'react-i18next';
 
 import useGlobalTheme from '/hooks/useGlobalTheme';
-import { SearchTrandingCoin, SearchCoin } from '/types/CoinGeckoReturnType';
+import type {
+  SearchTrandingCoin,
+  SearchCoin,
+} from '/types/coinGeckoReturnType';
 
 import SurfaceWrap from '/components/common/SurfaceWrap';
 import Image from '/components/common/Image';

@@ -7,7 +7,7 @@ import useLocales from '/hooks/useLocales';
 import useAnimatedHeaderTitle from '/hooks/useAnimatedHeaderTitle';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import { CoinGecko, http } from '/lib/api/CoinGeckoClient';
-import { CoinMarketReturn } from '/types/CoinGeckoReturnType';
+import type { CoinMarketReturn } from '/types/coinGeckoReturnType';
 
 import MarketListSkeleton from '/components/skeletonPlaceholder/MarketListSkeleton';
 import CustomRefreshControl from '/components/common/CustomRefreshControl';

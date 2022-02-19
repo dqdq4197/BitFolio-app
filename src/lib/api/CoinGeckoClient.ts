@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { baseTypes } from 'base-types';
 import { ModifyPartial } from 'mapped-types';
+import _ from 'lodash';
 
 import { COINGECKO_PATH_PREFIX, ORDER } from '/lib/constants/coingecko';
 import { ChartTimeIntervalType } from '/types/coingecko';
@@ -106,31 +107,29 @@ export const CoinGecko = {
      * @param {number} params.page - Page through results
      * @param {boolean} params.sparkline [default: false] - Include sparkline 7 days data (true/false)
      * @param {boolean} params.price_change_percentage Include price change percentage in 1h, 24h, 7d, 14d, 30d, 200d, 1y (eg. '1h,24h,7d' comma-separated, invalid values will be discarded)
-     * @returns {ReturnObject}
      */
     markets: (params: ParamsType<CoinMarketsParams, 'markets'>) => {
-      params = Object.assign({}, defaultParams.markets, params);
+      let cpParams = { ...params };
+      cpParams = _.defaults(params, defaultParams.markets);
 
-      if (params.hasOwnProperty('ids') && Array.isArray(params.ids)) {
-        if (params.ids.length > 0) {
-          params.ids = params.ids.join(',');
+      if (_.hasIn(cpParams, 'ids') && Array.isArray(cpParams.ids)) {
+        if (cpParams.ids.length > 0) {
+          cpParams.ids = cpParams.ids.join(',');
         } else {
-          params.ids = 'null';
+          cpParams.ids = 'null';
         }
       }
 
-      // console.log(params.ids);
-
       if (
-        params.hasOwnProperty('price_change_percentage') &&
-        Array.isArray(params.price_change_percentage)
+        _.hasIn(cpParams, 'price_change_percentage') &&
+        Array.isArray(cpParams.price_change_percentage)
       ) {
-        params.price_change_percentage =
-          params.price_change_percentage.join(',');
+        cpParams.price_change_percentage =
+          cpParams.price_change_percentage.join(',');
       }
       return {
         url: `/coins/markets`,
-        params,
+        params: cpParams,
       };
     },
     /**
@@ -138,7 +137,6 @@ export const CoinGecko = {
      * @function coin.historySnapshot()
      * @param {string} id - (Required) The coin id / eg. bitcoin
      * @param {string} params.date - The date of data snapshot in dd-mm-yyyy eg. 30-12-2017
-     * @returns {ReturnObject}
      */
     historySnapshot: (id: string, params: HistorySnapshotParams) => {
       return {
@@ -157,7 +155,6 @@ export const CoinGecko = {
      * @param {string} params.vs_currency [default: usd] - (Required) The target currency of market data (usd, eur, jpy, etc.)
      * @param {number} params.from - (Required) From date in UNIX Timestamp (eg. 1392577232)
      * @param {number} params.to - (Required) To date in UNIX Timestamp (eg. 1422577232)
-     * @returns {ReturnObject}
      */
     marketChartRange: (id: string, params: MarketChartRangeParams) => {
       return {
@@ -172,7 +169,6 @@ export const CoinGecko = {
      * @param {object} params - Parameters to pass through to the request
      * @param {string} params.vs_currency [default: usd] - (Required) The target currency of market data (usd, eur, jpy, etc.)
      * @param {string} params.days [default: 1] - (Required) Data up to number of days ago (eg. 1,14,30,max)
-     * @returns {ReturnObject}
      */
     marketChart: (id: string, params: MarketChartParams) => {
       return {
@@ -199,15 +195,16 @@ export const CoinGecko = {
      * @returns {ReturnObject}
      */
     simplePrice: (params: SimplePriceParams) => {
-      if (Array.isArray(params.ids)) {
-        params.ids = params.ids.join(',');
+      const cpParams = { ...params };
+      if (Array.isArray(cpParams.ids)) {
+        cpParams.ids = cpParams.ids.join(',');
       }
-      if (Array.isArray(params.vs_currencies)) {
-        params.vs_currencies = params.vs_currencies.join(',');
+      if (Array.isArray(cpParams.vs_currencies)) {
+        cpParams.vs_currencies = cpParams.vs_currencies.join(',');
       }
       return {
         url: `/simple/price`,
-        params,
+        params: cpParams,
       };
     },
     DetailInfo: (id: string, params: DetailInfoParams) => {
@@ -230,6 +227,11 @@ export const CoinGecko = {
     global: () => {
       return {
         url: `/global`,
+      };
+    },
+    exchangeRates: () => {
+      return {
+        url: `/exchange_rates`,
       };
     },
   },

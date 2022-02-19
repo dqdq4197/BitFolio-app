@@ -17,7 +17,7 @@ import useGlobalTheme from '/hooks/useGlobalTheme';
 import { useAppSelector, useAppDispatch } from '/hooks/useRedux';
 import useAnimatedHeaderTitle from '/hooks/useAnimatedHeaderTitle';
 import { NewsStateType, changeSortOrder, SortOrderType } from '/store/news';
-import { NewsData } from '/types/CryptoCompareReturnType';
+import type { NewsData } from '/types/cryptoCompareReturnType';
 
 import Text from '/components/common/Text';
 import CustomRefreshControl from '/components/common/CustomRefreshControl';

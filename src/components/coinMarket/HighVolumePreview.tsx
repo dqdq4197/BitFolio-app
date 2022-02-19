@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import useRequest from '/hooks/useRequest';
 import useLocales from '/hooks/useLocales';
 import { CoinGecko, http } from '/lib/api/CoinGeckoClient';
-import { CoinMarketReturn } from '/types/CoinGeckoReturnType';
+import type { CoinMarketReturn } from '/types/coinGeckoReturnType';
 import { ORDER } from '/lib/constants/coingecko';
 
 import SurfaceWrap from '/components/common/SurfaceWrap';

@@ -8,7 +8,7 @@ import { CURRENCIES } from '/lib/constant';
  * @param  {baseTypes.Currency} currency currency
  * @param  {boolean} addCurrencyMark [default: true]
  */
-export default function (
+export default function convertUnits(
   num: number,
   currency: baseTypes.Currency,
   addCurrencyMark = true
@@ -22,51 +22,6 @@ export default function (
   let result = '';
   let beforePrefix = isNegative ? '-' : '';
   beforePrefix += addCurrencyMark ? currencyMark : '';
-
-  if (currency === 'usd' || currency === 'eur') {
-    switch (numToString.length) {
-      case 7:
-      case 8:
-      case 9:
-        result = `${numToString.substr(0, numLen - 6)}.${numToString.substr(
-          numLen - 6,
-          2
-        )}M`;
-        break;
-      case 10:
-      case 11:
-      case 12:
-        result = `${numToString.substr(0, numLen - 9)}.${numToString.substr(
-          numLen - 9,
-          2
-        )}B`;
-        break;
-      case 13:
-      case 14:
-      case 15:
-        result = `${numToString.substr(0, numLen - 12)}.${numToString.substr(
-          numLen - 12,
-          2
-        )}T`;
-        break;
-      case 16:
-      case 17:
-      case 18:
-        result = `${numToString.substr(0, numLen - 15)}.${numToString.substr(
-          numLen - 15,
-          2
-        )}Q`;
-        break;
-
-      default:
-        result =
-          num.toString().indexOf('-') === 0
-            ? krwFormat(num).slice(1)
-            : krwFormat(num);
-        break;
-    }
-    return beforePrefix + result;
-  }
 
   if (currency === 'krw') {
     // 1,000,000,000,000,000
@@ -117,4 +72,47 @@ export default function (
     }
     return beforePrefix + result;
   }
+
+  switch (numToString.length) {
+    case 7:
+    case 8:
+    case 9:
+      result = `${numToString.substr(0, numLen - 6)}.${numToString.substr(
+        numLen - 6,
+        2
+      )}M`;
+      break;
+    case 10:
+    case 11:
+    case 12:
+      result = `${numToString.substr(0, numLen - 9)}.${numToString.substr(
+        numLen - 9,
+        2
+      )}B`;
+      break;
+    case 13:
+    case 14:
+    case 15:
+      result = `${numToString.substr(0, numLen - 12)}.${numToString.substr(
+        numLen - 12,
+        2
+      )}T`;
+      break;
+    case 16:
+    case 17:
+    case 18:
+      result = `${numToString.substr(0, numLen - 15)}.${numToString.substr(
+        numLen - 15,
+        2
+      )}Q`;
+      break;
+
+    default:
+      result =
+        num.toString().indexOf('-') === 0
+          ? krwFormat(num).slice(1)
+          : krwFormat(num);
+      break;
+  }
+  return beforePrefix + result;
 }

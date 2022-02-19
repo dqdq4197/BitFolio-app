@@ -6,7 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import { useAppSelector } from '/hooks/useRedux';
-import { CoinMarketReturn } from '/types/CoinGeckoReturnType';
+import type { CoinMarketReturn } from '/types/coinGeckoReturnType';
 import useLocales from '/hooks/useLocales';
 import useRequest from '/hooks/useRequest';
 import { CoinGecko, http } from '/lib/api/CoinGeckoClient';

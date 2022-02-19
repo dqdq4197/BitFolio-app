@@ -10,7 +10,7 @@ import {
   VictoryScatter,
 } from 'victory-native';
 import { VictoryScatterProps } from 'victory';
-import Svg, { Circle } from 'react-native-svg';
+import { Circle } from 'react-native-svg';
 import Animated, {
   useSharedValue,
   withTiming,
@@ -21,7 +21,6 @@ import Animated, {
 
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import { useChartState } from '/hooks/context/useChartContext';
-import useLocales from '/hooks/useLocales';
 import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat';
 import { CONTENT_SPACING } from '/lib/constant';
 
@@ -130,7 +129,6 @@ const CustomLabel = (props: any) => {
 const LineChart = ({ WIDTH, HEIGHT, PADDING, VOLUME_HEIGHT }: ChartProps) => {
   const { t } = useTranslation();
   const { theme } = useGlobalTheme();
-  const { currency } = useLocales();
   const {
     points,
     isCursorActive,
@@ -141,6 +139,7 @@ const LineChart = ({ WIDTH, HEIGHT, PADDING, VOLUME_HEIGHT }: ChartProps) => {
     highestPoint,
     prevClosingPrice,
     streamType,
+    activeTradingPair,
   } = useChartState();
 
   const strokeColor = useMemo(() => {
@@ -249,7 +248,7 @@ const LineChart = ({ WIDTH, HEIGHT, PADDING, VOLUME_HEIGHT }: ChartProps) => {
               dy={-5}
               text={currencyFormat({
                 value: prevClosingPrice as number,
-                prefix: getCurrencySymbol(currency),
+                prefix: getCurrencySymbol(activeTradingPair),
               })}
               isCursorActive={isCursorActive}
             />
@@ -265,7 +264,7 @@ const LineChart = ({ WIDTH, HEIGHT, PADDING, VOLUME_HEIGHT }: ChartProps) => {
               labels={[
                 `${t('coinDetail.highest')} ${currencyFormat({
                   value: highestPoint[1],
-                  prefix: getCurrencySymbol(currency),
+                  prefix: getCurrencySymbol(activeTradingPair),
                 })}`,
               ]}
               labelComponent={
@@ -287,7 +286,7 @@ const LineChart = ({ WIDTH, HEIGHT, PADDING, VOLUME_HEIGHT }: ChartProps) => {
               labels={[
                 `${t('coinDetail.lowest')} ${currencyFormat({
                   value: lowestPoint[1],
-                  prefix: getCurrencySymbol(currency),
+                  prefix: getCurrencySymbol(activeTradingPair),
                 })}`,
               ]}
               labelComponent={

@@ -4,7 +4,7 @@ import useRequest from '/hooks/useRequest';
 import useLocales from '/hooks/useLocales';
 import { upbitClient, http as upbitHttp } from '/lib/api/upbitClient';
 import { CoinGecko, http as coingeckoHttp } from '/lib/api/CoinGeckoClient';
-import type { SearchDataReturn } from '/types/CoinGeckoReturnType';
+import type { SearchDataReturn } from '/types/coinGeckoReturnType';
 import type { MarketReturn } from '/types/upbit';
 
 type InitialData = {

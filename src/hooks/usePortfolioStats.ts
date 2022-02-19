@@ -2,7 +2,9 @@
 import { useEffect, useState } from 'react';
 import { useAppSelector } from '/hooks/useRedux';
 import useLocales from '/hooks/useLocales';
-import { CoinMarketReturn } from '/types/CoinGeckoReturnType';
+import type { CoinMarketReturn } from '/types/coinGeckoReturnType';
+
+const { hasOwnProperty } = Object.prototype;
 
 type StatsProps = {
   id: string;
@@ -121,7 +123,7 @@ const usePortfolioStats = ({ id, coinsData }: StatsProps) => {
 
         const pricePerUsd = pricePerCoin[currency] / pricePerCoin.usd;
 
-        if (coinStats.hasOwnProperty(coinId)) {
+        if (hasOwnProperty.call(coinStats, coinId)) {
           const targetCoinStats = coinStats[coinId];
           if (type === 'buy') {
             targetCoinStats.order_quantity += quantity;
@@ -209,7 +211,7 @@ const usePortfolioStats = ({ id, coinsData }: StatsProps) => {
       let portfolio_change_24h = 0;
       let portfolio_all_time_pl = 0;
 
-      Object.keys(coinStats).map(key => {
+      Object.keys(coinStats).forEach(key => {
         coinStats[key].holding_quantity =
           coinStats[key].order_quantity + coinStats[key].transfer_quantity;
         coinStats[key].holding_costs =

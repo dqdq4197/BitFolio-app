@@ -5,7 +5,6 @@ import { chartType } from 'base-types';
 import { ReText } from 'react-native-redash';
 import styled from 'styled-components/native';
 
-import { useAppSelector } from '/hooks/useRedux';
 import { useChartState } from '/hooks/context/useChartContext';
 import { digitToFixed } from '/lib/utils';
 import {
@@ -21,7 +20,6 @@ import IncreaseDecreaseValue from '/components/common/IncreaseDecreaseValue';
 const DATE_HEIGHT = 20;
 
 const PriceAndDate = () => {
-  const { currency } = useAppSelector(state => state.baseSettingReducer);
   const {
     id,
     latestPrice,
@@ -32,6 +30,7 @@ const PriceAndDate = () => {
     datumYChangePercentage,
     isLoading,
     changeStatus,
+    activeTradingPair,
   } = useChartState();
   const translateY = useRef(new Animated.Value(-DATE_HEIGHT)).current;
   const opacity = useRef(new Animated.Value(0)).current;
@@ -112,7 +111,7 @@ const PriceAndDate = () => {
             margin="0 5px 0 0"
             bold
           >
-            {getCurrencySymbol(currency)}
+            {getCurrencySymbol(activeTradingPair)}
           </Text>
           {isCursorActive ? (
             <>

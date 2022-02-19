@@ -7,7 +7,7 @@ import {
   ORDER,
   PriceChangePercentageType,
 } from '/lib/api/CoinGeckoClient';
-import { CoinMarketReturn } from '/types/CoinGeckoReturnType';
+import type { CoinMarketReturn } from '/types/coinGeckoReturnType';
 import { useAppSelector } from '../useRedux';
 import useRequestInfinite from '../useRequestInfinite';
 

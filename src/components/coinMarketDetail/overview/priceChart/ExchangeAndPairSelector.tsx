@@ -39,9 +39,7 @@ const Row = ({ onPress, title, enabled }: RowProps) => {
       underlayColor={theme.base.underlayColor[100]}
     >
       <>
-        <Text fontML bold>
-          {title}
-        </Text>
+        <Text bold>{title}</Text>
         <Octicons
           name="check"
           size={24}
@@ -76,9 +74,11 @@ const ExchangeAndPairSelector = () => {
 
   const onTradingPairChange = useCallback(
     value => {
+      if (activeTradingPair === value) return;
       setActiveTradingPair(value);
+      modalRef.current?.close();
     },
-    [setActiveTradingPair]
+    [activeTradingPair, setActiveTradingPair]
   );
 
   const handleSelectorPress = () => {
@@ -89,12 +89,12 @@ const ExchangeAndPairSelector = () => {
     <>
       <Container onPress={handleSelectorPress} activeOpacity={0.8}>
         <Selector borderPosition="left">
-          <Text fontM bold color={theme.base.dark100}>
+          <Text bold color={theme.base.dark100}>
             {EXCHANGES[exchange].label}
           </Text>
         </Selector>
         <Selector borderPosition="right">
-          <Text fontM bold color={theme.base.dark100}>
+          <Text bold color={theme.base.dark100}>
             {`${activeTradingPair.toUpperCase()} / ${symbol.toUpperCase()}`}
           </Text>
         </Selector>
@@ -155,16 +155,15 @@ const Container = styled.TouchableOpacity`
   padding: ${({ theme }) => `0 ${theme.content.spacing}`};
   flex-direction: row;
   height: 35px;
-  justify-content: space-around;
+  justify-content: space-between;
   margin-bottom: 8px;
 `;
 
 const Selector = styled.View<SelectorType>`
-  width: ${({ theme }) =>
-    DWidth / 2 - parseInt(theme.content.spacing, 10) - 10};
+  width: ${({ theme }) => DWidth / 2 - parseInt(theme.content.spacing, 10) - 5};
   height: 100%;
   flex-direction: row;
-  background-color: ${({ theme }) => '#252933'};
+  background-color: #252933;
   align-items: center;
   justify-content: center;
   ${({ borderPosition }) =>
@@ -202,12 +201,12 @@ const Col = styled.View`
 
 const ExchagesView = styled.View`
   flex: 1;
+  border-right-color: ${({ theme }) => theme.base.background[200]};
+  border-right-width: 1px;
 `;
 
-const PairsView = styled.View`
+const PairsView = styled.ScrollView`
   flex: 1;
-  border-left-color: ${({ theme }) => theme.base.background[200]};
-  border-left-width: 1px;
 `;
 
 const RowContainer = styled.TouchableHighlight`

@@ -33,6 +33,18 @@ export type CoinMarketReturn = {
 
 export type HistoricalOhlcReturn = [[number, number, number, number, number]];
 
+export type ExchangeRatesReturn = {
+  rates: Record<
+    string,
+    {
+      name: string;
+      unit: string;
+      value: number;
+      type: 'crypto' | 'fiat' | 'commodity';
+    }
+  >;
+};
+
 export type ChartDataReturn = {
   prices: number[][];
   market_caps: number[][];

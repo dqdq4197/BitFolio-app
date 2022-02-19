@@ -48,7 +48,10 @@ const CURRENCIES: Record<
   },
 };
 
-export const PAIR_CURRENCIES = {
+export const PAIR_CURRENCIES: Record<
+  string,
+  { name: string; unit: string; type: 'crypto' | 'fiat' | 'commodity' }
+> = {
   btc: {
     name: 'Bitcoin',
     unit: 'BTC',

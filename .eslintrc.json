@@ -57,6 +57,7 @@
     ],
     // "react/jsx-no-useless-fragment": [2, { "allowExpressions": true }],
     "react/jsx-props-no-spreading": [2, { "custom": "ignore" }],
+    "react/jsx-no-useless-fragment": 0,
     "no-nested-ternary": 0,
     "react/require-default-props": 0,
     "react/no-unstable-nested-components": 0,

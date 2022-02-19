@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import useRequest from '/hooks/useRequest';
 import useLocales from '/hooks/useLocales';
-import { CoinMarketReturn } from '/types/CoinGeckoReturnType';
+import type { CoinMarketReturn } from '/types/coinGeckoReturnType';
 import { CoinGecko, http } from '/lib/api/CoinGeckoClient';
 
 import SurfaceWrap from '/components/common/SurfaceWrap';

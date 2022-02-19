@@ -9,7 +9,7 @@ import { useAppSelector, useAppDispatch, shallowEqual } from '/hooks/useRedux';
 import useRequest from '/hooks/useRequest';
 import { ALL_NEWS_FEEDS, ALL_NEWS_CATEGORIES, resetFilters } from '/store/news';
 import { Cryptocompare, http } from '/lib/api/CryptocompareClient';
-import { FeedAndCategoryReturn } from '/types/CryptoCompareReturnType';
+import type { FeedAndCategoryReturn } from '/types/cryptoCompareReturnType';
 
 import SkeletonContainer from '/components/skeletonPlaceholder/common/Container';
 import Text from '/components/common/Text';

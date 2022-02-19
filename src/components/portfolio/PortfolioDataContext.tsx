@@ -10,7 +10,7 @@ import { AxiosResponse } from 'axios';
 import { useAppSelector, shallowEqual } from '/hooks/useRedux';
 import useCoinMarketData from '/hooks/data/useCoinMarketData';
 import { PortfolioType } from '/store/portfolio';
-import { CoinMarketReturn } from '/types/CoinGeckoReturnType';
+import type { CoinMarketReturn } from '/types/coinGeckoReturnType';
 
 interface ValueType extends Pick<PortfolioType, 'id' | 'coins'> {
   coinsData?: CoinMarketReturn[];
@@ -46,28 +46,24 @@ export function PortfolioDataProvider({ children }: ContextProps) {
     willNotRequest: coinIds.length <= 0,
   });
 
-  const mutateCoinsData = () => {
-    return mutate();
-  };
-
   useEffect(() => {
     const temp: string[] = [];
     const { coins } = portfolios[activeIndex];
 
-    coins.map(coin => {
+    coins.forEach(coin => {
       if (!temp.includes(coin.id)) {
         temp.push(coin.id);
       }
     });
 
     setCoinIds(temp);
-  }, [portfolios[activeIndex].coins]);
+  }, [activeIndex, portfolios]);
 
   useEffect(() => {
     if (!isLoading && initLoading === true) {
       setInitLoading(false);
     }
-  }, [coinsData]);
+  }, [coinsData, initLoading, isLoading]);
 
   const value = useMemo(
     () => ({

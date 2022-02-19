@@ -31,7 +31,7 @@ import { useAppDispatch, useAppSelector } from '/hooks/useRedux';
 import { addWatchingCoin } from '/store/portfolio';
 import { createFuzzyMatcher, getKeyboardAnimationConfigs } from '/lib/utils';
 import { CoinGecko, http } from '/lib/api/CoinGeckoClient';
-import { SearchCoin, SearchDataReturn } from '/types/CoinGeckoReturnType';
+import type { SearchCoin, SearchDataReturn } from '/types/coinGeckoReturnType';
 
 import Item from '/components/coinSearch/Item';
 import EmptyView from '/components/coinSearch/EmptyView';

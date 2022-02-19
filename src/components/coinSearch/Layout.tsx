@@ -28,7 +28,10 @@ import { useInitData } from '/hooks/context/useInitDataContext';
 import { changeRecentSearches } from '/store/baseSetting';
 import { createFuzzyMatcher, getKeyboardAnimationConfigs } from '/lib/utils';
 import { CoinGecko, http } from '/lib/api/CoinGeckoClient';
-import { SearchTrandingReturn, SearchCoin } from '/types/CoinGeckoReturnType';
+import type {
+  SearchTrandingReturn,
+  SearchCoin,
+} from '/types/coinGeckoReturnType';
 
 import Text from '/components/common/Text';
 import GlobalIndicator from '/components/common/GlobalIndicator';

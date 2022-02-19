@@ -10,7 +10,7 @@ import useGlobalTheme from '/hooks/useGlobalTheme';
 import useLocales from '/hooks/useLocales';
 import useRequest from '/hooks/useRequest';
 import { CoinGecko, http } from '/lib/api/CoinGeckoClient';
-import { CoinMarketReturn } from '/types/CoinGeckoReturnType';
+import type { CoinMarketReturn } from '/types/coinGeckoReturnType';
 
 import Text from '/components/common/Text';
 import SurfaceWrap from '/components/common/SurfaceWrap';

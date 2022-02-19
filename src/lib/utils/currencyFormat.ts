@@ -1,6 +1,4 @@
-import { baseTypes } from 'base-types';
-
-import { CURRENCIES } from '../constant';
+import { PAIR_CURRENCIES } from '../constant';
 
 type CurrencyFormat = {
   value: string | number;
@@ -16,6 +14,8 @@ type OnlyDecimalProps = {
   zeroMask?: string;
   noneZeroCnt?: number;
 };
+
+const { hasOwnProperty } = Object.prototype;
 
 export function limitToScale(
   numStr: string,
@@ -116,8 +116,13 @@ export function getOnlyDecimal({
 /**
  * @param  {baseTypes.Currency} currency usd, eur, krw, etc.
  */
-export function getCurrencySymbol(currency: baseTypes.Currency): string {
-  return CURRENCIES[currency].symbol;
+export function getCurrencySymbol(currency: string): string {
+  const lowerCaseCurrency = currency.toLowerCase();
+
+  if (hasOwnProperty.call(PAIR_CURRENCIES, lowerCaseCurrency)) {
+    return PAIR_CURRENCIES[lowerCaseCurrency].unit;
+  }
+  return currency.toUpperCase();
 }
 
 /**

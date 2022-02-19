@@ -7,7 +7,7 @@ import { format } from 'date-fns';
 import useHistorySnapshot from '/hooks/data/useHistorySnapshot';
 import useLocales from '/hooks/useLocales';
 import { currencyFormat } from '/lib/utils/currencyFormat';
-import { CoinDetailDataReturn } from '/types/CoinGeckoReturnType';
+import type { CoinDetailDataReturn } from '/types/coinGeckoReturnType';
 
 import NumericPad from '/components/common/NumericPad';
 import SetQuantityView from './SetQuantityView';

@@ -1,4 +1,5 @@
-import type { ChartDataReturn } from '/types/CoinGeckoReturnType';
+/* eslint-disable prefer-destructuring */
+import type { ChartDataReturn } from '/types/coinGeckoReturnType';
 import type { ChartTimeIntervalType } from '/types/coingecko';
 
 const filteredPriceData = (
