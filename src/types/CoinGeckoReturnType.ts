@@ -70,7 +70,7 @@ export interface CoinDetailDataReturn {
   genesis_date: string;
   sentiment_votes_up_percentage: number;
   sentiment_votes_down_percentage: number;
-  market_cap_rank: number;
+  market_cap_rank: number | null;
   coingecko_rank: number;
   coingecko_score: number;
   developer_score: number;

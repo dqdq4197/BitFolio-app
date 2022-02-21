@@ -16,7 +16,11 @@ import useNewsArticles from '/hooks/data/useNewsArticles';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import { useAppSelector, useAppDispatch } from '/hooks/useRedux';
 import useAnimatedHeaderTitle from '/hooks/useAnimatedHeaderTitle';
-import { NewsStateType, changeSortOrder, SortOrderType } from '/store/news';
+import {
+  NewsStateType,
+  changeSortOrder,
+  SortOrderType,
+} from '/store/slices/news';
 import type { NewsData } from '/types/cryptoCompareReturnType';
 
 import Text from '/components/common/Text';

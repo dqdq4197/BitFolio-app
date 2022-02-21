@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import { useAppDispatch } from '/hooks/useRedux';
 import { useChartState } from '/hooks/context/useChartContext';
-import { changeChartExchange } from '/store/baseSetting';
+import { changeChartExchange } from '/store/slices/baseSetting';
 import { EXCHANGES } from '/lib/constant';
 import type { ExchangeType } from '/types/common';
 

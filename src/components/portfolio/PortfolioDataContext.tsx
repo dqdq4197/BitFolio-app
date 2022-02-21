@@ -9,7 +9,7 @@ import { AxiosResponse } from 'axios';
 
 import { useAppSelector, shallowEqual } from '/hooks/useRedux';
 import useCoinMarketData from '/hooks/data/useCoinMarketData';
-import { PortfolioType } from '/store/portfolio';
+import { PortfolioType } from '/store/slices/portfolio';
 import type { CoinMarketReturn } from '/types/coinGeckoReturnType';
 
 interface ValueType extends Pick<PortfolioType, 'id' | 'coins'> {

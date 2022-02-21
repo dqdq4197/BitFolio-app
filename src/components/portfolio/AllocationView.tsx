@@ -7,7 +7,7 @@ import { VictoryPie, VictoryLegend, Slice } from 'victory-native';
 import { CoinStatType } from '/hooks/usePortfolioStats';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import useLocales from '/hooks/useLocales';
-import { ModeType } from '/store/portfolio';
+import { ModeType } from '/store/slices/portfolio';
 import { convertUnits, digitToFixed } from '/lib/utils';
 
 import Text from '/components/common/Text';

@@ -7,7 +7,7 @@ import { ko, enUS } from 'date-fns/locale';
 
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import useLocales from '/hooks/useLocales';
-import { TransactionType } from '/store/transaction';
+import { TransactionType } from '/store/slices/transaction';
 import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat';
 
 import IncreaseDecreaseValue from '/components/common/IncreaseDecreaseValue';

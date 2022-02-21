@@ -7,7 +7,11 @@ import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import { useAppSelector, useAppDispatch, shallowEqual } from '/hooks/useRedux';
 import useRequest from '/hooks/useRequest';
-import { ALL_NEWS_FEEDS, ALL_NEWS_CATEGORIES, resetFilters } from '/store/news';
+import {
+  ALL_NEWS_FEEDS,
+  ALL_NEWS_CATEGORIES,
+  resetFilters,
+} from '/store/slices/news';
 import { Cryptocompare, http } from '/lib/api/CryptocompareClient';
 import type { FeedAndCategoryReturn } from '/types/cryptoCompareReturnType';
 

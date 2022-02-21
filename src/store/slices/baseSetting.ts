@@ -43,7 +43,7 @@ interface BaseSettingState extends ChartSettingState {
   launchScreen: keyof typeof TAB_ROUTE_NAME; // 최초 앱 실행 screen
 }
 
-const initialState: BaseSettingState = {
+export const initialState: BaseSettingState = {
   deviceScheme: 'dark',
   localScheme: 'default',
   currency: CURRENCY.KRW,

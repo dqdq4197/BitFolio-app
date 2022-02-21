@@ -9,7 +9,7 @@ import useGlobalTheme from '/hooks/useGlobalTheme';
 import useLocales from '/hooks/useLocales';
 import { CURRENCIES } from '/lib/constant';
 
-// import { createPortfolio } from '/store/portfolio';
+// import { createPortfolio } from '/store/slices/portfolio';
 import Text from '/components/common/Text';
 import ScrollCloseModal from '/components/common/ScrollCloseModal';
 

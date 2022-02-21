@@ -14,8 +14,8 @@ import useLocales from '/hooks/useLocales';
 import useCoinDetail from '/hooks/data/useCoinDetail';
 import { useAppDispatch, useAppSelector } from '/hooks/useRedux';
 import useGlobalTheme from '/hooks/useGlobalTheme';
-import { addTransaction, editTransaction } from '/store/transaction';
-import { changeCoinState, addWatchingCoin } from '/store/portfolio';
+import { addTransaction, editTransaction } from '/store/slices/transaction';
+import { changeCoinState, addWatchingCoin } from '/store/slices/portfolio';
 
 import ScrollCloseModal from '/components/common/ScrollCloseModal';
 import Text from '/components/common/Text';

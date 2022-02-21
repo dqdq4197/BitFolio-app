@@ -5,7 +5,7 @@ import { Octicons } from '@expo/vector-icons';
 
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import { useAppSelector, useAppDispatch } from '/hooks/useRedux';
-import { changeLaunchScreen } from '/store/baseSetting';
+import { changeLaunchScreen } from '/store/slices/baseSetting';
 import { TAB_ROUTE_NAME } from '/lib/constant';
 
 import Text from '/components/common/Text';

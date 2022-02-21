@@ -3,7 +3,7 @@ import i18n from 'i18next';
 import { baseTypes } from 'base-types';
 
 import { useAppSelector, useAppDispatch } from './useRedux';
-import { changeCurrency } from '/store/baseSetting';
+import { changeCurrency } from '/store/slices/baseSetting';
 import { onLanguageChange, getDeviceLanguage } from '/lib/lang/i18n';
 import type { CurrencyType } from '/types/common';
 

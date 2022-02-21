@@ -13,7 +13,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 
 import RootNavigation from '/navigators/Root';
 import { store, persistor } from '/store';
-import { changeDeviceScheme } from '/store/baseSetting';
+import { changeDeviceScheme } from '/store/slices/baseSetting';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import { useAppDispatch } from '/hooks/useRedux';
 import '/lib/lang/i18n';

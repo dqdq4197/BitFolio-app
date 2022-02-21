@@ -13,7 +13,7 @@ import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { useAppSelector } from '/hooks/useRedux';
 import { useCoinIdContext } from '/hooks/context/useCoinIdContext';
 import useCoinDetail from '/hooks/data/useCoinDetail';
-import { TransactionType } from '/store/transaction';
+import { TransactionType } from '/store/slices/transaction';
 
 import Text from '/components/common/Text';
 import ScrollView from '/components/common/ScrollView';

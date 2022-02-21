@@ -4,8 +4,12 @@ import { useTranslation } from 'react-i18next';
 
 import { useAppSelector, useAppDispatch } from '/hooks/useRedux';
 import useGlobalTheme from '/hooks/useGlobalTheme';
-import { CoinType, addWatchingCoin, unWatchingCoin } from '/store/portfolio';
-import { removeAllTransaction } from '/store/transaction';
+import {
+  CoinType,
+  addWatchingCoin,
+  unWatchingCoin,
+} from '/store/slices/portfolio';
+import { removeAllTransaction } from '/store/slices/transaction';
 
 import AsyncButton from '/components/common/AsyncButton';
 

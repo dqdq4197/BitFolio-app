@@ -16,7 +16,7 @@ import {
   changeAnalysisActiveTab,
   onHideAnalysisSheet,
   ActiveTabType,
-} from '/store/portfolio';
+} from '/store/slices/portfolio';
 
 import Text from '/components/common/Text';
 import SurfaceWrap from '/components/common/SurfaceWrap';

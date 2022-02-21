@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import { configureStore } from '@reduxjs/toolkit';
 import {
+  createMigrate,
   persistStore,
   persistReducer,
   FLUSH,
@@ -9,18 +10,21 @@ import {
   PERSIST,
   PURGE,
   REGISTER,
+  PersistConfig,
 } from 'redux-persist';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import baseSettingReducer from './baseSetting';
-import portfolioReducer from './portfolio';
-import transactionReducer from './transaction';
-import globalStateReducer from './globalState';
-import newsReducer from './news';
+import reducers from './reducers';
+import migrations from './persistMigrations';
 
-const persistConfig = {
+const rootReducer = combineReducers({ ...reducers });
+type ReducersState = ReturnType<typeof rootReducer>;
+
+const persistConfig: PersistConfig<ReducersState> = {
   key: 'root',
   storage: AsyncStorage,
+  version: 0,
+  migrate: createMigrate(migrations as any, { debug: false }),
   whitelist: [
     'baseSettingReducer',
     'portfolioReducer',
@@ -28,16 +32,7 @@ const persistConfig = {
     'newsReducer',
   ],
   blacklist: ['globalStateReducer'], // persist에 저장하지 않을 reducer들
-  debugger: true,
 };
-
-const rootReducer = combineReducers({
-  baseSettingReducer,
-  portfolioReducer,
-  transactionReducer,
-  globalStateReducer,
-  newsReducer,
-});
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 const store = configureStore({

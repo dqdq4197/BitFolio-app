@@ -31,8 +31,8 @@ import useGlobalTheme from '/hooks/useGlobalTheme';
 import { useAppDispatch } from '/hooks/useRedux';
 import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat';
 import { digitToFixed } from '/lib/utils';
-import { TransactionType, removeTransaction } from '/store/transaction';
-import { changeCoinState } from '/store/portfolio';
+import { TransactionType, removeTransaction } from '/store/slices/transaction';
+import { changeCoinState } from '/store/slices/portfolio';
 
 import Modal from '/components/common/BottomSheetModal';
 import Text from '/components/common/Text';

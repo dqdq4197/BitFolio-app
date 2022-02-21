@@ -28,7 +28,7 @@ import useLocales from '/hooks/useLocales';
 import useRequest from '/hooks/useRequest';
 import useKeyboard from '/hooks/useKeyboard';
 import { useAppDispatch, useAppSelector } from '/hooks/useRedux';
-import { addWatchingCoin } from '/store/portfolio';
+import { addWatchingCoin } from '/store/slices/portfolio';
 import { createFuzzyMatcher, getKeyboardAnimationConfigs } from '/lib/utils';
 import { CoinGecko, http } from '/lib/api/CoinGeckoClient';
 import type { SearchCoin, SearchDataReturn } from '/types/coinGeckoReturnType';

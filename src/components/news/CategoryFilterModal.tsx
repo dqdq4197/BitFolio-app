@@ -5,7 +5,7 @@ import { Octicons } from '@expo/vector-icons';
 
 import { useAppSelector, useAppDispatch } from '/hooks/useRedux';
 import useGlobalTheme from '/hooks/useGlobalTheme';
-import { changeCategories, ALL_NEWS_CATEGORIES } from '/store/news';
+import { changeCategories, ALL_NEWS_CATEGORIES } from '/store/slices/news';
 import type { FeedAndCategoryData } from '/types/cryptoCompareReturnType';
 
 import ScrollCloseModal from '/components/common/ScrollCloseModal';

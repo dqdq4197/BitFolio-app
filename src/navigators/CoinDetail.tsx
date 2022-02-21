@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import { CoinIdProvider } from '/hooks/context/useCoinIdContext';
 import { useAppDispatch } from '/hooks/useRedux';
-import { changeRecentlyViewed } from '/store/baseSetting';
+import { changeRecentlyViewed } from '/store/slices/baseSetting';
 
 import {
   Overview,

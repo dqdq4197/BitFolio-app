@@ -6,7 +6,11 @@ import * as habtics from 'expo-haptics';
 
 import useLocales from '/hooks/useLocales';
 import { useAppDispatch, useAppSelector, shallowEqual } from '/hooks/useRedux';
-import { changeMode, changeShowValueMode, ModeType } from '/store/portfolio';
+import {
+  changeMode,
+  changeShowValueMode,
+  ModeType,
+} from '/store/slices/portfolio';
 import { convertUnits, digitToFixed } from '/lib/utils';
 import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat';
 

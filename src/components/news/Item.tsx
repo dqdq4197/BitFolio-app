@@ -10,7 +10,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import useLocales from '/hooks/useLocales';
 import useGlobalTheme from '/hooks/useGlobalTheme';
-import { CategoriesType } from '/store/news';
+import { CategoriesType } from '/store/slices/news';
 import { LANGUAGES } from '/lib/constant';
 import type { NewsData } from '/types/cryptoCompareReturnType';
 

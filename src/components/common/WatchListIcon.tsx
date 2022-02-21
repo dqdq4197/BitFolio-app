@@ -4,7 +4,7 @@ import * as Haptics from 'expo-haptics';
 
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import { useAppDispatch, useAppSelector } from '/hooks/useRedux';
-import { changeWatchList } from '/store/baseSetting';
+import { changeWatchList } from '/store/slices/baseSetting';
 
 type IconProps = {
   id: string;

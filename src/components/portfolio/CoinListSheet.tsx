@@ -8,7 +8,7 @@ import { Ionicons } from '@expo/vector-icons';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import { CoinStatType } from '/hooks/usePortfolioStats';
 import { useAppDispatch, useAppSelector, shallowEqual } from '/hooks/useRedux';
-import { CoinType, changeSortType, SortType } from '/store/portfolio';
+import { CoinType, changeSortType, SortType } from '/store/slices/portfolio';
 
 import Text from '/components/common/Text';
 import DynamicSizeText from '/components/common/DynamicSizeText';

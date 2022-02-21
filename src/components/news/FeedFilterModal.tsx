@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 
 import { useAppSelector, useAppDispatch } from '/hooks/useRedux';
 import useGlobalTheme from '/hooks/useGlobalTheme';
-import { ALL_NEWS_FEEDS, changeFeeds } from '/store/news';
+import { ALL_NEWS_FEEDS, changeFeeds } from '/store/slices/news';
 import type { FeedAndCategoryData } from '/types/cryptoCompareReturnType';
 
 import ScrollCloseModal from '/components/common/ScrollCloseModal';

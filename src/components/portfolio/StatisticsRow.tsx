@@ -6,7 +6,7 @@ import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 
 import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat';
 import { digitToFixed } from '/lib/utils';
-import { CoinType, ModeType } from '/store/portfolio';
+import { CoinType, ModeType } from '/store/slices/portfolio';
 import useLocales from '/hooks/useLocales';
 import { CoinStatType } from '/hooks/usePortfolioStats';
 

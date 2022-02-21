@@ -25,7 +25,7 @@ import useRequest from '/hooks/useRequest';
 import useKeyboard from '/hooks/useKeyboard';
 import { useAppDispatch, useAppSelector } from '/hooks/useRedux';
 import { useInitData } from '/hooks/context/useInitDataContext';
-import { changeRecentSearches } from '/store/baseSetting';
+import { changeRecentSearches } from '/store/slices/baseSetting';
 import { createFuzzyMatcher, getKeyboardAnimationConfigs } from '/lib/utils';
 import { CoinGecko, http } from '/lib/api/CoinGeckoClient';
 import type {
