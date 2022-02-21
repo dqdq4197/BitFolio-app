@@ -13,6 +13,7 @@ import {
   PersistConfig,
 } from 'redux-persist';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 
 import reducers from './reducers';
 import migrations from './persistMigrations';
@@ -23,8 +24,8 @@ type ReducersState = ReturnType<typeof rootReducer>;
 const persistConfig: PersistConfig<ReducersState> = {
   key: 'root',
   storage: AsyncStorage,
-  version: 0,
-  migrate: createMigrate(migrations as any, { debug: false }),
+  version: 2,
+  migrate: createMigrate(migrations as any, { debug: true }),
   whitelist: [
     'baseSettingReducer',
     'portfolioReducer',
@@ -32,6 +33,7 @@ const persistConfig: PersistConfig<ReducersState> = {
     'newsReducer',
   ],
   blacklist: ['globalStateReducer'], // persist에 저장하지 않을 reducer들
+  stateReconciler: autoMergeLevel2,
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

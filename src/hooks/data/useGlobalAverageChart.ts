@@ -29,9 +29,10 @@ export default ({ id, symbol, enabled }: TProps) => {
     state => state.baseSettingReducer
   );
 
-  const timeFrame = useMemo(() => {
-    return chartOptions.globalAverage.interval;
-  }, [chartOptions]);
+  const timeFrame = useMemo(
+    () => chartOptions.globalAverage.interval,
+    [chartOptions]
+  );
 
   const [points, setPoints] = useState<number[][]>();
   const [volumes, setVolumes] = useState<number[][]>();

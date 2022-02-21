@@ -5,7 +5,7 @@ import { initialState as baseSettingInitState } from './slices/baseSetting';
  * Redux store migrations.
  */
 export default {
-  0: (state: ApplicationState): ApplicationState => {
+  2: (state: ApplicationState): ApplicationState => {
     return {
       ...state,
       baseSetting: {

@@ -1,6 +1,5 @@
 import React, { useContext, useState, createContext, useMemo } from 'react';
 import Animated, { useSharedValue } from 'react-native-reanimated';
-import { AxiosError } from 'axios';
 
 import { useCoinIdContext } from './useCoinIdContext';
 import { useAppSelector } from '/hooks/useRedux';
