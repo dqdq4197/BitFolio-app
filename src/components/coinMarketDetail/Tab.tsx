@@ -1,34 +1,28 @@
-import React from 'react';
-import { LayoutChangeEvent } from 'react-native';
+import React, { memo } from 'react';
+import { TouchableOpacity, Animated } from 'react-native';
 import styled from 'styled-components/native';
-import Animated from 'react-native-reanimated';
 
 interface ITab {
   label: string;
   index: number;
-  color: Animated.Node<string | number>;
   isFocused: boolean;
+  opacity: Animated.AnimatedInterpolation;
   onPress: () => void;
-  onLayout: (page: number, event: LayoutChangeEvent) => void;
+  trackRef: (index: number, ref: TouchableOpacity | null) => void;
 }
 
-const Tab = ({ label, index, isFocused, color, onPress, onLayout }: ITab) => {
+const Tab = ({ label, index, isFocused, opacity, onPress, trackRef }: ITab) => {
   return (
     <TabButton
+      ref={ref => trackRef(index, ref)}
       accessible
       accessibilityRole="button"
       accessibilityState={isFocused ? { selected: true } : {}}
       accessibilityLabel={label}
       activeOpacity={0.6}
       onPress={onPress}
-      onLayout={event => onLayout(index, event)}
     >
-      <TabText
-        as={Animated.Text}
-        style={{
-          color: color as any,
-        }}
-      >
+      <TabText as={Animated.Text} style={{ opacity }}>
         {label}
       </TabText>
     </TabButton>
@@ -46,4 +40,5 @@ const TabButton = styled.TouchableOpacity`
 
 const TabText = styled.Text`
   font-weight: 800;
+  color: ${({ theme }) => theme.base.text[100]};
 `;
