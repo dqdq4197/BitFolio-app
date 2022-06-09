@@ -1,28 +1,28 @@
-import React from 'react';
-import { Dimensions } from 'react-native';
 import {
   createStackNavigator,
   StackNavigationOptions,
 } from '@react-navigation/stack';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { Dimensions } from 'react-native';
 
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import type { SettingParamList } from '/types/navigation';
 
 import {
-  Login,
-  Register,
-  ForgotPassword,
   ChangePassword,
   EmailVerification,
+  ForgotPassword,
+  Login,
+  Register,
 } from '/screens/auth';
 import {
-  Overview,
-  Language,
-  Currency,
-  LaunchScreen,
-  ScreenTheme,
   AuthSetting,
+  Currency,
+  Language,
+  LaunchScreen,
+  Overview,
+  ScreenTheme,
 } from '/screens/setting';
 
 const Stack = createStackNavigator<SettingParamList>();

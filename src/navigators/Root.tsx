@@ -1,12 +1,7 @@
-import {
-  DarkTheme,
-  DefaultTheme,
-  NavigationContainer,
-} from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 
-import useGlobalTheme from '/hooks/useGlobalTheme';
 import type { RootStackParamList } from '/types/navigation';
 
 import Main from './Main';
@@ -15,10 +10,8 @@ import Main from './Main';
 const Stack = createStackNavigator<RootStackParamList>();
 
 const RootNavigation = () => {
-  const { scheme } = useGlobalTheme();
-
   return (
-    <NavigationContainer theme={scheme === 'dark' ? DarkTheme : DefaultTheme}>
+    <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Main" component={Main} />
         {/* <Stack.Screen
