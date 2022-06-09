@@ -11,6 +11,7 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { ThemeProvider } from 'styled-components';
 
+import { AuthProvider } from '/hooks/context/useAuthContext';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import { useAppDispatch } from '/hooks/useRedux';
 import '/lib/lang/i18n';
@@ -19,6 +20,8 @@ import { persistor, store } from '/store';
 import { changeDeviceScheme } from '/store/slices/baseSetting';
 
 import AppLoader from '/components/AppLoader';
+
+import './src/config/firebase';
 
 LogBox.ignoreAllLogs();
 
@@ -55,9 +58,11 @@ const RootNavigationContainer = () => {
     <ThemeProvider theme={theme}>
       <SafeAreaProvider>
         <BottomSheetModalProvider>
-          <AppLoader>
-            <RootNavigation />
-          </AppLoader>
+          <AuthProvider>
+            <AppLoader>
+              <RootNavigation />
+            </AppLoader>
+          </AuthProvider>
         </BottomSheetModalProvider>
       </SafeAreaProvider>
     </ThemeProvider>
