@@ -32,6 +32,7 @@ import { CoinGecko, http } from '/lib/api/CoinGeckoClient';
 import { createFuzzyMatcher, getKeyboardAnimationConfigs } from '/lib/utils';
 import { addWatchingCoin } from '/store/slices/portfolio';
 import type { SearchCoin, SearchDataReturn } from '/types/coinGeckoReturnType';
+import type { PortfolioScreenProps } from '/types/navigation';
 
 import EmptyView from '/components/coinSearch/EmptyView';
 import Item from '/components/coinSearch/Item';
@@ -58,7 +59,8 @@ const Layout = () => {
   const { t } = useTranslation();
   const { language } = useLocales();
   const { theme } = useGlobalTheme();
-  const navigation = useNavigation();
+  const navigation =
+    useNavigation<PortfolioScreenProps<'AddNewCoin'>['navigation']>();
   const headerHeight = useHeaderHeight();
   const dispatch = useAppDispatch();
   const {
@@ -124,7 +126,7 @@ const Layout = () => {
         { cancelable: false }
       );
     },
-    []
+    [t]
   );
 
   const handleItemPress = useCallback(
@@ -281,7 +283,7 @@ const Layout = () => {
           name={modalInitialState.name}
           image={modalInitialState.image}
           afterAddTransactionTodo={() =>
-            navigation.navigate('portfolioOverview')
+            navigation.navigate('PortfolioOverview')
           }
         />
       )}

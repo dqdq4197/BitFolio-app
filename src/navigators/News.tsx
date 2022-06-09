@@ -6,14 +6,11 @@ import {
 } from '@react-navigation/stack';
 
 import useGlobalTheme from '/hooks/useGlobalTheme';
+import type { NewsParamList } from '/types/navigation';
 
 import { Overview } from '/screens/news';
 
-type RootStackParamList = {
-  NewsOverview: undefined;
-};
-
-const Stack = createStackNavigator<RootStackParamList>();
+const Stack = createStackNavigator<NewsParamList>();
 const { width } = Dimensions.get('window');
 
 const News = () => {
@@ -37,9 +34,7 @@ const News = () => {
       headerTitleStyle: {
         fontSize: parseInt(theme.size.font_l, 10),
       },
-      gestureResponseDistance: {
-        horizontal: width,
-      },
+      gestureResponseDistance: width,
     };
   };
 

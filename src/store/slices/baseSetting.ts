@@ -1,11 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { baseTypes } from 'base-types';
 
-import { TAB_ROUTE_NAME, CHART_TYPE, EXCHANGE, CURRENCY } from '/lib/constant';
+import { CHART_TYPE, EXCHANGE, CURRENCY } from '/lib/constant';
 import type { ChartTimeIntervalType as UpbitInterval } from '/types/upbit';
 import type { ChartTimeIntervalType as CoingeckoInterval } from '/types/coingecko';
 import type { ChartTimeIntervalType as BinanceInterval } from '/types/binance';
 import type { ExchangeType, CurrencyType, ChartType } from '/types/common';
+import type { MainTabParamList } from '/types/navigation';
 
 type DeviceSchemeType = Exclude<baseTypes.Theme, 'default'>;
 export type LocalSchemeType = Extract<
@@ -32,6 +33,8 @@ type ChangeChartInterval = Pick<ChartSettingState, 'exchange'> & {
   interval: number | string;
 };
 
+type TabRouteNameValue = keyof MainTabParamList;
+
 interface BaseSettingState extends ChartSettingState {
   deviceScheme: DeviceSchemeType; // 기기에 설정된 scheme
   localScheme: LocalSchemeType; // 앱 설정 scheme
@@ -40,7 +43,7 @@ interface BaseSettingState extends ChartSettingState {
   recentlyViewed: string[]; // 최근 본 코인 목록
   watchList: string[]; // 즐겨찾기 리스트
   recentSearches: string[]; // 최근 검색 목록
-  launchScreen: keyof typeof TAB_ROUTE_NAME; // 최초 앱 실행 screen
+  launchScreen: TabRouteNameValue; // 최초 앱 실행 screen
 }
 
 export const initialState: BaseSettingState = {
@@ -51,7 +54,7 @@ export const initialState: BaseSettingState = {
   recentlyViewed: [],
   watchList: [],
   recentSearches: [''],
-  launchScreen: TAB_ROUTE_NAME.home,
+  launchScreen: 'Home',
   exchange: EXCHANGE.GLOBAL_AVERAGE,
   chartOptions: {
     globalAverage: {
@@ -127,10 +130,7 @@ export const baseSettingSlice = createSlice({
       if (temp.length > 7) temp.pop();
       state.recentSearches = temp;
     },
-    changeLaunchScreen: (
-      state,
-      action: PayloadAction<keyof typeof TAB_ROUTE_NAME>
-    ) => {
+    changeLaunchScreen: (state, action: PayloadAction<TabRouteNameValue>) => {
       state.launchScreen = action.payload;
     },
   },

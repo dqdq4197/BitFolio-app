@@ -9,6 +9,7 @@ import useAnimatedHeaderTitle from '/hooks/useAnimatedHeaderTitle';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import { CoinGecko, http } from '/lib/api/CoinGeckoClient';
 import type { CoinMarketReturn } from '/types/coinGeckoReturnType';
+import type { HomeScreenProps } from '/types/navigation';
 
 import CustomRefreshControl from '/components/common/CustomRefreshControl';
 import FlatListHeader from './FlatListHeader';
@@ -17,7 +18,8 @@ import Item from './Item';
 
 const HighMarketcap = () => {
   const { t } = useTranslation();
-  const navigation = useNavigation();
+  const navigation =
+    useNavigation<HomeScreenProps<'CoinHighMarketCap'>['navigation']>();
   const { theme } = useGlobalTheme();
   const { currency } = useLocales();
   const [refreshing, setRefreshing] = useState(false);
@@ -43,7 +45,7 @@ const HighMarketcap = () => {
   const handlePressItem = useCallback(
     (id: string, symbol: string) => {
       navigation.navigate('CoinDetail', {
-        param: { id, symbol },
+        params: { id, symbol },
         screen: 'Overview',
       });
     },

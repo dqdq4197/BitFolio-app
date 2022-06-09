@@ -6,6 +6,11 @@ import useGlobalTheme from '/hooks/useGlobalTheme';
 import { CoinIdProvider } from '/hooks/context/useCoinIdContext';
 import { useAppDispatch } from '/hooks/useRedux';
 import { changeRecentlyViewed } from '/store/slices/baseSetting';
+import type {
+  CoinDetailParamList,
+  CoinDetailParams,
+  HomeScreenProps,
+} from '/types/navigation';
 
 import {
   Overview,
@@ -19,57 +24,72 @@ import WatchListIcon from '/components/common/WatchListIcon';
 import GeneralTemplate from '/components/GeneralTemplate';
 import TabBar from '/components/coinMarketDetail/TabBar';
 
-const Tab = createMaterialTopTabNavigator();
+const Tab = createMaterialTopTabNavigator<CoinDetailParamList>();
 
-const DetailTab = ({ route, navigation }: any) => {
+const CoinDetail = ({ route, navigation }: HomeScreenProps<'CoinDetail'>) => {
   const { t } = useTranslation();
-  const { param, screen } = route.params;
+  const { params, screen } = route.params;
+  const { id, symbol } = params as CoinDetailParams;
   const { theme } = useGlobalTheme();
   const dispatch = useAppDispatch();
 
   useLayoutEffect(() => {
-    const { id, symbol } = param;
-
     navigation.setOptions({
       title: symbol
         ? symbol.toUpperCase()
         : id.charAt(0).toUpperCase() + id.slice(1),
-      headerTitleStyle: {
-        fontSize: parseInt(theme.size.font_l, 10),
-        fontWeight: 'bold',
-      },
       headerRight: () => <WatchListIcon id={id} size={28} />,
     });
-  }, [navigation, param, theme]);
+  }, [id, navigation, symbol, theme]);
 
   useEffect(() => {
-    dispatch(changeRecentlyViewed(param.id));
-  }, [dispatch, param.id]);
+    dispatch(changeRecentlyViewed(id));
+  }, [dispatch, id]);
 
   return (
     <GeneralTemplate>
-      <CoinIdProvider value={{ id: param.id, symbol: param.symbol }}>
+      <CoinIdProvider value={{ id, symbol }}>
         <Tab.Navigator
           sceneContainerStyle={{
             backgroundColor: theme.base.background[100],
           }}
-          // eslint-disable-next-line react/jsx-props-no-spreading
           tabBar={props => <TabBar {...props} />}
-          initialRouteName={screen}
+          initialRouteName={screen || 'Overview'}
         >
-          <Tab.Screen name={t('coinDetail.overview')} component={Overview} />
-          <Tab.Screen name={t('coinDetail.profile')} component={Profile} />
-          <Tab.Screen name={t('coinDetail.news')} component={News} />
           <Tab.Screen
-            name={t('coinDetail.transactions')}
+            name="Overview"
+            options={{ tabBarLabel: t('coinDetail.overview') }}
+            component={Overview}
+          />
+          <Tab.Screen
+            name="Profile"
+            options={{ tabBarLabel: t('coinDetail.profile') }}
+            component={Profile}
+          />
+          <Tab.Screen
+            name="News"
+            options={{ tabBarLabel: t('coinDetail.news') }}
+            component={News}
+          />
+          <Tab.Screen
+            name="Transactions"
+            options={{ tabBarLabel: t('coinDetail.transactions') }}
             component={Transactions}
           />
-          {/* <Tab.Screen name={t('coinDetail.notice')} component={Notice} />
-          <Tab.Screen name={t('coinDetail.discussion')} component={Discussion} /> */}
+          <Tab.Screen
+            name="Notice"
+            options={{ tabBarLabel: t('coinDetail.notice') }}
+            component={Notice}
+          />
+          <Tab.Screen
+            name="Discussion"
+            options={{ tabBarLabel: t('coinDetail.discussion') }}
+            component={Discussion}
+          />
         </Tab.Navigator>
       </CoinIdProvider>
     </GeneralTemplate>
   );
 };
 
-export default DetailTab;
+export default CoinDetail;

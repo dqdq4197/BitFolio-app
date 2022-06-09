@@ -16,4 +16,17 @@ export default {
       },
     };
   },
+  3: (state: ApplicationState): ApplicationState => {
+    return {
+      ...state,
+      baseSetting: {
+        ...state.baseSetting,
+        launchScreen: 'Home',
+      },
+      globalState: {
+        ...state.globalState,
+        activeTabName: 'Home',
+      },
+    };
+  },
 };

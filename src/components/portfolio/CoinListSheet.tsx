@@ -9,6 +9,7 @@ import useGlobalTheme from '/hooks/useGlobalTheme';
 import { CoinStatType } from '/hooks/usePortfolioStats';
 import { useAppDispatch, useAppSelector, shallowEqual } from '/hooks/useRedux';
 import { CoinType, changeSortType, SortType } from '/store/slices/portfolio';
+import type { PortfolioScreenProps } from '/types/navigation';
 
 import Text from '/components/common/Text';
 import DynamicSizeText from '/components/common/DynamicSizeText';
@@ -77,11 +78,12 @@ const SortTab = ({ name, onPress, align = 'right', sortTypes }: TabProps) => {
 };
 
 const AssetRow = ({ id, image, symbol, name }: AssetRowProps) => {
-  const navigation = useNavigation();
+  const navigation =
+    useNavigation<PortfolioScreenProps<'PortfolioOverview'>['navigation']>();
 
   const handleRowPress = () => {
-    navigation.navigate('portfolioCoinDetail', {
-      param: { id, symbol },
+    navigation.navigate('PortfolioCoinDetail', {
+      params: { id, symbol },
       screen: 'Overview',
     });
   };
@@ -221,7 +223,7 @@ const CoinListSheet = ({ coinsStats, portfolioTotalCosts }: SheetProps) => {
       }
       setSortedCoins(temp);
     }
-  }, [assetSortType, coinsData, coinsStats]);
+  }, [assetSortType, coins, coinsData, coinsStats]);
 
   const handleAddButtonPress = (coin: CoinType) => {
     const { id, symbol, name, image } = coin;
@@ -235,7 +237,7 @@ const CoinListSheet = ({ coinsStats, portfolioTotalCosts }: SheetProps) => {
     } else {
       dispatch(changeSortType('name_asc'));
     }
-  }, [assetSortType]);
+  }, [assetSortType, dispatch]);
 
   const sortByStats = useCallback(
     (asc: SortType, desc: SortType) => {
@@ -246,7 +248,7 @@ const CoinListSheet = ({ coinsStats, portfolioTotalCosts }: SheetProps) => {
         dispatch(changeSortType(asc));
       }
     },
-    [coinsData, assetSortType]
+    [coinsData, assetSortType, dispatch]
   );
 
   return (

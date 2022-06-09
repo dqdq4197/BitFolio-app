@@ -1,6 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
+import type { HomeParamList } from '/types/navigation';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 
 import {
@@ -14,7 +15,7 @@ import {
 } from '/screens/coinMarket';
 import CoinDetail from './CoinDetail';
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<HomeParamList>();
 
 const Home = () => {
   const { theme } = useGlobalTheme();
@@ -40,9 +41,7 @@ const Home = () => {
           fontSize: parseInt(theme.size.font_l, 10),
         },
         gestureEnabled: true,
-        gestureResponseDistance: {
-          horizontal: 20,
-        },
+        gestureResponseDistance: 20,
       }}
     >
       <Stack.Screen name="CoinMarketHome" component={Main} />
