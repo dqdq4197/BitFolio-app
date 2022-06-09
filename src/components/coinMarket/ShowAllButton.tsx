@@ -5,16 +5,18 @@ import { useNavigation } from '@react-navigation/native';
 import { MaterialIcons } from '@expo/vector-icons';
 
 import useGlobalTheme from '/hooks/useGlobalTheme';
+import type { HomeParamList, HomeScreenProps } from '/types/navigation';
 
 import Text from '/components/common/Text';
 
 type ButtonProps = {
-  route: string;
+  route: keyof Pick<HomeParamList, 'CoinHighMarketCap' | 'CoinHighVolume'>;
 };
 
 const ShowAllButton = ({ route }: ButtonProps) => {
   const { t } = useTranslation();
-  const navigation = useNavigation();
+  const navigation =
+    useNavigation<HomeScreenProps<'CoinMarketHome'>['navigation']>();
   const { theme } = useGlobalTheme();
 
   const handleShowMorePress = () => {

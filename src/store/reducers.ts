@@ -8,7 +8,7 @@ export interface ApplicationState {
   baseSetting: ReturnType<typeof baseSettingReducer>;
   portfolio: ReturnType<typeof portfolioReducer>;
   transaction: ReturnType<typeof transactionReducer>;
-  globalState: ReturnType<typeof newsReducer>;
+  globalState: ReturnType<typeof globalStateReducer>;
   news: ReturnType<typeof newsReducer>;
 }
 

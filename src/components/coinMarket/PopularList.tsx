@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components/native';
 import { useTranslation } from 'react-i18next';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -6,6 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import { CoinSvg } from '/lib/svg';
+import type { HomeScreenProps, HomeParamList } from '/types/navigation';
 
 import Text from '/components/common/Text';
 import SurfaceWrap from '/components/common/SurfaceWrap';
@@ -14,41 +15,45 @@ const ICON_SIZE = 50;
 
 const PopularList = () => {
   const { t } = useTranslation();
-  const navigation = useNavigation();
+  const navigation =
+    useNavigation<HomeScreenProps<'CoinMarketHome'>['navigation']>();
   const { theme } = useGlobalTheme();
 
-  const data = [
-    {
-      title: `Top \n${t('coinMarketHome.gainers')}`,
-      route: 'Gainers',
-      start: '#d9a4fc',
-      end: '#be63f9',
-      icon: <CoinSvg name="rise" width={ICON_SIZE} height={ICON_SIZE} />,
-    },
-    {
-      title: `Top \n${t('coinMarketHome.losers')}`,
-      route: 'Losers',
-      start: '#fd907e',
-      end: '#fc573b',
-      icon: <CoinSvg name="decrease" width={ICON_SIZE} height={ICON_SIZE} />,
-    },
-    {
-      title: `${t('coinMarketHome.volume')}\nTOP100`,
-      route: 'CoinHighVolume',
-      start: '#8ce1eb',
-      end: '#26c6da',
-      icon: <CoinSvg name="coins" width={ICON_SIZE} height={ICON_SIZE} />,
-    },
-    {
-      title: `${t('coinMarketHome.market cap')}\nTOP100`,
-      route: 'CoinHighMarketCap',
-      start: '#ffe777',
-      end: '#ffd200',
-      icon: <CoinSvg name="coinstack" width={ICON_SIZE} height={ICON_SIZE} />,
-    },
-  ];
+  const data = useMemo(
+    () => [
+      {
+        title: `Top \n${t('coinMarketHome.gainers')}`,
+        route: 'Gainers' as const,
+        start: '#d9a4fc',
+        end: '#be63f9',
+        icon: <CoinSvg name="rise" width={ICON_SIZE} height={ICON_SIZE} />,
+      },
+      {
+        title: `Top \n${t('coinMarketHome.losers')}`,
+        route: 'Losers' as const,
+        start: '#fd907e',
+        end: '#fc573b',
+        icon: <CoinSvg name="decrease" width={ICON_SIZE} height={ICON_SIZE} />,
+      },
+      {
+        title: `${t('coinMarketHome.volume')}\nTOP100`,
+        route: 'CoinHighVolume' as const,
+        start: '#8ce1eb',
+        end: '#26c6da',
+        icon: <CoinSvg name="coins" width={ICON_SIZE} height={ICON_SIZE} />,
+      },
+      {
+        title: `${t('coinMarketHome.market cap')}\nTOP100`,
+        route: 'CoinHighMarketCap' as const,
+        start: '#ffe777',
+        end: '#ffd200',
+        icon: <CoinSvg name="coinstack" width={ICON_SIZE} height={ICON_SIZE} />,
+      },
+    ],
+    [t]
+  );
 
-  const handleCardPress = (route: string) => {
+  const handleCardPress = (route: keyof HomeParamList) => {
     navigation.navigate(route);
   };
 

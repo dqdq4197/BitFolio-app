@@ -10,6 +10,7 @@ import useGlobalTheme from '/hooks/useGlobalTheme';
 import { CoinGecko, http } from '/lib/api/CoinGeckoClient';
 import { ORDER } from '/lib/constants/coingecko';
 import type { CoinMarketReturn } from '/types/coinGeckoReturnType';
+import type { HomeScreenProps } from '/types/navigation';
 
 import CustomRefreshControl from '/components/common/CustomRefreshControl';
 import FlatListHeader from './FlatListHeader';
@@ -18,7 +19,8 @@ import Footer from './Footer';
 
 const HighVolume = () => {
   const { t } = useTranslation();
-  const navigation = useNavigation();
+  const navigation =
+    useNavigation<HomeScreenProps<'CoinHighVolume'>['navigation']>();
   const { currency } = useLocales();
   const { theme } = useGlobalTheme();
   const [refreshing, setRefreshing] = useState(false);
@@ -45,7 +47,7 @@ const HighVolume = () => {
   const handlePressItem = useCallback(
     (id: string, symbol: string) => {
       navigation.navigate('CoinDetail', {
-        param: { id, symbol },
+        params: { id, symbol },
         screen: 'Overview',
       });
     },

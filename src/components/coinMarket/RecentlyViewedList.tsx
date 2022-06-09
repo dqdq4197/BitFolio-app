@@ -11,6 +11,7 @@ import useLocales from '/hooks/useLocales';
 import useRequest from '/hooks/useRequest';
 import { CoinGecko, http } from '/lib/api/CoinGeckoClient';
 import { digitToFixed } from '/lib/utils';
+import type { HomeScreenProps } from '/types/navigation';
 
 import Text from '/components/common/Text';
 import SurfaceWrap from '/components/common/SurfaceWrap';
@@ -25,7 +26,8 @@ type ListProps = {
 const RecentlyViewedList = ({ onPressItem }: ListProps) => {
   const { t } = useTranslation();
   const { theme } = useGlobalTheme();
-  const navigation = useNavigation();
+  const navigation =
+    useNavigation<HomeScreenProps<'CoinMarketHome'>['navigation']>();
   const { currency } = useLocales();
   const { recentlyViewed } = useAppSelector(state => state.baseSettingReducer);
   const [newData, setNewData] = useState<CoinMarketReturn[]>([]);

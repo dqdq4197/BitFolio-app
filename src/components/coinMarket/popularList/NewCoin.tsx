@@ -8,6 +8,7 @@ import useAnimatedHeaderTitle from '/hooks/useAnimatedHeaderTitle';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import { CoinGecko, http } from '/lib/api/CoinGeckoClient';
 import type { CoinMarketReturn } from '/types/coinGeckoReturnType';
+import type { HomeScreenProps } from '/types/navigation';
 
 import CustomRefreshControl from '/components/common/CustomRefreshControl';
 import FlatListHeader from './FlatListHeader';
@@ -22,7 +23,7 @@ const NewCoin = () => {
     title: 'New Coins',
     triggerPoint: 30,
   });
-  const navigation = useNavigation();
+  const navigation = useNavigation<HomeScreenProps<'NewCoin'>['navigation']>();
   const { data, mutate } = useRequest<CoinMarketReturn[]>(
     CoinGecko.coin.markets({
       vs_currency: currency,
@@ -41,7 +42,7 @@ const NewCoin = () => {
   const handlePressItem = useCallback(
     (id: string, symbol: string) => {
       navigation.navigate('CoinDetail', {
-        param: { id, symbol },
+        params: { id, symbol },
         screen: 'Overview',
       });
     },
