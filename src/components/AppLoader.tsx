@@ -4,7 +4,6 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Animated, Image, StyleSheet } from 'react-native';
 import styled from 'styled-components/native';
 
-// import { useAuthContext } from '/hooks/context/useAuthContext';
 import { InitDataProvider } from '/hooks/context/useInitDataContext';
 
 type TProps = {
@@ -22,12 +21,7 @@ const CustomSplashScreen = ({ children }: TProps) => {
   const [isSplashAnimationComplete, setAnimationComplete] = useState(false);
   // const { isLoading } = useAuthContext();
 
-  /**
-   * 최소 2초 후 로드
-   * 2초가 지나도 authenticated check가 안되더라면
-   * 로딩 뷰를 계속 보여줄 수 바께..
-   * isAppReady && !isLoading <- 으로 수정.
-   */
+  // NOTE. 최소 2초 후 로드 & authenticated check가 로딩 중에는 splash 뷰를 보여줌.
   useEffect(() => {
     if (isAppReady) {
       Animated.timing(opacity, {
@@ -41,13 +35,11 @@ const CustomSplashScreen = ({ children }: TProps) => {
   const handleImageLoadEnd = useCallback(async () => {
     try {
       await SplashScreen.hideAsync();
-      // Load stuff
-      // await Promise.all([]);
     } catch (e) {
       // handle errors
     } finally {
       Animated.timing(animation, {
-        // timeout 용도 -> setTimeout으로 대체 가능.
+        // NOTE. timeout 용도 -> setTimeout으로 대체 가능.
         toValue: 0,
         duration: 2000,
         useNativeDriver: true,

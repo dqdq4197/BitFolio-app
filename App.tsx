@@ -11,17 +11,17 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { ThemeProvider } from 'styled-components';
 
-// import '/config/firebase';
-// import { AuthProvider } from '/hooks/context/useAuthContext';
 import { FeedBackAlertProvider } from '/hooks/context/useFeedBackContext';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import { useAppDispatch } from '/hooks/useRedux';
-import '/lib/lang/i18n';
 import RootNavigation from '/navigators/Root';
 import { persistor, store } from '/store';
 import { changeDeviceScheme } from '/store/slices/baseSetting';
 
 import AppLoader from '/components/AppLoader';
+
+// import './src/config/firebase';
+import '/lib/lang/i18n';
 
 LogBox.ignoreAllLogs();
 

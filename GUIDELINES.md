@@ -55,5 +55,5 @@ $ npm run ios
 ```
 or 
 ```
-$ npm start
+$ npx expo
 ```

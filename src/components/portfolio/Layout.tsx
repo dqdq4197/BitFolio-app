@@ -8,6 +8,7 @@ import styled from 'styled-components/native';
 import useAnimatedHeaderTitle from '/hooks/useAnimatedHeaderTitle';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import usePortfolioStats from '/hooks/usePortfolioStats';
+import type { PortfolioScreenProps } from '/types/navigation';
 
 import CoinListSheet from './CoinListSheet';
 import OverviewTitle from './OverviewTitle';
@@ -27,7 +28,12 @@ const EmptyCoinListView = ({ isLoading }: EmptyViewProps) => {
   const { t } = useTranslation();
   const { theme } = useGlobalTheme();
 
-  if (!isLoading) return <CoinListSkeleton />;
+  if (isLoading)
+    return (
+      <SkeletonContainer>
+        <CoinListSkeleton />
+      </SkeletonContainer>
+    );
 
   return (
     <EmptyViewContainer>
@@ -40,11 +46,10 @@ const EmptyCoinListView = ({ isLoading }: EmptyViewProps) => {
         {t(`portfolio.you do not have any assets yet`)}
       </Text>
       <Text center margin="10px 0 0 0" bold color300 lineHeight={18}>
-        {t(`portfolio.tap the`)} &nbsp;
+        {t(`portfolio.tap the`)}
         <Text fontS bold>
-          {`+ ${t(`portfolio.add new asset`)}`}
+          {` + ${t(`portfolio.add new asset`)}  `}
         </Text>
-        &nbsp;{' '}
         {t(`portfolio.button to add a transaction or to start watching coins`)}
       </Text>
     </EmptyViewContainer>
@@ -53,7 +58,8 @@ const EmptyCoinListView = ({ isLoading }: EmptyViewProps) => {
 
 const Layout = () => {
   const { t } = useTranslation();
-  const navigation = useNavigation();
+  const navigation =
+    useNavigation<PortfolioScreenProps<'PortfolioOverview'>['navigation']>();
   const { theme } = useGlobalTheme();
   const scrollViewRef = useRef<Animated.LegacyRef<ScrollView>>(null);
   const { id, coins, coinsData, initLoading, mutate } = usePortfolioContext();
@@ -74,7 +80,7 @@ const Layout = () => {
   useScrollToTop(scrollViewRef);
 
   const handleWatchCoinCoinPress = () => {
-    navigation.navigate('AddNewCoin', { portfolioId: id });
+    navigation.navigate('AddNewCoin');
   };
 
   const handleScroll = Animated.event(
@@ -142,4 +148,8 @@ const EmptyViewContainer = styled.View`
   height: 160px;
   justify-content: center;
   align-items: center;
+`;
+
+const SkeletonContainer = styled.View`
+  margin-left: -${({ theme }) => theme.content.spacing};
 `;

@@ -1,11 +1,11 @@
+import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import React, {
-  useEffect,
-  useState,
   createContext,
   useContext,
+  useEffect,
   useMemo,
+  useState,
 } from 'react';
-import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 
 const AuthContext = createContext<ValueType | undefined>(undefined);
 
@@ -49,11 +49,7 @@ export function AuthProvider({ children }: ProviderProps) {
    */
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(user => {
-      if (user) {
-        setCurrentUser(user);
-      } else {
-        setCurrentUser(null);
-      }
+      setCurrentUser(user);
 
       if (isLoading) {
         setIsLoading(false);
@@ -61,8 +57,7 @@ export function AuthProvider({ children }: ProviderProps) {
     });
 
     return subscriber;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [isLoading]);
 
   const initialData = useMemo(
     () => ({
