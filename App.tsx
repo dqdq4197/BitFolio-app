@@ -16,7 +16,9 @@ import { store, persistor } from '/store';
 import { changeDeviceScheme } from '/store/slices/baseSetting';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import { useAppDispatch } from '/hooks/useRedux';
+import { AuthProvider } from '/hooks/context/useAuthContext';
 import '/lib/lang/i18n';
+import '/config/firebase';
 
 import AppLoader from '/components/AppLoader';
 
@@ -54,9 +56,11 @@ const RootNavigationContainer = () => {
     <ThemeProvider theme={theme}>
       <SafeAreaProvider>
         <BottomSheetModalProvider>
-          <AppLoader>
-            <RootNavigation />
-          </AppLoader>
+          <AuthProvider>
+            <AppLoader>
+              <RootNavigation />
+            </AppLoader>
+          </AuthProvider>
         </BottomSheetModalProvider>
       </SafeAreaProvider>
     </ThemeProvider>
