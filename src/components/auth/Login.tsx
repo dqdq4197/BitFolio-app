@@ -1,10 +1,15 @@
 import React, { useEffect } from 'react';
+import { Button } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
 import { useForm, Controller } from 'react-hook-form';
 import styled from 'styled-components/native';
+import { getAuth } from 'firebase/auth';
 
+import { useSignInWithEmailAndPassword } from '/hooks/firebase';
+import { useFeedBackAlertContext } from '/hooks/context/useFeedBackContext';
 import { VALIDATIONS } from '/lib/constant';
+import type { SettingScreenProps } from '/types/navigation';
 
 import Text from '/components/common/Text';
 import AsyncButton from '/components/common/AsyncButton';
@@ -13,10 +18,25 @@ import FormLayout from '/components/common/FormLayout';
 
 const SUBMIT_BUTTON_HEIGTH = 50;
 
+interface FormValues {
+  email: string;
+  password: string;
+}
+
 const Login = () => {
   const { t } = useTranslation();
-  const navigation = useNavigation();
-  const { control, handleSubmit, setFocus, watch, formState: { errors } } = useForm({
+  const navigation = useNavigation<SettingScreenProps<'Login'>['navigation']>();
+  const { openAlert } = useFeedBackAlertContext();
+  const auth = getAuth();
+  const { signInWithEmailAndPassword, isLoading, errorMessage, user } =
+    useSignInWithEmailAndPassword(auth);
+  const {
+    control,
+    handleSubmit,
+    setFocus,
+    watch,
+    formState: { errors },
+  } = useForm({
     mode: 'onSubmit',
     defaultValues: {
       email: '',
@@ -28,8 +48,32 @@ const Login = () => {
     setTimeout(() => setFocus('email'), 500);
   }, [setFocus]);
 
-  const onSubmit = (data: Object) => {
-    console.log(data);
+  useEffect(() => {
+    if (user) {
+      if (user.user.emailVerified) {
+        navigation.navigate('Main', {
+          screen: 'Home',
+          params: { screen: 'CoinMarketHome' },
+        });
+        openAlert({
+          message: t(`auth.successfully logged in`),
+          type: 'snackbar',
+          severity: 'success',
+        });
+      } else {
+        navigation.navigate('EmailVerification');
+      }
+    }
+  }, [navigation, openAlert, t, user]);
+
+  useEffect(() => {
+    if (errorMessage) {
+      openAlert({ message: errorMessage, type: 'snackbar', severity: 'error' });
+    }
+  }, [errorMessage, openAlert]);
+
+  const onSubmit = async ({ email, password }: FormValues) => {
+    await signInWithEmailAndPassword(email, password);
   };
 
   const moveToRegisterScreen = () => {
@@ -46,14 +90,21 @@ const Login = () => {
         <AsyncButton
           fontML
           text={t(`auth.login`)}
-          isDisabled={!watch().email.length || !watch().password.length}
-          isLoading={false}
+          isDisabled={
+            !watch().email.length || !watch().password.length || isLoading
+          }
+          isLoading={isLoading}
           onPress={handleSubmit(onSubmit)}
           height={SUBMIT_BUTTON_HEIGTH}
           borderPosition={['top']}
+          hasNotch
         />
       }
     >
+      <Button
+        title="Email Verification gogo"
+        onPress={() => navigation.navigate('EmailVerification')}
+      />
       <Controller
         control={control}
         rules={{
@@ -107,8 +158,8 @@ const Login = () => {
         {t(`auth.forgot your password?`)}
       </Text>
       <ExtraView>
-        <Text center>
-          {t(`auth.don't have an account?`) + '  '}
+        <Text>
+          <Text center>{`${t(`auth.don't have an account?`)}  `}</Text>
           <Text primaryColor bold onPress={moveToRegisterScreen}>
             {t(`auth.create an account`)}
           </Text>
@@ -116,7 +167,7 @@ const Login = () => {
       </ExtraView>
     </FormLayout>
   );
-}
+};
 
 export default Login;
 

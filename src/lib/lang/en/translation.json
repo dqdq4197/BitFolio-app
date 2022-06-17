@@ -64,8 +64,22 @@
     "n.required": "{{n}} cannot be empty",
     "email message": "Please enter your email in the correct format",
     "password message": "Password should contain both letter and number, with minimum length of 8 characters",
-    "agree to terms of use & privacy policy": "By proceeding, you agree to Bitfolio's",
-    "already have an account?": "Already have an account?"
+    "agree to terms of use & privacy policy": "By proceeding, you agree   to Bitfolio's",
+    "already have an account?": "Already have an account?",
+    "log out": "Log Out",
+    "successfully logged in": "You are successfully logged in!",
+    "verify your email": "Verify your email",
+    "verify email guide": "Please verify your email address so you can signin if you ever forget your password. We've sent a confirmation email to <em>{{email}}</em>",
+    "resend email guide": "If the email doesn't arrive, <br/>you can resend it after {{time}}",
+    "resend email": "Resend Email",
+    "errorMessage": {
+      "user-not-found": "User with this email doesn't exist.",
+      "wrong-password": "Your password is wrong.",
+      "user-disabled": "User with this email has been disabled.",
+      "too-many-requests": "Too many requests. Try again later.",
+      "email-already-in-use": "This email address is already in use by another account.",
+      "unkown-error": "An undefined Error happened."
+    }
   },
   "coinDetail": {
     "highest": "Highest",
