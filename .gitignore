@@ -2,13 +2,15 @@ node_modules/**/*
 .expo/*
 npm-debug.*
 *.jks
-*.p8
 *.p12
 *.key
 *.mobileprovision
 *.orig.*
-web-build/
 
+
+
+# keys
+*.plist
 
 # env
 @types/env.d.ts
@@ -19,3 +21,10 @@ coverage
 
 # macOS
 .DS_Store
+
+# APP SET (Dynamic link & push notification)
+web-build/
+*.plist
+*.p8
+public
+.firebase

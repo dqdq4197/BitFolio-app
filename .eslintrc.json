@@ -76,9 +76,11 @@
     "import/no-duplicates": 0,
     "react-native/no-color-literals": 0,
     "react/no-array-index-key": 0,
+    "react/require-extension": 0,
+    "global-require": 0,
     "import/extensions": [
       "error",
-      "never"
+      {"json": "always"}
     ]
   },
   "settings": {

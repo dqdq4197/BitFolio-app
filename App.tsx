@@ -17,6 +17,7 @@ import { changeDeviceScheme } from '/store/slices/baseSetting';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import { useAppDispatch } from '/hooks/useRedux';
 import { AuthProvider } from '/hooks/context/useAuthContext';
+import { FeedBackAlertProvider } from '/hooks/context/useFeedBackContext';
 import '/lib/lang/i18n';
 import '/config/firebase';
 
@@ -58,7 +59,9 @@ const RootNavigationContainer = () => {
         <BottomSheetModalProvider>
           <AuthProvider>
             <AppLoader>
-              <RootNavigation />
+              <FeedBackAlertProvider>
+                <RootNavigation />
+              </FeedBackAlertProvider>
             </AppLoader>
           </AuthProvider>
         </BottomSheetModalProvider>
