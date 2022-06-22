@@ -38,7 +38,7 @@ const CoinDetail = ({ route, navigation }: HomeScreenProps<'CoinDetail'>) => {
       title: symbol
         ? symbol.toUpperCase()
         : id.charAt(0).toUpperCase() + id.slice(1),
-      headerRight: () => <WatchListIcon id={id} size={28} />,
+      headerRight: () => <WatchListIcon id={id} />,
     });
   }, [id, navigation, symbol, theme]);
 

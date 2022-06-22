@@ -76,7 +76,7 @@ const RecentlyViewedList = ({ onPressItem }: ListProps) => {
             >
               <IconWrap>
                 <Image uri={coin.image} width={35} height={35} />
-                <WatchListIcon id={coin.id} size={28} />
+                <WatchListIcon id={coin.id} />
               </IconWrap>
               <TitleAndPercentage>
                 <Text fontML bold numberOfLines={1}>
