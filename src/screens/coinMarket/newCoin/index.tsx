@@ -8,7 +8,7 @@ import MarketListSkeleton from '/components/skeletonPlaceholder/MarketListSkelet
 const NewCoinScreen = () => {
   return (
     <GeneralTemplate>
-      <AsyncBoundary skeleton={<MarketListSkeleton />}>
+      <AsyncBoundary skeleton={<></>}>
         <NewCoin />
       </AsyncBoundary>
     </GeneralTemplate>

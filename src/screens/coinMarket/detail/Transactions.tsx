@@ -6,7 +6,7 @@ import TransactionsSkeleton from '/components/skeletonPlaceholder/coinMarketDeta
 
 const Transactions = () => {
   return (
-    <AsyncBoundary skeleton={<TransactionsSkeleton />}>
+    <AsyncBoundary skeleton={<></>}>
       <TransactionsLayout />
     </AsyncBoundary>
   );

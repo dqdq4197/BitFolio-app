@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dimensions, View } from 'react-native';
-import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+// import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 
 import useGlobalTheme from '/hooks/useGlobalTheme';
 
@@ -13,7 +13,7 @@ const CoinDetailSkeleton = () => {
 
   return (
     <Container>
-      <SkeletonPlaceholder.Item
+      {/* <SkeletonPlaceholder.Item
         paddingHorizontal={parseInt(theme.content.spacing, 10)}
         paddingVertical={15}
       >
@@ -135,7 +135,7 @@ const CoinDetailSkeleton = () => {
           width="100%"
           borderRadius={6}
         />
-      </SkeletonPlaceholder.Item>
+      </SkeletonPlaceholder.Item> */}
     </Container>
   );
 };

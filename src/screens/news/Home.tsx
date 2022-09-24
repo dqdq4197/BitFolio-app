@@ -8,7 +8,7 @@ import AsyncBoundary from '/components/common/AsyncBoundary';
 const HomeScreen = () => {
   return (
     <GeneralTemplate>
-      <AsyncBoundary skeleton={<CoinDetailSkeleton />}>
+      <AsyncBoundary skeleton={<></>}>
         <DiscussionHome />
       </AsyncBoundary>
     </GeneralTemplate>

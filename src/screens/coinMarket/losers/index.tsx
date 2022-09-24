@@ -8,7 +8,7 @@ import AsyncBoundary from '/components/common/AsyncBoundary';
 const LosersScreen = () => {
   return (
     <GeneralTemplate>
-      <AsyncBoundary skeleton={<TopListSkeleton />}>
+      <AsyncBoundary skeleton={<></>}>
         <Losers />
       </AsyncBoundary>
     </GeneralTemplate>

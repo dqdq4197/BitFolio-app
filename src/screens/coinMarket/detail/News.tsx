@@ -6,7 +6,7 @@ import AsyncBoundary from '/components/common/AsyncBoundary';
 
 const News = () => {
   return (
-    <AsyncBoundary skeleton={<MarketListSkeleton />}>
+    <AsyncBoundary skeleton={<></>}>
       <NewsLayout />
     </AsyncBoundary>
   );

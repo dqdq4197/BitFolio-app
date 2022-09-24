@@ -8,7 +8,7 @@ import AsyncBoundary from '/components/common/AsyncBoundary';
 const HighMarketCapScreen = () => {
   return (
     <GeneralTemplate>
-      <AsyncBoundary skeleton={<TopListSkeleton />}>
+      <AsyncBoundary skeleton={<></>}>
         <HighMarketcap />
       </AsyncBoundary>
     </GeneralTemplate>

@@ -8,7 +8,7 @@ import Register from '/components/auth/Register';
 const RegisterScreen = () => {
   return (
     <GeneralTemplate>
-      <AsyncBoundary skeleton={<CoinDetailSkeleton />}>
+      <AsyncBoundary skeleton={<></>}>
         <Register />
       </AsyncBoundary>
     </GeneralTemplate>

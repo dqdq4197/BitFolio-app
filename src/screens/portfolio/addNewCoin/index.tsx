@@ -9,7 +9,7 @@ import Layout from '/components/portfolio/addNewCoin';
 const AddNewCoinScreen = ({ navigation }: StackScreenProps<any>) => {
   return (
     <GeneralTemplate>
-      <AsyncBoundary skeleton={<CoinHomeSkeleton />}>
+      <AsyncBoundary skeleton={<></>}>
         <Layout />
       </AsyncBoundary>
     </GeneralTemplate>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dimensions, View } from 'react-native';
-import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+// import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 
 import useGlobalTheme from '/hooks/useGlobalTheme';
 
@@ -17,7 +17,7 @@ const Item = () => {
 
   return (
     <Container>
-      <SkeletonPlaceholder.Item
+      {/* <SkeletonPlaceholder.Item
         paddingHorizontal={parseInt(spacing, 10)}
         flexDirection="row"
         justifyContent="space-between"
@@ -44,7 +44,7 @@ const Item = () => {
         </SkeletonPlaceholder.Item>
         <SkeletonPlaceholder.Item width={40} height={13} borderRadius={9} />
       </SkeletonPlaceholder.Item>
-      <SkeletonPlaceholder.Item width={width} height={1} />
+      <SkeletonPlaceholder.Item width={width} height={1} /> */}
     </Container>
   );
 };

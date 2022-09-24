@@ -8,7 +8,7 @@ import AsyncBoundary from '/components/common/AsyncBoundary';
 const HighVolumeScreen = () => {
   return (
     <GeneralTemplate>
-      <AsyncBoundary skeleton={<TopListSkeleton />}>
+      <AsyncBoundary skeleton={<></>}>
         <HighVolume />
       </AsyncBoundary>
     </GeneralTemplate>

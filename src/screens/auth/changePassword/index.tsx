@@ -8,7 +8,7 @@ import ChangePassword from '/components/auth/ChangePassword';
 const ChangePasswordScreen = () => {
   return (
     <GeneralTemplate>
-      <AsyncBoundary skeleton={<CoinDetailSkeleton />}>
+      <AsyncBoundary skeleton={<></>}>
         <ChangePassword />
       </AsyncBoundary>
     </GeneralTemplate>

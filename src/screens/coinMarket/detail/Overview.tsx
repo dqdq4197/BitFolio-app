@@ -6,7 +6,7 @@ import AsyncBoundary from '/components/common/AsyncBoundary';
 
 const Overview = () => {
   return (
-    <AsyncBoundary skeleton={<CoinDetailSkeleton />}>
+    <AsyncBoundary skeleton={<></>}>
       <OverviewLayout />
     </AsyncBoundary>
   );

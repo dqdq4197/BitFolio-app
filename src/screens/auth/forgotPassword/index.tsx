@@ -8,7 +8,7 @@ import ForgotPassword from '/components/auth/ForgotPassword';
 const ForgotPasswordScreen = () => {
   return (
     <GeneralTemplate>
-      <AsyncBoundary skeleton={<CoinDetailSkeleton />}>
+      <AsyncBoundary skeleton={<></>}>
         <ForgotPassword />
       </AsyncBoundary>
     </GeneralTemplate>

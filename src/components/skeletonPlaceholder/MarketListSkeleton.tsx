@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dimensions } from 'react-native';
-import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+// import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 
 import { Container } from './common';
 
@@ -18,7 +18,7 @@ const MarketListSkeleton = () => {
 
 const Row = () => (
   <Container>
-    <SkeletonPlaceholder.Item flexDirection="row" alignItems="center">
+    {/* <SkeletonPlaceholder.Item flexDirection="row" alignItems="center">
       <SkeletonPlaceholder.Item marginLeft={20}>
         <SkeletonPlaceholder.Item
           width={width - PADDING}
@@ -32,7 +32,7 @@ const Row = () => (
           borderRadius={4}
         />
       </SkeletonPlaceholder.Item>
-    </SkeletonPlaceholder.Item>
+    </SkeletonPlaceholder.Item> */}
   </Container>
 );
 

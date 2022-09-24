@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import styled from 'styled-components/native';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
-import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+// import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 
 import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat';
 import { digitToFixed } from '/lib/utils';
@@ -38,7 +38,7 @@ type ColProps = {
 const Skeleton = React.memo(() => {
   return (
     <SkeletonContainer>
-      <SkeletonPlaceholder.Item justifyContent="flex-end" alignItems="flex-end">
+      {/* <SkeletonPlaceholder.Item justifyContent="flex-end" alignItems="flex-end">
         <SkeletonPlaceholder.Item width={80} height={13} borderRadius={3} />
         <SkeletonPlaceholder.Item
           width={50}
@@ -46,7 +46,7 @@ const Skeleton = React.memo(() => {
           marginTop={10}
           borderRadius={3}
         />
-      </SkeletonPlaceholder.Item>
+      </SkeletonPlaceholder.Item> */}
     </SkeletonContainer>
   );
 });

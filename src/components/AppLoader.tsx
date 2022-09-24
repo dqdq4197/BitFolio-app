@@ -87,6 +87,7 @@ const CustomSplashScreen = ({ children }: TProps) => {
 const AppLoader = ({ children }: TProps) => {
   return (
     <InitDataProvider>
+      {/* {children} */}
       <CustomSplashScreen>{children}</CustomSplashScreen>
     </InitDataProvider>
   );

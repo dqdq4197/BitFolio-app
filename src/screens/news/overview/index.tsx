@@ -34,7 +34,7 @@ const OverviewScreen = ({ navigation }: StackScreenProps<any>) => {
 
   return (
     <GeneralTemplate>
-      <AsyncBoundary skeleton={<CoinDetailSkeleton />}>
+      <AsyncBoundary skeleton={<></>}>
         <SettingModal ref={settingModalRef} />
         <Overview />
       </AsyncBoundary>
