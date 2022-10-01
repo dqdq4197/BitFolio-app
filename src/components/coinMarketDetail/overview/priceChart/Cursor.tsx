@@ -106,7 +106,10 @@ const Cursor = ({ width, height, CURSOR_SIZE, PADDING }: CursorProps) => {
   };
 
   const onChangeCoordinate = (x: number) => {
-    if (x < 0 || x >= width) return;
+    if (x < 0 || x >= width) {
+      return;
+    }
+
     setIsCursorActive(true);
     const { svgPath, scaleX } = getSvg;
 

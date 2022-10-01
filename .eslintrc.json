@@ -73,6 +73,7 @@
     "import/prefer-default-export": 0,
     "no-console": 0,
     "react-native/no-inline-styles": 0,
+    "import/no-duplicates": 0,
     "import/extensions": [
       "error",
       "never"
