@@ -1,17 +1,12 @@
 import { useState, useMemo, useCallback } from 'react';
-import {
-  createUserWithEmailAndPassword as firebaseCreateUserWithEmailAndPassword,
-  getAuth,
-  UserCredential,
-} from 'firebase/auth';
+import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import { FirebaseError } from '@firebase/util';
 import { useTranslation } from 'react-i18next';
 
 const useCreateUserWithEmailAndPassword = () => {
   const { t } = useTranslation();
-  const auth = getAuth();
   const [errorMessage, setErrorMessage] = useState<string>();
-  const [user, setUser] = useState<UserCredential>();
+  const [user, setUser] = useState<FirebaseAuthTypes.UserCredential>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const createUserWithEmailAndPassword = useCallback(
@@ -19,8 +14,7 @@ const useCreateUserWithEmailAndPassword = () => {
       setIsLoading(true);
       setErrorMessage(undefined);
       try {
-        const userCredential = await firebaseCreateUserWithEmailAndPassword(
-          auth,
+        const userCredential = await auth().createUserWithEmailAndPassword(
           email,
           password
         );
@@ -49,7 +43,7 @@ const useCreateUserWithEmailAndPassword = () => {
         setIsLoading(false);
       }
     },
-    [auth, t]
+    [t]
   );
 
   return useMemo(

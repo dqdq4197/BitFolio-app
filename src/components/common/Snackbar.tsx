@@ -119,7 +119,7 @@ const Container = styled(Animated.View)`
   left: ${({ theme }) => theme.content.spacing};
   right: ${({ theme }) => theme.content.spacing};
   top: 45px;
-  height: 45px;
+  height: 50px;
   align-items: center;
   border-radius: ${({ theme }) => theme.border.m};
   z-index: ${({ theme }) => theme.zIndex.snackbar};

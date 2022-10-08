@@ -14,7 +14,7 @@ import {
 import useLocales from '/hooks/useLocales';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import { useFeedBackAlertContext } from '/hooks/context/useFeedBackContext';
-import useCreateUserWithEmailAndPassword from '/hooks/firebase/useCreateUserWithEmailAndPassword';
+import { useCreateUserWithEmailAndPassword } from '/hooks/firebase';
 import type { SettingScreenProps } from '/types/navigation';
 
 import Text from '/components/common/Text';

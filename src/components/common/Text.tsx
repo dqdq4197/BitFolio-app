@@ -152,6 +152,9 @@ const Text = styled.Text<TextStyleProps>`
         return `font-style: italic`;
       case underline:
         return `text-decoration-line: underline`;
+
+      default:
+        return ``;
     }
   }}
 `;

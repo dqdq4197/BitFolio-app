@@ -2,8 +2,9 @@ import React, {
   useState,
   useEffect,
   useRef,
-  useCallback,
   useMemo,
+  createRef,
+  RefObject,
 } from 'react';
 import {
   Animated,
@@ -37,14 +38,16 @@ const TabBar = ({
   const [measures, setMeasures] = useState<TabMeasureType[] | null | undefined>(
     null
   );
-  const tabRefs = useRef<(TouchableOpacity | null)[]>([]).current;
+  const tabRefs = useRef<RefObject<TouchableOpacity>[]>(
+    Array.from({ length: state.routes.length }, () => createRef())
+  ).current;
 
   useEffect(() => {
     if (scrollViewRef.current && !measures) {
       const temp: TabMeasureType[] = [];
 
       tabRefs.forEach((ref, _, array) => {
-        ref?.measureLayout(
+        ref.current?.measureLayout(
           scrollViewRef.current as any,
           (left, top, width, height) => {
             temp.push({ left, top, width, height });
@@ -73,12 +76,11 @@ const TabBar = ({
     }
   }, [state, measures]);
 
-  const trackRef = useCallback(
-    (index: number, ref: TouchableOpacity | null) => {
-      tabRefs[index] = ref;
-    },
-    [tabRefs]
-  );
+  const standardSize = useMemo(() => {
+    if (!contentSize) return 0;
+    return contentSize / state.routes.length;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [contentSize]);
 
   const inputRange = useMemo(() => {
     return state.routes.map((_, i) => i);
@@ -90,9 +92,7 @@ const TabBar = ({
 
     return position.interpolate({
       inputRange,
-      outputRange: measures.map(
-        measure => measure.width / (contentSize / state.routes.length) + 0.1
-      ),
+      outputRange: measures.map(measure => measure.width / standardSize + 0.1),
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputRange, measures, contentSize]);
@@ -103,8 +103,7 @@ const TabBar = ({
     return position.interpolate({
       inputRange,
       outputRange: measures.map(
-        measure =>
-          measure.left - (contentSize / measures.length - measure.width) / 2
+        measure => measure.left - (standardSize - measure.width) / 2
       ),
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -117,13 +116,14 @@ const TabBar = ({
 
   return (
     <Container>
-      <Animated.ScrollView
+      <ScrollView
         horizontal
         ref={scrollViewRef}
         showsHorizontalScrollIndicator={false}
       >
         <TabWrapper onLayout={handleTabWrapperLayout}>
           {state.routes.map(({ key, name }, index) => {
+            const ref = tabRefs[index];
             const { options } = descriptors[key];
             const label =
               options.tabBarLabel !== undefined
@@ -154,9 +154,8 @@ const TabBar = ({
             return (
               <Tab
                 key={key}
-                trackRef={trackRef}
+                ref={ref}
                 label={label as string}
-                index={index}
                 opacity={opacity}
                 isFocused={isFocused}
                 onPress={onPress}
@@ -167,7 +166,7 @@ const TabBar = ({
         <Indicator
           as={Animated.View}
           style={{
-            width: contentSize / state.routes.length,
+            width: standardSize,
             transform: [
               {
                 translateX,
@@ -178,7 +177,7 @@ const TabBar = ({
             ],
           }}
         />
-      </Animated.ScrollView>
+      </ScrollView>
     </Container>
   );
 };

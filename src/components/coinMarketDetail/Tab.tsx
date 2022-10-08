@@ -1,33 +1,33 @@
-import React, { memo } from 'react';
+import React, { forwardRef } from 'react';
 import { TouchableOpacity, Animated } from 'react-native';
 import styled from 'styled-components/native';
 
 interface ITab {
   label: string;
-  index: number;
   isFocused: boolean;
   opacity: Animated.AnimatedInterpolation;
   onPress: () => void;
-  trackRef: (index: number, ref: TouchableOpacity | null) => void;
 }
 
-const Tab = ({ label, index, isFocused, opacity, onPress, trackRef }: ITab) => {
-  return (
-    <TabButton
-      ref={ref => trackRef(index, ref)}
-      accessible
-      accessibilityRole="button"
-      accessibilityState={isFocused ? { selected: true } : {}}
-      accessibilityLabel={label}
-      activeOpacity={0.6}
-      onPress={onPress}
-    >
-      <TabText as={Animated.Text} style={{ opacity }}>
-        {label}
-      </TabText>
-    </TabButton>
-  );
-};
+const Tab = forwardRef<TouchableOpacity, ITab>(
+  ({ label, isFocused, opacity, onPress }, ref) => {
+    return (
+      <TabButton
+        ref={ref}
+        accessible
+        accessibilityRole="button"
+        accessibilityState={isFocused ? { selected: true } : {}}
+        accessibilityLabel={label}
+        activeOpacity={0.6}
+        onPress={onPress}
+      >
+        <TabText as={Animated.Text} style={{ opacity }}>
+          {label}
+        </TabText>
+      </TabButton>
+    );
+  }
+);
 
 export default Tab;
 

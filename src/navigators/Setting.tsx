@@ -7,24 +7,25 @@ import {
 import { useTranslation } from 'react-i18next';
 
 import useGlobalTheme from '/hooks/useGlobalTheme';
+import type { SettingParamList } from '/types/navigation';
 
-import { Login, Register, ForgotPassword, ChangePassword } from '/screens/auth';
-import { Overview, Language } from '/screens/setting';
-import AuthMainTest from './AuthMainTest';
+import {
+  Login,
+  Register,
+  ForgotPassword,
+  ChangePassword,
+  EmailVerification,
+} from '/screens/auth';
+import {
+  Overview,
+  Language,
+  Currency,
+  LaunchScreen,
+  ScreenTheme,
+  AuthSetting,
+} from '/screens/setting';
 
-type SettingStackParamList = {
-  Overview: undefined;
-  Login: undefined;
-  Register: undefined;
-  ForgotPassword: undefined;
-  ChangePassword: undefined;
-  ScreenTheme: undefined;
-  Language: undefined;
-  Currency: undefined;
-  LaunchScreen: undefined;
-};
-
-const Stack = createStackNavigator<SettingStackParamList>();
+const Stack = createStackNavigator<SettingParamList>();
 const { width } = Dimensions.get('window');
 
 const Setting = () => {
@@ -58,7 +59,7 @@ const Setting = () => {
       <Stack.Screen
         name="Overview"
         component={Overview}
-        options={NavigationOptions('Test')}
+        options={NavigationOptions('')}
       />
       <Stack.Screen
         name="Login"
@@ -81,24 +82,34 @@ const Setting = () => {
         options={NavigationOptions(t(`auth.change password`))}
       />
       <Stack.Screen
+        name="EmailVerification"
+        component={EmailVerification}
+        options={NavigationOptions('')}
+      />
+      <Stack.Screen
+        name="AuthSetting"
+        component={AuthSetting}
+        options={NavigationOptions('')}
+      />
+      <Stack.Screen
         name="ScreenTheme"
-        component={Language}
-        options={NavigationOptions(t(`auth.change password`))}
+        component={ScreenTheme}
+        options={NavigationOptions('')}
       />
       <Stack.Screen
         name="Language"
         component={Language}
-        options={NavigationOptions(t(`auth.change password`))}
+        options={NavigationOptions('')}
       />
       <Stack.Screen
         name="Currency"
-        component={Language}
-        options={NavigationOptions(t(`auth.change password`))}
+        component={Currency}
+        options={NavigationOptions('')}
       />
       <Stack.Screen
         name="LaunchScreen"
-        component={Language}
-        options={NavigationOptions(t(`auth.change password`))}
+        component={LaunchScreen}
+        options={NavigationOptions('')}
       />
     </Stack.Navigator>
   );

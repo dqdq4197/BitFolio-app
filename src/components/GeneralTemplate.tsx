@@ -1,7 +1,7 @@
 import React from 'react';
 import { StatusBar, Platform, Dimensions } from 'react-native';
 import styled from 'styled-components/native';
-import { useHeaderHeight } from '@react-navigation/stack';
+import { useHeaderHeight } from '@react-navigation/elements';
 
 import useGlobalTheme from '/hooks/useGlobalTheme';
 

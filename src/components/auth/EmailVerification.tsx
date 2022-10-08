@@ -6,7 +6,7 @@ import LottieView from 'lottie-react-native';
 import * as habtics from 'expo-haptics';
 
 import { useFeedBackAlertContext } from '/hooks/context/useFeedBackContext';
-import useSendEmailVerification from '/hooks/firebase/useSendEmailVerification';
+import { useSendEmailVerification } from '/hooks/firebase';
 import { useAuthContext } from '/hooks/context/useAuthContext';
 import type { SettingScreenProps } from '/types/navigation';
 

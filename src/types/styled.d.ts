@@ -44,6 +44,7 @@ declare module 'styled-components/native' {
       font_xs: string;
     };
     colors: PalleteType;
+    pallete: Pallete;
     content: {
       spacing: string;
       blankSpacing: string;
@@ -56,8 +57,18 @@ declare module 'styled-components/native' {
       ml: string;
       xl: string;
     };
+    zIndex: {
+      speedDial: number;
+      drawer: number;
+      modal: number;
+      snackbar: number;
+      tooltip: number;
+    };
   }
 }
+
+type Step = Record<'light' | 'main' | 'dark', string>;
+type Pallete = Record<'error' | 'warning' | 'info' | 'success', Step>;
 
 interface PalleteType {
   red: Amber;

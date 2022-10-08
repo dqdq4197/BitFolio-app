@@ -3,7 +3,6 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useTranslation } from 'react-i18next';
 import { Fontisto, FontAwesome, Ionicons } from '@expo/vector-icons';
 
-import useGlobalTheme from '/hooks/useGlobalTheme';
 import { useAppSelector } from '/hooks/useRedux';
 import type { MainTabParamList } from '/types/navigation';
 
@@ -15,7 +14,6 @@ import News from './News';
 const Tab = createBottomTabNavigator<MainTabParamList>();
 
 const Main = () => {
-  const { theme } = useGlobalTheme();
   const { t } = useTranslation();
   const { launchScreen } = useAppSelector(state => state.baseSettingReducer);
 
@@ -24,9 +22,6 @@ const Main = () => {
       tabBar={props => <TabBar {...props} />}
       initialRouteName={launchScreen}
       screenOptions={{ headerShown: false }}
-      sceneContainerStyle={{
-        backgroundColor: theme.base.background[100],
-      }}
     >
       <Tab.Screen
         name="Portfolio"

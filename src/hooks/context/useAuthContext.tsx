@@ -5,20 +5,13 @@ import React, {
   useContext,
   useMemo,
 } from 'react';
-import {
-  getAuth,
-  onAuthStateChanged,
-  User,
-  signOut,
-  Auth,
-} from 'firebase/auth';
+import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 
 const AuthContext = createContext<ValueType | undefined>(undefined);
 
 type ValueType = {
   isLoading: boolean;
-  currentUser: User | null;
-  auth: Auth;
+  currentUser: FirebaseAuthTypes.User | null;
 };
 
 type ProviderProps = {
@@ -27,15 +20,17 @@ type ProviderProps = {
 
 export function AuthProvider({ children }: ProviderProps) {
   const [isLoading, setIsLoading] = useState(true);
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
-  const auth = getAuth();
+  const [currentUser, setCurrentUser] = useState<FirebaseAuthTypes.User | null>(
+    null
+  );
 
   useEffect(() => {
-    if (auth && !auth.currentUser?.emailVerified) {
-      signOut(auth);
-      console.log('초기 로드 & 로그 아웃');
+    if (auth && !auth().currentUser?.emailVerified) {
+      auth()
+        .signOut()
+        .then(() => console.log('초기 로드 & 로그 아웃'));
     }
-  }, [auth]);
+  }, []);
 
   /**
    * 로그인 시.
@@ -53,30 +48,28 @@ export function AuthProvider({ children }: ProviderProps) {
    * 이메일 인증 완료하면 user.reload() 실행
    */
   useEffect(() => {
-    const unSubscribeAuth = onAuthStateChanged(auth, user => {
-      if (user) {
-        setCurrentUser(user);
-      }
-
+    const subscriber = auth().onAuthStateChanged(user => {
       if (user) {
         setCurrentUser(user);
       } else {
         setCurrentUser(null);
       }
 
-      setIsLoading(false);
+      if (isLoading) {
+        setIsLoading(false);
+      }
     });
 
-    return unSubscribeAuth;
-  }, [auth]);
+    return subscriber;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const initialData = useMemo(
     () => ({
-      auth,
       currentUser,
       isLoading,
     }),
-    [auth, currentUser, isLoading]
+    [currentUser, isLoading]
   );
 
   return (

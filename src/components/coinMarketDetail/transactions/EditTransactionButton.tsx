@@ -31,7 +31,7 @@ const EditTransactionButton = ({
 
   const handleButtonPress = () => {
     setVisible(true);
-  }
+  };
 
   return (
     <>

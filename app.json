@@ -34,9 +34,12 @@
       "versionCode": 1,
       "package": "com.bitfolio.cryptocurrencies.ios"
     },
+    "plugins": [
+      "@react-native-firebase/app"
+    ],
     "web": {
       "favicon": "./assets/splash.png"
     },
-    "description": ""
+    "description": "cryptocurrencies"
   }
 }

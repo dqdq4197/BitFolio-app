@@ -25,6 +25,7 @@ export type SettingParamList = {
   Register: undefined;
   ForgotPassword: undefined;
   ChangePassword: undefined;
+  AuthSetting: undefined;
   EmailVerification: undefined;
   ScreenTheme: undefined;
   Language: undefined;

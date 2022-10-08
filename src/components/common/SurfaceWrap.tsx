@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { CSSProperties } from 'react';
 import styled, { css } from 'styled-components/native';
 
 import Text, { TextStyleProps } from '/components/common/Text';
@@ -11,6 +11,7 @@ interface TitleWrapProps extends TextStyleProps {
   marginTopZero?: boolean;
   marginBottomZero?: boolean;
   transparent?: boolean;
+  flex?: CSSProperties['flex'];
 }
 const SurfaceWrap = ({
   title,
@@ -20,6 +21,7 @@ const SurfaceWrap = ({
   marginTopZero = false,
   marginBottomZero = false,
   transparent = false,
+  flex,
   ...textStyles
 }: TitleWrapProps) => {
   return (
@@ -28,6 +30,7 @@ const SurfaceWrap = ({
       parentPaddingZero={parentPaddingZero}
       marginTopZero={marginTopZero}
       transparent={transparent}
+      flex={flex}
     >
       {title && (
         <TitleWrap
@@ -57,9 +60,11 @@ type Props = Pick<
   | 'marginTopZero'
   | 'marginBottomZero'
   | 'transparent'
+  | 'flex'
 >;
 
 const Container = styled.View<Props>`
+  ${({ flex }) => flex && `flex: ${flex}`}
   background-color: ${({ theme, transparent }) =>
     transparent ? 'transparent' : theme.base.background.surface};
   padding: ${({ theme }) =>

@@ -13,11 +13,9 @@ const TabBar = ({ descriptors, state, navigation }: BottomTabBarProps) => {
   const { routes, index } = state;
   const { theme } = useGlobalTheme();
   const insetBottom = useSafeAreaInsets().bottom;
-  const focusedOptions = descriptors[routes[index].key].options;
 
   const getVisibility = () => {
     if (
-      focusedOptions.tabBarVisible === false ||
       routes[index].state?.index === 1 ||
       routes[index].state?.index === 2 ||
       routes[index].state?.index === 3

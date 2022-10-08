@@ -1,5 +1,4 @@
 import { useState, useCallback, useMemo, useEffect } from 'react';
-import { sendEmailVerification as firebaseSendEmailVerification } from 'firebase/auth';
 import { useTranslation } from 'react-i18next';
 import { FirebaseError } from '@firebase/util';
 import { FIREBASE_EMAIL_VERIFICATION_DYNAMICLINK, APP_BUNDLE_ID } from '@env';
@@ -34,7 +33,7 @@ const useSendEmailVerification = () => {
     setIsLoading(true);
     setErrorMessage(undefined);
     try {
-      await firebaseSendEmailVerification(currentUser, {
+      await currentUser.sendEmailVerification({
         url: FIREBASE_EMAIL_VERIFICATION_DYNAMICLINK,
         iOS: {
           bundleId: APP_BUNDLE_ID,

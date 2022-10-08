@@ -51,7 +51,7 @@ Bitfolio가 제공하는 주요 기능은 다음과 같습니다.
 다음 항목은 이 프로젝트에 사용된 핵심 프론트엔드 기술입니다.
 
 - Expo & React-Native
-- react navigation v5
+- react navigation v6
 - SWR
 - Redux
 - styled-components

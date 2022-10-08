@@ -1,10 +1,8 @@
 import React, { useEffect } from 'react';
-import { Button } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
 import { useForm, Controller } from 'react-hook-form';
 import styled from 'styled-components/native';
-import { getAuth } from 'firebase/auth';
 
 import { useSignInWithEmailAndPassword } from '/hooks/firebase';
 import { useFeedBackAlertContext } from '/hooks/context/useFeedBackContext';
@@ -27,9 +25,8 @@ const Login = () => {
   const { t } = useTranslation();
   const navigation = useNavigation<SettingScreenProps<'Login'>['navigation']>();
   const { openAlert } = useFeedBackAlertContext();
-  const auth = getAuth();
   const { signInWithEmailAndPassword, isLoading, errorMessage, user } =
-    useSignInWithEmailAndPassword(auth);
+    useSignInWithEmailAndPassword();
   const {
     control,
     handleSubmit,
@@ -101,10 +98,6 @@ const Login = () => {
         />
       }
     >
-      <Button
-        title="Email Verification gogo"
-        onPress={() => navigation.navigate('EmailVerification')}
-      />
       <Controller
         control={control}
         rules={{
