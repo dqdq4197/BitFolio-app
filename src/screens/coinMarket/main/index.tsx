@@ -47,7 +47,7 @@ const HomeScreen = ({ navigation }: StackScreenProps<any>) => {
 
   return (
     <GeneralTemplate>
-      <AsyncBoundary skeleton={<></>}>
+      <AsyncBoundary skeleton={<CoinHomeSkeleton />}>
         <SettingModal ref={settingModalRef} />
         <Layout />
       </AsyncBoundary>

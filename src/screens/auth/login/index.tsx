@@ -8,7 +8,7 @@ import Login from '/components/auth/Login';
 const LoginScreen = () => {
   return (
     <GeneralTemplate>
-      <AsyncBoundary skeleton={<></>}>
+      <AsyncBoundary skeleton={<CoinDetailSkeleton />}>
         <Login />
       </AsyncBoundary>
     </GeneralTemplate>

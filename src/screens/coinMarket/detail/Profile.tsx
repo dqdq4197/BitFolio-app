@@ -6,7 +6,7 @@ import CoinDetailSkeleton from '/components/skeletonPlaceholder/CoinDetailSkelet
 
 const Profile = () => {
   return (
-    <AsyncBoundary skeleton={<></>}>
+    <AsyncBoundary skeleton={<CoinDetailSkeleton />}>
       <ProfileLayout />
     </AsyncBoundary>
   );

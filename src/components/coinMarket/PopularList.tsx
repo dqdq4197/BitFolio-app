@@ -66,18 +66,11 @@ const PopularList = () => {
       >
         {data.map(res => {
           return (
-            <LinearGradient
+            <CardWrap
               key={res.route}
               colors={[res.start, res.end]}
               start={{ x: 0, y: 1 }}
               end={{ x: 1, y: 0 }}
-              style={{
-                width: 135,
-                height: 135,
-                // TODO. borderRadius 상수화
-                borderRadius: 20,
-                marginRight: 10,
-              }}
             >
               <Card
                 onPress={() => handleCardPress(res.route)}
@@ -88,7 +81,7 @@ const PopularList = () => {
                   {res.title}
                 </Text>
               </Card>
-            </LinearGradient>
+            </CardWrap>
           );
         })}
       </Container>
@@ -102,13 +95,12 @@ const Container = styled.ScrollView`
   background-color: ${({ theme }) => theme.base.background.surface};
 `;
 
-// TODO. remove LinearGradient inline style
-// const CardWrap = styled.View`
-//   width: 135px;
-//   height: 135px;
-//   border-radius: ${({ theme }) => theme.border.xl};
-//   margin-right: 10px;
-// `;
+const CardWrap = styled(LinearGradient)`
+  width: 135px;
+  height: 135px;
+  border-radius: ${({ theme }) => theme.border.xl};
+  margin-right: 10px;
+`;
 
 const Card = styled.TouchableOpacity`
   width: 100%;

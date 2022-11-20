@@ -11,7 +11,7 @@ const Auth = () => {
 
   return (
     <GeneralTemplate>
-      <AsyncBoundary skeleton={<></>}>
+      <AsyncBoundary skeleton={<CoinDetailSkeleton />}>
         <Text fontX onPress={() => navigation.navigate('Login')}>
           {/* 로그인하러 가기 */}
         </Text>
