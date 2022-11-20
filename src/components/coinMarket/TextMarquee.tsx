@@ -173,7 +173,7 @@ const TextMarquee = () => {
           )}`}
         </Text>
       </TextTicker>
-      <LinearGradient
+      <IconWrap
         colors={[
           'rgba(56, 97, 251,0)',
           theme.base.primaryColor,
@@ -181,20 +181,9 @@ const TextMarquee = () => {
         ]}
         start={{ x: 0, y: 0.5 }}
         end={{ x: 1, y: 0.5 }}
-        // TODO. LinearGradient 적용하기 or borderRadius 상수화
-        style={{
-          position: 'absolute',
-          right: 0,
-          width: 40,
-          height: 40,
-          alignItems: 'center',
-          justifyContent: 'center',
-          paddingLeft: 10,
-          borderRadius: 6,
-        }}
       >
         <Ionicons name="ios-chevron-down" size={20} color="white" />
-      </LinearGradient>
+      </IconWrap>
       <Modal key="market-global" ref={ModalRef} snapPoints={['50%']}>
         <ModalContents
           cryptos={data.active_cryptocurrencies}
@@ -231,17 +220,16 @@ const Container = styled.TouchableOpacity`
   margin-top: 10px;
 `;
 
-// TODO. remove LinearGradient inline style
-// const IconWrap = styled.View`
-//   position: absolute;
-//   right: 0;
-//   width: 40px;
-//   height: 40px;
-//   align-items: center;
-//   justify-content: center;
-//   padding-left: 10px;
-//   border-radius: ${({ theme }) => theme.border.m};
-// `;
+const IconWrap = styled(LinearGradient)`
+  position: absolute;
+  right: 0;
+  width: 40px;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  padding-left: 10px;
+  border-radius: ${({ theme }) => theme.border.m};
+`;
 
 const Table = styled.View`
   margin-bottom: 20px;

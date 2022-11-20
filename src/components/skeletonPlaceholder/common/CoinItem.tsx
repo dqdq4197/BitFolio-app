@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dimensions, View } from 'react-native';
-// import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 
 import Container from './Container';
 
@@ -10,7 +10,7 @@ const { width } = Dimensions.get('window');
 const Item = () => {
   return (
     <Container>
-      {/* <SkeletonPlaceholder.Item
+      <SkeletonPlaceholder.Item
         paddingHorizontal={PADDING}
         flexDirection="row"
         justifyContent="space-between"
@@ -50,7 +50,7 @@ const Item = () => {
           />
         </SkeletonPlaceholder.Item>
       </SkeletonPlaceholder.Item>
-      <SkeletonPlaceholder.Item width={width} height={1} /> */}
+      <SkeletonPlaceholder.Item width={width} height={1} />
     </Container>
   );
 };

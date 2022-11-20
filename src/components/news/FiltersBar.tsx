@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import styled from 'styled-components/native';
 import { MaterialIcons, FontAwesome } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
-// import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import { useAppSelector, useAppDispatch, shallowEqual } from '/hooks/useRedux';
@@ -59,7 +59,7 @@ const FiltersBar = () => {
   if (!data)
     return (
       <SkeletonContainer>
-        {/* <SkeletonPlaceholder.Item
+        <SkeletonPlaceholder.Item
           height={45}
           alignItems="center"
           flexDirection="row"
@@ -83,7 +83,7 @@ const FiltersBar = () => {
             marginRight={10}
             borderRadius={6}
           />
-        </SkeletonPlaceholder.Item> */}
+        </SkeletonPlaceholder.Item>
       </SkeletonContainer>
     );
 

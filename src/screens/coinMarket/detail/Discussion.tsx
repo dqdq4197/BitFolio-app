@@ -6,7 +6,7 @@ import AsyncBoundary from '/components/common/AsyncBoundary';
 
 const Discussion = () => {
   return (
-    <AsyncBoundary skeleton={<></>}>
+    <AsyncBoundary skeleton={<MarketListSkeleton />}>
       <DiscussionLayout />
     </AsyncBoundary>
   );

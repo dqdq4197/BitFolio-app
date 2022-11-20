@@ -8,7 +8,7 @@ import Layout from '/components/coinSearch/Layout';
 const SearchStack = () => {
   return (
     <GeneralTemplate>
-      <AsyncBoundary skeleton={<></>}>
+      <AsyncBoundary skeleton={<MarketListSkeleton />}>
         <Layout />
       </AsyncBoundary>
     </GeneralTemplate>
