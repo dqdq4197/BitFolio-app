@@ -61,33 +61,35 @@ const WatchButton = ({
     dispatch(addWatchingCoin(payload));
   }, [id, symbol, image, name, portfolioId, portfolios, activeIndex, dispatch]);
 
-  // eslint-disable-next-line @typescript-eslint/no-shadow
-  const openAlert = (portfolioId: string, coinId: string) => {
-    Alert.alert(
-      t(`coinDetail.are you sure you want unwatch this coin?`),
-      t(
-        `coinDetail.all transactions and holdings related to this coin will be removed`
-      ),
-      [
-        {
-          text: t(`common.cancel`),
-          onPress: () => console.log('cancel unwatch coin modal'),
-          style: 'cancel',
-        },
-        {
-          text: t(`coinDetail.unwatch`),
-          onPress: () => {
-            const payload = { portfolioId, coinId };
-
-            dispatch(removeAllTransaction(payload));
-            dispatch(unWatchingCoin(payload));
+  const openAlert = useCallback(
+    (portfolioId: string, coinId: string) => {
+      Alert.alert(
+        t(`coinDetail.are you sure you want unwatch this coin?`),
+        t(
+          `coinDetail.all transactions and holdings related to this coin will be removed`
+        ),
+        [
+          {
+            text: t(`common.cancel`),
+            onPress: () => console.log('cancel unwatch coin modal'),
+            style: 'cancel',
           },
-          style: 'destructive',
-        },
-      ],
-      { cancelable: false }
-    );
-  };
+          {
+            text: t(`coinDetail.unwatch`),
+            onPress: () => {
+              const payload = { portfolioId, coinId };
+
+              dispatch(removeAllTransaction(payload));
+              dispatch(unWatchingCoin(payload));
+            },
+            style: 'destructive',
+          },
+        ],
+        { cancelable: false }
+      );
+    },
+    [dispatch, t]
+  );
 
   const handleUnwatchPress = useCallback(() => {
     if (!id) return;
@@ -107,7 +109,7 @@ const WatchButton = ({
     } else {
       dispatch(unWatchingCoin(payload));
     }
-  }, [portfolios, id, portfolioId, activeIndex]);
+  }, [id, portfolios, activeIndex, portfolioId, openAlert, dispatch]);
 
   return (
     <AsyncButton

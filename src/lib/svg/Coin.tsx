@@ -1,20 +1,19 @@
 import React from 'react';
-import { SvgXml } from 'react-native-svg';
+import { SvgXml, XmlProps } from 'react-native-svg';
 
-type SvgProps = {
+interface BaseType {
   name: 'rise' | 'decrease' | 'badge' | 'coinstack' | 'coins' | 'candlestick';
-  width: number;
-  height: number;
   fstColor?: string;
   scdColor?: string;
-};
+}
+
+type SvgProps = BaseType & Omit<XmlProps, 'xml'>;
 
 export default function SvgComponent({
   name,
-  width,
-  height,
   fstColor = 'white',
   scdColor = 'white',
+  ...rest
 }: SvgProps) {
   const xmls = {
     rise: `
@@ -81,5 +80,5 @@ export default function SvgComponent({
     `,
   };
 
-  return <SvgXml xml={xmls[name]} width={width} height={height} />;
+  return <SvgXml {...rest} xml={xmls[name]} />;
 }

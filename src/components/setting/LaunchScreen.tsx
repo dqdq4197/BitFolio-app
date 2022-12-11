@@ -1,87 +1,51 @@
 import React from 'react';
-import styled from 'styled-components/native';
 import { useTranslation } from 'react-i18next';
-import { Octicons } from '@expo/vector-icons';
 
-import useGlobalTheme from '/hooks/useGlobalTheme';
 import { useAppSelector, useAppDispatch } from '/hooks/useRedux';
 import { changeLaunchScreen } from '/store/slices/baseSetting';
-import { TAB_ROUTE_NAME } from '/lib/constant';
+import type { MainTabParamList } from '/types/navigation';
 
-import Text from '/components/common/Text';
 import SurfaceWrap from '/components/common/SurfaceWrap';
+import Select from '/components/common/Select';
 import Blank from './Blank';
-
-type RowProps = {
-  onPress: () => void;
-  title: string;
-  enabled: boolean;
-};
-
-const Row = ({ onPress, title, enabled }: RowProps) => {
-  const { theme } = useGlobalTheme();
-
-  return (
-    <RowContainer
-      onPress={onPress}
-      underlayColor={theme.base.underlayColor[100]}
-    >
-      <>
-        <Text fontML bold>
-          {title}
-        </Text>
-        <Octicons
-          name="check"
-          size={28}
-          color={enabled ? theme.base.primaryColor : 'transparent'}
-        />
-      </>
-    </RowContainer>
-  );
-};
 
 const LaunchScreen = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const { launchScreen } = useAppSelector(state => state.baseSettingReducer);
 
-  const onLaunchScreenChange = (key: keyof typeof TAB_ROUTE_NAME) => {
+  const onLaunchScreenChange = (key: keyof MainTabParamList) => {
     dispatch(changeLaunchScreen(key));
   };
 
   return (
     <SurfaceWrap
       title={t(`setting.launch screen settings`)}
+      flex={1}
       parentPaddingZero
       marginTopZero
       fontML
     >
-      <Row
-        onPress={() => onLaunchScreenChange(TAB_ROUTE_NAME.portfolio)}
-        title={t(`common.${TAB_ROUTE_NAME.portfolio}`)}
-        enabled={launchScreen === TAB_ROUTE_NAME.portfolio}
-      />
-      <Row
-        onPress={() => onLaunchScreenChange(TAB_ROUTE_NAME.home)}
-        title={t(`common.${TAB_ROUTE_NAME.home}`)}
-        enabled={launchScreen === TAB_ROUTE_NAME.home}
-      />
-      <Row
-        onPress={() => onLaunchScreenChange(TAB_ROUTE_NAME.news)}
-        title={t(`common.${TAB_ROUTE_NAME.news}`)}
-        enabled={launchScreen === TAB_ROUTE_NAME.news}
-      />
+      <Select>
+        <Select.Option
+          onPress={() => onLaunchScreenChange('Portfolio')}
+          title={t(`common.portfolio`)}
+          enabled={launchScreen === 'Portfolio'}
+        />
+        <Select.Option
+          onPress={() => onLaunchScreenChange('Home')}
+          title={t(`common.home`)}
+          enabled={launchScreen === 'Home'}
+        />
+        <Select.Option
+          onPress={() => onLaunchScreenChange('News')}
+          title={t(`common.news`)}
+          enabled={launchScreen === 'News'}
+        />
+      </Select>
       <Blank />
     </SurfaceWrap>
   );
 };
 
 export default LaunchScreen;
-
-const RowContainer = styled.TouchableHighlight`
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 ${({ theme }) => theme.content.spacing};
-  height: 48px;
-`;

@@ -7,22 +7,28 @@ import {
 import { useTranslation } from 'react-i18next';
 
 import useGlobalTheme from '/hooks/useGlobalTheme';
+import type { SettingParamList } from '/types/navigation';
 
-import { Login, Register, ForgotPassword, ChangePassword } from '/screens/auth';
-import AuthMainTest from './AuthMainTest';
+import {
+  Login,
+  Register,
+  ForgotPassword,
+  ChangePassword,
+  EmailVerification,
+} from '/screens/auth';
+import {
+  Overview,
+  Language,
+  Currency,
+  LaunchScreen,
+  ScreenTheme,
+  AuthSetting,
+} from '/screens/setting';
 
-type RootStackParamList = {
-  Test: undefined;
-  Login: undefined;
-  Register: undefined;
-  ForgotPassword: undefined;
-  ChangePassword: undefined;
-};
-
-const Stack = createStackNavigator<RootStackParamList>();
+const Stack = createStackNavigator<SettingParamList>();
 const { width } = Dimensions.get('window');
 
-const News = () => {
+const Setting = () => {
   const { t } = useTranslation();
   const { theme } = useGlobalTheme();
 
@@ -44,18 +50,16 @@ const News = () => {
       headerTitleStyle: {
         fontSize: 18,
       },
-      gestureResponseDistance: {
-        horizontal: width,
-      },
+      gestureResponseDistance: width,
     };
   };
 
   return (
-    <Stack.Navigator initialRouteName="Test">
+    <Stack.Navigator initialRouteName="Overview">
       <Stack.Screen
-        name="Test"
-        component={AuthMainTest}
-        options={NavigationOptions('Test')}
+        name="Overview"
+        component={Overview}
+        options={NavigationOptions('')}
       />
       <Stack.Screen
         name="Login"
@@ -77,8 +81,38 @@ const News = () => {
         component={ChangePassword}
         options={NavigationOptions(t(`auth.change password`))}
       />
+      <Stack.Screen
+        name="EmailVerification"
+        component={EmailVerification}
+        options={NavigationOptions('')}
+      />
+      <Stack.Screen
+        name="AuthSetting"
+        component={AuthSetting}
+        options={NavigationOptions('')}
+      />
+      <Stack.Screen
+        name="ScreenTheme"
+        component={ScreenTheme}
+        options={NavigationOptions('')}
+      />
+      <Stack.Screen
+        name="Language"
+        component={Language}
+        options={NavigationOptions('')}
+      />
+      <Stack.Screen
+        name="Currency"
+        component={Currency}
+        options={NavigationOptions('')}
+      />
+      <Stack.Screen
+        name="LaunchScreen"
+        component={LaunchScreen}
+        options={NavigationOptions('')}
+      />
     </Stack.Navigator>
   );
 };
 
-export default News;
+export default Setting;

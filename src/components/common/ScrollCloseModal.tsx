@@ -74,7 +74,7 @@ const ScrollCloseModal = ({
         setIsFullProgress(false);
       }
     });
-  }, [isFullProgress]);
+  }, [isFullProgress, scrollY]);
 
   const handleModalClose = () => {
     setVisible(false);

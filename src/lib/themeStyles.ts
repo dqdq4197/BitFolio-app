@@ -1,6 +1,65 @@
 import { DefaultTheme } from 'styled-components/native';
 import { pallete } from './pallete';
 
+const commonStyle = {
+  colors: {
+    // 이후 제거 예정.
+    ...pallete,
+  },
+  pallete: {
+    error: {
+      light: '#e57373',
+      main: '#f44336',
+      dark: '#d32f2f',
+    },
+    warning: {
+      light: '#ffb74d',
+      main: '#ffa726',
+      dark: '#f57c00',
+    },
+    info: {
+      light: '#4fc3f7',
+      main: '#29b6f6',
+      dark: '#0288d1',
+    },
+    success: {
+      light: '#81c784',
+      main: '#66bb6a',
+      dark: '#388e3c',
+    },
+  },
+  size: {
+    font_xxxl: '48px',
+    font_xxl: '32px',
+    font_xl: '24px',
+    font_x: '21px',
+    font_l: '18px',
+    font_ml: '15px',
+    font_m: '13px',
+    font_s: '11px',
+    font_xs: '10px',
+  },
+  content: {
+    spacing: '16px',
+    blankSpacing: '16px',
+    surfacePadding: '20px',
+  },
+  border: {
+    s: '3px',
+    m: '6px',
+    l: '9px',
+    ml: '12px',
+    xl: '20px',
+  },
+  zIndex: {
+    speedDial: 1050,
+    drawer: 1200,
+    modal: 1300,
+    snackbar: 1400,
+    tooltip: 1500,
+  },
+};
+
 export const darkTheme: DefaultTheme = {
   dark: true,
   base: {
@@ -32,32 +91,7 @@ export const darkTheme: DefaultTheme = {
       '200': '',
     },
   },
-  colors: {
-    ...pallete,
-  },
-  size: {
-    font_xxxl: '48px',
-    font_xxl: '32px',
-    font_xl: '24px',
-    font_x: '21px',
-    font_l: '18px',
-    font_ml: '15px',
-    font_m: '13px',
-    font_s: '11px',
-    font_xs: '10px',
-  },
-  content: {
-    spacing: '16px',
-    blankSpacing: '16px',
-    surfacePadding: '20px',
-  },
-  border: {
-    s: '3px',
-    m: '6px',
-    l: '9px',
-    ml: '12px',
-    xl: '20px',
-  },
+  ...commonStyle,
 };
 
 export const lightTheme: DefaultTheme = {
@@ -91,30 +125,5 @@ export const lightTheme: DefaultTheme = {
       '200': '',
     },
   },
-  colors: {
-    ...pallete,
-  },
-  size: {
-    font_xxxl: '48px',
-    font_xxl: '32px',
-    font_xl: '24px',
-    font_x: '21px',
-    font_l: '18px',
-    font_ml: '15px',
-    font_m: '13px',
-    font_s: '11px',
-    font_xs: '10px',
-  },
-  content: {
-    spacing: '16px',
-    blankSpacing: '16px',
-    surfacePadding: '20px',
-  },
-  border: {
-    s: '3px',
-    m: '6px',
-    l: '9px',
-    ml: '12px',
-    xl: '20px',
-  },
+  ...commonStyle,
 };

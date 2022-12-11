@@ -24,7 +24,7 @@ type ReducersState = ReturnType<typeof rootReducer>;
 const persistConfig: PersistConfig<ReducersState> = {
   key: 'root',
   storage: AsyncStorage,
-  version: 2,
+  version: 3,
   migrate: createMigrate(migrations as any, { debug: true }),
   whitelist: [
     'baseSettingReducer',

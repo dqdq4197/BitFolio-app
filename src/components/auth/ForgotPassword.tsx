@@ -5,6 +5,7 @@ import { useForm, Controller } from 'react-hook-form';
 import styled from 'styled-components/native';
 
 import { VALIDATIONS } from '/lib/constant';
+import type { SettingScreenProps } from '/types/navigation';
 
 import Text from '/components/common/Text';
 import AsyncButton from '/components/common/AsyncButton';
@@ -15,8 +16,15 @@ const SUBMIT_BUTTON_HEIGTH = 50;
 
 const ForgotPassword = () => {
   const { t } = useTranslation();
-  const navigation = useNavigation();
-  const { control, handleSubmit, setFocus, watch, formState: { errors } } = useForm({
+  const navigation =
+    useNavigation<SettingScreenProps<'ForgotPassword'>['navigation']>();
+  const {
+    control,
+    handleSubmit,
+    setFocus,
+    watch,
+    formState: { errors },
+  } = useForm({
     mode: 'onSubmit',
     defaultValues: {
       email: '',

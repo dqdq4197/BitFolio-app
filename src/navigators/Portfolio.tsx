@@ -2,11 +2,12 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import useGlobalTheme from '/hooks/useGlobalTheme';
+import type { PortfolioParamList } from '/types/navigation';
 
 import { Overview, AddNewCoin } from '/screens/portfolio';
 import CoinDetail from './CoinDetail';
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<PortfolioParamList>();
 
 const PortfolioStack = () => {
   const { theme } = useGlobalTheme();
@@ -31,14 +32,12 @@ const PortfolioStack = () => {
           fontSize: parseInt(theme.size.font_l, 10),
         },
         gestureEnabled: true,
-        gestureResponseDistance: {
-          horizontal: 20,
-        },
+        gestureResponseDistance: 20,
       }}
     >
-      <Stack.Screen name="portfolioOverview" component={Overview} />
+      <Stack.Screen name="PortfolioOverview" component={Overview} />
       <Stack.Screen name="AddNewCoin" component={AddNewCoin} />
-      <Stack.Screen name="portfolioCoinDetail" component={CoinDetail} />
+      <Stack.Screen name="PortfolioCoinDetail" component={CoinDetail} />
     </Stack.Navigator>
   );
 };

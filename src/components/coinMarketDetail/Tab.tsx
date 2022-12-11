@@ -1,39 +1,33 @@
-import React from 'react';
-import { LayoutChangeEvent } from 'react-native';
+import React, { forwardRef } from 'react';
+import { TouchableOpacity, Animated } from 'react-native';
 import styled from 'styled-components/native';
-import Animated from 'react-native-reanimated';
 
 interface ITab {
   label: string;
-  index: number;
-  color: Animated.Node<string | number>;
   isFocused: boolean;
+  opacity: Animated.AnimatedInterpolation;
   onPress: () => void;
-  onLayout: (page: number, event: LayoutChangeEvent) => void;
 }
 
-const Tab = ({ label, index, isFocused, color, onPress, onLayout }: ITab) => {
-  return (
-    <TabButton
-      accessible
-      accessibilityRole="button"
-      accessibilityState={isFocused ? { selected: true } : {}}
-      accessibilityLabel={label}
-      activeOpacity={0.6}
-      onPress={onPress}
-      onLayout={event => onLayout(index, event)}
-    >
-      <TabText
-        as={Animated.Text}
-        style={{
-          color: color as any,
-        }}
+const Tab = forwardRef<TouchableOpacity, ITab>(
+  ({ label, isFocused, opacity, onPress }, ref) => {
+    return (
+      <TabButton
+        ref={ref}
+        accessible
+        accessibilityRole="button"
+        accessibilityState={isFocused ? { selected: true } : {}}
+        accessibilityLabel={label}
+        activeOpacity={0.6}
+        onPress={onPress}
       >
-        {label}
-      </TabText>
-    </TabButton>
-  );
-};
+        <TabText as={Animated.Text} style={{ opacity }}>
+          {label}
+        </TabText>
+      </TabButton>
+    );
+  }
+);
 
 export default Tab;
 
@@ -46,4 +40,5 @@ const TabButton = styled.TouchableOpacity`
 
 const TabText = styled.Text`
   font-weight: 800;
+  color: ${({ theme }) => theme.base.text[100]};
 `;

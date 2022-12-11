@@ -8,6 +8,7 @@ import { CoinStatType } from '/hooks/usePortfolioStats';
 import { digitToFixed } from '/lib/utils';
 import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat';
 import { CoinType, ModeType } from '/store/slices/portfolio';
+import type { PortfolioScreenProps } from '/types/navigation';
 
 import PrivatePlaceholder from './PrivatePlaceholder';
 import DynamicSizeText from '/components/common/DynamicSizeText';
@@ -65,13 +66,14 @@ const StatisticsRow = ({
 }: RowProps) => {
   const { t } = useTranslation();
   const { currency } = useLocales();
-  const navigation = useNavigation();
+  const navigation =
+    useNavigation<PortfolioScreenProps<'PortfolioOverview'>['navigation']>();
 
   const handleRowPress = () => {
     const { id, symbol } = coin;
-    navigation.navigate('portfolioCoinDetail', {
-      param: { id, symbol },
-      screen: t('coinDetail.transactions'),
+    navigation.navigate('PortfolioCoinDetail', {
+      params: { id, symbol },
+      screen: 'Transactions',
     });
   };
 
@@ -152,7 +154,7 @@ const StatisticsRow = ({
       );
     }
 
-    return undefined;
+    return <></>;
   }, [stats, onAddButtonPress, coin, mode, currency, t]);
 
   const BuyAvgPrice = useMemo(() => {
@@ -191,7 +193,7 @@ const StatisticsRow = ({
       );
     }
 
-    return undefined;
+    return <></>;
   }, [coin.state, stats, mode, currency]);
 
   const PLTab = useMemo(() => {
@@ -225,7 +227,7 @@ const StatisticsRow = ({
       );
     }
 
-    return undefined;
+    return <></>;
   }, [coin.state, stats, currency]);
 
   const AllocationTab = useMemo(() => {

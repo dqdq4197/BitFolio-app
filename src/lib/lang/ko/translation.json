@@ -51,8 +51,11 @@
   "auth": {
     "login": "로그인",
     "email": "이메일",
+    "log out": "로그아웃",
+    "login or register": "로그인 or 회원가입",
     "email address": "이메일 주소",
     "password": "비밀번호",
+    "update password": "비밀번호 변경",
     "forgot your password?": "비밀번호를 잊으셨나요?",
     "forgot password": "비밀번호 분실",
     "don't have an account?": "계정이 없으세요?",
@@ -65,7 +68,21 @@
     "email message": "이메일을 올바른 형식으로 입력해주세요",
     "password message": "비밀번호는 문자와 숫자를 모두 포함해야 하며 최소 8자 이상이어야 합니다",
     "agree to terms of use & privacy policy": "계속 진행할 경우 Bitfolio의 다음 규정에 동의하신 것으로 간주합니다.",
-    "already have an account?": "이미 계정이 있으신가요?"
+    "already have an account?": "이미 계정이 있으신가요?",
+    "successfully logged in": "성공적으로 로그인되었습니다!",
+    "verify your email": "이메일 확인",
+    "verify email guide": "비밀번호를 잊어버린 경우 로그인할 수 있도록 이메일 주소를 확인해주세요. <em>{{email}}</em>(으)로 확인 이메일을 보냈습니다.",
+    "resend email guide": "이메일이 도착하지 않으면 <br/>{{time}} 후에 다시 보낼 수 있습니다.",
+    "resend email": "이메일 다시 보내기",
+    "logout notice": "정말 로그아웃하시겠습니까?",
+    "errorMessage": {
+      "user-not-found": "이 이메일을 가진 사용자는 존재하지 않습니다.",
+      "wrong-password": "비밀번호가 틀렸습니다.",
+      "user-disabled": "이 이메일을 가진 사용자는 비활성화되었습니다.",
+      "too-many-requests": "요청이 너무 많습니다. 나중에 다시 시도하십시오.",
+      "email-already-in-use": "이 이메일 주소는 이미 다른 계정에서 사용 중입니다.",
+      "unkown-error": "정의되지 않은 오류가 발생했습니다."
+    }
   },
   "coinDetail": {
     "highest": "최고",

@@ -5,13 +5,6 @@ import type { ExchangeType } from '/types/common';
 
 // ----- BASE CONST ----------------
 
-enum TAB_ROUTE_NAME {
-  home = 'home',
-  portfolio = 'portfolio',
-  news = 'news',
-  auth = 'auth',
-}
-
 const PRIVACY_POLICY_EN =
   'https://lime-lint-eba.notion.site/Bitfolio-ios-Privacy-Policy-644e0d1e30da4c98ad0e75cfc8253a2e';
 const PRIVACY_POLICY_KO =
@@ -585,7 +578,6 @@ export {
   PAPAGO_PREFIX,
   VALIDATIONS,
   KEYBOARD_STATE,
-  TAB_ROUTE_NAME,
   LANGUAGES,
   CURRENCY,
   CURRENCIES,

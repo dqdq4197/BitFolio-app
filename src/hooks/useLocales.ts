@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useCallback } from 'react';
 import i18n from 'i18next';
 import { baseTypes } from 'base-types';
 
@@ -13,17 +13,15 @@ const useLocales = () => {
   const { currency } = useAppSelector(state => state.baseSettingReducer);
   const dispatch = useAppDispatch();
 
-  const language = useMemo(() => {
-    return i18n.language as LanguageType;
-  }, []);
-
-  // eslint-disable-next-line @typescript-eslint/no-shadow
-  const onCurrencyChange = (currency: baseTypes.Currency) => {
-    dispatch(changeCurrency(currency));
-  };
+  const onCurrencyChange = useCallback(
+    (currency: baseTypes.Currency) => {
+      dispatch(changeCurrency(currency));
+    },
+    [dispatch]
+  );
 
   return {
-    language,
+    language: i18n.language as LanguageType,
     currency: currency as CurrencyType,
     onLanguageChange,
     onCurrencyChange,

@@ -117,7 +117,7 @@ const Item = ({
           )}
         </ItemColumn>
         <ItemColumn column={0.5} justifyContent="flex-end">
-          <WatchListIcon id={item.id} size={28} />
+          <WatchListIcon id={item.id} />
         </ItemColumn>
       </>
     </ItemContainer>

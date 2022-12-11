@@ -1,37 +1,31 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useMemo,
+  createRef,
+  RefObject,
+} from 'react';
 import {
+  Animated,
   ScrollView,
   Dimensions,
+  TouchableOpacity,
   LayoutChangeEvent,
-  LayoutAnimation,
-  Platform,
-  UIManager,
 } from 'react-native';
 import styled from 'styled-components/native';
 import { MaterialTopTabBarProps } from '@react-navigation/material-top-tabs';
-import Animated, {
-  interpolateNode,
-  interpolateColors,
-} from 'react-native-reanimated';
-
-import useGlobalTheme from '/hooks/useGlobalTheme';
 
 import Tab from './Tab';
 
-if (Platform.OS === 'android') {
-  if (UIManager.setLayoutAnimationEnabledExperimental) {
-    UIManager.setLayoutAnimationEnabledExperimental(true);
-  }
-}
-
 const { width: DWidth } = Dimensions.get('window');
 
-type TabsMeasureType = {
+interface TabMeasureType {
   left: number;
-  right: number;
+  top: number;
   width: number;
   height: number;
-};
+}
 
 const TabBar = ({
   state,
@@ -39,69 +33,97 @@ const TabBar = ({
   navigation,
   position,
 }: MaterialTopTabBarProps) => {
-  const { theme } = useGlobalTheme();
   const scrollViewRef = useRef<ScrollView>(null);
-  const [tabsMeasurements, setTabsMeasurements] = useState<TabsMeasureType[]>(
-    Array.from({ length: state.routes.length })
+  const [contentSize, setContentSize] = useState(0);
+  const [measures, setMeasures] = useState<TabMeasureType[] | null | undefined>(
+    null
   );
+  const tabRefs = useRef<RefObject<TouchableOpacity>[]>(
+    Array.from({ length: state.routes.length }, () => createRef())
+  ).current;
 
   useEffect(() => {
-    if (scrollViewRef.current && measurementsCompleted()) {
+    if (scrollViewRef.current && !measures) {
+      const temp: TabMeasureType[] = [];
+
+      tabRefs.forEach((ref, _, array) => {
+        ref.current?.measureLayout(
+          scrollViewRef.current as any,
+          (left, top, width, height) => {
+            temp.push({ left, top, width, height });
+
+            if (temp.length === array.length) {
+              if (width === 0 || height === 0) setMeasures(undefined);
+              else setMeasures(temp);
+            }
+          },
+          () => console.log('fail')
+        );
+      });
+    }
+  }, [measures, tabRefs]);
+
+  useEffect(() => {
+    if (scrollViewRef.current && measures) {
       const { index } = state;
-      const screenCenterXPos = DWidth / 2 - tabsMeasurements[index].width / 2;
+      const screenCenterXPos = DWidth / 2 - measures[index].width / 2;
+
       scrollViewRef.current.scrollTo({
-        x: tabsMeasurements[index].left - screenCenterXPos,
+        x: measures[index].left - screenCenterXPos,
         y: 0,
         animated: true,
       });
-      LayoutAnimation.configureNext(
-        LayoutAnimation.create(200, 'easeInEaseOut', 'opacity')
-      );
     }
-  }, [state.index, tabsMeasurements]);
+  }, [state, measures]);
 
-  const measurementsCompleted = (): boolean => {
-    return tabsMeasurements.findIndex(measure => measure === undefined) === -1;
+  const standardSize = useMemo(() => {
+    if (!contentSize) return 0;
+    return contentSize / state.routes.length;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [contentSize]);
+
+  const inputRange = useMemo(() => {
+    return state.routes.map((_, i) => i);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const indicatorScale = useMemo(() => {
+    if (!measures || !contentSize) return 0;
+
+    return position.interpolate({
+      inputRange,
+      outputRange: measures.map(measure => measure.width / standardSize + 0.1),
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [inputRange, measures, contentSize]);
+
+  const translateX = useMemo(() => {
+    if (!measures || !contentSize) return 0;
+
+    return position.interpolate({
+      inputRange,
+      outputRange: measures.map(
+        measure => measure.left - (standardSize - measure.width) / 2
+      ),
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [inputRange, measures, contentSize]);
+
+  const handleTabWrapperLayout = (event: LayoutChangeEvent) => {
+    const { width } = event.nativeEvent.layout;
+    setContentSize(width);
   };
-
-  const inputRange = state.routes.map((_, i) => i);
-
-  const indicatorWidth = measurementsCompleted()
-    ? interpolateNode(position, {
-        inputRange,
-        outputRange: tabsMeasurements.map(measure => measure.width + 10),
-      })
-    : 0;
-
-  const translateX = measurementsCompleted()
-    ? interpolateNode(position, {
-        inputRange,
-        outputRange: tabsMeasurements.map(measure => measure.left),
-      })
-    : 0;
-
-  const onLayoutHandler = useCallback(
-    (page: number, event: LayoutChangeEvent) => {
-      const { x, width, height } = event.nativeEvent.layout;
-
-      setTabsMeasurements(prev => [
-        ...prev.slice(0, page),
-        { left: x, right: x + width, width, height },
-        ...prev.slice(page + 1, tabsMeasurements.length),
-      ]);
-    },
-    [tabsMeasurements.length]
-  );
 
   return (
     <Container>
-      <TabScrollView
+      <ScrollView
         horizontal
         ref={scrollViewRef}
         showsHorizontalScrollIndicator={false}
       >
-        <TabWrapper>
+        <TabWrapper onLayout={handleTabWrapperLayout}>
           {state.routes.map(({ key, name }, index) => {
+            const ref = tabRefs[index];
             const { options } = descriptors[key];
             const label =
               options.tabBarLabel !== undefined
@@ -111,15 +133,6 @@ const TabBar = ({
                 : name;
 
             const isFocused = state.index === index;
-
-            const color = interpolateColors(position, {
-              inputRange,
-              outputColorRange: inputRange.map(inputIndex =>
-                inputIndex === index
-                  ? theme.base.text[100]
-                  : theme.base.text[200]
-              ),
-            });
 
             const onPress = () => {
               const event = navigation.emit({
@@ -133,31 +146,38 @@ const TabBar = ({
               }
             };
 
+            const opacity = position.interpolate({
+              inputRange,
+              outputRange: inputRange.map(i => (i === index ? 1 : 0.6)),
+            });
+
             return (
               <Tab
                 key={key}
+                ref={ref}
                 label={label as string}
-                index={index}
-                color={color}
+                opacity={opacity}
                 isFocused={isFocused}
                 onPress={onPress}
-                onLayout={onLayoutHandler}
               />
             );
           })}
-          <Indicator
-            as={Animated.View}
-            style={{
-              width: indicatorWidth,
-              transform: [
-                {
-                  translateX,
-                },
-              ],
-            }}
-          />
         </TabWrapper>
-      </TabScrollView>
+        <Indicator
+          as={Animated.View}
+          style={{
+            width: standardSize,
+            transform: [
+              {
+                translateX,
+              },
+              {
+                scaleX: indicatorScale,
+              },
+            ],
+          }}
+        />
+      </ScrollView>
     </Container>
   );
 };
@@ -170,8 +190,6 @@ const Container = styled.View`
   background-color: ${({ theme }) => theme.base.background.surface};
 `;
 
-const TabScrollView = styled.ScrollView``;
-
 const TabWrapper = styled.View`
   flex-direction: row;
   justify-content: space-evenly;
@@ -181,6 +199,5 @@ const Indicator = styled.View`
   position: absolute;
   background-color: ${({ theme }) => theme.base.text[100]};
   height: 2px;
-  left: -5px;
   bottom: 0;
 `;

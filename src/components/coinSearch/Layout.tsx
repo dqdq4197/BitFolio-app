@@ -13,7 +13,7 @@ import {
   LayoutAnimation,
   UIManager,
 } from 'react-native';
-import { useHeaderHeight } from '@react-navigation/stack';
+import { useHeaderHeight } from '@react-navigation/elements';
 import { useNavigation } from '@react-navigation/native';
 import Animated, {
   useAnimatedStyle,
@@ -32,6 +32,7 @@ import type {
   SearchTrandingReturn,
   SearchCoin,
 } from '/types/coinGeckoReturnType';
+import type { HomeScreenProps } from '/types/navigation';
 
 import Text from '/components/common/Text';
 import GlobalIndicator from '/components/common/GlobalIndicator';
@@ -65,7 +66,8 @@ const Layout = () => {
   const [query, setQuery] = useState('');
   const [searchesData, setSearchesData] = useState<SearchCoin[]>([]);
   const { theme } = useGlobalTheme();
-  const navigation = useNavigation();
+  const navigation =
+    useNavigation<HomeScreenProps<'CoinSearch'>['navigation']>();
   const headerHeight = useHeaderHeight();
   const dispatch = useAppDispatch();
   const { coingeckoAssets: searchData, coingeckoIsLoading: isLoading } =
@@ -93,7 +95,7 @@ const Layout = () => {
 
   const handleItemPress = (id: string, symbol: string) => {
     navigation.navigate('CoinDetail', {
-      param: { id, symbol },
+      params: { id, symbol },
       screen: 'Overview',
     });
     dispatch(changeRecentSearches(id));

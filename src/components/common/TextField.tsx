@@ -150,7 +150,7 @@ const TextField = forwardRef<TextInput, TextFieldProps>(
         <Text
           as={Animated.Text}
           color100
-          style={{ ...color }}
+          style={{ color: color as any }}
           fontML
           bold
           margin="0 0 15px 0"

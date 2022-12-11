@@ -1,5 +1,4 @@
 // import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-// import { TAB_ROUTE_NAME } from '/lib/constant';
 
 // interface AuthenticationProps {
 

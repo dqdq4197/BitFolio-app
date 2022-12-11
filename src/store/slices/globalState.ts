@@ -1,13 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { TAB_ROUTE_NAME } from '/lib/constant';
+import type { MainTabParamList } from '/types/navigation';
 
 interface GlobalStateProps {
-  activeTabName: keyof typeof TAB_ROUTE_NAME;
+  activeTabName: keyof MainTabParamList;
 }
 
 const initialState: GlobalStateProps = {
-  activeTabName: 'home',
+  activeTabName: 'Home',
 };
 
 export const globalStateSlice = createSlice({

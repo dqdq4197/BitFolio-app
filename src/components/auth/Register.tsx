@@ -13,6 +13,9 @@ import {
 } from '/lib/constant';
 import useLocales from '/hooks/useLocales';
 import useGlobalTheme from '/hooks/useGlobalTheme';
+import { useFeedBackAlertContext } from '/hooks/context/useFeedBackContext';
+import { useCreateUserWithEmailAndPassword } from '/hooks/firebase';
+import type { SettingScreenProps } from '/types/navigation';
 
 import Text from '/components/common/Text';
 import AsyncButton from '/components/common/AsyncButton';
@@ -21,12 +24,27 @@ import FormLayout from '/components/common/FormLayout';
 
 const SUBMIT_BUTTON_HEIGTH = 50;
 
+interface FormValues {
+  email: string;
+  password: string;
+}
+
 const Register = () => {
   const { t } = useTranslation();
-  const navigation = useNavigation();
+  const navigation =
+    useNavigation<SettingScreenProps<'Register'>['navigation']>();
   const { language } = useLocales();
   const { theme } = useGlobalTheme();
-  const { control, handleSubmit, setFocus, watch, formState: { errors } } = useForm({
+  const { openAlert } = useFeedBackAlertContext();
+  const { createUserWithEmailAndPassword, errorMessage, isLoading, user } =
+    useCreateUserWithEmailAndPassword();
+  const {
+    control,
+    handleSubmit,
+    setFocus,
+    watch,
+    formState: { errors },
+  } = useForm({
     mode: 'onBlur',
     defaultValues: {
       email: '',
@@ -38,8 +56,20 @@ const Register = () => {
     setTimeout(() => setFocus('email'), 500);
   }, [setFocus]);
 
-  const onSubmit = (data: Object) => {
-    console.log(data);
+  useEffect(() => {
+    if (user) {
+      navigation.navigate('EmailVerification');
+    }
+  }, [navigation, user]);
+
+  useEffect(() => {
+    if (errorMessage) {
+      openAlert({ message: errorMessage, type: 'snackbar', severity: 'error' });
+    }
+  }, [errorMessage, openAlert]);
+
+  const onSubmit = async ({ email, password }: FormValues) => {
+    await createUserWithEmailAndPassword(email, password);
   };
 
   const moveToLoginScreen = () => {
@@ -66,30 +96,17 @@ const Register = () => {
   return (
     <FormLayout
       stickyFooterComponent={
-        <>
-          <ExtraView>
-            <Text>
-              {t(`auth.agree to terms of use & privacy policy`)}
-              &nbsp;
-              <Text primaryColor onPress={openTermsOfUse}>
-                {t(`common.terms of use`)}
-              </Text>
-              &nbsp;&amp;&nbsp;
-              <Text primaryColor onPress={openPrivacyPolicy}>
-                {t(`common.privacy policy`)}
-              </Text>
-            </Text>
-          </ExtraView>
-          <AsyncButton
-            fontML
-            text={t(`auth.create an account`)}
-            isDisabled={!watch().email.length || !watch().password.length}
-            isLoading={false}
-            onPress={handleSubmit(onSubmit)}
-            height={SUBMIT_BUTTON_HEIGTH}
-            borderPosition={['top']}
-          />
-        </>
+        <AsyncButton
+          fontML
+          text={t(`auth.create an account`)}
+          isDisabled={
+            !watch().email.length || !watch().password.length || isLoading
+          }
+          isLoading={isLoading}
+          onPress={handleSubmit(onSubmit)}
+          height={SUBMIT_BUTTON_HEIGTH}
+          borderPosition={['top']}
+        />
       }
     >
       <Controller
@@ -144,11 +161,22 @@ const Register = () => {
       />
       <Text right>
         {t(`auth.already have an account?`)}
-        &nbsp;&nbsp;
         <Text primaryColor bold onPress={moveToLoginScreen}>
-          {t(`auth.login`)}
+          {`  ${t(`auth.login`)}`}
         </Text>
       </Text>
+      <ExtraView>
+        <Text center>
+          {t(`auth.agree to terms of use & privacy policy`)}
+          <Text primaryColor onPress={openTermsOfUse}>
+            {` ${t(`common.terms of use`)} `}
+          </Text>
+          <Text>&amp;</Text>
+          <Text primaryColor onPress={openPrivacyPolicy}>
+            {` ${t(`common.privacy policy`)}`}
+          </Text>
+        </Text>
+      </ExtraView>
     </FormLayout>
   );
 };
@@ -156,5 +184,5 @@ const Register = () => {
 export default Register;
 
 const ExtraView = styled.View`
-  padding: 8px ${({ theme }) => theme.content.spacing};
+  margin: 60px 0 20px;
 `;

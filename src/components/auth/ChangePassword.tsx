@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useForm, Controller } from 'react-hook-form';
 
 import { VALIDATIONS } from '/lib/constant';
+import type { SettingScreenProps } from '/types/navigation';
 
 import AsyncButton from '/components/common/AsyncButton';
 import TextField from '/components/common/TextField';
@@ -13,7 +14,8 @@ const SUBMIT_BUTTON_HEIGTH = 50;
 
 const ChangePassword = () => {
   const { t } = useTranslation();
-  const navigation = useNavigation();
+  const navigation =
+    useNavigation<SettingScreenProps<'ChangePassword'>['navigation']>();
   const {
     control,
     handleSubmit,
