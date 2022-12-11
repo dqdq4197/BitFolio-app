@@ -1,14 +1,13 @@
 import React from 'react';
 
-import GeneralTemplate from '/components/GeneralTemplate';
-import CoinDetailSkeleton from '/components/skeletonPlaceholder/CoinDetailSkeleton';
-import AsyncBoundary from '/components/common/AsyncBoundary';
 import Register from '/components/auth/Register';
+import AsyncBoundary from '/components/common/AsyncBoundary';
+import GeneralTemplate from '/components/GeneralTemplate';
 
 const RegisterScreen = () => {
   return (
     <GeneralTemplate>
-      <AsyncBoundary skeleton={<CoinDetailSkeleton />}>
+      <AsyncBoundary skeleton={<></>}>
         <Register />
       </AsyncBoundary>
     </GeneralTemplate>

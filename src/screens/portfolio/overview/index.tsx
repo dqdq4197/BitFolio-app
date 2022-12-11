@@ -1,16 +1,15 @@
-import React, { useRef, useCallback, useLayoutEffect } from 'react';
+import { Ionicons } from '@expo/vector-icons';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { StackScreenProps } from '@react-navigation/stack';
-import { Ionicons } from '@expo/vector-icons';
+import React, { useCallback, useLayoutEffect, useRef } from 'react';
 
 import useGlobalTheme from '/hooks/useGlobalTheme';
 
-import GeneralTemplate from '/components/GeneralTemplate';
-import CoinHomeSkeleton from '/components/skeletonPlaceholder/CoinHomeSkeleton';
 import AsyncBoundary from '/components/common/AsyncBoundary';
-import SettingModal from '/components/setting/SettingModal';
+import GeneralTemplate from '/components/GeneralTemplate';
 import Layout from '/components/portfolio/Layout';
 import { PortfolioDataProvider } from '/components/portfolio/PortfolioDataContext';
+import SettingModal from '/components/setting/SettingModal';
 
 const OverviewScreen = ({ navigation }: StackScreenProps<any>) => {
   const { theme } = useGlobalTheme();
@@ -35,7 +34,7 @@ const OverviewScreen = ({ navigation }: StackScreenProps<any>) => {
 
   return (
     <GeneralTemplate>
-      <AsyncBoundary skeleton={<CoinHomeSkeleton />}>
+      <AsyncBoundary>
         <SettingModal ref={settingModalRef} />
         <PortfolioDataProvider>
           <Layout />

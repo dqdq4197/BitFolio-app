@@ -1,14 +1,13 @@
 import React from 'react';
 
-import GeneralTemplate from '/components/GeneralTemplate';
-import DiscussionHome from '/components/discussionHome';
-import CoinDetailSkeleton from '/components/skeletonPlaceholder/CoinDetailSkeleton';
 import AsyncBoundary from '/components/common/AsyncBoundary';
+import DiscussionHome from '/components/discussionHome';
+import GeneralTemplate from '/components/GeneralTemplate';
 
 const HomeScreen = () => {
   return (
     <GeneralTemplate>
-      <AsyncBoundary skeleton={<CoinDetailSkeleton />}>
+      <AsyncBoundary skeleton={<></>}>
         <DiscussionHome />
       </AsyncBoundary>
     </GeneralTemplate>

@@ -1,15 +1,13 @@
 import React from 'react';
-import { StackScreenProps } from '@react-navigation/stack';
 
-import GeneralTemplate from '/components/GeneralTemplate';
-import CoinHomeSkeleton from '/components/skeletonPlaceholder/CoinHomeSkeleton';
 import AsyncBoundary from '/components/common/AsyncBoundary';
+import GeneralTemplate from '/components/GeneralTemplate';
 import Layout from '/components/portfolio/addNewCoin';
 
-const AddNewCoinScreen = ({ navigation }: StackScreenProps<any>) => {
+const AddNewCoinScreen = () => {
   return (
     <GeneralTemplate>
-      <AsyncBoundary skeleton={<CoinHomeSkeleton />}>
+      <AsyncBoundary>
         <Layout />
       </AsyncBoundary>
     </GeneralTemplate>

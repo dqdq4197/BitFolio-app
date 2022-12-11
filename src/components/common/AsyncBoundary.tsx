@@ -4,7 +4,7 @@ import styled from 'styled-components/native';
 import Text from '/components/common/Text';
 
 interface SkeletonType {
-  skeleton: React.ReactNode;
+  skeleton?: React.ReactNode;
 }
 interface BoundaryProps extends SkeletonType {
   children: React.ReactNode;

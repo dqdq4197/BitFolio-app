@@ -1,34 +1,34 @@
-import React, { useEffect, useState, useCallback, useRef } from 'react';
+import { useScrollToTop } from '@react-navigation/native';
+import * as Haptics from 'expo-haptics';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
-  Animated,
-  LayoutAnimation,
   ActivityIndicator,
+  Animated,
+  FlatList,
+  LayoutAnimation,
   Platform,
   UIManager,
-  FlatList,
 } from 'react-native';
 import styled from 'styled-components/native';
-import { useScrollToTop } from '@react-navigation/native';
-import { useTranslation } from 'react-i18next';
-import * as Haptics from 'expo-haptics';
 
 import useNewsArticles from '/hooks/data/useNewsArticles';
-import useGlobalTheme from '/hooks/useGlobalTheme';
-import { useAppSelector, useAppDispatch } from '/hooks/useRedux';
 import useAnimatedHeaderTitle from '/hooks/useAnimatedHeaderTitle';
+import useGlobalTheme from '/hooks/useGlobalTheme';
+import { useAppDispatch, useAppSelector } from '/hooks/useRedux';
 import {
-  NewsStateType,
   changeSortOrder,
+  NewsStateType,
   SortOrderType,
 } from '/store/slices/news';
 import type { NewsData } from '/types/cryptoCompareReturnType';
 
-import Text from '/components/common/Text';
-import CustomRefreshControl from '/components/common/CustomRefreshControl';
-import ItemSkeleton from '/components/skeletonPlaceholder/news/Item';
-import SurfaceTopView from '/components/common/SurfaceTopView';
 import FiltersBar from './FiltersBar';
 import Item from './Item';
+import CustomRefreshControl from '/components/common/CustomRefreshControl';
+import SurfaceTopView from '/components/common/SurfaceTopView';
+import Text from '/components/common/Text';
+import { NewsArticleListSkeleton } from '/components/skeletonPlaceholder/news';
 
 if (Platform.OS === 'android') {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -184,7 +184,7 @@ const Overview = () => {
             refreshing={refreshing}
           />
         }
-        ListEmptyComponent={<ItemSkeleton />}
+        ListEmptyComponent={<NewsArticleListSkeleton />}
         renderItem={({ item }) => {
           return (
             <Item key={item.id} item={item} currentCategory={categories} />

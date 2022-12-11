@@ -1,15 +1,15 @@
-import React, { useState, useCallback } from 'react';
-import styled from 'styled-components/native';
-import { useTranslation } from 'react-i18next';
 import { Octicons } from '@expo/vector-icons';
+import React, { useCallback, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import styled from 'styled-components/native';
 
-import { useAppSelector, useAppDispatch } from '/hooks/useRedux';
 import useGlobalTheme from '/hooks/useGlobalTheme';
-import { changeCategories, ALL_NEWS_CATEGORIES } from '/store/slices/news';
+import { useAppDispatch, useAppSelector } from '/hooks/useRedux';
+import { ALL_NEWS_CATEGORIES, changeCategories } from '/store/slices/news';
 import type { FeedAndCategoryData } from '/types/cryptoCompareReturnType';
 
-import ScrollCloseModal from '/components/common/ScrollCloseModal';
 import AsyncButton from '/components/common/AsyncButton';
+import ScrollCloseModal from '/components/common/ScrollCloseModal';
 import Text from '/components/common/Text';
 
 interface ModalType extends Pick<FeedAndCategoryData, 'Categories'> {
@@ -31,7 +31,7 @@ const CategoryFilterModal = ({
   const handleSavePress = useCallback(() => {
     dispatch(changeCategories(categoriesTemp));
     setVisible(false);
-  }, [categoriesTemp]);
+  }, [categoriesTemp, dispatch, setVisible]);
 
   const handleRowPress = (key: string) => {
     if (categoriesTemp === ALL_NEWS_CATEGORIES) {

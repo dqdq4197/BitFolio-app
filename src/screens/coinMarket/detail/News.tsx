@@ -1,12 +1,12 @@
 import React from 'react';
 
 import NewsLayout from '/components/coinMarketDetail/news/Layout';
-import MarketListSkeleton from '/components/skeletonPlaceholder/MarketListSkeleton';
 import AsyncBoundary from '/components/common/AsyncBoundary';
+import { NewsArticleListSkeleton } from '/components/skeletonPlaceholder/news';
 
 const News = () => {
   return (
-    <AsyncBoundary skeleton={<MarketListSkeleton />}>
+    <AsyncBoundary skeleton={<NewsArticleListSkeleton />}>
       <NewsLayout />
     </AsyncBoundary>
   );

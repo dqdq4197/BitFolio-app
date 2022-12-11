@@ -1,17 +1,17 @@
-import React, { useState, useCallback } from 'react';
-import styled from 'styled-components/native';
 import { Octicons } from '@expo/vector-icons';
+import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import styled from 'styled-components/native';
 
-import { useAppSelector, useAppDispatch } from '/hooks/useRedux';
 import useGlobalTheme from '/hooks/useGlobalTheme';
+import { useAppDispatch, useAppSelector } from '/hooks/useRedux';
 import { ALL_NEWS_FEEDS, changeFeeds } from '/store/slices/news';
 import type { FeedAndCategoryData } from '/types/cryptoCompareReturnType';
 
-import ScrollCloseModal from '/components/common/ScrollCloseModal';
 import AsyncButton from '/components/common/AsyncButton';
-import Text from '/components/common/Text';
 import Image from '/components/common/Image';
+import ScrollCloseModal from '/components/common/ScrollCloseModal';
+import Text from '/components/common/Text';
 
 interface ModalType extends Pick<FeedAndCategoryData, 'Feeds'> {
   visible: boolean;
@@ -32,7 +32,7 @@ const FeedFilterModal = ({
   const handleSavePress = useCallback(() => {
     dispatch(changeFeeds(feedsTemp));
     setVisible(false);
-  }, [feedsTemp]);
+  }, [dispatch, feedsTemp, setVisible]);
 
   const handleRowPress = (key: string) => {
     if (feedsTemp === ALL_NEWS_FEEDS) {

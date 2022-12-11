@@ -1,22 +1,22 @@
 import React from 'react';
 import { Dimensions } from 'react-native';
-import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
-import Container from './common/Container';
+
+import SkeletonPlaceholder from '/components/skeletonPlaceholder';
 
 const PADDING = 32;
 const { width } = Dimensions.get('window');
 
-const Item = () => {
+const MarqueeTextSkeleton = () => {
   return (
-    <Container>
+    <SkeletonPlaceholder>
       <SkeletonPlaceholder.Item
         width={width - PADDING}
         height={40}
         borderRadius={6}
         marginTop={10}
       />
-    </Container>
+    </SkeletonPlaceholder>
   );
 };
 
-export default Item;
+export default MarqueeTextSkeleton;

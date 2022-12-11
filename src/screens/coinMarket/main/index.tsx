@@ -1,16 +1,16 @@
-import React, { useLayoutEffect, useRef, useCallback } from 'react';
-import styled from 'styled-components/native';
-import { StackScreenProps } from '@react-navigation/stack';
-import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { Ionicons } from '@expo/vector-icons';
+import { BottomSheetModal } from '@gorhom/bottom-sheet';
+import { StackScreenProps } from '@react-navigation/stack';
+import React, { useCallback, useLayoutEffect, useRef } from 'react';
+import styled from 'styled-components/native';
 
 import useGlobalTheme from '/hooks/useGlobalTheme';
 
-import GeneralTemplate from '/components/GeneralTemplate';
 import Layout from '/components/coinMarket/Layout';
-import CoinHomeSkeleton from '/components/skeletonPlaceholder/CoinHomeSkeleton';
 import AsyncBoundary from '/components/common/AsyncBoundary';
+import GeneralTemplate from '/components/GeneralTemplate';
 import SettingModal from '/components/setting/SettingModal';
+import { CoinHomeSkeleton } from '/components/skeletonPlaceholder/coinMarketHome';
 
 const HomeScreen = ({ navigation }: StackScreenProps<any>) => {
   const settingModalRef = useRef<BottomSheetModal>(null);
@@ -28,7 +28,6 @@ const HomeScreen = ({ navigation }: StackScreenProps<any>) => {
             name="search-sharp"
             size={28}
             color={theme.base.text[200]}
-            // eslint-disable-next-line react-native/no-inline-styles
             style={{
               marginRight: 20,
             }}

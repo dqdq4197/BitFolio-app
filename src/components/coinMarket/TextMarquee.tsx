@@ -1,23 +1,23 @@
+import { Ionicons } from '@expo/vector-icons';
+import { BottomSheetModal } from '@gorhom/bottom-sheet';
+import { baseTypes } from 'base-types';
+import { LinearGradient } from 'expo-linear-gradient';
 import React, { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import TextTicker from 'react-native-text-ticker';
-import { baseTypes } from 'base-types';
-import { Ionicons } from '@expo/vector-icons';
 import styled, { css } from 'styled-components/native';
-import { LinearGradient } from 'expo-linear-gradient';
-import { BottomSheetModal } from '@gorhom/bottom-sheet';
 
-import useLocales from '/hooks/useLocales';
-import useGlobalTheme from '/hooks/useGlobalTheme';
 import useMarkgetglobar from '/hooks/data/useMarkgetGlobal';
+import useGlobalTheme from '/hooks/useGlobalTheme';
+import useLocales from '/hooks/useLocales';
 import { convertUnits } from '/lib/utils';
 import { AddSeparator, currencyFormat } from '/lib/utils/currencyFormat';
 
-import DateFormatText from '/components/common/DateFormatText';
-import Text from '/components/common/Text';
 import Modal from '/components/common/BottomSheetModal';
+import DateFormatText from '/components/common/DateFormatText';
 import SurfaceWrap from '/components/common/SurfaceWrap';
-import MarqueeTextSkeleton from '/components/skeletonPlaceholder/MarqueeTextSkeleton';
+import Text from '/components/common/Text';
+import { MarqueeTextSkeleton } from '/components/skeletonPlaceholder/coinMarketHome';
 
 type ModalProps = {
   cryptos: number;
@@ -173,7 +173,7 @@ const TextMarquee = () => {
           )}`}
         </Text>
       </TextTicker>
-      <IconWrap
+      <LinearGradient
         colors={[
           'rgba(56, 97, 251,0)',
           theme.base.primaryColor,
@@ -181,9 +181,20 @@ const TextMarquee = () => {
         ]}
         start={{ x: 0, y: 0.5 }}
         end={{ x: 1, y: 0.5 }}
+        // TODO. LinearGradient 적용하기 or borderRadius 상수화
+        style={{
+          position: 'absolute',
+          right: 0,
+          width: 40,
+          height: 40,
+          alignItems: 'center',
+          justifyContent: 'center',
+          paddingLeft: 10,
+          borderRadius: 6,
+        }}
       >
         <Ionicons name="ios-chevron-down" size={20} color="white" />
-      </IconWrap>
+      </LinearGradient>
       <Modal key="market-global" ref={ModalRef} snapPoints={['50%']}>
         <ModalContents
           cryptos={data.active_cryptocurrencies}
@@ -218,17 +229,6 @@ const Container = styled.TouchableOpacity`
   border-radius: ${({ theme }) => theme.border.m};
   justify-content: center;
   margin-top: 10px;
-`;
-
-const IconWrap = styled(LinearGradient)`
-  position: absolute;
-  right: 0;
-  width: 40px;
-  height: 40px;
-  align-items: center;
-  justify-content: center;
-  padding-left: 10px;
-  border-radius: ${({ theme }) => theme.border.m};
 `;
 
 const Table = styled.View`

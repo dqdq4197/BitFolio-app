@@ -1,45 +1,45 @@
+import { useNavigation } from '@react-navigation/native';
+import { useHeaderHeight } from '@react-navigation/stack';
 import React, {
-  useState,
-  useEffect,
   useCallback,
+  useEffect,
+  useLayoutEffect,
   useMemo,
   useRef,
-  useLayoutEffect,
+  useState,
 } from 'react';
-import {
-  FlatList,
-  Platform,
-  Dimensions,
-  TextInput,
-  Alert,
-  UIManager,
-  LayoutAnimation,
-} from 'react-native';
-import { useHeaderHeight } from '@react-navigation/stack';
-import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
+import {
+  Alert,
+  Dimensions,
+  FlatList,
+  LayoutAnimation,
+  Platform,
+  TextInput,
+  UIManager,
+} from 'react-native';
 import Animated, {
   useAnimatedStyle,
   withSpring,
 } from 'react-native-reanimated';
 
 import useGlobalTheme from '/hooks/useGlobalTheme';
-import useLocales from '/hooks/useLocales';
-import useRequest from '/hooks/useRequest';
 import useKeyboard from '/hooks/useKeyboard';
+import useLocales from '/hooks/useLocales';
 import { useAppDispatch, useAppSelector } from '/hooks/useRedux';
-import { addWatchingCoin } from '/store/slices/portfolio';
-import { createFuzzyMatcher, getKeyboardAnimationConfigs } from '/lib/utils';
+import useRequest from '/hooks/useRequest';
 import { CoinGecko, http } from '/lib/api/CoinGeckoClient';
+import { createFuzzyMatcher, getKeyboardAnimationConfigs } from '/lib/utils';
+import { addWatchingCoin } from '/store/slices/portfolio';
 import type { SearchCoin, SearchDataReturn } from '/types/coinGeckoReturnType';
 
-import Item from '/components/coinSearch/Item';
 import EmptyView from '/components/coinSearch/EmptyView';
+import Item from '/components/coinSearch/Item';
 import SearchBar from '/components/coinSearch/SearchBar';
-import Text from '/components/common/Text';
-import SearchItemListSkeleton from '/components/skeletonPlaceholder/SearchItemListSkeleton';
-import FormModal from '/components/portfolio/transactionModal/FormModal';
 import GlobalIndicator from '/components/common/GlobalIndicator';
+import Text from '/components/common/Text';
+import FormModal from '/components/portfolio/transactionModal/FormModal';
+import SearchItemListSkeleton from '/components/skeletonPlaceholder/SearchItemListSkeleton';
 
 if (Platform.OS === 'android') {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -94,56 +94,57 @@ const Layout = () => {
     if (data) setCoins(data.coins);
   }, [data]);
 
-  const isAlreadyIncludeCoin = (id: string): boolean => {
-    return portfolioCoins.find(coin => coin.id === id) !== undefined;
-  };
+  const isAlreadyIncludeCoin = useCallback(
+    (id: string): boolean => {
+      return portfolioCoins.find(coin => coin.id === id) !== undefined;
+    },
+    [portfolioCoins]
+  );
 
-  const openAlert = (
-    id: string,
-    symbol: string,
-    image: string,
-    name: string
-  ) => {
-    Alert.alert(
-      t(`portfolio.n.is already in your portfolio`, { n: symbol }),
-      t(`portfolio.would you like to add a transaction to.n?`, { n: symbol }),
-      [
-        {
-          text: t(`common.cancel`),
-          onPress: () => console.log('cancel add transaction'),
-          style: 'cancel',
-        },
-        {
-          text: t(`portfolio.add transaction`),
-          onPress: () => {
-            setModalInitialState({ id, symbol, image, name });
-            setVisible(true);
+  const openAlert = useCallback(
+    (id: string, symbol: string, image: string, name: string) => {
+      Alert.alert(
+        t(`portfolio.n.is already in your portfolio`, { n: symbol }),
+        t(`portfolio.would you like to add a transaction to.n?`, { n: symbol }),
+        [
+          {
+            text: t(`common.cancel`),
+            onPress: () => console.log('cancel add transaction'),
+            style: 'cancel',
           },
-          style: 'destructive',
-        },
-      ],
-      { cancelable: false }
-    );
-  };
+          {
+            text: t(`portfolio.add transaction`),
+            onPress: () => {
+              setModalInitialState({ id, symbol, image, name });
+              setVisible(true);
+            },
+            style: 'destructive',
+          },
+        ],
+        { cancelable: false }
+      );
+    },
+    []
+  );
 
   const handleItemPress = useCallback(
     (id: string, symbol: string, image: string, name: string) => {
-      if (portfolioId) {
-        if (isAlreadyIncludeCoin(id)) {
-          return openAlert(id, symbol, image, name);
-        }
+      if (!portfolioId) return;
 
-        const payload = {
-          portfolioId,
-          coin: { id, image, name, symbol },
-        };
-
-        dispatch(addWatchingCoin(payload));
-        navigation.navigate('portfolioOverview');
+      if (isAlreadyIncludeCoin(id)) {
+        openAlert(id, symbol, image, name);
+        return;
       }
+
+      const payload = {
+        portfolioId,
+        coin: { id, image, name, symbol },
+      };
+
+      dispatch(addWatchingCoin(payload));
+      navigation.navigate('portfolioOverview');
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [portfolioId]
+    [dispatch, isAlreadyIncludeCoin, navigation, openAlert, portfolioId]
   );
 
   const highlightText = (text: string, regex: RegExp, bold?: boolean) => {

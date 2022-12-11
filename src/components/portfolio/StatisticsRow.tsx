@@ -1,20 +1,19 @@
-import React, { useMemo } from 'react';
-import styled from 'styled-components/native';
-import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
-import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+import React, { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import styled from 'styled-components/native';
 
-import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat';
-import { digitToFixed } from '/lib/utils';
-import { CoinType, ModeType } from '/store/slices/portfolio';
 import useLocales from '/hooks/useLocales';
 import { CoinStatType } from '/hooks/usePortfolioStats';
+import { digitToFixed } from '/lib/utils';
+import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat';
+import { CoinType, ModeType } from '/store/slices/portfolio';
 
+import PrivatePlaceholder from './PrivatePlaceholder';
+import DynamicSizeText from '/components/common/DynamicSizeText';
 import IncreaseDecreaseValue from '/components/common/IncreaseDecreaseValue';
 import Text from '/components/common/Text';
-import SkeletonContainer from '/components/skeletonPlaceholder/common/Container';
-import DynamicSizeText from '/components/common/DynamicSizeText';
-import PrivatePlaceholder from './PrivatePlaceholder';
+import SkeletonPlaceholder from '/components/skeletonPlaceholder';
 
 type RowProps = {
   COL_WIDTH: number;
@@ -37,7 +36,7 @@ type ColProps = {
 
 const Skeleton = React.memo(() => {
   return (
-    <SkeletonContainer>
+    <SkeletonPlaceholder>
       <SkeletonPlaceholder.Item justifyContent="flex-end" alignItems="flex-end">
         <SkeletonPlaceholder.Item width={80} height={13} borderRadius={3} />
         <SkeletonPlaceholder.Item
@@ -47,7 +46,7 @@ const Skeleton = React.memo(() => {
           borderRadius={3}
         />
       </SkeletonPlaceholder.Item>
-    </SkeletonContainer>
+    </SkeletonPlaceholder>
   );
 });
 
@@ -152,6 +151,8 @@ const StatisticsRow = ({
         </>
       );
     }
+
+    return undefined;
   }, [stats, onAddButtonPress, coin, mode, currency, t]);
 
   const BuyAvgPrice = useMemo(() => {
@@ -189,6 +190,8 @@ const StatisticsRow = ({
         </>
       );
     }
+
+    return undefined;
   }, [coin.state, stats, mode, currency]);
 
   const PLTab = useMemo(() => {
@@ -221,6 +224,8 @@ const StatisticsRow = ({
         </>
       );
     }
+
+    return undefined;
   }, [coin.state, stats, currency]);
 
   const AllocationTab = useMemo(() => {

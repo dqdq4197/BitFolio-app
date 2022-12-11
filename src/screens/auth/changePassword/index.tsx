@@ -1,14 +1,13 @@
 import React from 'react';
 
-import GeneralTemplate from '/components/GeneralTemplate';
-import CoinDetailSkeleton from '/components/skeletonPlaceholder/CoinDetailSkeleton';
-import AsyncBoundary from '/components/common/AsyncBoundary';
 import ChangePassword from '/components/auth/ChangePassword';
+import AsyncBoundary from '/components/common/AsyncBoundary';
+import GeneralTemplate from '/components/GeneralTemplate';
 
 const ChangePasswordScreen = () => {
   return (
     <GeneralTemplate>
-      <AsyncBoundary skeleton={<CoinDetailSkeleton />}>
+      <AsyncBoundary skeleton={<></>}>
         <ChangePassword />
       </AsyncBoundary>
     </GeneralTemplate>

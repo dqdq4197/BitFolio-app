@@ -1,21 +1,21 @@
-import React, { useState, useCallback } from 'react';
+import { BlurView } from 'expo-blur';
+import React, { useCallback, useState } from 'react';
 import { Dimensions } from 'react-native';
 import styled from 'styled-components/native';
-import { BlurView } from 'expo-blur';
 
-import { useAppSelector, shallowEqual } from '/hooks/useRedux';
-import useCoinDetail from '/hooks/data/useCoinDetail';
 import { useCoinIdContext } from '/hooks/context/useCoinIdContext';
-import useLocales from '/hooks/useLocales';
+import useCoinDetail from '/hooks/data/useCoinDetail';
 import useGlobalTheme from '/hooks/useGlobalTheme';
+import useLocales from '/hooks/useLocales';
+import { shallowEqual, useAppSelector } from '/hooks/useRedux';
 
-import CustomRefreshControl from '/components/common/CustomRefreshControl';
-import ScrollView from '/components/common/ScrollView';
 import AddTransactionButton from '../AddTransactionButton';
 import WatchButton from '../WatchButton';
 import PriceChangePercentage from './PriceChangePercentage';
-import Stats from './Stats';
 import ChartContainer from './priceChart/ChartContainer';
+import Stats from './Stats';
+import CustomRefreshControl from '/components/common/CustomRefreshControl';
+import ScrollView from '/components/common/ScrollView';
 
 const { width } = Dimensions.get('window');
 
@@ -41,7 +41,6 @@ const Layout = () => {
 
   if (!data) return <></>;
 
-  // console.log(wData);
   return (
     <>
       <ScrollView

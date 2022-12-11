@@ -1,24 +1,23 @@
-import React, { useState, useMemo } from 'react';
-import styled from 'styled-components/native';
-import { MaterialIcons, FontAwesome } from '@expo/vector-icons';
+import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
+import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+import styled from 'styled-components/native';
 
 import useGlobalTheme from '/hooks/useGlobalTheme';
-import { useAppSelector, useAppDispatch, shallowEqual } from '/hooks/useRedux';
+import { shallowEqual, useAppDispatch, useAppSelector } from '/hooks/useRedux';
 import useRequest from '/hooks/useRequest';
+import { Cryptocompare, http } from '/lib/api/CryptocompareClient';
 import {
-  ALL_NEWS_FEEDS,
   ALL_NEWS_CATEGORIES,
+  ALL_NEWS_FEEDS,
   resetFilters,
 } from '/store/slices/news';
-import { Cryptocompare, http } from '/lib/api/CryptocompareClient';
 import type { FeedAndCategoryReturn } from '/types/cryptoCompareReturnType';
 
-import SkeletonContainer from '/components/skeletonPlaceholder/common/Container';
-import Text from '/components/common/Text';
-import FeedFilterModal from './FeedFilterModal';
 import CategoryFilterModal from './CategoryFilterModal';
+import FeedFilterModal from './FeedFilterModal';
+import Text from '/components/common/Text';
+import { FiltersBarSkeleton } from '/components/skeletonPlaceholder/news';
 
 const FiltersBar = () => {
   const { theme } = useGlobalTheme();
@@ -56,36 +55,7 @@ const FiltersBar = () => {
     setCategoriesVisible(true);
   };
 
-  if (!data)
-    return (
-      <SkeletonContainer>
-        <SkeletonPlaceholder.Item
-          height={45}
-          alignItems="center"
-          flexDirection="row"
-          paddingHorizontal={parseInt(theme.content.spacing, 10)}
-        >
-          <SkeletonPlaceholder.Item
-            width={100}
-            height={30}
-            marginRight={10}
-            borderRadius={6}
-          />
-          <SkeletonPlaceholder.Item
-            width={50}
-            height={30}
-            marginRight={10}
-            borderRadius={6}
-          />
-          <SkeletonPlaceholder.Item
-            width={75}
-            height={30}
-            marginRight={10}
-            borderRadius={6}
-          />
-        </SkeletonPlaceholder.Item>
-      </SkeletonContainer>
-    );
+  if (!data) return <FiltersBarSkeleton />;
 
   return (
     <Container horizontal>

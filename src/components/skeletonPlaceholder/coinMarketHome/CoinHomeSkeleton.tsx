@@ -1,28 +1,27 @@
-import React from 'react';
-import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+import React, { ReactElement } from 'react';
 
 import useGlobalTheme from '/hooks/useGlobalTheme';
 
-import { Container, CoinItem } from './common';
+import SkeletonPlaceholder from '/components/skeletonPlaceholder';
+import { CoinListSkeleton } from '/components/skeletonPlaceholder/common';
 
-const HighVolumeSkeleton = () => {
-  const {
-    theme: {
-      content: { spacing, blankSpacing },
-    },
-  } = useGlobalTheme();
+const CoinHomeSkeleton = (): ReactElement => {
+  const { theme } = useGlobalTheme();
+  const spacing = parseInt(theme.content.spacing, 10);
+  const blankSpacing = parseInt(theme.content.blankSpacing, 10);
+
   return (
     <>
-      <Container>
+      <SkeletonPlaceholder>
         <SkeletonPlaceholder.Item
-          paddingHorizontal={parseInt(spacing, 10)}
+          paddingHorizontal={spacing}
           paddingVertical={20}
         >
           <SkeletonPlaceholder.Item height={35} width={70} borderRadius={6} />
         </SkeletonPlaceholder.Item>
         <SkeletonPlaceholder.Item
-          marginTop={parseInt(blankSpacing, 10)}
-          paddingHorizontal={parseInt(spacing, 10)}
+          marginTop={blankSpacing}
+          paddingHorizontal={spacing}
           paddingVertical={20}
         >
           <SkeletonPlaceholder.Item height={26} width={70} borderRadius={6} />
@@ -33,13 +32,12 @@ const HighVolumeSkeleton = () => {
             borderRadius={6}
           />
         </SkeletonPlaceholder.Item>
-      </Container>
-      <CoinItem />
-      <CoinItem />
-      <Container>
+      </SkeletonPlaceholder>
+      <CoinListSkeleton itemCount={2} />
+      <SkeletonPlaceholder>
         <SkeletonPlaceholder.Item
-          marginTop={parseInt(blankSpacing, 10)}
-          paddingHorizontal={parseInt(spacing, 10)}
+          marginTop={blankSpacing}
+          paddingHorizontal={spacing}
           paddingVertical={20}
         >
           <SkeletonPlaceholder.Item height={26} width={100} borderRadius={6} />
@@ -50,7 +48,7 @@ const HighVolumeSkeleton = () => {
             borderRadius={6}
           />
           <SkeletonPlaceholder.Item
-            marginTop={parseInt(blankSpacing, 10)}
+            marginTop={blankSpacing}
             flexDirection="row"
           >
             <SkeletonPlaceholder.Item
@@ -73,9 +71,9 @@ const HighVolumeSkeleton = () => {
             />
           </SkeletonPlaceholder.Item>
         </SkeletonPlaceholder.Item>
-      </Container>
+      </SkeletonPlaceholder>
     </>
   );
 };
 
-export default HighVolumeSkeleton;
+export default CoinHomeSkeleton;

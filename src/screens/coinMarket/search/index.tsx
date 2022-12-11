@@ -1,18 +1,17 @@
 import React from 'react';
 
-import GeneralTemplate from '/components/GeneralTemplate';
-import MarketListSkeleton from '/components/skeletonPlaceholder/MarketListSkeleton';
-import AsyncBoundary from '/components/common/AsyncBoundary';
 import Layout from '/components/coinSearch/Layout';
+import AsyncBoundary from '/components/common/AsyncBoundary';
+import GeneralTemplate from '/components/GeneralTemplate';
 
-const SearchStack = () => {
+const SearchScreen = () => {
   return (
     <GeneralTemplate>
-      <AsyncBoundary skeleton={<MarketListSkeleton />}>
+      <AsyncBoundary skeleton={<></>}>
         <Layout />
       </AsyncBoundary>
     </GeneralTemplate>
   );
 };
 
-export default SearchStack;
+export default SearchScreen;

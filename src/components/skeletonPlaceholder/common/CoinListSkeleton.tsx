@@ -1,17 +1,36 @@
-import React from 'react';
-import { Dimensions, View } from 'react-native';
-import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+import React, { ReactElement } from 'react';
+import { Dimensions } from 'react-native';
 
-import Container from './Container';
+import useGlobalTheme from '/hooks/useGlobalTheme';
 
-const PADDING = 16;
+import SkeletonPlaceholder from '/components/skeletonPlaceholder';
+
 const { width } = Dimensions.get('window');
 
-const Item = () => {
+interface CoinListSkeletonProps {
+  itemCount?: number;
+}
+
+const CoinListSkeleton = ({
+  itemCount = 5,
+}: CoinListSkeletonProps): ReactElement => {
   return (
-    <Container>
+    <SkeletonPlaceholder>
+      {Array.from({ length: itemCount }, (_, index) => (
+        <CoinListSkeleton.Item key={index} />
+      ))}
+    </SkeletonPlaceholder>
+  );
+};
+
+CoinListSkeleton.Item = function CoinItemSkeleton() {
+  const { theme } = useGlobalTheme();
+  const spacing = parseInt(theme.content.spacing, 10);
+
+  return (
+    <>
       <SkeletonPlaceholder.Item
-        paddingHorizontal={PADDING}
+        paddingHorizontal={spacing}
         flexDirection="row"
         justifyContent="space-between"
         height={60}
@@ -31,14 +50,14 @@ const Item = () => {
             borderRadius={25}
             marginRight={10}
           />
-          <View>
+          <SkeletonPlaceholder.Item>
             <SkeletonPlaceholder.Item
               width={70}
               height={13}
               marginBottom={10}
             />
             <SkeletonPlaceholder.Item width={40} height={10} />
-          </View>
+          </SkeletonPlaceholder.Item>
         </SkeletonPlaceholder.Item>
         <SkeletonPlaceholder.Item flexDirection="row" alignItems="center">
           <SkeletonPlaceholder.Item width={60} height={20} marginRight={20} />
@@ -51,8 +70,8 @@ const Item = () => {
         </SkeletonPlaceholder.Item>
       </SkeletonPlaceholder.Item>
       <SkeletonPlaceholder.Item width={width} height={1} />
-    </Container>
+    </>
   );
 };
 
-export default Item;
+export default CoinListSkeleton;

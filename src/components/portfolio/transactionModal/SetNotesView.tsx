@@ -1,7 +1,7 @@
-import React, { useRef, useEffect } from 'react';
-import { Dimensions, TextInput, Keyboard } from 'react-native';
-import styled from 'styled-components/native';
+import React, { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Dimensions, Keyboard, TextInput } from 'react-native';
+import styled from 'styled-components/native';
 
 import useGlobalTheme from '/hooks/useGlobalTheme';
 

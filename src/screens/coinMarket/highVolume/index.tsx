@@ -1,9 +1,9 @@
 import React from 'react';
 
-import GeneralTemplate from '/components/GeneralTemplate';
 import HighVolume from '/components/coinMarket/popularList/HighVolume';
-import TopListSkeleton from '/components/skeletonPlaceholder/TopListSkeleton';
 import AsyncBoundary from '/components/common/AsyncBoundary';
+import GeneralTemplate from '/components/GeneralTemplate';
+import { TopListSkeleton } from '/components/skeletonPlaceholder/coinMarketHome';
 
 const HighVolumeScreen = () => {
   return (

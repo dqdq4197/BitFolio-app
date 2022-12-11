@@ -244,7 +244,7 @@ export default function createFuzzyMatcher(
 
   if (glue) {
     pattern = pattern
-      .replace(RegExp(FUZZY, 'g'), '\.*')
+      .replace(RegExp(FUZZY, 'g'), '.*')
       .replace(RegExp(IGNORE_SPACE, 'g'), '\\s*');
   }
   return RegExp(pattern, 'gi');

@@ -7,7 +7,7 @@ import ScrollView from '/components/common/ScrollView';
 
 const { height } = Dimensions.get('window');
 
-const CoinDetailSkeleton = () => {
+const TransactionsSkeleton = () => {
   return (
     <ScrollView>
       <View>
@@ -17,7 +17,7 @@ const CoinDetailSkeleton = () => {
   );
 };
 
-export default CoinDetailSkeleton;
+export default TransactionsSkeleton;
 
 const View = styled.View`
   flex: 1;

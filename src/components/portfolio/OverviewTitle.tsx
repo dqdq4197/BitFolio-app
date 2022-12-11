@@ -1,15 +1,15 @@
+import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import styled from 'styled-components/native';
-import { Ionicons } from '@expo/vector-icons';
 
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import useLocales from '/hooks/useLocales';
-import { useAppSelector, shallowEqual } from '/hooks/useRedux';
+import { shallowEqual, useAppSelector } from '/hooks/useRedux';
 import { convertUnits, digitToFixed } from '/lib/utils';
 import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat';
 
-import Text from '/components/common/Text';
 import IncreaseDecreaseValue from '/components/common/IncreaseDecreaseValue';
+import Text from '/components/common/Text';
 
 type TitleProps = {
   total_balance?: number;
@@ -65,7 +65,7 @@ const OverviewTitle = ({
           <PercentageWrap>
             <IncreaseDecreaseValue
               value={
-                !isFinite(portfolio_change_percentage_24h)
+                !Number.isFinite(portfolio_change_percentage_24h)
                   ? null
                   : digitToFixed(portfolio_change_percentage_24h, 2)
               }

@@ -1,24 +1,24 @@
-import React from 'react';
-import styled from 'styled-components/native';
-import { View } from 'react-native';
-import { useTranslation } from 'react-i18next';
 import * as habtics from 'expo-haptics';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { View } from 'react-native';
+import styled from 'styled-components/native';
 
 import useLocales from '/hooks/useLocales';
-import { useAppDispatch, useAppSelector, shallowEqual } from '/hooks/useRedux';
+import { shallowEqual, useAppDispatch, useAppSelector } from '/hooks/useRedux';
+import { convertUnits, digitToFixed } from '/lib/utils';
+import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat';
 import {
   changeMode,
   changeShowValueMode,
   ModeType,
 } from '/store/slices/portfolio';
-import { convertUnits, digitToFixed } from '/lib/utils';
-import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat';
 
-import { Container as SkeletonContainer } from '/components/skeletonPlaceholder/common';
+import { usePortfolioContext } from './PortfolioDataContext';
+import PrivatePlaceholder from './PrivatePlaceholder';
 import IncreaseDecreaseValue from '/components/common/IncreaseDecreaseValue';
 import Text from '/components/common/Text';
-import PrivatePlaceholder from './PrivatePlaceholder';
-import { usePortfolioContext } from './PortfolioDataContext';
+import SkeletonPlaceholder from '/components/skeletonPlaceholder';
 
 type AnalysisProps = {
   total_balance?: number;
@@ -51,9 +51,9 @@ const ConditionalContent = ({
   if (isLoading) {
     const { width, height } = skeletonSize;
     return (
-      <SkeletonContainer>
+      <SkeletonPlaceholder>
         <View style={{ width, height, borderRadius: 6 }} />
-      </SkeletonContainer>
+      </SkeletonPlaceholder>
     );
   }
 
@@ -150,7 +150,8 @@ const CommonAnalysis = ({
               heavy
               fontL
               value={
-                portfolio_change_percentage_24h !== undefined && isFinite(portfolio_change_percentage_24h)
+                portfolio_change_percentage_24h !== undefined &&
+                Number.isFinite(portfolio_change_percentage_24h)
                   ? digitToFixed(portfolio_change_percentage_24h, 2)
                   : null
               }

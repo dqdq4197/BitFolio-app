@@ -1,23 +1,23 @@
-import React, { useCallback, useState, useRef } from 'react';
+import { MaterialCommunityIcons, Octicons } from '@expo/vector-icons';
+import { useNavigation, useScrollToTop } from '@react-navigation/native';
+import React, { useCallback, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Animated, ScrollView } from 'react-native';
 import styled from 'styled-components/native';
-import { Octicons, MaterialCommunityIcons } from '@expo/vector-icons';
-import { useNavigation, useScrollToTop } from '@react-navigation/native';
-import { useTranslation } from 'react-i18next';
 
-import usePortfolioStats from '/hooks/usePortfolioStats';
 import useAnimatedHeaderTitle from '/hooks/useAnimatedHeaderTitle';
 import useGlobalTheme from '/hooks/useGlobalTheme';
+import usePortfolioStats from '/hooks/usePortfolioStats';
 
-import { usePortfolioContext } from './PortfolioDataContext';
-import PortfolioAnalysisSheet from './PortfolioAnalysisSheet';
 import CoinListSheet from './CoinListSheet';
 import OverviewTitle from './OverviewTitle';
-import { CoinItem as CoinItemSkeleton } from '/components/skeletonPlaceholder/common';
-import SurfaceWrap from '/components/common/SurfaceWrap';
-import CustomScrollView from '/components/common/ScrollView';
-import Text from '/components/common/Text';
+import PortfolioAnalysisSheet from './PortfolioAnalysisSheet';
+import { usePortfolioContext } from './PortfolioDataContext';
 import CustomRefreshControl from '/components/common/CustomRefreshControl';
+import CustomScrollView from '/components/common/ScrollView';
+import SurfaceWrap from '/components/common/SurfaceWrap';
+import Text from '/components/common/Text';
+import { CoinListSkeleton } from '/components/skeletonPlaceholder/common';
 
 type EmptyViewProps = {
   isLoading: boolean;
@@ -27,16 +27,7 @@ const EmptyCoinListView = ({ isLoading }: EmptyViewProps) => {
   const { t } = useTranslation();
   const { theme } = useGlobalTheme();
 
-  if (isLoading)
-    return (
-      <>
-        <CoinItemSkeleton />
-        <CoinItemSkeleton />
-        <CoinItemSkeleton />
-        <CoinItemSkeleton />
-        <CoinItemSkeleton />
-      </>
-    );
+  if (!isLoading) return <CoinListSkeleton />;
 
   return (
     <EmptyViewContainer>

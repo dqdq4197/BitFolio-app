@@ -1,30 +1,29 @@
-/* eslint-disable no-nested-ternary */
-import React from 'react';
-import { Animated, LayoutAnimation, Platform, UIManager } from 'react-native';
-import styled from 'styled-components/native';
 import {
   Ionicons,
   MaterialCommunityIcons,
   MaterialIcons,
 } from '@expo/vector-icons';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { Animated, LayoutAnimation, Platform, UIManager } from 'react-native';
+import styled from 'styled-components/native';
 
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import { PortfolioStatsType } from '/hooks/usePortfolioStats';
-import { useAppSelector, useAppDispatch, shallowEqual } from '/hooks/useRedux';
+import { shallowEqual, useAppDispatch, useAppSelector } from '/hooks/useRedux';
 import {
+  ActiveTabType,
   changeAnalysisActiveTab,
   onHideAnalysisSheet,
-  ActiveTabType,
 } from '/store/slices/portfolio';
 
-import Text from '/components/common/Text';
-import SurfaceWrap from '/components/common/SurfaceWrap';
-import GlobalIndicator from '/components/common/GlobalIndicator';
 import AllocationView from './AllocationView';
 import CommonAnalysis from './CommonAnalysis';
-import StatisticsView from './StatisticsView';
 import { usePortfolioContext } from './PortfolioDataContext';
+import StatisticsView from './StatisticsView';
+import GlobalIndicator from '/components/common/GlobalIndicator';
+import SurfaceWrap from '/components/common/SurfaceWrap';
+import Text from '/components/common/Text';
 
 if (Platform.OS === 'android') {
   if (UIManager.setLayoutAnimationEnabledExperimental) {

@@ -1,24 +1,34 @@
 import React from 'react';
-import { Dimensions, View } from 'react-native';
-import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+import { Dimensions } from 'react-native';
 
 import useGlobalTheme from '/hooks/useGlobalTheme';
 
-import { Container } from './common';
+import SkeletonPlaceholder from '.';
 
 const { width } = Dimensions.get('window');
 
-const Item = () => {
-  const {
-    theme: {
-      content: { spacing },
-    },
-  } = useGlobalTheme();
+interface SearchListSkeletonProps {
+  itemCount?: number;
+}
+
+const SearchListSkeleton = ({ itemCount = 13 }: SearchListSkeletonProps) => {
+  return (
+    <SkeletonPlaceholder>
+      {Array.from({ length: itemCount }, (_, index) => (
+        <SearchListSkeleton.Item key={index} />
+      ))}
+    </SkeletonPlaceholder>
+  );
+};
+
+SearchListSkeleton.Item = function SearchItemSkeleton() {
+  const { theme } = useGlobalTheme();
+  const spacing = parseInt(theme.content.spacing, 10);
 
   return (
-    <Container>
+    <>
       <SkeletonPlaceholder.Item
-        paddingHorizontal={parseInt(spacing, 10)}
+        paddingHorizontal={spacing}
         flexDirection="row"
         justifyContent="space-between"
         height={60}
@@ -32,7 +42,7 @@ const Item = () => {
             borderRadius={25}
             marginRight={10}
           />
-          <View>
+          <SkeletonPlaceholder.Item>
             <SkeletonPlaceholder.Item
               width={100}
               height={13}
@@ -40,32 +50,13 @@ const Item = () => {
               marginBottom={10}
             />
             <SkeletonPlaceholder.Item width={60} height={10} borderRadius={6} />
-          </View>
+          </SkeletonPlaceholder.Item>
         </SkeletonPlaceholder.Item>
         <SkeletonPlaceholder.Item width={40} height={13} borderRadius={9} />
       </SkeletonPlaceholder.Item>
       <SkeletonPlaceholder.Item width={width} height={1} />
-    </Container>
-  );
-};
-const SearchItemListSkeleton = () => {
-  return (
-    <>
-      <Item />
-      <Item />
-      <Item />
-      <Item />
-      <Item />
-      <Item />
-      <Item />
-      <Item />
-      <Item />
-      <Item />
-      <Item />
-      <Item />
-      <Item />
     </>
   );
 };
 
-export default SearchItemListSkeleton;
+export default SearchListSkeleton;

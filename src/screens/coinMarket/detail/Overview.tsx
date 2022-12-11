@@ -1,12 +1,12 @@
 import React from 'react';
 
 import OverviewLayout from '/components/coinMarketDetail/overview/Layout';
-import CoinDetailSkeleton from '/components/skeletonPlaceholder/CoinDetailSkeleton';
 import AsyncBoundary from '/components/common/AsyncBoundary';
+import { OverviewSkeleton } from '/components/skeletonPlaceholder/coinMarketDetail';
 
 const Overview = () => {
   return (
-    <AsyncBoundary skeleton={<CoinDetailSkeleton />}>
+    <AsyncBoundary skeleton={<OverviewSkeleton />}>
       <OverviewLayout />
     </AsyncBoundary>
   );

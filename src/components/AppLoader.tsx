@@ -36,7 +36,7 @@ const CustomSplashScreen = ({ children }: TProps) => {
     }
   }, [animation, isAppReady, opacity]);
 
-  const onImageLoaded = useCallback(async () => {
+  const handleImageLoadEnd = useCallback(async () => {
     try {
       await SplashScreen.hideAsync();
       // Load stuff
@@ -75,7 +75,7 @@ const CustomSplashScreen = ({ children }: TProps) => {
             }}
             // eslint-disable-next-line global-require
             source={require('../../assets/splash.png')}
-            onLoadEnd={onImageLoaded}
+            onLoadEnd={handleImageLoadEnd}
             fadeDuration={0}
           />
         </Animated.View>
