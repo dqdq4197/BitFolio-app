@@ -1,9 +1,9 @@
-import React, { useLayoutEffect, useEffect } from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import React, { useEffect, useLayoutEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import useGlobalTheme from '/hooks/useGlobalTheme';
 import { CoinIdProvider } from '/hooks/context/useCoinIdContext';
+import useGlobalTheme from '/hooks/useGlobalTheme';
 import { useAppDispatch } from '/hooks/useRedux';
 import { changeRecentlyViewed } from '/store/slices/baseSetting';
 import type {
@@ -12,17 +12,17 @@ import type {
   HomeScreenProps,
 } from '/types/navigation';
 
-import {
-  Overview,
-  Profile,
-  News,
-  Transactions,
-  Discussion,
-  Notice,
-} from '/screens/coinMarket/detail';
+import TabBar from '/components/coinMarketDetail/TabBar';
 import WatchListIcon from '/components/common/WatchListIcon';
 import GeneralTemplate from '/components/GeneralTemplate';
-import TabBar from '/components/coinMarketDetail/TabBar';
+import {
+  Discussion,
+  News,
+  Notice,
+  Overview,
+  Profile,
+  Transactions,
+} from '/screens/coinMarket/detail';
 
 const Tab = createMaterialTopTabNavigator<CoinDetailParamList>();
 

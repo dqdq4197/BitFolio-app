@@ -1,15 +1,15 @@
-import React, { useMemo } from 'react';
-import styled from 'styled-components/native';
-import { useTranslation } from 'react-i18next';
-import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
+import { LinearGradient } from 'expo-linear-gradient';
+import React, { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import styled from 'styled-components/native';
 
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import { CoinSvg } from '/lib/svg';
-import type { HomeScreenProps, HomeParamList } from '/types/navigation';
+import type { HomeParamList, HomeScreenProps } from '/types/navigation';
 
-import Text from '/components/common/Text';
 import SurfaceWrap from '/components/common/SurfaceWrap';
+import Text from '/components/common/Text';
 
 const ICON_SIZE = 50;
 
@@ -53,7 +53,9 @@ const PopularList = () => {
     [t]
   );
 
-  const handleCardPress = (route: keyof HomeParamList) => {
+  const handleCardPress = (
+    route: Extract<keyof HomeParamList, typeof data[number]['route']>
+  ) => {
     navigation.navigate(route);
   };
 

@@ -1,32 +1,40 @@
-import React, { useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
-import { useForm, Controller } from 'react-hook-form';
-import styled from 'styled-components/native';
 import * as WebBrowser from 'expo-web-browser';
+import React, { useEffect } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
+import styled from 'styled-components/native';
 
+import useGlobalTheme from '/hooks/useGlobalTheme';
+import useLocales from '/hooks/useLocales';
 import {
-  VALIDATIONS,
-  TURMS_OF_SERVICE,
   PRIVACY_POLICY_EN,
   PRIVACY_POLICY_KO,
+  TURMS_OF_SERVICE,
+  VALIDATIONS,
 } from '/lib/constant';
-import useLocales from '/hooks/useLocales';
-import useGlobalTheme from '/hooks/useGlobalTheme';
+import type { SettingScreenProps } from '/types/navigation';
 
-import Text from '/components/common/Text';
 import AsyncButton from '/components/common/AsyncButton';
-import TextField from '/components/common/TextField';
 import FormLayout from '/components/common/FormLayout';
+import Text from '/components/common/Text';
+import TextField from '/components/common/TextField';
 
 const SUBMIT_BUTTON_HEIGTH = 50;
 
 const Register = () => {
   const { t } = useTranslation();
-  const navigation = useNavigation();
+  const navigation =
+    useNavigation<SettingScreenProps<'Register'>['navigation']>();
   const { language } = useLocales();
   const { theme } = useGlobalTheme();
-  const { control, handleSubmit, setFocus, watch, formState: { errors } } = useForm({
+  const {
+    control,
+    handleSubmit,
+    setFocus,
+    watch,
+    formState: { errors },
+  } = useForm({
     mode: 'onBlur',
     defaultValues: {
       email: '',

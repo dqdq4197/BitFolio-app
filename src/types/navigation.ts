@@ -1,9 +1,9 @@
+import type { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import type {
   CompositeScreenProps,
   NavigatorScreenParams,
 } from '@react-navigation/native';
 import type { StackScreenProps } from '@react-navigation/stack';
-import type { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 
 export type RootStackParamList = {
   Main: NavigatorScreenParams<MainTabParamList>;
@@ -34,7 +34,7 @@ export type SettingParamList = {
 export type PortfolioParamList = {
   PortfolioOverview: undefined;
   AddNewCoin: undefined;
-  PortfolioCoinDetail: NavigatorScreenParams<CoinDetailParamList>;
+  CoinDetail: NavigatorScreenParams<CoinDetailParamList>;
 };
 
 export type NewsParamList = {

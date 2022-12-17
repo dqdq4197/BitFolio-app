@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Animated, ScrollView } from 'react-native';
 
 import useAnimatedHeaderTitle from '/hooks/useAnimatedHeaderTitle';
+import type { HomeScreenProps } from '/types/navigation';
 
 import HighMarketCapPreview from './HighMarketCapPreview';
 import HighVolumePreview from './HighVolumePreview';
@@ -17,7 +18,8 @@ import SurfaceWrap from '/components/common/SurfaceWrap';
 
 const Layout = () => {
   const { t } = useTranslation();
-  const navigation = useNavigation();
+  const navigation =
+    useNavigation<HomeScreenProps<'CoinMarketHome'>['navigation']>();
   const scrollViewRef = useRef<ScrollView>(null);
   const { scrollY } = useAnimatedHeaderTitle({
     title: t('coinMarketHome.market'),
@@ -28,9 +30,10 @@ const Layout = () => {
 
   const handlePressItem = useCallback(
     (id: string, symbol: string) => {
+      console.log(id, symbol);
       navigation.navigate('CoinDetail', {
-        param: { id, symbol },
         screen: 'Overview',
+        params: { id, symbol },
       });
     },
     [navigation]

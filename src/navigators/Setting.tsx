@@ -1,16 +1,15 @@
-import React from 'react';
-import { Dimensions } from 'react-native';
 import {
   createStackNavigator,
   StackNavigationOptions,
 } from '@react-navigation/stack';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { Dimensions } from 'react-native';
 
 import useGlobalTheme from '/hooks/useGlobalTheme';
 
-import { Login, Register, ForgotPassword, ChangePassword } from '/screens/auth';
-import { Overview, Language } from '/screens/setting';
-import AuthMainTest from './AuthMainTest';
+import { ChangePassword, ForgotPassword, Login, Register } from '/screens/auth';
+import { Language, Overview } from '/screens/setting';
 
 type SettingStackParamList = {
   Overview: undefined;

@@ -1,5 +1,5 @@
+import { useHeaderHeight } from '@react-navigation/elements';
 import { useNavigation } from '@react-navigation/native';
-import { useHeaderHeight } from '@react-navigation/stack';
 import React, {
   useCallback,
   useEffect,
@@ -144,7 +144,7 @@ const Layout = () => {
       };
 
       dispatch(addWatchingCoin(payload));
-      navigation.navigate('portfolioOverview');
+      navigation.navigate('PortfolioOverview');
     },
     [dispatch, isAlreadyIncludeCoin, navigation, openAlert, portfolioId]
   );

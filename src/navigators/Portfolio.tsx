@@ -1,11 +1,11 @@
-import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
+import React from 'react';
 
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import type { PortfolioParamList } from '/types/navigation';
 
-import { Overview, AddNewCoin } from '/screens/portfolio';
 import CoinDetail from './CoinDetail';
+import { AddNewCoin, Overview } from '/screens/portfolio';
 
 const Stack = createStackNavigator<PortfolioParamList>();
 
@@ -37,7 +37,7 @@ const PortfolioStack = () => {
     >
       <Stack.Screen name="PortfolioOverview" component={Overview} />
       <Stack.Screen name="AddNewCoin" component={AddNewCoin} />
-      <Stack.Screen name="PortfolioCoinDetail" component={CoinDetail} />
+      <Stack.Screen name="CoinDetail" component={CoinDetail} />
     </Stack.Navigator>
   );
 };

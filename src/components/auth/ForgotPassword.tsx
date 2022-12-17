@@ -1,22 +1,28 @@
-import React, { useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
-import { useForm, Controller } from 'react-hook-form';
-import styled from 'styled-components/native';
+import React, { useEffect } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 
 import { VALIDATIONS } from '/lib/constant';
+import type { SettingScreenProps } from '/types/navigation';
 
-import Text from '/components/common/Text';
 import AsyncButton from '/components/common/AsyncButton';
-import TextField from '/components/common/TextField';
 import FormLayout from '/components/common/FormLayout';
+import TextField from '/components/common/TextField';
 
 const SUBMIT_BUTTON_HEIGTH = 50;
 
 const ForgotPassword = () => {
   const { t } = useTranslation();
-  const navigation = useNavigation();
-  const { control, handleSubmit, setFocus, watch, formState: { errors } } = useForm({
+  const navigation =
+    useNavigation<SettingScreenProps<'ForgotPassword'>['navigation']>();
+  const {
+    control,
+    handleSubmit,
+    setFocus,
+    watch,
+    formState: { errors },
+  } = useForm({
     mode: 'onSubmit',
     defaultValues: {
       email: '',
@@ -27,7 +33,7 @@ const ForgotPassword = () => {
     setTimeout(() => setFocus('email'), 500);
   }, [setFocus]);
 
-  const onSubmit = (data: Object) => {
+  const onSubmit = (data: any) => {
     console.log(data);
   };
 

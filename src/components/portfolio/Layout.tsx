@@ -8,6 +8,7 @@ import styled from 'styled-components/native';
 import useAnimatedHeaderTitle from '/hooks/useAnimatedHeaderTitle';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import usePortfolioStats from '/hooks/usePortfolioStats';
+import type { PortfolioScreenProps } from '/types/navigation';
 
 import CoinListSheet from './CoinListSheet';
 import OverviewTitle from './OverviewTitle';
@@ -53,7 +54,8 @@ const EmptyCoinListView = ({ isLoading }: EmptyViewProps) => {
 
 const Layout = () => {
   const { t } = useTranslation();
-  const navigation = useNavigation();
+  const navigation =
+    useNavigation<PortfolioScreenProps<'PortfolioOverview'>['navigation']>();
   const { theme } = useGlobalTheme();
   const scrollViewRef = useRef<Animated.LegacyRef<ScrollView>>(null);
   const { id, coins, coinsData, initLoading, mutate } = usePortfolioContext();

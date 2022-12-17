@@ -1,22 +1,29 @@
-import React, { useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
-import { useForm, Controller } from 'react-hook-form';
+import React, { useEffect } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import styled from 'styled-components/native';
 
 import { VALIDATIONS } from '/lib/constant';
+import type { SettingScreenProps } from '/types/navigation';
 
-import Text from '/components/common/Text';
 import AsyncButton from '/components/common/AsyncButton';
-import TextField from '/components/common/TextField';
 import FormLayout from '/components/common/FormLayout';
+import Text from '/components/common/Text';
+import TextField from '/components/common/TextField';
 
 const SUBMIT_BUTTON_HEIGTH = 50;
 
 const Login = () => {
   const { t } = useTranslation();
-  const navigation = useNavigation();
-  const { control, handleSubmit, setFocus, watch, formState: { errors } } = useForm({
+  const navigation = useNavigation<SettingScreenProps<'Login'>['navigation']>();
+  const {
+    control,
+    handleSubmit,
+    setFocus,
+    watch,
+    formState: { errors },
+  } = useForm({
     mode: 'onSubmit',
     defaultValues: {
       email: '',
@@ -28,7 +35,7 @@ const Login = () => {
     setTimeout(() => setFocus('email'), 500);
   }, [setFocus]);
 
-  const onSubmit = (data: Object) => {
+  const onSubmit = (data: any) => {
     console.log(data);
   };
 
@@ -108,7 +115,7 @@ const Login = () => {
       </Text>
       <ExtraView>
         <Text center>
-          {t(`auth.don't have an account?`) + '  '}
+          {`${t(`auth.don't have an account?`)}  `}
           <Text primaryColor bold onPress={moveToRegisterScreen}>
             {t(`auth.create an account`)}
           </Text>
@@ -116,7 +123,7 @@ const Login = () => {
       </ExtraView>
     </FormLayout>
   );
-}
+};
 
 export default Login;
 

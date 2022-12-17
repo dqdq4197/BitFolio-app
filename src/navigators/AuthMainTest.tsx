@@ -5,6 +5,10 @@ import AsyncBoundary from '/components/common/AsyncBoundary';
 import Text from '/components/common/Text';
 import GeneralTemplate from '/components/GeneralTemplate';
 
+/**
+ *
+ * @Deprecated
+ */
 const Auth = () => {
   const navigation = useNavigation();
 

@@ -21,7 +21,7 @@ import { changeDeviceScheme } from '/store/slices/baseSetting';
 
 import AppLoader from '/components/AppLoader';
 
-import './src/config/firebase';
+import '/config/firebase';
 
 LogBox.ignoreAllLogs();
 

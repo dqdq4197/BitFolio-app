@@ -1,22 +1,22 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import { Dimensions, ScrollView, View } from 'react-native';
-import { useTranslation } from 'react-i18next';
-import { useNavigation } from '@react-navigation/native';
-import styled from 'styled-components/native';
 import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Dimensions, ScrollView, View } from 'react-native';
+import styled from 'styled-components/native';
 
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import { CoinStatType } from '/hooks/usePortfolioStats';
-import { useAppDispatch, useAppSelector, shallowEqual } from '/hooks/useRedux';
-import { CoinType, changeSortType, SortType } from '/store/slices/portfolio';
+import { shallowEqual, useAppDispatch, useAppSelector } from '/hooks/useRedux';
+import { changeSortType, CoinType, SortType } from '/store/slices/portfolio';
 import type { PortfolioScreenProps } from '/types/navigation';
 
-import Text from '/components/common/Text';
-import DynamicSizeText from '/components/common/DynamicSizeText';
-import Image from '/components/common/Image';
+import { usePortfolioContext } from './PortfolioDataContext';
 import StatisticsRow from './StatisticsRow';
 import FormModal from './transactionModal/FormModal';
-import { usePortfolioContext } from './PortfolioDataContext';
+import DynamicSizeText from '/components/common/DynamicSizeText';
+import Image from '/components/common/Image';
+import Text from '/components/common/Text';
 
 const { width } = Dimensions.get('window');
 const CONTENT_PADDING = 16;
@@ -82,7 +82,7 @@ const AssetRow = ({ id, image, symbol, name }: AssetRowProps) => {
     useNavigation<PortfolioScreenProps<'PortfolioOverview'>['navigation']>();
 
   const handleRowPress = () => {
-    navigation.navigate('PortfolioCoinDetail', {
+    navigation.navigate('CoinDetail', {
       params: { id, symbol },
       screen: 'Overview',
     });
