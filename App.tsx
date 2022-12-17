@@ -1,22 +1,22 @@
-import 'react-native-gesture-handler';
-import React, { useEffect } from 'react';
-import { Appearance, LogBox } from 'react-native';
-import { Provider } from 'react-redux';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { ThemeProvider } from 'styled-components';
 import {
-  connectActionSheet,
   ActionSheetProvider,
+  connectActionSheet,
 } from '@expo/react-native-action-sheet';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+import React, { useCallback, useEffect } from 'react';
+import { Appearance, LogBox } from 'react-native';
+import 'react-native-gesture-handler';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
+import { ThemeProvider } from 'styled-components';
 
-import RootNavigation from '/navigators/Root';
-import { store, persistor } from '/store';
-import { changeDeviceScheme } from '/store/slices/baseSetting';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import { useAppDispatch } from '/hooks/useRedux';
 import '/lib/lang/i18n';
+import RootNavigation from '/navigators/Root';
+import { persistor, store } from '/store';
+import { changeDeviceScheme } from '/store/slices/baseSetting';
 
 import AppLoader from '/components/AppLoader';
 
@@ -27,29 +27,30 @@ const RootNavigationContainer = () => {
   const { theme } = useGlobalTheme();
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    Appearance.addChangeListener(onColorSchemeChange);
-
-    return () => {
-      resetCurrentTimeout();
-      Appearance.removeChangeListener(onColorSchemeChange);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  function onColorSchemeChange(preferences: Appearance.AppearancePreferences) {
-    resetCurrentTimeout();
-    timeout.current = setTimeout(() => {
-      dispatch(changeDeviceScheme(preferences.colorScheme));
-    }, 500);
-  }
-
-  function resetCurrentTimeout() {
+  const resetCurrentTimeout = useCallback(() => {
     if (timeout.current) {
       clearTimeout(timeout.current);
     }
-  }
+  }, []);
 
+  const onColorSchemeChange = useCallback(
+    (preferences: Appearance.AppearancePreferences) => {
+      resetCurrentTimeout();
+      timeout.current = setTimeout(() => {
+        dispatch(changeDeviceScheme(preferences.colorScheme));
+      }, 500);
+    },
+    [dispatch, resetCurrentTimeout]
+  );
+
+  useEffect(() => {
+    const { remove } = Appearance.addChangeListener(onColorSchemeChange);
+
+    return () => {
+      resetCurrentTimeout();
+      remove();
+    };
+  }, [onColorSchemeChange, resetCurrentTimeout]);
   return (
     <ThemeProvider theme={theme}>
       <SafeAreaProvider>
