@@ -1,13 +1,16 @@
-import React from 'react';
 import { useNavigation } from '@react-navigation/native';
+import React from 'react';
 
 import Text from '/components/common/Text';
 
+/**
+ * @Deprecated
+ */
 const DiscussionHome = () => {
   const navigation = useNavigation();
 
   const handleButtonPress = () => {
-    navigation.navigate('Editor');
+    // navigation.navigate('Editor');
   };
 
   return (

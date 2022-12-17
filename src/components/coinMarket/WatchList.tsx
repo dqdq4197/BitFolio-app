@@ -1,20 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import { LayoutAnimation, UIManager, Platform } from 'react-native';
-import styled from 'styled-components/native';
-import { useTranslation } from 'react-i18next';
-import { useNavigation } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { LayoutAnimation, Platform, UIManager } from 'react-native';
+import styled from 'styled-components/native';
 
-import { useAppSelector } from '/hooks/useRedux';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import useLocales from '/hooks/useLocales';
+import { useAppSelector } from '/hooks/useRedux';
 import useRequest from '/hooks/useRequest';
 import { CoinGecko, http } from '/lib/api/CoinGeckoClient';
 import type { CoinMarketReturn } from '/types/coinGeckoReturnType';
+import type { HomeScreenProps } from '/types/navigation';
 
-import Text from '/components/common/Text';
-import SurfaceWrap from '/components/common/SurfaceWrap';
 import Item from './popularList/Item';
+import SurfaceWrap from '/components/common/SurfaceWrap';
+import Text from '/components/common/Text';
 
 if (Platform.OS === 'android') {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -28,7 +29,8 @@ type ListProps = {
 
 const EmptyWatchListView = () => {
   const { theme } = useGlobalTheme();
-  const navigation = useNavigation();
+  const navigation =
+    useNavigation<HomeScreenProps<'CoinMarketHome'>['navigation']>();
   const { t } = useTranslation();
 
   const handleItemPress = () => {

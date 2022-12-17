@@ -1,19 +1,19 @@
-import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
+import React from 'react';
 
-import type { HomeParamList } from '/types/navigation';
 import useGlobalTheme from '/hooks/useGlobalTheme';
+import type { HomeParamList } from '/types/navigation';
 
+import CoinDetail from './CoinDetail';
 import {
   Gainers,
   HighMarkeCap,
-  NewCoin,
   HighVolume,
-  Main,
   Losers,
+  Main,
+  NewCoin,
   Search,
 } from '/screens/coinMarket';
-import CoinDetail from './CoinDetail';
 
 const Stack = createStackNavigator<HomeParamList>();
 

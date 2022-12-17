@@ -71,7 +71,7 @@ const StatisticsRow = ({
 
   const handleRowPress = () => {
     const { id, symbol } = coin;
-    navigation.navigate('PortfolioCoinDetail', {
+    navigation.navigate('CoinDetail', {
       params: { id, symbol },
       screen: 'Transactions',
     });

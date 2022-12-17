@@ -5,7 +5,7 @@ import AsyncBoundary from '/components/common/AsyncBoundary';
 
 const Profile = () => {
   return (
-    <AsyncBoundary skeleton={<></>}>
+    <AsyncBoundary>
       <ProfileLayout />
     </AsyncBoundary>
   );

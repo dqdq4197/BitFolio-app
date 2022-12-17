@@ -1,22 +1,22 @@
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components/native';
-import { useTranslation } from 'react-i18next';
-import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import styled from 'styled-components/native';
 
 import useGlobalTheme from '/hooks/useGlobalTheme';
-import { useAppSelector } from '/hooks/useRedux';
-import type { CoinMarketReturn } from '/types/coinGeckoReturnType';
 import useLocales from '/hooks/useLocales';
+import { useAppSelector } from '/hooks/useRedux';
 import useRequest from '/hooks/useRequest';
 import { CoinGecko, http } from '/lib/api/CoinGeckoClient';
 import { digitToFixed } from '/lib/utils';
+import type { CoinMarketReturn } from '/types/coinGeckoReturnType';
 import type { HomeScreenProps } from '/types/navigation';
 
-import Text from '/components/common/Text';
-import SurfaceWrap from '/components/common/SurfaceWrap';
-import IncreaseDecreaseValue from '/components/common/IncreaseDecreaseValue';
 import Image from '/components/common/Image';
+import IncreaseDecreaseValue from '/components/common/IncreaseDecreaseValue';
+import SurfaceWrap from '/components/common/SurfaceWrap';
+import Text from '/components/common/Text';
 import WatchListIcon from '/components/common/WatchListIcon';
 
 type ListProps = {

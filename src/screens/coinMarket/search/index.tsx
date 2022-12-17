@@ -7,7 +7,7 @@ import GeneralTemplate from '/components/GeneralTemplate';
 const SearchScreen = () => {
   return (
     <GeneralTemplate>
-      <AsyncBoundary skeleton={<></>}>
+      <AsyncBoundary>
         <Layout />
       </AsyncBoundary>
     </GeneralTemplate>

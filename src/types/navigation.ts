@@ -36,7 +36,7 @@ export type SettingParamList = {
 export type PortfolioParamList = {
   PortfolioOverview: undefined;
   AddNewCoin: undefined;
-  PortfolioCoinDetail: NavigatorScreenParams<CoinDetailParamList>;
+  CoinDetail: NavigatorScreenParams<CoinDetailParamList>;
 };
 
 export type NewsParamList = {
