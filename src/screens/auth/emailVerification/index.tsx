@@ -1,14 +1,13 @@
 import React from 'react';
 
-import GeneralTemplate from '/components/GeneralTemplate';
-import CoinDetailSkeleton from '/components/skeletonPlaceholder/CoinDetailSkeleton';
-import AsyncBoundary from '/components/common/AsyncBoundary';
 import EmailVerification from '/components/auth/EmailVerification';
+import AsyncBoundary from '/components/common/AsyncBoundary';
+import GeneralTemplate from '/components/GeneralTemplate';
 
 const EmailVerificationScreen = () => {
   return (
     <GeneralTemplate>
-      <AsyncBoundary skeleton={<CoinDetailSkeleton />}>
+      <AsyncBoundary>
         <EmailVerification />
       </AsyncBoundary>
     </GeneralTemplate>

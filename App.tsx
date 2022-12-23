@@ -1,25 +1,25 @@
-import 'react-native-gesture-handler';
-import React, { useEffect } from 'react';
-import { Appearance, LogBox } from 'react-native';
-import { Provider } from 'react-redux';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { ThemeProvider } from 'styled-components';
 import {
-  connectActionSheet,
   ActionSheetProvider,
+  connectActionSheet,
 } from '@expo/react-native-action-sheet';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+import React, { useEffect } from 'react';
+import { Appearance, LogBox } from 'react-native';
+import 'react-native-gesture-handler';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
+import { ThemeProvider } from 'styled-components';
 
-import RootNavigation from '/navigators/Root';
-import { store, persistor } from '/store';
-import { changeDeviceScheme } from '/store/slices/baseSetting';
+import '/config/firebase';
+// import { AuthProvider } from '/hooks/context/useAuthContext';
+import { FeedBackAlertProvider } from '/hooks/context/useFeedBackContext';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import { useAppDispatch } from '/hooks/useRedux';
-import { AuthProvider } from '/hooks/context/useAuthContext';
-import { FeedBackAlertProvider } from '/hooks/context/useFeedBackContext';
 import '/lib/lang/i18n';
-import '/config/firebase';
+import RootNavigation from '/navigators/Root';
+import { persistor, store } from '/store';
+import { changeDeviceScheme } from '/store/slices/baseSetting';
 
 import AppLoader from '/components/AppLoader';
 
@@ -35,7 +35,7 @@ const RootNavigationContainer = () => {
 
     return () => {
       resetCurrentTimeout();
-      Appearance.removeChangeListener(onColorSchemeChange);
+      // Appearance.removeChangeListener(onColorSchemeChange);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -57,13 +57,13 @@ const RootNavigationContainer = () => {
     <ThemeProvider theme={theme}>
       <SafeAreaProvider>
         <BottomSheetModalProvider>
-          <AuthProvider>
-            <AppLoader>
-              <FeedBackAlertProvider>
-                <RootNavigation />
-              </FeedBackAlertProvider>
-            </AppLoader>
-          </AuthProvider>
+          {/* <AuthProvider> */}
+          <AppLoader>
+            <FeedBackAlertProvider>
+              <RootNavigation />
+            </FeedBackAlertProvider>
+          </AppLoader>
+          {/* </AuthProvider> */}
         </BottomSheetModalProvider>
       </SafeAreaProvider>
     </ThemeProvider>

@@ -21,7 +21,7 @@
       "supportsTablet": false,
       "bundleIdentifier": "com.bitfolio.cryptocurrencies.ios",
       "buildNumber": "1.0.3",
-      "googleServicesFile": "./GoogleService-Info.plist",
+      // "googleServicesFile": "./GoogleService-Info.plist",
       "associatedDomains": [
         "applinks:bitfolio.page.link"
       ]
@@ -34,9 +34,9 @@
       "versionCode": 1,
       "package": "com.bitfolio.cryptocurrencies.ios"
     },
-    "plugins": [
-      "@react-native-firebase/app"
-    ],
+    // "plugins": [
+    //   "@react-native-firebase/app"
+    // ],
     "web": {
       "favicon": "./assets/splash.png"
     },

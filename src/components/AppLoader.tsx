@@ -1,11 +1,11 @@
-import React, { useEffect, useCallback, useState, useRef } from 'react';
-import { Animated, StyleSheet, Image } from 'react-native';
 import Constants from 'expo-constants';
 import * as SplashScreen from 'expo-splash-screen';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { Animated, Image, StyleSheet } from 'react-native';
 import styled from 'styled-components/native';
 
+// import { useAuthContext } from '/hooks/context/useAuthContext';
 import { InitDataProvider } from '/hooks/context/useInitDataContext';
-import { useAuthContext } from '/hooks/context/useAuthContext';
 
 type TProps = {
   children: React.ReactNode;
@@ -20,22 +20,23 @@ const CustomSplashScreen = ({ children }: TProps) => {
   const opacity = useRef(new Animated.Value(1)).current;
   const [isAppReady, setAppReady] = useState(false);
   const [isSplashAnimationComplete, setAnimationComplete] = useState(false);
-  const { isLoading } = useAuthContext();
+  // const { isLoading } = useAuthContext();
 
   /**
    * 최소 2초 후 로드
    * 2초가 지나도 authenticated check가 안되더라면
    * 로딩 뷰를 계속 보여줄 수 바께..
+   * isAppReady && !isLoading <- 으로 수정.
    */
   useEffect(() => {
-    if (isAppReady && !isLoading) {
+    if (isAppReady) {
       Animated.timing(opacity, {
         toValue: 0,
         duration: 200,
         useNativeDriver: true,
       }).start(() => setAnimationComplete(true));
     }
-  }, [isAppReady, opacity, isLoading]);
+  }, [isAppReady, opacity]);
 
   const handleImageLoadEnd = useCallback(async () => {
     try {
