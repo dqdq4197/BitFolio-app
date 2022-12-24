@@ -5,7 +5,13 @@ import {
 } from '@expo/vector-icons';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Animated, LayoutAnimation, Platform, UIManager } from 'react-native';
+import {
+  ActivityIndicator,
+  Animated,
+  LayoutAnimation,
+  Platform,
+  UIManager,
+} from 'react-native';
 import styled from 'styled-components/native';
 
 import useGlobalTheme from '/hooks/useGlobalTheme';
@@ -21,7 +27,6 @@ import AllocationView from './AllocationView';
 import CommonAnalysis from './CommonAnalysis';
 import { usePortfolioContext } from './PortfolioDataContext';
 import StatisticsView from './StatisticsView';
-import GlobalIndicator from '/components/common/GlobalIndicator';
 import SurfaceWrap from '/components/common/SurfaceWrap';
 import Text from '/components/common/Text';
 
@@ -83,7 +88,7 @@ const EmptyView = ({ isLoading }: EmptyViewProps) => {
           </Text>
         </>
       ) : (
-        <GlobalIndicator isLoaded={false} size="large" transparent />
+        <ActivityIndicator size="large" color={theme.base.text[100]} />
       )}
     </EmptyViewContainer>
   );

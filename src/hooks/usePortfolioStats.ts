@@ -1,7 +1,7 @@
 /* eslint-disable no-nested-ternary */
 import { useEffect, useState } from 'react';
-import { useAppSelector } from '/hooks/useRedux';
 import useLocales from '/hooks/useLocales';
+import { useAppSelector } from '/hooks/useRedux';
 import type { CoinMarketReturn } from '/types/coinGeckoReturnType';
 
 const { hasOwnProperty } = Object.prototype;
@@ -264,6 +264,7 @@ const usePortfolioStats = ({ id, coinsData }: StatsProps) => {
         coins: coinStats,
       });
     } else {
+      // TODO. 의미없는 값이 아닌 null을 반환하여 로딩 처리하기.
       setPortfolioStats({
         total_balance: 0,
         total_costs: 0,

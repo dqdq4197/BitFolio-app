@@ -8,6 +8,7 @@ import {
   PriceChangePercentageType,
 } from '/lib/api/CoinGeckoClient';
 import type { CoinMarketReturn } from '/types/coinGeckoReturnType';
+
 import { useAppSelector } from '../useRedux';
 import useRequestInfinite from '../useRequestInfinite';
 

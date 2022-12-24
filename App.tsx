@@ -5,7 +5,6 @@ import {
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import React, { useCallback, useEffect } from 'react';
 import { Appearance, LogBox } from 'react-native';
-import 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -21,6 +20,7 @@ import { changeDeviceScheme } from '/store/slices/baseSetting';
 import AppLoader from '/components/AppLoader';
 
 // import './src/config/firebase';
+import 'react-native-gesture-handler';
 import '/lib/lang/i18n';
 
 LogBox.ignoreAllLogs();

@@ -1,14 +1,14 @@
+import { AxiosResponse } from 'axios';
 import React, {
   createContext,
   useContext,
-  useState,
   useEffect,
   useMemo,
+  useState,
 } from 'react';
-import { AxiosResponse } from 'axios';
 
-import { useAppSelector, shallowEqual } from '/hooks/useRedux';
 import useCoinMarketData from '/hooks/data/useCoinMarketData';
+import { shallowEqual, useAppSelector } from '/hooks/useRedux';
 import { PortfolioType } from '/store/slices/portfolio';
 import type { CoinMarketReturn } from '/types/coinGeckoReturnType';
 
@@ -60,7 +60,7 @@ export function PortfolioDataProvider({ children }: ContextProps) {
   }, [activeIndex, portfolios]);
 
   useEffect(() => {
-    if (!isLoading && initLoading === true) {
+    if (coinsData && initLoading === true) {
       setInitLoading(false);
     }
   }, [coinsData, initLoading, isLoading]);

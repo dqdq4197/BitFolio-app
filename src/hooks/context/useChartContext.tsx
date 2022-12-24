@@ -1,16 +1,16 @@
-import React, { useContext, useState, createContext, useMemo } from 'react';
+import React, { createContext, useContext, useMemo, useState } from 'react';
 import Animated, { useSharedValue } from 'react-native-reanimated';
 
 import { useCoinIdContext } from './useCoinIdContext';
-import { useAppSelector } from '/hooks/useRedux';
 import useGlobalAverageChart from '/hooks/data/useGlobalAverageChart';
 import useUpbitChart from '/hooks/data/useUpbitChart';
-import { CHANGE_STATE } from '/lib/constant';
+import { useAppSelector } from '/hooks/useRedux';
 import type { ExtendErrorType } from '/hooks/useRequest';
+import { CHANGE_STATE } from '/lib/constant';
 import type {
-  TStreamType,
   ChangeStatusType,
   ExchangeType,
+  TStreamType,
 } from '/types/common';
 
 // * 중요
@@ -61,7 +61,6 @@ const ChartContext = createContext<InitialData | undefined>(undefined);
 export const ChartDataProvider = ({ children }: ProviderProps) => {
   const { exchange } = useAppSelector(state => state.baseSettingReducer);
   const { id, symbol } = useCoinIdContext();
-
   const datumX = useSharedValue('-');
   const datumY = useSharedValue(['-', '-']);
   const datumYChangePercentage = useSharedValue('-');

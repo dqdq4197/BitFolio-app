@@ -1,10 +1,10 @@
-import useSWR, { SWRConfiguration, SWRResponse } from 'swr';
 import {
+  AxiosError,
   AxiosInstance,
   AxiosRequestConfig,
   AxiosResponse,
-  AxiosError,
 } from 'axios';
+import useSWR, { SWRConfiguration, SWRResponse } from 'swr';
 
 export type ExtendErrorType = {
   status?: number;

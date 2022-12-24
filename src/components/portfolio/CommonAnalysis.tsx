@@ -1,7 +1,6 @@
 import * as habtics from 'expo-haptics';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { View } from 'react-native';
 import styled from 'styled-components/native';
 
 import useLocales from '/hooks/useLocales';
@@ -48,11 +47,15 @@ const ConditionalContent = ({
     return privatePlaceholder;
   }
 
-  if (isLoading) {
+  if (!isLoading) {
     const { width, height } = skeletonSize;
     return (
       <SkeletonPlaceholder>
-        <View style={{ width, height, borderRadius: 6 }} />
+        <SkeletonPlaceholder.Item
+          width={width}
+          height={height}
+          borderRadius={6}
+        />
       </SkeletonPlaceholder>
     );
   }
