@@ -1,28 +1,28 @@
 import React, { useEffect, useMemo } from 'react';
-import styled from 'styled-components/native';
 import { useTranslation } from 'react-i18next';
-import {
-  VictoryChart,
-  VictoryBar,
-  VictoryLine,
-  VictoryAxis,
-  VictoryLabel,
-  VictoryScatter,
-} from 'victory-native';
-import { VictoryScatterProps } from 'victory';
-import { Circle } from 'react-native-svg';
 import Animated, {
-  useSharedValue,
-  withTiming,
-  withRepeat,
   Easing,
   useAnimatedProps,
+  useSharedValue,
+  withRepeat,
+  withTiming,
 } from 'react-native-reanimated';
+import { Circle } from 'react-native-svg';
+import styled from 'styled-components/native';
+import { VictoryScatterProps } from 'victory';
+import {
+  VictoryAxis,
+  VictoryBar,
+  VictoryChart,
+  VictoryLabel,
+  VictoryLine,
+  VictoryScatter,
+} from 'victory-native/';
 
-import useGlobalTheme from '/hooks/useGlobalTheme';
 import { useChartState } from '/hooks/context/useChartContext';
-import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat';
+import useGlobalTheme from '/hooks/useGlobalTheme';
 import { CONTENT_SPACING } from '/lib/constant';
+import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat';
 
 import Cursor from './Cursor';
 import LoadBoundaryView from './LoadBoundaryView';
@@ -155,7 +155,6 @@ const LineChart = ({ WIDTH, HEIGHT, PADDING, VOLUME_HEIGHT }: ChartProps) => {
     return points.slice(-1)[0];
   }, [points]);
 
-  // console.log(error?.status);
   return (
     <ChartContainer
       WIDTH={WIDTH}
@@ -353,15 +352,6 @@ const LineChart = ({ WIDTH, HEIGHT, PADDING, VOLUME_HEIGHT }: ChartProps) => {
               data={volumes}
               x={0}
               y={1}
-              // domain={{
-              //   y: [
-              //     Math.min(...volumes.map(v => v[1])),
-              //     Math.max(...volumes.map(v => v[1])),
-              //   ],
-              // }}
-              range={{
-                y: [VOLUME_HEIGHT, 0],
-              }}
               style={{
                 data: {
                   fill: theme.base.text[300],

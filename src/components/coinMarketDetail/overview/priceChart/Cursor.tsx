@@ -1,33 +1,28 @@
+import * as d3 from 'd3';
+import { scaleLinear, scaleTime } from 'd3-scale';
+import * as shape from 'd3-shape';
+import { format } from 'date-fns';
+import { enUS, ko } from 'date-fns/locale';
+import * as Haptics from 'expo-haptics';
 import React, { useMemo } from 'react';
-import { StyleSheet, Dimensions } from 'react-native';
-import styled from 'styled-components/native';
-import {
-  LongPressGestureHandler,
-  LongPressGestureHandlerGestureEvent,
-} from 'react-native-gesture-handler';
+import { Dimensions, StyleSheet } from 'react-native';
+import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
-  useAnimatedGestureHandler,
   useAnimatedStyle,
   useSharedValue,
-  runOnJS,
 } from 'react-native-reanimated';
-import * as d3 from 'd3';
-import * as shape from 'd3-shape';
-import { scaleTime, scaleLinear } from 'd3-scale';
 import { getYForX, parse } from 'react-native-redash';
-import * as Haptics from 'expo-haptics';
-import { format } from 'date-fns';
-import { ko, enUS } from 'date-fns/locale';
+import styled from 'styled-components/native';
 
 import { useChartState } from '/hooks/context/useChartContext';
 import useLocales from '/hooks/useLocales';
+import { CHANGE_STATE } from '/lib/constant';
+import { digitToFixed } from '/lib/utils';
 import {
   AddSeparator,
   exponentToNumber,
   getOnlyDecimal,
 } from '/lib/utils/currencyFormat';
-import { CHANGE_STATE } from '/lib/constant';
-import { digitToFixed } from '/lib/utils';
 
 const { height: DHeight } = Dimensions.get('window');
 
@@ -47,7 +42,7 @@ const Cursor = ({ width, height, CURSOR_SIZE, PADDING }: CursorProps) => {
     points,
     highestPoint,
     lowestPoint,
-    prevClosingPrice,
+    prevClosingPrice = 0,
     datumX,
     datumY,
     datumYChangePercentage,
@@ -110,7 +105,6 @@ const Cursor = ({ width, height, CURSOR_SIZE, PADDING }: CursorProps) => {
       return;
     }
 
-    setIsCursorActive(true);
     const { svgPath, scaleX } = getSvg;
 
     const x0 = scaleX.invert(x);
@@ -132,7 +126,7 @@ const Cursor = ({ width, height, CURSOR_SIZE, PADDING }: CursorProps) => {
         })}`,
       ];
       const changePercentage = digitToFixed(
-        (100 * (currentPoint[1] - prevClosingPrice!)) / prevClosingPrice!,
+        (100 * (currentPoint[1] - prevClosingPrice)) / prevClosingPrice,
         2
       );
       datumYChangePercentage.value = `${changePercentage}`;
@@ -147,32 +141,13 @@ const Cursor = ({ width, height, CURSOR_SIZE, PADDING }: CursorProps) => {
     }
   };
 
-  const onChangeActive = (state: boolean) => {
-    if (!state) {
-      setIsCursorActive(false);
+  const onChangeActive = (isActive: boolean) => {
+    setIsCursorActive(isActive);
+    if (!isActive) {
       translateX.value = -100;
       translateY.value = 0;
     }
   };
-
-  const onGestureEvent =
-    useAnimatedGestureHandler<LongPressGestureHandlerGestureEvent>({
-      onStart: () => {
-        'worklet';
-
-        runOnJS(onChangeActive)(true);
-      },
-      onActive: event => {
-        'worklet';
-
-        runOnJS(onChangeCoordinate)(event.x);
-      },
-      onEnd: () => {
-        'worklet';
-
-        runOnJS(onChangeActive)(false);
-      },
-    });
 
   const animatedStyle = useAnimatedStyle(() => {
     return {
@@ -184,10 +159,17 @@ const Cursor = ({ width, height, CURSOR_SIZE, PADDING }: CursorProps) => {
   });
 
   return (
-    <LongPressGestureHandler
-      {...{ onGestureEvent }}
-      onBegan={() => onChangeActive(true)}
-      minDurationMs={100}
+    <GestureDetector
+      gesture={Gesture.LongPress()
+        .minDuration(100)
+        .maxDistance(500)
+        .onStart(() => onChangeActive(true))
+        .onEnd(() => onChangeActive(false))
+        .runOnJS(true)
+        .onTouchesMove(
+          ({ changedTouches, state }) =>
+            state === 4 && onChangeCoordinate(changedTouches[0].x)
+        )}
     >
       <Animated.View
         style={[
@@ -204,7 +186,7 @@ const Cursor = ({ width, height, CURSOR_SIZE, PADDING }: CursorProps) => {
           <CursorBody />
         </CursorWrap>
       </Animated.View>
-    </LongPressGestureHandler>
+    </GestureDetector>
   );
 };
 

@@ -56,7 +56,7 @@ const WatchListIcon = ({ id }: IconProps) => {
             {
               translateX: -8,
             },
-            { translateY: -7 },
+            { translateY: -8 },
           ],
         }}
         loop={false}

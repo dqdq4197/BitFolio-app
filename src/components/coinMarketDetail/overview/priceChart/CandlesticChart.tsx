@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import {
-  VictoryChart,
-  VictoryTheme,
   VictoryAxis,
   VictoryCandlestick,
+  VictoryChart,
   VictoryLabel,
+  VictoryTheme,
 } from 'victory-native';
 
 import { useChartState } from '/hooks/context/useChartContext';
@@ -22,7 +22,6 @@ interface ChartProps {
 const CandlesticChart = ({ WIDTH, HEIGHT, PADDING }: ChartProps) => {
   const { theme } = useGlobalTheme();
   const { candles, isLoading, error } = useChartState();
-  // console.log(error.status);
 
   return (
     <ChartContainer WIDTH={WIDTH} HEIGHT={HEIGHT} PADDING={PADDING}>
@@ -41,7 +40,7 @@ const CandlesticChart = ({ WIDTH, HEIGHT, PADDING }: ChartProps) => {
             bottom: PADDING,
           }}
           domainPadding={{ x: 25 }}
-          scale={{ x: 'time' }}
+          scale={{ x: 'time', y: 'linear' }}
         >
           <VictoryAxis
             fixLabelOverlap
