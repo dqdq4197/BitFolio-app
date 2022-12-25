@@ -16,9 +16,7 @@ import TabBar from '/components/coinMarketDetail/TabBar';
 import WatchListIcon from '/components/common/WatchListIcon';
 import GeneralTemplate from '/components/GeneralTemplate';
 import {
-  Discussion,
   News,
-  Notice,
   Overview,
   Profile,
   Transactions,
@@ -76,7 +74,7 @@ const CoinDetail = ({ route, navigation }: HomeScreenProps<'CoinDetail'>) => {
             options={{ tabBarLabel: t('coinDetail.transactions') }}
             component={Transactions}
           />
-          <Tab.Screen
+          {/* <Tab.Screen
             name="Notice"
             options={{ tabBarLabel: t('coinDetail.notice') }}
             component={Notice}
@@ -85,7 +83,7 @@ const CoinDetail = ({ route, navigation }: HomeScreenProps<'CoinDetail'>) => {
             name="Discussion"
             options={{ tabBarLabel: t('coinDetail.discussion') }}
             component={Discussion}
-          />
+          /> */}
         </Tab.Navigator>
       </CoinIdProvider>
     </GeneralTemplate>

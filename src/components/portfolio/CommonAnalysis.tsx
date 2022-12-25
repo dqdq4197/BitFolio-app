@@ -47,7 +47,7 @@ const ConditionalContent = ({
     return privatePlaceholder;
   }
 
-  if (!isLoading) {
+  if (isLoading) {
     const { width, height } = skeletonSize;
     return (
       <SkeletonPlaceholder>

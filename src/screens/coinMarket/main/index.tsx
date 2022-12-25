@@ -24,19 +24,19 @@ const HomeScreen = ({ navigation }: HomeScreenProps<'CoinMarketHome'>) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerLeftContainerStyle: { paddingLeft: 16 },
-      headerLeft: () => (
-        <IconWrap
-          onPress={() => navigation.navigate('Setting', { screen: 'Overview' })}
-          activeOpacity={0.6}
-        >
-          {/* <IconSvg
-            name="profile"
-            width={32}
-            height={32}
-            fstColor={theme.base.text[200]}
-          /> */}
-        </IconWrap>
-      ),
+      // headerLeft: () => (
+      //   <IconWrap
+      //     onPress={() => navigation.navigate('Setting', { screen: 'Overview' })}
+      //     activeOpacity={0.6}
+      //   >
+      //     <IconSvg
+      //       name="profile"
+      //       width={32}
+      //       height={32}
+      //       fstColor={theme.base.text[200]}
+      //     />
+      //   </IconWrap>
+      // ),
       headerRight: () => (
         <Wrap>
           <Ionicons

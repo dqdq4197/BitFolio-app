@@ -91,7 +91,7 @@
     "text-decoding": "^1.0.0",
     "translate-google-api": "^1.0.4",
     "uuid": "^8.3.2",
-    "victory-native": "^36.2.0"
+    "victory-native": "^36.6.8"
   },
   "devDependencies": {
     "@babel/core": "^7.18.6",
