@@ -21,7 +21,6 @@
       "supportsTablet": false,
       "bundleIdentifier": "com.bitfolio.cryptocurrencies.ios",
       "buildNumber": "1.0.3",
-      // "googleServicesFile": "./GoogleService-Info.plist",
       "associatedDomains": [
         "applinks:bitfolio.page.link"
       ]
@@ -34,12 +33,14 @@
       "versionCode": 1,
       "package": "com.bitfolio.cryptocurrencies.ios"
     },
-    // "plugins": [
-    //   "@react-native-firebase/app"
-    // ],
     "web": {
       "favicon": "./assets/splash.png"
     },
-    "description": "cryptocurrencies"
+    "description": "cryptocurrencies",
+    "extra": {
+      "eas": {
+        "projectId": "6d4899c7-afc3-472c-8299-a027f908ef57"
+      }
+    }
   }
 }
