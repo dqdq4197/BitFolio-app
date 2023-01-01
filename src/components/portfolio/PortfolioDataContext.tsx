@@ -35,6 +35,7 @@ export function PortfolioDataProvider({ children }: ContextProps) {
   );
   const [coinIds, setCoinIds] = useState<string[]>([]);
   const [initLoading, setInitLoading] = useState(true);
+  const willNotRequestData = coinIds.length <= 0;
   const {
     data: coinsData,
     isLoading,
@@ -43,7 +44,7 @@ export function PortfolioDataProvider({ children }: ContextProps) {
     suspense: false,
     sparkline: true,
     ids: coinIds,
-    willNotRequest: coinIds.length <= 0,
+    willNotRequest: willNotRequestData,
   });
 
   useEffect(() => {
@@ -60,10 +61,10 @@ export function PortfolioDataProvider({ children }: ContextProps) {
   }, [activeIndex, portfolios]);
 
   useEffect(() => {
-    if (coinsData && initLoading === true) {
+    if ((willNotRequestData || coinsData) && initLoading === true) {
       setInitLoading(false);
     }
-  }, [coinsData, initLoading, isLoading]);
+  }, [coinIds.length, coinsData, initLoading, isLoading, willNotRequestData]);
 
   const value = useMemo(
     () => ({

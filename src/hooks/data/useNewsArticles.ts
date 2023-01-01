@@ -1,9 +1,9 @@
 import { AxiosResponse } from 'axios';
 
 import {
+  ArticleParams,
   Cryptocompare,
   http,
-  ArticleParams,
 } from '/lib/api/CryptocompareClient';
 import type { NewsReturn } from '/types/cryptoCompareReturnType';
 

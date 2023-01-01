@@ -17,7 +17,7 @@ const Stack = createStackNavigator<RootStackParamList>();
 const RootNavigation = () => {
   const { scheme } = useGlobalTheme();
   return (
-    // theme을 제공해서 스크린 전환 시 backdrop 영역에 base color를 고정하기 위함.
+    // NOTE. theme을 제공해서 스크린 전환 시 backdrop 영역에 base color를 고정하기 위함.
     <NavigationContainer theme={scheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Main" component={Main} />

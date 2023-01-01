@@ -1,16 +1,16 @@
 import { Ionicons } from '@expo/vector-icons';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
-import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useLayoutEffect, useRef } from 'react';
 
 import useGlobalTheme from '/hooks/useGlobalTheme';
+import type { NewsScreenProps } from '/types/navigation';
 
 import AsyncBoundary from '/components/common/AsyncBoundary';
 import GeneralTemplate from '/components/GeneralTemplate';
 import Overview from '/components/news/Overview';
 import SettingModal from '/components/setting/SettingModal';
 
-const OverviewScreen = ({ navigation }: StackScreenProps<any>) => {
+const OverviewScreen = ({ navigation }: NewsScreenProps<'NewsOverview'>) => {
   const { theme } = useGlobalTheme();
   const settingModalRef = useRef<BottomSheetModal>(null);
 
