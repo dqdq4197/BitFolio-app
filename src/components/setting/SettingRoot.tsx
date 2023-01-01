@@ -1,11 +1,11 @@
-import React from 'react';
 import { APP_VERSION } from '@env';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import SurfaceWrap from '/components/common/SurfaceWrap';
-import List from '/components/common/List';
 import AppSettingList from './AppSettingList';
 import Blank from './Blank';
+import List from '/components/common/List';
+import SurfaceWrap from '/components/common/SurfaceWrap';
 
 interface SettingRootProps {
   onLanguagePress: () => void;
