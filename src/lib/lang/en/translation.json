@@ -38,6 +38,7 @@
     "fees included": "Fees Included",
     "terms of use": "Terms of Use",
     "privacy policy": "Privacy Policy",
+    "go": "Go",
     "bottom notice": {
       "title": "Important Disclaimer",
       "first": "We make no warranties of any kind in relation to our content, including but not limited to accuracy and updatedness",
@@ -126,7 +127,9 @@
     "not found fst": "No data available for the selected exchange.",
     "not found scd": "Please change exchanges or trading pairs",
     "are you sure you want unwatch this coin?": "Are you sure you want unwatch this coin?",
-    "all transactions and holdings related to this coin will be removed": "All transactions and holdings related to this coin will be removed."
+    "all transactions and holdings related to this coin will be removed": "All transactions and holdings related to this coin will be removed.",
+    "added coin as a watch item to portfolio.": "Added {{coin}} as a watch item to portfolio.",
+    "successfully unwatch coin": "Successfully unwatch {{coin}}"
   },
   "coinMarketHome": {
     "24h": "24 hours",

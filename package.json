@@ -44,7 +44,7 @@
     "expo-localization": "~13.1.0",
     "expo-splash-screen": "~0.16.2",
     "expo-status-bar": "~1.4.0",
-    "expo-updates": "~0.10.13",
+    "expo-updates": "~0.14.7",
     "expo-web-browser": "~11.0.0",
     "firebase": "^9.6.11",
     "i": "^0.3.7",

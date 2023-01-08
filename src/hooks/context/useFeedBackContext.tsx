@@ -1,9 +1,9 @@
 import React, {
   createContext,
+  useCallback,
   useContext,
   useMemo,
   useState,
-  useCallback,
 } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -24,7 +24,7 @@ export interface AlertProps {
   severity: 'success' | 'error' | 'warning' | 'info';
 }
 type FeedbackTypes = Record<FeedBackType, AlertProps | null>;
-type OpenAlertParams = Omit<AlertProps, 'id'> & { type: FeedBackType };
+type OpenAlertParams = Omit<AlertProps, 'id'> & { type?: FeedBackType };
 
 type ValueType = {
   openAlert: ({
@@ -49,9 +49,9 @@ export function FeedBackAlertProvider({ children }: ProviderProps) {
   const openAlert = useCallback(
     ({
       message,
-      type,
+      type = 'snackbar',
       duration = 3000,
-      onPress = noop,
+      onPress,
       severity,
     }: OpenAlertParams) => {
       const props = { message, duration, onPress, id: uuidv4(), severity };
@@ -87,6 +87,3 @@ export function useFeedBackAlertContext() {
   }
   return context;
 }
-
-// eslint-disable-next-line @typescript-eslint/no-empty-function
-const noop = () => {};

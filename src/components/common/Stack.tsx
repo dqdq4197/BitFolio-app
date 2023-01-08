@@ -1,9 +1,9 @@
 import React, {
-  PropsWithChildren,
-  CSSProperties,
   Children,
   cloneElement,
+  CSSProperties,
   forwardRef,
+  PropsWithChildren,
 } from 'react';
 import { View, ViewProps } from 'react-native';
 import styled from 'styled-components/native';
@@ -155,8 +155,8 @@ const Container = styled.View<Omit<StackProps, 'divider'>>`
     flex-direction: ${direction};
     ${conditionalStyling('padding-top', pt, 'px')};
     ${conditionalStyling('padding-bottom', pb, 'px')};
-    ${conditionalStyling('padding-right', pl, 'px')};
-    ${conditionalStyling('padding-left', pr, 'px')};
+    ${conditionalStyling('padding-left', pl, 'px')};
+    ${conditionalStyling('padding-right', pr, 'px')};
     ${conditionalStyling('margin-top', mt, 'px')};
     ${conditionalStyling('margin-bottom', mb, 'px')};
     ${conditionalStyling('margin-right', mr, 'px')};

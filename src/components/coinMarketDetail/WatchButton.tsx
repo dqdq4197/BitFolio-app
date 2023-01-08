@@ -1,15 +1,18 @@
-import React, { useMemo, useCallback } from 'react';
-import { Dimensions, Alert } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import React, { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Alert, Dimensions } from 'react-native';
 
-import { useAppSelector, useAppDispatch } from '/hooks/useRedux';
+import { useFeedBackAlertContext } from '/hooks/context/useFeedBackContext';
 import useGlobalTheme from '/hooks/useGlobalTheme';
+import { useAppDispatch, useAppSelector } from '/hooks/useRedux';
 import {
-  CoinType,
   addWatchingCoin,
-  unWatchingCoin,
+  CoinType,
+  unwatchingCoin,
 } from '/store/slices/portfolio';
 import { removeAllTransaction } from '/store/slices/transaction';
+import type { CoinDetailScreenProps } from '/types/navigation';
 
 import AsyncButton from '/components/common/AsyncButton';
 
@@ -33,6 +36,9 @@ const WatchButton = ({
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const { theme, scheme } = useGlobalTheme();
+  const { openAlert: openFeedBackAlert } = useFeedBackAlertContext();
+  const navigation =
+    useNavigation<CoinDetailScreenProps<'Overview'>['navigation']>();
   const { portfolios, activeIndex } = useAppSelector(state => ({
     portfolios: state.portfolioReducer.portfolios,
     activeIndex: state.portfolioReducer.activeIndex,
@@ -59,7 +65,38 @@ const WatchButton = ({
     };
 
     dispatch(addWatchingCoin(payload));
-  }, [id, symbol, image, name, portfolioId, portfolios, activeIndex, dispatch]);
+    openFeedBackAlert({
+      message: t(`coinDetail.added coin as a watch item to portfolio.`, {
+        coin: symbol.toUpperCase(),
+      }),
+      severity: 'success',
+      onPress: () =>
+        navigation.navigate('Portfolio', { screen: 'PortfolioOverview' }),
+    });
+  }, [
+    id,
+    symbol,
+    image,
+    name,
+    portfolioId,
+    portfolios,
+    activeIndex,
+    dispatch,
+    openFeedBackAlert,
+    t,
+    navigation,
+  ]);
+
+  const openUnwatchAlert = useCallback(() => {
+    openFeedBackAlert({
+      message: t(`coinDetail.successfully unwatch coin`, {
+        coin: symbol.toUpperCase(),
+      }),
+      severity: 'success',
+      onPress: () =>
+        navigation.navigate('Portfolio', { screen: 'PortfolioOverview' }),
+    });
+  }, [navigation, openFeedBackAlert, symbol, t]);
 
   const openAlert = useCallback(
     (portfolioId: string, coinId: string) => {
@@ -71,7 +108,6 @@ const WatchButton = ({
         [
           {
             text: t(`common.cancel`),
-            onPress: () => console.log('cancel unwatch coin modal'),
             style: 'cancel',
           },
           {
@@ -80,7 +116,8 @@ const WatchButton = ({
               const payload = { portfolioId, coinId };
 
               dispatch(removeAllTransaction(payload));
-              dispatch(unWatchingCoin(payload));
+              dispatch(unwatchingCoin(payload));
+              openUnwatchAlert();
             },
             style: 'destructive',
           },
@@ -88,7 +125,7 @@ const WatchButton = ({
         { cancelable: false }
       );
     },
-    [dispatch, t]
+    [dispatch, openUnwatchAlert, t]
   );
 
   const handleUnwatchPress = useCallback(() => {
@@ -104,12 +141,20 @@ const WatchButton = ({
     };
 
     if (state === 'trading') {
-      // alret
       openAlert(portfolioIdTemp, id);
     } else {
-      dispatch(unWatchingCoin(payload));
+      dispatch(unwatchingCoin(payload));
+      openUnwatchAlert();
     }
-  }, [id, portfolios, activeIndex, portfolioId, openAlert, dispatch]);
+  }, [
+    id,
+    portfolios,
+    activeIndex,
+    portfolioId,
+    openAlert,
+    dispatch,
+    openUnwatchAlert,
+  ]);
 
   return (
     <AsyncButton

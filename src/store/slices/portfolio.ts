@@ -1,5 +1,5 @@
+import { createSlice, nanoid, PayloadAction } from '@reduxjs/toolkit';
 import 'react-native-get-random-values';
-import { createSlice, PayloadAction, nanoid } from '@reduxjs/toolkit';
 
 export type SortType =
   | 'default'
@@ -101,7 +101,7 @@ export const portfolioSlice = createSlice({
         },
       ];
     },
-    unWatchingCoin: (state, action: PayloadAction<UnwatchingCoinProps>) => {
+    unwatchingCoin: (state, action: PayloadAction<UnwatchingCoinProps>) => {
       const { portfolioId, coinId } = action.payload;
       const { portfolios } = state;
 
@@ -147,7 +147,7 @@ export const portfolioSlice = createSlice({
 
 export const {
   addWatchingCoin,
-  unWatchingCoin,
+  unwatchingCoin,
   changeCoinState,
   changeSortType,
   changeMode,

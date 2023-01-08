@@ -38,6 +38,7 @@
     "fees included": "수수료 포함",
     "terms of use": "이용 약관",
     "privacy policy": "개인정보 처리방침",
+    "go": "이동",
     "bottom notice": {
       "title": "중요 고지 사항",
       "first": "당사는 콘텐츠와 관련하여 정확성 및 업데이트를 포함하되 이에 국한되지 않는 어떠한 종류의 보증도 하지 않습니다.",
@@ -126,7 +127,9 @@
     "not found fst": "선택한 거래소에 사용할 수 있는 데이터가 없습니다.",
     "not found scd": "거래소 또는 거래 쌍을 변경해주세요",
     "are you sure you want unwatch this coin?": "정말 이 코인 주시 해제하시겠습니까?",
-    "all transactions and holdings related to this coin will be removed": "이 코인과 관련된 모든 거래 및 보유는 제거됩니다."
+    "all transactions and holdings related to this coin will be removed": "이 코인과 관련된 모든 거래 및 보유는 제거됩니다.",
+    "added coin as a watch item to portfolio.": "포트폴리오에 감시 항목으로 {{coin}}를 추가했습니다.",
+    "successfully unwatch coin": "{{coin}} 성공적으로 주시해제되었습니다."
   },
   "coinMarketHome": {
     "24h": "24시간",
