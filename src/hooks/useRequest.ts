@@ -64,6 +64,13 @@ export default function useRequest<Data = unknown, Error = unknown>(
       }),
     {
       ...config,
+      onErrorRetry: (error, _, __, revalidate, { retryCount }) => {
+        if (error.status === 404) return;
+
+        if (retryCount > 3) return;
+
+        setTimeout(() => revalidate({ retryCount }), 5000);
+      },
       fallbackData: fallbackData && {
         status: 200,
         statusText: 'InitialData',
