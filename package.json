@@ -34,7 +34,7 @@
     "d3-scale": "^3.2.3",
     "d3-shape": "^2.0.0",
     "date-fns": "^2.19.0",
-    "expo": "^46.0.19",
+    "expo": "^47.0.0",
     "expo-app-loading": "~2.1.0",
     "expo-blur": "~11.2.0",
     "expo-constants": "~13.2.4",
