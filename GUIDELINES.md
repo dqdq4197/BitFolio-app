@@ -24,6 +24,7 @@ $ npm install
 ```
 
 ### 3. make .env file & type declaration
+
 This file consists of environment variables required for API requests. <br/>
 The api key has a limited usage.
 
@@ -34,6 +35,7 @@ APP_NAME=bitfolio
 APP_VERSION=1.0.0
 
 CRYPTOCOMPARE_API_KEY=e113a4229ce5b75e3d091c98a15272458d178d93165351447a7b756ee7bb57e1
+COINGECKO_DEMO_API_KEY=CG-mqKD5C6enbF3xSKFKcfn52mg
 ```
 
 ```
@@ -43,17 +45,21 @@ declare module '@env' {
   export const APP_NAME: string
   export const APP_VERSION: string
 
+  export const COINGECKO_DEMO_API_KEY: string;
   export const CRYPTOCOMPARE_API_KEY: string
 }
 ```
 
 ## Start Frontend Development Server
+
 Expo CLI starts Metro Bundler, which is an HTTP server that compiles the JavaScript code of our app using Babel and serves it to the Expo app
 
 ```bash
 $ npm run ios
 ```
-or 
+
+or
+
 ```
 $ npx expo
 ```

@@ -1,7 +1,8 @@
+import { COINGECKO_DEMO_API_KEY } from '@env';
 import axios from 'axios';
 import { baseTypes } from 'base-types';
-import { ModifyPartial } from 'mapped-types';
 import _ from 'lodash';
+import { ModifyPartial } from 'mapped-types';
 
 import { COINGECKO_PATH_PREFIX, ORDER } from '/lib/constants/coingecko';
 import { ChartTimeIntervalType } from '/types/coingecko';
@@ -92,6 +93,7 @@ const defaultParams: DefaultParamsType = {
 
 export const http = axios.create({
   baseURL: COINGECKO_PATH_PREFIX,
+  params: { x_cg_demo_api_key: COINGECKO_DEMO_API_KEY },
 });
 
 export const CoinGecko = {
