@@ -12,7 +12,7 @@ import {
   ALL_NEWS_FEEDS,
   resetFilters,
 } from '/store/slices/news';
-import type { FeedAndCategoryReturn } from '/types/cryptoCompareReturnType';
+import type { FeedAndCategoryReturn } from '/types/CryptoCompareReturnType';
 
 import CategoryFilterModal from './CategoryFilterModal';
 import FeedFilterModal from './FeedFilterModal';
@@ -24,7 +24,7 @@ const FiltersBar = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const { feeds, categories } = useAppSelector(
-    state => ({
+    (state) => ({
       feeds: state.newsReducer.feeds,
       categories: state.newsReducer.categories,
     }),

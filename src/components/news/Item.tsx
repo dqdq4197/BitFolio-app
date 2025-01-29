@@ -1,22 +1,22 @@
-import React, { useState } from 'react';
-import { Dimensions } from 'react-native';
-import { useTranslation } from 'react-i18next';
-import styled from 'styled-components/native';
-import { fromUnixTime, formatDistance } from 'date-fns';
-import { ko, enUS } from 'date-fns/locale';
-import * as WebBrowser from 'expo-web-browser';
-import translate from 'translate-google-api';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { formatDistance, fromUnixTime } from 'date-fns';
+import { enUS, ko } from 'date-fns/locale';
+import * as WebBrowser from 'expo-web-browser';
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Dimensions } from 'react-native';
+import styled from 'styled-components/native';
+import translate from 'translate-google-api';
 
-import useLocales from '/hooks/useLocales';
 import useGlobalTheme from '/hooks/useGlobalTheme';
-import { CategoriesType } from '/store/slices/news';
+import useLocales from '/hooks/useLocales';
 import { LANGUAGES } from '/lib/constant';
-import type { NewsData } from '/types/cryptoCompareReturnType';
+import { CategoriesType } from '/store/slices/news';
+import type { NewsData } from '/types/CryptoCompareReturnType';
 
-import Text from '/components/common/Text';
-import Image from '/components/common/Image';
 import GlobalIndicator from '/components/common/GlobalIndicator';
+import Image from '/components/common/Image';
+import Text from '/components/common/Text';
 
 const { width } = Dimensions.get('window');
 const IMAGE_SIZE = 60;
@@ -55,13 +55,13 @@ const Item = ({ item, currentCategory }: ItemProps) => {
       });
 
       Promise.all([translateTitle, translateContent])
-        .then(res => {
+        .then((res) => {
           setTitle(res[0][0]);
           setContent(res[1][0]);
           setDidTranslate(true);
           setTranslateLoading(false);
         })
-        .catch(e => console.log('Error: google translate', e));
+        .catch((e) => console.log('Error: google translate', e));
     } else {
       setTitle(item.title);
       setContent(item.body);
@@ -99,7 +99,7 @@ const Item = ({ item, currentCategory }: ItemProps) => {
           />
         </FlexBox>
         <CategoriesWrap>
-          {item.categories.split('|').map(category => {
+          {item.categories.split('|').map((category) => {
             return (
               <CategoryWrap key={category}>
                 {Array.isArray(currentCategory) &&

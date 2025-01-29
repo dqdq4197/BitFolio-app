@@ -1,16 +1,16 @@
+import { formatDistance, fromUnixTime } from 'date-fns';
+import { enUS, ko } from 'date-fns/locale';
+import * as WebBrowser from 'expo-web-browser';
 import React from 'react';
 import { Dimensions } from 'react-native';
 import styled from 'styled-components/native';
-import { fromUnixTime, formatDistance } from 'date-fns';
-import { ko, enUS } from 'date-fns/locale';
-import * as WebBrowser from 'expo-web-browser';
 
-import useLocales from '/hooks/useLocales';
 import useGlobalTheme from '/hooks/useGlobalTheme';
-import type { NewsData } from '/types/cryptoCompareReturnType';
+import useLocales from '/hooks/useLocales';
+import type { NewsData } from '/types/CryptoCompareReturnType';
 
-import Text from '/components/common/Text';
 import Image from '/components/common/Image';
+import Text from '/components/common/Text';
 
 const { width } = Dimensions.get('window');
 const IMAGE_SIZE = 60;
@@ -58,7 +58,7 @@ const Item = ({ item, currentCategory }: ItemProps) => {
           />
         </FlexBox>
         <CategoriesWrap>
-          {item.categories.split('|').map(category => {
+          {item.categories.split('|').map((category) => {
             return (
               <CategoryWrap key={category}>
                 {category.toLowerCase() === currentCategory ? (

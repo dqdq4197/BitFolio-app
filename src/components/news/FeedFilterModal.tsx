@@ -6,7 +6,7 @@ import styled from 'styled-components/native';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import { useAppDispatch, useAppSelector } from '/hooks/useRedux';
 import { ALL_NEWS_FEEDS, changeFeeds } from '/store/slices/news';
-import type { FeedAndCategoryData } from '/types/cryptoCompareReturnType';
+import type { FeedAndCategoryData } from '/types/CryptoCompareReturnType';
 
 import AsyncButton from '/components/common/AsyncButton';
 import Image from '/components/common/Image';
@@ -26,7 +26,7 @@ const FeedFilterModal = ({
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const { theme } = useGlobalTheme();
-  const { feeds } = useAppSelector(state => state.newsReducer);
+  const { feeds } = useAppSelector((state) => state.newsReducer);
   const [feedsTemp, setFeedsTemp] = useState(feeds);
 
   const handleSavePress = useCallback(() => {
@@ -44,15 +44,15 @@ const FeedFilterModal = ({
         setFeedsTemp(ALL_NEWS_FEEDS);
         return;
       }
-      const isContain = feedsTemp.findIndex(feed => feed === key);
+      const isContain = feedsTemp.findIndex((feed) => feed === key);
 
       if (isContain === -1) {
-        setFeedsTemp(prevState => [...prevState, key]);
+        setFeedsTemp((prevState) => [...prevState, key]);
       } else if (feedsTemp.length === 1) {
         setFeedsTemp(ALL_NEWS_FEEDS);
       } else {
-        setFeedsTemp(prevState =>
-          (prevState as string[]).filter(category => category !== key)
+        setFeedsTemp((prevState) =>
+          (prevState as string[]).filter((category) => category !== key)
         );
       }
     }
@@ -103,7 +103,7 @@ const FeedFilterModal = ({
             />
           </>
         </Row>
-        {FeedsData.map(feed => {
+        {FeedsData.map((feed) => {
           return (
             <Row
               key={feed.key}
@@ -128,7 +128,7 @@ const FeedFilterModal = ({
                   size={24}
                   color={
                     feedsTemp !== ALL_NEWS_FEEDS &&
-                    feedsTemp.findIndex(temp => temp === feed.key) !== -1
+                    feedsTemp.findIndex((temp) => temp === feed.key) !== -1
                       ? theme.base.primaryColor
                       : 'transparent'
                   }

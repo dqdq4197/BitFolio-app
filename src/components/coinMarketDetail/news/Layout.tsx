@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { FlatList } from 'react-native';
 
 import { useCoinIdContext } from '/hooks/context/useCoinIdContext';
@@ -6,11 +6,11 @@ import useNewsArticles from '/hooks/data/useNewsArticles';
 import useGlobalTheme from '/hooks/useGlobalTheme';
 import useRequest from '/hooks/useRequest';
 import { Cryptocompare, http } from '/lib/api/CryptocompareClient';
-import type { CategoryReturn } from '/types/cryptoCompareReturnType';
+import type { CategoryReturn } from '/types/CryptoCompareReturnType';
 
-import CustomRefreshControl from '/components/common/CustomRefreshControl';
 import Header from './Header';
 import Item from './Item';
+import CustomRefreshControl from '/components/common/CustomRefreshControl';
 
 const Layout = () => {
   const { theme } = useGlobalTheme();
@@ -54,7 +54,7 @@ const Layout = () => {
   return (
     <FlatList
       data={data[0].Data}
-      keyExtractor={item => item.id}
+      keyExtractor={(item) => item.id}
       contentContainerStyle={{
         backgroundColor: theme.base.background.surface,
       }}

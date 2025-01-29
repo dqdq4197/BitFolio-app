@@ -7,7 +7,7 @@ import { ModifyPartial } from 'mapped-types';
 import { COINGECKO_PATH_PREFIX, ORDER } from '/lib/constants/coingecko';
 import { ChartTimeIntervalType } from '/types/coingecko';
 
-export type ORDER = typeof ORDER[keyof typeof ORDER];
+export type ORDER = (typeof ORDER)[keyof typeof ORDER];
 
 export type PriceChangePercentageType =
   | '1h'

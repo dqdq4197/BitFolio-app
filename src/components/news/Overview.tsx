@@ -21,7 +21,7 @@ import {
   NewsStateType,
   SortOrderType,
 } from '/store/slices/news';
-import type { NewsData } from '/types/cryptoCompareReturnType';
+import type { NewsData } from '/types/CryptoCompareReturnType';
 
 import FiltersBar from './FiltersBar';
 import Item from './Item';
@@ -85,7 +85,7 @@ const Overview = () => {
   const { theme } = useGlobalTheme();
   const flatListRef = useRef<FlatList>(null);
   const { categories, feeds, sortOrder } = useAppSelector(
-    state => state.newsReducer
+    (state) => state.newsReducer
   );
   const { scrollY } = useAnimatedHeaderTitle({
     title: `${t(`news.${sortOrder}`)} ${t(`common.news`)}`,
@@ -123,7 +123,7 @@ const Overview = () => {
         )
           return;
 
-        setNewsData(prevState =>
+        setNewsData((prevState) =>
           prevState ? [...prevState, ...data[0].Data] : null
         );
       }
