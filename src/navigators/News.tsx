@@ -1,20 +1,20 @@
-import React from 'react';
-import { Dimensions } from 'react-native';
+import React from 'react'
+import { Dimensions } from 'react-native'
 import {
   createStackNavigator,
   StackNavigationOptions,
-} from '@react-navigation/stack';
+} from '@react-navigation/stack'
 
-import useGlobalTheme from '/hooks/useGlobalTheme';
-import type { NewsParamList } from '/types/navigation';
+import useGlobalTheme from '/hooks/useGlobalTheme'
+import type { NewsParamList } from '/types/navigation'
 
-import { Overview } from '/screens/news';
+import { Overview } from '/screens/news'
 
-const Stack = createStackNavigator<NewsParamList>();
-const { width } = Dimensions.get('window');
+const Stack = createStackNavigator<NewsParamList>()
+const { width } = Dimensions.get('window')
 
 const News = () => {
-  const { theme } = useGlobalTheme();
+  const { theme } = useGlobalTheme()
 
   const NavigationOptions = (title?: string): StackNavigationOptions => {
     return {
@@ -35,8 +35,8 @@ const News = () => {
         fontSize: parseInt(theme.size.font_l, 10),
       },
       gestureResponseDistance: width,
-    };
-  };
+    }
+  }
 
   return (
     <Stack.Navigator>
@@ -46,7 +46,7 @@ const News = () => {
         options={NavigationOptions('News')}
       />
     </Stack.Navigator>
-  );
-};
+  )
+}
 
-export default News;
+export default News

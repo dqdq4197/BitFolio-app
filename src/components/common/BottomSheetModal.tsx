@@ -1,23 +1,23 @@
-import React, { forwardRef } from 'react';
-import { StyleProp, ViewStyle } from 'react-native';
-import styled, { css } from 'styled-components/native';
+import React, { forwardRef } from 'react'
+import { StyleProp, ViewStyle } from 'react-native'
+import styled, { css } from 'styled-components/native'
 import {
   BottomSheetModal,
   BottomSheetModalProps,
   BottomSheetBackdrop,
-} from '@gorhom/bottom-sheet';
+} from '@gorhom/bottom-sheet'
 
-type HandleProps = Pick<ModalProps, 'handleColor'>;
+type HandleProps = Pick<ModalProps, 'handleColor'>
 interface BackgroundProps extends Pick<ModalProps, 'bgColor'> {
-  style: StyleProp<ViewStyle>;
+  style: StyleProp<ViewStyle>
 }
 
 interface ModalProps extends BottomSheetModalProps {
-  bgColor?: string;
-  handleColor?: string;
+  bgColor?: string
+  handleColor?: string
 }
 
-const $black = '#000';
+const $black = '#000'
 
 const Handle = ({ handleColor }: HandleProps) => {
   return (
@@ -25,19 +25,19 @@ const Handle = ({ handleColor }: HandleProps) => {
       <LeftIndicator />
       <RightIndicator />
     </HandleContainer>
-  );
-};
+  )
+}
 
 const CustomBackground = ({ style, bgColor }: BackgroundProps) => {
-  return <BackgroundView style={style} bgColor={bgColor} />;
-};
+  return <BackgroundView style={style} bgColor={bgColor} />
+}
 
 const BottomModal = forwardRef(
   (
     { children, snapPoints, bgColor, handleColor, ...props }: ModalProps,
     ref: React.Ref<BottomSheetModal>
   ) => {
-    const renderBackdrop = React.useCallback(props => {
+    const renderBackdrop = React.useCallback((props) => {
       /** Fix. https://github.com/gorhom/react-native-bottom-sheet/issues/779
        *  해당 이슈로 인해 임시로 PR이 완료될때까지 customBackdrop 사용
        *  PR이 완료되면 appearsOnIndex, disappearsOnIndex 값을 바꾸거나 제공하는 backdrop으로 대체.
@@ -48,8 +48,8 @@ const BottomModal = forwardRef(
           appearsOnIndex={0}
           disappearsOnIndex={-1}
         />
-      );
-    }, []);
+      )
+    }, [])
 
     return (
       <BottomSheetModal
@@ -74,18 +74,18 @@ const BottomModal = forwardRef(
       >
         {children}
       </BottomSheetModal>
-    );
+    )
   }
-);
+)
 
-export default BottomModal;
+export default BottomModal
 
 const BackgroundView = styled.View<Pick<ModalProps, 'bgColor'>>`
   background-color: ${({ theme, bgColor }) =>
     bgColor || theme.base.background[200]};
   border-top-left-radius: ${({ theme }) => theme.border.l};
   border-top-right-radius: ${({ theme }) => theme.border.l};
-`;
+`
 
 const HandleContainer = styled.View<Pick<ModalProps, 'handleColor'>>`
   align-content: center;
@@ -96,13 +96,13 @@ const HandleContainer = styled.View<Pick<ModalProps, 'handleColor'>>`
   padding: 20px 0;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
-`;
+`
 
 const Indicator = css`
   position: absolute;
   width: 25px;
   height: 4px;
-`;
+`
 
 const LeftIndicator = styled.View`
   ${Indicator}
@@ -110,7 +110,7 @@ const LeftIndicator = styled.View`
   border-top-left-radius: 2px;
   border-bottom-left-radius: 2px;
   transform: translateX(-1px);
-`;
+`
 
 const RightIndicator = styled.View`
   ${Indicator}
@@ -118,4 +118,4 @@ const RightIndicator = styled.View`
   border-top-right-radius: 2px;
   border-bottom-right-radius: 2px;
   transform: translateX(1px);
-`;
+`

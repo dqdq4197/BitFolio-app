@@ -1,47 +1,47 @@
-import LottieView from 'lottie-react-native';
-import React, { useCallback, useEffect, useMemo, useRef } from 'react';
-import styled from 'styled-components/native';
+import LottieView from 'lottie-react-native'
+import React, { useCallback, useEffect, useMemo, useRef } from 'react'
+import styled from 'styled-components/native'
 
-import useFirstMountState from '/hooks/useFirstMountState';
-import { useAppDispatch, useAppSelector } from '/hooks/useRedux';
-import { changeWatchList } from '/store/slices/baseSetting';
+import useFirstMountState from '/hooks/useFirstMountState'
+import { useAppDispatch, useAppSelector } from '/hooks/useRedux'
+import { changeWatchList } from '/store/slices/baseSetting'
 
 type IconProps = {
-  id: string;
-};
+  id: string
+}
 
 const WatchListIcon = ({ id }: IconProps) => {
-  const { watchList } = useAppSelector(state => state.baseSettingReducer);
-  const animationRef = useRef<LottieView>(null);
-  const isFirstMount = useFirstMountState();
+  const { watchList } = useAppSelector((state) => state.baseSettingReducer)
+  const animationRef = useRef<LottieView>(null)
+  const isFirstMount = useFirstMountState()
 
-  const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch()
 
   const handleHeartPress = useCallback(() => {
-    dispatch(changeWatchList(id));
-  }, [id, dispatch]);
+    dispatch(changeWatchList(id))
+  }, [id, dispatch])
 
   const isActive = useMemo(() => {
-    return watchList.includes(id);
-  }, [id, watchList]);
+    return watchList.includes(id)
+  }, [id, watchList])
 
   useEffect(() => {
     if (!animationRef.current) {
-      return;
+      return
     }
 
     if (isFirstMount && isActive) {
-      animationRef.current.play(130, 130);
+      animationRef.current.play(130, 130)
     }
 
     if (!isFirstMount) {
       if (isActive) {
-        animationRef.current.play(20, 140);
+        animationRef.current.play(20, 140)
       } else {
-        animationRef.current.reset();
+        animationRef.current.reset()
       }
     }
-  }, [isActive, isFirstMount]);
+  }, [isActive, isFirstMount])
 
   return (
     <Container onPress={handleHeartPress}>
@@ -62,12 +62,12 @@ const WatchListIcon = ({ id }: IconProps) => {
         loop={false}
       />
     </Container>
-  );
-};
+  )
+}
 
-export default WatchListIcon;
+export default WatchListIcon
 
 const Container = styled.Pressable`
   width: 28px;
   height: 35px;
-`;
+`

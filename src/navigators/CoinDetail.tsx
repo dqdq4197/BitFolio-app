@@ -1,35 +1,35 @@
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import React, { useEffect, useLayoutEffect } from 'react';
-import { useTranslation } from 'react-i18next';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
+import React, { useEffect, useLayoutEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 
-import { CoinIdProvider } from '/hooks/context/useCoinIdContext';
-import useGlobalTheme from '/hooks/useGlobalTheme';
-import { useAppDispatch } from '/hooks/useRedux';
-import { changeRecentlyViewed } from '/store/slices/baseSetting';
+import { CoinIdProvider } from '/hooks/context/useCoinIdContext'
+import useGlobalTheme from '/hooks/useGlobalTheme'
+import { useAppDispatch } from '/hooks/useRedux'
+import { changeRecentlyViewed } from '/store/slices/baseSetting'
 import type {
   CoinDetailParamList,
   CoinDetailParams,
   HomeScreenProps,
-} from '/types/navigation';
+} from '/types/navigation'
 
-import TabBar from '/components/coinMarketDetail/TabBar';
-import WatchListIcon from '/components/common/WatchListIcon';
-import GeneralTemplate from '/components/GeneralTemplate';
+import TabBar from '/components/coinMarketDetail/TabBar'
+import WatchListIcon from '/components/common/WatchListIcon'
+import GeneralTemplate from '/components/GeneralTemplate'
 import {
   News,
   Overview,
   Profile,
   Transactions,
-} from '/screens/coinMarket/detail';
+} from '/screens/coinMarket/detail'
 
-const Tab = createMaterialTopTabNavigator<CoinDetailParamList>();
+const Tab = createMaterialTopTabNavigator<CoinDetailParamList>()
 
 const CoinDetail = ({ route, navigation }: HomeScreenProps<'CoinDetail'>) => {
-  const { t } = useTranslation();
-  const { params, screen } = route.params;
-  const { id, symbol } = params as CoinDetailParams;
-  const { theme } = useGlobalTheme();
-  const dispatch = useAppDispatch();
+  const { t } = useTranslation()
+  const { params, screen } = route.params
+  const { id, symbol } = params as CoinDetailParams
+  const { theme } = useGlobalTheme()
+  const dispatch = useAppDispatch()
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -37,12 +37,12 @@ const CoinDetail = ({ route, navigation }: HomeScreenProps<'CoinDetail'>) => {
         ? symbol.toUpperCase()
         : id.charAt(0).toUpperCase() + id.slice(1),
       headerRight: () => <WatchListIcon id={id} />,
-    });
-  }, [id, navigation, symbol, theme]);
+    })
+  }, [id, navigation, symbol, theme])
 
   useEffect(() => {
-    dispatch(changeRecentlyViewed(id));
-  }, [dispatch, id]);
+    dispatch(changeRecentlyViewed(id))
+  }, [dispatch, id])
 
   return (
     <GeneralTemplate>
@@ -51,7 +51,7 @@ const CoinDetail = ({ route, navigation }: HomeScreenProps<'CoinDetail'>) => {
           sceneContainerStyle={{
             backgroundColor: theme.base.background[100],
           }}
-          tabBar={props => <TabBar {...props} />}
+          tabBar={(props) => <TabBar {...props} />}
           initialRouteName={screen || 'Overview'}
         >
           <Tab.Screen
@@ -87,7 +87,7 @@ const CoinDetail = ({ route, navigation }: HomeScreenProps<'CoinDetail'>) => {
         </Tab.Navigator>
       </CoinIdProvider>
     </GeneralTemplate>
-  );
-};
+  )
+}
 
-export default CoinDetail;
+export default CoinDetail

@@ -1,21 +1,21 @@
-import { baseTypes } from 'base-types';
+import { baseTypes } from 'base-types'
 
-import { t } from '/lib/utils/mappedType';
-import type { ExchangeType } from '/types/common';
+import { t } from '/lib/utils/mappedType'
+import type { ExchangeType } from '/types/common'
 
 // ----- BASE CONST ----------------
 
 const PRIVACY_POLICY_EN =
-  'https://lime-lint-eba.notion.site/Bitfolio-ios-Privacy-Policy-644e0d1e30da4c98ad0e75cfc8253a2e';
+  'https://lime-lint-eba.notion.site/Bitfolio-ios-Privacy-Policy-644e0d1e30da4c98ad0e75cfc8253a2e'
 const PRIVACY_POLICY_KO =
-  'https://lime-lint-eba.notion.site/Bitfolio-ios-dad7db3124d74500b2a09d6340835631';
+  'https://lime-lint-eba.notion.site/Bitfolio-ios-dad7db3124d74500b2a09d6340835631'
 const TURMS_OF_SERVICE =
-  'https://lime-lint-eba.notion.site/Bitfolio-8883e418432545c39ba504473a0f250e';
+  'https://lime-lint-eba.notion.site/Bitfolio-8883e418432545c39ba504473a0f250e'
 
 const TRANSLATE_PREFIX =
-  'https://translation.googleapis.com/language/translate/v2';
-const PAPAGO_PREFIX = 'https://openapi.naver.com/v1';
-const LANGUAGE_STORAGE_KEY = 'local_language';
+  'https://translation.googleapis.com/language/translate/v2'
+const PAPAGO_PREFIX = 'https://openapi.naver.com/v1'
+const LANGUAGE_STORAGE_KEY = 'local_language'
 
 const CURRENCIES: Record<
   baseTypes.Currency,
@@ -39,7 +39,7 @@ const CURRENCIES: Record<
     unicode: '\u20AC',
     name: 'Euro',
   },
-};
+}
 
 export const PAIR_CURRENCIES: Record<
   string,
@@ -350,13 +350,13 @@ export const PAIR_CURRENCIES: Record<
     unit: 'sats',
     type: 'crypto',
   },
-};
+}
 
 export const EXCHANGE = t({
   GLOBAL_AVERAGE: 'globalAverage',
   UPBIT: 'upbit',
   BINANCE: 'binance',
-});
+})
 
 export const EXCHANGES: Record<ExchangeType, { label: string }> = {
   globalAverage: {
@@ -368,23 +368,23 @@ export const EXCHANGES: Record<ExchangeType, { label: string }> = {
   binance: {
     label: 'Binance',
   },
-};
+}
 
 export const CHART_TYPE = t({
   CANDLESTICK: 'candlestick',
   LINE: 'line',
-});
+})
 
 export const STREAM_TYPE = t({
   SNAPSHOT: 'SNAPSHOT',
   REALTIME: 'REALTIME',
-});
+})
 
 export const CHANGE_STATE = t({
   RISE: 'RISE',
   EVEN: 'EVEN',
   FALL: 'FALL',
-});
+})
 
 enum KEYBOARD_STATE {
   UNDETERMINED = 0,
@@ -403,7 +403,7 @@ const VALIDATIONS = {
     minLen: 8,
     pattern: /(?=.*\d)(?=.*[a-z]).{8,}/,
   },
-};
+}
 
 // 파파고 지원 언어만 포함. (* 구글 api사용시 문서 참고 재설정)
 const LANGUAGES: { [key: string]: string } = {
@@ -514,18 +514,18 @@ const LANGUAGES: { [key: string]: string } = {
   yi: 'Yiddish',
   yo: 'Yoruba',
   zu: 'Zulu',
-};
+}
 
 // ---- UI CONST --------------
 
-const TAB_BAR_HEIGHT = 55;
-const CONTENT_SPACING = 16;
+const TAB_BAR_HEIGHT = 55
+const CONTENT_SPACING = 16
 
 const CURRENCY = t({
   USD: 'usd',
   KRW: 'krw',
   EUR: 'eur',
-});
+})
 
 // ---- MDEDITOR CONST ----
 
@@ -535,13 +535,13 @@ const unicodes = {
   TEXT_MARKER: '<mark>', // "\u2005",
   TEXT_LINK: '<link>', // "\uFEFF",
   UL_BULLET: '\u2022',
-};
+}
 
 const style = {
   BOLD: 'bold',
   ITALIC: 'italic',
   LINK: 'link',
-};
+}
 
 const TYPES = {
   PARAGRAPH: 'paragraph',
@@ -556,7 +556,7 @@ const TYPES = {
     OL: 'ordered',
     UL: 'unordered',
   },
-};
+}
 
 const ACTIONS = {
   ENTER: 'enter',
@@ -565,7 +565,7 @@ const ACTIONS = {
   TOUCH: 'touch',
   LINEPOP: 'linepop',
   CHANGE_BLOCK_TYPE: 'change_block_type',
-};
+}
 
 // ------------------------
 
@@ -587,4 +587,4 @@ export {
   TYPES,
   ACTIONS,
   style,
-};
+}

@@ -1,9 +1,9 @@
-import React from 'react';
+import React from 'react'
 
-import HighMarketcap from '/components/coinMarket/popularList/HighMarketcap';
-import AsyncBoundary from '/components/common/AsyncBoundary';
-import GeneralTemplate from '/components/GeneralTemplate';
-import { TopListSkeleton } from '/components/skeletonPlaceholder/coinMarketHome';
+import HighMarketcap from '/components/coinMarket/popularList/HighMarketcap'
+import AsyncBoundary from '/components/common/AsyncBoundary'
+import GeneralTemplate from '/components/GeneralTemplate'
+import { TopListSkeleton } from '/components/skeletonPlaceholder/coinMarketHome'
 
 const HighMarketCapScreen = () => {
   return (
@@ -12,7 +12,7 @@ const HighMarketCapScreen = () => {
         <HighMarketcap />
       </AsyncBoundary>
     </GeneralTemplate>
-  );
-};
+  )
+}
 
-export default HighMarketCapScreen;
+export default HighMarketCapScreen

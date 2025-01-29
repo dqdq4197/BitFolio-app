@@ -1,5 +1,5 @@
-import { DefaultTheme } from 'styled-components/native';
-import { pallete } from './pallete';
+import { DefaultTheme } from 'styled-components/native'
+import { pallete } from './pallete'
 
 const commonStyle = {
   colors: {
@@ -58,7 +58,7 @@ const commonStyle = {
     snackbar: 1400,
     tooltip: 1500,
   },
-};
+}
 
 export const darkTheme: DefaultTheme = {
   dark: true,
@@ -92,7 +92,7 @@ export const darkTheme: DefaultTheme = {
     },
   },
   ...commonStyle,
-};
+}
 
 export const lightTheme: DefaultTheme = {
   dark: false,
@@ -126,4 +126,4 @@ export const lightTheme: DefaultTheme = {
     },
   },
   ...commonStyle,
-};
+}

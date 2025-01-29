@@ -1,14 +1,14 @@
-import useRequest, { Config } from '../useRequest';
+import useRequest, { Config } from '../useRequest'
 import {
   CoinGecko,
   http,
   HistorySnapshotParams,
-} from '/lib/api/CoinGeckoClient';
-import { CoinHistorySnapshotReturn } from '/types/coinGeckoReturnType';
+} from '/lib/api/CoinGeckoClient'
+import { CoinHistorySnapshotReturn } from '/types/coinGeckoReturnType'
 
 interface SearchDataProps extends HistorySnapshotParams, Config {
-  id: string;
-  willNotRequest?: boolean;
+  id: string
+  willNotRequest?: boolean
 }
 
 const useHistorySnapshot = ({
@@ -25,7 +25,7 @@ const useHistorySnapshot = ({
         }),
     http,
     { suspense }
-  );
-};
+  )
+}
 
-export default useHistorySnapshot;
+export default useHistorySnapshot

@@ -1,43 +1,43 @@
-import { useNavigation } from '@react-navigation/native';
-import * as WebBrowser from 'expo-web-browser';
-import React, { useEffect } from 'react';
-import { Controller, useForm } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
-import styled from 'styled-components/native';
+import { useNavigation } from '@react-navigation/native'
+import * as WebBrowser from 'expo-web-browser'
+import React, { useEffect } from 'react'
+import { Controller, useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
+import styled from 'styled-components/native'
 
-import { useFeedBackAlertContext } from '/hooks/context/useFeedBackContext';
-import { useCreateUserWithEmailAndPassword } from '/hooks/firebase';
-import useGlobalTheme from '/hooks/useGlobalTheme';
-import useLocales from '/hooks/useLocales';
+import { useFeedBackAlertContext } from '/hooks/context/useFeedBackContext'
+import { useCreateUserWithEmailAndPassword } from '/hooks/firebase'
+import useGlobalTheme from '/hooks/useGlobalTheme'
+import useLocales from '/hooks/useLocales'
 import {
   PRIVACY_POLICY_EN,
   PRIVACY_POLICY_KO,
   TURMS_OF_SERVICE,
   VALIDATIONS,
-} from '/lib/constant';
-import type { SettingScreenProps } from '/types/navigation';
+} from '/lib/constant'
+import type { SettingScreenProps } from '/types/navigation'
 
-import AsyncButton from '/components/common/AsyncButton';
-import FormLayout from '/components/common/FormLayout';
-import Text from '/components/common/Text';
-import TextField from '/components/common/TextField';
+import AsyncButton from '/components/common/AsyncButton'
+import FormLayout from '/components/common/FormLayout'
+import Text from '/components/common/Text'
+import TextField from '/components/common/TextField'
 
-const SUBMIT_BUTTON_HEIGTH = 50;
+const SUBMIT_BUTTON_HEIGTH = 50
 
 interface FormValues {
-  email: string;
-  password: string;
+  email: string
+  password: string
 }
 
 const Register = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
   const navigation =
-    useNavigation<SettingScreenProps<'Register'>['navigation']>();
-  const { language } = useLocales();
-  const { theme } = useGlobalTheme();
-  const { openAlert } = useFeedBackAlertContext();
+    useNavigation<SettingScreenProps<'Register'>['navigation']>()
+  const { language } = useLocales()
+  const { theme } = useGlobalTheme()
+  const { openAlert } = useFeedBackAlertContext()
   const { createUserWithEmailAndPassword, errorMessage, isLoading, user } =
-    useCreateUserWithEmailAndPassword();
+    useCreateUserWithEmailAndPassword()
   const {
     control,
     handleSubmit,
@@ -50,38 +50,38 @@ const Register = () => {
       email: '',
       password: '',
     },
-  });
+  })
 
   useEffect(() => {
-    setTimeout(() => setFocus('email'), 500);
-  }, [setFocus]);
+    setTimeout(() => setFocus('email'), 500)
+  }, [setFocus])
 
   useEffect(() => {
     if (user) {
-      navigation.navigate('EmailVerification');
+      navigation.navigate('EmailVerification')
     }
-  }, [navigation, user]);
+  }, [navigation, user])
 
   useEffect(() => {
     if (errorMessage) {
-      openAlert({ message: errorMessage, type: 'snackbar', severity: 'error' });
+      openAlert({ message: errorMessage, type: 'snackbar', severity: 'error' })
     }
-  }, [errorMessage, openAlert]);
+  }, [errorMessage, openAlert])
 
   const onSubmit = async ({ email, password }: FormValues) => {
-    await createUserWithEmailAndPassword(email, password);
-  };
+    await createUserWithEmailAndPassword(email, password)
+  }
 
   const moveToLoginScreen = () => {
-    navigation.navigate('Login');
-  };
+    navigation.navigate('Login')
+  }
 
   const openTermsOfUse = () => {
     WebBrowser.openBrowserAsync(TURMS_OF_SERVICE, {
       toolbarColor: theme.base.background.surface,
       enableBarCollapsing: true,
-    });
-  };
+    })
+  }
 
   const openPrivacyPolicy = () => {
     WebBrowser.openBrowserAsync(
@@ -90,8 +90,8 @@ const Register = () => {
         toolbarColor: theme.base.background.surface,
         enableBarCollapsing: true,
       }
-    );
-  };
+    )
+  }
 
   return (
     <FormLayout
@@ -178,11 +178,11 @@ const Register = () => {
         </Text>
       </ExtraView>
     </FormLayout>
-  );
-};
+  )
+}
 
-export default Register;
+export default Register
 
 const ExtraView = styled.View`
   margin: 60px 0 20px;
-`;
+`

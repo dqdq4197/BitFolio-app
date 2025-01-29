@@ -1,23 +1,23 @@
-import { useLayoutEffect, useEffect, useRef } from 'react';
-import { Animated } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useLayoutEffect, useEffect, useRef } from 'react'
+import { Animated } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
 
 type HeaderTitleProps = {
-  title?: string | React.ReactNode;
-  triggerPoint: number;
-};
+  title?: string | React.ReactNode
+  triggerPoint: number
+}
 
 const useAnimatedHeaderTitle = ({ title, triggerPoint }: HeaderTitleProps) => {
-  const scrollY = useRef(new Animated.Value(0)).current;
-  const navigation = useNavigation();
+  const scrollY = useRef(new Animated.Value(0)).current
+  const navigation = useNavigation()
 
   useLayoutEffect(() => {
     if (title) {
       navigation.setOptions({
         title,
-      });
+      })
     }
-  }, [navigation, title]);
+  }, [navigation, title])
 
   useEffect(() => {
     navigation.setOptions({
@@ -27,10 +27,10 @@ const useAnimatedHeaderTitle = ({ title, triggerPoint }: HeaderTitleProps) => {
           outputRange: [0, 1],
         }),
       },
-    });
-  }, [scrollY, navigation, triggerPoint]);
+    })
+  }, [scrollY, navigation, triggerPoint])
 
-  return { scrollY };
-};
+  return { scrollY }
+}
 
-export default useAnimatedHeaderTitle;
+export default useAnimatedHeaderTitle

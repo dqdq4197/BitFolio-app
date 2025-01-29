@@ -1,20 +1,20 @@
-import React from 'react';
-import { format } from 'date-fns';
-import { ko, enUS } from 'date-fns/locale';
+import React from 'react'
+import { format } from 'date-fns'
+import { ko, enUS } from 'date-fns/locale'
 
-import useLocales from '/hooks/useLocales';
+import useLocales from '/hooks/useLocales'
 
-import Text, { TextStyleProps } from './Text';
+import Text, { TextStyleProps } from './Text'
 
 type CustomText = {
-  children: React.ReactNode;
-};
+  children: React.ReactNode
+}
 
 interface FormatTextProps extends TextStyleProps {
-  formatType: 'Pp';
-  date: number | Date;
-  afterPrefix?: string;
-  beforePrefix?: string;
+  formatType: 'Pp'
+  date: number | Date
+  afterPrefix?: string
+  beforePrefix?: string
 }
 
 const DateFormatText = ({
@@ -24,7 +24,7 @@ const DateFormatText = ({
   beforePrefix,
   ...textStyles
 }: FormatTextProps) => {
-  const { language } = useLocales();
+  const { language } = useLocales()
 
   const CustomText = React.useCallback(
     ({ children }: CustomText) => {
@@ -35,10 +35,10 @@ const DateFormatText = ({
           {children}
           {beforePrefix}
         </Text>
-      );
+      )
     },
     [afterPrefix, beforePrefix, textStyles]
-  );
+  )
 
   if (formatType === 'Pp')
     return (
@@ -59,9 +59,9 @@ const DateFormatText = ({
               locale: enUS,
             })}
       </CustomText>
-    );
+    )
 
-  return <></>;
-};
+  return <></>
+}
 
-export default DateFormatText;
+export default DateFormatText

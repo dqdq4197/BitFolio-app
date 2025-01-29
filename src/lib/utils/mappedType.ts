@@ -5,5 +5,5 @@
 export function t<V extends string | number, T extends { [key in string]: V }>(
   o: T
 ): T {
-  return o;
+  return o
 }

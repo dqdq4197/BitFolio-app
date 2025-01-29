@@ -1,37 +1,37 @@
-import React, { useMemo } from 'react';
-import Svg, { Path } from 'react-native-svg';
-import styled from 'styled-components/native';
+import React, { useMemo } from 'react'
+import Svg, { Path } from 'react-native-svg'
+import styled from 'styled-components/native'
 
-import useSparkLineModel from '/hooks/useSparkLineModel';
-import useGlobalTheme from '/hooks/useGlobalTheme';
+import useSparkLineModel from '/hooks/useSparkLineModel'
+import useGlobalTheme from '/hooks/useGlobalTheme'
 
 type SparkLineProps = {
-  prices: number[];
-  isRising: boolean | null;
-};
+  prices: number[]
+  isRising: boolean | null
+}
 
-const XSIZE = 80;
-const YSIZE = 40;
+const XSIZE = 80
+const YSIZE = 40
 
 const SparkLine = ({ prices, isRising }: SparkLineProps) => {
   const { path } = useSparkLineModel({
     prices,
     xSize: XSIZE,
     ySize: YSIZE,
-  });
-  const { theme } = useGlobalTheme();
+  })
+  const { theme } = useGlobalTheme()
 
   const strokeColor = useMemo(() => {
     if (isRising === null) {
-      return theme.base.text[200];
+      return theme.base.text[200]
     }
 
     if (isRising) {
-      return theme.base.upColor;
+      return theme.base.upColor
     }
 
-    return theme.base.downColor;
-  }, [isRising, theme]);
+    return theme.base.downColor
+  }, [isRising, theme])
 
   return (
     <SparkLineWrap width={XSIZE}>
@@ -39,15 +39,15 @@ const SparkLine = ({ prices, isRising }: SparkLineProps) => {
         <Path d={path} stroke={strokeColor} fill="transparent" />
       </Svg>
     </SparkLineWrap>
-  );
-};
+  )
+}
 
-export default SparkLine;
+export default SparkLine
 
 type WrapProps = {
-  width: number;
-};
+  width: number
+}
 
 const SparkLineWrap = styled.View<WrapProps>`
-  width: ${props => props.width}px;
-`;
+  width: ${(props) => props.width}px;
+`

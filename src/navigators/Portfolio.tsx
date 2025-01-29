@@ -1,16 +1,16 @@
-import { createStackNavigator } from '@react-navigation/stack';
-import React from 'react';
+import { createStackNavigator } from '@react-navigation/stack'
+import React from 'react'
 
-import useGlobalTheme from '/hooks/useGlobalTheme';
-import type { PortfolioParamList } from '/types/navigation';
+import useGlobalTheme from '/hooks/useGlobalTheme'
+import type { PortfolioParamList } from '/types/navigation'
 
-import CoinDetail from './CoinDetail';
-import { AddNewCoin, Overview } from '/screens/portfolio';
+import CoinDetail from './CoinDetail'
+import { AddNewCoin, Overview } from '/screens/portfolio'
 
-const Stack = createStackNavigator<PortfolioParamList>();
+const Stack = createStackNavigator<PortfolioParamList>()
 
 const PortfolioStack = () => {
-  const { theme } = useGlobalTheme();
+  const { theme } = useGlobalTheme()
 
   return (
     <Stack.Navigator
@@ -39,7 +39,7 @@ const PortfolioStack = () => {
       <Stack.Screen name="AddNewCoin" component={AddNewCoin} />
       <Stack.Screen name="CoinDetail" component={CoinDetail} />
     </Stack.Navigator>
-  );
-};
+  )
+}
 
-export default PortfolioStack;
+export default PortfolioStack

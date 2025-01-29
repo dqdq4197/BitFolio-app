@@ -1,40 +1,40 @@
-import * as habtics from 'expo-haptics';
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from 'styled-components/native';
+import * as habtics from 'expo-haptics'
+import React from 'react'
+import { useTranslation } from 'react-i18next'
+import styled from 'styled-components/native'
 
-import useLocales from '/hooks/useLocales';
-import { shallowEqual, useAppDispatch, useAppSelector } from '/hooks/useRedux';
-import { convertUnits, digitToFixed } from '/lib/utils';
-import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat';
+import useLocales from '/hooks/useLocales'
+import { shallowEqual, useAppDispatch, useAppSelector } from '/hooks/useRedux'
+import { convertUnits, digitToFixed } from '/lib/utils'
+import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat'
 import {
   changeMode,
   changeShowValueMode,
   ModeType,
-} from '/store/slices/portfolio';
+} from '/store/slices/portfolio'
 
-import { usePortfolioContext } from './PortfolioDataContext';
-import PrivatePlaceholder from './PrivatePlaceholder';
-import IncreaseDecreaseValue from '/components/common/IncreaseDecreaseValue';
-import Text from '/components/common/Text';
-import SkeletonPlaceholder from '/components/skeletonPlaceholder';
+import { usePortfolioContext } from './PortfolioDataContext'
+import PrivatePlaceholder from './PrivatePlaceholder'
+import IncreaseDecreaseValue from '/components/common/IncreaseDecreaseValue'
+import Text from '/components/common/Text'
+import SkeletonPlaceholder from '/components/skeletonPlaceholder'
 
 type AnalysisProps = {
-  total_balance?: number;
-  portfolio_change_percentage_24h?: number;
-  portfolio_change_24h?: number;
-};
+  total_balance?: number
+  portfolio_change_percentage_24h?: number
+  portfolio_change_24h?: number
+}
 
 type ContentProps = {
-  mode?: ModeType;
-  privatePlaceholder?: JSX.Element;
-  children: JSX.Element;
+  mode?: ModeType
+  privatePlaceholder?: JSX.Element
+  children: JSX.Element
   skeletonSize: {
-    width: number;
-    height: number;
-  };
-  isLoading: boolean;
-};
+    width: number
+    height: number
+  }
+  isLoading: boolean
+}
 
 const ConditionalContent = ({
   mode,
@@ -44,11 +44,11 @@ const ConditionalContent = ({
   isLoading,
 }: ContentProps) => {
   if (mode === 'private' && privatePlaceholder) {
-    return privatePlaceholder;
+    return privatePlaceholder
   }
 
   if (isLoading) {
-    const { width, height } = skeletonSize;
+    const { width, height } = skeletonSize
     return (
       <SkeletonPlaceholder>
         <SkeletonPlaceholder.Item
@@ -57,48 +57,48 @@ const ConditionalContent = ({
           borderRadius={6}
         />
       </SkeletonPlaceholder>
-    );
+    )
   }
 
-  return children;
-};
+  return children
+}
 
 const CommonAnalysis = ({
   total_balance,
   portfolio_change_percentage_24h,
   portfolio_change_24h,
 }: AnalysisProps) => {
-  const { t } = useTranslation();
-  const dispatch = useAppDispatch();
-  const { isLoading } = usePortfolioContext();
+  const { t } = useTranslation()
+  const dispatch = useAppDispatch()
+  const { isLoading } = usePortfolioContext()
   const { mode, showValueMode } = useAppSelector(
-    state => ({
+    (state) => ({
       mode: state.portfolioReducer.portfolios[0].mode,
       showValueMode: state.portfolioReducer.portfolios[0].showValueMode,
     }),
     shallowEqual
-  );
-  const { currency } = useLocales();
+  )
+  const { currency } = useLocales()
 
   const onPortfolioModeChange = () => {
     if (mode === 'private') {
-      habtics.impactAsync();
-      dispatch(changeMode('public'));
+      habtics.impactAsync()
+      dispatch(changeMode('public'))
     } else {
-      habtics.impactAsync();
-      dispatch(changeMode('private'));
+      habtics.impactAsync()
+      dispatch(changeMode('private'))
     }
-  };
+  }
 
   const showFullValue = () => {
-    if (mode === 'private') return;
+    if (mode === 'private') return
 
     if (showValueMode === 'full') {
-      dispatch(changeShowValueMode('short'));
+      dispatch(changeShowValueMode('short'))
     } else {
-      dispatch(changeShowValueMode('full'));
+      dispatch(changeShowValueMode('full'))
     }
-  };
+  }
 
   return (
     <Container>
@@ -198,37 +198,37 @@ const CommonAnalysis = ({
         </Row>
       </ConditionalContent>
     </Container>
-  );
-};
+  )
+}
 
-export default CommonAnalysis;
+export default CommonAnalysis
 
 const Container = styled.View`
   width: 100%;
   height: 87px;
-`;
+`
 
 const Block = styled.View`
   padding: 5px 8px;
   border-radius: ${({ theme }) => theme.border.m};
   background-color: ${({ theme }) => theme.base.background[300]};
-`;
+`
 
 const Row = styled.View`
   flex-direction: row;
   align-items: center;
-`;
+`
 
 const SpaceBetweenView = styled.TouchableOpacity`
   height: 45px;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-`;
+`
 
 const Wrap = styled.View`
   padding: 3px 5px;
   margin-left: 5px;
   border-radius: ${({ theme }) => theme.border.m};
   background-color: ${({ theme }) => theme.base.background[300]};
-`;
+`

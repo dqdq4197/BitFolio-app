@@ -1,23 +1,23 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
+import React from 'react'
+import { useTranslation } from 'react-i18next'
 
-import useRequest from '/hooks/useRequest';
-import useLocales from '/hooks/useLocales';
-import { CoinGecko, http } from '/lib/api/CoinGeckoClient';
-import type { CoinMarketReturn } from '/types/coinGeckoReturnType';
-import { ORDER } from '/lib/constants/coingecko';
+import useRequest from '/hooks/useRequest'
+import useLocales from '/hooks/useLocales'
+import { CoinGecko, http } from '/lib/api/CoinGeckoClient'
+import type { CoinMarketReturn } from '/types/coinGeckoReturnType'
+import { ORDER } from '/lib/constants/coingecko'
 
-import SurfaceWrap from '/components/common/SurfaceWrap';
-import Item from './Item';
-import ShowAllButton from './ShowAllButton';
+import SurfaceWrap from '/components/common/SurfaceWrap'
+import Item from './Item'
+import ShowAllButton from './ShowAllButton'
 
 type ListProps = {
-  onPressItem: (id: string, symbol: string) => void;
-};
+  onPressItem: (id: string, symbol: string) => void
+}
 
 const HighVolumePreview = ({ onPressItem }: ListProps) => {
-  const { t } = useTranslation();
-  const { currency } = useLocales();
+  const { t } = useTranslation()
+  const { currency } = useLocales()
   const { data } = useRequest<CoinMarketReturn[]>(
     CoinGecko.coin.markets({
       vs_currency: currency,
@@ -27,7 +27,7 @@ const HighVolumePreview = ({ onPressItem }: ListProps) => {
     }),
     http,
     { refreshInterval: 5 * 60 * 1000, suspense: true }
-  );
+  )
 
   return (
     <SurfaceWrap
@@ -35,12 +35,12 @@ const HighVolumePreview = ({ onPressItem }: ListProps) => {
       paddingBottomZero
       parentPaddingZero
     >
-      {data?.map(res => {
-        return <Item key={res.id} item={res} onPressItem={onPressItem} />;
+      {data?.map((res) => {
+        return <Item key={res.id} item={res} onPressItem={onPressItem} />
       })}
       <ShowAllButton route="CoinHighVolume" />
     </SurfaceWrap>
-  );
-};
+  )
+}
 
-export default HighVolumePreview;
+export default HighVolumePreview

@@ -1,14 +1,14 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement } from 'react'
 
-import useGlobalTheme from '/hooks/useGlobalTheme';
+import useGlobalTheme from '/hooks/useGlobalTheme'
 
-import SkeletonPlaceholder from '/components/skeletonPlaceholder';
-import { CoinListSkeleton } from '/components/skeletonPlaceholder/common';
+import SkeletonPlaceholder from '/components/skeletonPlaceholder'
+import { CoinListSkeleton } from '/components/skeletonPlaceholder/common'
 
 const CoinHomeSkeleton = (): ReactElement => {
-  const { theme } = useGlobalTheme();
-  const spacing = parseInt(theme.content.spacing, 10);
-  const blankSpacing = parseInt(theme.content.blankSpacing, 10);
+  const { theme } = useGlobalTheme()
+  const spacing = parseInt(theme.content.spacing, 10)
+  const blankSpacing = parseInt(theme.content.blankSpacing, 10)
 
   return (
     <>
@@ -73,7 +73,7 @@ const CoinHomeSkeleton = (): ReactElement => {
         </SkeletonPlaceholder.Item>
       </SkeletonPlaceholder>
     </>
-  );
-};
+  )
+}
 
-export default CoinHomeSkeleton;
+export default CoinHomeSkeleton

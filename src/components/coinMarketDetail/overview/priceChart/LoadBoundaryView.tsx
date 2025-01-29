@@ -1,23 +1,23 @@
-import React from 'react';
-import styled from 'styled-components/native';
-import { useTranslation } from 'react-i18next';
-import { AntDesign } from '@expo/vector-icons';
+import React from 'react'
+import styled from 'styled-components/native'
+import { useTranslation } from 'react-i18next'
+import { AntDesign } from '@expo/vector-icons'
 
-import useGlobalTheme from '/hooks/useGlobalTheme';
+import useGlobalTheme from '/hooks/useGlobalTheme'
 
-import Text from '/components/common/Text';
-import GlobalIndicator from '/components/common/GlobalIndicator';
+import Text from '/components/common/Text'
+import GlobalIndicator from '/components/common/GlobalIndicator'
 
 type BoundaryProps = {
-  isNotFound: boolean;
-  isLoading: boolean;
-};
+  isNotFound: boolean
+  isLoading: boolean
+}
 
 const LoadBoundaryView = ({ isNotFound, isLoading }: BoundaryProps) => {
-  const { t } = useTranslation();
-  const { theme } = useGlobalTheme();
+  const { t } = useTranslation()
+  const { theme } = useGlobalTheme()
 
-  if (!isNotFound && !isLoading) return <></>;
+  if (!isNotFound && !isLoading) return <></>
 
   if (isNotFound) {
     return (
@@ -28,16 +28,16 @@ const LoadBoundaryView = ({ isNotFound, isLoading }: BoundaryProps) => {
         </Text>
         <Text center>{t(`coinDetail.not found scd`)}</Text>
       </NotFoundViewContainer>
-    );
+    )
   }
 
-  return <GlobalIndicator isLoaded={false} />;
-};
+  return <GlobalIndicator isLoaded={false} />
+}
 
-export default LoadBoundaryView;
+export default LoadBoundaryView
 
 const NotFoundViewContainer = styled.View`
   align-items: center;
   justify-content: center;
   height: 100%;
-`;
+`

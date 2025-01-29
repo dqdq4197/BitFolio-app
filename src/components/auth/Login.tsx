@@ -1,32 +1,32 @@
-import { useNavigation } from '@react-navigation/native';
-import React, { useEffect } from 'react';
-import { Controller, useForm } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
-import styled from 'styled-components/native';
+import { useNavigation } from '@react-navigation/native'
+import React, { useEffect } from 'react'
+import { Controller, useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
+import styled from 'styled-components/native'
 
-import { useFeedBackAlertContext } from '/hooks/context/useFeedBackContext';
-import { useSignInWithEmailAndPassword } from '/hooks/firebase';
-import { VALIDATIONS } from '/lib/constant';
-import type { SettingScreenProps } from '/types/navigation';
+import { useFeedBackAlertContext } from '/hooks/context/useFeedBackContext'
+import { useSignInWithEmailAndPassword } from '/hooks/firebase'
+import { VALIDATIONS } from '/lib/constant'
+import type { SettingScreenProps } from '/types/navigation'
 
-import AsyncButton from '/components/common/AsyncButton';
-import FormLayout from '/components/common/FormLayout';
-import Text from '/components/common/Text';
-import TextField from '/components/common/TextField';
+import AsyncButton from '/components/common/AsyncButton'
+import FormLayout from '/components/common/FormLayout'
+import Text from '/components/common/Text'
+import TextField from '/components/common/TextField'
 
-const SUBMIT_BUTTON_HEIGTH = 50;
+const SUBMIT_BUTTON_HEIGTH = 50
 
 interface FormValues {
-  email: string;
-  password: string;
+  email: string
+  password: string
 }
 
 const Login = () => {
-  const { t } = useTranslation();
-  const navigation = useNavigation<SettingScreenProps<'Login'>['navigation']>();
-  const { openAlert } = useFeedBackAlertContext();
+  const { t } = useTranslation()
+  const navigation = useNavigation<SettingScreenProps<'Login'>['navigation']>()
+  const { openAlert } = useFeedBackAlertContext()
   const { signInWithEmailAndPassword, isLoading, errorMessage, user } =
-    useSignInWithEmailAndPassword();
+    useSignInWithEmailAndPassword()
   const {
     control,
     handleSubmit,
@@ -39,11 +39,11 @@ const Login = () => {
       email: '',
       password: '',
     },
-  });
+  })
 
   useEffect(() => {
-    setTimeout(() => setFocus('email'), 500);
-  }, [setFocus]);
+    setTimeout(() => setFocus('email'), 500)
+  }, [setFocus])
 
   useEffect(() => {
     if (user) {
@@ -51,35 +51,35 @@ const Login = () => {
         navigation.navigate('Main', {
           screen: 'Home',
           params: { screen: 'CoinMarketHome' },
-        });
+        })
         openAlert({
           message: t(`auth.successfully logged in`),
           type: 'snackbar',
           severity: 'success',
-        });
+        })
       } else {
-        navigation.navigate('EmailVerification');
+        navigation.navigate('EmailVerification')
       }
     }
-  }, [navigation, openAlert, t, user]);
+  }, [navigation, openAlert, t, user])
 
   useEffect(() => {
     if (errorMessage) {
-      openAlert({ message: errorMessage, type: 'snackbar', severity: 'error' });
+      openAlert({ message: errorMessage, type: 'snackbar', severity: 'error' })
     }
-  }, [errorMessage, openAlert]);
+  }, [errorMessage, openAlert])
 
   const onSubmit = async ({ email, password }: FormValues) => {
-    await signInWithEmailAndPassword(email, password);
-  };
+    await signInWithEmailAndPassword(email, password)
+  }
 
   const moveToRegisterScreen = () => {
-    navigation.navigate('Register');
-  };
+    navigation.navigate('Register')
+  }
 
   const moveToForgotPasswordScreen = () => {
-    navigation.navigate('ForgotPassword');
-  };
+    navigation.navigate('ForgotPassword')
+  }
 
   return (
     <FormLayout
@@ -159,13 +159,13 @@ const Login = () => {
         </Text>
       </ExtraView>
     </FormLayout>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login
 
 const ExtraView = styled.View`
   width: 100%;
   height: 25px;
   margin-top: 70px;
-`;
+`

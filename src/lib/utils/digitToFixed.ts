@@ -8,6 +8,6 @@ export default function digitToFixed(
   num: number,
   numOfDecimals: number
 ): number {
-  const temp = 10 ** numOfDecimals;
-  return Math.floor(num * temp) / temp;
+  const temp = 10 ** numOfDecimals
+  return Math.floor(num * temp) / temp
 }

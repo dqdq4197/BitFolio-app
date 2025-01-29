@@ -1,39 +1,39 @@
-import { useNavigation } from '@react-navigation/native';
-import React, { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from 'styled-components/native';
+import { useNavigation } from '@react-navigation/native'
+import React, { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
+import styled from 'styled-components/native'
 
-import useLocales from '/hooks/useLocales';
-import { CoinStatType } from '/hooks/usePortfolioStats';
-import { digitToFixed } from '/lib/utils';
-import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat';
-import { CoinType, ModeType } from '/store/slices/portfolio';
-import type { PortfolioScreenProps } from '/types/navigation';
+import useLocales from '/hooks/useLocales'
+import { CoinStatType } from '/hooks/usePortfolioStats'
+import { digitToFixed } from '/lib/utils'
+import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat'
+import { CoinType, ModeType } from '/store/slices/portfolio'
+import type { PortfolioScreenProps } from '/types/navigation'
 
-import PrivatePlaceholder from './PrivatePlaceholder';
-import DynamicSizeText from '/components/common/DynamicSizeText';
-import IncreaseDecreaseValue from '/components/common/IncreaseDecreaseValue';
-import Text from '/components/common/Text';
-import SkeletonPlaceholder from '/components/skeletonPlaceholder';
+import PrivatePlaceholder from './PrivatePlaceholder'
+import DynamicSizeText from '/components/common/DynamicSizeText'
+import IncreaseDecreaseValue from '/components/common/IncreaseDecreaseValue'
+import Text from '/components/common/Text'
+import SkeletonPlaceholder from '/components/skeletonPlaceholder'
 
 type RowProps = {
-  COL_WIDTH: number;
-  coin: CoinType;
-  stats?: CoinStatType | null;
-  mode: ModeType;
-  totalCosts: number;
+  COL_WIDTH: number
+  coin: CoinType
+  stats?: CoinStatType | null
+  mode: ModeType
+  totalCosts: number
   priceStats?: {
-    current_price: number;
-    price_change_percentage_24h: number | null;
-  };
-  onAddButtonPress: (coin: CoinType) => void;
-};
+    current_price: number
+    price_change_percentage_24h: number | null
+  }
+  onAddButtonPress: (coin: CoinType) => void
+}
 
 type ColProps = {
-  width: number;
-  children: React.ReactNode;
-  isLoading: boolean;
-};
+  width: number
+  children: React.ReactNode
+  isLoading: boolean
+}
 
 const Skeleton = React.memo(() => {
   return (
@@ -48,12 +48,12 @@ const Skeleton = React.memo(() => {
         />
       </SkeletonPlaceholder.Item>
     </SkeletonPlaceholder>
-  );
-});
+  )
+})
 
 const Col = ({ width, children, isLoading }: ColProps) => {
-  return <ColWrap width={width}>{isLoading ? <Skeleton /> : children}</ColWrap>;
-};
+  return <ColWrap width={width}>{isLoading ? <Skeleton /> : children}</ColWrap>
+}
 
 const StatisticsRow = ({
   COL_WIDTH,
@@ -64,18 +64,18 @@ const StatisticsRow = ({
   priceStats,
   onAddButtonPress,
 }: RowProps) => {
-  const { t } = useTranslation();
-  const { currency } = useLocales();
+  const { t } = useTranslation()
+  const { currency } = useLocales()
   const navigation =
-    useNavigation<PortfolioScreenProps<'PortfolioOverview'>['navigation']>();
+    useNavigation<PortfolioScreenProps<'PortfolioOverview'>['navigation']>()
 
   const handleRowPress = () => {
-    const { id, symbol } = coin;
+    const { id, symbol } = coin
     navigation.navigate('CoinDetail', {
       params: { id, symbol },
       screen: 'Transactions',
-    });
-  };
+    })
+  }
 
   const PriceTab = useMemo(
     () =>
@@ -96,7 +96,7 @@ const StatisticsRow = ({
         </>
       ),
     [currency, priceStats]
-  );
+  )
 
   const HoldingsTab = useMemo(() => {
     if (coin.state === 'watching') {
@@ -113,7 +113,7 @@ const StatisticsRow = ({
         >
           <Text bold>{t(`common.add`)}</Text>
         </AddButton>
-      );
+      )
     }
 
     if (stats) {
@@ -135,7 +135,7 @@ const StatisticsRow = ({
               />
             </PrivateWrap>
           </>
-        );
+        )
       }
 
       return (
@@ -151,15 +151,15 @@ const StatisticsRow = ({
             {`${stats.holding_quantity} ${coin.symbol.toUpperCase()}`}
           </DynamicSizeText>
         </>
-      );
+      )
     }
 
-    return <></>;
-  }, [stats, onAddButtonPress, coin, mode, currency, t]);
+    return <></>
+  }, [stats, onAddButtonPress, coin, mode, currency, t])
 
   const BuyAvgPrice = useMemo(() => {
     if (coin.state === 'watching') {
-      return <Text>--</Text>;
+      return <Text>--</Text>
     }
 
     if (stats) {
@@ -174,7 +174,7 @@ const StatisticsRow = ({
             />
             <Text />
           </>
-        );
+        )
       }
 
       return (
@@ -190,15 +190,15 @@ const StatisticsRow = ({
           </DynamicSizeText>
           <Text />
         </>
-      );
+      )
     }
 
-    return <></>;
-  }, [coin.state, stats, mode, currency]);
+    return <></>
+  }, [coin.state, stats, mode, currency])
 
   const PLTab = useMemo(() => {
     if (coin.state === 'watching') {
-      return <Text>--</Text>;
+      return <Text>--</Text>
     }
 
     if (stats) {
@@ -224,20 +224,20 @@ const StatisticsRow = ({
             right
           />
         </>
-      );
+      )
     }
 
-    return <></>;
-  }, [coin.state, stats, currency]);
+    return <></>
+  }, [coin.state, stats, currency])
 
   const AllocationTab = useMemo(() => {
-    let rate = 0;
+    let rate = 0
 
     if (stats && totalCosts) {
       rate =
         (stats.holding_costs / totalCosts) * 100 < 0
           ? 0
-          : (stats.holding_costs / totalCosts) * 100;
+          : (stats.holding_costs / totalCosts) * 100
     }
 
     return (
@@ -249,8 +249,8 @@ const StatisticsRow = ({
           <AllocationIndicator rate={rate} />
         </AllocationBar>
       </>
-    );
-  }, [stats, totalCosts]);
+    )
+  }, [stats, totalCosts])
 
   return (
     <Container activeOpacity={0.6} onPress={handleRowPress}>
@@ -270,22 +270,22 @@ const StatisticsRow = ({
         {AllocationTab}
       </Col>
     </Container>
-  );
-};
+  )
+}
 
-export default StatisticsRow;
+export default StatisticsRow
 
 const Container = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
   height: 60px;
-`;
+`
 
 const ColWrap = styled.View<{ width: number }>`
   width: ${({ width }) => width}px;
   align-items: flex-end;
   justify-content: center;
-`;
+`
 
 const AddButton = styled.TouchableOpacity`
   width: 65px;
@@ -296,7 +296,7 @@ const AddButton = styled.TouchableOpacity`
   border-width: 1px;
   border-color: ${({ theme }) => theme.base.text[200]};
   margin-right: 3px;
-`;
+`
 
 const AllocationBar = styled.View`
   width: 80%;
@@ -304,7 +304,7 @@ const AllocationBar = styled.View`
   background-color: ${({ theme }) => theme.base.background[300]};
   border-radius: ${({ theme }) => theme.border.s};
   overflow: hidden;
-`;
+`
 
 const AllocationIndicator = styled.View<{ rate: number }>`
   position: absolute;
@@ -312,8 +312,8 @@ const AllocationIndicator = styled.View<{ rate: number }>`
   width: ${({ rate }) => rate}%;
   height: 100%;
   background-color: ${({ theme }) => theme.base.text[200]};
-`;
+`
 
 const PrivateWrap = styled.View`
   margin-top: 8px;
-`;
+`

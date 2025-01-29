@@ -1,24 +1,24 @@
-import Constants from 'expo-constants';
-import * as SplashScreen from 'expo-splash-screen';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Animated, Image, StyleSheet } from 'react-native';
-import styled from 'styled-components/native';
+import Constants from 'expo-constants'
+import * as SplashScreen from 'expo-splash-screen'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
+import { Animated, Image, StyleSheet } from 'react-native'
+import styled from 'styled-components/native'
 
-import { InitDataProvider } from '/hooks/context/useInitDataContext';
+import { InitDataProvider } from '/hooks/context/useInitDataContext'
 
 type TProps = {
-  children: React.ReactNode;
-};
+  children: React.ReactNode
+}
 
 SplashScreen.preventAutoHideAsync().catch(() => {
   /* reloading the app might trigger some race conditions, ignore them */
-});
+})
 
 const CustomSplashScreen = ({ children }: TProps) => {
-  const animation = useRef(new Animated.Value(0)).current;
-  const opacity = useRef(new Animated.Value(1)).current;
-  const [isAppReady, setAppReady] = useState(false);
-  const [isSplashAnimationComplete, setAnimationComplete] = useState(false);
+  const animation = useRef(new Animated.Value(0)).current
+  const opacity = useRef(new Animated.Value(1)).current
+  const [isAppReady, setAppReady] = useState(false)
+  const [isSplashAnimationComplete, setAnimationComplete] = useState(false)
   // const { isLoading } = useAuthContext();
 
   // NOTE. 최소 2초 후 로드 & authenticated check가 로딩 중에는 splash 뷰를 보여줌.
@@ -28,13 +28,13 @@ const CustomSplashScreen = ({ children }: TProps) => {
         toValue: 0,
         duration: 200,
         useNativeDriver: true,
-      }).start(() => setAnimationComplete(true));
+      }).start(() => setAnimationComplete(true))
     }
-  }, [isAppReady, opacity]);
+  }, [isAppReady, opacity])
 
   const handleImageLoadEnd = useCallback(async () => {
     try {
-      await SplashScreen.hideAsync();
+      await SplashScreen.hideAsync()
     } catch (e) {
       // handle errors
     } finally {
@@ -43,9 +43,9 @@ const CustomSplashScreen = ({ children }: TProps) => {
         toValue: 0,
         duration: 2000,
         useNativeDriver: true,
-      }).start(() => setAppReady(true));
+      }).start(() => setAppReady(true))
     }
-  }, [animation]);
+  }, [animation])
 
   return (
     <Container>
@@ -80,20 +80,20 @@ const CustomSplashScreen = ({ children }: TProps) => {
         </Animated.View>
       )}
     </Container>
-  );
-};
+  )
+}
 
 const AppLoader = ({ children }: TProps) => {
   return (
     <InitDataProvider>
       <CustomSplashScreen>{children}</CustomSplashScreen>
     </InitDataProvider>
-  );
-};
+  )
+}
 
-export default AppLoader;
+export default AppLoader
 
 const Container = styled.View`
   flex: 1;
   background-color: ${({ theme }) => theme.base.background[200]};
-`;
+`

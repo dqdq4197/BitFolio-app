@@ -1,13 +1,13 @@
-import React, { Suspense } from 'react';
-import { ErrorBoundary, FallbackProps } from 'react-error-boundary';
-import styled from 'styled-components/native';
-import Text from '/components/common/Text';
+import React, { Suspense } from 'react'
+import { ErrorBoundary, FallbackProps } from 'react-error-boundary'
+import styled from 'styled-components/native'
+import Text from '/components/common/Text'
 
 interface SkeletonType {
-  skeleton?: React.ReactNode;
+  skeleton?: React.ReactNode
 }
 interface BoundaryProps extends SkeletonType {
-  children: React.ReactNode;
+  children: React.ReactNode
 }
 
 const ErrorFallback = ({ error }: FallbackProps) => {
@@ -16,12 +16,12 @@ const ErrorFallback = ({ error }: FallbackProps) => {
       <Text>Something went wrong:</Text>
       <Text>{error.message}</Text>
     </View>
-  );
-};
+  )
+}
 
 const SuspenseFallback = ({ skeleton }: SkeletonType) => {
-  return <View>{skeleton}</View>;
-};
+  return <View>{skeleton}</View>
+}
 
 const AsyncBoundary = ({ skeleton, children }: BoundaryProps) => {
   return (
@@ -30,12 +30,12 @@ const AsyncBoundary = ({ skeleton, children }: BoundaryProps) => {
         {children}
       </Suspense>
     </ErrorBoundary>
-  );
-};
+  )
+}
 
-export default AsyncBoundary;
+export default AsyncBoundary
 
 const View = styled.View`
   flex: 1;
   background-color: ${({ theme }) => theme.base.background.surface};
-`;
+`

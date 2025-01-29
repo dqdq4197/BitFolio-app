@@ -1,25 +1,25 @@
-import { Ionicons } from '@expo/vector-icons';
-import { BottomSheetModal } from '@gorhom/bottom-sheet';
-import React, { useCallback, useLayoutEffect, useRef } from 'react';
-import styled from 'styled-components/native';
+import { Ionicons } from '@expo/vector-icons'
+import { BottomSheetModal } from '@gorhom/bottom-sheet'
+import React, { useCallback, useLayoutEffect, useRef } from 'react'
+import styled from 'styled-components/native'
 
-import useGlobalTheme from '/hooks/useGlobalTheme';
-import type { HomeScreenProps } from '/types/navigation';
+import useGlobalTheme from '/hooks/useGlobalTheme'
+import type { HomeScreenProps } from '/types/navigation'
 
-import Layout from '/components/coinMarket/Layout';
-import AsyncBoundary from '/components/common/AsyncBoundary';
-import GeneralTemplate from '/components/GeneralTemplate';
-import SettingModal from '/components/setting/SettingModal';
-import { CoinHomeSkeleton } from '/components/skeletonPlaceholder/coinMarketHome';
+import Layout from '/components/coinMarket/Layout'
+import AsyncBoundary from '/components/common/AsyncBoundary'
+import GeneralTemplate from '/components/GeneralTemplate'
+import SettingModal from '/components/setting/SettingModal'
+import { CoinHomeSkeleton } from '/components/skeletonPlaceholder/coinMarketHome'
 // import { IconSvg } from '/lib/svg';
 
 const HomeScreen = ({ navigation }: HomeScreenProps<'CoinMarketHome'>) => {
-  const settingModalRef = useRef<BottomSheetModal>(null);
-  const { theme } = useGlobalTheme();
+  const settingModalRef = useRef<BottomSheetModal>(null)
+  const { theme } = useGlobalTheme()
 
   const handleSettingPress = useCallback(() => {
-    settingModalRef.current?.present();
-  }, [settingModalRef]);
+    settingModalRef.current?.present()
+  }, [settingModalRef])
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -56,8 +56,8 @@ const HomeScreen = ({ navigation }: HomeScreenProps<'CoinMarketHome'>) => {
           />
         </Wrap>
       ),
-    });
-  }, [handleSettingPress, navigation, theme]);
+    })
+  }, [handleSettingPress, navigation, theme])
 
   return (
     <GeneralTemplate>
@@ -66,10 +66,10 @@ const HomeScreen = ({ navigation }: HomeScreenProps<'CoinMarketHome'>) => {
         <Layout />
       </AsyncBoundary>
     </GeneralTemplate>
-  );
-};
+  )
+}
 
-export default HomeScreen;
+export default HomeScreen
 
 const IconWrap = styled.TouchableOpacity`
   width: 26px;
@@ -78,8 +78,8 @@ const IconWrap = styled.TouchableOpacity`
   align-items: center;
   justify-content: center;
   border: 1px solid ${({ theme }) => theme.base.text[300]};
-`;
+`
 
 const Wrap = styled.View`
   flex-direction: row;
-`;
+`

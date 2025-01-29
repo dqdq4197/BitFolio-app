@@ -1,17 +1,17 @@
-import React, { CSSProperties } from 'react';
-import styled, { css } from 'styled-components/native';
+import React, { CSSProperties } from 'react'
+import styled, { css } from 'styled-components/native'
 
-import Text, { TextStyleProps } from '/components/common/Text';
+import Text, { TextStyleProps } from '/components/common/Text'
 
 interface TitleWrapProps extends TextStyleProps {
-  title?: string | React.ReactNode;
-  children?: React.ReactNode;
-  paddingBottomZero?: boolean;
-  parentPaddingZero?: boolean;
-  marginTopZero?: boolean;
-  marginBottomZero?: boolean;
-  transparent?: boolean;
-  flex?: CSSProperties['flex'];
+  title?: string | React.ReactNode
+  children?: React.ReactNode
+  paddingBottomZero?: boolean
+  parentPaddingZero?: boolean
+  marginTopZero?: boolean
+  marginBottomZero?: boolean
+  transparent?: boolean
+  flex?: CSSProperties['flex']
 }
 const SurfaceWrap = ({
   title,
@@ -48,10 +48,10 @@ const SurfaceWrap = ({
       )}
       {children}
     </Container>
-  );
-};
+  )
+}
 
-export default SurfaceWrap;
+export default SurfaceWrap
 
 type Props = Pick<
   TitleWrapProps,
@@ -61,7 +61,7 @@ type Props = Pick<
   | 'marginBottomZero'
   | 'transparent'
   | 'flex'
->;
+>
 
 const Container = styled.View<Props>`
   ${({ flex }) => flex && `flex: ${flex}`}
@@ -69,34 +69,34 @@ const Container = styled.View<Props>`
     transparent ? 'transparent' : theme.base.background.surface};
   padding: ${({ theme }) =>
     `${theme.content.surfacePadding} ${theme.content.spacing}`};
-  ${props =>
+  ${(props) =>
     props.parentPaddingZero &&
     css`
       padding-left: 0;
       padding-right: 0;
     `}
-  ${props =>
+  ${(props) =>
     props.paddingBottomZero &&
     css`
       padding-bottom: 0;
     `}
-  ${props =>
+  ${(props) =>
     !props.marginTopZero &&
     css`
       margin-top: ${props.theme.content.blankSpacing};
     `}
-`;
+`
 
 const TitleWrap = styled.View<Props>`
   flex-direction: row;
-  ${props =>
+  ${(props) =>
     !props.marginBottomZero &&
     css`
       margin-bottom: 20px;
     `}
-  ${props =>
+  ${(props) =>
     props.parentPaddingZero &&
     css`
       padding: 0 ${props.theme.content.spacing};
     `}
-`;
+`

@@ -1,6 +1,6 @@
-import MaskedView from '@react-native-masked-view/masked-view';
-import { LinearGradient } from 'expo-linear-gradient';
-import React, { useEffect, useMemo, useState } from 'react';
+import MaskedView from '@react-native-masked-view/masked-view'
+import { LinearGradient } from 'expo-linear-gradient'
+import React, { useEffect, useMemo, useState } from 'react'
 import {
   Animated,
   Dimensions,
@@ -9,23 +9,23 @@ import {
   StyleSheet,
   View,
   ViewStyle,
-} from 'react-native';
-import useGlobalTheme from '/hooks/useGlobalTheme';
+} from 'react-native'
+import useGlobalTheme from '/hooks/useGlobalTheme'
 
-const SCREEN_WIDTH = Dimensions.get('window').width;
+const SCREEN_WIDTH = Dimensions.get('window').width
 
 interface SkeletonPlaceholderProps {
-  children: JSX.Element | JSX.Element[];
+  children: JSX.Element | JSX.Element[]
   /**
    * Determines the animation speed in milliseconds. Use 0 to disable animation
    * @default 800
    */
-  speed?: number;
+  speed?: number
   /**
    * Determines the animation direction, left or right
    * @default right
    */
-  direction?: 'left' | 'right';
+  direction?: 'left' | 'right'
 }
 
 function SkeletonPlaceholder({
@@ -33,9 +33,9 @@ function SkeletonPlaceholder({
   speed = 800,
   direction = 'right',
 }: SkeletonPlaceholderProps): JSX.Element {
-  const { theme } = useGlobalTheme();
-  const [layout, setLayout] = useState<LayoutRectangle>();
-  const animatedValue = useMemo(() => new Animated.Value(0), []);
+  const { theme } = useGlobalTheme()
+  const [layout, setLayout] = useState<LayoutRectangle>()
+  const animatedValue = useMemo(() => new Animated.Value(0), [])
   const translateX = useMemo(
     () =>
       animatedValue.interpolate({
@@ -46,11 +46,11 @@ function SkeletonPlaceholder({
             : [SCREEN_WIDTH, -SCREEN_WIDTH],
       }),
     [animatedValue, direction]
-  );
+  )
   const [backgroundColor, highlightColor] = useMemo(
     () => [theme.base.background[200], theme.base.background[300]],
     [theme.base.background]
-  );
+  )
 
   useEffect(() => {
     if (speed > 0) {
@@ -61,27 +61,27 @@ function SkeletonPlaceholder({
           easing: Easing.ease,
           useNativeDriver: true,
         })
-      );
+      )
       if (layout?.width && layout?.height) {
-        loop.start();
+        loop.start()
       }
-      return () => loop.stop();
+      return () => loop.stop()
     }
 
-    return undefined;
-  }, [animatedValue, speed, layout?.width, layout?.height]);
+    return undefined
+  }, [animatedValue, speed, layout?.width, layout?.height])
 
   const absoluteTranslateStyle = useMemo(
     () => ({ ...StyleSheet.absoluteFillObject, transform: [{ translateX }] }),
     [translateX]
-  );
+  )
 
   if (!layout?.width || !layout?.height) {
     return (
-      <View onLayout={event => setLayout(event.nativeEvent.layout)}>
+      <View onLayout={(event) => setLayout(event.nativeEvent.layout)}>
         {children}
       </View>
-    );
+    )
   }
 
   return (
@@ -128,23 +128,23 @@ function SkeletonPlaceholder({
         </Animated.View>
       )}
     </MaskedView>
-  );
+  )
 }
 
 interface SkeletonPlaceholderItem extends ViewStyle {
-  children?: JSX.Element | JSX.Element[];
+  children?: JSX.Element | JSX.Element[]
 }
 
 SkeletonPlaceholder.Item = function SkeletonPlaceholderItem({
   children,
   ...style
 }: SkeletonPlaceholderItem): JSX.Element {
-  const { theme } = useGlobalTheme();
+  const { theme } = useGlobalTheme()
   const basicStyle: ViewStyle = children
     ? { backgroundColor: 'transparent', overflow: 'hidden' }
-    : { backgroundColor: theme.base.background[200] };
+    : { backgroundColor: theme.base.background[200] }
 
-  return <View style={[basicStyle, style]}>{children}</View>;
-};
+  return <View style={[basicStyle, style]}>{children}</View>
+}
 
-export default SkeletonPlaceholder;
+export default SkeletonPlaceholder

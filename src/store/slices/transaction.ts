@@ -1,38 +1,38 @@
-import 'react-native-get-random-values';
-import { createSlice, PayloadAction, nanoid } from '@reduxjs/toolkit';
+import 'react-native-get-random-values'
+import { createSlice, PayloadAction, nanoid } from '@reduxjs/toolkit'
 
 import {
   FormData,
   SubmitNumericData,
-} from '/components/portfolio/transactionModal/FormModal';
+} from '/components/portfolio/transactionModal/FormModal'
 
 type RemoveAllTransactionProps = {
-  portfolioId: string;
-  coinId: string;
-};
+  portfolioId: string
+  coinId: string
+}
 export interface TransactionType {
-  id: string;
-  portfolioId: string | null;
-  coinId: string;
-  symbol: string;
-  type: string;
-  date: number;
-  quantity: number;
-  pricePerCoin: { [key: string]: number };
-  fee: { [key: string]: number };
-  notes: string | null;
-  transferType: null | string;
-  createdAt: number;
-  updatedAt: number | null;
+  id: string
+  portfolioId: string | null
+  coinId: string
+  symbol: string
+  type: string
+  date: number
+  quantity: number
+  pricePerCoin: { [key: string]: number }
+  fee: { [key: string]: number }
+  notes: string | null
+  transferType: null | string
+  createdAt: number
+  updatedAt: number | null
 }
 
 interface InitialState {
-  transactions: TransactionType[] | [];
+  transactions: TransactionType[] | []
 }
 
 const initialState: InitialState = {
   transactions: [],
-};
+}
 
 export const transactionSlice = createSlice({
   name: 'transaction',
@@ -42,7 +42,7 @@ export const transactionSlice = createSlice({
       state,
       action: PayloadAction<{ formData: FormData<SubmitNumericData> }>
     ) => {
-      const { formData } = action.payload;
+      const { formData } = action.payload
 
       state.transactions = [
         ...state.transactions,
@@ -54,32 +54,32 @@ export const transactionSlice = createSlice({
           quantity: Number(formData.quantity),
           updatedAt: null,
         },
-      ];
+      ]
     },
     removeTransaction: (state, action: PayloadAction<{ id: string }>) => {
-      const { id } = action.payload;
+      const { id } = action.payload
 
       state.transactions = state.transactions.filter(
-        transaction => transaction.id !== id
-      );
+        (transaction) => transaction.id !== id
+      )
     },
     removeAllTransaction: (
       state,
       action: PayloadAction<RemoveAllTransactionProps>
     ) => {
-      const { coinId, portfolioId } = action.payload;
+      const { coinId, portfolioId } = action.payload
 
       state.transactions = state.transactions.filter(
-        transaction =>
+        (transaction) =>
           transaction.portfolioId !== portfolioId ||
           transaction.coinId !== coinId
-      );
+      )
     },
     editTransaction: (
       state,
       action: PayloadAction<{
-        transactionId: string;
-        formData: FormData<SubmitNumericData>;
+        transactionId: string
+        formData: FormData<SubmitNumericData>
       }>
     ) => {
       const {
@@ -93,11 +93,11 @@ export const transactionSlice = createSlice({
           pricePerCoin,
           date,
         },
-      } = action.payload;
+      } = action.payload
 
       const targetIndex = state.transactions.findIndex(
-        transaction => transaction.id === transactionId
-      );
+        (transaction) => transaction.id === transactionId
+      )
 
       state.transactions[targetIndex] = {
         ...state.transactions[targetIndex],
@@ -109,15 +109,15 @@ export const transactionSlice = createSlice({
         type,
         transferType,
         updatedAt: +new Date(),
-      };
+      }
     },
   },
-});
+})
 
 export const {
   addTransaction,
   removeTransaction,
   removeAllTransaction,
   editTransaction,
-} = transactionSlice.actions;
-export default transactionSlice.reducer;
+} = transactionSlice.actions
+export default transactionSlice.reducer

@@ -1,23 +1,23 @@
-import { useNavigation } from '@react-navigation/native';
-import { LinearGradient } from 'expo-linear-gradient';
-import React, { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from 'styled-components/native';
+import { useNavigation } from '@react-navigation/native'
+import { LinearGradient } from 'expo-linear-gradient'
+import React, { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
+import styled from 'styled-components/native'
 
-import useGlobalTheme from '/hooks/useGlobalTheme';
-import { CoinSvg } from '/lib/svg';
-import type { HomeParamList, HomeScreenProps } from '/types/navigation';
+import useGlobalTheme from '/hooks/useGlobalTheme'
+import { CoinSvg } from '/lib/svg'
+import type { HomeParamList, HomeScreenProps } from '/types/navigation'
 
-import SurfaceWrap from '/components/common/SurfaceWrap';
-import Text from '/components/common/Text';
+import SurfaceWrap from '/components/common/SurfaceWrap'
+import Text from '/components/common/Text'
 
-const ICON_SIZE = 50;
+const ICON_SIZE = 50
 
 const PopularList = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
   const navigation =
-    useNavigation<HomeScreenProps<'CoinMarketHome'>['navigation']>();
-  const { theme } = useGlobalTheme();
+    useNavigation<HomeScreenProps<'CoinMarketHome'>['navigation']>()
+  const { theme } = useGlobalTheme()
 
   const data = useMemo(
     () => [
@@ -51,13 +51,13 @@ const PopularList = () => {
       },
     ],
     [t]
-  );
+  )
 
   const handleCardPress = (
-    route: Extract<keyof HomeParamList, typeof data[number]['route']>
+    route: Extract<keyof HomeParamList, (typeof data)[number]['route']>
   ) => {
-    navigation.navigate(route);
-  };
+    navigation.navigate(route)
+  }
 
   return (
     <SurfaceWrap title={t('coinMarketHome.popular list')} parentPaddingZero>
@@ -71,7 +71,7 @@ const PopularList = () => {
           paddingHorizontal: parseInt(theme.content.spacing, 10),
         }}
       >
-        {data.map(res => {
+        {data.map((res) => {
           return (
             <LinearGradient
               key={res.route}
@@ -96,27 +96,27 @@ const PopularList = () => {
                 </Text>
               </Card>
             </LinearGradient>
-          );
+          )
         })}
       </Container>
     </SurfaceWrap>
-  );
-};
+  )
+}
 
-export default PopularList;
+export default PopularList
 
 const Container = styled.ScrollView`
   background-color: ${({ theme }) => theme.base.background.surface};
-`;
+`
 
 const Card = styled.TouchableOpacity`
   width: 100%;
   height: 100%;
   padding: 10px;
   justify-content: space-between;
-`;
+`
 
 const IconWrap = styled.View`
   width: 100%;
   align-items: flex-end;
-`;
+`

@@ -1,23 +1,23 @@
-import React, { useEffect, useRef } from 'react';
-import { Animated } from 'react-native';
-import { useDerivedValue } from 'react-native-reanimated';
-import { chartType } from 'base-types';
-import { ReText } from 'react-native-redash';
-import styled from 'styled-components/native';
+import React, { useEffect, useRef } from 'react'
+import { Animated } from 'react-native'
+import { useDerivedValue } from 'react-native-reanimated'
+import { chartType } from 'base-types'
+import { ReText } from 'react-native-redash'
+import styled from 'styled-components/native'
 
-import { useChartState } from '/hooks/context/useChartContext';
-import { digitToFixed } from '/lib/utils';
+import { useChartState } from '/hooks/context/useChartContext'
+import { digitToFixed } from '/lib/utils'
 import {
   AddSeparator,
   exponentToNumber,
   getOnlyDecimal,
   getCurrencySymbol,
-} from '/lib/utils/currencyFormat';
+} from '/lib/utils/currencyFormat'
 
-import Text from '/components/common/Text';
-import IncreaseDecreaseValue from '/components/common/IncreaseDecreaseValue';
+import Text from '/components/common/Text'
+import IncreaseDecreaseValue from '/components/common/IncreaseDecreaseValue'
 
-const DATE_HEIGHT = 20;
+const DATE_HEIGHT = 20
 
 const PriceAndDate = () => {
   const {
@@ -31,16 +31,16 @@ const PriceAndDate = () => {
     isLoading,
     changeStatus,
     activeTradingPair,
-  } = useChartState();
-  const translateY = useRef(new Animated.Value(-DATE_HEIGHT)).current;
-  const opacity = useRef(new Animated.Value(0)).current;
-  const datumYInteger = useDerivedValue(() => `${datumY.value[0]}.`);
-  const datumYDecimal = useDerivedValue(() => `${datumY.value[1]}`);
+  } = useChartState()
+  const translateY = useRef(new Animated.Value(-DATE_HEIGHT)).current
+  const opacity = useRef(new Animated.Value(0)).current
+  const datumYInteger = useDerivedValue(() => `${datumY.value[0]}.`)
+  const datumYDecimal = useDerivedValue(() => `${datumY.value[1]}`)
   const datumYChangePercentageWithSign = useDerivedValue(() => {
     return +datumYChangePercentage.value > 0
       ? `+${datumYChangePercentage.value}%`
-      : `${datumYChangePercentage.value}%`;
-  });
+      : `${datumYChangePercentage.value}%`
+  })
 
   useEffect(() => {
     if (isCursorActive) {
@@ -55,7 +55,7 @@ const PriceAndDate = () => {
           duration: 200,
           useNativeDriver: true,
         }),
-      ]).start();
+      ]).start()
     } else {
       Animated.parallel([
         Animated.timing(translateY, {
@@ -68,9 +68,9 @@ const PriceAndDate = () => {
           duration: 200,
           useNativeDriver: true,
         }),
-      ]).start();
+      ]).start()
     }
-  }, [isCursorActive, opacity, translateY]);
+  }, [isCursorActive, opacity, translateY])
 
   // const percentage = useMemo(() => {
   //   if (!data) return 0;
@@ -168,44 +168,44 @@ const PriceAndDate = () => {
         </PercentageWrap>
       </Row>
     </Container>
-  );
-};
+  )
+}
 
-export default PriceAndDate;
+export default PriceAndDate
 
 type PercentageTextProps = {
-  changeStatus: chartType.changeStatus;
-};
+  changeStatus: chartType.changeStatus
+}
 
 const Container = styled.View`
   padding: 0 ${({ theme }) => theme.content.spacing};
-`;
+`
 
 const Row = styled.View`
   flex-direction: row;
   justify-content: space-between;
   min-height: 25px;
-`;
+`
 
 const DatumXText = styled(ReText)`
   font-size: ${({ theme }) => theme.size.font_m};
   color: ${({ theme }) => theme.base.text[200]};
   font-weight: bold;
   margin-top: 5px;
-`;
+`
 
 const DatumYIntegerText = styled(ReText)`
   font-size: ${({ theme }) => theme.size.font_xl};
   font-weight: 700;
   color: ${({ theme }) => theme.base.text[100]};
   transform: translateY(3px);
-`;
+`
 
 const DatumYDecimalText = styled(ReText)`
   font-size: ${({ theme }) => theme.size.font_ml};
   font-weight: 700;
   color: ${({ theme }) => theme.base.text[100]};
-`;
+`
 
 const DatumYChangePercentageText = styled(ReText)<PercentageTextProps>`
   font-size: ${({ theme }) => theme.size.font_ml};
@@ -216,20 +216,20 @@ const DatumYChangePercentageText = styled(ReText)<PercentageTextProps>`
       : changeStatus === 'RISE'
       ? theme.base.upColor
       : theme.base.text[200]};
-`;
+`
 
 const PriceWrap = styled.View`
   flex-direction: row;
   align-items: flex-end;
-`;
+`
 
 const PercentageWrap = styled.View`
   padding: 5px 8px;
   border-radius: ${({ theme }) => theme.border.m};
   background-color: ${({ theme }) => theme.base.background[300]};
-`;
+`
 
 const AnimatedView = styled.View`
   overflow: hidden;
   height: ${DATE_HEIGHT}px;
-`;
+`

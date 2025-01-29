@@ -1,22 +1,22 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Animated } from 'react-native';
-import { useTranslation, Trans } from 'react-i18next';
-import { useNavigation } from '@react-navigation/native';
-import LottieView from 'lottie-react-native';
-import * as habtics from 'expo-haptics';
+import React, { useEffect, useRef, useState } from 'react'
+import { Animated } from 'react-native'
+import { useTranslation, Trans } from 'react-i18next'
+import { useNavigation } from '@react-navigation/native'
+import LottieView from 'lottie-react-native'
+import * as habtics from 'expo-haptics'
 
-import { useFeedBackAlertContext } from '/hooks/context/useFeedBackContext';
-import { useSendEmailVerification } from '/hooks/firebase';
-import { useAuthContext } from '/hooks/context/useAuthContext';
-import type { SettingScreenProps } from '/types/navigation';
+import { useFeedBackAlertContext } from '/hooks/context/useFeedBackContext'
+import { useSendEmailVerification } from '/hooks/firebase'
+import { useAuthContext } from '/hooks/context/useAuthContext'
+import type { SettingScreenProps } from '/types/navigation'
 
-import { Text, Stack } from '/components/common';
+import { Text, Stack } from '/components/common'
 
-const RESENT_DELAY = 60;
+const RESENT_DELAY = 60
 
 function timeToSeconds(timer: number) {
-  const seconds = timer < 10 ? `0${timer}` : timer;
-  return `00:${seconds}`;
+  const seconds = timer < 10 ? `0${timer}` : timer
+  return `00:${seconds}`
 }
 
 /**
@@ -27,18 +27,18 @@ function timeToSeconds(timer: number) {
  */
 
 const EmailVerification = () => {
-  const { t } = useTranslation();
-  const { currentUser } = useAuthContext();
-  const { openAlert } = useFeedBackAlertContext();
-  const animationRef = useRef<LottieView>(null);
-  const progress = useRef(new Animated.Value(0)).current;
-  const timer = useRef<NodeJS.Timer | null>(null);
-  const [time, setTime] = useState(RESENT_DELAY);
-  const [trigger, setTrigger] = useState(false);
+  const { t } = useTranslation()
+  const { currentUser } = useAuthContext()
+  const { openAlert } = useFeedBackAlertContext()
+  const animationRef = useRef<LottieView>(null)
+  const progress = useRef(new Animated.Value(0)).current
+  const timer = useRef<NodeJS.Timer | null>(null)
+  const [time, setTime] = useState(RESENT_DELAY)
+  const [trigger, setTrigger] = useState(false)
   const { errorMessage, sendEmailVerification, verified } =
-    useSendEmailVerification();
+    useSendEmailVerification()
   const navigation =
-    useNavigation<SettingScreenProps<'EmailVerification'>['navigation']>();
+    useNavigation<SettingScreenProps<'EmailVerification'>['navigation']>()
 
   useEffect(() => {
     if (verified) {
@@ -51,51 +51,51 @@ const EmailVerification = () => {
           message: '회원가입이 성공적으로 완료되었습니다.',
           severity: 'success',
           type: 'snackbar',
-        });
+        })
         navigation.navigate('Main', {
           screen: 'Home',
           params: { screen: 'CoinMarketHome' },
-        });
-      });
+        })
+      })
     }
-  }, [navigation, openAlert, progress, verified]);
+  }, [navigation, openAlert, progress, verified])
 
   useEffect(() => {
     if (animationRef.current) {
-      animationRef.current.play(0, 80);
+      animationRef.current.play(0, 80)
     }
-    sendEmailVerification();
-  }, [sendEmailVerification]);
+    sendEmailVerification()
+  }, [sendEmailVerification])
 
   useEffect(() => {
     if (errorMessage) {
-      openAlert({ message: errorMessage, type: 'snackbar', severity: 'error' });
+      openAlert({ message: errorMessage, type: 'snackbar', severity: 'error' })
     }
-  }, [errorMessage, openAlert]);
+  }, [errorMessage, openAlert])
 
   useEffect(() => {
-    setTime(prev => prev - 1);
+    setTime((prev) => prev - 1)
     timer.current = setInterval(() => {
-      setTime(prev => {
+      setTime((prev) => {
         if (prev === 1 && timer.current) {
-          clearInterval(timer.current);
-          return RESENT_DELAY;
+          clearInterval(timer.current)
+          return RESENT_DELAY
         }
-        return prev - 1;
-      });
-    }, 1000);
+        return prev - 1
+      })
+    }, 1000)
 
     // eslint-disable-next-line consistent-return
     return () => {
-      if (timer.current) return clearInterval(timer.current);
-    };
-  }, [trigger]);
+      if (timer.current) return clearInterval(timer.current)
+    }
+  }, [trigger])
 
   const onPressResendEmailText = async () => {
-    await sendEmailVerification();
-    habtics.impactAsync();
-    setTrigger(prev => !prev);
-  };
+    await sendEmailVerification()
+    habtics.impactAsync()
+    setTrigger((prev) => !prev)
+  }
 
   return (
     <Stack
@@ -143,7 +143,7 @@ const EmailVerification = () => {
         )}
       </Stack>
     </Stack>
-  );
-};
+  )
+}
 
-export default EmailVerification;
+export default EmailVerification

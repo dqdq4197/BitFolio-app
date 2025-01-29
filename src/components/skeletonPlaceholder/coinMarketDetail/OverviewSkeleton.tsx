@@ -1,15 +1,15 @@
-import React from 'react';
-import { Dimensions } from 'react-native';
+import React from 'react'
+import { Dimensions } from 'react-native'
 
-import useGlobalTheme from '/hooks/useGlobalTheme';
+import useGlobalTheme from '/hooks/useGlobalTheme'
 
-import SkeletonPlaceholder from '/components/skeletonPlaceholder';
+import SkeletonPlaceholder from '/components/skeletonPlaceholder'
 
-const { width } = Dimensions.get('window');
+const { width } = Dimensions.get('window')
 
 const OverviewSkeleton = () => {
-  const { theme } = useGlobalTheme();
-  const spacing = parseInt(theme.content.spacing, 10);
+  const { theme } = useGlobalTheme()
+  const spacing = parseInt(theme.content.spacing, 10)
 
   return (
     <SkeletonPlaceholder>
@@ -53,11 +53,11 @@ const OverviewSkeleton = () => {
         />
       </SkeletonPlaceholder.Item>
     </SkeletonPlaceholder>
-  );
-};
+  )
+}
 
 OverviewSkeleton.Tab = function OverviewChartTab() {
-  return <SkeletonPlaceholder.Item height={30} width={36.5} borderRadius={6} />;
-};
+  return <SkeletonPlaceholder.Item height={30} width={36.5} borderRadius={6} />
+}
 
-export default OverviewSkeleton;
+export default OverviewSkeleton

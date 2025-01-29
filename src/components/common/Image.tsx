@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import { Image, Dimensions } from 'react-native';
-import styled, { css } from 'styled-components/native';
+import React, { useState, useEffect } from 'react'
+import { Image, Dimensions } from 'react-native'
+import styled, { css } from 'styled-components/native'
 
-import GlobalIndicator from './GlobalIndicator';
+import GlobalIndicator from './GlobalIndicator'
 
-type BorderRadius = 'm' | 's';
+type BorderRadius = 'm' | 's'
 type ImageType = {
-  uri: string;
-  width: number;
-  height: number;
-  fullWidth?: boolean;
-  borderRedius?: BorderRadius;
-};
+  uri: string
+  width: number
+  height: number
+  fullWidth?: boolean
+  borderRedius?: BorderRadius
+}
 
-const { width: win } = Dimensions.get('window');
+const { width: win } = Dimensions.get('window')
 
 const CustomImage = ({
   uri,
@@ -22,21 +22,21 @@ const CustomImage = ({
   fullWidth = false,
   borderRedius,
 }: ImageType) => {
-  const [updatedWidth, setUpdatedWidth] = useState(width);
-  const [updatedHeight, setUpdatedHeight] = useState(height);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [updatedWidth, setUpdatedWidth] = useState(width)
+  const [updatedHeight, setUpdatedHeight] = useState(height)
+  const [isLoaded, setIsLoaded] = useState(false)
 
   useEffect(() => {
     if (fullWidth) {
-      const ratio = win / width;
-      setUpdatedWidth(win);
-      setUpdatedHeight(height * ratio);
+      const ratio = win / width
+      setUpdatedWidth(win)
+      setUpdatedHeight(height * ratio)
     }
-  }, [width, height, fullWidth]);
+  }, [width, height, fullWidth])
 
   const handleLoadEnd = () => {
-    setIsLoaded(true);
-  };
+    setIsLoaded(true)
+  }
 
   // cache -> ios 전용
   return (
@@ -59,16 +59,16 @@ const CustomImage = ({
       />
       <GlobalIndicator isLoaded={isLoaded} />
     </StyledImageWrap>
-  );
-};
+  )
+}
 
-export default CustomImage;
+export default CustomImage
 
 type WrapProps = {
-  borderRedius?: BorderRadius;
-  width: number;
-  height: number;
-};
+  borderRedius?: BorderRadius
+  width: number
+  height: number
+}
 
 const StyledImageWrap = styled.View<WrapProps>`
   ${({ width, height }) => css`
@@ -81,4 +81,4 @@ const StyledImageWrap = styled.View<WrapProps>`
       border-radius: ${theme.border[borderRedius]};
     `}
   overflow: hidden;
-`;
+`

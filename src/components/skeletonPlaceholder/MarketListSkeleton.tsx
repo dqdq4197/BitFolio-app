@@ -1,11 +1,11 @@
-import React from 'react';
-import { Dimensions } from 'react-native';
+import React from 'react'
+import { Dimensions } from 'react-native'
 
-import useGlobalTheme from '/hooks/useGlobalTheme';
+import useGlobalTheme from '/hooks/useGlobalTheme'
 
-import SkeletonPlaceholder from '.';
+import SkeletonPlaceholder from '.'
 
-const { width } = Dimensions.get('window');
+const { width } = Dimensions.get('window')
 
 const MarketListSkeleton = () => {
   return (
@@ -14,12 +14,12 @@ const MarketListSkeleton = () => {
       <Row />
       <Row />
     </SkeletonPlaceholder>
-  );
-};
+  )
+}
 
 const Row = () => {
-  const { theme } = useGlobalTheme();
-  const spacing = parseInt(theme.content.spacing, 10);
+  const { theme } = useGlobalTheme()
+  const spacing = parseInt(theme.content.spacing, 10)
 
   return (
     <SkeletonPlaceholder.Item flexDirection="row" alignItems="center">
@@ -37,7 +37,7 @@ const Row = () => {
         />
       </SkeletonPlaceholder.Item>
     </SkeletonPlaceholder.Item>
-  );
-};
+  )
+}
 
-export default MarketListSkeleton;
+export default MarketListSkeleton

@@ -1,7 +1,7 @@
-import { useScrollToTop } from '@react-navigation/native';
-import * as Haptics from 'expo-haptics';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useScrollToTop } from '@react-navigation/native'
+import * as Haptics from 'expo-haptics'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   ActivityIndicator,
   Animated,
@@ -9,47 +9,47 @@ import {
   LayoutAnimation,
   Platform,
   UIManager,
-} from 'react-native';
-import styled from 'styled-components/native';
+} from 'react-native'
+import styled from 'styled-components/native'
 
-import useNewsArticles from '/hooks/data/useNewsArticles';
-import useAnimatedHeaderTitle from '/hooks/useAnimatedHeaderTitle';
-import useGlobalTheme from '/hooks/useGlobalTheme';
-import { useAppDispatch, useAppSelector } from '/hooks/useRedux';
+import useNewsArticles from '/hooks/data/useNewsArticles'
+import useAnimatedHeaderTitle from '/hooks/useAnimatedHeaderTitle'
+import useGlobalTheme from '/hooks/useGlobalTheme'
+import { useAppDispatch, useAppSelector } from '/hooks/useRedux'
 import {
   changeSortOrder,
   NewsStateType,
   SortOrderType,
-} from '/store/slices/news';
-import type { NewsData } from '/types/CryptoCompareReturnType';
+} from '/store/slices/news'
+import type { NewsData } from '/types/CryptoCompareReturnType'
 
-import FiltersBar from './FiltersBar';
-import Item from './Item';
-import CustomRefreshControl from '/components/common/CustomRefreshControl';
-import SurfaceTopView from '/components/common/SurfaceTopView';
-import Text from '/components/common/Text';
-import { NewsArticleListSkeleton } from '/components/skeletonPlaceholder/news';
+import FiltersBar from './FiltersBar'
+import Item from './Item'
+import CustomRefreshControl from '/components/common/CustomRefreshControl'
+import SurfaceTopView from '/components/common/SurfaceTopView'
+import Text from '/components/common/Text'
+import { NewsArticleListSkeleton } from '/components/skeletonPlaceholder/news'
 
 if (Platform.OS === 'android') {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
-    UIManager.setLayoutAnimationEnabledExperimental(true);
+    UIManager.setLayoutAnimationEnabledExperimental(true)
   }
 }
 
 interface TitleProps extends Pick<NewsStateType, 'sortOrder'> {
-  scrollY: Animated.Value;
-  onResetLTs: () => void;
+  scrollY: Animated.Value
+  onResetLTs: () => void
 }
 
 const Title = ({ sortOrder, scrollY, onResetLTs }: TitleProps) => {
-  const { t } = useTranslation();
-  const dispatch = useAppDispatch();
+  const { t } = useTranslation()
+  const dispatch = useAppDispatch()
 
   const handleSortOrderChange = (order: SortOrderType) => {
-    Haptics.impactAsync();
-    onResetLTs();
-    dispatch(changeSortOrder(order));
-  };
+    Haptics.impactAsync()
+    onResetLTs()
+    dispatch(changeSortOrder(order))
+  }
 
   return (
     <TitleWrap
@@ -77,31 +77,31 @@ const Title = ({ sortOrder, scrollY, onResetLTs }: TitleProps) => {
         </Text>
       </TitleTextWrap>
     </TitleWrap>
-  );
-};
+  )
+}
 
 const Overview = () => {
-  const { t } = useTranslation();
-  const { theme } = useGlobalTheme();
-  const flatListRef = useRef<FlatList>(null);
+  const { t } = useTranslation()
+  const { theme } = useGlobalTheme()
+  const flatListRef = useRef<FlatList>(null)
   const { categories, feeds, sortOrder } = useAppSelector(
     (state) => state.newsReducer
-  );
+  )
   const { scrollY } = useAnimatedHeaderTitle({
     title: `${t(`news.${sortOrder}`)} ${t(`common.news`)}`,
     triggerPoint: 60,
-  });
-  const [newsData, setNewsData] = useState<NewsData[] | null>(null);
-  const [refreshing, setRefreshing] = useState(false);
-  const [lTs, setLTs] = useState<number | undefined>(undefined);
+  })
+  const [newsData, setNewsData] = useState<NewsData[] | null>(null)
+  const [refreshing, setRefreshing] = useState(false)
+  const [lTs, setLTs] = useState<number | undefined>(undefined)
   const { data, mutate, isValidating } = useNewsArticles({
     lTs,
     categories,
     sortOrder,
     feeds,
     suspense: false,
-  });
-  useScrollToTop(flatListRef);
+  })
+  useScrollToTop(flatListRef)
 
   useEffect(() => {
     if (data) {
@@ -111,50 +111,50 @@ const Overview = () => {
           LayoutAnimation.Types.easeIn,
           LayoutAnimation.Properties.opacity
         )
-      );
+      )
 
       if (lTs === undefined || !newsData) {
-        setNewsData(data[0].Data);
+        setNewsData(data[0].Data)
       } else {
         // infinite loading ...
         if (
           newsData.slice(-1)[0].published_on ===
           data[0].Data.slice(-1)[0].published_on
         )
-          return;
+          return
 
         setNewsData((prevState) =>
           prevState ? [...prevState, ...data[0].Data] : null
-        );
+        )
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data, lTs]);
+  }, [data, lTs])
 
   const handleScroll = Animated.event(
     [{ nativeEvent: { contentOffset: { y: scrollY } } }],
     { useNativeDriver: false }
-  );
+  )
 
   const handleRefresh = useCallback(async () => {
-    setRefreshing(true);
+    setRefreshing(true)
     if (lTs === undefined) {
-      await mutate();
+      await mutate()
     } else {
-      setLTs(undefined);
+      setLTs(undefined)
     }
-    setRefreshing(false);
-  }, [lTs, mutate]);
+    setRefreshing(false)
+  }, [lTs, mutate])
 
   const handleEndReached = () => {
-    if (!newsData || sortOrder === 'popular') return;
+    if (!newsData || sortOrder === 'popular') return
 
-    setLTs(newsData.slice(-1)[0].published_on);
-  };
+    setLTs(newsData.slice(-1)[0].published_on)
+  }
 
   const onResetLTs = () => {
-    setLTs(undefined);
-  };
+    setLTs(undefined)
+  }
 
   return (
     <>
@@ -186,28 +186,26 @@ const Overview = () => {
         }
         ListEmptyComponent={<NewsArticleListSkeleton />}
         renderItem={({ item }) => {
-          return (
-            <Item key={item.id} item={item} currentCategory={categories} />
-          );
+          return <Item key={item.id} item={item} currentCategory={categories} />
         }}
         onEndReached={handleEndReached}
         onEndReachedThreshold={0.5}
       />
     </>
-  );
-};
+  )
+}
 
-export default Overview;
+export default Overview
 
 const TitleWrap = styled.View`
   padding: ${({ theme }) => `0 ${theme.content.spacing}`};
   background-color: ${({ theme }) => theme.base.background.surface};
-`;
+`
 
 const TitleTextWrap = styled.View`
   flex-direction: row;
   align-items: flex-end;
-`;
+`
 
 const IndicatorWrap = styled.View`
   position: absolute;
@@ -221,4 +219,4 @@ const IndicatorWrap = styled.View`
   align-items: center;
   justify-content: center;
   border-radius: ${({ theme }) => theme.border.l};
-`;
+`

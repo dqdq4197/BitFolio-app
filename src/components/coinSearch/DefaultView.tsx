@@ -1,35 +1,32 @@
-import React from 'react';
-import { Dimensions } from 'react-native';
-import styled from 'styled-components/native';
-import { useTranslation } from 'react-i18next';
+import React from 'react'
+import { Dimensions } from 'react-native'
+import styled from 'styled-components/native'
+import { useTranslation } from 'react-i18next'
 
-import useGlobalTheme from '/hooks/useGlobalTheme';
-import type {
-  SearchTrandingCoin,
-  SearchCoin,
-} from '/types/coinGeckoReturnType';
+import useGlobalTheme from '/hooks/useGlobalTheme'
+import type { SearchTrandingCoin, SearchCoin } from '/types/coinGeckoReturnType'
 
-import SurfaceWrap from '/components/common/SurfaceWrap';
-import Image from '/components/common/Image';
-import Text from '/components/common/Text';
-import GlobalIndicator from '/components/common/GlobalIndicator';
-import Item from './Item';
+import SurfaceWrap from '/components/common/SurfaceWrap'
+import Image from '/components/common/Image'
+import Text from '/components/common/Text'
+import GlobalIndicator from '/components/common/GlobalIndicator'
+import Item from './Item'
 
-const { width } = Dimensions.get('window');
+const { width } = Dimensions.get('window')
 
 type DefaultViewProps = {
-  data?: SearchTrandingCoin[];
-  searchesData: SearchCoin[];
-  onPressItem: (id: string, symbol: string) => void;
-};
+  data?: SearchTrandingCoin[]
+  searchesData: SearchCoin[]
+  onPressItem: (id: string, symbol: string) => void
+}
 
 type SearchesItemProps = {
-  item: SearchCoin;
-  onPressItem: (id: string, symbol: string) => void;
-};
+  item: SearchCoin
+  onPressItem: (id: string, symbol: string) => void
+}
 
 const SearchesEmptyView = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   return (
     <SearchesEmptyContainer>
@@ -37,8 +34,8 @@ const SearchesEmptyView = () => {
         {t(`search.there are no recent searches`)}
       </Text>
     </SearchesEmptyContainer>
-  );
-};
+  )
+}
 
 const SearchesItem = ({ item, onPressItem }: SearchesItemProps) => {
   return (
@@ -67,12 +64,12 @@ const SearchesItem = ({ item, onPressItem }: SearchesItemProps) => {
         {item.symbol}
       </Text>
     </SearchesItemContainer>
-  );
-};
+  )
+}
 
 const DefaultView = ({ data, searchesData, onPressItem }: DefaultViewProps) => {
-  const { t } = useTranslation();
-  const { theme } = useGlobalTheme();
+  const { t } = useTranslation()
+  const { theme } = useGlobalTheme()
 
   return (
     <Container>
@@ -92,7 +89,7 @@ const DefaultView = ({ data, searchesData, onPressItem }: DefaultViewProps) => {
             }}
           >
             {data ? (
-              searchesData.map(coin => (
+              searchesData.map((coin) => (
                 <SearchesItem
                   key={coin.id + coin.name}
                   item={coin}
@@ -109,7 +106,7 @@ const DefaultView = ({ data, searchesData, onPressItem }: DefaultViewProps) => {
       </SurfaceWrap>
       <SurfaceWrap title={t('search.trending search')} parentPaddingZero>
         {data?.map((coin, index) => {
-          const { item } = coin;
+          const { item } = coin
 
           return (
             <Item
@@ -118,27 +115,27 @@ const DefaultView = ({ data, searchesData, onPressItem }: DefaultViewProps) => {
               item={item}
               onPressItem={() => onPressItem(item.id, item.symbol)}
             />
-          );
+          )
         })}
       </SurfaceWrap>
     </Container>
-  );
-};
+  )
+}
 
-export default DefaultView;
+export default DefaultView
 
 const Container = styled.View`
   width: 100%;
   background-color: ${({ theme }) => theme.base.background[100]};
-`;
+`
 
-const SearchesScrollView = styled.ScrollView``;
+const SearchesScrollView = styled.ScrollView``
 
 const SearchesEmptyContainer = styled.View`
   height: 50px;
   align-items: center;
   justify-content: center;
-`;
+`
 
 const SearchesLoadingView = styled.View`
   width: ${({ theme }) => width - parseInt(theme.content.spacing, 10) * 2}px;
@@ -146,7 +143,7 @@ const SearchesLoadingView = styled.View`
   align-items: center;
   justify-content: center;
   background-color: transparent;
-`;
+`
 
 const SearchesItemContainer = styled.TouchableOpacity`
   width: 120px;
@@ -157,4 +154,4 @@ const SearchesItemContainer = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
   padding: 0 10px;
-`;
+`

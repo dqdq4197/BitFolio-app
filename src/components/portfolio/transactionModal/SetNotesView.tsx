@@ -1,20 +1,20 @@
-import React, { useEffect, useRef } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Dimensions, Keyboard, TextInput } from 'react-native';
-import styled from 'styled-components/native';
+import React, { useEffect, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
+import { Dimensions, Keyboard, TextInput } from 'react-native'
+import styled from 'styled-components/native'
 
-import useGlobalTheme from '/hooks/useGlobalTheme';
+import useGlobalTheme from '/hooks/useGlobalTheme'
 
-import Text from '/components/common/Text';
+import Text from '/components/common/Text'
 
-const { width } = Dimensions.get('window');
+const { width } = Dimensions.get('window')
 type NotesViewProps = {
-  height: number;
-  isFocused: boolean;
-  notes: string | null;
-  setNotes: (text: string) => void;
-  notesMaxLength: number;
-};
+  height: number
+  isFocused: boolean
+  notes: string | null
+  setNotes: (text: string) => void
+  notesMaxLength: number
+}
 
 const SetNotesView = ({
   height,
@@ -23,17 +23,17 @@ const SetNotesView = ({
   setNotes,
   notesMaxLength,
 }: NotesViewProps) => {
-  const { t } = useTranslation();
-  const textInputRef = useRef<TextInput>(null);
-  const { scheme } = useGlobalTheme();
+  const { t } = useTranslation()
+  const textInputRef = useRef<TextInput>(null)
+  const { scheme } = useGlobalTheme()
 
   useEffect(() => {
     if (isFocused) {
-      textInputRef.current?.focus();
+      textInputRef.current?.focus()
     } else {
-      Keyboard.dismiss();
+      Keyboard.dismiss()
     }
-  }, [isFocused]);
+  }, [isFocused])
 
   return (
     <Container height={height}>
@@ -41,7 +41,7 @@ const SetNotesView = ({
         <Text bold>{t('common.notes')}</Text>
         <NotePad
           ref={textInputRef}
-          onChangeText={text => setNotes(text)}
+          onChangeText={(text) => setNotes(text)}
           keyboardAppearance={scheme === 'dark' ? 'dark' : 'light'}
           multiline
           value={notes || ''}
@@ -53,20 +53,20 @@ const SetNotesView = ({
         </TextLengthWrap>
       </NotePadWrap>
     </Container>
-  );
-};
+  )
+}
 
-export default SetNotesView;
+export default SetNotesView
 
 type ContainerType = {
-  height: number;
-};
+  height: number
+}
 
 const Container = styled.View<ContainerType>`
   width: ${width}px;
   height: ${({ height }) => height}px;
   padding: 16px ${({ theme }) => theme.content.spacing};
-`;
+`
 
 const NotePadWrap = styled.View`
   width: 100%;
@@ -75,7 +75,7 @@ const NotePadWrap = styled.View`
   padding: 10px 20px;
   background-color: ${({ theme }) => theme.base.background[400]};
   border-radius: ${({ theme }) => theme.border.m};
-`;
+`
 
 const NotePad = styled.TextInput`
   min-height: 120px;
@@ -83,8 +83,8 @@ const NotePad = styled.TextInput`
   color: ${({ theme }) => theme.base.text[100]};
   font-size: ${({ theme }) => theme.size.font_ml};
   margin: 5px 0;
-`;
+`
 
 const TextLengthWrap = styled.View`
   align-items: flex-end;
-`;
+`

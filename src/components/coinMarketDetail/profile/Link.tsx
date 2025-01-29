@@ -1,52 +1,52 @@
 /* eslint-disable react/no-unused-prop-types */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable default-case */
-import React, { useCallback } from 'react';
-import styled from 'styled-components/native';
-import { useTranslation } from 'react-i18next';
-import * as WebBrowser from 'expo-web-browser';
+import React, { useCallback } from 'react'
+import styled from 'styled-components/native'
+import { useTranslation } from 'react-i18next'
+import * as WebBrowser from 'expo-web-browser'
 import {
   MaterialIcons,
   Entypo,
   MaterialCommunityIcons,
   Feather,
-} from '@expo/vector-icons';
+} from '@expo/vector-icons'
 
-import useGlobalTheme from '/hooks/useGlobalTheme';
+import useGlobalTheme from '/hooks/useGlobalTheme'
 
-import SurfaceWrap from '/components/common/SurfaceWrap';
-import Text from '/components/common/Text';
-import HorizontalLine from '/components/common/HorizontalLine';
+import SurfaceWrap from '/components/common/SurfaceWrap'
+import Text from '/components/common/Text'
+import HorizontalLine from '/components/common/HorizontalLine'
 
-const TWITTER_PREFIX = 'https://twitter.com/';
-const FACEBOOK_PREFIX = 'https://www.facebook.com/';
+const TWITTER_PREFIX = 'https://twitter.com/'
+const FACEBOOK_PREFIX = 'https://www.facebook.com/'
 
 type RowComponentProps = {
-  url: string;
-  title: string;
-  icon: React.ReactNode;
-  color: string;
-};
+  url: string
+  title: string
+  icon: React.ReactNode
+  color: string
+}
 
 type LinkProps = {
-  websites: string[];
-  explorers: string[];
-  officialForums: string[];
-  reddit: string;
-  githubs: string[];
-  twitterScreenName: string;
-  facebookUsername: string;
-};
+  websites: string[]
+  explorers: string[]
+  officialForums: string[]
+  reddit: string
+  githubs: string[]
+  twitterScreenName: string
+  facebookUsername: string
+}
 
 const RowComponent = ({ url, title, icon, color }: RowComponentProps) => {
-  const { theme } = useGlobalTheme();
+  const { theme } = useGlobalTheme()
   return (
     <Row
       onPress={() => {
         WebBrowser.openBrowserAsync(url, {
           toolbarColor: theme.base.background.surface,
           enableBarCollapsing: true,
-        });
+        })
       }}
       underlayColor={theme.base.background[300]}
     >
@@ -60,17 +60,17 @@ const RowComponent = ({ url, title, icon, color }: RowComponentProps) => {
         <MaterialIcons name="arrow-forward-ios" size={20} color={color} />
       </>
     </Row>
-  );
-};
+  )
+}
 
 const Link = (props: LinkProps) => {
   // telegram, explorers 추가 하기
-  const { t } = useTranslation();
-  const { theme } = useGlobalTheme();
-  const color = theme.base.text[200];
+  const { t } = useTranslation()
+  const { theme } = useGlobalTheme()
+  const color = theme.base.text[200]
 
   const renderLink = useCallback(() => {
-    const rows = [];
+    const rows = []
     for (const [key, value] of Object.entries(props)) {
       switch (key) {
         case 'websites':
@@ -81,16 +81,16 @@ const Link = (props: LinkProps) => {
               icon: (
                 <MaterialCommunityIcons name="web" size={20} color={color} />
               ),
-            });
-          break;
+            })
+          break
         case 'githubs':
           if (value[0])
             rows.push({
               url: value[0],
               title: t('coinDetail.Source code'),
               icon: <Entypo name="code" size={20} color={color} />,
-            });
-          break;
+            })
+          break
         case 'officialForums':
           if (value[0])
             rows.push({
@@ -99,16 +99,16 @@ const Link = (props: LinkProps) => {
               icon: (
                 <MaterialCommunityIcons name="forum" size={20} color={color} />
               ),
-            });
-          break;
+            })
+          break
         case 'facebookUsername':
           if (value)
             rows.push({
               url: `${FACEBOOK_PREFIX}${value}`,
               title: t('coinDetail.Facebook'),
               icon: <MaterialIcons name="facebook" size={20} color={color} />,
-            });
-          break;
+            })
+          break
         case 'twitterScreenName':
           if (value)
             rows.push({
@@ -121,8 +121,8 @@ const Link = (props: LinkProps) => {
                   color={color}
                 />
               ),
-            });
-          break;
+            })
+          break
         case 'reddit':
           if (value)
             rows.push({
@@ -131,13 +131,13 @@ const Link = (props: LinkProps) => {
               icon: (
                 <MaterialCommunityIcons name="reddit" size={20} color={color} />
               ),
-            });
-          break;
+            })
+          break
       }
     }
 
-    return rows;
-  }, [color, props, t]);
+    return rows
+  }, [color, props, t])
 
   return (
     <SurfaceWrap
@@ -156,7 +156,7 @@ const Link = (props: LinkProps) => {
       parentPaddingZero
     >
       <HorizontalLine fullWidth />
-      {renderLink().map(row => (
+      {renderLink().map((row) => (
         <RowWrap key={row.title}>
           <RowComponent
             url={row.url}
@@ -168,12 +168,12 @@ const Link = (props: LinkProps) => {
         </RowWrap>
       ))}
     </SurfaceWrap>
-  );
-};
+  )
+}
 
-export default Link;
+export default Link
 
-const RowWrap = styled.View``;
+const RowWrap = styled.View``
 
 const Row = styled.TouchableHighlight`
   height: 55px;
@@ -181,8 +181,8 @@ const Row = styled.TouchableHighlight`
   justify-content: space-between;
   align-items: center;
   padding: 0 ${({ theme }) => theme.content.spacing};
-`;
+`
 
 const TitleWrap = styled.View`
   flex-direction: row;
-`;
+`

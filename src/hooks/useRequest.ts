@@ -3,24 +3,24 @@ import {
   AxiosInstance,
   AxiosRequestConfig,
   AxiosResponse,
-} from 'axios';
-import useSWR, { SWRConfiguration, SWRResponse } from 'swr';
+} from 'axios'
+import useSWR, { SWRConfiguration, SWRResponse } from 'swr'
 
 export type ExtendErrorType = {
-  status?: number;
-  info?: string;
-  message?: string;
-};
-export type RequestType = AxiosRequestConfig | null;
+  status?: number
+  info?: string
+  message?: string
+}
+export type RequestType = AxiosRequestConfig | null
 
 export interface Return<Data, Error>
   extends Pick<
     SWRResponse<AxiosResponse<Data>, AxiosError<Error> & ExtendErrorType>,
     'isValidating' | 'error' | 'mutate'
   > {
-  data: Data | undefined;
-  response: AxiosResponse<Data> | undefined;
-  isLoading: boolean;
+  data: Data | undefined
+  response: AxiosResponse<Data> | undefined
+  isLoading: boolean
 }
 
 export interface Config<Data = unknown, Error = unknown>
@@ -28,7 +28,7 @@ export interface Config<Data = unknown, Error = unknown>
     SWRConfiguration<AxiosResponse<Data>, AxiosError<Error>>,
     'fallbackData'
   > {
-  fallbackData?: Data;
+  fallbackData?: Data
 }
 
 export default function useRequest<Data = unknown, Error = unknown>(
@@ -44,32 +44,32 @@ export default function useRequest<Data = unknown, Error = unknown>(
   } = useSWR<AxiosResponse<Data>, AxiosError<Error> & ExtendErrorType>(
     request && JSON.stringify(request),
     () =>
-      axios(request!).catch(e => {
+      axios(request!).catch((e) => {
         const error = new Error(
           `!!Error => url: ${request?.url} fetching the data`
-        ) as any;
+        ) as any
         if (e.response) {
-          error.status = e.response.status;
-          error.info = e.response.data;
+          error.status = e.response.status
+          error.info = e.response.data
         } else if (e.request) {
           // 요청이 이루어 졌으나 응답을 받지 못했습니다.
           // `error.request`는 브라우저의 XMLHttpRequest 인스턴스 또는
           // Node.js의 http.ClientRequest 인스턴스입니다.
-          console.log(e.request);
+          console.log(e.request)
         } else {
           // 오류를 발생시킨 요청을 설정하는 중에 문제가 발생했습니다.
-          error.message = e.response.message;
+          error.message = e.response.message
         }
-        throw error;
+        throw error
       }),
     {
       ...config,
       onErrorRetry: (error, _, __, revalidate, { retryCount }) => {
-        if (error.status === 404) return;
+        if (error.status === 404) return
 
-        if (retryCount > 3) return;
+        if (retryCount > 3) return
 
-        setTimeout(() => revalidate({ retryCount }), 5000);
+        setTimeout(() => revalidate({ retryCount }), 5000)
       },
       fallbackData: fallbackData && {
         status: 200,
@@ -79,7 +79,7 @@ export default function useRequest<Data = unknown, Error = unknown>(
         data: fallbackData,
       },
     }
-  );
+  )
 
   return {
     data: response && response.data,
@@ -88,5 +88,5 @@ export default function useRequest<Data = unknown, Error = unknown>(
     isValidating,
     mutate,
     isLoading: !response?.data && !error,
-  };
+  }
 }

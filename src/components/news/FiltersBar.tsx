@@ -1,61 +1,61 @@
-import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
-import React, { useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from 'styled-components/native';
+import { FontAwesome, MaterialIcons } from '@expo/vector-icons'
+import React, { useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import styled from 'styled-components/native'
 
-import useGlobalTheme from '/hooks/useGlobalTheme';
-import { shallowEqual, useAppDispatch, useAppSelector } from '/hooks/useRedux';
-import useRequest from '/hooks/useRequest';
-import { Cryptocompare, http } from '/lib/api/CryptocompareClient';
+import useGlobalTheme from '/hooks/useGlobalTheme'
+import { shallowEqual, useAppDispatch, useAppSelector } from '/hooks/useRedux'
+import useRequest from '/hooks/useRequest'
+import { Cryptocompare, http } from '/lib/api/CryptocompareClient'
 import {
   ALL_NEWS_CATEGORIES,
   ALL_NEWS_FEEDS,
   resetFilters,
-} from '/store/slices/news';
-import type { FeedAndCategoryReturn } from '/types/CryptoCompareReturnType';
+} from '/store/slices/news'
+import type { FeedAndCategoryReturn } from '/types/CryptoCompareReturnType'
 
-import CategoryFilterModal from './CategoryFilterModal';
-import FeedFilterModal from './FeedFilterModal';
-import Text from '/components/common/Text';
-import { FiltersBarSkeleton } from '/components/skeletonPlaceholder/news';
+import CategoryFilterModal from './CategoryFilterModal'
+import FeedFilterModal from './FeedFilterModal'
+import Text from '/components/common/Text'
+import { FiltersBarSkeleton } from '/components/skeletonPlaceholder/news'
 
 const FiltersBar = () => {
-  const { theme } = useGlobalTheme();
-  const { t } = useTranslation();
-  const dispatch = useAppDispatch();
+  const { theme } = useGlobalTheme()
+  const { t } = useTranslation()
+  const dispatch = useAppDispatch()
   const { feeds, categories } = useAppSelector(
     (state) => ({
       feeds: state.newsReducer.feeds,
       categories: state.newsReducer.categories,
     }),
     shallowEqual
-  );
-  const [feedsVisible, setFeedsVisible] = useState(false);
-  const [categoriesVisible, setCategoriesVisible] = useState(false);
+  )
+  const [feedsVisible, setFeedsVisible] = useState(false)
+  const [categoriesVisible, setCategoriesVisible] = useState(false)
   const { data } = useRequest<FeedAndCategoryReturn>(
     Cryptocompare.news.feedAndCategories({}),
     http
-  );
+  )
 
   const activeReset = useMemo(() => {
-    return feeds !== ALL_NEWS_FEEDS || categories !== ALL_NEWS_CATEGORIES;
-  }, [feeds, categories]);
+    return feeds !== ALL_NEWS_FEEDS || categories !== ALL_NEWS_CATEGORIES
+  }, [feeds, categories])
 
   const handleResetPress = () => {
-    if (!activeReset) return;
+    if (!activeReset) return
 
-    dispatch(resetFilters());
-  };
+    dispatch(resetFilters())
+  }
 
   const handleFeedsPress = () => {
-    setFeedsVisible(true);
-  };
+    setFeedsVisible(true)
+  }
 
   const handleCategoriesPress = () => {
-    setCategoriesVisible(true);
-  };
+    setCategoriesVisible(true)
+  }
 
-  if (!data) return <FiltersBarSkeleton />;
+  if (!data) return <FiltersBarSkeleton />
 
   return (
     <Container horizontal>
@@ -96,25 +96,25 @@ const FiltersBar = () => {
         />
       )}
     </Container>
-  );
-};
+  )
+}
 
-export default FiltersBar;
+export default FiltersBar
 
 type TextProps = {
-  isActive: boolean;
-};
+  isActive: boolean
+}
 
 const Container = styled.ScrollView`
   height: 45px;
   background-color: ${({ theme }) => theme.base.background.surface};
   padding: 5px ${({ theme }) => theme.content.spacing} 10px;
-`;
+`
 
 const CustomText = styled(Text)<TextProps>`
   color: ${({ theme, isActive }) =>
     isActive ? theme.base.removeColor : theme.base.text[300]};
-`;
+`
 
 const Button = styled.TouchableOpacity`
   flex-direction: row;
@@ -125,4 +125,4 @@ const Button = styled.TouchableOpacity`
   border-radius: ${({ theme }) => theme.border.m};
   padding: 2px 6px;
   margin-right: 10px;
-`;
+`

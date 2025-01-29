@@ -4,32 +4,32 @@ import React, {
   CSSProperties,
   forwardRef,
   PropsWithChildren,
-} from 'react';
-import { View, ViewProps } from 'react-native';
-import styled from 'styled-components/native';
+} from 'react'
+import { View, ViewProps } from 'react-native'
+import styled from 'styled-components/native'
 
 interface StackProps extends ViewProps {
-  direction?: CSSProperties['flexDirection'];
-  divider?: React.ReactElement;
-  alignItems?: CSSProperties['alignItems'];
-  justifyContent?: CSSProperties['justifyContent'];
-  spacing?: number;
-  bgColor?: CSSProperties['backgroundColor'] | 'surface';
-  width?: CSSProperties['width'];
-  height?: CSSProperties['height'];
-  flex?: CSSProperties['flex'];
-  mx?: number;
-  my?: number;
-  mt?: number;
-  mb?: number;
-  mr?: number;
-  ml?: number;
-  px?: number | 'content';
-  py?: number;
-  pt?: number;
-  pb?: number;
-  pr?: number;
-  pl?: number;
+  direction?: CSSProperties['flexDirection']
+  divider?: React.ReactElement
+  alignItems?: CSSProperties['alignItems']
+  justifyContent?: CSSProperties['justifyContent']
+  spacing?: number
+  bgColor?: CSSProperties['backgroundColor'] | 'surface'
+  width?: CSSProperties['width']
+  height?: CSSProperties['height']
+  flex?: CSSProperties['flex']
+  mx?: number
+  my?: number
+  mt?: number
+  mb?: number
+  mr?: number
+  ml?: number
+  px?: number | 'content'
+  py?: number
+  pt?: number
+  pb?: number
+  pr?: number
+  pl?: number
 }
 
 /**
@@ -42,20 +42,20 @@ function joinChildren(
 ) {
   const childrenArray = Children.toArray(children).filter(
     Boolean
-  ) as React.ReactNode[];
+  ) as React.ReactNode[]
 
   return childrenArray.reduce((output, child, index) => {
-    (output as React.ReactNode[]).push(child);
+    ;(output as React.ReactNode[]).push(child)
 
     if (index < childrenArray.length - 1) {
-      (output as React.ReactNode[]).push(
+      ;(output as React.ReactNode[]).push(
         cloneElement(separator, {
           key: `separator-${index}`,
         })
-      );
+      )
     }
-    return output;
-  }, []);
+    return output
+  }, [])
 }
 
 function conditionalStyling(
@@ -63,8 +63,8 @@ function conditionalStyling(
   value?: string | number,
   prefix?: 'px'
 ) {
-  if (value === undefined) return ``;
-  return `${key}: ${value}${prefix || ''}`;
+  if (value === undefined) return ``
+  return `${key}: ${value}${prefix || ''}`
 }
 
 const Stack = forwardRef<View, PropsWithChildren<StackProps>>((props, ref) => {
@@ -92,7 +92,7 @@ const Stack = forwardRef<View, PropsWithChildren<StackProps>>((props, ref) => {
     pl,
     children,
     ...rest
-  } = props;
+  } = props
   const styles = {
     direction,
     alignItems,
@@ -114,15 +114,15 @@ const Stack = forwardRef<View, PropsWithChildren<StackProps>>((props, ref) => {
     pb,
     pr,
     pl,
-  };
+  }
   return (
     <Container ref={ref} {...styles} {...rest}>
       {divider ? joinChildren(children, divider) : children}
     </Container>
-  );
-});
+  )
+})
 
-export default Stack;
+export default Stack
 
 const Container = styled.View<Omit<StackProps, 'divider'>>`
   ${({
@@ -172,4 +172,4 @@ const Container = styled.View<Omit<StackProps, 'divider'>>`
     `
     }
   `}
-`;
+`

@@ -10,6 +10,7 @@
     "test": "jest --watch --coverage=false --changedSince=origin/master",
     "testFinal": "jest",
     "lint": "eslint **/**/*.{ts,tsx}",
+    "prettier": "prettier --write 'src/**/*.[jt]s?(x)'",
     "deploy-hosting": "npm run predeploy && firebase deploy --only hosting"
   },
   "dependencies": {

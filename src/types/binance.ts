@@ -1,4 +1,4 @@
-import { CHART_TIME_INTERVAL } from '/lib/constants/binance';
+import { CHART_TIME_INTERVAL } from '/lib/constants/binance'
 
 export type ChartTimeIntervalType =
-  typeof CHART_TIME_INTERVAL[keyof typeof CHART_TIME_INTERVAL];
+  (typeof CHART_TIME_INTERVAL)[keyof typeof CHART_TIME_INTERVAL]

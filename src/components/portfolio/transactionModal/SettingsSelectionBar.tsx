@@ -1,18 +1,18 @@
-import React from 'react';
-import styled from 'styled-components/native';
-import { useTranslation } from 'react-i18next';
+import React from 'react'
+import styled from 'styled-components/native'
+import { useTranslation } from 'react-i18next'
 
-import useGlobalTheme from '/hooks/useGlobalTheme';
+import useGlobalTheme from '/hooks/useGlobalTheme'
 
-import Text from '/components/common/Text';
-import { FocusedView, SettingsType } from './FormModal';
+import Text from '/components/common/Text'
+import { FocusedView, SettingsType } from './FormModal'
 
 type SelectionBar = {
-  onSwitchFocusView: (key: FocusedView) => void;
-  focusedView: FocusedView;
-  SETTINGS: SettingsType[];
-  SELECT_TAB_HEIGHT: number;
-};
+  onSwitchFocusView: (key: FocusedView) => void
+  focusedView: FocusedView
+  SETTINGS: SettingsType[]
+  SELECT_TAB_HEIGHT: number
+}
 
 const SettingsSelectionBar = ({
   onSwitchFocusView,
@@ -20,8 +20,8 @@ const SettingsSelectionBar = ({
   SETTINGS,
   SELECT_TAB_HEIGHT,
 }: SelectionBar) => {
-  const { t } = useTranslation();
-  const { theme } = useGlobalTheme();
+  const { t } = useTranslation()
+  const { theme } = useGlobalTheme()
 
   return (
     <SelectionBarContainer
@@ -33,8 +33,8 @@ const SettingsSelectionBar = ({
       }}
     >
       <SelectionBarWrap>
-        {SETTINGS.map(setting => {
-          const isFocused = setting.key === focusedView;
+        {SETTINGS.map((setting) => {
+          const isFocused = setting.key === focusedView
           return (
             <SelectionTab
               key={setting.key}
@@ -54,30 +54,30 @@ const SettingsSelectionBar = ({
                 {t(`common.${setting.name.toLocaleLowerCase()}`)}
               </SettingLabelText>
             </SelectionTab>
-          );
+          )
         })}
       </SelectionBarWrap>
     </SelectionBarContainer>
-  );
-};
+  )
+}
 
-export default SettingsSelectionBar;
+export default SettingsSelectionBar
 
 type ContainerProps = {
-  height: number;
-};
+  height: number
+}
 
 type SelectionProps = {
-  isFocused: boolean;
-};
+  isFocused: boolean
+}
 
 const SelectionBarContainer = styled.ScrollView<ContainerProps>`
   height: ${({ height }) => height}px;
-`;
+`
 
 const SelectionBarWrap = styled.View`
   flex-direction: row;
-`;
+`
 
 const SelectionTab = styled.TouchableOpacity<SelectionProps>`
   flex-direction: row;
@@ -92,9 +92,9 @@ const SelectionTab = styled.TouchableOpacity<SelectionProps>`
   /* border-color: ${({ isFocused, theme }) =>
     isFocused ? theme.base.primaryColor : 'transparent'}; */
   /* border-width: 1px; */
-`;
+`
 
 const SettingLabelText = styled(Text)<SelectionProps>`
   color: ${({ isFocused, theme }) =>
     isFocused ? theme.base.background[200] : theme.base.text[200]};
-`;
+`

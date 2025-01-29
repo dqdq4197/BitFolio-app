@@ -1,13 +1,13 @@
-import React, { PropsWithChildren } from 'react';
-import { Platform } from 'react-native';
-import styled from 'styled-components/native';
-import Constants from 'expo-constants';
+import React, { PropsWithChildren } from 'react'
+import { Platform } from 'react-native'
+import styled from 'styled-components/native'
+import Constants from 'expo-constants'
 
-import useGlobalTheme from '/hooks/useGlobalTheme';
+import useGlobalTheme from '/hooks/useGlobalTheme'
 
 type LayoutProps = {
-  stickyFooterComponent: React.ReactNode;
-};
+  stickyFooterComponent: React.ReactNode
+}
 
 /**
  * navigation presentation mode일 경우 상단 offset이 발생하기 때문에
@@ -18,13 +18,13 @@ type LayoutProps = {
  * 일반적인 상태 -> 상태바 + 44
  */
 const KEYBOARD_VERTICAL_OFFSET =
-  Platform.OS === 'ios' ? Constants.statusBarHeight + 56 + 10 : 56;
+  Platform.OS === 'ios' ? Constants.statusBarHeight + 56 + 10 : 56
 
 const FormLayout = ({
   stickyFooterComponent,
   children,
 }: PropsWithChildren<LayoutProps>) => {
-  const { theme } = useGlobalTheme();
+  const { theme } = useGlobalTheme()
 
   return (
     <Container
@@ -43,21 +43,21 @@ const FormLayout = ({
       </StyledScrollView>
       {stickyFooterComponent}
     </Container>
-  );
-};
+  )
+}
 
-export default FormLayout;
+export default FormLayout
 
 const Container = styled.KeyboardAvoidingView`
   flex: 1;
   background-color: ${({ theme }) => theme.base.background.surface};
-`;
+`
 
 const StyledScrollView = styled.ScrollView`
   width: 100%;
   padding: ${({ theme }) => `0 ${theme.content.spacing}`};
-`;
+`
 
 const StyledView = styled.View`
   justify-content: center;
-`;
+`

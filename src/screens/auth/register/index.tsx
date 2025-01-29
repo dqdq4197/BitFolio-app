@@ -1,8 +1,8 @@
-import React from 'react';
+import React from 'react'
 
-import Register from '/components/auth/Register';
-import AsyncBoundary from '/components/common/AsyncBoundary';
-import GeneralTemplate from '/components/GeneralTemplate';
+import Register from '/components/auth/Register'
+import AsyncBoundary from '/components/common/AsyncBoundary'
+import GeneralTemplate from '/components/GeneralTemplate'
 
 const RegisterScreen = () => {
   return (
@@ -11,7 +11,7 @@ const RegisterScreen = () => {
         <Register />
       </AsyncBoundary>
     </GeneralTemplate>
-  );
-};
+  )
+}
 
-export default RegisterScreen;
+export default RegisterScreen

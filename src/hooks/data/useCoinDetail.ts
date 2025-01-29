@@ -1,11 +1,11 @@
-import useRequest from '../useRequest';
-import { CoinGecko, http } from '/lib/api/CoinGeckoClient';
-import type { CoinDetailDataReturn } from '/types/coinGeckoReturnType';
+import useRequest from '../useRequest'
+import { CoinGecko, http } from '/lib/api/CoinGeckoClient'
+import type { CoinDetailDataReturn } from '/types/coinGeckoReturnType'
 
 type DetailDataProps = {
-  id: string;
-  suspense?: boolean;
-};
+  id: string
+  suspense?: boolean
+}
 
 export default ({ id, suspense = true }: DetailDataProps) => {
   const getKey = CoinGecko.coin.DetailInfo(id, {
@@ -15,7 +15,7 @@ export default ({ id, suspense = true }: DetailDataProps) => {
     community_data: true,
     developer_data: true,
     sparkline: false,
-  });
+  })
 
-  return useRequest<CoinDetailDataReturn>(getKey, http, { suspense });
-};
+  return useRequest<CoinDetailDataReturn>(getKey, http, { suspense })
+}

@@ -1,50 +1,50 @@
-import { useState, useMemo, useCallback } from 'react';
-import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
-import { FirebaseError } from '@firebase/util';
-import { useTranslation } from 'react-i18next';
+import { useState, useMemo, useCallback } from 'react'
+import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth'
+import { FirebaseError } from '@firebase/util'
+import { useTranslation } from 'react-i18next'
 
 const useCreateUserWithEmailAndPassword = () => {
-  const { t } = useTranslation();
-  const [errorMessage, setErrorMessage] = useState<string>();
-  const [user, setUser] = useState<FirebaseAuthTypes.UserCredential>();
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { t } = useTranslation()
+  const [errorMessage, setErrorMessage] = useState<string>()
+  const [user, setUser] = useState<FirebaseAuthTypes.UserCredential>()
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const createUserWithEmailAndPassword = useCallback(
     async (email: string, password: string) => {
-      setIsLoading(true);
-      setErrorMessage(undefined);
+      setIsLoading(true)
+      setErrorMessage(undefined)
       try {
         const userCredential = await auth().createUserWithEmailAndPassword(
           email,
           password
-        );
-        setUser(userCredential);
+        )
+        setUser(userCredential)
       } catch (error) {
         if (error instanceof FirebaseError) {
-          const { code } = error;
-          let message = '';
-          console.log(code);
+          const { code } = error
+          let message = ''
+          console.log(code)
 
           switch (code) {
             case 'auth/email-already-in-use':
-              message = t(`auth.errorMessage.email-already-in-use`);
-              break;
+              message = t(`auth.errorMessage.email-already-in-use`)
+              break
             case 'auth/too-many-requests':
-              message = t(`auth.errorMessage.too-many-requests`);
-              break;
+              message = t(`auth.errorMessage.too-many-requests`)
+              break
             default:
-              message = t(`auth.errorMessage.unkown-error`);
-              break;
+              message = t(`auth.errorMessage.unkown-error`)
+              break
           }
 
-          setErrorMessage(message);
+          setErrorMessage(message)
         }
       } finally {
-        setIsLoading(false);
+        setIsLoading(false)
       }
     },
     [t]
-  );
+  )
 
   return useMemo(
     () => ({
@@ -54,7 +54,7 @@ const useCreateUserWithEmailAndPassword = () => {
       isLoading,
     }),
     [createUserWithEmailAndPassword, errorMessage, isLoading, user]
-  );
-};
+  )
+}
 
-export default useCreateUserWithEmailAndPassword;
+export default useCreateUserWithEmailAndPassword

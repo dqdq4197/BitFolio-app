@@ -1,12 +1,12 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef } from 'react'
 import BottomSheet, {
   BottomSheetProps,
   BottomSheetView,
-} from '@gorhom/bottom-sheet';
+} from '@gorhom/bottom-sheet'
 
-import Text from '/components/common/Text';
+import Text from '/components/common/Text'
 
-type SheetProps = BottomSheetProps;
+type SheetProps = BottomSheetProps
 
 // Incomplete
 // TODO. create scollable sheet
@@ -28,8 +28,8 @@ const CustomBottomSheet = forwardRef(
           <Text>Awesome 🔥</Text>
         </BottomSheetView>
       </BottomSheet>
-    );
+    )
   }
-);
+)
 
-export default CustomBottomSheet;
+export default CustomBottomSheet

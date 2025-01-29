@@ -1,17 +1,17 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
+import React from 'react'
+import { useTranslation } from 'react-i18next'
 
-import useLocales from '/hooks/useLocales';
+import useLocales from '/hooks/useLocales'
 
-import SurfaceWrap from '/components/common/SurfaceWrap';
-import Select from '/components/common/Select';
-import Blank from './Blank';
+import SurfaceWrap from '/components/common/SurfaceWrap'
+import Select from '/components/common/Select'
+import Blank from './Blank'
 
 const Language = () => {
-  const { language, onLanguageChange } = useLocales();
-  const { t } = useTranslation();
+  const { language, onLanguageChange } = useLocales()
+  const { t } = useTranslation()
 
-  console.log(language);
+  console.log(language)
   return (
     <SurfaceWrap
       title={t(`setting.language settings`)}
@@ -36,7 +36,7 @@ const Language = () => {
       </Select>
       <Blank />
     </SurfaceWrap>
-  );
-};
+  )
+}
 
-export default Language;
+export default Language

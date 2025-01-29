@@ -1,15 +1,15 @@
-import React, { useEffect, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
+import React, { useEffect, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import Animated, {
   Easing,
   useAnimatedProps,
   useSharedValue,
   withRepeat,
   withTiming,
-} from 'react-native-reanimated';
-import { Circle } from 'react-native-svg';
-import styled from 'styled-components/native';
-import { VictoryScatterProps } from 'victory';
+} from 'react-native-reanimated'
+import { Circle } from 'react-native-svg'
+import styled from 'styled-components/native'
+import { VictoryScatterProps } from 'victory'
 import {
   VictoryAxis,
   VictoryBar,
@@ -17,48 +17,48 @@ import {
   VictoryLabel,
   VictoryLine,
   VictoryScatter,
-} from 'victory-native/';
+} from 'victory-native/'
 
-import { useChartState } from '/hooks/context/useChartContext';
-import useGlobalTheme from '/hooks/useGlobalTheme';
-import { CONTENT_SPACING } from '/lib/constant';
-import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat';
+import { useChartState } from '/hooks/context/useChartContext'
+import useGlobalTheme from '/hooks/useGlobalTheme'
+import { CONTENT_SPACING } from '/lib/constant'
+import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat'
 
-import Cursor from './Cursor';
-import LoadBoundaryView from './LoadBoundaryView';
+import Cursor from './Cursor'
+import LoadBoundaryView from './LoadBoundaryView'
 
-const CURSOR_SIZE = 16;
+const CURSOR_SIZE = 16
 
 interface ChartProps {
-  WIDTH: number;
-  HEIGHT: number;
-  PADDING: number;
-  VOLUME_HEIGHT: number;
+  WIDTH: number
+  HEIGHT: number
+  PADDING: number
+  VOLUME_HEIGHT: number
 }
 
 type AnimatedScatterProps = VictoryScatterProps & {
-  fill: string;
-};
+  fill: string
+}
 
-const AnimatedCircle = Animated.createAnimatedComponent(Circle);
+const AnimatedCircle = Animated.createAnimatedComponent(Circle)
 
 const AnimatedScatter = ({ x, y, size, fill }: AnimatedScatterProps) => {
-  const animate = useSharedValue(0);
+  const animate = useSharedValue(0)
 
   useEffect(() => {
     animate.value = withRepeat(
       withTiming(1, { duration: 1000, easing: Easing.linear }),
       -1,
       false
-    );
-  }, [animate]);
+    )
+  }, [animate])
 
   const pongpong = useAnimatedProps(() => {
     return {
       r: animate.value * 12,
       opacity: 1 - animate.value,
-    };
-  });
+    }
+  })
 
   return (
     <>
@@ -75,14 +75,14 @@ const AnimatedScatter = ({ x, y, size, fill }: AnimatedScatterProps) => {
         animatedProps={pongpong}
       />
     </>
-  );
-};
+  )
+}
 
 const BaseLineLabel = React.memo((props: any) => {
-  const { theme } = useGlobalTheme();
-  const x = 0;
-  const y = props.scale.y(props.y);
-  const { isCursorActive } = props;
+  const { theme } = useGlobalTheme()
+  const x = 0
+  const y = props.scale.y(props.y)
+  const { isCursorActive } = props
 
   return (
     <VictoryLabel
@@ -105,12 +105,12 @@ const BaseLineLabel = React.memo((props: any) => {
         bottom: 5,
       }}
     />
-  );
-});
+  )
+})
 
 const CustomLabel = (props: any) => {
-  const { isCursorActive, color, text, x, y, dy, width } = props;
-  const { theme } = useGlobalTheme();
+  const { isCursorActive, color, text, x, y, dy, width } = props
+  const { theme } = useGlobalTheme()
 
   return (
     <VictoryLabel
@@ -124,12 +124,12 @@ const CustomLabel = (props: any) => {
       textAnchor={x < 45 ? 'start' : width - x < 45 ? 'end' : 'middle'}
       text={text}
     />
-  );
-};
+  )
+}
 
 const LineChart = ({ WIDTH, HEIGHT, PADDING, VOLUME_HEIGHT }: ChartProps) => {
-  const { t } = useTranslation();
-  const { theme } = useGlobalTheme();
+  const { t } = useTranslation()
+  const { theme } = useGlobalTheme()
   const {
     points,
     isCursorActive,
@@ -142,18 +142,18 @@ const LineChart = ({ WIDTH, HEIGHT, PADDING, VOLUME_HEIGHT }: ChartProps) => {
     streamType,
     activeTradingPair,
     error,
-  } = useChartState();
+  } = useChartState()
 
   const strokeColor = useMemo(() => {
-    if (!changeRate) return theme.base.text[200];
-    if (changeRate > 0) return theme.base.upColor;
-    return theme.base.downColor;
-  }, [changeRate, theme]);
+    if (!changeRate) return theme.base.text[200]
+    if (changeRate > 0) return theme.base.upColor
+    return theme.base.downColor
+  }, [changeRate, theme])
 
   const lastPoint = useMemo(() => {
-    if (!points) return [0, 0];
-    return points.slice(-1)[0];
-  }, [points]);
+    if (!points) return [0, 0]
+    return points.slice(-1)[0]
+  }, [points])
 
   return (
     <ChartContainer
@@ -202,7 +202,7 @@ const LineChart = ({ WIDTH, HEIGHT, PADDING, VOLUME_HEIGHT }: ChartProps) => {
                   strokeDasharray: 3,
                 },
               }}
-              data={points.map(v => [v[0], prevClosingPrice])}
+              data={points.map((v) => [v[0], prevClosingPrice])}
               x={0}
               y={1}
               interpolation="linear"
@@ -379,10 +379,10 @@ const LineChart = ({ WIDTH, HEIGHT, PADDING, VOLUME_HEIGHT }: ChartProps) => {
         </>
       )}
     </ChartContainer>
-  );
-};
+  )
+}
 
-export default LineChart;
+export default LineChart
 
 const ChartContainer = styled.View<ChartProps>`
   overflow: hidden;
@@ -391,7 +391,7 @@ const ChartContainer = styled.View<ChartProps>`
   height: ${({ HEIGHT, PADDING, VOLUME_HEIGHT }) =>
     HEIGHT + PADDING + VOLUME_HEIGHT}px;
   align-items: center;
-`;
+`
 
 const CursorContainer = styled.View<ChartProps>`
   position: absolute;
@@ -401,4 +401,4 @@ const CursorContainer = styled.View<ChartProps>`
     HEIGHT + VOLUME_HEIGHT - PADDING}px;
   z-index: 2;
   align-items: center;
-`;
+`

@@ -1,14 +1,14 @@
-import React from 'react';
-import { Dimensions } from 'react-native';
+import React from 'react'
+import { Dimensions } from 'react-native'
 
-import useGlobalTheme from '/hooks/useGlobalTheme';
+import useGlobalTheme from '/hooks/useGlobalTheme'
 
-import SkeletonPlaceholder from '/components/skeletonPlaceholder';
+import SkeletonPlaceholder from '/components/skeletonPlaceholder'
 
-const { width } = Dimensions.get('window');
+const { width } = Dimensions.get('window')
 
 interface NewsArticleListSkeletonProps {
-  itemCount?: number;
+  itemCount?: number
 }
 
 const NewsArticleListSkeleton = ({
@@ -20,12 +20,12 @@ const NewsArticleListSkeleton = ({
         <NewsArticleListSkeleton.Article key={index} />
       ))}
     </SkeletonPlaceholder>
-  );
-};
+  )
+}
 
 NewsArticleListSkeleton.Article = function ArticleSkeleton() {
-  const { theme } = useGlobalTheme();
-  const spacing = parseInt(theme.content.spacing, 10);
+  const { theme } = useGlobalTheme()
+  const spacing = parseInt(theme.content.spacing, 10)
 
   return (
     <SkeletonPlaceholder.Item paddingHorizontal={spacing} paddingVertical={15}>
@@ -66,7 +66,7 @@ NewsArticleListSkeleton.Article = function ArticleSkeleton() {
         borderRadius={6}
       />
     </SkeletonPlaceholder.Item>
-  );
-};
+  )
+}
 
-export default NewsArticleListSkeleton;
+export default NewsArticleListSkeleton

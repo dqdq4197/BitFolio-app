@@ -1,18 +1,18 @@
-import React, { PropsWithChildren } from 'react';
-import { View, TouchableHighlightProps } from 'react-native';
-import styled, { ThemeConsumer } from 'styled-components/native';
-import { Octicons } from '@expo/vector-icons';
+import React, { PropsWithChildren } from 'react'
+import { View, TouchableHighlightProps } from 'react-native'
+import styled, { ThemeConsumer } from 'styled-components/native'
+import { Octicons } from '@expo/vector-icons'
 
-import Text from './Text';
+import Text from './Text'
 
 const Select = ({ children }: PropsWithChildren<unknown>) => {
-  return <SelectContainer>{children}</SelectContainer>;
-};
+  return <SelectContainer>{children}</SelectContainer>
+}
 
 interface SelectOptionProps extends TouchableHighlightProps {
-  title: string;
-  subTitle?: string;
-  enabled: boolean;
+  title: string
+  subTitle?: string
+  enabled: boolean
 }
 
 Select.Option = ({
@@ -23,7 +23,7 @@ Select.Option = ({
 }: SelectOptionProps) => {
   return (
     <ThemeConsumer>
-      {theme => (
+      {(theme) => (
         <OptionContainer
           {...rest}
           underlayColor={theme.base.underlayColor[100]}
@@ -48,12 +48,12 @@ Select.Option = ({
         </OptionContainer>
       )}
     </ThemeConsumer>
-  );
-};
+  )
+}
 
-export default Select;
+export default Select
 
-const SelectContainer = styled.View``;
+const SelectContainer = styled.View``
 
 const OptionContainer = styled.TouchableHighlight`
   flex-direction: row;
@@ -61,4 +61,4 @@ const OptionContainer = styled.TouchableHighlight`
   align-items: center;
   height: 58px;
   padding: 0 ${({ theme }) => theme.content.spacing};
-`;
+`

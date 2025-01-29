@@ -1,35 +1,35 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react'
 import {
   Animated,
   Easing,
   LayoutAnimation,
   Platform,
   UIManager,
-} from 'react-native';
-import styled from 'styled-components/native';
-import { easeQuadOut } from 'd3-ease';
+} from 'react-native'
+import styled from 'styled-components/native'
+import { easeQuadOut } from 'd3-ease'
 
-import Text, { TextStyleProps } from '/components/common/Text';
+import Text, { TextStyleProps } from '/components/common/Text'
 
 if (Platform.OS === 'android') {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
-    UIManager.setLayoutAnimationEnabledExperimental(true);
+    UIManager.setLayoutAnimationEnabledExperimental(true)
   }
 }
 
 interface RollingTextProps extends TextStyleProps {
-  text: string;
-  unMountingList: number[];
+  text: string
+  unMountingList: number[]
 }
 
 type AnimatedTextProps = {
-  text: string;
-  index: number;
-  integerLength: number;
-  unMountingList: number[];
-  textStyleProps?: TextStyleProps;
-  totalLength: number;
-};
+  text: string
+  index: number
+  integerLength: number
+  unMountingList: number[]
+  textStyleProps?: TextStyleProps
+  totalLength: number
+}
 
 const AnimatedText = ({
   text,
@@ -39,8 +39,8 @@ const AnimatedText = ({
   textStyleProps,
   totalLength,
 }: AnimatedTextProps) => {
-  const translateY = useRef(new Animated.Value(-40)).current;
-  const opacity = useRef(new Animated.Value(0)).current;
+  const translateY = useRef(new Animated.Value(-40)).current
+  const opacity = useRef(new Animated.Value(0)).current
 
   useEffect(() => {
     Animated.parallel([
@@ -74,9 +74,9 @@ const AnimatedText = ({
           type: 'linear',
           property: 'opacity',
         },
-      });
-    });
-  }, [opacity, text, translateY]);
+      })
+    })
+  }, [opacity, text, translateY])
 
   useEffect(() => {
     if (unMountingList.includes(index)) {
@@ -111,10 +111,10 @@ const AnimatedText = ({
             type: 'linear',
             property: 'opacity',
           },
-        });
-      });
+        })
+      })
     }
-  }, [index, opacity, translateY, unMountingList]);
+  }, [index, opacity, translateY, unMountingList])
 
   return (
     <CustomText
@@ -130,8 +130,8 @@ const AnimatedText = ({
         ? `${text},`
         : text}
     </CustomText>
-  );
-};
+  )
+}
 
 const RollingText = ({
   text,
@@ -151,21 +151,21 @@ const RollingText = ({
             textStyleProps={textStyle}
             totalLength={text.length}
           />
-        );
+        )
       })}
     </Container>
-  );
-};
+  )
+}
 
-export default RollingText;
+export default RollingText
 
 type TextProps = {
-  totalLength: number;
-};
+  totalLength: number
+}
 
 const Container = styled.View`
   flex-direction: row;
-`;
+`
 
 const CustomText = styled(Text)<TextProps>`
   color: ${({ theme }) => theme.base.text[100]};
@@ -178,17 +178,17 @@ const CustomText = styled(Text)<TextProps>`
       case 4:
       case 5:
       case 6:
-        return `font-size: ${theme.size.font_xxxl}`;
+        return `font-size: ${theme.size.font_xxxl}`
       case 7:
       case 8:
       case 9:
-        return `font-size: ${theme.size.font_xxl}`;
+        return `font-size: ${theme.size.font_xxl}`
       case 10:
       case 11:
       case 12:
-        return `font-size: ${theme.size.font_xl}`;
+        return `font-size: ${theme.size.font_xl}`
       default:
-        return `font-size: ${theme.size.font_x}`;
+        return `font-size: ${theme.size.font_x}`
     }
   }}
-`;
+`

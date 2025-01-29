@@ -1,15 +1,15 @@
-import React from 'react';
-import styled from 'styled-components/native';
+import React from 'react'
+import styled from 'styled-components/native'
 
-import type { SearchCoin } from '/types/coinGeckoReturnType';
+import type { SearchCoin } from '/types/coinGeckoReturnType'
 
-import Image from '/components/common/Image';
-import Text from '/components/common/Text';
+import Image from '/components/common/Image'
+import Text from '/components/common/Text'
 
 type ItemProps = {
-  item: SearchCoin;
-  onPressItem: (id: string, symbol: string) => void;
-};
+  item: SearchCoin
+  onPressItem: (id: string, symbol: string) => void
+}
 
 const CoinItem = ({ item, onPressItem }: ItemProps) => {
   return (
@@ -22,18 +22,18 @@ const CoinItem = ({ item, onPressItem }: ItemProps) => {
         <Text fontML>{item.symbol}</Text>
       </NameWrap>
     </Container>
-  );
-};
+  )
+}
 
-export default CoinItem;
+export default CoinItem
 
 const Container = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
   padding: 10px 0;
   height: 60px;
-`;
+`
 
 const NameWrap = styled.View`
   margin-left: 15px;
-`;
+`

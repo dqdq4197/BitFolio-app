@@ -2,55 +2,55 @@ import {
   Ionicons,
   MaterialCommunityIcons,
   MaterialIcons,
-} from '@expo/vector-icons';
-import React from 'react';
-import { useTranslation } from 'react-i18next';
+} from '@expo/vector-icons'
+import React from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   ActivityIndicator,
   Animated,
   LayoutAnimation,
   Platform,
   UIManager,
-} from 'react-native';
-import styled from 'styled-components/native';
+} from 'react-native'
+import styled from 'styled-components/native'
 
-import useGlobalTheme from '/hooks/useGlobalTheme';
-import { PortfolioStatsType } from '/hooks/usePortfolioStats';
-import { shallowEqual, useAppDispatch, useAppSelector } from '/hooks/useRedux';
+import useGlobalTheme from '/hooks/useGlobalTheme'
+import { PortfolioStatsType } from '/hooks/usePortfolioStats'
+import { shallowEqual, useAppDispatch, useAppSelector } from '/hooks/useRedux'
 import {
   ActiveTabType,
   changeAnalysisActiveTab,
   onHideAnalysisSheet,
-} from '/store/slices/portfolio';
+} from '/store/slices/portfolio'
 
-import AllocationView from './AllocationView';
-import CommonAnalysis from './CommonAnalysis';
-import { usePortfolioContext } from './PortfolioDataContext';
-import StatisticsView from './StatisticsView';
-import SurfaceWrap from '/components/common/SurfaceWrap';
-import Text from '/components/common/Text';
+import AllocationView from './AllocationView'
+import CommonAnalysis from './CommonAnalysis'
+import { usePortfolioContext } from './PortfolioDataContext'
+import StatisticsView from './StatisticsView'
+import SurfaceWrap from '/components/common/SurfaceWrap'
+import Text from '/components/common/Text'
 
 if (Platform.OS === 'android') {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
-    UIManager.setLayoutAnimationEnabledExperimental(true);
+    UIManager.setLayoutAnimationEnabledExperimental(true)
   }
 }
 
 type EmptyViewProps = {
-  isLoading: boolean;
-};
+  isLoading: boolean
+}
 
 type TabProps = {
-  tabKey: ActiveTabType;
-  title: string;
-  icon: React.ReactNode;
-  isActive: boolean;
-  onPress: (title: ActiveTabType) => void;
-};
+  tabKey: ActiveTabType
+  title: string
+  icon: React.ReactNode
+  isActive: boolean
+  onPress: (title: ActiveTabType) => void
+}
 
 type SheetProps = {
-  portfolioStats: PortfolioStatsType | null;
-};
+  portfolioStats: PortfolioStatsType | null
+}
 
 const Tab = ({ tabKey, title, icon, isActive, onPress }: TabProps) => {
   return (
@@ -64,12 +64,12 @@ const Tab = ({ tabKey, title, icon, isActive, onPress }: TabProps) => {
         {title}
       </CustomText>
     </TabButton>
-  );
-};
+  )
+}
 
 const EmptyView = ({ isLoading }: EmptyViewProps) => {
-  const { theme } = useGlobalTheme();
-  const { t } = useTranslation();
+  const { theme } = useGlobalTheme()
+  const { t } = useTranslation()
 
   return (
     <EmptyViewContainer>
@@ -91,26 +91,26 @@ const EmptyView = ({ isLoading }: EmptyViewProps) => {
         <ActivityIndicator size="large" color={theme.base.text[100]} />
       )}
     </EmptyViewContainer>
-  );
-};
+  )
+}
 
 const PortfolioAnalysisSheet = ({ portfolioStats }: SheetProps) => {
-  const { t } = useTranslation();
-  const { theme } = useGlobalTheme();
-  const dispatch = useAppDispatch();
-  const { isLoading } = usePortfolioContext();
+  const { t } = useTranslation()
+  const { theme } = useGlobalTheme()
+  const dispatch = useAppDispatch()
+  const { isLoading } = usePortfolioContext()
   const { portfolio, activeIndex } = useAppSelector(
-    state => ({
+    (state) => ({
       portfolio: state.portfolioReducer.portfolios,
       activeIndex: state.portfolioReducer.activeIndex,
     }),
     shallowEqual
-  );
+  )
   const {
     isHideAnalysisSheet: isHide,
     analysisActiveTab: activeTab,
     mode,
-  } = portfolio[activeIndex];
+  } = portfolio[activeIndex]
 
   const handleTabButtonPress = (tabKey: ActiveTabType) => {
     LayoutAnimation.configureNext({
@@ -129,13 +129,13 @@ const PortfolioAnalysisSheet = ({ portfolioStats }: SheetProps) => {
         type: 'linear',
         property: 'opacity',
       },
-    });
-    dispatch(changeAnalysisActiveTab(tabKey));
-    if (isHide) dispatch(onHideAnalysisSheet(false));
-  };
+    })
+    dispatch(changeAnalysisActiveTab(tabKey))
+    if (isHide) dispatch(onHideAnalysisSheet(false))
+  }
 
   const handleHideButtonPress = () => {
-    dispatch(onHideAnalysisSheet(!isHide));
+    dispatch(onHideAnalysisSheet(!isHide))
     LayoutAnimation.configureNext({
       duration: 500,
       create: {
@@ -152,8 +152,8 @@ const PortfolioAnalysisSheet = ({ portfolioStats }: SheetProps) => {
         type: 'linear',
         property: 'opacity',
       },
-    });
-  };
+    })
+  }
 
   return (
     <>
@@ -246,18 +246,18 @@ const PortfolioAnalysisSheet = ({ portfolioStats }: SheetProps) => {
         </HideButton>
       </SurfaceWrap>
     </>
-  );
-};
+  )
+}
 
-export default PortfolioAnalysisSheet;
+export default PortfolioAnalysisSheet
 
 type HideType = {
-  isHide: boolean;
-};
+  isHide: boolean
+}
 
 type ButtonProps = {
-  isActive: boolean;
-};
+  isActive: boolean
+}
 
 const TabContainer = styled.View`
   flex-direction: row;
@@ -265,7 +265,7 @@ const TabContainer = styled.View`
   padding: 0 ${({ theme }) => theme.content.spacing};
   align-items: center;
   justify-content: space-evenly;
-`;
+`
 
 const TabButton = styled.TouchableOpacity<ButtonProps>`
   flex-direction: row;
@@ -278,16 +278,16 @@ const TabButton = styled.TouchableOpacity<ButtonProps>`
     isActive ? theme.base.background[300] : theme.base.background[200]};
   ${({ theme, isActive }) =>
     isActive && `border: 1px solid ${theme.base.primaryColor}`};
-`;
+`
 
 const IconWrap = styled.View`
   margin-right: 5px;
-`;
+`
 
 const ContentWrap = styled.View`
   padding: 0 ${({ theme }) => theme.content.spacing};
   overflow: hidden;
-`;
+`
 
 const HideButton = styled.TouchableHighlight`
   width: 100%;
@@ -295,21 +295,21 @@ const HideButton = styled.TouchableHighlight`
   align-items: center;
   justify-content: center;
   margin-top: 5px;
-`;
+`
 
 const Arrow = styled.View<HideType>`
   top: ${({ isHide }) => (isHide ? -2 : 6)}px;
   transform: ${({ isHide }) => (isHide ? `rotate(270deg)` : `rotate(90deg)`)}
     scaleX(1.5);
-`;
+`
 
 const CustomText = styled(Text)<ButtonProps>`
   color: ${({ theme, isActive }) =>
     isActive ? theme.base.text[100] : theme.base.text[200]};
-`;
+`
 
 const EmptyViewContainer = styled.View`
   height: 150px;
   justify-content: center;
   align-items: center;
-`;
+`

@@ -1,21 +1,21 @@
-import React, { useState } from 'react';
-import styled from 'styled-components/native';
-import { useTranslation } from 'react-i18next';
+import React, { useState } from 'react'
+import styled from 'styled-components/native'
+import { useTranslation } from 'react-i18next'
 
-import Text from '/components/common/Text';
+import Text from '/components/common/Text'
 import FormModal, {
   InitialDataType,
-} from '/components/portfolio/transactionModal/FormModal';
+} from '/components/portfolio/transactionModal/FormModal'
 
 type ButtonProps = {
-  id: string;
-  name: string;
-  image: string;
-  symbol: string;
-  portfolioId: string;
-  transactionId: string;
-  initialData: InitialDataType;
-};
+  id: string
+  name: string
+  image: string
+  symbol: string
+  portfolioId: string
+  transactionId: string
+  initialData: InitialDataType
+}
 
 const EditTransactionButton = ({
   portfolioId,
@@ -26,12 +26,12 @@ const EditTransactionButton = ({
   transactionId,
   initialData,
 }: ButtonProps) => {
-  const { t } = useTranslation();
-  const [visible, setVisible] = useState(false);
+  const { t } = useTranslation()
+  const [visible, setVisible] = useState(false)
 
   const handleButtonPress = () => {
-    setVisible(true);
-  };
+    setVisible(true)
+  }
 
   return (
     <>
@@ -54,10 +54,10 @@ const EditTransactionButton = ({
         />
       )}
     </>
-  );
-};
+  )
+}
 
-export default EditTransactionButton;
+export default EditTransactionButton
 
 const Container = styled.TouchableOpacity`
   height: 45px;
@@ -66,4 +66,4 @@ const Container = styled.TouchableOpacity`
   margin: 30px 10px 0;
   background-color: ${({ theme }) => theme.base.primaryColor};
   border-radius: ${({ theme }) => theme.border.m};
-`;
+`

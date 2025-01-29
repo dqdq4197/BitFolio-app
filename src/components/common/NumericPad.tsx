@@ -1,14 +1,14 @@
-import React from 'react';
-import { Dimensions } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import * as haptics from 'expo-haptics';
-import styled from 'styled-components/native';
+import React from 'react'
+import { Dimensions } from 'react-native'
+import { Ionicons } from '@expo/vector-icons'
+import * as haptics from 'expo-haptics'
+import styled from 'styled-components/native'
 
-import useGlobalTheme from '/hooks/useGlobalTheme';
+import useGlobalTheme from '/hooks/useGlobalTheme'
 
-import Text from '/components/common/Text';
+import Text from '/components/common/Text'
 
-const { width } = Dimensions.get('window');
+const { width } = Dimensions.get('window')
 const KEYS = [
   '1',
   '2',
@@ -22,14 +22,14 @@ const KEYS = [
   '.',
   '0',
   'backspace',
-];
+]
 
 type PadProps = {
-  height: number;
-  onNumericKeyPress: (key: string) => void;
-  onBackspacePress: () => void;
-  hapticEnabled?: boolean;
-};
+  height: number
+  onNumericKeyPress: (key: string) => void
+  onBackspacePress: () => void
+  hapticEnabled?: boolean
+}
 
 const NumericPad = ({
   height,
@@ -37,22 +37,22 @@ const NumericPad = ({
   onBackspacePress,
   hapticEnabled = true,
 }: PadProps) => {
-  const { theme } = useGlobalTheme();
+  const { theme } = useGlobalTheme()
 
   const handleButtonTouchStart = () => {
-    if (hapticEnabled) haptics.impactAsync();
-  };
+    if (hapticEnabled) haptics.impactAsync()
+  }
 
   const handleButtonTouchEnd = (key: string) => {
     if (key === 'backspace') {
-      onBackspacePress();
+      onBackspacePress()
     }
-    onNumericKeyPress(key);
-  };
+    onNumericKeyPress(key)
+  }
 
   return (
     <Container height={height}>
-      {KEYS.map(key => {
+      {KEYS.map((key) => {
         return (
           <Button
             height={height}
@@ -72,28 +72,28 @@ const NumericPad = ({
               )}
             </Text>
           </Button>
-        );
+        )
       })}
     </Container>
-  );
-};
+  )
+}
 
-export default NumericPad;
+export default NumericPad
 
 type StyledProps = {
-  height: number;
-};
+  height: number
+}
 
 const Container = styled.View<StyledProps>`
   width: ${width - 32}px;
-  height: ${props => props.height}px;
+  height: ${(props) => props.height}px;
   flex-direction: row;
   flex-wrap: wrap;
-`;
+`
 
 const Button = styled.View<StyledProps>`
   width: ${(width - 32) / 3}px;
-  height: ${props => props.height / 4}px;
+  height: ${(props) => props.height / 4}px;
   align-items: center;
   justify-content: center;
-`;
+`

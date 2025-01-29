@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components/native';
-import Text, { TextStyleProps } from './Text';
+import React, { useState, useEffect } from 'react'
+import styled from 'styled-components/native'
+import Text, { TextStyleProps } from './Text'
 
 type SizeType =
   | 'font_xl'
@@ -9,21 +9,21 @@ type SizeType =
   | 'font_ml'
   | 'font_m'
   | 'font_s'
-  | 'font_xs';
+  | 'font_xs'
 
 interface TextProps extends TextStyleProps {
-  children: string;
-  defaultSize?: SizeType;
+  children: string
+  defaultSize?: SizeType
 }
 
-type sizeArrType = SizeType[];
+type sizeArrType = SizeType[]
 
 const DynamicSizeText = ({
   children,
   defaultSize = 'font_m',
   ...props
 }: TextProps) => {
-  const [sizeArr, setSizeArr] = useState<sizeArrType>([]);
+  const [sizeArr, setSizeArr] = useState<sizeArrType>([])
 
   useEffect(() => {
     const sizes: sizeArrType = [
@@ -34,31 +34,31 @@ const DynamicSizeText = ({
       'font_m',
       'font_s',
       'font_xs',
-    ];
-    const index = sizes.findIndex(size => size === defaultSize);
-    const newSizes = sizes.slice(index);
+    ]
+    const index = sizes.findIndex((size) => size === defaultSize)
+    const newSizes = sizes.slice(index)
     if (newSizes.length < 3) {
       while (newSizes.length < 3) {
-        newSizes.push('font_xs');
+        newSizes.push('font_xs')
       }
     }
 
-    setSizeArr(newSizes);
-  }, [defaultSize]);
+    setSizeArr(newSizes)
+  }, [defaultSize])
 
   return (
     <CustomText {...props} strLength={children.length} sizeArr={sizeArr}>
       {children}
     </CustomText>
-  );
-};
+  )
+}
 
-export default DynamicSizeText;
+export default DynamicSizeText
 
 type CustomTextProps = {
-  strLength: number;
-  sizeArr: sizeArrType;
-};
+  strLength: number
+  sizeArr: sizeArrType
+}
 
 const CustomText = styled(Text)<CustomTextProps>`
   ${({ strLength, theme, sizeArr }) => {
@@ -76,14 +76,14 @@ const CustomText = styled(Text)<CustomTextProps>`
       case 10:
       case 11:
       case 12:
-        return `font-size: ${theme.size[sizeArr[0]]}`;
+        return `font-size: ${theme.size[sizeArr[0]]}`
       case 13:
       case 14:
       case 15:
-        return `font-size: ${theme.size[sizeArr[1]]}`;
+        return `font-size: ${theme.size[sizeArr[1]]}`
 
       default:
-        return `font-size: ${theme.size[sizeArr[2]]}`;
+        return `font-size: ${theme.size[sizeArr[2]]}`
     }
   }}
-`;
+`

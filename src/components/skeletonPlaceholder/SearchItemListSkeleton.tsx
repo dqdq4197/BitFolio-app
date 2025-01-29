@@ -1,14 +1,14 @@
-import React from 'react';
-import { Dimensions } from 'react-native';
+import React from 'react'
+import { Dimensions } from 'react-native'
 
-import useGlobalTheme from '/hooks/useGlobalTheme';
+import useGlobalTheme from '/hooks/useGlobalTheme'
 
-import SkeletonPlaceholder from '.';
+import SkeletonPlaceholder from '.'
 
-const { width } = Dimensions.get('window');
+const { width } = Dimensions.get('window')
 
 interface SearchListSkeletonProps {
-  itemCount?: number;
+  itemCount?: number
 }
 
 const SearchListSkeleton = ({ itemCount = 13 }: SearchListSkeletonProps) => {
@@ -18,12 +18,12 @@ const SearchListSkeleton = ({ itemCount = 13 }: SearchListSkeletonProps) => {
         <SearchListSkeleton.Item key={index} />
       ))}
     </SkeletonPlaceholder>
-  );
-};
+  )
+}
 
 SearchListSkeleton.Item = function SearchItemSkeleton() {
-  const { theme } = useGlobalTheme();
-  const spacing = parseInt(theme.content.spacing, 10);
+  const { theme } = useGlobalTheme()
+  const spacing = parseInt(theme.content.spacing, 10)
 
   return (
     <>
@@ -56,7 +56,7 @@ SearchListSkeleton.Item = function SearchItemSkeleton() {
       </SkeletonPlaceholder.Item>
       <SkeletonPlaceholder.Item width={width} height={1} />
     </>
-  );
-};
+  )
+}
 
-export default SearchListSkeleton;
+export default SearchListSkeleton

@@ -1,12 +1,12 @@
-import React from 'react';
-import styled from 'styled-components/native';
+import React from 'react'
+import styled from 'styled-components/native'
 
 const Footer = () => {
-  return <Container />;
-};
+  return <Container />
+}
 
-export default Footer;
+export default Footer
 
 const Container = styled.View`
   height: 70px;
-`;
+`

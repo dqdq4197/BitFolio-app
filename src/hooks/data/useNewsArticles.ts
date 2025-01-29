@@ -1,19 +1,19 @@
-import { AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios'
 
 import {
   ArticleParams,
   Cryptocompare,
   http,
-} from '/lib/api/CryptocompareClient';
-import type { NewsReturn } from '/types/CryptoCompareReturnType';
+} from '/lib/api/CryptocompareClient'
+import type { NewsReturn } from '/types/CryptoCompareReturnType'
 
-import useRequestInfinite from '../useRequestInfinite';
+import useRequestInfinite from '../useRequestInfinite'
 
 interface ParamsType
   extends Pick<ArticleParams, 'feeds' | 'lTs' | 'sortOrder' | 'categories'> {
-  suspense?: boolean;
-  refreshInterval?: number;
-  willNotRequest?: boolean;
+  suspense?: boolean
+  refreshInterval?: number
+  willNotRequest?: boolean
 }
 
 export default ({
@@ -26,15 +26,15 @@ export default ({
     pageIndex: number,
     previousPageData: AxiosResponse<unknown> | null
   ) => {
-    if (previousPageData && !(previousPageData as any).length) return null;
-    if (willNotRequest) return null;
+    if (previousPageData && !(previousPageData as any).length) return null
+    if (willNotRequest) return null
     return Cryptocompare.news.articles({
       ...params,
-    });
-  };
+    })
+  }
 
   return useRequestInfinite<NewsReturn>(getKey, http, {
     suspense,
     refreshInterval,
-  });
-};
+  })
+}

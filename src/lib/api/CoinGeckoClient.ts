@@ -1,13 +1,13 @@
-import { COINGECKO_DEMO_API_KEY } from '@env';
-import axios from 'axios';
-import { baseTypes } from 'base-types';
-import _ from 'lodash';
-import { ModifyPartial } from 'mapped-types';
+import { COINGECKO_DEMO_API_KEY } from '@env'
+import axios from 'axios'
+import { baseTypes } from 'base-types'
+import _ from 'lodash'
+import { ModifyPartial } from 'mapped-types'
 
-import { COINGECKO_PATH_PREFIX, ORDER } from '/lib/constants/coingecko';
-import { ChartTimeIntervalType } from '/types/coingecko';
+import { COINGECKO_PATH_PREFIX, ORDER } from '/lib/constants/coingecko'
+import { ChartTimeIntervalType } from '/types/coingecko'
 
-export type ORDER = (typeof ORDER)[keyof typeof ORDER];
+export type ORDER = (typeof ORDER)[keyof typeof ORDER]
 
 export type PriceChangePercentageType =
   | '1h'
@@ -16,85 +16,85 @@ export type PriceChangePercentageType =
   | '14d'
   | '30d'
   | '200d'
-  | '1y';
+  | '1y'
 
 type CoinMarketsParams = {
-  vs_currency: baseTypes.Currency;
-  ids?: string[] | string;
-  order?: ORDER;
-  per_page?: number; // 1...250
-  page?: number;
-  sparkline?: boolean;
+  vs_currency: baseTypes.Currency
+  ids?: string[] | string
+  order?: ORDER
+  per_page?: number // 1...250
+  page?: number
+  sparkline?: boolean
   price_change_percentage?:
     | PriceChangePercentageType
     | PriceChangePercentageType[]
-    | string;
-};
+    | string
+}
 
 type SimplePriceParams = {
-  ids: string[] | string;
-  vs_currencies: baseTypes.Currency[] | string;
-  include_market_cap?: boolean;
-  include_24hr_vol?: boolean;
-  include_24hr_change?: boolean;
-  include_last_updated_at?: boolean;
-};
+  ids: string[] | string
+  vs_currencies: baseTypes.Currency[] | string
+  include_market_cap?: boolean
+  include_24hr_vol?: boolean
+  include_24hr_change?: boolean
+  include_last_updated_at?: boolean
+}
 
 type MarketChartParams = {
-  vs_currency: baseTypes.Currency;
-  days: ChartTimeIntervalType;
-  interval?: 'daily'; // 90일 이전 설정하더라도 daily 간격 출력
-};
+  vs_currency: baseTypes.Currency
+  days: ChartTimeIntervalType
+  interval?: 'daily' // 90일 이전 설정하더라도 daily 간격 출력
+}
 
 export type HistorySnapshotParams = {
-  date: string; // ex) dd-mm-yyyy
-  localization?: boolean;
-};
+  date: string // ex) dd-mm-yyyy
+  localization?: boolean
+}
 
 type MarketChartRangeParams = {
-  vs_currency: baseTypes.Currency;
-  from: number; // UNIX TimeStamp
-  to: number; // UNIX TimeStamp
-};
+  vs_currency: baseTypes.Currency
+  from: number // UNIX TimeStamp
+  to: number // UNIX TimeStamp
+}
 
 type SearchParams = {
-  locale: baseTypes.Language;
-};
+  locale: baseTypes.Language
+}
 
 type HistoricalOhlcParams = {
-  vs_currency: baseTypes.Currency;
-  days: ChartTimeIntervalType; // Data up to number of days ago (1/7/14/30/90/180/365/max)
-};
+  vs_currency: baseTypes.Currency
+  days: ChartTimeIntervalType // Data up to number of days ago (1/7/14/30/90/180/365/max)
+}
 
 type DetailInfoParams = {
-  localization: boolean;
-  tickers: boolean;
-  market_data: boolean;
-  community_data: boolean;
-  developer_data: boolean;
-  sparkline: boolean;
-};
+  localization: boolean
+  tickers: boolean
+  market_data: boolean
+  community_data: boolean
+  developer_data: boolean
+  sparkline: boolean
+}
 
 type DefaultParamsType = {
-  markets: Pick<CoinMarketsParams, 'per_page' | 'order'>;
-};
+  markets: Pick<CoinMarketsParams, 'per_page' | 'order'>
+}
 
 type ParamsType<T, U extends keyof DefaultParamsType> = ModifyPartial<
   T,
   Pick<DefaultParamsType, U>
->;
+>
 
 const defaultParams: DefaultParamsType = {
   markets: {
     per_page: 70,
     order: ORDER.MARKET_CAP_DESC,
   },
-};
+}
 
 export const http = axios.create({
   baseURL: COINGECKO_PATH_PREFIX,
   params: { x_cg_demo_api_key: COINGECKO_DEMO_API_KEY },
-});
+})
 
 export const CoinGecko = {
   coin: {
@@ -111,14 +111,14 @@ export const CoinGecko = {
      * @param {boolean} params.price_change_percentage Include price change percentage in 1h, 24h, 7d, 14d, 30d, 200d, 1y (eg. '1h,24h,7d' comma-separated, invalid values will be discarded)
      */
     markets: (params: ParamsType<CoinMarketsParams, 'markets'>) => {
-      let cpParams = { ...params };
-      cpParams = _.defaults(params, defaultParams.markets);
+      let cpParams = { ...params }
+      cpParams = _.defaults(params, defaultParams.markets)
 
       if (_.hasIn(cpParams, 'ids') && Array.isArray(cpParams.ids)) {
         if (cpParams.ids.length > 0) {
-          cpParams.ids = cpParams.ids.join(',');
+          cpParams.ids = cpParams.ids.join(',')
         } else {
-          cpParams.ids = 'null';
+          cpParams.ids = 'null'
         }
       }
 
@@ -127,12 +127,12 @@ export const CoinGecko = {
         Array.isArray(cpParams.price_change_percentage)
       ) {
         cpParams.price_change_percentage =
-          cpParams.price_change_percentage.join(',');
+          cpParams.price_change_percentage.join(',')
       }
       return {
         url: `/coins/markets`,
         params: cpParams,
-      };
+      }
     },
     /**
      * @description Get historical data (name, price, market, stats) at a given date for a coin
@@ -144,7 +144,7 @@ export const CoinGecko = {
       return {
         url: `/coins/${id}/history`,
         params,
-      };
+      }
     },
     /**
      * @description Get historical market data include price, market cap, and 24h volume within a range of timestamp (granularity auto).
@@ -162,7 +162,7 @@ export const CoinGecko = {
       return {
         url: `/coins/${id}/market_chart/range`,
         params,
-      };
+      }
     },
     /**
      * @description Get historical market data include price, market cap, and 24h volume (granularity auto)
@@ -176,13 +176,13 @@ export const CoinGecko = {
       return {
         url: `/coins/${id}/market_chart`,
         params,
-      };
+      }
     },
     historicalOhlc: (id: string, params: HistoricalOhlcParams) => {
       return {
         url: `/coins/${id}/ohlc`,
         params,
-      };
+      }
     },
     /**
      * @description Get simple price market data
@@ -197,44 +197,44 @@ export const CoinGecko = {
      * @returns {ReturnObject}
      */
     simplePrice: (params: SimplePriceParams) => {
-      const cpParams = { ...params };
+      const cpParams = { ...params }
       if (Array.isArray(cpParams.ids)) {
-        cpParams.ids = cpParams.ids.join(',');
+        cpParams.ids = cpParams.ids.join(',')
       }
       if (Array.isArray(cpParams.vs_currencies)) {
-        cpParams.vs_currencies = cpParams.vs_currencies.join(',');
+        cpParams.vs_currencies = cpParams.vs_currencies.join(',')
       }
       return {
         url: `/simple/price`,
         params: cpParams,
-      };
+      }
     },
     DetailInfo: (id: string, params: DetailInfoParams) => {
       return {
         url: `/coins/${id}`,
         params,
-      };
+      }
     },
     search: (params: SearchParams) => {
       return {
         url: `/search`,
         params,
-      };
+      }
     },
     searchTranding: () => {
       return {
         url: `/search/trending`,
-      };
+      }
     },
     global: () => {
       return {
         url: `/global`,
-      };
+      }
     },
     exchangeRates: () => {
       return {
         url: `/exchange_rates`,
-      };
+      }
     },
   },
-};
+}

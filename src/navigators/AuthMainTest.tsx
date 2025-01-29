@@ -1,14 +1,14 @@
-import { useNavigation } from '@react-navigation/native';
-import React from 'react';
+import { useNavigation } from '@react-navigation/native'
+import React from 'react'
 
-import AsyncBoundary from '/components/common/AsyncBoundary';
-import GeneralTemplate from '/components/GeneralTemplate';
+import AsyncBoundary from '/components/common/AsyncBoundary'
+import GeneralTemplate from '/components/GeneralTemplate'
 
 /**
  * @Deprecated
  */
 const Auth = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation()
 
   return (
     <GeneralTemplate>
@@ -21,7 +21,7 @@ const Auth = () => {
         </Text> */}
       </AsyncBoundary>
     </GeneralTemplate>
-  );
-};
+  )
+}
 
-export default Auth;
+export default Auth

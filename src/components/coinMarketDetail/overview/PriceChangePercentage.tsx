@@ -1,28 +1,28 @@
-import React from 'react';
+import React from 'react'
 import {
   VictoryBar,
   VictoryChart,
   VictoryAxis,
   VictoryGroup,
   VictoryLabel,
-} from 'victory-native';
-import { VictoryLabelProps } from 'victory';
-import { useTranslation } from 'react-i18next';
+} from 'victory-native'
+import { VictoryLabelProps } from 'victory'
+import { useTranslation } from 'react-i18next'
 
-import useGlobalTheme from '/hooks/useGlobalTheme';
-import { digitToFixed } from '/lib/utils';
+import useGlobalTheme from '/hooks/useGlobalTheme'
+import { digitToFixed } from '/lib/utils'
 
-import SurfaceWrap from '/components/common/SurfaceWrap';
+import SurfaceWrap from '/components/common/SurfaceWrap'
 
-const PADDING = 30;
+const PADDING = 30
 
 type ChangePercentageType = {
-  percentage_24h?: number;
-  percentage_7d?: number;
-  percentage_30d?: number;
-  percentage_200d?: number;
-  percentage_1y?: number;
-};
+  percentage_24h?: number
+  percentage_7d?: number
+  percentage_30d?: number
+  percentage_200d?: number
+  percentage_1y?: number
+}
 
 const NegativeAwareTickLabel = ({
   datum,
@@ -37,8 +37,8 @@ const NegativeAwareTickLabel = ({
       dy={Math.sign((datum as { y: number })?.y) >= 0 ? 15 : 0}
       {...rest}
     />
-  );
-};
+  )
+}
 
 const PriceChangePercentage = ({
   percentage_24h,
@@ -47,8 +47,8 @@ const PriceChangePercentage = ({
   percentage_200d,
   percentage_1y,
 }: ChangePercentageType) => {
-  const { t } = useTranslation();
-  const { theme } = useGlobalTheme();
+  const { t } = useTranslation()
+  const { theme } = useGlobalTheme()
 
   return (
     <SurfaceWrap title={`${t('coinDetail.price change percentage')} (%)`} fontL>
@@ -112,7 +112,7 @@ const PriceChangePercentage = ({
         />
       </VictoryChart>
     </SurfaceWrap>
-  );
-};
+  )
+}
 
-export default PriceChangePercentage;
+export default PriceChangePercentage

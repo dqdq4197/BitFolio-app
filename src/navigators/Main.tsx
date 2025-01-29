@@ -1,25 +1,25 @@
-import { FontAwesome, Fontisto, Ionicons } from '@expo/vector-icons';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import React from 'react';
-import { useTranslation } from 'react-i18next';
+import { FontAwesome, Fontisto, Ionicons } from '@expo/vector-icons'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import React from 'react'
+import { useTranslation } from 'react-i18next'
 
-import { useAppSelector } from '/hooks/useRedux';
-import type { MainTabParamList } from '/types/navigation';
+import { useAppSelector } from '/hooks/useRedux'
+import type { MainTabParamList } from '/types/navigation'
 
-import Home from './Home';
-import News from './News';
-import Portfolio from './Portfolio';
-import TabBar from '/components/TabBar';
+import Home from './Home'
+import News from './News'
+import Portfolio from './Portfolio'
+import TabBar from '/components/TabBar'
 
-const Tab = createBottomTabNavigator<MainTabParamList>();
+const Tab = createBottomTabNavigator<MainTabParamList>()
 
 const Main = () => {
-  const { t } = useTranslation();
-  const { launchScreen } = useAppSelector(state => state.baseSettingReducer);
+  const { t } = useTranslation()
+  const { launchScreen } = useAppSelector((state) => state.baseSettingReducer)
 
   return (
     <Tab.Navigator
-      tabBar={props => <TabBar {...props} />}
+      tabBar={(props) => <TabBar {...props} />}
       initialRouteName={launchScreen}
       screenOptions={{ headerShown: false }}
     >
@@ -54,7 +54,7 @@ const Main = () => {
         component={News}
       />
     </Tab.Navigator>
-  );
-};
+  )
+}
 
-export default Main;
+export default Main

@@ -1,37 +1,37 @@
-import React, { useRef, useCallback, forwardRef } from 'react';
-import { BottomSheetModal } from '@gorhom/bottom-sheet';
+import React, { useRef, useCallback, forwardRef } from 'react'
+import { BottomSheetModal } from '@gorhom/bottom-sheet'
 
-import useGlobalTheme from '/hooks/useGlobalTheme';
+import useGlobalTheme from '/hooks/useGlobalTheme'
 
-import Modal from '/components/common/BottomSheetModal';
-import SettingRoot from './SettingRoot';
-import ScreenTheme from './ScreenTheme';
-import Language from './Language';
-import Currency from './Currency';
-import LaunchScreen from './LaunchScreen';
+import Modal from '/components/common/BottomSheetModal'
+import SettingRoot from './SettingRoot'
+import ScreenTheme from './ScreenTheme'
+import Language from './Language'
+import Currency from './Currency'
+import LaunchScreen from './LaunchScreen'
 
 const SettingButton = forwardRef<BottomSheetModal>((_props, ref) => {
-  const { theme } = useGlobalTheme();
-  const languageModalRef = useRef<BottomSheetModal>(null);
-  const currencyModalRef = useRef<BottomSheetModal>(null);
-  const screenThemeModalRef = useRef<BottomSheetModal>(null);
-  const launchScreenModalRef = useRef<BottomSheetModal>(null);
+  const { theme } = useGlobalTheme()
+  const languageModalRef = useRef<BottomSheetModal>(null)
+  const currencyModalRef = useRef<BottomSheetModal>(null)
+  const screenThemeModalRef = useRef<BottomSheetModal>(null)
+  const launchScreenModalRef = useRef<BottomSheetModal>(null)
 
   const handleLanguagePress = useCallback(() => {
-    languageModalRef.current?.present();
-  }, [languageModalRef]);
+    languageModalRef.current?.present()
+  }, [languageModalRef])
 
   const handleCurrencyPress = useCallback(() => {
-    currencyModalRef.current?.present();
-  }, [currencyModalRef]);
+    currencyModalRef.current?.present()
+  }, [currencyModalRef])
 
   const handleScreenThemePress = useCallback(() => {
-    screenThemeModalRef.current?.present();
-  }, [screenThemeModalRef]);
+    screenThemeModalRef.current?.present()
+  }, [screenThemeModalRef])
 
   const handleLaunchScreenPress = useCallback(() => {
-    launchScreenModalRef.current?.present();
-  }, [launchScreenModalRef]);
+    launchScreenModalRef.current?.present()
+  }, [launchScreenModalRef])
 
   return (
     <>
@@ -86,7 +86,7 @@ const SettingButton = forwardRef<BottomSheetModal>((_props, ref) => {
         <LaunchScreen />
       </Modal>
     </>
-  );
-});
+  )
+})
 
-export default SettingButton;
+export default SettingButton

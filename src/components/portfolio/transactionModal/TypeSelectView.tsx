@@ -1,22 +1,22 @@
-import React, { useEffect, useRef } from 'react';
-import { Animated, Dimensions } from 'react-native';
-import styled from 'styled-components/native';
-import { useTranslation } from 'react-i18next';
-import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
+import React, { useEffect, useRef } from 'react'
+import { Animated, Dimensions } from 'react-native'
+import styled from 'styled-components/native'
+import { useTranslation } from 'react-i18next'
+import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons'
 
-import useGlobalTheme from '/hooks/useGlobalTheme';
+import useGlobalTheme from '/hooks/useGlobalTheme'
 
-import Text from '/components/common/Text';
-import { FormData, NumericData } from './FormModal';
+import Text from '/components/common/Text'
+import { FormData, NumericData } from './FormModal'
 
 type ViewProps = {
-  transactionType: string;
-  transferType: string | null;
-  setFormData: React.Dispatch<React.SetStateAction<FormData<NumericData>>>;
-  FOOTER_HEIGHT: number;
-};
+  transactionType: string
+  transferType: string | null
+  setFormData: React.Dispatch<React.SetStateAction<FormData<NumericData>>>
+  FOOTER_HEIGHT: number
+}
 
-const { width, height } = Dimensions.get('window');
+const { width, height } = Dimensions.get('window')
 const transactionTypes = [
   {
     key: 'buy',
@@ -36,7 +36,7 @@ const transactionTypes = [
       <MaterialCommunityIcons name="transfer" size={24} color={color} />
     ),
   },
-];
+]
 
 const transferTypes = [
   {
@@ -51,7 +51,7 @@ const transferTypes = [
       <AntDesign name="arrowup" size={18} color={color} />
     ),
   },
-];
+]
 
 const TypeSelectView = ({
   setFormData,
@@ -59,21 +59,21 @@ const TypeSelectView = ({
   transferType,
   FOOTER_HEIGHT,
 }: ViewProps) => {
-  const { t } = useTranslation();
-  const { theme } = useGlobalTheme();
-  const translateX = useRef(new Animated.Value(0)).current;
-  const translateY = useRef(new Animated.Value(-20)).current;
-  const opacity = useRef(new Animated.Value(0)).current;
+  const { t } = useTranslation()
+  const { theme } = useGlobalTheme()
+  const translateX = useRef(new Animated.Value(0)).current
+  const translateY = useRef(new Animated.Value(-20)).current
+  const opacity = useRef(new Animated.Value(0)).current
   const TransferTypeWidth =
-    (width - parseInt(theme.content.spacing, 10) * 2) / 2;
+    (width - parseInt(theme.content.spacing, 10) * 2) / 2
   const TransactionTypeWidth =
-    (width - parseInt(theme.content.spacing, 10) * 2 - 20) / 3;
+    (width - parseInt(theme.content.spacing, 10) * 2 - 20) / 3
 
   useEffect(() => {
-    const index = transferTypes.findIndex(type => type.key === transferType);
-    setTranslateX(index);
+    const index = transferTypes.findIndex((type) => type.key === transferType)
+    setTranslateX(index)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [transferType]);
+  }, [transferType])
 
   useEffect(() => {
     if (transactionType === 'transfer') {
@@ -88,7 +88,7 @@ const TypeSelectView = ({
           duration: 200,
           useNativeDriver: true,
         }),
-      ]).start();
+      ]).start()
     } else {
       Animated.parallel([
         Animated.timing(opacity, {
@@ -101,36 +101,36 @@ const TypeSelectView = ({
           duration: 200,
           useNativeDriver: true,
         }),
-      ]).start();
+      ]).start()
     }
-  }, [opacity, transactionType, translateY]);
+  }, [opacity, transactionType, translateY])
 
   const setTranslateX = (index: number) => {
     Animated.timing(translateX, {
       toValue: TransferTypeWidth * index,
       duration: 100,
       useNativeDriver: true,
-    }).start();
-  };
+    }).start()
+  }
 
   const onSwitchTransactionType = (type: string) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       type,
-    }));
-  };
+    }))
+  }
 
   const onSwitchTransferType = (type: string) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       transferType: type,
-    }));
-  };
+    }))
+  }
 
   return (
     <Container height={height - FOOTER_HEIGHT - 70}>
       <TransactionTypeWrap>
-        {transactionTypes.map(type => (
+        {transactionTypes.map((type) => (
           <TransactionType
             key={type.key}
             activeOpacity={0.6}
@@ -166,7 +166,7 @@ const TypeSelectView = ({
           opacity,
         }}
       >
-        {transferTypes.map(type => (
+        {transferTypes.map((type) => (
           <TransferType
             key={type.key}
             width={TransferTypeWidth}
@@ -202,35 +202,35 @@ const TypeSelectView = ({
         />
       </TransferTypeWrap>
     </Container>
-  );
-};
+  )
+}
 
-export default TypeSelectView;
+export default TypeSelectView
 
 type ContainerProps = {
-  height: number;
-};
+  height: number
+}
 
 type TypeProps = {
-  width: number;
-  isSelected?: boolean;
-};
+  width: number
+  isSelected?: boolean
+}
 
 type TextProps = {
-  isSelected: boolean;
-};
+  isSelected: boolean
+}
 
 const Container = styled.View<ContainerProps>`
   height: ${({ height }) => height}px;
   padding: 0 ${({ theme }) => theme.content.spacing};
   justify-content: center;
-`;
+`
 
 const TransactionTypeWrap = styled.View`
   flex-direction: row;
   justify-content: space-between;
   height: 150px;
-`;
+`
 
 const TransactionType = styled.TouchableOpacity<TypeProps>`
   height: 100%;
@@ -243,7 +243,7 @@ const TransactionType = styled.TouchableOpacity<TypeProps>`
   border-style: solid;
   border-color: ${({ theme, isSelected }) =>
     isSelected ? theme.base.primaryColor : 'transparent'};
-`;
+`
 
 const TransferTypeWrap = styled.View`
   flex-direction: row;
@@ -251,7 +251,7 @@ const TransferTypeWrap = styled.View`
   background-color: ${({ theme }) => theme.base.background[300]};
   border-radius: ${({ theme }) => theme.border.m};
   margin-top: 20px;
-`;
+`
 
 const TransferType = styled.TouchableOpacity<TypeProps>`
   flex-direction: row;
@@ -259,7 +259,7 @@ const TransferType = styled.TouchableOpacity<TypeProps>`
   height: 100%;
   align-items: center;
   justify-content: center;
-`;
+`
 
 const Indicator = styled.View<TypeProps>`
   position: absolute;
@@ -268,9 +268,9 @@ const Indicator = styled.View<TypeProps>`
   background-color: ${({ theme }) => theme.base.background[400]};
   border-radius: ${({ theme }) => theme.border.m};
   z-index: -1;
-`;
+`
 
 const CustomText = styled(Text)<TextProps>`
   color: ${({ theme, isSelected }) =>
     isSelected ? theme.base.text[100] : theme.base.text[300]};
-`;
+`

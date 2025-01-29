@@ -1,13 +1,13 @@
-import React from 'react';
-import { SvgXml, XmlProps } from 'react-native-svg';
+import React from 'react'
+import { SvgXml, XmlProps } from 'react-native-svg'
 
 interface BaseType {
-  name: 'rise' | 'decrease' | 'badge' | 'coinstack' | 'coins' | 'candlestick';
-  fstColor?: string;
-  scdColor?: string;
+  name: 'rise' | 'decrease' | 'badge' | 'coinstack' | 'coins' | 'candlestick'
+  fstColor?: string
+  scdColor?: string
 }
 
-type SvgProps = BaseType & Omit<XmlProps, 'xml'>;
+type SvgProps = BaseType & Omit<XmlProps, 'xml'>
 
 export default function SvgComponent({
   name,
@@ -78,7 +78,7 @@ export default function SvgComponent({
       </g>
       </svg>
     `,
-  };
+  }
 
-  return <SvgXml {...rest} xml={xmls[name]} />;
+  return <SvgXml {...rest} xml={xmls[name]} />
 }

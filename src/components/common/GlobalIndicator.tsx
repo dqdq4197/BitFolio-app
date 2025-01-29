@@ -1,15 +1,15 @@
-import React from 'react';
-import { ActivityIndicator, Dimensions } from 'react-native';
-import styled from 'styled-components/native';
+import React from 'react'
+import { ActivityIndicator, Dimensions } from 'react-native'
+import styled from 'styled-components/native'
 
-import useGlobalTheme from '/hooks/useGlobalTheme';
+import useGlobalTheme from '/hooks/useGlobalTheme'
 
-const { width } = Dimensions.get('window');
+const { width } = Dimensions.get('window')
 
 interface IndicatorType {
-  size?: 'large' | 'small';
-  isLoaded: boolean;
-  transparent?: boolean;
+  size?: 'large' | 'small'
+  isLoaded: boolean
+  transparent?: boolean
 }
 
 const GlobalIndicator = ({
@@ -17,21 +17,21 @@ const GlobalIndicator = ({
   isLoaded,
   transparent = false,
 }: IndicatorType) => {
-  const { theme } = useGlobalTheme();
+  const { theme } = useGlobalTheme()
 
-  if (isLoaded) return <></>;
+  if (isLoaded) return <></>
   return (
     <IndicatorWrap transparent={transparent}>
       <ActivityIndicator size={size} color={theme.base.text[100]} />
     </IndicatorWrap>
-  );
-};
+  )
+}
 
-export default GlobalIndicator;
+export default GlobalIndicator
 
 type WrapProps = {
-  transparent: boolean;
-};
+  transparent: boolean
+}
 
 const IndicatorWrap = styled.View<WrapProps>`
   position: absolute;
@@ -44,4 +44,4 @@ const IndicatorWrap = styled.View<WrapProps>`
     transparent ? 'transparent' : theme.base.background[200]};
   left: 0;
   z-index: 111;
-`;
+`

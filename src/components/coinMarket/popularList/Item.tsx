@@ -1,43 +1,43 @@
-import React from 'react';
-import { Dimensions } from 'react-native';
-import styled, { css } from 'styled-components/native';
-import { baseTypes } from 'base-types';
+import React from 'react'
+import { Dimensions } from 'react-native'
+import styled, { css } from 'styled-components/native'
+import { baseTypes } from 'base-types'
 
-import type { CoinMarketReturn } from '/types/coinGeckoReturnType';
-import { digitToFixed, convertUnits } from '/lib/utils';
+import type { CoinMarketReturn } from '/types/coinGeckoReturnType'
+import { digitToFixed, convertUnits } from '/lib/utils'
 import {
   currencyFormat,
   getCurrencySymbol,
   exponentToNumber,
-} from '/lib/utils/currencyFormat';
-import useLocales from '/hooks/useLocales';
-import useGlobalTheme from '/hooks/useGlobalTheme';
+} from '/lib/utils/currencyFormat'
+import useLocales from '/hooks/useLocales'
+import useGlobalTheme from '/hooks/useGlobalTheme'
 
-import Image from '/components/common/Image';
-import Text from '/components/common/Text';
-import WatchListIcon from '/components/common/WatchListIcon';
-import IncreaseDecreaseValue from '/components/common/IncreaseDecreaseValue';
+import Image from '/components/common/Image'
+import Text from '/components/common/Text'
+import WatchListIcon from '/components/common/WatchListIcon'
+import IncreaseDecreaseValue from '/components/common/IncreaseDecreaseValue'
 
-const { width } = Dimensions.get('window');
+const { width } = Dimensions.get('window')
 
 type ItemProps = {
-  item: CoinMarketReturn;
-  index: number;
-  valueKey: 'total_volume' | 'market_cap' | 'current_price';
+  item: CoinMarketReturn
+  index: number
+  valueKey: 'total_volume' | 'market_cap' | 'current_price'
   percentageKey?:
     | 'market_cap_change_percentage_24h'
-    | 'price_change_percentage_24h';
-  onPressItem: (id: string, symbol: string) => void;
-  NoneUnderLine?: boolean;
-};
+    | 'price_change_percentage_24h'
+  onPressItem: (id: string, symbol: string) => void
+  NoneUnderLine?: boolean
+}
 
 interface ValueProps {
-  value: number;
-  currency: baseTypes.Currency;
+  value: number
+  currency: baseTypes.Currency
 }
 
 interface PercentageProps extends ValueProps {
-  percentage: number | null;
+  percentage: number | null
 }
 
 const OnlyValue = ({ value, currency }: ValueProps) => (
@@ -46,7 +46,7 @@ const OnlyValue = ({ value, currency }: ValueProps) => (
       {convertUnits(value, currency)}
     </Text>
   </ValueWrap>
-);
+)
 
 const ValueWithPercentage = ({
   value,
@@ -68,7 +68,7 @@ const ValueWithPercentage = ({
       right
     />
   </ValueWrap>
-);
+)
 
 const Item = ({
   item,
@@ -78,9 +78,9 @@ const Item = ({
   NoneUnderLine = false,
   onPressItem,
 }: ItemProps) => {
-  const { currency } = useLocales();
-  const { theme } = useGlobalTheme();
-  const { id, symbol } = item;
+  const { currency } = useLocales()
+  const { theme } = useGlobalTheme()
+  const { id, symbol } = item
 
   return (
     <ItemContainer
@@ -121,19 +121,19 @@ const Item = ({
         </ItemColumn>
       </>
     </ItemContainer>
-  );
-};
+  )
+}
 
-export default React.memo(Item);
+export default React.memo(Item)
 
 type ContainerProps = {
-  NoneUnderLine: boolean;
-};
+  NoneUnderLine: boolean
+}
 
 type ColumnProps = {
-  column: number;
-  justifyContent?: 'flex-end' | 'flex-start' | 'center';
-};
+  column: number
+  justifyContent?: 'flex-end' | 'flex-start' | 'center'
+}
 
 /* height값 바꿀 시 주의
    flexList getItemLayout 수치 똑같이 바꿔주기.
@@ -144,33 +144,33 @@ const ItemContainer = styled.TouchableHighlight<ContainerProps>`
   height: 60px;
   flex-direction: row;
   padding: 0 ${({ theme }) => theme.content.spacing};
-  ${props =>
+  ${(props) =>
     !props.NoneUnderLine &&
     css`
       border-bottom-width: 1px;
       border-bottom-color: ${({ theme }) => theme.base.background[300]};
     `}
-`;
+`
 
 const ItemColumn = styled.View<ColumnProps>`
-  flex: ${props => props.column};
+  flex: ${(props) => props.column};
   flex-direction: row;
   align-items: center;
   justify-content: ${({ justifyContent }) => justifyContent || 'center'};
-`;
+`
 
 const NameWrap = styled.View`
   /* 전체 넓이 - spacing를 2.5등분 * 1.2 후 - 이미지 넓이 + 이미지 margin right*/
   width: ${({ theme }) =>
     ((width - parseInt(theme.content.spacing, 10) * 2) / 2.5) * 1.2 - 40}px;
-`;
+`
 
 const ImageWrap = styled.View`
   margin-right: 10px;
   border-radius: ${({ theme }) => theme.border.s};
   overflow: hidden;
-`;
+`
 
 const ValueWrap = styled.View`
   width: 100%;
-`;
+`

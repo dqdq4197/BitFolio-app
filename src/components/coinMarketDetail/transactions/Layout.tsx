@@ -1,33 +1,27 @@
-import React, {
-  useState,
-  useEffect,
-  useRef,
-  useCallback,
-  useMemo,
-} from 'react';
-import { Dimensions } from 'react-native';
-import { useTranslation } from 'react-i18next';
-import styled from 'styled-components/native';
-import { BottomSheetModal } from '@gorhom/bottom-sheet';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
+import { Dimensions } from 'react-native'
+import { useTranslation } from 'react-i18next'
+import styled from 'styled-components/native'
+import { BottomSheetModal } from '@gorhom/bottom-sheet'
 
-import { useAppSelector } from '/hooks/useRedux';
-import { useCoinIdContext } from '/hooks/context/useCoinIdContext';
-import useCoinDetail from '/hooks/data/useCoinDetail';
-import { TransactionType } from '/store/slices/transaction';
+import { useAppSelector } from '/hooks/useRedux'
+import { useCoinIdContext } from '/hooks/context/useCoinIdContext'
+import useCoinDetail from '/hooks/data/useCoinDetail'
+import { TransactionType } from '/store/slices/transaction'
 
-import Text from '/components/common/Text';
-import ScrollView from '/components/common/ScrollView';
-import SurfaceWrap from '/components/common/SurfaceWrap';
-import HorizontalLine from '/components/common/HorizontalLine';
-import CustomRefreshControl from '/components/common/CustomRefreshControl';
-import TransactionDetailModal from './TransactionDetailModal';
-import Item from './Item';
-import AddTransactionButton from '../AddTransactionButton';
+import Text from '/components/common/Text'
+import ScrollView from '/components/common/ScrollView'
+import SurfaceWrap from '/components/common/SurfaceWrap'
+import HorizontalLine from '/components/common/HorizontalLine'
+import CustomRefreshControl from '/components/common/CustomRefreshControl'
+import TransactionDetailModal from './TransactionDetailModal'
+import Item from './Item'
+import AddTransactionButton from '../AddTransactionButton'
 
-const { height } = Dimensions.get('window');
+const { height } = Dimensions.get('window')
 
 const EmptyView = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   return (
     <EmptyViewContainer>
@@ -38,70 +32,71 @@ const EmptyView = () => {
         {t(`coinDetail.add your first transaction`)}
       </Text>
     </EmptyViewContainer>
-  );
-};
+  )
+}
 
 const Layout = () => {
-  const { t } = useTranslation();
-  const { id, symbol } = useCoinIdContext();
-  const { transactions } = useAppSelector(state => state.transactionReducer);
-  const { portfolios, activeIndex } = useAppSelector(state => ({
+  const { t } = useTranslation()
+  const { id, symbol } = useCoinIdContext()
+  const { transactions } = useAppSelector((state) => state.transactionReducer)
+  const { portfolios, activeIndex } = useAppSelector((state) => ({
     portfolios: state.portfolioReducer.portfolios,
     activeIndex: state.portfolioReducer.activeIndex,
-  }));
-  const modalRef = useRef<BottomSheetModal>(null);
+  }))
+  const modalRef = useRef<BottomSheetModal>(null)
   const [filteredData, setFilteredData] = useState<TransactionType[] | null>(
     null
-  );
+  )
   const [focusedTransactionId, setFocusedTransactionId] = useState<
     string | null
-  >(null);
-  const [refreshing, setRefreshing] = useState(false);
-  const { data, mutate } = useCoinDetail({ id, suspense: false });
+  >(null)
+  const [refreshing, setRefreshing] = useState(false)
+  const { data, mutate } = useCoinDetail({ id, suspense: false })
 
   useEffect(() => {
     // filteredData => null의 경우 로딩중 | length === 0인 경우 거래 내역이 없음
     const filteredTransactions = transactions
-      .filter(transaction => transaction.coinId === id)
-      .slice();
+      .filter((transaction) => transaction.coinId === id)
+      .slice()
 
-    filteredTransactions.sort((a, b) => b.date - a.date);
+    filteredTransactions.sort((a, b) => b.date - a.date)
 
-    setFilteredData([...filteredTransactions]);
-  }, [id, transactions]);
+    setFilteredData([...filteredTransactions])
+  }, [id, transactions])
 
   // eslint-disable-next-line consistent-return
   const focusedTransactionData = useMemo(() => {
     if (filteredData && focusedTransactionId) {
       return filteredData.filter(
-        transaction => transaction.id === focusedTransactionId
-      )[0];
+        (transaction) => transaction.id === focusedTransactionId
+      )[0]
     }
-  }, [filteredData, focusedTransactionId]);
+  }, [filteredData, focusedTransactionId])
 
   useEffect(() => {
-    modalRef.current?.present();
-  }, [focusedTransactionId]);
+    modalRef.current?.present()
+  }, [focusedTransactionId])
 
   const handleItemPress = useCallback((id: string) => {
-    setFocusedTransactionId(id);
-  }, []);
+    setFocusedTransactionId(id)
+  }, [])
 
   const onModalDismiss = () => {
-    setFocusedTransactionId(null);
-  };
+    setFocusedTransactionId(null)
+  }
 
   const wantChangeCoinState: boolean = useMemo(() => {
     return (
-      transactions.filter(transaction => transaction.coinId === id).length === 1
-    );
-  }, [id, transactions]);
+      transactions.filter((transaction) => transaction.coinId === id).length ===
+      1
+    )
+  }, [id, transactions])
 
   const handleRefresh = useCallback(async () => {
-    setRefreshing(true);
-    await mutate();
-    setRefreshing(false);
-  }, [mutate]);
+    setRefreshing(true)
+    await mutate()
+    setRefreshing(false)
+  }, [mutate])
 
   return (
     <Container>
@@ -163,15 +158,15 @@ const Layout = () => {
         <AddTransactionButton portfolioId={portfolios[activeIndex].id} />
       </FooterContainer>
     </Container>
-  );
-};
+  )
+}
 
-export default Layout;
+export default Layout
 
 const Container = styled.View`
   flex: 1;
   background-color: ${({ theme }) => theme.base.background.surface};
-`;
+`
 
 const ListHeader = styled.View`
   flex-direction: row;
@@ -180,30 +175,30 @@ const ListHeader = styled.View`
   border-top-color: ${({ theme }) => theme.base.background[200]};
   border-bottom-width: 1.5px;
   border-bottom-color: ${({ theme }) => theme.base.background[200]};
-`;
+`
 
 const TypeWrap = styled.View`
   flex: 1.4;
-`;
+`
 
 const QuantityWrap = styled.View`
   flex: 1;
   align-items: flex-end;
-`;
+`
 
 const View = styled.View`
   flex: 1;
-`;
+`
 
 const EmptyViewContainer = styled.View`
   flex: 1;
   height: ${height - 200}px;
   align-items: center;
   justify-content: center;
-`;
+`
 
 const FooterContainer = styled.View`
   justify-content: center;
   align-items: center;
   margin-bottom: ${({ theme }) => theme.content.spacing};
-`;
+`

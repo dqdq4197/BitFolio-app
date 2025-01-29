@@ -4,7 +4,7 @@ import React, {
   MutableRefObject,
   useCallback,
   useState,
-} from 'react';
+} from 'react'
 import {
   NativeSyntheticEvent,
   NativeScrollEvent,
@@ -12,52 +12,52 @@ import {
   LayoutAnimation,
   UIManager,
   Platform,
-} from 'react-native';
-import { useTranslation } from 'react-i18next';
-import styled, { css } from 'styled-components/native';
-import { BottomSheetModal } from '@gorhom/bottom-sheet';
-import { format } from 'date-fns';
-import { ko, enUS } from 'date-fns/locale';
+} from 'react-native'
+import { useTranslation } from 'react-i18next'
+import styled, { css } from 'styled-components/native'
+import { BottomSheetModal } from '@gorhom/bottom-sheet'
+import { format } from 'date-fns'
+import { ko, enUS } from 'date-fns/locale'
 import {
   FontAwesome5,
   FontAwesome,
   MaterialIcons,
   MaterialCommunityIcons,
   Feather,
-} from '@expo/vector-icons';
+} from '@expo/vector-icons'
 
-import useLocales from '/hooks/useLocales';
-import useGlobalTheme from '/hooks/useGlobalTheme';
-import { useAppDispatch } from '/hooks/useRedux';
-import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat';
-import { digitToFixed } from '/lib/utils';
-import { TransactionType, removeTransaction } from '/store/slices/transaction';
-import { changeCoinState } from '/store/slices/portfolio';
+import useLocales from '/hooks/useLocales'
+import useGlobalTheme from '/hooks/useGlobalTheme'
+import { useAppDispatch } from '/hooks/useRedux'
+import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat'
+import { digitToFixed } from '/lib/utils'
+import { TransactionType, removeTransaction } from '/store/slices/transaction'
+import { changeCoinState } from '/store/slices/portfolio'
 
-import Modal from '/components/common/BottomSheetModal';
-import Text from '/components/common/Text';
-import SurfaceWrap from '/components/common/SurfaceWrap';
-import IncreaseDecreaseValue from '/components/common/IncreaseDecreaseValue';
-import EditButton from './EditTransactionButton';
+import Modal from '/components/common/BottomSheetModal'
+import Text from '/components/common/Text'
+import SurfaceWrap from '/components/common/SurfaceWrap'
+import IncreaseDecreaseValue from '/components/common/IncreaseDecreaseValue'
+import EditButton from './EditTransactionButton'
 
 if (Platform.OS === 'android') {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
-    UIManager.setLayoutAnimationEnabledExperimental(true);
+    UIManager.setLayoutAnimationEnabledExperimental(true)
   }
 }
 
 type DetailProps = {
-  data: TransactionType;
-  currentPrice: { [key: string]: number };
-  symbol: string;
-  coinId: string;
-  portfolioId: string;
-  name: string;
-  image: string;
-  transactionId: string;
-  wantChangeCoinState: boolean;
-  onDismiss: () => void;
-};
+  data: TransactionType
+  currentPrice: { [key: string]: number }
+  symbol: string
+  coinId: string
+  portfolioId: string
+  name: string
+  image: string
+  transactionId: string
+  wantChangeCoinState: boolean
+  onDismiss: () => void
+}
 
 const TransactionDetailModal = forwardRef<BottomSheetModal, DetailProps>(
   (
@@ -75,54 +75,54 @@ const TransactionDetailModal = forwardRef<BottomSheetModal, DetailProps>(
     },
     ref
   ) => {
-    const { t } = useTranslation();
-    const dispatch = useAppDispatch();
-    const { currency, language } = useLocales();
-    const { theme } = useGlobalTheme();
-    const [currentSnapPoint, setCurrentSnapPoint] = useState(0);
+    const { t } = useTranslation()
+    const dispatch = useAppDispatch()
+    const { currency, language } = useLocales()
+    const { theme } = useGlobalTheme()
+    const [currentSnapPoint, setCurrentSnapPoint] = useState(0)
 
     const snapPoints = useMemo(() => {
-      return data.type === 'transfer' ? [360, '85%'] : ['85%'];
-    }, [data]);
+      return data.type === 'transfer' ? [360, '85%'] : ['85%']
+    }, [data])
 
     const changePrice = useMemo(() => {
       if (currentPrice && data) {
         return (
           currentPrice[currency] * data.quantity -
           (data.pricePerCoin[currency] * data.quantity + data.fee[currency])
-        );
+        )
       }
-      return 0;
-    }, [data, currentPrice, currency]);
+      return 0
+    }, [data, currentPrice, currency])
 
     const changePercentage = useMemo(() => {
       if (currentPrice && data) {
         const cost =
-          data.pricePerCoin[currency] * data.quantity + data.fee[currency];
-        const currentValue = currentPrice[currency] * data.quantity;
-        const percentage = ((currentValue - cost) / cost) * 100;
+          data.pricePerCoin[currency] * data.quantity + data.fee[currency]
+        const currentValue = currentPrice[currency] * data.quantity
+        const percentage = ((currentValue - cost) / cost) * 100
 
-        return digitToFixed(percentage ?? 0, 2);
+        return digitToFixed(percentage ?? 0, 2)
       }
-      return 0;
-    }, [data, currentPrice, currency]);
+      return 0
+    }, [data, currentPrice, currency])
 
     const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
       const {
         contentOffset: { y },
-      } = event.nativeEvent;
+      } = event.nativeEvent
 
       if (y > 70 && currentSnapPoint === 0) {
-        (ref as MutableRefObject<any | null>)?.current.snapTo(1);
+        ;(ref as MutableRefObject<any | null>)?.current.snapTo(1)
       } else if (y < -40 && currentSnapPoint === 1) {
-        (ref as MutableRefObject<any | null>)?.current.snapTo(0);
+        ;(ref as MutableRefObject<any | null>)?.current.snapTo(0)
       }
-    };
+    }
 
     const handleSnapPointChange = useCallback(
       (index: number) => setCurrentSnapPoint(index),
       []
-    );
+    )
 
     const handleRemoveButtonPress = () => {
       Alert.alert(
@@ -139,7 +139,7 @@ const TransactionDetailModal = forwardRef<BottomSheetModal, DetailProps>(
             onPress: () => {
               LayoutAnimation.configureNext(
                 LayoutAnimation.create(200, 'easeInEaseOut', 'opacity')
-              );
+              )
               if (wantChangeCoinState) {
                 dispatch(
                   changeCoinState({
@@ -147,16 +147,16 @@ const TransactionDetailModal = forwardRef<BottomSheetModal, DetailProps>(
                     portfolioId,
                     state: 'watching',
                   })
-                );
+                )
               }
-              dispatch(removeTransaction({ id: data.id }));
+              dispatch(removeTransaction({ id: data.id }))
             },
             style: 'destructive',
           },
         ],
         { cancelable: false }
-      );
-    };
+      )
+    }
 
     return (
       <Modal
@@ -381,47 +381,47 @@ const TransactionDetailModal = forwardRef<BottomSheetModal, DetailProps>(
           </>
         </ScrollView>
       </Modal>
-    );
+    )
   }
-);
+)
 
-export default TransactionDetailModal;
+export default TransactionDetailModal
 
-const ScrollView = styled.ScrollView``;
+const ScrollView = styled.ScrollView``
 const Row = styled.View`
   flex-direction: row;
   justify-content: space-between;
   padding: 10px 0;
-`;
+`
 
 const WrapperCommonStyle = css`
   background-color: ${({ theme }) => theme.base.background[300]};
   border-radius: ${({ theme }) => theme.border.m};
   padding: 6px 12px;
-`;
+`
 
 const TableWrap = styled.View`
   ${WrapperCommonStyle}
-`;
+`
 
 const ChangeWrap = styled.View`
   ${WrapperCommonStyle}
   justify-content: center;
   margin-top: ${({ theme }) => theme.content.blankSpacing};
-`;
+`
 
 const IconWrap = styled.View`
   width: 20px;
-`;
+`
 
 const SubTitleWrap = styled.View`
   flex-direction: row;
   align-items: center;
-`;
+`
 
 const Notes = styled.View`
   padding: 10px 0;
-`;
+`
 
 const RemoveButton = styled.TouchableOpacity`
   height: 45px;
@@ -429,4 +429,4 @@ const RemoveButton = styled.TouchableOpacity`
   justify-content: center;
   margin: 0 10px;
   margin-bottom: 10px;
-`;
+`

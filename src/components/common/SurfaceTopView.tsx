@@ -1,15 +1,15 @@
-import React from 'react';
-import { Platform } from 'react-native';
-import styled from 'styled-components/native';
+import React from 'react'
+import { Platform } from 'react-native'
+import styled from 'styled-components/native'
 
-const isIos = Platform.OS === 'ios';
-const SPACER_SIZE = 1000;
+const isIos = Platform.OS === 'ios'
+const SPACER_SIZE = 1000
 
 const SurfaceTopView = () => {
-  return <>{isIos && <View />}</>;
-};
+  return <>{isIos && <View />}</>
+}
 
-export default SurfaceTopView;
+export default SurfaceTopView
 
 const View = styled.View`
   position: absolute;
@@ -19,4 +19,4 @@ const View = styled.View`
   top: -${SPACER_SIZE}px;
   left: 0;
   right: 0;
-`;
+`

@@ -1,23 +1,23 @@
-import React from 'react';
-import styled, { css } from 'styled-components/native';
-import { useTranslation } from 'react-i18next';
-import { baseTypes } from 'base-types';
+import React from 'react'
+import styled, { css } from 'styled-components/native'
+import { useTranslation } from 'react-i18next'
+import { baseTypes } from 'base-types'
 
-import { convertUnits } from '/lib/utils';
+import { convertUnits } from '/lib/utils'
 
-import Text from '/components/common/Text';
-import SurfaceWrap from '/components/common/SurfaceWrap';
+import Text from '/components/common/Text'
+import SurfaceWrap from '/components/common/SurfaceWrap'
 
 type StatsProps = {
-  rank: number;
-  marketcap: number;
-  totalVolume: number;
-  genesis_date: string;
-  maxSupply: number | null;
-  circulatingSupply: number;
-  hashingAlgorithm: string;
-  currency: baseTypes.Currency;
-};
+  rank: number
+  marketcap: number
+  totalVolume: number
+  genesis_date: string
+  maxSupply: number | null
+  circulatingSupply: number
+  hashingAlgorithm: string
+  currency: baseTypes.Currency
+}
 
 const Stats = ({
   rank,
@@ -29,7 +29,7 @@ const Stats = ({
   hashingAlgorithm,
   currency,
 }: StatsProps) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   return (
     <SurfaceWrap title={t('coinDetail.statistic')} fontL parentPaddingZero>
@@ -98,51 +98,51 @@ const Stats = ({
         </Row>
       </Table>
     </SurfaceWrap>
-  );
-};
+  )
+}
 
-export default Stats;
+export default Stats
 
 type RowProps = {
-  top?: boolean;
-  bottom?: boolean;
-};
+  top?: boolean
+  bottom?: boolean
+}
 
 type ColProps = {
-  left?: boolean;
-};
+  left?: boolean
+}
 
 const Table = styled.View`
   margin-bottom: 10px;
-`;
+`
 
 const Row = styled.View<RowProps>`
   flex-direction: row;
-  ${props =>
+  ${(props) =>
     props.top &&
     css`
       border-top-width: 1px;
       border-top-color: ${props.theme.base.background[300]};
     `}
-  ${props =>
+  ${(props) =>
     props.bottom &&
     css`
       border-bottom-width: 1px;
       border-bottom-color: ${props.theme.base.background[300]};
     `}
-`;
+`
 
 const Col = styled.View<ColProps>`
   width: 50%;
   padding: 10px ${({ theme }) => theme.content.spacing};
-  ${props =>
+  ${(props) =>
     props.left &&
     css`
       border-left-width: 1px;
       border-left-color: ${props.theme.base.background[300]};
     `}
-`;
+`
 
 const Title = styled.View`
   padding-bottom: 10px;
-`;
+`

@@ -1,50 +1,50 @@
-import React, { useLayoutEffect } from 'react';
-import { APP_VERSION } from '@env';
-import styled from 'styled-components/native';
-import { useTranslation } from 'react-i18next';
-import { useNavigation } from '@react-navigation/native';
-import LottieView from 'lottie-react-native';
-import { MaterialIcons } from '@expo/vector-icons';
+import React, { useLayoutEffect } from 'react'
+import { APP_VERSION } from '@env'
+import styled from 'styled-components/native'
+import { useTranslation } from 'react-i18next'
+import { useNavigation } from '@react-navigation/native'
+import LottieView from 'lottie-react-native'
+import { MaterialIcons } from '@expo/vector-icons'
 
-import { useAuthContext } from '/hooks/context/useAuthContext';
-import useGlobalTheme from '/hooks/useGlobalTheme';
-import type { SettingScreenProps, SettingParamList } from '/types/navigation';
+import { useAuthContext } from '/hooks/context/useAuthContext'
+import useGlobalTheme from '/hooks/useGlobalTheme'
+import type { SettingScreenProps, SettingParamList } from '/types/navigation'
 
-import SurfaceWrap from '/components/common/SurfaceWrap';
-import ScrollView from '/components/common/ScrollView';
-import Stack from '/components/common/Stack';
-import List from '/components/common/List';
-import Text from '/components/common/Text';
-import LogoutButton from './LogoutButton';
-import AppSettingList from './AppSettingList';
+import SurfaceWrap from '/components/common/SurfaceWrap'
+import ScrollView from '/components/common/ScrollView'
+import Stack from '/components/common/Stack'
+import List from '/components/common/List'
+import Text from '/components/common/Text'
+import LogoutButton from './LogoutButton'
+import AppSettingList from './AppSettingList'
 
 const Overview = () => {
-  const { t } = useTranslation();
-  const { theme } = useGlobalTheme();
+  const { t } = useTranslation()
+  const { theme } = useGlobalTheme()
   const navigation =
-    useNavigation<SettingScreenProps<'Overview'>['navigation']>();
-  const { currentUser } = useAuthContext();
+    useNavigation<SettingScreenProps<'Overview'>['navigation']>()
+  const { currentUser } = useAuthContext()
 
   const linkTo = (route: keyof SettingParamList) => {
-    navigation.navigate(route);
-  };
+    navigation.navigate(route)
+  }
 
   useLayoutEffect(() => {
     if (currentUser) {
       navigation.setOptions({
         headerRight: () => <LogoutButton />,
-      });
+      })
     }
-  }, [navigation, currentUser]);
+  }, [navigation, currentUser])
 
   const handleProfilePress = () => {
     if (currentUser) {
-      console.log(currentUser);
-      linkTo('AuthSetting');
+      console.log(currentUser)
+      linkTo('AuthSetting')
     } else {
-      linkTo('Login');
+      linkTo('Login')
     }
-  };
+  }
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
@@ -95,16 +95,16 @@ const Overview = () => {
         </List>
       </SurfaceWrap>
     </ScrollView>
-  );
-};
+  )
+}
 
-export default Overview;
+export default Overview
 
 const TouchableProfile = styled.TouchableHighlight`
   height: 60px;
   padding: 0 ${({ theme }) => theme.content.spacing};
   justify-content: center;
-`;
+`
 
 const IconWrap = styled.View`
   width: 42px;
@@ -114,4 +114,4 @@ const IconWrap = styled.View`
   justify-content: center;
   border: 2px solid ${({ theme }) => theme.base.text[300]};
   margin-right: 16px;
-`;
+`

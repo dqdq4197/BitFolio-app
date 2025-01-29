@@ -1,21 +1,21 @@
-import { Octicons } from '@expo/vector-icons';
-import React, { useCallback, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from 'styled-components/native';
+import { Octicons } from '@expo/vector-icons'
+import React, { useCallback, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import styled from 'styled-components/native'
 
-import useGlobalTheme from '/hooks/useGlobalTheme';
-import { useAppDispatch, useAppSelector } from '/hooks/useRedux';
-import { ALL_NEWS_FEEDS, changeFeeds } from '/store/slices/news';
-import type { FeedAndCategoryData } from '/types/CryptoCompareReturnType';
+import useGlobalTheme from '/hooks/useGlobalTheme'
+import { useAppDispatch, useAppSelector } from '/hooks/useRedux'
+import { ALL_NEWS_FEEDS, changeFeeds } from '/store/slices/news'
+import type { FeedAndCategoryData } from '/types/CryptoCompareReturnType'
 
-import AsyncButton from '/components/common/AsyncButton';
-import Image from '/components/common/Image';
-import ScrollCloseModal from '/components/common/ScrollCloseModal';
-import Text from '/components/common/Text';
+import AsyncButton from '/components/common/AsyncButton'
+import Image from '/components/common/Image'
+import ScrollCloseModal from '/components/common/ScrollCloseModal'
+import Text from '/components/common/Text'
 
 interface ModalType extends Pick<FeedAndCategoryData, 'Feeds'> {
-  visible: boolean;
-  setVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  visible: boolean
+  setVisible: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const FeedFilterModal = ({
@@ -23,40 +23,40 @@ const FeedFilterModal = ({
   setVisible,
   Feeds: FeedsData,
 }: ModalType) => {
-  const { t } = useTranslation();
-  const dispatch = useAppDispatch();
-  const { theme } = useGlobalTheme();
-  const { feeds } = useAppSelector((state) => state.newsReducer);
-  const [feedsTemp, setFeedsTemp] = useState(feeds);
+  const { t } = useTranslation()
+  const dispatch = useAppDispatch()
+  const { theme } = useGlobalTheme()
+  const { feeds } = useAppSelector((state) => state.newsReducer)
+  const [feedsTemp, setFeedsTemp] = useState(feeds)
 
   const handleSavePress = useCallback(() => {
-    dispatch(changeFeeds(feedsTemp));
-    setVisible(false);
-  }, [dispatch, feedsTemp, setVisible]);
+    dispatch(changeFeeds(feedsTemp))
+    setVisible(false)
+  }, [dispatch, feedsTemp, setVisible])
 
   const handleRowPress = (key: string) => {
     if (feedsTemp === ALL_NEWS_FEEDS) {
-      if (key === ALL_NEWS_FEEDS) return;
+      if (key === ALL_NEWS_FEEDS) return
 
-      setFeedsTemp([key]);
+      setFeedsTemp([key])
     } else {
       if (key === ALL_NEWS_FEEDS) {
-        setFeedsTemp(ALL_NEWS_FEEDS);
-        return;
+        setFeedsTemp(ALL_NEWS_FEEDS)
+        return
       }
-      const isContain = feedsTemp.findIndex((feed) => feed === key);
+      const isContain = feedsTemp.findIndex((feed) => feed === key)
 
       if (isContain === -1) {
-        setFeedsTemp((prevState) => [...prevState, key]);
+        setFeedsTemp((prevState) => [...prevState, key])
       } else if (feedsTemp.length === 1) {
-        setFeedsTemp(ALL_NEWS_FEEDS);
+        setFeedsTemp(ALL_NEWS_FEEDS)
       } else {
         setFeedsTemp((prevState) =>
           (prevState as string[]).filter((category) => category !== key)
-        );
+        )
       }
     }
-  };
+  }
 
   return (
     <ScrollCloseModal
@@ -135,26 +135,26 @@ const FeedFilterModal = ({
                 />
               </>
             </Row>
-          );
+          )
         })}
       </Container>
     </ScrollCloseModal>
-  );
-};
+  )
+}
 
-export default FeedFilterModal;
+export default FeedFilterModal
 
 type RowProps = {
-  isActive: boolean;
-};
+  isActive: boolean
+}
 
 const Container = styled.View`
   padding-bottom: 30px;
-`;
+`
 
 const TitleWrap = styled.View`
   justify-content: center;
-`;
+`
 
 const Row = styled.TouchableHighlight<RowProps>`
   flex-direction: row;
@@ -165,9 +165,9 @@ const Row = styled.TouchableHighlight<RowProps>`
   border-bottom-width: 1px;
   border-bottom-color: ${({ theme }) => theme.base.background[300]};
   opacity: ${({ isActive }) => (isActive ? 1 : 0.6)};
-`;
+`
 
 const NameWrap = styled.View`
   flex-direction: row;
   align-items: center;
-`;
+`

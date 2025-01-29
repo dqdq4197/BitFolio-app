@@ -1,21 +1,21 @@
-import React from 'react';
-import { ActivityIndicator } from 'react-native';
-import styled, { css } from 'styled-components/native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import React from 'react'
+import { ActivityIndicator } from 'react-native'
+import styled, { css } from 'styled-components/native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
-import useGlobalTheme from '/hooks/useGlobalTheme';
-import Text, { TextStyleProps } from './Text';
+import useGlobalTheme from '/hooks/useGlobalTheme'
+import Text, { TextStyleProps } from './Text'
 
 export interface AsyncButtonProps extends TextStyleProps {
-  text: string;
-  width?: number;
-  height: number;
-  hasNotch?: boolean;
-  isDisabled: boolean;
-  isLoading: boolean;
-  onPress: () => void;
-  borderPosition?: Array<'top' | 'bottom'>;
-  initialBgColor?: string;
+  text: string
+  width?: number
+  height: number
+  hasNotch?: boolean
+  isDisabled: boolean
+  isLoading: boolean
+  onPress: () => void
+  borderPosition?: Array<'top' | 'bottom'>
+  initialBgColor?: string
 }
 
 const AsyncButton = ({
@@ -30,8 +30,8 @@ const AsyncButton = ({
   initialBgColor,
   ...textStyle
 }: AsyncButtonProps) => {
-  const { theme } = useGlobalTheme();
-  const { bottom } = useSafeAreaInsets();
+  const { theme } = useGlobalTheme()
+  const { bottom } = useSafeAreaInsets()
 
   return (
     <Container
@@ -54,19 +54,19 @@ const AsyncButton = ({
         </IndicatorWarp>
       ) : null}
     </Container>
-  );
-};
+  )
+}
 
-export default AsyncButton;
+export default AsyncButton
 
 type ContainerProps = Pick<
   AsyncButtonProps,
   'borderPosition' | 'height' | 'isDisabled' | 'width' | 'initialBgColor'
 > & {
-  bottomInset: number;
-};
+  bottomInset: number
+}
 
-type TextProps = Pick<AsyncButtonProps, 'isDisabled'>;
+type TextProps = Pick<AsyncButtonProps, 'isDisabled'>
 
 const Container = styled.TouchableOpacity<ContainerProps>`
   flex-direction: row;
@@ -95,13 +95,13 @@ const Container = styled.TouchableOpacity<ContainerProps>`
   `}
   padding-bottom: ${({ bottomInset }) =>
     bottomInset - 20 > 0 ? bottomInset - 20 : 0}px;
-`;
+`
 
 const CustomText = styled(Text)<TextProps>`
   color: ${({ isDisabled }) =>
     isDisabled ? 'rgba(255,255,255,0.6)' : 'rgba(255,255,255,1)'};
-`;
+`
 
 const IndicatorWarp = styled.View`
   margin-left: 10px;
-`;
+`

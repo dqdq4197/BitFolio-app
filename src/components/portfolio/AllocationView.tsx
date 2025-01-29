@@ -1,59 +1,59 @@
-import React, { useState, useMemo } from 'react';
-import { Dimensions } from 'react-native';
-import styled from 'styled-components/native';
-import { Merge } from 'mapped-types';
-import { VictoryPie, VictoryLegend, Slice } from 'victory-native';
+import React, { useState, useMemo } from 'react'
+import { Dimensions } from 'react-native'
+import styled from 'styled-components/native'
+import { Merge } from 'mapped-types'
+import { VictoryPie, VictoryLegend, Slice } from 'victory-native'
 
-import { CoinStatType } from '/hooks/usePortfolioStats';
-import useGlobalTheme from '/hooks/useGlobalTheme';
-import useLocales from '/hooks/useLocales';
-import { ModeType } from '/store/slices/portfolio';
-import { convertUnits, digitToFixed } from '/lib/utils';
+import { CoinStatType } from '/hooks/usePortfolioStats'
+import useGlobalTheme from '/hooks/useGlobalTheme'
+import useLocales from '/hooks/useLocales'
+import { ModeType } from '/store/slices/portfolio'
+import { convertUnits, digitToFixed } from '/lib/utils'
 
-import Text from '/components/common/Text';
-import IncreaseDecreaseValue from '/components/common/IncreaseDecreaseValue';
-import PrivatePlaceholder from './PrivatePlaceholder';
+import Text from '/components/common/Text'
+import IncreaseDecreaseValue from '/components/common/IncreaseDecreaseValue'
+import PrivatePlaceholder from './PrivatePlaceholder'
 
-const { width } = Dimensions.get('window');
+const { width } = Dimensions.get('window')
 
-const LARGE_RADIUS = 120;
-const SMALL_RADIUS = 115;
-const INNER_RADIUS = 90;
+const LARGE_RADIUS = 120
+const SMALL_RADIUS = 115
+const INNER_RADIUS = 90
 
 type AllocationViewProps = {
-  coins?: { [key: string]: CoinStatType };
-  tatalCosts?: number;
-  mode: ModeType;
-};
-type ActiveIndex = number | null;
+  coins?: { [key: string]: CoinStatType }
+  tatalCosts?: number
+  mode: ModeType
+}
+type ActiveIndex = number | null
 type LegendContainerProps = Merge<
   { activeIndex: ActiveIndex },
   { children?: any }
->;
+>
 
 const CustomLegendContainer = ({
   activeIndex,
   children,
 }: LegendContainerProps) => {
-  const [rect, ...svgs] = children[0];
+  const [rect, ...svgs] = children[0]
 
   const datas = useMemo(() => {
-    const dataLength = svgs.length / 2;
+    const dataLength = svgs.length / 2
 
-    return svgs.slice(0, dataLength);
-  }, [svgs]);
+    return svgs.slice(0, dataLength)
+  }, [svgs])
 
   const labels = useMemo(() => {
-    const dataLength = svgs.length / 2;
+    const dataLength = svgs.length / 2
 
-    return svgs.slice(-dataLength);
-  }, [svgs]);
+    return svgs.slice(-dataLength)
+  }, [svgs])
 
   return (
     <CustomContainerWrap>
       {datas.map((data: any) => {
-        const { style, size, events, index } = data.props;
-        const { text } = labels[index].props;
+        const { style, size, events, index } = data.props
+        const { text } = labels[index].props
 
         return (
           <Legend
@@ -65,11 +65,11 @@ const CustomLegendContainer = ({
             <Point size={size} fill={style.fill} />
             <Text bold>{text}</Text>
           </Legend>
-        );
+        )
       })}
     </CustomContainerWrap>
-  );
-};
+  )
+}
 
 const CustomSlice = ({ ...props }) => {
   return (
@@ -77,12 +77,12 @@ const CustomSlice = ({ ...props }) => {
       {...props}
       radius={props.index === props.activeIndex ? LARGE_RADIUS : SMALL_RADIUS}
     />
-  );
-};
+  )
+}
 
 const AllocationView = ({ coins, tatalCosts, mode }: AllocationViewProps) => {
-  const { theme } = useGlobalTheme();
-  const [activeIndex, setActiveIndex] = useState<ActiveIndex>(0);
+  const { theme } = useGlobalTheme()
+  const [activeIndex, setActiveIndex] = useState<ActiveIndex>(0)
   const colorScale = [
     '#7c0000',
     '#ff4d2d',
@@ -134,29 +134,29 @@ const AllocationView = ({ coins, tatalCosts, mode }: AllocationViewProps) => {
     '#282520',
     '#b78876',
     '#8b6a62',
-  ];
-  const { currency } = useLocales();
+  ]
+  const { currency } = useLocales()
 
   if (!coins || !tatalCosts) return <></>
 
-  const coinArr = Object.entries(coins);
-  const pieData = coinArr.map(coin => {
-    const label = coin[0];
-    const { holding_costs } = coin[1];
+  const coinArr = Object.entries(coins)
+  const pieData = coinArr.map((coin) => {
+    const label = coin[0]
+    const { holding_costs } = coin[1]
     return {
       x: label,
       y:
         (holding_costs / tatalCosts) * 100 < 1
           ? 1
           : (holding_costs / tatalCosts) * 100,
-    };
-  });
+    }
+  })
 
-  const legendData = coinArr.map(coin => {
+  const legendData = coinArr.map((coin) => {
     return {
       name: coin[1].symbol.toUpperCase(),
-    };
-  });
+    }
+  })
 
   return (
     <Container>
@@ -183,15 +183,15 @@ const AllocationView = ({ coins, tatalCosts, mode }: AllocationViewProps) => {
                 return [
                   {
                     target: 'labels',
-                    mutation: props => {
+                    mutation: (props) => {
                       if (activeIndex === props.index) {
-                        setActiveIndex(null);
+                        setActiveIndex(null)
                       } else {
-                        setActiveIndex(props.index);
+                        setActiveIndex(props.index)
                       }
                     },
                   },
-                ];
+                ]
               },
             },
           },
@@ -218,15 +218,15 @@ const AllocationView = ({ coins, tatalCosts, mode }: AllocationViewProps) => {
                 return [
                   {
                     target: 'data',
-                    mutation: props => {
+                    mutation: (props) => {
                       if (activeIndex === props.index) {
-                        setActiveIndex(null);
+                        setActiveIndex(null)
                       } else {
-                        setActiveIndex(props.index);
+                        setActiveIndex(props.index)
                       }
                     },
                   },
-                ];
+                ]
               },
             },
           },
@@ -274,24 +274,24 @@ const AllocationView = ({ coins, tatalCosts, mode }: AllocationViewProps) => {
         </PieLabel>
       ) : null}
     </Container>
-  );
-};
+  )
+}
 
-export default AllocationView;
+export default AllocationView
 
 type LegendProps = {
-  isActive: boolean;
-};
+  isActive: boolean
+}
 
 type PointProps = {
-  size: number;
-  fill: string;
-};
+  size: number
+  fill: string
+}
 
 const Container = styled.View`
   align-items: center;
   padding-top: ${({ theme }) => theme.content.surfacePadding};
-`;
+`
 
 const CustomContainerWrap = styled.View`
   width: ${({ theme }) => width - parseInt(theme.content.spacing, 10) * 2}px;
@@ -299,7 +299,7 @@ const CustomContainerWrap = styled.View`
   justify-content: center;
   flex-wrap: wrap;
   margin-top: ${({ theme }) => theme.content.blankSpacing};
-`;
+`
 
 const Legend = styled.TouchableOpacity<LegendProps>`
   flex-direction: row;
@@ -309,7 +309,7 @@ const Legend = styled.TouchableOpacity<LegendProps>`
     isActive ? theme.base.background[300] : 'transparent'};
   padding: 7px 8px;
   border-radius: ${({ theme }) => theme.border.m};
-`;
+`
 
 const Point = styled.View<PointProps>`
   ${({ size, fill }) => `
@@ -319,7 +319,7 @@ const Point = styled.View<PointProps>`
     background-color: ${fill};
   `};
   margin-right: 10px;
-`;
+`
 
 const PieLabel = styled.View`
   position: absolute;
@@ -331,8 +331,8 @@ const PieLabel = styled.View`
   align-items: center;
   justify-content: center;
   z-index: -1;
-`;
+`
 
 const PrivateWrap = styled.View`
   margin: 8px 0;
-`;
+`

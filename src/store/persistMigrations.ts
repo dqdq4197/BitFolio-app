@@ -1,5 +1,5 @@
-import { ApplicationState } from './reducers';
-import { initialState as baseSettingInitState } from './slices/baseSetting';
+import { ApplicationState } from './reducers'
+import { initialState as baseSettingInitState } from './slices/baseSetting'
 
 /**
  * Redux store migrations.
@@ -14,7 +14,7 @@ export default {
         chartOptions: baseSettingInitState.chartOptions,
         chartType: baseSettingInitState.chartType,
       },
-    };
+    }
   },
   3: (state: ApplicationState): ApplicationState => {
     return {
@@ -27,6 +27,6 @@ export default {
         ...state.globalState,
         activeTabName: 'Home',
       },
-    };
+    }
   },
-};
+}

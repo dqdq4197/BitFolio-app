@@ -1,30 +1,30 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Dimensions, Animated } from 'react-native';
-import styled from 'styled-components/native';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import { format } from 'date-fns';
-import { ko, enUS } from 'date-fns/locale';
+import React, { useState, useEffect, useRef } from 'react'
+import { Dimensions, Animated } from 'react-native'
+import styled from 'styled-components/native'
+import DateTimePicker from '@react-native-community/datetimepicker'
+import { format } from 'date-fns'
+import { ko, enUS } from 'date-fns/locale'
 
-import useGlobalTheme from '/hooks/useGlobalTheme';
-import useLocales from '/hooks/useLocales';
+import useGlobalTheme from '/hooks/useGlobalTheme'
+import useLocales from '/hooks/useLocales'
 
-import Text from '/components/common/Text';
+import Text from '/components/common/Text'
 
-const { width } = Dimensions.get('window');
+const { width } = Dimensions.get('window')
 
 type DateViewProps = {
-  height: number;
-  date: number;
-  isFocused: boolean;
-  setDate: (date: number) => void;
-};
+  height: number
+  date: number
+  isFocused: boolean
+  setDate: (date: number) => void
+}
 
 const SetDateView = ({ height, date, isFocused, setDate }: DateViewProps) => {
-  const { language } = useLocales();
-  const { scheme } = useGlobalTheme();
-  const [mode, setMode] = useState<'date' | 'time'>('date');
-  const translateY = useRef(new Animated.Value(25)).current;
-  const opacity = useRef(new Animated.Value(0)).current;
+  const { language } = useLocales()
+  const { scheme } = useGlobalTheme()
+  const [mode, setMode] = useState<'date' | 'time'>('date')
+  const translateY = useRef(new Animated.Value(25)).current
+  const opacity = useRef(new Animated.Value(0)).current
 
   useEffect(() => {
     if (isFocused) {
@@ -39,7 +39,7 @@ const SetDateView = ({ height, date, isFocused, setDate }: DateViewProps) => {
           duration: 500,
           useNativeDriver: true,
         }),
-      ]).start();
+      ]).start()
     } else {
       Animated.parallel([
         Animated.timing(translateY, {
@@ -52,18 +52,18 @@ const SetDateView = ({ height, date, isFocused, setDate }: DateViewProps) => {
           duration: 100,
           useNativeDriver: true,
         }),
-      ]).start();
+      ]).start()
     }
-  }, [isFocused, opacity, translateY]);
+  }, [isFocused, opacity, translateY])
 
   const onChange = (event: any, selectedDate?: Date) => {
-    const currentDate = selectedDate || date;
-    setDate(+currentDate);
-  };
+    const currentDate = selectedDate || date
+    setDate(+currentDate)
+  }
 
   const changePicker = (mode: 'date' | 'time') => {
-    setMode(mode);
-  };
+    setMode(mode)
+  }
 
   return (
     <Container height={height}>
@@ -130,20 +130,20 @@ const SetDateView = ({ height, date, isFocused, setDate }: DateViewProps) => {
         />
       </PickerWrap>
     </Container>
-  );
-};
+  )
+}
 
-export default SetDateView;
+export default SetDateView
 
 type ContainerType = {
-  height: number;
-};
+  height: number
+}
 
 const Container = styled.View<ContainerType>`
   width: ${width}px;
   height: ${({ height }) => height}px;
   padding: 16px ${({ theme }) => theme.content.spacing} 0;
-`;
+`
 
 const Wrapper = styled.TouchableOpacity`
   flex: 1;
@@ -151,12 +151,12 @@ const Wrapper = styled.TouchableOpacity`
   background-color: ${({ theme }) => theme.base.background[200]};
   border-radius: ${({ theme }) => theme.border.ml};
   padding: ${({ theme }) => theme.content.spacing};
-`;
+`
 
 const PickerSelectionWrap = styled.View`
   flex-direction: row;
-`;
+`
 
 const PickerWrap = styled.View`
   flex: 1;
-`;
+`

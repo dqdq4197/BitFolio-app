@@ -1,16 +1,16 @@
-import React from 'react';
-import { Dimensions } from 'react-native';
+import React from 'react'
+import { Dimensions } from 'react-native'
 
-import useGlobalTheme from '/hooks/useGlobalTheme';
+import useGlobalTheme from '/hooks/useGlobalTheme'
 
-import SkeletonPlaceholder from '/components/skeletonPlaceholder';
-import { CoinListSkeleton } from '/components/skeletonPlaceholder/common';
+import SkeletonPlaceholder from '/components/skeletonPlaceholder'
+import { CoinListSkeleton } from '/components/skeletonPlaceholder/common'
 
-const { width } = Dimensions.get('window');
+const { width } = Dimensions.get('window')
 
 const TopListSkeleton = () => {
-  const { theme } = useGlobalTheme();
-  const spacing = parseInt(theme.content.spacing, 10);
+  const { theme } = useGlobalTheme()
+  const spacing = parseInt(theme.content.spacing, 10)
 
   return (
     <>
@@ -36,7 +36,7 @@ const TopListSkeleton = () => {
       </SkeletonPlaceholder>
       <CoinListSkeleton itemCount={11} />
     </>
-  );
-};
+  )
+}
 
-export default TopListSkeleton;
+export default TopListSkeleton

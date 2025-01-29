@@ -1,17 +1,17 @@
-import { APP_VERSION } from '@env';
-import React from 'react';
-import { useTranslation } from 'react-i18next';
+import { APP_VERSION } from '@env'
+import React from 'react'
+import { useTranslation } from 'react-i18next'
 
-import AppSettingList from './AppSettingList';
-import Blank from './Blank';
-import List from '/components/common/List';
-import SurfaceWrap from '/components/common/SurfaceWrap';
+import AppSettingList from './AppSettingList'
+import Blank from './Blank'
+import List from '/components/common/List'
+import SurfaceWrap from '/components/common/SurfaceWrap'
 
 interface SettingRootProps {
-  onLanguagePress: () => void;
-  onCurrencyPress: () => void;
-  onScreenThemePress: () => void;
-  onLounchScreenPress: () => void;
+  onLanguagePress: () => void
+  onCurrencyPress: () => void
+  onScreenThemePress: () => void
+  onLounchScreenPress: () => void
 }
 
 const SettingRoot = ({
@@ -20,7 +20,7 @@ const SettingRoot = ({
   onCurrencyPress,
   onLounchScreenPress,
 }: SettingRootProps) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   return (
     <>
@@ -30,7 +30,7 @@ const SettingRoot = ({
         marginTopZero
         fontML
       >
-        <AppSettingList 
+        <AppSettingList
           onCurrencyPress={onCurrencyPress}
           onLanguagePress={onLanguagePress}
           onLounchScreenPress={onLounchScreenPress}
@@ -44,7 +44,7 @@ const SettingRoot = ({
         <Blank />
       </SurfaceWrap>
     </>
-  );
-};
+  )
+}
 
-export default SettingRoot;
+export default SettingRoot

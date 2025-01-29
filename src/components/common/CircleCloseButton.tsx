@@ -1,20 +1,20 @@
-import React, { forwardRef } from 'react';
-import styled from 'styled-components/native';
-import Svg, { G, Circle } from 'react-native-svg';
-import { AntDesign } from '@expo/vector-icons';
-import useGlobalTheme from '/hooks/useGlobalTheme';
+import React, { forwardRef } from 'react'
+import styled from 'styled-components/native'
+import Svg, { G, Circle } from 'react-native-svg'
+import { AntDesign } from '@expo/vector-icons'
+import useGlobalTheme from '/hooks/useGlobalTheme'
 
 type ButtonProps = {
-  SIZE: number;
-  STROKEWIDTH: number;
-  RADIUS: number;
-  CIRCUMFERENCE: number;
-  onModalClose: () => void;
-};
+  SIZE: number
+  STROKEWIDTH: number
+  RADIUS: number
+  CIRCUMFERENCE: number
+  onModalClose: () => void
+}
 
 const CloseButton = forwardRef<any, ButtonProps>(
   ({ SIZE, STROKEWIDTH, RADIUS, CIRCUMFERENCE, onModalClose }, ref) => {
-    const { theme, scheme } = useGlobalTheme();
+    const { theme, scheme } = useGlobalTheme()
 
     return (
       <Conatiner size={SIZE} style={{ width: SIZE, height: SIZE }}>
@@ -50,19 +50,19 @@ const CloseButton = forwardRef<any, ButtonProps>(
           />
         </Icon>
       </Conatiner>
-    );
+    )
   }
-);
+)
 
-export default CloseButton;
+export default CloseButton
 
 const Conatiner = styled.View<{ size: number }>`
   align-items: center;
   justify-content: center;
   background-color: ${({ theme }) => theme.base.background.surface};
   border-radius: ${({ size }) => size / 2}px;
-`;
+`
 
 const Icon = styled.TouchableOpacity`
   position: absolute;
-`;
+`

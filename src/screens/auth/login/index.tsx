@@ -1,8 +1,8 @@
-import React from 'react';
+import React from 'react'
 
-import Login from '/components/auth/Login';
-import AsyncBoundary from '/components/common/AsyncBoundary';
-import GeneralTemplate from '/components/GeneralTemplate';
+import Login from '/components/auth/Login'
+import AsyncBoundary from '/components/common/AsyncBoundary'
+import GeneralTemplate from '/components/GeneralTemplate'
 
 const LoginScreen = () => {
   return (
@@ -11,7 +11,7 @@ const LoginScreen = () => {
         <Login />
       </AsyncBoundary>
     </GeneralTemplate>
-  );
-};
+  )
+}
 
-export default LoginScreen;
+export default LoginScreen

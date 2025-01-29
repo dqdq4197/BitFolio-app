@@ -1,23 +1,23 @@
-import React from 'react';
-import { Dimensions } from 'react-native';
-import styled from 'styled-components/native';
-import { useTranslation } from 'react-i18next';
+import React from 'react'
+import { Dimensions } from 'react-native'
+import styled from 'styled-components/native'
+import { useTranslation } from 'react-i18next'
 
-import useLocales from '/hooks/useLocales';
-import { getCurrencySymbol } from '/lib/utils/currencyFormat';
+import useLocales from '/hooks/useLocales'
+import { getCurrencySymbol } from '/lib/utils/currencyFormat'
 
-import Text from '/components/common/Text';
-import RollingText from '/components/common/RollingText';
+import Text from '/components/common/Text'
+import RollingText from '/components/common/RollingText'
 
-const { width } = Dimensions.get('window');
+const { width } = Dimensions.get('window')
 
 type PricePerCoinViewProps = {
-  pricePerCoin: string;
-  unMountingList: number[];
-  height: number;
-  isPriceFixed: boolean;
-  onIsPriceFiexedChange: () => void;
-};
+  pricePerCoin: string
+  unMountingList: number[]
+  height: number
+  isPriceFixed: boolean
+  onIsPriceFiexedChange: () => void
+}
 
 const SetPricePerCoinView = ({
   pricePerCoin,
@@ -26,8 +26,8 @@ const SetPricePerCoinView = ({
   isPriceFixed,
   onIsPriceFiexedChange,
 }: PricePerCoinViewProps) => {
-  const { t } = useTranslation();
-  const { currency } = useLocales();
+  const { t } = useTranslation()
+  const { currency } = useLocales()
 
   return (
     <Container height={height}>
@@ -59,31 +59,31 @@ const SetPricePerCoinView = ({
         </CustomText>
       </PriceFixedButton>
     </Container>
-  );
-};
+  )
+}
 
-export default SetPricePerCoinView;
+export default SetPricePerCoinView
 
 type HeightProps = {
-  height: number;
-};
+  height: number
+}
 
 type PriceFixedProps = {
-  isPriceFixed: boolean;
-};
+  isPriceFixed: boolean
+}
 
 const Container = styled.View<HeightProps>`
   width: ${width}px;
   height: ${({ height }) => height}px;
   align-items: center;
   padding: 0 ${({ theme }) => theme.content.spacing};
-`;
+`
 
 const PriceView = styled.View<HeightProps>`
   flex-direction: row;
   align-items: center;
   height: ${({ height }) => height - 60}px;
-`;
+`
 
 const PriceFixedButton = styled.TouchableOpacity<PriceFixedProps>`
   flex-direction: row;
@@ -94,7 +94,7 @@ const PriceFixedButton = styled.TouchableOpacity<PriceFixedProps>`
     isPriceFixed ? 'rgb(77, 81, 100)' : theme.base.background[400]};
   border-radius: ${({ theme }) => theme.border.m};
   padding: 5px 10px;
-`;
+`
 
 const Circle = styled.View<PriceFixedProps>`
   width: 16px;
@@ -103,13 +103,13 @@ const Circle = styled.View<PriceFixedProps>`
   background-color: ${({ isPriceFixed, theme }) =>
     isPriceFixed ? theme.base.primaryColor : 'rgb(119, 120, 122)'};
   margin-right: 8px;
-`;
+`
 
 const View = styled.View`
   flex-direction: row;
   justify-content: center;
   align-items: flex-end;
-`;
+`
 
 const CustomText = styled(Text)<PriceFixedProps>`
   color: ${({ theme, isPriceFixed }) =>
@@ -118,4 +118,4 @@ const CustomText = styled(Text)<PriceFixedProps>`
         ? theme.base.text[100]
         : theme.base.dark100
       : theme.base.text[200]};
-`;
+`

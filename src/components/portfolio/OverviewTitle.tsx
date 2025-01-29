@@ -1,35 +1,35 @@
-import { Ionicons } from '@expo/vector-icons';
-import React from 'react';
-import styled from 'styled-components/native';
+import { Ionicons } from '@expo/vector-icons'
+import React from 'react'
+import styled from 'styled-components/native'
 
-import useGlobalTheme from '/hooks/useGlobalTheme';
-import useLocales from '/hooks/useLocales';
-import { shallowEqual, useAppSelector } from '/hooks/useRedux';
-import { convertUnits, digitToFixed } from '/lib/utils';
-import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat';
+import useGlobalTheme from '/hooks/useGlobalTheme'
+import useLocales from '/hooks/useLocales'
+import { shallowEqual, useAppSelector } from '/hooks/useRedux'
+import { convertUnits, digitToFixed } from '/lib/utils'
+import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat'
 
-import IncreaseDecreaseValue from '/components/common/IncreaseDecreaseValue';
-import Text from '/components/common/Text';
+import IncreaseDecreaseValue from '/components/common/IncreaseDecreaseValue'
+import Text from '/components/common/Text'
 
 type TitleProps = {
-  total_balance?: number;
-  portfolio_change_percentage_24h?: number;
-};
+  total_balance?: number
+  portfolio_change_percentage_24h?: number
+}
 
 const OverviewTitle = ({
   total_balance,
   portfolio_change_percentage_24h,
 }: TitleProps) => {
-  const { theme } = useGlobalTheme();
-  const { currency } = useLocales();
+  const { theme } = useGlobalTheme()
+  const { currency } = useLocales()
   const { portfolio, activeIndex } = useAppSelector(
-    state => ({
+    (state) => ({
       portfolio: state.portfolioReducer.portfolios,
       activeIndex: state.portfolioReducer.activeIndex,
     }),
     shallowEqual
-  );
-  const { mode, showValueMode } = portfolio[activeIndex];
+  )
+  const { mode, showValueMode } = portfolio[activeIndex]
 
   if (
     total_balance === undefined ||
@@ -39,7 +39,7 @@ const OverviewTitle = ({
       <Text bold fontX>
         --
       </Text>
-    );
+    )
   }
 
   return (
@@ -77,10 +77,10 @@ const OverviewTitle = ({
         </PublicWrap>
       )}
     </>
-  );
-};
+  )
+}
 
-export default OverviewTitle;
+export default OverviewTitle
 
 const PrivateWrap = styled.View`
   width: 70px;
@@ -89,17 +89,17 @@ const PrivateWrap = styled.View`
   border-radius: ${({ theme }) => theme.border.m};
   align-items: center;
   justify-content: center;
-`;
+`
 
 const PublicWrap = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-`;
+`
 
 const PercentageWrap = styled.View`
   background-color: ${({ theme }) => theme.base.background[200]};
   border-radius: ${({ theme }) => theme.border.m};
   padding: 3px 3px;
   margin-left: 5px;
-`;
+`

@@ -1,11 +1,11 @@
-import React from 'react';
-import SkeletonPlaceholder from '/components/skeletonPlaceholder';
+import React from 'react'
+import SkeletonPlaceholder from '/components/skeletonPlaceholder'
 
-import useGlobalTheme from '/hooks/useGlobalTheme';
+import useGlobalTheme from '/hooks/useGlobalTheme'
 
 const FiltersBarSkeleton = () => {
-  const { theme } = useGlobalTheme();
-  const spacing = parseInt(theme.content.spacing, 10);
+  const { theme } = useGlobalTheme()
+  const spacing = parseInt(theme.content.spacing, 10)
   return (
     <SkeletonPlaceholder>
       <SkeletonPlaceholder.Item
@@ -34,7 +34,7 @@ const FiltersBarSkeleton = () => {
         />
       </SkeletonPlaceholder.Item>
     </SkeletonPlaceholder>
-  );
-};
+  )
+}
 
-export default FiltersBarSkeleton;
+export default FiltersBarSkeleton

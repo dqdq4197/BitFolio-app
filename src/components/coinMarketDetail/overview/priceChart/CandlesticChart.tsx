@@ -1,27 +1,27 @@
-import React from 'react';
-import styled from 'styled-components/native';
+import React from 'react'
+import styled from 'styled-components/native'
 import {
   VictoryAxis,
   VictoryCandlestick,
   VictoryChart,
   VictoryLabel,
   VictoryTheme,
-} from 'victory-native';
+} from 'victory-native'
 
-import { useChartState } from '/hooks/context/useChartContext';
-import useGlobalTheme from '/hooks/useGlobalTheme';
+import { useChartState } from '/hooks/context/useChartContext'
+import useGlobalTheme from '/hooks/useGlobalTheme'
 
-import LoadBoundaryView from './LoadBoundaryView';
+import LoadBoundaryView from './LoadBoundaryView'
 
 interface ChartProps {
-  WIDTH: number;
-  HEIGHT: number;
-  PADDING: number;
+  WIDTH: number
+  HEIGHT: number
+  PADDING: number
 }
 
 const CandlesticChart = ({ WIDTH, HEIGHT, PADDING }: ChartProps) => {
-  const { theme } = useGlobalTheme();
-  const { candles, isLoading, error } = useChartState();
+  const { theme } = useGlobalTheme()
+  const { candles, isLoading, error } = useChartState()
 
   return (
     <ChartContainer WIDTH={WIDTH} HEIGHT={HEIGHT} PADDING={PADDING}>
@@ -100,14 +100,14 @@ const CandlesticChart = ({ WIDTH, HEIGHT, PADDING }: ChartProps) => {
         </VictoryChart>
       )}
     </ChartContainer>
-  );
-};
+  )
+}
 
-export default CandlesticChart;
+export default CandlesticChart
 
 const ChartContainer = styled.View<ChartProps>`
   overflow: hidden;
   margin: 30px 0 20px;
   width: ${({ WIDTH, PADDING }) => WIDTH + PADDING}px;
   height: ${({ HEIGHT, PADDING }) => HEIGHT + PADDING}px;
-`;
+`

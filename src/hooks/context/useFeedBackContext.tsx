@@ -4,27 +4,27 @@ import React, {
   useContext,
   useMemo,
   useState,
-} from 'react';
-import { v4 as uuidv4 } from 'uuid';
+} from 'react'
+import { v4 as uuidv4 } from 'uuid'
 
-import Snackbar from '/components/common/Snackbar';
+import Snackbar from '/components/common/Snackbar'
 
-const FeedBackAlertContext = createContext<ValueType | undefined>(undefined);
+const FeedBackAlertContext = createContext<ValueType | undefined>(undefined)
 
 interface ProviderProps {
-  children: React.ReactNode;
+  children: React.ReactNode
 }
 
-type FeedBackType = 'snackbar' | 'backdrop';
+type FeedBackType = 'snackbar' | 'backdrop'
 export interface AlertProps {
-  message: string;
-  duration?: number;
-  onPress?: () => void;
-  id: string;
-  severity: 'success' | 'error' | 'warning' | 'info';
+  message: string
+  duration?: number
+  onPress?: () => void
+  id: string
+  severity: 'success' | 'error' | 'warning' | 'info'
 }
-type FeedbackTypes = Record<FeedBackType, AlertProps | null>;
-type OpenAlertParams = Omit<AlertProps, 'id'> & { type?: FeedBackType };
+type FeedbackTypes = Record<FeedBackType, AlertProps | null>
+type OpenAlertParams = Omit<AlertProps, 'id'> & { type?: FeedBackType }
 
 type ValueType = {
   openAlert: ({
@@ -33,18 +33,18 @@ type ValueType = {
     duration,
     onPress,
     severity,
-  }: OpenAlertParams) => void;
-};
+  }: OpenAlertParams) => void
+}
 
 export function FeedBackAlertProvider({ children }: ProviderProps) {
   const [feedbackTypes, setFeedbackTypes] = useState<FeedbackTypes>({
     snackbar: null,
     backdrop: null,
-  });
+  })
 
   const clearAlert = useCallback((feedbackType: FeedBackType) => {
-    setFeedbackTypes(prev => ({ ...prev, [feedbackType]: null }));
-  }, []);
+    setFeedbackTypes((prev) => ({ ...prev, [feedbackType]: null }))
+  }, [])
 
   const openAlert = useCallback(
     ({
@@ -54,18 +54,18 @@ export function FeedBackAlertProvider({ children }: ProviderProps) {
       onPress,
       severity,
     }: OpenAlertParams) => {
-      const props = { message, duration, onPress, id: uuidv4(), severity };
-      setFeedbackTypes(prev => ({ ...prev, [type]: props }));
+      const props = { message, duration, onPress, id: uuidv4(), severity }
+      setFeedbackTypes((prev) => ({ ...prev, [type]: props }))
     },
     []
-  );
+  )
 
   const value = useMemo(
     () => ({
       openAlert,
     }),
     [openAlert]
-  );
+  )
 
   return (
     <FeedBackAlertContext.Provider value={value}>
@@ -77,13 +77,13 @@ export function FeedBackAlertProvider({ children }: ProviderProps) {
       )}
       {children}
     </FeedBackAlertContext.Provider>
-  );
+  )
 }
 
 export function useFeedBackAlertContext() {
-  const context = useContext(FeedBackAlertContext);
+  const context = useContext(FeedBackAlertContext)
   if (!context) {
-    throw new Error(`FeedBackAlertContext is undefined`);
+    throw new Error(`FeedBackAlertContext is undefined`)
   }
-  return context;
+  return context
 }

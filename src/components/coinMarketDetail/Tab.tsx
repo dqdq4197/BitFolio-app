@@ -1,12 +1,12 @@
-import React, { forwardRef } from 'react';
-import { TouchableOpacity, Animated } from 'react-native';
-import styled from 'styled-components/native';
+import React, { forwardRef } from 'react'
+import { TouchableOpacity, Animated } from 'react-native'
+import styled from 'styled-components/native'
 
 interface ITab {
-  label: string;
-  isFocused: boolean;
-  opacity: Animated.AnimatedInterpolation;
-  onPress: () => void;
+  label: string
+  isFocused: boolean
+  opacity: Animated.AnimatedInterpolation
+  onPress: () => void
 }
 
 const Tab = forwardRef<TouchableOpacity, ITab>(
@@ -25,20 +25,20 @@ const Tab = forwardRef<TouchableOpacity, ITab>(
           {label}
         </TabText>
       </TabButton>
-    );
+    )
   }
-);
+)
 
-export default Tab;
+export default Tab
 
 const TabButton = styled.TouchableOpacity`
   align-items: center;
   justify-content: center;
   height: 40px;
   margin: 0px 16px;
-`;
+`
 
 const TabText = styled.Text`
   font-weight: 800;
   color: ${({ theme }) => theme.base.text[100]};
-`;
+`

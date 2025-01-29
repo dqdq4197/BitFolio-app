@@ -1,5 +1,5 @@
-import { createSlice, nanoid, PayloadAction } from '@reduxjs/toolkit';
-import 'react-native-get-random-values';
+import { createSlice, nanoid, PayloadAction } from '@reduxjs/toolkit'
+import 'react-native-get-random-values'
 
 export type SortType =
   | 'default'
@@ -14,54 +14,54 @@ export type SortType =
   | 'pl_desc'
   | 'pl_asc'
   | 'allocation_desc'
-  | 'allocation_asc';
+  | 'allocation_asc'
 
 export interface CoinType {
-  id: string;
-  state: 'watching' | 'trading';
-  symbol: string;
-  image: string;
-  name: string;
+  id: string
+  state: 'watching' | 'trading'
+  symbol: string
+  image: string
+  name: string
 }
 
-export type ModeType = 'public' | 'private';
-export type ShowValueModeType = 'short' | 'full';
-export type ActiveTabType = 'allocation' | 'statistics';
+export type ModeType = 'public' | 'private'
+export type ShowValueModeType = 'short' | 'full'
+export type ActiveTabType = 'allocation' | 'statistics'
 
 interface ChangeCoinStateAction extends Pick<CoinType, 'state'> {
-  portfolioId: string;
-  coinId: string;
+  portfolioId: string
+  coinId: string
 }
 
 type AddWatchingCoinProps = {
-  portfolioId: string;
+  portfolioId: string
   coin: {
-    id: string;
-    image: string;
-    name: string;
-    symbol: string;
-  };
-};
+    id: string
+    image: string
+    name: string
+    symbol: string
+  }
+}
 
 type UnwatchingCoinProps = {
-  portfolioId: string;
-  coinId: string;
-};
+  portfolioId: string
+  coinId: string
+}
 
 export type PortfolioType = {
-  id: string;
-  coins: CoinType[] | [];
-  assetSortType: SortType;
-  mode: ModeType;
-  showValueMode: ShowValueModeType;
-  analysisActiveTab: ActiveTabType;
-  isHideAnalysisSheet: boolean;
-};
+  id: string
+  coins: CoinType[] | []
+  assetSortType: SortType
+  mode: ModeType
+  showValueMode: ShowValueModeType
+  analysisActiveTab: ActiveTabType
+  isHideAnalysisSheet: boolean
+}
 
 export type InitialState = {
-  portfolios: PortfolioType[];
-  activeIndex: number;
-};
+  portfolios: PortfolioType[]
+  activeIndex: number
+}
 
 const initialState: InitialState = {
   portfolios: [
@@ -76,22 +76,22 @@ const initialState: InitialState = {
     },
   ],
   activeIndex: 0,
-};
+}
 
 export const portfolioSlice = createSlice({
   name: 'portfolios',
   initialState,
   reducers: {
     addWatchingCoin: (state, action: PayloadAction<AddWatchingCoinProps>) => {
-      const { coin } = action.payload;
-      const defaultPortfolio = state.portfolios[0];
+      const { coin } = action.payload
+      const defaultPortfolio = state.portfolios[0]
 
       const isAlreadyInclude =
         defaultPortfolio.coins.findIndex(
-          portfolioCoin => portfolioCoin.id === coin.id
-        ) !== -1;
+          (portfolioCoin) => portfolioCoin.id === coin.id
+        ) !== -1
 
-      if (isAlreadyInclude) return;
+      if (isAlreadyInclude) return
 
       defaultPortfolio.coins = [
         ...defaultPortfolio.coins,
@@ -99,51 +99,51 @@ export const portfolioSlice = createSlice({
           ...coin,
           state: 'watching',
         },
-      ];
+      ]
     },
     unwatchingCoin: (state, action: PayloadAction<UnwatchingCoinProps>) => {
-      const { portfolioId, coinId } = action.payload;
-      const { portfolios } = state;
+      const { portfolioId, coinId } = action.payload
+      const { portfolios } = state
 
       const targetPortfolioIndex = portfolios.findIndex(
-        portfolio => portfolio.id === portfolioId
-      );
-      const targetPortfolio = portfolios[targetPortfolioIndex];
-      const coins = targetPortfolio.coins.filter(coin => coin.id !== coinId);
+        (portfolio) => portfolio.id === portfolioId
+      )
+      const targetPortfolio = portfolios[targetPortfolioIndex]
+      const coins = targetPortfolio.coins.filter((coin) => coin.id !== coinId)
 
-      targetPortfolio.coins = coins;
+      targetPortfolio.coins = coins
     },
     changeCoinState: (state, action: PayloadAction<ChangeCoinStateAction>) => {
-      const { coinId, state: coinState } = action.payload;
-      const defaultPortfolio = state.portfolios[0];
+      const { coinId, state: coinState } = action.payload
+      const defaultPortfolio = state.portfolios[0]
       const coinIdx = defaultPortfolio.coins.findIndex(
-        coin => coin.id === coinId
-      );
+        (coin) => coin.id === coinId
+      )
 
-      defaultPortfolio.coins[coinIdx].state = coinState;
+      defaultPortfolio.coins[coinIdx].state = coinState
     },
     changeSortType: (state, action: PayloadAction<SortType>) => {
-      const defaultPortfolio = state.portfolios[0];
-      defaultPortfolio.assetSortType = action.payload;
+      const defaultPortfolio = state.portfolios[0]
+      defaultPortfolio.assetSortType = action.payload
     },
     changeMode: (state, action: PayloadAction<ModeType>) => {
-      const defaultPortfolio = state.portfolios[0];
-      defaultPortfolio.mode = action.payload;
+      const defaultPortfolio = state.portfolios[0]
+      defaultPortfolio.mode = action.payload
     },
     changeShowValueMode: (state, action: PayloadAction<ShowValueModeType>) => {
-      const defaultPortfolio = state.portfolios[0];
-      defaultPortfolio.showValueMode = action.payload;
+      const defaultPortfolio = state.portfolios[0]
+      defaultPortfolio.showValueMode = action.payload
     },
     changeAnalysisActiveTab: (state, action: PayloadAction<ActiveTabType>) => {
-      const defaultPortfolio = state.portfolios[0];
-      defaultPortfolio.analysisActiveTab = action.payload;
+      const defaultPortfolio = state.portfolios[0]
+      defaultPortfolio.analysisActiveTab = action.payload
     },
     onHideAnalysisSheet: (state, action: PayloadAction<boolean>) => {
-      const defaultPortfolio = state.portfolios[0];
-      defaultPortfolio.isHideAnalysisSheet = action.payload;
+      const defaultPortfolio = state.portfolios[0]
+      defaultPortfolio.isHideAnalysisSheet = action.payload
     },
   },
-});
+})
 
 export const {
   addWatchingCoin,
@@ -154,5 +154,5 @@ export const {
   changeShowValueMode,
   changeAnalysisActiveTab,
   onHideAnalysisSheet,
-} = portfolioSlice.actions;
-export default portfolioSlice.reducer;
+} = portfolioSlice.actions
+export default portfolioSlice.reducer

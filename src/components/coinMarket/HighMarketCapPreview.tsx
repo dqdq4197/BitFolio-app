@@ -1,22 +1,22 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
+import React from 'react'
+import { useTranslation } from 'react-i18next'
 
-import useRequest from '/hooks/useRequest';
-import useLocales from '/hooks/useLocales';
-import type { CoinMarketReturn } from '/types/coinGeckoReturnType';
-import { CoinGecko, http } from '/lib/api/CoinGeckoClient';
+import useRequest from '/hooks/useRequest'
+import useLocales from '/hooks/useLocales'
+import type { CoinMarketReturn } from '/types/coinGeckoReturnType'
+import { CoinGecko, http } from '/lib/api/CoinGeckoClient'
 
-import SurfaceWrap from '/components/common/SurfaceWrap';
-import Item from './Item';
-import ShowAllButton from './ShowAllButton';
+import SurfaceWrap from '/components/common/SurfaceWrap'
+import Item from './Item'
+import ShowAllButton from './ShowAllButton'
 
 type ListProps = {
-  onPressItem: (id: string, symbol: string) => void;
-};
+  onPressItem: (id: string, symbol: string) => void
+}
 
 const HighPricePreview = ({ onPressItem }: ListProps) => {
-  const { t } = useTranslation();
-  const { currency } = useLocales();
+  const { t } = useTranslation()
+  const { currency } = useLocales()
 
   const { data } = useRequest<CoinMarketReturn[]>(
     CoinGecko.coin.markets({
@@ -26,7 +26,7 @@ const HighPricePreview = ({ onPressItem }: ListProps) => {
     }),
     http,
     { refreshInterval: 5 * 60 * 1000, suspense: true }
-  );
+  )
 
   return (
     <SurfaceWrap
@@ -34,12 +34,12 @@ const HighPricePreview = ({ onPressItem }: ListProps) => {
       paddingBottomZero
       parentPaddingZero
     >
-      {data?.map(res => {
-        return <Item key={res.id} item={res} onPressItem={onPressItem} />;
+      {data?.map((res) => {
+        return <Item key={res.id} item={res} onPressItem={onPressItem} />
       })}
       <ShowAllButton route="CoinHighMarketCap" />
     </SurfaceWrap>
-  );
-};
+  )
+}
 
-export default HighPricePreview;
+export default HighPricePreview

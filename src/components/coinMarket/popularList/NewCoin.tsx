@@ -1,29 +1,29 @@
-import React, { useState, useCallback } from 'react';
-import { Animated, FlatList } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import React, { useState, useCallback } from 'react'
+import { Animated, FlatList } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
 
-import useRequest from '/hooks/useRequest';
-import useLocales from '/hooks/useLocales';
-import useAnimatedHeaderTitle from '/hooks/useAnimatedHeaderTitle';
-import useGlobalTheme from '/hooks/useGlobalTheme';
-import { CoinGecko, http } from '/lib/api/CoinGeckoClient';
-import type { CoinMarketReturn } from '/types/coinGeckoReturnType';
-import type { HomeScreenProps } from '/types/navigation';
+import useRequest from '/hooks/useRequest'
+import useLocales from '/hooks/useLocales'
+import useAnimatedHeaderTitle from '/hooks/useAnimatedHeaderTitle'
+import useGlobalTheme from '/hooks/useGlobalTheme'
+import { CoinGecko, http } from '/lib/api/CoinGeckoClient'
+import type { CoinMarketReturn } from '/types/coinGeckoReturnType'
+import type { HomeScreenProps } from '/types/navigation'
 
-import CustomRefreshControl from '/components/common/CustomRefreshControl';
-import FlatListHeader from './FlatListHeader';
-import Item from './Item';
-import Footer from './Footer';
+import CustomRefreshControl from '/components/common/CustomRefreshControl'
+import FlatListHeader from './FlatListHeader'
+import Item from './Item'
+import Footer from './Footer'
 
 const NewCoin = () => {
-  const { theme } = useGlobalTheme();
-  const { currency } = useLocales();
-  const [refreshing, setRefreshing] = useState(false);
+  const { theme } = useGlobalTheme()
+  const { currency } = useLocales()
+  const [refreshing, setRefreshing] = useState(false)
   const { scrollY } = useAnimatedHeaderTitle({
     title: 'New Coins',
     triggerPoint: 30,
-  });
-  const navigation = useNavigation<HomeScreenProps<'NewCoin'>['navigation']>();
+  })
+  const navigation = useNavigation<HomeScreenProps<'NewCoin'>['navigation']>()
   const { data, mutate } = useRequest<CoinMarketReturn[]>(
     CoinGecko.coin.markets({
       vs_currency: currency,
@@ -31,33 +31,33 @@ const NewCoin = () => {
     }),
     http,
     { suspense: true }
-  );
+  )
 
   const handleRefresh = useCallback(async () => {
-    setRefreshing(true);
-    await mutate();
-    setRefreshing(false);
-  }, [mutate]);
+    setRefreshing(true)
+    await mutate()
+    setRefreshing(false)
+  }, [mutate])
 
   const handlePressItem = useCallback(
     (id: string, symbol: string) => {
       navigation.navigate('CoinDetail', {
         params: { id, symbol },
         screen: 'Overview',
-      });
+      })
     },
     [navigation]
-  );
+  )
 
   const handleScroll = Animated.event(
     [{ nativeEvent: { contentOffset: { y: scrollY } } }],
     { useNativeDriver: false }
-  );
+  )
 
   return (
     <FlatList
       data={data}
-      keyExtractor={item => item.id}
+      keyExtractor={(item) => item.id}
       contentContainerStyle={{
         backgroundColor: theme.base.background.surface,
       }}
@@ -91,7 +91,7 @@ const NewCoin = () => {
         index,
       })}
     />
-  );
-};
+  )
+}
 
-export default NewCoin;
+export default NewCoin

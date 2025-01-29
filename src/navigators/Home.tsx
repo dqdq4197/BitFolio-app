@@ -1,10 +1,10 @@
-import { createStackNavigator } from '@react-navigation/stack';
-import React from 'react';
+import { createStackNavigator } from '@react-navigation/stack'
+import React from 'react'
 
-import useGlobalTheme from '/hooks/useGlobalTheme';
-import type { HomeParamList } from '/types/navigation';
+import useGlobalTheme from '/hooks/useGlobalTheme'
+import type { HomeParamList } from '/types/navigation'
 
-import CoinDetail from './CoinDetail';
+import CoinDetail from './CoinDetail'
 import {
   Gainers,
   HighMarkeCap,
@@ -13,12 +13,12 @@ import {
   Main,
   NewCoin,
   Search,
-} from '/screens/coinMarket';
+} from '/screens/coinMarket'
 
-const Stack = createStackNavigator<HomeParamList>();
+const Stack = createStackNavigator<HomeParamList>()
 
 const Home = () => {
-  const { theme } = useGlobalTheme();
+  const { theme } = useGlobalTheme()
 
   return (
     <Stack.Navigator
@@ -53,7 +53,7 @@ const Home = () => {
       <Stack.Screen name="Losers" component={Losers} />
       <Stack.Screen name="CoinSearch" component={Search} />
     </Stack.Navigator>
-  );
-};
+  )
+}
 
-export default Home;
+export default Home

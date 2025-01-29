@@ -1,45 +1,45 @@
-import { BlurView } from 'expo-blur';
-import React, { useCallback, useState } from 'react';
-import { Dimensions } from 'react-native';
-import styled from 'styled-components/native';
+import { BlurView } from 'expo-blur'
+import React, { useCallback, useState } from 'react'
+import { Dimensions } from 'react-native'
+import styled from 'styled-components/native'
 
-import { useCoinIdContext } from '/hooks/context/useCoinIdContext';
-import useCoinDetail from '/hooks/data/useCoinDetail';
-import useGlobalTheme from '/hooks/useGlobalTheme';
-import useLocales from '/hooks/useLocales';
-import { shallowEqual, useAppSelector } from '/hooks/useRedux';
+import { useCoinIdContext } from '/hooks/context/useCoinIdContext'
+import useCoinDetail from '/hooks/data/useCoinDetail'
+import useGlobalTheme from '/hooks/useGlobalTheme'
+import useLocales from '/hooks/useLocales'
+import { shallowEqual, useAppSelector } from '/hooks/useRedux'
 
-import AddTransactionButton from '../AddTransactionButton';
-import WatchButton from '../WatchButton';
-import PriceChangePercentage from './PriceChangePercentage';
-import ChartContainer from './priceChart/ChartContainer';
-import Stats from './Stats';
-import CustomRefreshControl from '/components/common/CustomRefreshControl';
-import ScrollView from '/components/common/ScrollView';
+import AddTransactionButton from '../AddTransactionButton'
+import WatchButton from '../WatchButton'
+import PriceChangePercentage from './PriceChangePercentage'
+import ChartContainer from './priceChart/ChartContainer'
+import Stats from './Stats'
+import CustomRefreshControl from '/components/common/CustomRefreshControl'
+import ScrollView from '/components/common/ScrollView'
 
-const { width } = Dimensions.get('window');
+const { width } = Dimensions.get('window')
 
 const Layout = () => {
-  const { theme, scheme } = useGlobalTheme();
-  const { id } = useCoinIdContext();
-  const [refreshing, setRefreshing] = useState(false);
+  const { theme, scheme } = useGlobalTheme()
+  const { id } = useCoinIdContext()
+  const [refreshing, setRefreshing] = useState(false)
   const { portfolios, activeIndex } = useAppSelector(
-    state => ({
+    (state) => ({
       portfolios: state.portfolioReducer.portfolios,
       activeIndex: state.portfolioReducer.activeIndex,
     }),
     shallowEqual
-  );
-  const { currency } = useLocales();
-  const { data, mutate } = useCoinDetail({ id });
+  )
+  const { currency } = useLocales()
+  const { data, mutate } = useCoinDetail({ id })
 
   const handleRefresh = useCallback(async () => {
-    setRefreshing(true);
-    await mutate();
-    setRefreshing(false);
-  }, [mutate]);
+    setRefreshing(true)
+    await mutate()
+    setRefreshing(false)
+  }, [mutate])
 
-  if (!data) return <></>;
+  if (!data) return <></>
 
   return (
     <>
@@ -108,21 +108,21 @@ const Layout = () => {
         </ButtonWrap>
       </FooterContainer>
     </>
-  );
-};
+  )
+}
 
-export default Layout;
+export default Layout
 
 const ChartArea = styled.View`
   background-color: ${({ theme }) => theme.base.background.surface};
   padding: 15px 0;
-`;
+`
 
 const EmptyView = styled.View`
   height: 80px;
   margin-top: ${({ theme }) => theme.content.blankSpacing};
   background-color: ${({ theme }) => theme.base.background.surface};
-`;
+`
 
 const FooterContainer = styled(BlurView)`
   flex-direction: row;
@@ -132,10 +132,10 @@ const FooterContainer = styled(BlurView)`
   bottom: 0px;
   align-items: center;
   justify-content: center;
-`;
+`
 
 const ButtonWrap = styled.View`
   flex-direction: row;
   width: ${({ theme }) => width - parseInt(theme.content.spacing, 10) * 2}px;
   justify-content: space-between;
-`;
+`

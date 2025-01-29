@@ -1,37 +1,37 @@
-import React, { useRef, useCallback } from 'react';
-import { Dimensions } from 'react-native';
-import styled, { css } from 'styled-components/native';
-import { BottomSheetModal } from '@gorhom/bottom-sheet';
-import { Octicons } from '@expo/vector-icons';
-import { useTranslation } from 'react-i18next';
+import React, { useRef, useCallback } from 'react'
+import { Dimensions } from 'react-native'
+import styled, { css } from 'styled-components/native'
+import { BottomSheetModal } from '@gorhom/bottom-sheet'
+import { Octicons } from '@expo/vector-icons'
+import { useTranslation } from 'react-i18next'
 
-import useGlobalTheme from '/hooks/useGlobalTheme';
-import { useAppDispatch } from '/hooks/useRedux';
-import { useChartState } from '/hooks/context/useChartContext';
-import { changeChartExchange } from '/store/slices/baseSetting';
-import { EXCHANGES } from '/lib/constant';
-import type { ExchangeType } from '/types/common';
+import useGlobalTheme from '/hooks/useGlobalTheme'
+import { useAppDispatch } from '/hooks/useRedux'
+import { useChartState } from '/hooks/context/useChartContext'
+import { changeChartExchange } from '/store/slices/baseSetting'
+import { EXCHANGES } from '/lib/constant'
+import type { ExchangeType } from '/types/common'
 
-import Modal from '/components/common/BottomSheetModal';
-import Text from '/components/common/Text';
+import Modal from '/components/common/BottomSheetModal'
+import Text from '/components/common/Text'
 
-const { width: DWidth } = Dimensions.get('window');
+const { width: DWidth } = Dimensions.get('window')
 
 const exchanges = Object.entries(EXCHANGES)
   .slice(0, 2)
-  .map(exchange => ({
+  .map((exchange) => ({
     label: exchange[1].label,
     value: exchange[0] as ExchangeType,
-  }));
+  }))
 
 type RowProps = {
-  onPress: () => void;
-  title: string;
-  enabled: boolean;
-};
+  onPress: () => void
+  title: string
+  enabled: boolean
+}
 
 const Row = ({ onPress, title, enabled }: RowProps) => {
-  const { theme } = useGlobalTheme();
+  const { theme } = useGlobalTheme()
 
   return (
     <RowContainer
@@ -47,53 +47,53 @@ const Row = ({ onPress, title, enabled }: RowProps) => {
         />
       </>
     </RowContainer>
-  );
-};
+  )
+}
 
 const ExchangeAndPairSelector = () => {
-  const { t } = useTranslation();
-  const modalRef = useRef<BottomSheetModal>(null);
-  const { theme } = useGlobalTheme();
-  const dispatch = useAppDispatch();
+  const { t } = useTranslation()
+  const modalRef = useRef<BottomSheetModal>(null)
+  const { theme } = useGlobalTheme()
+  const dispatch = useAppDispatch()
   const {
     activeTradingPair,
     setActiveTradingPair,
     tradingPairs,
     exchange,
     symbol,
-  } = useChartState();
+  } = useChartState()
 
   const onExchangeChange = useCallback(
     (value: ExchangeType) => {
-      if (exchange === value) return;
-      dispatch(changeChartExchange(value));
-      modalRef.current?.close();
+      if (exchange === value) return
+      dispatch(changeChartExchange(value))
+      modalRef.current?.close()
     },
     [dispatch, exchange]
-  );
+  )
 
   const onTradingPairChange = useCallback(
-    value => {
-      if (activeTradingPair === value) return;
-      setActiveTradingPair(value);
-      modalRef.current?.close();
+    (value) => {
+      if (activeTradingPair === value) return
+      setActiveTradingPair(value)
+      modalRef.current?.close()
     },
     [activeTradingPair, setActiveTradingPair]
-  );
+  )
 
   const handleSelectorPress = () => {
-    modalRef.current?.present();
-  };
+    modalRef.current?.present()
+  }
 
   const translatedExchange = useCallback(
     (exchange: string) => {
       if (exchange === EXCHANGES.globalAverage.label) {
-        return t(`common.global average`);
+        return t(`common.global average`)
       }
-      return exchange;
+      return exchange
     },
     [t]
-  );
+  )
 
   return (
     <>
@@ -154,14 +154,14 @@ const ExchangeAndPairSelector = () => {
         </ModalContainer>
       </Modal>
     </>
-  );
-};
+  )
+}
 
-export default ExchangeAndPairSelector;
+export default ExchangeAndPairSelector
 
 type SelectorType = {
-  borderPosition: 'left' | 'right';
-};
+  borderPosition: 'left' | 'right'
+}
 
 const Container = styled.TouchableOpacity`
   padding: ${({ theme }) => `0 ${theme.content.spacing}`};
@@ -169,7 +169,7 @@ const Container = styled.TouchableOpacity`
   height: 35px;
   justify-content: space-between;
   margin-bottom: 8px;
-`;
+`
 
 const Selector = styled.View<SelectorType>`
   width: ${({ theme }) =>
@@ -191,9 +191,9 @@ const Selector = styled.View<SelectorType>`
       border-top-right-radius: ${({ theme }) => theme.border.l};
       border-bottom-right-radius: ${({ theme }) => theme.border.l};
     `}
-`;
+`
 
-const ModalContainer = styled.View``;
+const ModalContainer = styled.View``
 
 const Title = styled.View`
   background-color: ${({ theme }) => theme.base.background.surface};
@@ -201,26 +201,26 @@ const Title = styled.View`
   align-items: center;
   padding: 8px 0;
   margin-bottom: 8px;
-`;
+`
 
 const ListView = styled.View`
   flex-direction: row;
-`;
+`
 
 const Col = styled.View`
   flex: 1;
   padding: 0 ${({ theme }) => theme.content.spacing};
-`;
+`
 
 const ExchagesView = styled.View`
   flex: 1;
   border-right-color: ${({ theme }) => theme.base.background[200]};
   border-right-width: 1px;
-`;
+`
 
 const PairsView = styled.ScrollView`
   flex: 1;
-`;
+`
 
 const RowContainer = styled.TouchableHighlight`
   flex-direction: row;
@@ -228,4 +228,4 @@ const RowContainer = styled.TouchableHighlight`
   align-items: center;
   padding: 0 ${({ theme }) => theme.content.spacing};
   height: 48px;
-`;
+`

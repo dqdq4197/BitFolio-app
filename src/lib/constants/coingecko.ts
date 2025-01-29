@@ -1,9 +1,9 @@
-import { t } from '/lib/utils/mappedType';
+import { t } from '/lib/utils/mappedType'
 
-const COINGECKO_API_VERSION = '3';
-const COINGECKO_BASE = 'https://api.coingecko.com/api/';
+const COINGECKO_API_VERSION = '3'
+const COINGECKO_BASE = 'https://api.coingecko.com/api/'
 
-export const COINGECKO_PATH_PREFIX = `${COINGECKO_BASE}v${COINGECKO_API_VERSION}`;
+export const COINGECKO_PATH_PREFIX = `${COINGECKO_BASE}v${COINGECKO_API_VERSION}`
 
 export const CHART_TIME_INTERVAL = t({
   '1D': 1,
@@ -11,7 +11,7 @@ export const CHART_TIME_INTERVAL = t({
   '1M': 30,
   '1Y': 365,
   All: 'max',
-});
+})
 
 export const ORDER = t({
   GECKO_ASC: 'gecko_asc',
@@ -33,7 +33,7 @@ export const ORDER = t({
   OPEN_INTEREST_BTC_DESC: 'open_interest_btc_desc',
   TRADE_VOLUME_24H_BTC_ASC: 'trade_volume_24h_btc_asc',
   TRADE_VOLUME_24H_BTC_DESC: 'trade_volume_24h_btc_desc',
-});
+})
 
 export const STATUS_UPDATE_CATEGORY = t({
   GENERAL: 'general',
@@ -44,4 +44,4 @@ export const STATUS_UPDATE_CATEGORY = t({
   FUND_MOVEMENT: 'fund_movement',
   NEW_LISTINGS: 'new_listings',
   EVENT: 'event',
-});
+})

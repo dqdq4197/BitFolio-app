@@ -1,13 +1,13 @@
 import {
   createStackNavigator,
   StackNavigationOptions,
-} from '@react-navigation/stack';
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { Dimensions } from 'react-native';
+} from '@react-navigation/stack'
+import React from 'react'
+import { useTranslation } from 'react-i18next'
+import { Dimensions } from 'react-native'
 
-import useGlobalTheme from '/hooks/useGlobalTheme';
-import type { SettingParamList } from '/types/navigation';
+import useGlobalTheme from '/hooks/useGlobalTheme'
+import type { SettingParamList } from '/types/navigation'
 
 import {
   ChangePassword,
@@ -15,7 +15,7 @@ import {
   ForgotPassword,
   Login,
   Register,
-} from '/screens/auth';
+} from '/screens/auth'
 import {
   AuthSetting,
   Currency,
@@ -23,14 +23,14 @@ import {
   LaunchScreen,
   Overview,
   ScreenTheme,
-} from '/screens/setting';
+} from '/screens/setting'
 
-const Stack = createStackNavigator<SettingParamList>();
-const { width } = Dimensions.get('window');
+const Stack = createStackNavigator<SettingParamList>()
+const { width } = Dimensions.get('window')
 
 const Setting = () => {
-  const { t } = useTranslation();
-  const { theme } = useGlobalTheme();
+  const { t } = useTranslation()
+  const { theme } = useGlobalTheme()
 
   const NavigationOptions = (title?: string): StackNavigationOptions => {
     return {
@@ -51,8 +51,8 @@ const Setting = () => {
         fontSize: 18,
       },
       gestureResponseDistance: width,
-    };
-  };
+    }
+  }
 
   return (
     <Stack.Navigator initialRouteName="Overview">
@@ -112,7 +112,7 @@ const Setting = () => {
         options={NavigationOptions('')}
       />
     </Stack.Navigator>
-  );
-};
+  )
+}
 
-export default Setting;
+export default Setting

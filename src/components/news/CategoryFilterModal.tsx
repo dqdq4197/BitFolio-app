@@ -1,20 +1,20 @@
-import { Octicons } from '@expo/vector-icons';
-import React, { useCallback, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from 'styled-components/native';
+import { Octicons } from '@expo/vector-icons'
+import React, { useCallback, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import styled from 'styled-components/native'
 
-import useGlobalTheme from '/hooks/useGlobalTheme';
-import { useAppDispatch, useAppSelector } from '/hooks/useRedux';
-import { ALL_NEWS_CATEGORIES, changeCategories } from '/store/slices/news';
-import type { FeedAndCategoryData } from '/types/CryptoCompareReturnType';
+import useGlobalTheme from '/hooks/useGlobalTheme'
+import { useAppDispatch, useAppSelector } from '/hooks/useRedux'
+import { ALL_NEWS_CATEGORIES, changeCategories } from '/store/slices/news'
+import type { FeedAndCategoryData } from '/types/CryptoCompareReturnType'
 
-import AsyncButton from '/components/common/AsyncButton';
-import ScrollCloseModal from '/components/common/ScrollCloseModal';
-import Text from '/components/common/Text';
+import AsyncButton from '/components/common/AsyncButton'
+import ScrollCloseModal from '/components/common/ScrollCloseModal'
+import Text from '/components/common/Text'
 
 interface ModalType extends Pick<FeedAndCategoryData, 'Categories'> {
-  visible: boolean;
-  setVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  visible: boolean
+  setVisible: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const CategoryFilterModal = ({
@@ -22,42 +22,40 @@ const CategoryFilterModal = ({
   setVisible,
   Categories: CategoriesData,
 }: ModalType) => {
-  const { t } = useTranslation();
-  const dispatch = useAppDispatch();
-  const { theme } = useGlobalTheme();
-  const { categories } = useAppSelector((state) => state.newsReducer);
-  const [categoriesTemp, setCategoriesTemp] = useState(categories);
+  const { t } = useTranslation()
+  const dispatch = useAppDispatch()
+  const { theme } = useGlobalTheme()
+  const { categories } = useAppSelector((state) => state.newsReducer)
+  const [categoriesTemp, setCategoriesTemp] = useState(categories)
 
   const handleSavePress = useCallback(() => {
-    dispatch(changeCategories(categoriesTemp));
-    setVisible(false);
-  }, [categoriesTemp, dispatch, setVisible]);
+    dispatch(changeCategories(categoriesTemp))
+    setVisible(false)
+  }, [categoriesTemp, dispatch, setVisible])
 
   const handleRowPress = (key: string) => {
     if (categoriesTemp === ALL_NEWS_CATEGORIES) {
-      if (key === ALL_NEWS_CATEGORIES) return;
+      if (key === ALL_NEWS_CATEGORIES) return
 
-      setCategoriesTemp([key]);
+      setCategoriesTemp([key])
     } else {
       if (key === ALL_NEWS_CATEGORIES) {
-        setCategoriesTemp(ALL_NEWS_CATEGORIES);
-        return;
+        setCategoriesTemp(ALL_NEWS_CATEGORIES)
+        return
       }
-      const isContain = categoriesTemp.findIndex(
-        (category) => category === key
-      );
+      const isContain = categoriesTemp.findIndex((category) => category === key)
 
       if (isContain === -1) {
-        setCategoriesTemp((prevState) => [...prevState, key]);
+        setCategoriesTemp((prevState) => [...prevState, key])
       } else if (categoriesTemp.length === 1) {
-        setCategoriesTemp(ALL_NEWS_CATEGORIES);
+        setCategoriesTemp(ALL_NEWS_CATEGORIES)
       } else {
         setCategoriesTemp((prevState) =>
           (prevState as string[]).filter((category) => category !== key)
-        );
+        )
       }
     }
-  };
+  }
 
   return (
     <ScrollCloseModal
@@ -130,26 +128,26 @@ const CategoryFilterModal = ({
                 />
               </>
             </Row>
-          );
+          )
         })}
       </Container>
     </ScrollCloseModal>
-  );
-};
+  )
+}
 
-export default CategoryFilterModal;
+export default CategoryFilterModal
 
 type RowProps = {
-  isActive: boolean;
-};
+  isActive: boolean
+}
 
 const Container = styled.View`
   padding-bottom: 30px;
-`;
+`
 const TitleWrap = styled.View`
   align-items: flex-end;
   justify-content: center;
-`;
+`
 
 const Row = styled.TouchableHighlight<RowProps>`
   flex-direction: row;
@@ -160,4 +158,4 @@ const Row = styled.TouchableHighlight<RowProps>`
   border-bottom-width: 1px;
   border-bottom-color: ${({ theme }) => theme.base.background[300]};
   opacity: ${({ isActive }) => (isActive ? 1 : 0.6)};
-`;
+`

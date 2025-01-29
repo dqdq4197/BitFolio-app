@@ -1,7 +1,7 @@
-import React from 'react';
+import React from 'react'
 
-import GeneralTemplate from '/components/GeneralTemplate';
-import Currency from '/components/setting/Currency';
+import GeneralTemplate from '/components/GeneralTemplate'
+import Currency from '/components/setting/Currency'
 
 /**
  * 비밀 번호 변경
@@ -14,7 +14,7 @@ const AuthSettingScreen = () => {
     <GeneralTemplate>
       <Currency />
     </GeneralTemplate>
-  );
-};
+  )
+}
 
-export default AuthSettingScreen;
+export default AuthSettingScreen

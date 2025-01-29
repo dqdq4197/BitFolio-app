@@ -1,8 +1,8 @@
-import React from 'react';
+import React from 'react'
 
-import EmailVerification from '/components/auth/EmailVerification';
-import AsyncBoundary from '/components/common/AsyncBoundary';
-import GeneralTemplate from '/components/GeneralTemplate';
+import EmailVerification from '/components/auth/EmailVerification'
+import AsyncBoundary from '/components/common/AsyncBoundary'
+import GeneralTemplate from '/components/GeneralTemplate'
 
 const EmailVerificationScreen = () => {
   return (
@@ -11,7 +11,7 @@ const EmailVerificationScreen = () => {
         <EmailVerification />
       </AsyncBoundary>
     </GeneralTemplate>
-  );
-};
+  )
+}
 
-export default EmailVerificationScreen;
+export default EmailVerificationScreen

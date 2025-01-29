@@ -1,13 +1,13 @@
-import React from 'react';
-import styled from 'styled-components/native';
+import React from 'react'
+import styled from 'styled-components/native'
 
-import Text from '/components/common/Text';
-import SurfaceTopView from '/components/common/SurfaceTopView';
+import Text from '/components/common/Text'
+import SurfaceTopView from '/components/common/SurfaceTopView'
 
 type HeaderProps = {
-  title: string;
-  description: string;
-};
+  title: string
+  description: string
+}
 
 const FlatListHeader = ({ title, description }: HeaderProps) => {
   return (
@@ -20,12 +20,12 @@ const FlatListHeader = ({ title, description }: HeaderProps) => {
         {description}
       </Text>
     </Container>
-  );
-};
+  )
+}
 
-export default FlatListHeader;
+export default FlatListHeader
 
 const Container = styled.View`
   padding: ${({ theme }) =>
     `${theme.content.surfacePadding} ${theme.content.spacing}`};
-`;
+`

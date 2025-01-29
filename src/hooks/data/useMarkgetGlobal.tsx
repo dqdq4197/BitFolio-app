@@ -1,14 +1,14 @@
-import useRequest from '../useRequest';
-import { CoinGecko, http } from '/lib/api/CoinGeckoClient';
-import { GlobalReturn } from '/types/coinGeckoReturnType';
+import useRequest from '../useRequest'
+import { CoinGecko, http } from '/lib/api/CoinGeckoClient'
+import { GlobalReturn } from '/types/coinGeckoReturnType'
 
 interface MarketGlobalProps {
-  suspense?: boolean;
+  suspense?: boolean
 }
 const useMarketGlobal = ({ suspense = true }: MarketGlobalProps) => {
-  const getKey = CoinGecko.coin.global();
+  const getKey = CoinGecko.coin.global()
 
-  return useRequest<GlobalReturn>(getKey, http, { suspense });
-};
+  return useRequest<GlobalReturn>(getKey, http, { suspense })
+}
 
-export default useMarketGlobal;
+export default useMarketGlobal

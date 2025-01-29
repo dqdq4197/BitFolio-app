@@ -1,31 +1,31 @@
-import React from 'react';
-import styled from 'styled-components/native';
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-import { useTranslation } from 'react-i18next';
-import { format } from 'date-fns';
-import { ko, enUS } from 'date-fns/locale';
+import React from 'react'
+import styled from 'styled-components/native'
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'
+import { useTranslation } from 'react-i18next'
+import { format } from 'date-fns'
+import { ko, enUS } from 'date-fns/locale'
 
-import useGlobalTheme from '/hooks/useGlobalTheme';
-import useLocales from '/hooks/useLocales';
-import { TransactionType } from '/store/slices/transaction';
-import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat';
+import useGlobalTheme from '/hooks/useGlobalTheme'
+import useLocales from '/hooks/useLocales'
+import { TransactionType } from '/store/slices/transaction'
+import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat'
 
-import IncreaseDecreaseValue from '/components/common/IncreaseDecreaseValue';
-import Text from '/components/common/Text';
+import IncreaseDecreaseValue from '/components/common/IncreaseDecreaseValue'
+import Text from '/components/common/Text'
 
 type ItemProps = {
-  data: TransactionType;
-  symbol: string;
-  onItemPress: (id: string) => void;
-};
+  data: TransactionType
+  symbol: string
+  onItemPress: (id: string) => void
+}
 
 type TypesType = {
   [key: string]: {
-    name: string;
-    icon: (color: string) => JSX.Element;
-    symbol: 'positive' | 'negative';
-  };
-};
+    name: string
+    icon: (color: string) => JSX.Element
+    symbol: 'positive' | 'negative'
+  }
+}
 
 const TYPES: TypesType = {
   buy: {
@@ -56,13 +56,13 @@ const TYPES: TypesType = {
     ),
     symbol: 'negative',
   },
-};
+}
 
 const Item = ({ data, symbol, onItemPress }: ItemProps) => {
-  const { t } = useTranslation();
-  const type = data.type === 'transfer' ? data.transferType! : data.type;
-  const { theme } = useGlobalTheme();
-  const { language, currency } = useLocales();
+  const { t } = useTranslation()
+  const type = data.type === 'transfer' ? data.transferType! : data.type
+  const { theme } = useGlobalTheme()
+  const { language, currency } = useLocales()
 
   return (
     <Container
@@ -112,30 +112,30 @@ const Item = ({ data, symbol, onItemPress }: ItemProps) => {
         </QuantityWrap>
       </>
     </Container>
-  );
-};
+  )
+}
 
-export default Item;
+export default Item
 
 const Container = styled.TouchableHighlight`
   flex: 1;
   flex-direction: row;
   height: 60px;
   padding: ${({ theme }) => theme.content.spacing};
-`;
+`
 
 const TypeWrap = styled.View`
   flex: 1.4;
   flex-direction: row;
   align-items: center;
-`;
+`
 
 const TypeValue = styled.View`
   margin-left: 10px;
-`;
+`
 
 const QuantityWrap = styled.View`
   flex: 1;
   justify-content: center;
   align-items: flex-end;
-`;
+`

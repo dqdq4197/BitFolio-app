@@ -1,56 +1,55 @@
-import React from 'react';
-import styled from 'styled-components/native';
-import YoutubePlayer from "react-native-youtube-iframe";
-import { EmbedType, useMdEditorDispatch, useMdEditorState } from '/hooks/context/useMdEditorContext';
-import { TYPES, ACTIONS } from '/lib/constant';
-import useGlobalTheme from '/hooks/useGlobalTheme';
-
-
+import React from 'react'
+import styled from 'styled-components/native'
+import YoutubePlayer from 'react-native-youtube-iframe'
+import {
+  EmbedType,
+  useMdEditorDispatch,
+  useMdEditorState,
+} from '/hooks/context/useMdEditorContext'
+import { TYPES, ACTIONS } from '/lib/constant'
+import useGlobalTheme from '/hooks/useGlobalTheme'
 
 type EmbedAreaProps = {
-  content: EmbedType,
-  index: number,
+  content: EmbedType
+  index: number
 }
 const EmbedArea = ({ content, index }: EmbedAreaProps) => {
-
-  const { payload } = content;
-  const { contentStorage } = useMdEditorState();
-  const handlers = useMdEditorDispatch();
-  const { scheme } = useGlobalTheme();
-
+  const { payload } = content
+  const { contentStorage } = useMdEditorState()
+  const handlers = useMdEditorDispatch()
+  const { scheme } = useGlobalTheme()
 
   const handleCaptionChange = (text: string) => {
-    const currentContext = contentStorage[index] as EmbedType;
-    currentContext.payload.caption = text;
-    handlers.updateCurrentLine(currentContext, index);
+    const currentContext = contentStorage[index] as EmbedType
+    currentContext.payload.caption = text
+    handlers.updateCurrentLine(currentContext, index)
   }
 
   const handleCaptionSubmitEditing = () => {
-    const newContext = [{
-      type: TYPES.PARAGRAPH,
-      payload: {
-        text: "",
-      }
-    }]
+    const newContext = [
+      {
+        type: TYPES.PARAGRAPH,
+        payload: {
+          text: '',
+        },
+      },
+    ]
 
-    handlers.insertNewLineAfter(newContext, index);
-    handlers.updateFocusState(index + 1, ACTIONS.ENTER);
+    handlers.insertNewLineAfter(newContext, index)
+    handlers.updateFocusState(index + 1, ACTIONS.ENTER)
     handlers.updateSelection({
       start: 0,
-      end: 0
+      end: 0,
     })
   }
 
   const handleFocus = () => {
-    return handlers.focusActionReset(index);
+    return handlers.focusActionReset(index)
   }
 
   return (
     <EmbedView>
-      <YoutubePlayer
-        height={211}
-        videoId={payload.id}
-      />
+      <YoutubePlayer height={211} videoId={payload.id} />
       <CaptionTextInput
         keyboardAppearance={scheme === 'dark' ? 'dark' : 'light'}
         value={payload.caption}
@@ -58,7 +57,7 @@ const EmbedArea = ({ content, index }: EmbedAreaProps) => {
         blurOnSubmit
         returnKeyType="next"
         textAlignVertical="center"
-        placeholder={"Enter a caption"}
+        placeholder={'Enter a caption'}
         placeholderTextColor="rgba(201,201,204,.48)"
         onChangeText={handleCaptionChange}
         onFocus={handleFocus}
@@ -68,7 +67,7 @@ const EmbedArea = ({ content, index }: EmbedAreaProps) => {
   )
 }
 
-export default EmbedArea;
+export default EmbedArea
 
 const EmbedView = styled.View`
   margin-bottom: 10px;

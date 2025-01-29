@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components/native';
+import React, { useEffect, useState } from 'react'
+import styled from 'styled-components/native'
 
-import useLocales from '/hooks/useLocales';
-import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat';
+import useLocales from '/hooks/useLocales'
+import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat'
 
-import Text, { TextStyleProps } from './Text';
+import Text, { TextStyleProps } from './Text'
 
 interface ValueProps extends TextStyleProps {
-  value: number | null;
-  beforePrefix?: string;
-  afterPrefix?: string;
-  isCurrencyFormat?: boolean;
+  value: number | null
+  beforePrefix?: string
+  afterPrefix?: string
+  isCurrencyFormat?: boolean
 }
 
 const IncreaseDecreaseValue = ({
@@ -20,8 +20,8 @@ const IncreaseDecreaseValue = ({
   isCurrencyFormat = false,
   ...props
 }: ValueProps) => {
-  const { currency } = useLocales();
-  const [returnValue, setReturnValue] = useState<string | number | null>(value);
+  const { currency } = useLocales()
+  const [returnValue, setReturnValue] = useState<string | number | null>(value)
 
   useEffect(() => {
     if (isCurrencyFormat && value !== null) {
@@ -31,11 +31,11 @@ const IncreaseDecreaseValue = ({
             value: Math.sign(value) * value,
             prefix: getCurrencySymbol(currency),
           })
-      );
+      )
     } else {
-      setReturnValue(value);
+      setReturnValue(value)
     }
-  }, [value, isCurrencyFormat, currency]);
+  }, [value, isCurrencyFormat, currency])
 
   return (
     <CustomText value={value} {...props}>
@@ -45,10 +45,10 @@ const IncreaseDecreaseValue = ({
         ? `+${beforePrefix ?? ''}${returnValue}${afterPrefix ?? ''}`
         : `${beforePrefix ?? ''}${returnValue}${afterPrefix ?? ''}`}
     </CustomText>
-  );
-};
+  )
+}
 
-export default IncreaseDecreaseValue;
+export default IncreaseDecreaseValue
 
 const CustomText = styled(Text)<ValueProps>`
   color: ${({ theme, value }) =>
@@ -59,4 +59,4 @@ const CustomText = styled(Text)<ValueProps>`
       : value === 0
       ? theme.base.text[200]
       : theme.base.downColor};
-`;
+`

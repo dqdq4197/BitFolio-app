@@ -1,27 +1,27 @@
-import React from 'react';
-import styled from 'styled-components/native';
-import { useTranslation } from 'react-i18next';
-import { useNavigation } from '@react-navigation/native';
-import { MaterialIcons } from '@expo/vector-icons';
+import React from 'react'
+import styled from 'styled-components/native'
+import { useTranslation } from 'react-i18next'
+import { useNavigation } from '@react-navigation/native'
+import { MaterialIcons } from '@expo/vector-icons'
 
-import useGlobalTheme from '/hooks/useGlobalTheme';
-import type { HomeParamList, HomeScreenProps } from '/types/navigation';
+import useGlobalTheme from '/hooks/useGlobalTheme'
+import type { HomeParamList, HomeScreenProps } from '/types/navigation'
 
-import Text from '/components/common/Text';
+import Text from '/components/common/Text'
 
 type ButtonProps = {
-  route: keyof Pick<HomeParamList, 'CoinHighMarketCap' | 'CoinHighVolume'>;
-};
+  route: keyof Pick<HomeParamList, 'CoinHighMarketCap' | 'CoinHighVolume'>
+}
 
 const ShowAllButton = ({ route }: ButtonProps) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
   const navigation =
-    useNavigation<HomeScreenProps<'CoinMarketHome'>['navigation']>();
-  const { theme } = useGlobalTheme();
+    useNavigation<HomeScreenProps<'CoinMarketHome'>['navigation']>()
+  const { theme } = useGlobalTheme()
 
   const handleShowMorePress = () => {
-    navigation.navigate(route);
-  };
+    navigation.navigate(route)
+  }
 
   return (
     <Container>
@@ -46,16 +46,16 @@ const ShowAllButton = ({ route }: ButtonProps) => {
         </ShowAllText>
       </Button>
     </Container>
-  );
-};
+  )
+}
 
-export default ShowAllButton;
+export default ShowAllButton
 
 const Container = styled.View`
   height: 50px;
   align-items: center;
   justify-content: center;
-`;
+`
 
 const Button = styled.TouchableHighlight`
   align-items: center;
@@ -63,9 +63,9 @@ const Button = styled.TouchableHighlight`
   width: 110px;
   padding: 10px;
   border-radius: ${({ theme }) => theme.border.s};
-`;
+`
 
 const ShowAllText = styled.View`
   flex-direction: row;
   align-items: center;
-`;
+`

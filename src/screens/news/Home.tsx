@@ -1,8 +1,8 @@
-import React from 'react';
+import React from 'react'
 
-import AsyncBoundary from '/components/common/AsyncBoundary';
-import DiscussionHome from '/components/discussionHome';
-import GeneralTemplate from '/components/GeneralTemplate';
+import AsyncBoundary from '/components/common/AsyncBoundary'
+import DiscussionHome from '/components/discussionHome'
+import GeneralTemplate from '/components/GeneralTemplate'
 
 const HomeScreen = () => {
   return (
@@ -11,7 +11,7 @@ const HomeScreen = () => {
         <DiscussionHome />
       </AsyncBoundary>
     </GeneralTemplate>
-  );
-};
+  )
+}
 
-export default HomeScreen;
+export default HomeScreen

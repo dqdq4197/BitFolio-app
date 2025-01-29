@@ -1,22 +1,22 @@
-import { Ionicons } from '@expo/vector-icons';
-import { BottomSheetModal } from '@gorhom/bottom-sheet';
-import React, { useCallback, useLayoutEffect, useRef } from 'react';
+import { Ionicons } from '@expo/vector-icons'
+import { BottomSheetModal } from '@gorhom/bottom-sheet'
+import React, { useCallback, useLayoutEffect, useRef } from 'react'
 
-import useGlobalTheme from '/hooks/useGlobalTheme';
-import type { NewsScreenProps } from '/types/navigation';
+import useGlobalTheme from '/hooks/useGlobalTheme'
+import type { NewsScreenProps } from '/types/navigation'
 
-import AsyncBoundary from '/components/common/AsyncBoundary';
-import GeneralTemplate from '/components/GeneralTemplate';
-import Overview from '/components/news/Overview';
-import SettingModal from '/components/setting/SettingModal';
+import AsyncBoundary from '/components/common/AsyncBoundary'
+import GeneralTemplate from '/components/GeneralTemplate'
+import Overview from '/components/news/Overview'
+import SettingModal from '/components/setting/SettingModal'
 
 const OverviewScreen = ({ navigation }: NewsScreenProps<'NewsOverview'>) => {
-  const { theme } = useGlobalTheme();
-  const settingModalRef = useRef<BottomSheetModal>(null);
+  const { theme } = useGlobalTheme()
+  const settingModalRef = useRef<BottomSheetModal>(null)
 
   const handleSettingPress = useCallback(() => {
-    settingModalRef.current?.present();
-  }, [settingModalRef]);
+    settingModalRef.current?.present()
+  }, [settingModalRef])
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -28,8 +28,8 @@ const OverviewScreen = ({ navigation }: NewsScreenProps<'NewsOverview'>) => {
           onPress={handleSettingPress}
         />
       ),
-    });
-  }, [handleSettingPress, navigation, theme]);
+    })
+  }, [handleSettingPress, navigation, theme])
 
   return (
     <GeneralTemplate>
@@ -38,7 +38,7 @@ const OverviewScreen = ({ navigation }: NewsScreenProps<'NewsOverview'>) => {
         <Overview />
       </AsyncBoundary>
     </GeneralTemplate>
-  );
-};
+  )
+}
 
-export default OverviewScreen;
+export default OverviewScreen

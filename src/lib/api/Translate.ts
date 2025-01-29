@@ -1,11 +1,11 @@
-import axios from 'axios';
-import { NAVER_CLIENT_ID, NAVER_CLIENT_SECRET } from '@env';
+import axios from 'axios'
+import { NAVER_CLIENT_ID, NAVER_CLIENT_SECRET } from '@env'
 
-import { PAPAGO_PREFIX } from '/lib/constant';
+import { PAPAGO_PREFIX } from '/lib/constant'
 
 type PapageParams = {
-  query: string;
-};
+  query: string
+}
 
 export const http = axios.create({
   baseURL: PAPAGO_PREFIX,
@@ -13,7 +13,7 @@ export const http = axios.create({
     'X-Naver-Client-Id': NAVER_CLIENT_ID,
     'X-Naver-Client-Secret': NAVER_CLIENT_SECRET,
   },
-});
+})
 
 export const config = {
   baseURL: PAPAGO_PREFIX,
@@ -22,7 +22,7 @@ export const config = {
     'X-Naver-Client-Id': NAVER_CLIENT_ID,
     'X-Naver-Client-Secret': NAVER_CLIENT_SECRET,
   },
-};
+}
 
 export const translate = {
   papago: {
@@ -30,7 +30,7 @@ export const translate = {
       return {
         url: '/',
         params,
-      };
+      }
     },
   },
-};
+}

@@ -1,12 +1,12 @@
-import React from 'react';
-import styled from 'styled-components/native';
+import React from 'react'
+import styled from 'styled-components/native'
 
 const Blank = () => {
-  return <Container />;
-};
+  return <Container />
+}
 
-export default Blank;
+export default Blank
 
 const Container = styled.View`
   height: 200px;
-`;
+`

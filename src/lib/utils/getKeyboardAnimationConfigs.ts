@@ -1,5 +1,5 @@
-import { Easing } from 'react-native-reanimated';
-import type { KeyboardEventEasing } from 'react-native';
+import { Easing } from 'react-native-reanimated'
+import type { KeyboardEventEasing } from 'react-native'
 
 const getKeyboardAnimationConfigs = (
   easing: KeyboardEventEasing,
@@ -12,25 +12,25 @@ const getKeyboardAnimationConfigs = (
       return {
         easing: Easing.in(Easing.ease),
         duration,
-      };
+      }
 
     case 'easeOut':
       return {
         easing: Easing.out(Easing.ease),
         duration,
-      };
+      }
 
     case 'easeInEaseOut':
       return {
         easing: Easing.inOut(Easing.ease),
         duration,
-      };
+      }
 
     case 'linear':
       return {
         easing: Easing.linear,
         duration,
-      };
+      }
 
     case 'keyboard':
       return {
@@ -40,8 +40,8 @@ const getKeyboardAnimationConfigs = (
         overshootClamping: true,
         restDisplacementThreshold: 10,
         restSpeedThreshold: 10,
-      };
+      }
   }
-};
+}
 
-export default getKeyboardAnimationConfigs;
+export default getKeyboardAnimationConfigs

@@ -1,19 +1,19 @@
-import React from 'react';
-import styled from 'styled-components/native';
-import { Ionicons } from '@expo/vector-icons';
-import { useTranslation } from 'react-i18next';
+import React from 'react'
+import styled from 'styled-components/native'
+import { Ionicons } from '@expo/vector-icons'
+import { useTranslation } from 'react-i18next'
 
-import useGlobalTheme from '/hooks/useGlobalTheme';
+import useGlobalTheme from '/hooks/useGlobalTheme'
 
-import Text from '/components/common/Text';
+import Text from '/components/common/Text'
 
 type EmptyViewProps = {
-  query: string;
-};
+  query: string
+}
 
 const EmptyView = ({ query }: EmptyViewProps) => {
-  const { theme } = useGlobalTheme();
-  const { t } = useTranslation();
+  const { theme } = useGlobalTheme()
+  const { t } = useTranslation()
 
   return (
     <Container>
@@ -28,12 +28,12 @@ const EmptyView = ({ query }: EmptyViewProps) => {
         {t(`search.try again with a different term`)}
       </Text>
     </Container>
-  );
-};
+  )
+}
 
-export default EmptyView;
+export default EmptyView
 
 const Container = styled.View`
   padding: 30px ${({ theme }) => theme.content.spacing} 0;
   align-items: center;
-`;
+`

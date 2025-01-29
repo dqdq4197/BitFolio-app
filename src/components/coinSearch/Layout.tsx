@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  useEffect,
-  useRef,
-  useCallback,
-  useMemo,
-} from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import {
   FlatList,
   Platform,
@@ -12,125 +6,122 @@ import {
   Dimensions,
   LayoutAnimation,
   UIManager,
-} from 'react-native';
-import { useHeaderHeight } from '@react-navigation/elements';
-import { useNavigation } from '@react-navigation/native';
-import Animated, {
-  useAnimatedStyle,
-  withSpring,
-} from 'react-native-reanimated';
+} from 'react-native'
+import { useHeaderHeight } from '@react-navigation/elements'
+import { useNavigation } from '@react-navigation/native'
+import Animated, { useAnimatedStyle, withSpring } from 'react-native-reanimated'
 
-import useGlobalTheme from '/hooks/useGlobalTheme';
-import useRequest from '/hooks/useRequest';
-import useKeyboard from '/hooks/useKeyboard';
-import { useAppDispatch, useAppSelector } from '/hooks/useRedux';
-import { useInitData } from '/hooks/context/useInitDataContext';
-import { changeRecentSearches } from '/store/slices/baseSetting';
-import { createFuzzyMatcher, getKeyboardAnimationConfigs } from '/lib/utils';
-import { CoinGecko, http } from '/lib/api/CoinGeckoClient';
+import useGlobalTheme from '/hooks/useGlobalTheme'
+import useRequest from '/hooks/useRequest'
+import useKeyboard from '/hooks/useKeyboard'
+import { useAppDispatch, useAppSelector } from '/hooks/useRedux'
+import { useInitData } from '/hooks/context/useInitDataContext'
+import { changeRecentSearches } from '/store/slices/baseSetting'
+import { createFuzzyMatcher, getKeyboardAnimationConfigs } from '/lib/utils'
+import { CoinGecko, http } from '/lib/api/CoinGeckoClient'
 import type {
   SearchTrandingReturn,
   SearchCoin,
-} from '/types/coinGeckoReturnType';
-import type { HomeScreenProps } from '/types/navigation';
+} from '/types/coinGeckoReturnType'
+import type { HomeScreenProps } from '/types/navigation'
 
-import Text from '/components/common/Text';
-import GlobalIndicator from '/components/common/GlobalIndicator';
-import EmptyView from './EmptyView';
-import DefaultView from './DefaultView';
-import SearchBar from './SearchBar';
-import Item from './Item';
+import Text from '/components/common/Text'
+import GlobalIndicator from '/components/common/GlobalIndicator'
+import EmptyView from './EmptyView'
+import DefaultView from './DefaultView'
+import SearchBar from './SearchBar'
+import Item from './Item'
 
 if (Platform.OS === 'android') {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
-    UIManager.setLayoutAnimationEnabledExperimental(true);
+    UIManager.setLayoutAnimationEnabledExperimental(true)
   }
 }
 
 export interface CoinsType extends SearchCoin {
-  highlightedName?: Array<string | React.ReactNode>;
-  highlightedSymbol?: Array<string | React.ReactNode>;
+  highlightedName?: Array<string | React.ReactNode>
+  highlightedSymbol?: Array<string | React.ReactNode>
 }
 
-const { height } = Dimensions.get('screen');
+const { height } = Dimensions.get('screen')
 
 const Layout = () => {
   const {
     height: animationKeyboardHeight,
     animationDuration,
     animationEasing,
-  } = useKeyboard();
-  const textInputRef = useRef<TextInput>(null);
-  const { recentSearches } = useAppSelector(state => state.baseSettingReducer);
-  const [coins, setCoins] = useState<CoinsType[]>([]);
-  const [query, setQuery] = useState('');
-  const [searchesData, setSearchesData] = useState<SearchCoin[]>([]);
-  const { theme } = useGlobalTheme();
+  } = useKeyboard()
+  const textInputRef = useRef<TextInput>(null)
+  const { recentSearches } = useAppSelector((state) => state.baseSettingReducer)
+  const [coins, setCoins] = useState<CoinsType[]>([])
+  const [query, setQuery] = useState('')
+  const [searchesData, setSearchesData] = useState<SearchCoin[]>([])
+  const { theme } = useGlobalTheme()
   const navigation =
-    useNavigation<HomeScreenProps<'CoinSearch'>['navigation']>();
-  const headerHeight = useHeaderHeight();
-  const dispatch = useAppDispatch();
+    useNavigation<HomeScreenProps<'CoinSearch'>['navigation']>()
+  const headerHeight = useHeaderHeight()
+  const dispatch = useAppDispatch()
   const { coingeckoAssets: searchData, coingeckoIsLoading: isLoading } =
-    useInitData();
+    useInitData()
   const { data: trandingData } = useRequest<SearchTrandingReturn>(
     CoinGecko.coin.searchTranding(),
     http
-  );
+  )
 
   useEffect(() => {
     if (searchData) {
-      let filteredData = searchData?.coins.filter(coin =>
+      let filteredData = searchData?.coins.filter((coin) =>
         recentSearches.includes(coin.id)
-      );
+      )
       filteredData = filteredData.sort(
         (a, b) => recentSearches.indexOf(a.id) - recentSearches.indexOf(b.id)
-      );
+      )
       filteredData = filteredData.filter((coin, index) => {
-        const idx = filteredData.findIndex(res => res.id === coin.id);
-        return idx === index;
-      });
-      setSearchesData(filteredData);
+        const idx = filteredData.findIndex((res) => res.id === coin.id)
+        return idx === index
+      })
+      setSearchesData(filteredData)
     }
-  }, [recentSearches, searchData]);
+  }, [recentSearches, searchData])
 
   const handleItemPress = (id: string, symbol: string) => {
     navigation.navigate('CoinDetail', {
       params: { id, symbol },
       screen: 'Overview',
-    });
-    dispatch(changeRecentSearches(id));
-  };
+    })
+    dispatch(changeRecentSearches(id))
+  }
 
   const highlightText = useCallback(
     (text: string, regex: RegExp, bold?: boolean) => {
-      const match = text.match(regex);
-      let newLetters: any = [];
+      const match = text.match(regex)
+      let newLetters: any = []
       if (match) {
-        const matchLetters = match[0];
-        const startIdx = text.indexOf(matchLetters);
-        const endIdx = startIdx + matchLetters.length;
-        newLetters.push(text.substring(0, startIdx));
+        const matchLetters = match[0]
+        const startIdx = text.indexOf(matchLetters)
+        const endIdx = startIdx + matchLetters.length
+        newLetters.push(text.substring(0, startIdx))
         if (bold) {
           newLetters.push(
             <Text key={startIdx} primaryColor fontML bold>
               {text.substring(startIdx, endIdx)}
             </Text>
-          );
+          )
         } else {
           newLetters.push(
             <Text key={startIdx} primaryColor fontML>
               {text.substring(startIdx, endIdx)}
             </Text>
-          );
+          )
         }
-        newLetters.push(text.substring(endIdx, text.length));
+        newLetters.push(text.substring(endIdx, text.length))
       } else {
-        newLetters = text;
+        newLetters = text
       }
-      return newLetters;
+      return newLetters
     },
     []
-  );
+  )
 
   const handleQueryChange = (text: string) => {
     LayoutAnimation.configureNext(
@@ -139,55 +130,55 @@ const Layout = () => {
         LayoutAnimation.Types.easeInEaseOut,
         LayoutAnimation.Properties.scaleY
       )
-    );
-    setQuery(text);
-    if (!searchData) return;
+    )
+    setQuery(text)
+    if (!searchData) return
 
     if (text === '') {
-      setCoins([]);
+      setCoins([])
     } else {
-      const regex = createFuzzyMatcher(text, {});
+      const regex = createFuzzyMatcher(text, {})
       const result = searchData.coins
-        .filter(coin => {
+        .filter((coin) => {
           return (
             regex.test(coin.name) ||
             regex.test(coin.id) ||
             regex.test(coin.symbol)
-          );
+          )
         })
-        .map(coin => {
-          const coinName = highlightText(coin.name, regex, true);
-          const coinSymbol = highlightText(coin.symbol, regex);
+        .map((coin) => {
+          const coinName = highlightText(coin.name, regex, true)
+          const coinSymbol = highlightText(coin.symbol, regex)
 
           return {
             ...coin,
             highlightedName: coinName,
             highlightedSymbol: coinSymbol,
-          };
-        });
+          }
+        })
 
-      setCoins(result);
+      setCoins(result)
     }
-  };
+  }
 
   const onRemoveQuery = () => {
-    setQuery('');
-    setCoins([]);
-    textInputRef.current?.focus();
-  };
+    setQuery('')
+    setCoins([])
+    textInputRef.current?.focus()
+  }
 
   const animationConfig = useMemo(() => {
     return getKeyboardAnimationConfigs(
       animationEasing.value,
       animationDuration.value
-    );
-  }, [animationEasing, animationDuration]);
+    )
+  }, [animationEasing, animationDuration])
 
   const FooterHeight = useAnimatedStyle(() => {
     return {
       height: withSpring(animationKeyboardHeight.value, animationConfig),
-    };
-  }, [animationKeyboardHeight, animationConfig]);
+    }
+  }, [animationKeyboardHeight, animationConfig])
 
   return (
     <>
@@ -236,7 +227,7 @@ const Layout = () => {
         stickyHeaderIndices={[0]}
       />
     </>
-  );
-};
+  )
+}
 
-export default Layout;
+export default Layout

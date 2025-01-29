@@ -1,23 +1,23 @@
-import { Ionicons } from '@expo/vector-icons';
-import { BottomSheetModal } from '@gorhom/bottom-sheet';
-import { StackScreenProps } from '@react-navigation/stack';
-import React, { useCallback, useLayoutEffect, useRef } from 'react';
+import { Ionicons } from '@expo/vector-icons'
+import { BottomSheetModal } from '@gorhom/bottom-sheet'
+import { StackScreenProps } from '@react-navigation/stack'
+import React, { useCallback, useLayoutEffect, useRef } from 'react'
 
-import useGlobalTheme from '/hooks/useGlobalTheme';
+import useGlobalTheme from '/hooks/useGlobalTheme'
 
-import AsyncBoundary from '/components/common/AsyncBoundary';
-import GeneralTemplate from '/components/GeneralTemplate';
-import Layout from '/components/portfolio/Layout';
-import { PortfolioDataProvider } from '/components/portfolio/PortfolioDataContext';
-import SettingModal from '/components/setting/SettingModal';
+import AsyncBoundary from '/components/common/AsyncBoundary'
+import GeneralTemplate from '/components/GeneralTemplate'
+import Layout from '/components/portfolio/Layout'
+import { PortfolioDataProvider } from '/components/portfolio/PortfolioDataContext'
+import SettingModal from '/components/setting/SettingModal'
 
 const OverviewScreen = ({ navigation }: StackScreenProps<any>) => {
-  const { theme } = useGlobalTheme();
-  const settingModalRef = useRef<BottomSheetModal>(null);
+  const { theme } = useGlobalTheme()
+  const settingModalRef = useRef<BottomSheetModal>(null)
 
   const handleSettingPress = useCallback(() => {
-    settingModalRef.current?.present();
-  }, [settingModalRef]);
+    settingModalRef.current?.present()
+  }, [settingModalRef])
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -29,8 +29,8 @@ const OverviewScreen = ({ navigation }: StackScreenProps<any>) => {
           onPress={handleSettingPress}
         />
       ),
-    });
-  }, [handleSettingPress, navigation, theme]);
+    })
+  }, [handleSettingPress, navigation, theme])
 
   return (
     <GeneralTemplate>
@@ -41,7 +41,7 @@ const OverviewScreen = ({ navigation }: StackScreenProps<any>) => {
         </PortfolioDataProvider>
       </AsyncBoundary>
     </GeneralTemplate>
-  );
-};
+  )
+}
 
-export default OverviewScreen;
+export default OverviewScreen

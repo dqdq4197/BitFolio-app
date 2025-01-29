@@ -1,20 +1,16 @@
-import React from 'react';
-import styled from 'styled-components/native';
-import Text from '/components/common/Text';
-
+import React from 'react'
+import styled from 'styled-components/native'
+import Text from '/components/common/Text'
 
 const ImageBlock = () => {
-
   return (
     <StyledDelimiter>
-      <DelimiterText fontXXXL>
-        * * *
-      </DelimiterText>
+      <DelimiterText fontXXXL>* * *</DelimiterText>
     </StyledDelimiter>
   )
 }
 
-export default ImageBlock;
+export default ImageBlock
 
 const StyledDelimiter = styled.View`
   width: 100%;

@@ -1,89 +1,84 @@
-import React, { useState, useCallback, useRef, useEffect } from 'react';
-import { Dimensions, Animated, Easing } from 'react-native';
-import { useTranslation } from 'react-i18next';
-import { easeCubicOut } from 'd3-ease';
-import styled from 'styled-components/native';
+import React, { useState, useCallback, useRef, useEffect } from 'react'
+import { Dimensions, Animated, Easing } from 'react-native'
+import { useTranslation } from 'react-i18next'
+import { easeCubicOut } from 'd3-ease'
+import styled from 'styled-components/native'
 import {
   FontAwesome5,
   FontAwesome,
   MaterialIcons,
   MaterialCommunityIcons,
-} from '@expo/vector-icons';
+} from '@expo/vector-icons'
 
-import useLocales from '/hooks/useLocales';
-import useCoinDetail from '/hooks/data/useCoinDetail';
-import { useAppDispatch, useAppSelector } from '/hooks/useRedux';
-import useGlobalTheme from '/hooks/useGlobalTheme';
-import { addTransaction, editTransaction } from '/store/slices/transaction';
-import { changeCoinState, addWatchingCoin } from '/store/slices/portfolio';
+import useLocales from '/hooks/useLocales'
+import useCoinDetail from '/hooks/data/useCoinDetail'
+import { useAppDispatch, useAppSelector } from '/hooks/useRedux'
+import useGlobalTheme from '/hooks/useGlobalTheme'
+import { addTransaction, editTransaction } from '/store/slices/transaction'
+import { changeCoinState, addWatchingCoin } from '/store/slices/portfolio'
 
-import ScrollCloseModal from '/components/common/ScrollCloseModal';
-import Text from '/components/common/Text';
-import Image from '/components/common/Image';
-import AsyncButton from '/components/common/AsyncButton';
-import EnterDetailsView from './EnterDetailsView';
-import SettingsSelectionBar from './SettingsSelectionBar';
-import TypeSelectView from './TypeSelectView';
+import ScrollCloseModal from '/components/common/ScrollCloseModal'
+import Text from '/components/common/Text'
+import Image from '/components/common/Image'
+import AsyncButton from '/components/common/AsyncButton'
+import EnterDetailsView from './EnterDetailsView'
+import SettingsSelectionBar from './SettingsSelectionBar'
+import TypeSelectView from './TypeSelectView'
 
 export type SettingsType = {
-  name: string;
-  key: FocusedView;
-  icon: (color: string) => JSX.Element;
-};
+  name: string
+  key: FocusedView
+  icon: (color: string) => JSX.Element
+}
 
-export type FocusedView =
-  | 'quantity'
-  | 'date'
-  | 'pricePerCoin'
-  | 'fee'
-  | 'notes';
+export type FocusedView = 'quantity' | 'date' | 'pricePerCoin' | 'fee' | 'notes'
 
 export type InitialDataType = {
-  quantity: number;
-  pricePerCoin: { [key: string]: number | string };
-  fee: number;
-  notes: string | null;
-  date: number;
-  type: string;
-  transferType: string | null;
-};
+  quantity: number
+  pricePerCoin: { [key: string]: number | string }
+  fee: number
+  notes: string | null
+  date: number
+  type: string
+  transferType: string | null
+}
 
 type FormModalProps = {
-  visible: boolean;
-  setVisible: (state: boolean) => void;
-  portfolioId: string;
-  id: string;
-  symbol: string;
-  name: string;
-  image: string;
-  transactionId?: string;
-  initialData?: InitialDataType;
-  afterAddTransactionTodo?: () => void;
-};
+  visible: boolean
+  setVisible: (state: boolean) => void
+  portfolioId: string
+  id: string
+  symbol: string
+  name: string
+  image: string
+  transactionId?: string
+  initialData?: InitialDataType
+  afterAddTransactionTodo?: () => void
+}
 
 export interface SubmitNumericData {
-  quantity: string;
-  pricePerCoin: { [key: string]: number };
-  fee: { [key: string]: number };
+  quantity: string
+  pricePerCoin: { [key: string]: number }
+  fee: { [key: string]: number }
 }
 export interface NumericData {
-  quantity: string;
-  pricePerCoin: { [key: string]: number | string } | null;
-  fee: string;
+  quantity: string
+  pricePerCoin: { [key: string]: number | string } | null
+  fee: string
 }
 export type FormData<T> = T & {
-  portfolioId: string;
-  coinId: string;
-  symbol: string;
-  date: number;
-  notes: string | null;
-  type: string;
-  transferType: null | string;
-};
+  portfolioId: string
+  coinId: string
+  symbol: string
+  date: number
+  notes: string | null
+  type: string
+  transferType: null | string
+}
 
-const { width } = Dimensions.get('window');
-const FOOTER_HEIGHT = 75; // confirm button height + padding bottom
-const SELECT_TAB_HEIGHT = 45;
+const { width } = Dimensions.get('window')
+const FOOTER_HEIGHT = 75 // confirm button height + padding bottom
+const SELECT_TAB_HEIGHT = 45
 const SETTINGS: SettingsType[] = [
   {
     name: 'Quantity',
@@ -120,7 +115,7 @@ const SETTINGS: SettingsType[] = [
       <MaterialCommunityIcons name="pencil" size={14} color={color} />
     ),
   },
-];
+]
 
 const FormModalLayout = ({
   visible,
@@ -134,21 +129,21 @@ const FormModalLayout = ({
   transactionId,
   afterAddTransactionTodo,
 }: FormModalProps) => {
-  const { t } = useTranslation();
-  const dispatch = useAppDispatch();
-  const { portfolios } = useAppSelector(state => state.portfolioReducer);
-  const { currency } = useLocales();
-  const { theme } = useGlobalTheme();
-  const titleAnimate = useRef(new Animated.Value(0)).current;
-  const firstPageAnimate = useRef(new Animated.Value(0)).current;
-  const secondPageAnimate = useRef(new Animated.Value(20)).current;
-  const firstPageOpacity = useRef(new Animated.Value(1)).current;
-  const secondPageOpacity = useRef(new Animated.Value(0)).current;
-  const { data: coinDetailData } = useCoinDetail({ id, suspense: false });
-  const [activePage, setActivePage] = useState(1);
-  const [focusedView, setFocusedView] = useState<FocusedView>(SETTINGS[0].key);
-  const [transitioning, setTransitioning] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const { t } = useTranslation()
+  const dispatch = useAppDispatch()
+  const { portfolios } = useAppSelector((state) => state.portfolioReducer)
+  const { currency } = useLocales()
+  const { theme } = useGlobalTheme()
+  const titleAnimate = useRef(new Animated.Value(0)).current
+  const firstPageAnimate = useRef(new Animated.Value(0)).current
+  const secondPageAnimate = useRef(new Animated.Value(20)).current
+  const firstPageOpacity = useRef(new Animated.Value(1)).current
+  const secondPageOpacity = useRef(new Animated.Value(0)).current
+  const { data: coinDetailData } = useCoinDetail({ id, suspense: false })
+  const [activePage, setActivePage] = useState(1)
+  const [focusedView, setFocusedView] = useState<FocusedView>(SETTINGS[0].key)
+  const [transitioning, setTransitioning] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
   const [formData, setFormData] = useState<FormData<NumericData>>({
     portfolioId,
     coinId: id,
@@ -160,7 +155,7 @@ const FormModalLayout = ({
     notes: initialData?.notes || null,
     type: initialData?.type || 'buy',
     transferType: initialData?.transferType || 'transfer in',
-  });
+  })
 
   useEffect(() => {
     if (activePage === 1 && transitioning) {
@@ -181,8 +176,8 @@ const FormModalLayout = ({
           useNativeDriver: true,
         }),
       ]).start(() => {
-        setActivePage(2);
-        setTransitioning(false);
+        setActivePage(2)
+        setTransitioning(false)
         Animated.parallel([
           Animated.timing(secondPageAnimate, {
             toValue: 0,
@@ -195,13 +190,13 @@ const FormModalLayout = ({
             duration: 200,
             useNativeDriver: true,
           }),
-        ]).start();
-      });
+        ]).start()
+      })
     }
 
     if (activePage === 2 && transitioning) {
-      firstPageAnimate.setValue(-20);
-      firstPageOpacity.setValue(0);
+      firstPageAnimate.setValue(-20)
+      firstPageOpacity.setValue(0)
       Animated.parallel([
         Animated.timing(secondPageAnimate, {
           toValue: 20,
@@ -219,8 +214,8 @@ const FormModalLayout = ({
           useNativeDriver: true,
         }),
       ]).start(() => {
-        setTransitioning(false);
-        setActivePage(1);
+        setTransitioning(false)
+        setActivePage(1)
         Animated.parallel([
           Animated.timing(firstPageAnimate, {
             toValue: 0,
@@ -233,39 +228,39 @@ const FormModalLayout = ({
             duration: 200,
             useNativeDriver: true,
           }),
-        ]).start();
-      });
+        ]).start()
+      })
     }
-  }, [transitioning]);
+  }, [transitioning])
 
   const onSwitchFocusView = useCallback((key: FocusedView) => {
-    setFocusedView(key);
-  }, []);
+    setFocusedView(key)
+  }, [])
 
   const isAlreadyHaveAsset = (): boolean => {
     const { coins } = portfolios.find(
-      portfolio => portfolio.id === portfolioId
-    )!;
+      (portfolio) => portfolio.id === portfolioId
+    )!
 
-    return coins.find(coin => coin.id === id) !== undefined;
-  };
+    return coins.find((coin) => coin.id === id) !== undefined
+  }
 
   const handleAddTransactionPress = () => {
-    if (!coinDetailData || !formData.pricePerCoin) return;
+    if (!coinDetailData || !formData.pricePerCoin) return
 
-    let convertedFormData = currencyConverter();
+    let convertedFormData = currencyConverter()
 
-    if (!convertedFormData || formData.quantity === '0') return;
+    if (!convertedFormData || formData.quantity === '0') return
 
     if (formData.type !== 'transfer') {
       convertedFormData = {
         ...convertedFormData,
         transferType: null,
-      };
+      }
     }
 
     if (transactionId) {
-      dispatch(editTransaction({ transactionId, formData: convertedFormData }));
+      dispatch(editTransaction({ transactionId, formData: convertedFormData }))
     } else {
       if (!isAlreadyHaveAsset()) {
         const payload = {
@@ -276,11 +271,11 @@ const FormModalLayout = ({
             name,
             symbol,
           },
-        };
-        dispatch(addWatchingCoin(payload));
+        }
+        dispatch(addWatchingCoin(payload))
       }
 
-      dispatch(addTransaction({ formData: convertedFormData }));
+      dispatch(addTransaction({ formData: convertedFormData }))
     }
 
     if (portfolioId) {
@@ -290,43 +285,41 @@ const FormModalLayout = ({
           coinId: formData.coinId,
           state: 'trading',
         })
-      );
+      )
     }
 
-    setVisible(false);
+    setVisible(false)
 
     if (afterAddTransactionTodo) {
-      afterAddTransactionTodo();
+      afterAddTransactionTodo()
     }
-  };
+  }
 
   const handleNextPress = () => {
-    setTransitioning(true);
-  };
+    setTransitioning(true)
+  }
 
   const handleBackButtonPress = () => {
-    setTransitioning(true);
-  };
+    setTransitioning(true)
+  }
 
   const currencyConverter = (): FormData<SubmitNumericData> => {
     const {
       market_data: { current_price },
-    } = coinDetailData!;
+    } = coinDetailData!
 
-    const fee: number = parseFloat(formData.fee);
-    let pricePerCoin = formData.pricePerCoin![currency];
+    const fee: number = parseFloat(formData.fee)
+    let pricePerCoin = formData.pricePerCoin![currency]
     pricePerCoin =
-      typeof pricePerCoin === 'string'
-        ? parseFloat(pricePerCoin)
-        : pricePerCoin;
+      typeof pricePerCoin === 'string' ? parseFloat(pricePerCoin) : pricePerCoin
 
-    const feeRate = fee / current_price[currency];
-    const pricePerCoinRate = pricePerCoin / current_price[currency];
+    const feeRate = fee / current_price[currency]
+    const pricePerCoinRate = pricePerCoin / current_price[currency]
 
     let newValue: FormData<SubmitNumericData> | FormData<NumericData> | any = {
       ...formData,
       fee: {},
-    };
+    }
 
     for (const currency in current_price) {
       newValue = {
@@ -339,11 +332,11 @@ const FormModalLayout = ({
           ...newValue.pricePerCoin,
           [currency]: current_price[currency] * pricePerCoinRate,
         },
-      };
+      }
     }
 
-    return newValue as FormData<SubmitNumericData>;
-  };
+    return newValue as FormData<SubmitNumericData>
+  }
 
   return (
     <ScrollCloseModal
@@ -506,26 +499,26 @@ const FormModalLayout = ({
         />
       </Animated.View>
     </ScrollCloseModal>
-  );
-};
+  )
+}
 
-export default FormModalLayout;
+export default FormModalLayout
 
 type ScrollTextViewProps = {
-  maxWidth: number;
-};
+  maxWidth: number
+}
 
 const TitleWrap = styled.View`
   flex-direction: row;
-`;
+`
 
 const Title = styled.View`
   flex-direction: row;
   align-items: center;
-`;
+`
 
 const ScrollTextView = styled.ScrollView<ScrollTextViewProps>`
   max-width: ${({ maxWidth }) => maxWidth}px;
-`;
+`
 
-const BackButtonWrap = styled.TouchableOpacity``;
+const BackButtonWrap = styled.TouchableOpacity``

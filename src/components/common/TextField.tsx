@@ -4,7 +4,7 @@ import React, {
   forwardRef,
   useEffect,
   useCallback,
-} from 'react';
+} from 'react'
 import {
   TextInputProps,
   Animated,
@@ -12,32 +12,32 @@ import {
   LayoutAnimation,
   UIManager,
   Platform,
-} from 'react-native';
-import styled from 'styled-components/native';
-import { Ionicons } from '@expo/vector-icons';
+} from 'react-native'
+import styled from 'styled-components/native'
+import { Ionicons } from '@expo/vector-icons'
 
-import useGlobalTheme from '/hooks/useGlobalTheme';
+import useGlobalTheme from '/hooks/useGlobalTheme'
 
-import Text from '/components/common/Text';
+import Text from '/components/common/Text'
 
 interface TextFieldProps extends TextInputProps {
-  label: string;
-  type?: 'text' | 'password';
-  errorMessage?: string;
-  alertMessage?: string;
-  marginBottom?: number;
+  label: string
+  type?: 'text' | 'password'
+  errorMessage?: string
+  alertMessage?: string
+  marginBottom?: number
 }
-type ErrorTextProps = Pick<TextFieldProps, 'errorMessage' | 'alertMessage'>;
+type ErrorTextProps = Pick<TextFieldProps, 'errorMessage' | 'alertMessage'>
 
 const status = {
   normal: 0,
   focus: 1,
   error: 2,
-};
+}
 
 if (Platform.OS === 'android') {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
-    UIManager.setLayoutAnimationEnabledExperimental(true);
+    UIManager.setLayoutAnimationEnabledExperimental(true)
   }
 }
 
@@ -45,8 +45,8 @@ const ErrorText = ({ errorMessage, alertMessage }: ErrorTextProps) => {
   useEffect(() => {
     LayoutAnimation.configureNext(
       LayoutAnimation.create(200, 'easeInEaseOut', 'opacity')
-    );
-  }, [errorMessage]);
+    )
+  }, [errorMessage])
 
   return (
     <>
@@ -62,8 +62,8 @@ const ErrorText = ({ errorMessage, alertMessage }: ErrorTextProps) => {
         )
       )}
     </>
-  );
-};
+  )
+}
 
 const TextField = forwardRef<TextInput, TextFieldProps>(
   (
@@ -77,10 +77,10 @@ const TextField = forwardRef<TextInput, TextFieldProps>(
     },
     ref
   ) => {
-    const { theme } = useGlobalTheme();
-    const [isSecure, setIsSecure] = useState(type === 'password');
-    const [currentStatus, setCurrentStatus] = useState(status.normal);
-    const statusAni = useRef(new Animated.Value(status.normal)).current;
+    const { theme } = useGlobalTheme()
+    const [isSecure, setIsSecure] = useState(type === 'password')
+    const [currentStatus, setCurrentStatus] = useState(status.normal)
+    const statusAni = useRef(new Animated.Value(status.normal)).current
 
     const changeStatus = useCallback(
       (toValue: number) => {
@@ -88,31 +88,31 @@ const TextField = forwardRef<TextInput, TextFieldProps>(
           toValue,
           duration: 300,
           useNativeDriver: false,
-        }).start();
-        setCurrentStatus(toValue);
+        }).start()
+        setCurrentStatus(toValue)
       },
       [statusAni]
-    );
+    )
 
     useEffect(() => {
       if (errorMessage) {
         if (currentStatus !== status.focus) {
-          changeStatus(status.error);
+          changeStatus(status.error)
         }
       } else {
         changeStatus(
           currentStatus === status.focus ? status.focus : status.normal
-        );
+        )
       }
-    }, [changeStatus, currentStatus, errorMessage]);
+    }, [changeStatus, currentStatus, errorMessage])
 
     const handleInputFocus = () => {
-      changeStatus(status.focus);
-    };
+      changeStatus(status.focus)
+    }
 
     const handleInputBlur = () => {
-      changeStatus(errorMessage ? status.error : status.normal);
-    };
+      changeStatus(errorMessage ? status.error : status.normal)
+    }
 
     const color = statusAni.interpolate({
       inputRange: [0, 1, 2],
@@ -121,7 +121,7 @@ const TextField = forwardRef<TextInput, TextFieldProps>(
         theme.base.primaryColor,
         theme.base.error,
       ],
-    });
+    })
 
     const backgroundColor = statusAni.interpolate({
       inputRange: [0, 1, 2],
@@ -130,7 +130,7 @@ const TextField = forwardRef<TextInput, TextFieldProps>(
         theme.base.background[300],
         theme.base.background[200],
       ],
-    });
+    })
 
     const borderColor = statusAni.interpolate({
       inputRange: [0, 1, 2],
@@ -139,11 +139,11 @@ const TextField = forwardRef<TextInput, TextFieldProps>(
         theme.base.background[300],
         theme.base.error,
       ],
-    });
+    })
 
     const handleSecureIconPress = () => {
-      setIsSecure(prev => !prev);
-    };
+      setIsSecure((prev) => !prev)
+    }
 
     return (
       <Container marginBottom={marginBottom}>
@@ -185,17 +185,17 @@ const TextField = forwardRef<TextInput, TextFieldProps>(
         </TextInputWrapper>
         <ErrorText errorMessage={errorMessage} alertMessage={alertMessage} />
       </Container>
-    );
+    )
   }
-);
+)
 
-export default TextField;
+export default TextField
 
-type ContainerProps = Pick<TextFieldProps, 'marginBottom'>;
+type ContainerProps = Pick<TextFieldProps, 'marginBottom'>
 
 const Container = styled.View<ContainerProps>`
   margin-bottom: ${({ marginBottom }) => marginBottom || 0}px;
-`;
+`
 
 const TextInputWrapper = styled.View`
   width: 100%;
@@ -205,7 +205,7 @@ const TextInputWrapper = styled.View`
   justify-content: center;
   border: 1px solid ${({ theme }) => theme.base.error};
   border-radius: ${({ theme }) => theme.border.m};
-`;
+`
 
 const StyledTextInput = styled.TextInput`
   flex: 1;
@@ -213,8 +213,8 @@ const StyledTextInput = styled.TextInput`
   padding: ${({ theme }) => `0 ${theme.content.spacing}`};
   color: ${({ theme }) => theme.base.text[100]};
   font-size: ${({ theme }) => theme.size.font_ml};
-`;
+`
 
 const SecureIcon = styled(Ionicons)`
   width: 30px;
-`;
+`

@@ -1,35 +1,35 @@
-import { formatDistance, fromUnixTime } from 'date-fns';
-import { enUS, ko } from 'date-fns/locale';
-import * as WebBrowser from 'expo-web-browser';
-import React from 'react';
-import { Dimensions } from 'react-native';
-import styled from 'styled-components/native';
+import { formatDistance, fromUnixTime } from 'date-fns'
+import { enUS, ko } from 'date-fns/locale'
+import * as WebBrowser from 'expo-web-browser'
+import React from 'react'
+import { Dimensions } from 'react-native'
+import styled from 'styled-components/native'
 
-import useGlobalTheme from '/hooks/useGlobalTheme';
-import useLocales from '/hooks/useLocales';
-import type { NewsData } from '/types/CryptoCompareReturnType';
+import useGlobalTheme from '/hooks/useGlobalTheme'
+import useLocales from '/hooks/useLocales'
+import type { NewsData } from '/types/CryptoCompareReturnType'
 
-import Image from '/components/common/Image';
-import Text from '/components/common/Text';
+import Image from '/components/common/Image'
+import Text from '/components/common/Text'
 
-const { width } = Dimensions.get('window');
-const IMAGE_SIZE = 60;
+const { width } = Dimensions.get('window')
+const IMAGE_SIZE = 60
 
 type ItemProps = {
-  item: NewsData;
-  currentCategory: string | null;
-};
+  item: NewsData
+  currentCategory: string | null
+}
 
 const Item = ({ item, currentCategory }: ItemProps) => {
-  const { theme } = useGlobalTheme();
-  const { language } = useLocales();
+  const { theme } = useGlobalTheme()
+  const { language } = useLocales()
 
   const handleItemPress = () => {
     return WebBrowser.openBrowserAsync(item.url, {
       toolbarColor: theme.base.background.surface,
       enableBarCollapsing: true,
-    });
-  };
+    })
+  }
 
   return (
     <Container
@@ -71,7 +71,7 @@ const Item = ({ item, currentCategory }: ItemProps) => {
                   </Text>
                 )}
               </CategoryWrap>
-            );
+            )
           })}
         </CategoriesWrap>
         <Text fontML numberOfLines={5} margin="10px 0 0 0">
@@ -79,36 +79,36 @@ const Item = ({ item, currentCategory }: ItemProps) => {
         </Text>
       </>
     </Container>
-  );
-};
+  )
+}
 
-export default Item;
+export default Item
 
 const Container = styled.TouchableHighlight`
   width: ${width}px;
   padding: ${({ theme }) => theme.content.spacing};
-`;
+`
 
 const FlexBox = styled.View`
   flex-direction: row;
   margin-top: 10px;
   justify-content: space-between;
-`;
+`
 
 const TitleWrap = styled.View`
   // 10 => margin-right value of title text
   width: ${({ theme }) =>
     width - parseInt(theme.content.spacing, 10) * 2 - IMAGE_SIZE - 10}px;
-`;
+`
 
 const CategoriesWrap = styled.View`
   flex-direction: row;
   margin-top: 5px;
-`;
+`
 
 const CategoryWrap = styled.View`
   padding: 3px 5px;
   border-radius: ${({ theme }) => theme.border.s};
   background-color: ${({ theme }) => theme.base.background[300]};
   margin-right: 5px;
-`;
+`

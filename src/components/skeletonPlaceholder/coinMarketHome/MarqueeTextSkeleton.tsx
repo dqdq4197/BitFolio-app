@@ -1,10 +1,10 @@
-import React from 'react';
-import { Dimensions } from 'react-native';
+import React from 'react'
+import { Dimensions } from 'react-native'
 
-import SkeletonPlaceholder from '/components/skeletonPlaceholder';
+import SkeletonPlaceholder from '/components/skeletonPlaceholder'
 
-const PADDING = 32;
-const { width } = Dimensions.get('window');
+const PADDING = 32
+const { width } = Dimensions.get('window')
 
 const MarqueeTextSkeleton = () => {
   return (
@@ -16,7 +16,7 @@ const MarqueeTextSkeleton = () => {
         marginTop={10}
       />
     </SkeletonPlaceholder>
-  );
-};
+  )
+}
 
-export default MarqueeTextSkeleton;
+export default MarqueeTextSkeleton

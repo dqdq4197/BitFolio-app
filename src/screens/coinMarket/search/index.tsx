@@ -1,8 +1,8 @@
-import React from 'react';
+import React from 'react'
 
-import Layout from '/components/coinSearch/Layout';
-import AsyncBoundary from '/components/common/AsyncBoundary';
-import GeneralTemplate from '/components/GeneralTemplate';
+import Layout from '/components/coinSearch/Layout'
+import AsyncBoundary from '/components/common/AsyncBoundary'
+import GeneralTemplate from '/components/GeneralTemplate'
 
 const SearchScreen = () => {
   return (
@@ -11,7 +11,7 @@ const SearchScreen = () => {
         <Layout />
       </AsyncBoundary>
     </GeneralTemplate>
-  );
-};
+  )
+}
 
-export default SearchScreen;
+export default SearchScreen

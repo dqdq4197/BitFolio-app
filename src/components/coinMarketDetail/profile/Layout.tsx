@@ -1,20 +1,20 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from 'react';
+import React from 'react'
 
-import useCoinDetail from '/hooks/data/useCoinDetail';
-import useLocales from '/hooks/useLocales';
-import { useCoinIdContext } from '/hooks/context/useCoinIdContext';
+import useCoinDetail from '/hooks/data/useCoinDetail'
+import useLocales from '/hooks/useLocales'
+import { useCoinIdContext } from '/hooks/context/useCoinIdContext'
 
-import ScrollView from '/components/common/ScrollView';
-import Description from './Description';
-import Link from './Link';
+import ScrollView from '/components/common/ScrollView'
+import Description from './Description'
+import Link from './Link'
 
 const Layout = () => {
-  const { id } = useCoinIdContext();
-  const { data } = useCoinDetail({ id });
-  const { language } = useLocales();
+  const { id } = useCoinIdContext()
+  const { data } = useCoinDetail({ id })
+  const { language } = useLocales()
 
-  if (!data) return <></>;
+  if (!data) return <></>
 
   return (
     <ScrollView>
@@ -34,7 +34,7 @@ const Layout = () => {
         facebookUsername={data.links.facebook_username}
       />
     </ScrollView>
-  );
-};
+  )
+}
 
-export default Layout;
+export default Layout

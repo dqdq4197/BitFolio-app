@@ -1,21 +1,21 @@
-import { useNavigation } from '@react-navigation/native';
-import React, { useEffect } from 'react';
-import { Controller, useForm } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
+import { useNavigation } from '@react-navigation/native'
+import React, { useEffect } from 'react'
+import { Controller, useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 
-import { VALIDATIONS } from '/lib/constant';
-import type { SettingScreenProps } from '/types/navigation';
+import { VALIDATIONS } from '/lib/constant'
+import type { SettingScreenProps } from '/types/navigation'
 
-import AsyncButton from '/components/common/AsyncButton';
-import FormLayout from '/components/common/FormLayout';
-import TextField from '/components/common/TextField';
+import AsyncButton from '/components/common/AsyncButton'
+import FormLayout from '/components/common/FormLayout'
+import TextField from '/components/common/TextField'
 
-const SUBMIT_BUTTON_HEIGTH = 50;
+const SUBMIT_BUTTON_HEIGTH = 50
 
 const ForgotPassword = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
   const navigation =
-    useNavigation<SettingScreenProps<'ForgotPassword'>['navigation']>();
+    useNavigation<SettingScreenProps<'ForgotPassword'>['navigation']>()
   const {
     control,
     handleSubmit,
@@ -27,19 +27,19 @@ const ForgotPassword = () => {
     defaultValues: {
       email: '',
     },
-  });
+  })
 
   useEffect(() => {
-    setTimeout(() => setFocus('email'), 500);
-  }, [setFocus]);
+    setTimeout(() => setFocus('email'), 500)
+  }, [setFocus])
 
   const onSubmit = (data: any) => {
-    console.log(data);
-  };
+    console.log(data)
+  }
 
   const moveToRegisterScreen = () => {
-    navigation.navigate('Register');
-  };
+    navigation.navigate('Register')
+  }
 
   return (
     <FormLayout
@@ -81,7 +81,7 @@ const ForgotPassword = () => {
         name="email"
       />
     </FormLayout>
-  );
-};
+  )
+}
 
-export default ForgotPassword;
+export default ForgotPassword

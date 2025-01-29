@@ -1,36 +1,36 @@
-import { Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
-import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import styled from 'styled-components/native';
+import { Ionicons } from '@expo/vector-icons'
+import { useNavigation } from '@react-navigation/native'
+import React, { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import styled from 'styled-components/native'
 
-import useGlobalTheme from '/hooks/useGlobalTheme';
-import useLocales from '/hooks/useLocales';
-import { useAppSelector } from '/hooks/useRedux';
-import useRequest from '/hooks/useRequest';
-import { CoinGecko, http } from '/lib/api/CoinGeckoClient';
-import { digitToFixed } from '/lib/utils';
-import type { CoinMarketReturn } from '/types/coinGeckoReturnType';
-import type { HomeScreenProps } from '/types/navigation';
+import useGlobalTheme from '/hooks/useGlobalTheme'
+import useLocales from '/hooks/useLocales'
+import { useAppSelector } from '/hooks/useRedux'
+import useRequest from '/hooks/useRequest'
+import { CoinGecko, http } from '/lib/api/CoinGeckoClient'
+import { digitToFixed } from '/lib/utils'
+import type { CoinMarketReturn } from '/types/coinGeckoReturnType'
+import type { HomeScreenProps } from '/types/navigation'
 
-import Image from '/components/common/Image';
-import IncreaseDecreaseValue from '/components/common/IncreaseDecreaseValue';
-import SurfaceWrap from '/components/common/SurfaceWrap';
-import Text from '/components/common/Text';
-import WatchListIcon from '/components/common/WatchListIcon';
+import Image from '/components/common/Image'
+import IncreaseDecreaseValue from '/components/common/IncreaseDecreaseValue'
+import SurfaceWrap from '/components/common/SurfaceWrap'
+import Text from '/components/common/Text'
+import WatchListIcon from '/components/common/WatchListIcon'
 
 type ListProps = {
-  onPressItem: (id: string, symbol: string) => void;
-};
+  onPressItem: (id: string, symbol: string) => void
+}
 
 const RecentlyViewedList = ({ onPressItem }: ListProps) => {
-  const { t } = useTranslation();
-  const { theme } = useGlobalTheme();
+  const { t } = useTranslation()
+  const { theme } = useGlobalTheme()
   const navigation =
-    useNavigation<HomeScreenProps<'CoinMarketHome'>['navigation']>();
-  const { currency } = useLocales();
-  const { recentlyViewed } = useAppSelector(state => state.baseSettingReducer);
-  const [newData, setNewData] = useState<CoinMarketReturn[]>([]);
+    useNavigation<HomeScreenProps<'CoinMarketHome'>['navigation']>()
+  const { currency } = useLocales()
+  const { recentlyViewed } = useAppSelector((state) => state.baseSettingReducer)
+  const [newData, setNewData] = useState<CoinMarketReturn[]>([])
   const { data, isValidating } = useRequest<CoinMarketReturn[]>(
     CoinGecko.coin.markets({
       vs_currency: currency,
@@ -38,25 +38,25 @@ const RecentlyViewedList = ({ onPressItem }: ListProps) => {
     }),
     http,
     { refreshInterval: 1000 * 60 * 5 }
-  );
+  )
 
   useEffect(() => {
     if (data) {
-      const temp = data.slice();
+      const temp = data.slice()
       temp.sort(
         (a, b) => recentlyViewed.indexOf(b.id) - recentlyViewed.indexOf(a.id)
-      );
-      setNewData(temp);
+      )
+      setNewData(temp)
     } else {
-      setNewData(prevState =>
-        prevState.filter(coinId => recentlyViewed.includes(coinId.id))
-      );
+      setNewData((prevState) =>
+        prevState.filter((coinId) => recentlyViewed.includes(coinId.id))
+      )
     }
-  }, [recentlyViewed, isValidating, data]);
+  }, [recentlyViewed, isValidating, data])
 
   const handleSearchCardPress = () => {
-    navigation.navigate('CoinSearch');
-  };
+    navigation.navigate('CoinSearch')
+  }
 
   return (
     <SurfaceWrap title={t('coinMarketHome.recently viewed')} parentPaddingZero>
@@ -67,7 +67,7 @@ const RecentlyViewedList = ({ onPressItem }: ListProps) => {
           paddingHorizontal: parseInt(theme.content.spacing, 10),
         }}
       >
-        {newData?.map(coin => {
+        {newData?.map((coin) => {
           return (
             <Card
               key={coin.id}
@@ -91,7 +91,7 @@ const RecentlyViewedList = ({ onPressItem }: ListProps) => {
                 />
               </TitleAndPercentage>
             </Card>
-          );
+          )
         })}
         <SearchCard onPress={handleSearchCardPress}>
           <Ionicons
@@ -105,20 +105,20 @@ const RecentlyViewedList = ({ onPressItem }: ListProps) => {
         </SearchCard>
       </CardWrap>
     </SurfaceWrap>
-  );
-};
+  )
+}
 
-export default RecentlyViewedList;
+export default RecentlyViewedList
 
-const CardWrap = styled.ScrollView``;
+const CardWrap = styled.ScrollView``
 
 const IconWrap = styled.View`
   flex-direction: row;
   justify-content: space-between;
   margin-bottom: 20px;
-`;
+`
 
-const TitleAndPercentage = styled.View``;
+const TitleAndPercentage = styled.View``
 
 const Card = styled.TouchableOpacity`
   width: 135px;
@@ -128,9 +128,9 @@ const Card = styled.TouchableOpacity`
   margin-right: 10px;
   padding: 16px;
   justify-content: space-between;
-`;
+`
 
 const SearchCard = styled(Card)`
   align-items: center;
   justify-content: center;
-`;
+`

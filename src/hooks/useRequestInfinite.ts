@@ -1,24 +1,24 @@
 import useSWRInfinite, {
   SWRInfiniteConfiguration,
   SWRInfiniteResponse,
-} from 'swr/infinite';
+} from 'swr/infinite'
 import {
   AxiosInstance,
   AxiosRequestConfig,
   AxiosResponse,
   AxiosError,
-} from 'axios';
+} from 'axios'
 
-export type RequestType = AxiosRequestConfig | null;
+export type RequestType = AxiosRequestConfig | null
 
 interface Return<Data, Error>
   extends Pick<
     SWRInfiniteResponse<AxiosResponse<Data>, AxiosError<Error>>,
     'isValidating' | 'error' | 'mutate' | 'size' | 'setSize'
   > {
-  data: Data[] | undefined;
-  response: AxiosResponse<Data>[] | undefined;
-  isLoading: boolean;
+  data: Data[] | undefined
+  response: AxiosResponse<Data>[] | undefined
+  isLoading: boolean
 }
 
 export interface Config<Data = unknown, Error = unknown>
@@ -26,7 +26,7 @@ export interface Config<Data = unknown, Error = unknown>
     SWRInfiniteConfiguration<AxiosResponse<Data>, AxiosError<Error>>,
     'fallbackData'
   > {
-  fallbackData?: Data[];
+  fallbackData?: Data[]
 }
 
 export default function useRequestInfinite<Data = unknown, Error = unknown>(
@@ -46,14 +46,14 @@ export default function useRequestInfinite<Data = unknown, Error = unknown>(
     error,
   } = useSWRInfinite<AxiosResponse<Data>, AxiosError<Error>>(
     (pageIndex, previousPageData) => {
-      const key = request(pageIndex, previousPageData);
+      const key = request(pageIndex, previousPageData)
 
-      return key ? JSON.stringify(key) : null;
+      return key ? JSON.stringify(key) : null
     },
     (request: any) => axios(JSON.parse(request)),
     {
       ...config,
-      fallbackData: fallbackData?.map(v => ({
+      fallbackData: fallbackData?.map((v) => ({
         status: 200,
         statusText: 'InitialData',
         config: {},
@@ -61,9 +61,9 @@ export default function useRequestInfinite<Data = unknown, Error = unknown>(
         data: v,
       })),
     }
-  );
+  )
   return {
-    data: Array.isArray(response) ? response.map(res => res.data) : undefined,
+    data: Array.isArray(response) ? response.map((res) => res.data) : undefined,
     size,
     setSize,
     mutate,
@@ -75,5 +75,5 @@ export default function useRequestInfinite<Data = unknown, Error = unknown>(
       (size > 0 &&
         response !== undefined &&
         typeof response[size - 1] === 'undefined'),
-  };
+  }
 }

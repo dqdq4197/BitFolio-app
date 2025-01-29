@@ -1,41 +1,41 @@
-import { AntDesign } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
-import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { LayoutAnimation, Platform, UIManager } from 'react-native';
-import styled from 'styled-components/native';
+import { AntDesign } from '@expo/vector-icons'
+import { useNavigation } from '@react-navigation/native'
+import React, { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { LayoutAnimation, Platform, UIManager } from 'react-native'
+import styled from 'styled-components/native'
 
-import useGlobalTheme from '/hooks/useGlobalTheme';
-import useLocales from '/hooks/useLocales';
-import { useAppSelector } from '/hooks/useRedux';
-import useRequest from '/hooks/useRequest';
-import { CoinGecko, http } from '/lib/api/CoinGeckoClient';
-import type { CoinMarketReturn } from '/types/coinGeckoReturnType';
-import type { HomeScreenProps } from '/types/navigation';
+import useGlobalTheme from '/hooks/useGlobalTheme'
+import useLocales from '/hooks/useLocales'
+import { useAppSelector } from '/hooks/useRedux'
+import useRequest from '/hooks/useRequest'
+import { CoinGecko, http } from '/lib/api/CoinGeckoClient'
+import type { CoinMarketReturn } from '/types/coinGeckoReturnType'
+import type { HomeScreenProps } from '/types/navigation'
 
-import Item from './popularList/Item';
-import SurfaceWrap from '/components/common/SurfaceWrap';
-import Text from '/components/common/Text';
+import Item from './popularList/Item'
+import SurfaceWrap from '/components/common/SurfaceWrap'
+import Text from '/components/common/Text'
 
 if (Platform.OS === 'android') {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
-    UIManager.setLayoutAnimationEnabledExperimental(true);
+    UIManager.setLayoutAnimationEnabledExperimental(true)
   }
 }
 
 type ListProps = {
-  onPressItem: (id: string, symbol: string) => void;
-};
+  onPressItem: (id: string, symbol: string) => void
+}
 
 const EmptyWatchListView = () => {
-  const { theme } = useGlobalTheme();
+  const { theme } = useGlobalTheme()
   const navigation =
-    useNavigation<HomeScreenProps<'CoinMarketHome'>['navigation']>();
-  const { t } = useTranslation();
+    useNavigation<HomeScreenProps<'CoinMarketHome'>['navigation']>()
+  const { t } = useTranslation()
 
   const handleItemPress = () => {
-    navigation.navigate('CoinSearch');
-  };
+    navigation.navigate('CoinSearch')
+  }
 
   return (
     <AddItemContainer
@@ -51,15 +51,15 @@ const EmptyWatchListView = () => {
         </Text>
       </>
     </AddItemContainer>
-  );
-};
+  )
+}
 
 const WatchList = ({ onPressItem }: ListProps) => {
-  const { t } = useTranslation();
-  const { theme } = useGlobalTheme();
-  const { currency } = useLocales();
-  const { watchList } = useAppSelector(state => state.baseSettingReducer);
-  const [newData, setNewData] = useState<CoinMarketReturn[]>([]);
+  const { t } = useTranslation()
+  const { theme } = useGlobalTheme()
+  const { currency } = useLocales()
+  const { watchList } = useAppSelector((state) => state.baseSettingReducer)
+  const [newData, setNewData] = useState<CoinMarketReturn[]>([])
   const { data, isValidating } = useRequest<CoinMarketReturn[]>(
     CoinGecko.coin.markets({
       vs_currency: currency,
@@ -67,22 +67,22 @@ const WatchList = ({ onPressItem }: ListProps) => {
     }),
     http,
     { refreshInterval: 1000 * 60 * 3 }
-  );
+  )
 
   useEffect(() => {
     if (data) {
-      const temp = data.slice();
+      const temp = data.slice()
       LayoutAnimation.configureNext(
         LayoutAnimation.create(200, 'easeInEaseOut', 'opacity')
-      );
-      temp.sort((a, b) => watchList.indexOf(a.id) - watchList.indexOf(b.id));
-      setNewData(temp);
+      )
+      temp.sort((a, b) => watchList.indexOf(a.id) - watchList.indexOf(b.id))
+      setNewData(temp)
     } else {
-      setNewData(prevState =>
-        prevState.filter(coinId => watchList.includes(coinId.id))
-      );
+      setNewData((prevState) =>
+        prevState.filter((coinId) => watchList.includes(coinId.id))
+      )
     }
-  }, [watchList, isValidating, data]);
+  }, [watchList, isValidating, data])
 
   return (
     <SurfaceWrap
@@ -105,23 +105,23 @@ const WatchList = ({ onPressItem }: ListProps) => {
               onPressItem={onPressItem}
               NoneUnderLine
             />
-          );
+          )
         })
       ) : (
         <EmptyWatchListView />
       )}
     </SurfaceWrap>
-  );
-};
+  )
+}
 
-export default WatchList;
+export default WatchList
 
 const AddItemContainer = styled.TouchableHighlight`
   height: 60px;
   flex-direction: row;
   align-items: center;
   padding: 0 ${({ theme }) => theme.content.spacing};
-`;
+`
 
 const AddItemIcon = styled.View`
   width: 40px;
@@ -130,4 +130,4 @@ const AddItemIcon = styled.View`
   justify-content: center;
   align-items: center;
   background-color: ${({ theme }) => theme.base.background[300]};
-`;
+`

@@ -1,14 +1,14 @@
-import React, { ReactElement } from 'react';
-import { Dimensions } from 'react-native';
+import React, { ReactElement } from 'react'
+import { Dimensions } from 'react-native'
 
-import useGlobalTheme from '/hooks/useGlobalTheme';
+import useGlobalTheme from '/hooks/useGlobalTheme'
 
-import SkeletonPlaceholder from '/components/skeletonPlaceholder';
+import SkeletonPlaceholder from '/components/skeletonPlaceholder'
 
-const { width } = Dimensions.get('window');
+const { width } = Dimensions.get('window')
 
 interface CoinListSkeletonProps {
-  itemCount?: number;
+  itemCount?: number
 }
 
 const CoinListSkeleton = ({
@@ -20,12 +20,12 @@ const CoinListSkeleton = ({
         <CoinListSkeleton.Item key={index} />
       ))}
     </SkeletonPlaceholder>
-  );
-};
+  )
+}
 
 CoinListSkeleton.Item = function CoinItemSkeleton() {
-  const { theme } = useGlobalTheme();
-  const spacing = parseInt(theme.content.spacing, 10);
+  const { theme } = useGlobalTheme()
+  const spacing = parseInt(theme.content.spacing, 10)
 
   return (
     <>
@@ -71,7 +71,7 @@ CoinListSkeleton.Item = function CoinItemSkeleton() {
       </SkeletonPlaceholder.Item>
       <SkeletonPlaceholder.Item width={width} height={1} />
     </>
-  );
-};
+  )
+}
 
-export default CoinListSkeleton;
+export default CoinListSkeleton

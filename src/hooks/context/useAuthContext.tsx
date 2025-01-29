@@ -1,36 +1,36 @@
-import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
+import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth'
 import React, {
   createContext,
   useContext,
   useEffect,
   useMemo,
   useState,
-} from 'react';
+} from 'react'
 
-const AuthContext = createContext<ValueType | undefined>(undefined);
+const AuthContext = createContext<ValueType | undefined>(undefined)
 
 type ValueType = {
-  isLoading: boolean;
-  currentUser: FirebaseAuthTypes.User | null;
-};
+  isLoading: boolean
+  currentUser: FirebaseAuthTypes.User | null
+}
 
 type ProviderProps = {
-  children: React.ReactNode;
-};
+  children: React.ReactNode
+}
 
 export function AuthProvider({ children }: ProviderProps) {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true)
   const [currentUser, setCurrentUser] = useState<FirebaseAuthTypes.User | null>(
     null
-  );
+  )
 
   useEffect(() => {
     if (auth && !auth().currentUser?.emailVerified) {
       auth()
         .signOut()
-        .then(() => console.log('초기 로드 & 로그 아웃'));
+        .then(() => console.log('초기 로드 & 로그 아웃'))
     }
-  }, []);
+  }, [])
 
   /**
    * 로그인 시.
@@ -48,16 +48,16 @@ export function AuthProvider({ children }: ProviderProps) {
    * 이메일 인증 완료하면 user.reload() 실행
    */
   useEffect(() => {
-    const subscriber = auth().onAuthStateChanged(user => {
-      setCurrentUser(user);
+    const subscriber = auth().onAuthStateChanged((user) => {
+      setCurrentUser(user)
 
       if (isLoading) {
-        setIsLoading(false);
+        setIsLoading(false)
       }
-    });
+    })
 
-    return subscriber;
-  }, [isLoading]);
+    return subscriber
+  }, [isLoading])
 
   const initialData = useMemo(
     () => ({
@@ -65,17 +65,17 @@ export function AuthProvider({ children }: ProviderProps) {
       isLoading,
     }),
     [currentUser, isLoading]
-  );
+  )
 
   return (
     <AuthContext.Provider value={initialData}>{children}</AuthContext.Provider>
-  );
+  )
 }
 
 export function useAuthContext() {
-  const context = useContext(AuthContext);
+  const context = useContext(AuthContext)
   if (!context) {
-    throw new Error(`AuthContext is undefined`);
+    throw new Error(`AuthContext is undefined`)
   }
-  return context;
+  return context
 }

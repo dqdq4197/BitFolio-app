@@ -1,14 +1,14 @@
-import React from 'react';
-import { RefreshControl } from 'react-native';
-import useGlobalTheme from '/hooks/useGlobalTheme';
+import React from 'react'
+import { RefreshControl } from 'react-native'
+import useGlobalTheme from '/hooks/useGlobalTheme'
 
 type ControlProps = {
-  onRefresh: () => void;
-  refreshing: boolean;
-};
+  onRefresh: () => void
+  refreshing: boolean
+}
 
 const CustomRefreshControl = ({ onRefresh, refreshing }: ControlProps) => {
-  const { theme } = useGlobalTheme();
+  const { theme } = useGlobalTheme()
 
   return (
     <RefreshControl
@@ -17,7 +17,7 @@ const CustomRefreshControl = ({ onRefresh, refreshing }: ControlProps) => {
       style={{ zIndex: 999 }}
       tintColor={theme.base.text[300]}
     />
-  );
-};
+  )
+}
 
-export default CustomRefreshControl;
+export default CustomRefreshControl

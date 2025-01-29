@@ -1,34 +1,34 @@
-import { Ionicons } from '@expo/vector-icons';
-import { BottomSheetModal } from '@gorhom/bottom-sheet';
-import { baseTypes } from 'base-types';
-import { LinearGradient } from 'expo-linear-gradient';
-import React, { useRef } from 'react';
-import { useTranslation } from 'react-i18next';
-import TextTicker from 'react-native-text-ticker';
-import styled, { css } from 'styled-components/native';
+import { Ionicons } from '@expo/vector-icons'
+import { BottomSheetModal } from '@gorhom/bottom-sheet'
+import { baseTypes } from 'base-types'
+import { LinearGradient } from 'expo-linear-gradient'
+import React, { useRef } from 'react'
+import { useTranslation } from 'react-i18next'
+import TextTicker from 'react-native-text-ticker'
+import styled, { css } from 'styled-components/native'
 
-import useMarkgetglobar from '/hooks/data/useMarkgetGlobal';
-import useGlobalTheme from '/hooks/useGlobalTheme';
-import useLocales from '/hooks/useLocales';
-import { convertUnits } from '/lib/utils';
-import { AddSeparator, currencyFormat } from '/lib/utils/currencyFormat';
+import useMarkgetglobar from '/hooks/data/useMarkgetGlobal'
+import useGlobalTheme from '/hooks/useGlobalTheme'
+import useLocales from '/hooks/useLocales'
+import { convertUnits } from '/lib/utils'
+import { AddSeparator, currencyFormat } from '/lib/utils/currencyFormat'
 
-import Modal from '/components/common/BottomSheetModal';
-import DateFormatText from '/components/common/DateFormatText';
-import SurfaceWrap from '/components/common/SurfaceWrap';
-import Text from '/components/common/Text';
-import { MarqueeTextSkeleton } from '/components/skeletonPlaceholder/coinMarketHome';
+import Modal from '/components/common/BottomSheetModal'
+import DateFormatText from '/components/common/DateFormatText'
+import SurfaceWrap from '/components/common/SurfaceWrap'
+import Text from '/components/common/Text'
+import { MarqueeTextSkeleton } from '/components/skeletonPlaceholder/coinMarketHome'
 
 type ModalProps = {
-  cryptos: number;
-  exchanges: number;
-  marketcap: number;
-  volume: number;
-  currency: baseTypes.Currency;
-  updatedAt: number;
-  btcDominance: number;
-  ethDominance: number;
-};
+  cryptos: number
+  exchanges: number
+  marketcap: number
+  volume: number
+  currency: baseTypes.Currency
+  updatedAt: number
+  btcDominance: number
+  ethDominance: number
+}
 
 const ModalContents = ({
   cryptos,
@@ -40,8 +40,8 @@ const ModalContents = ({
   btcDominance,
   ethDominance,
 }: ModalProps) => {
-  const { t } = useTranslation();
-  const { language } = useLocales();
+  const { t } = useTranslation()
+  const { language } = useLocales()
 
   return (
     <SurfaceWrap
@@ -139,22 +139,22 @@ const ModalContents = ({
         </Row>
       </Table>
     </SurfaceWrap>
-  );
-};
+  )
+}
 
 const TextMarquee = () => {
-  const { t } = useTranslation();
-  const { data: marketGlobalData } = useMarkgetglobar({ suspense: false });
-  const { currency } = useLocales();
-  const { theme } = useGlobalTheme();
-  const ModalRef = useRef<BottomSheetModal>(null);
+  const { t } = useTranslation()
+  const { data: marketGlobalData } = useMarkgetglobar({ suspense: false })
+  const { currency } = useLocales()
+  const { theme } = useGlobalTheme()
+  const ModalRef = useRef<BottomSheetModal>(null)
 
   const handleMarqueePress = () => {
-    ModalRef.current?.present();
-  };
+    ModalRef.current?.present()
+  }
 
-  if (!marketGlobalData) return <MarqueeTextSkeleton />;
-  const { data } = marketGlobalData;
+  if (!marketGlobalData) return <MarqueeTextSkeleton />
+  const { data } = marketGlobalData
 
   return (
     <Container activeOpacity={0.8} onPress={handleMarqueePress}>
@@ -208,19 +208,19 @@ const TextMarquee = () => {
         />
       </Modal>
     </Container>
-  );
-};
+  )
+}
 
-export default TextMarquee;
+export default TextMarquee
 
 type RowProps = {
-  top?: boolean;
-  bottom?: boolean;
-};
+  top?: boolean
+  bottom?: boolean
+}
 
 type ColProps = {
-  left?: boolean;
-};
+  left?: boolean
+}
 
 const Container = styled.TouchableOpacity`
   height: 40px;
@@ -229,39 +229,39 @@ const Container = styled.TouchableOpacity`
   border-radius: ${({ theme }) => theme.border.m};
   justify-content: center;
   margin-top: 10px;
-`;
+`
 
 const Table = styled.View`
   margin-bottom: 20px;
-`;
+`
 
 const Row = styled.View<RowProps>`
   flex-direction: row;
-  ${props =>
+  ${(props) =>
     props.top &&
     css`
       border-top-width: 1px;
       border-top-color: ${props.theme.base.background[300]};
     `}
-  ${props =>
+  ${(props) =>
     props.bottom &&
     css`
       border-bottom-width: 1px;
       border-bottom-color: ${props.theme.base.background[300]};
     `}
-`;
+`
 
 const Col = styled.View<ColProps>`
   width: 50%;
   padding: 10px ${({ theme }) => theme.content.spacing};
-  ${props =>
+  ${(props) =>
     props.left &&
     css`
       border-left-width: 1px;
       border-left-color: ${props.theme.base.background[300]};
     `}
-`;
+`
 
 const Title = styled.View`
   padding-bottom: 10px;
-`;
+`

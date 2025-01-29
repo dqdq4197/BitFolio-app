@@ -1,54 +1,54 @@
-import { Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
-import React, { useCallback, useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Dimensions, ScrollView, View } from 'react-native';
-import styled from 'styled-components/native';
+import { Ionicons } from '@expo/vector-icons'
+import { useNavigation } from '@react-navigation/native'
+import React, { useCallback, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { Dimensions, ScrollView, View } from 'react-native'
+import styled from 'styled-components/native'
 
-import useGlobalTheme from '/hooks/useGlobalTheme';
-import { CoinStatType } from '/hooks/usePortfolioStats';
-import { shallowEqual, useAppDispatch, useAppSelector } from '/hooks/useRedux';
-import { changeSortType, CoinType, SortType } from '/store/slices/portfolio';
-import type { PortfolioScreenProps } from '/types/navigation';
+import useGlobalTheme from '/hooks/useGlobalTheme'
+import { CoinStatType } from '/hooks/usePortfolioStats'
+import { shallowEqual, useAppDispatch, useAppSelector } from '/hooks/useRedux'
+import { changeSortType, CoinType, SortType } from '/store/slices/portfolio'
+import type { PortfolioScreenProps } from '/types/navigation'
 
-import { usePortfolioContext } from './PortfolioDataContext';
-import StatisticsRow from './StatisticsRow';
-import FormModal from './transactionModal/FormModal';
-import DynamicSizeText from '/components/common/DynamicSizeText';
-import Image from '/components/common/Image';
-import Text from '/components/common/Text';
+import { usePortfolioContext } from './PortfolioDataContext'
+import StatisticsRow from './StatisticsRow'
+import FormModal from './transactionModal/FormModal'
+import DynamicSizeText from '/components/common/DynamicSizeText'
+import Image from '/components/common/Image'
+import Text from '/components/common/Text'
 
-const { width } = Dimensions.get('window');
-const CONTENT_PADDING = 16;
-const COL_WIDTH = (width - CONTENT_PADDING * 2) / 3;
+const { width } = Dimensions.get('window')
+const CONTENT_PADDING = 16
+const COL_WIDTH = (width - CONTENT_PADDING * 2) / 3
 
 type TabProps = {
-  name: string;
-  onPress: () => void;
-  align?: 'right' | 'left';
-  sortTypes: SortType[];
-};
+  name: string
+  onPress: () => void
+  align?: 'right' | 'left'
+  sortTypes: SortType[]
+}
 
 type SheetProps = {
-  coinsStats: { [key: string]: CoinStatType };
-  portfolioTotalCosts: number;
-};
+  coinsStats: { [key: string]: CoinStatType }
+  portfolioTotalCosts: number
+}
 
 type AssetRowProps = {
-  id: string;
-  image: string;
-  symbol: string;
-  name: string;
-};
+  id: string
+  image: string
+  symbol: string
+  name: string
+}
 
 const SortTab = ({ name, onPress, align = 'right', sortTypes }: TabProps) => {
-  const { theme } = useGlobalTheme();
-  const { portfolios, activeIndex } = useAppSelector(state => ({
+  const { theme } = useGlobalTheme()
+  const { portfolios, activeIndex } = useAppSelector((state) => ({
     portfolios: state.portfolioReducer.portfolios,
     activeIndex: state.portfolioReducer.activeIndex,
-  }));
-  const { assetSortType } = portfolios[activeIndex];
-  const active = sortTypes.indexOf(assetSortType);
+  }))
+  const { assetSortType } = portfolios[activeIndex]
+  const active = sortTypes.indexOf(assetSortType)
 
   return (
     <Tab align={align} onPress={onPress} activeOpacity={0.6}>
@@ -74,19 +74,19 @@ const SortTab = ({ name, onPress, align = 'right', sortTypes }: TabProps) => {
         />
       )}
     </Tab>
-  );
-};
+  )
+}
 
 const AssetRow = ({ id, image, symbol, name }: AssetRowProps) => {
   const navigation =
-    useNavigation<PortfolioScreenProps<'PortfolioOverview'>['navigation']>();
+    useNavigation<PortfolioScreenProps<'PortfolioOverview'>['navigation']>()
 
   const handleRowPress = () => {
     navigation.navigate('CoinDetail', {
       params: { id, symbol },
       screen: 'Overview',
-    });
-  };
+    })
+  }
 
   return (
     <Row activeOpacity={0.6} onPress={handleRowPress}>
@@ -102,33 +102,33 @@ const AssetRow = ({ id, image, symbol, name }: AssetRowProps) => {
         </AssetIdWrap>
       </NameWrap>
     </Row>
-  );
-};
+  )
+}
 
 const CoinListSheet = ({ coinsStats, portfolioTotalCosts }: SheetProps) => {
-  const { t } = useTranslation();
-  const dispatch = useAppDispatch();
+  const { t } = useTranslation()
+  const dispatch = useAppDispatch()
   const { portfolio, activeIndex } = useAppSelector(
-    state => ({
+    (state) => ({
       portfolio: state.portfolioReducer.portfolios,
       activeIndex: state.portfolioReducer.activeIndex,
     }),
     shallowEqual
-  );
-  const { id: portfolioId, coins, coinsData } = usePortfolioContext();
-  const [visible, setVisible] = useState(false);
-  const [sortedCoins, setSortedCoins] = useState<CoinType[]>([]);
+  )
+  const { id: portfolioId, coins, coinsData } = usePortfolioContext()
+  const [visible, setVisible] = useState(false)
+  const [sortedCoins, setSortedCoins] = useState<CoinType[]>([])
   const [modalInitailState, setModalInitialState] = useState({
     id: '',
     symbol: '',
     image: '',
     name: '',
-  });
-  const { assetSortType, mode } = portfolio[activeIndex];
+  })
+  const { assetSortType, mode } = portfolio[activeIndex]
 
   useEffect(() => {
     if (coinsData) {
-      const temp = coins.slice();
+      const temp = coins.slice()
 
       switch (assetSortType) {
         case 'name_asc':
@@ -141,24 +141,24 @@ const CoinListSheet = ({ coinsStats, portfolioTotalCosts }: SheetProps) => {
                 : 1
               : a.symbol > b.symbol
               ? -1
-              : 1;
-          });
-          break;
+              : 1
+          })
+          break
         case 'price_asc':
         case 'price_desc':
           temp.sort((a, b) => {
             const aPrice = coinsData.find(
-              coinData => coinData.id === a.id
-            )!.current_price;
+              (coinData) => coinData.id === a.id
+            )!.current_price
             const bPrice = coinsData.find(
-              coinData => coinData.id === b.id
-            )!.current_price;
+              (coinData) => coinData.id === b.id
+            )!.current_price
 
             return assetSortType === 'price_asc'
               ? bPrice - aPrice
-              : aPrice - bPrice;
-          });
-          break;
+              : aPrice - bPrice
+          })
+          break
         case 'holding_asc':
         case 'holding_desc':
         case 'allocation_asc':
@@ -166,10 +166,10 @@ const CoinListSheet = ({ coinsStats, portfolioTotalCosts }: SheetProps) => {
           temp.sort((a, b) => {
             const aHoldingCosts = coinsStats[a.id]
               ? coinsStats[a.id].holding_costs
-              : null;
+              : null
             const bHoldingCosts = coinsStats[b.id]
               ? coinsStats[b.id].holding_costs
-              : null;
+              : null
 
             return assetSortType === 'holding_asc' ||
               assetSortType === 'allocation_asc'
@@ -178,9 +178,9 @@ const CoinListSheet = ({ coinsStats, portfolioTotalCosts }: SheetProps) => {
                   aHoldingCosts! - bHoldingCosts!
               : (bHoldingCosts !== null ? 1 : 0) -
                   (aHoldingCosts !== null ? 1 : 0) ||
-                  bHoldingCosts! - aHoldingCosts!;
-          });
-          break;
+                  bHoldingCosts! - aHoldingCosts!
+          })
+          break
         case 'buyPrice_asc':
         case 'buyPrice_desc':
           temp.sort((a, b) => {
@@ -189,14 +189,14 @@ const CoinListSheet = ({ coinsStats, portfolioTotalCosts }: SheetProps) => {
                 ? 0
                 : coinsStats[a.id].total_purchase_cost /
                   coinsStats[a.id].total_purchase_quantity
-              : null;
+              : null
 
             const bBuyAvgPrice = coinsStats[b.id]
               ? coinsStats[b.id].total_purchase_quantity === 0
                 ? 0
                 : coinsStats[b.id].total_purchase_cost /
                   coinsStats[b.id].total_purchase_quantity
-              : null;
+              : null
 
             return assetSortType === 'buyPrice_asc'
               ? (aBuyAvgPrice === null ? 1 : 0) -
@@ -204,52 +204,52 @@ const CoinListSheet = ({ coinsStats, portfolioTotalCosts }: SheetProps) => {
                   aBuyAvgPrice! - bBuyAvgPrice!
               : (bBuyAvgPrice !== null ? 1 : 0) -
                   (aBuyAvgPrice !== null ? 1 : 0) ||
-                  bBuyAvgPrice! - aBuyAvgPrice!;
-          });
-          break;
+                  bBuyAvgPrice! - aBuyAvgPrice!
+          })
+          break
         case 'pl_asc':
         case 'pl_desc':
           temp.sort((a, b) => {
-            const aPL = coinsStats[a.id] ? coinsStats[a.id].all_time_pl : null;
-            const bPL = coinsStats[b.id] ? coinsStats[b.id].all_time_pl : null;
+            const aPL = coinsStats[a.id] ? coinsStats[a.id].all_time_pl : null
+            const bPL = coinsStats[b.id] ? coinsStats[b.id].all_time_pl : null
 
             return assetSortType === 'pl_asc'
               ? (aPL === null ? 1 : 0) - (bPL === null ? 1 : 0) || aPL! - bPL!
-              : (bPL !== null ? 1 : 0) - (aPL !== null ? 1 : 0) || bPL! - aPL!;
-          });
-          break;
+              : (bPL !== null ? 1 : 0) - (aPL !== null ? 1 : 0) || bPL! - aPL!
+          })
+          break
         default:
-          break;
+          break
       }
-      setSortedCoins(temp);
+      setSortedCoins(temp)
     }
-  }, [assetSortType, coins, coinsData, coinsStats]);
+  }, [assetSortType, coins, coinsData, coinsStats])
 
   const handleAddButtonPress = (coin: CoinType) => {
-    const { id, symbol, name, image } = coin;
-    setModalInitialState({ id, symbol, image, name });
-    setVisible(true);
-  };
+    const { id, symbol, name, image } = coin
+    setModalInitialState({ id, symbol, image, name })
+    setVisible(true)
+  }
 
   const sortBySymbol = useCallback(() => {
     if (assetSortType === 'name_asc') {
-      dispatch(changeSortType('name_desc'));
+      dispatch(changeSortType('name_desc'))
     } else {
-      dispatch(changeSortType('name_asc'));
+      dispatch(changeSortType('name_asc'))
     }
-  }, [assetSortType, dispatch]);
+  }, [assetSortType, dispatch])
 
   const sortByStats = useCallback(
     (asc: SortType, desc: SortType) => {
-      if (!coinsData) return;
+      if (!coinsData) return
       if (assetSortType === asc) {
-        dispatch(changeSortType(desc));
+        dispatch(changeSortType(desc))
       } else {
-        dispatch(changeSortType(asc));
+        dispatch(changeSortType(asc))
       }
     },
     [coinsData, assetSortType, dispatch]
-  );
+  )
 
   return (
     <Container>
@@ -260,7 +260,7 @@ const CoinListSheet = ({ coinsStats, portfolioTotalCosts }: SheetProps) => {
           onPress={sortBySymbol}
           sortTypes={['name_asc', 'name_desc']}
         />
-        {sortedCoins.map(coin => (
+        {sortedCoins.map((coin) => (
           <AssetRow
             key={coin.id}
             id={coin.id}
@@ -306,13 +306,13 @@ const CoinListSheet = ({ coinsStats, portfolioTotalCosts }: SheetProps) => {
               sortTypes={['allocation_asc', 'allocation_desc']}
             />
           </SortBarContainer>
-          {sortedCoins.map(coin => {
+          {sortedCoins.map((coin) => {
             const stats: CoinStatType | undefined | null = coinsStats
               ? coinsStats[coin.id]
-              : undefined;
+              : undefined
             const coinData = coinsData?.find(
-              coinData => coinData.id === coin.id
-            );
+              (coinData) => coinData.id === coin.id
+            )
 
             const priceStats = coinData
               ? {
@@ -320,7 +320,7 @@ const CoinListSheet = ({ coinsStats, portfolioTotalCosts }: SheetProps) => {
                   price_change_percentage_24h:
                     coinData.price_change_percentage_24h,
                 }
-              : undefined;
+              : undefined
 
             return (
               <StatisticsRow
@@ -333,7 +333,7 @@ const CoinListSheet = ({ coinsStats, portfolioTotalCosts }: SheetProps) => {
                 priceStats={priceStats}
                 onAddButtonPress={handleAddButtonPress}
               />
-            );
+            )
           })}
         </View>
       </ScrollView>
@@ -349,42 +349,42 @@ const CoinListSheet = ({ coinsStats, portfolioTotalCosts }: SheetProps) => {
         />
       )}
     </Container>
-  );
-};
+  )
+}
 
-export default CoinListSheet;
+export default CoinListSheet
 
 type TextProps = {
-  isActive: boolean;
-};
+  isActive: boolean
+}
 
 const Container = styled.View`
   flex-direction: row;
   background-color: ${({ theme }) => theme.base.background.surface};
-`;
+`
 
 const SortBarContainer = styled.View`
   flex-direction: row;
   background-color: ${({ theme }) => theme.base.background.surface};
-`;
+`
 
 const NameWrap = styled.View`
   margin-left: 10px;
-`;
+`
 
 const Row = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
   height: 60px;
-`;
+`
 
 const StickyColWrap = styled.View`
   width: ${COL_WIDTH}px;
-`;
+`
 
 const AssetIdWrap = styled.View`
   width: ${COL_WIDTH - 40}px;
-`;
+`
 
 const Tab = styled.TouchableOpacity<{ align: 'right' | 'left' }>`
   width: ${COL_WIDTH}px;
@@ -393,9 +393,9 @@ const Tab = styled.TouchableOpacity<{ align: 'right' | 'left' }>`
   align-items: center;
   justify-content: ${({ align }) =>
     align === 'left' ? 'flex-start' : 'flex-end'};
-`;
+`
 
 const CustomText = styled(Text)<TextProps>`
   color: ${({ theme, isActive }) =>
     isActive ? theme.base.text[100] : theme.base.text[200]};
-`;
+`

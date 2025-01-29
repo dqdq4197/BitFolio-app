@@ -1,9 +1,9 @@
-import React from 'react';
+import React from 'react'
 
-import Gainers from '/components/coinMarket/popularList/Gainers';
-import AsyncBoundary from '/components/common/AsyncBoundary';
-import GeneralTemplate from '/components/GeneralTemplate';
-import { TopListSkeleton } from '/components/skeletonPlaceholder/coinMarketHome';
+import Gainers from '/components/coinMarket/popularList/Gainers'
+import AsyncBoundary from '/components/common/AsyncBoundary'
+import GeneralTemplate from '/components/GeneralTemplate'
+import { TopListSkeleton } from '/components/skeletonPlaceholder/coinMarketHome'
 
 const GainersScreen = () => {
   return (
@@ -12,7 +12,7 @@ const GainersScreen = () => {
         <Gainers />
       </AsyncBoundary>
     </GeneralTemplate>
-  );
-};
+  )
+}
 
-export default GainersScreen;
+export default GainersScreen

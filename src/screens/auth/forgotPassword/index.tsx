@@ -1,8 +1,8 @@
-import React from 'react';
+import React from 'react'
 
-import ForgotPassword from '/components/auth/ForgotPassword';
-import AsyncBoundary from '/components/common/AsyncBoundary';
-import GeneralTemplate from '/components/GeneralTemplate';
+import ForgotPassword from '/components/auth/ForgotPassword'
+import AsyncBoundary from '/components/common/AsyncBoundary'
+import GeneralTemplate from '/components/GeneralTemplate'
 
 const ForgotPasswordScreen = () => {
   return (
@@ -11,7 +11,7 @@ const ForgotPasswordScreen = () => {
         <ForgotPassword />
       </AsyncBoundary>
     </GeneralTemplate>
-  );
-};
+  )
+}
 
-export default ForgotPasswordScreen;
+export default ForgotPasswordScreen

@@ -1,25 +1,25 @@
-import React, { forwardRef } from 'react';
-import { TextInput } from 'react-native';
-import styled from 'styled-components/native';
-import { useTranslation } from 'react-i18next';
-import { Ionicons, MaterialIcons } from '@expo/vector-icons';
+import React, { forwardRef } from 'react'
+import { TextInput } from 'react-native'
+import styled from 'styled-components/native'
+import { useTranslation } from 'react-i18next'
+import { Ionicons, MaterialIcons } from '@expo/vector-icons'
 
-import useGlobalTheme from '/hooks/useGlobalTheme';
+import useGlobalTheme from '/hooks/useGlobalTheme'
 
-import SurfaceTopView from '/components/common/SurfaceTopView';
+import SurfaceTopView from '/components/common/SurfaceTopView'
 
 type SearchBarProps = {
-  isLoading: boolean;
-  onQueryChange: (text: string) => void;
-  query: string;
-  coinsLength?: number;
-  onRemoveQuery: () => void;
-};
+  isLoading: boolean
+  onQueryChange: (text: string) => void
+  query: string
+  coinsLength?: number
+  onRemoveQuery: () => void
+}
 
 const SearchBar = forwardRef<TextInput, SearchBarProps>(
   ({ isLoading, onQueryChange, query, coinsLength, onRemoveQuery }, ref) => {
-    const { t } = useTranslation();
-    const { scheme, theme } = useGlobalTheme();
+    const { t } = useTranslation()
+    const { scheme, theme } = useGlobalTheme()
 
     return (
       <>
@@ -62,16 +62,16 @@ const SearchBar = forwardRef<TextInput, SearchBarProps>(
           </SearchBarWrap>
         </Container>
       </>
-    );
+    )
   }
-);
+)
 
-export default SearchBar;
+export default SearchBar
 
 const Container = styled.View`
   background-color: ${({ theme }) => theme.base.background.surface};
   padding-bottom: ${({ theme }) => theme.content.spacing};
-`;
+`
 
 const SearchBarWrap = styled.View`
   width: 100%;
@@ -81,16 +81,16 @@ const SearchBarWrap = styled.View`
   flex-direction: row;
   border-radius: ${({ theme }) => theme.border.l};
   align-items: center;
-`;
+`
 
 const CustomTextInput = styled.TextInput`
   margin-left: 10px;
   flex: 1;
   font-size: ${({ theme }) => theme.size.font_ml};
   color: ${({ theme }) => theme.base.text[100]};
-`;
+`
 
 const RemoveIconWrap = styled.TouchableOpacity`
   width: 20px;
   margin-left: 5px;
-`;
+`

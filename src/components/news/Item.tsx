@@ -1,73 +1,73 @@
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { formatDistance, fromUnixTime } from 'date-fns';
-import { enUS, ko } from 'date-fns/locale';
-import * as WebBrowser from 'expo-web-browser';
-import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Dimensions } from 'react-native';
-import styled from 'styled-components/native';
-import translate from 'translate-google-api';
+import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { formatDistance, fromUnixTime } from 'date-fns'
+import { enUS, ko } from 'date-fns/locale'
+import * as WebBrowser from 'expo-web-browser'
+import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { Dimensions } from 'react-native'
+import styled from 'styled-components/native'
+import translate from 'translate-google-api'
 
-import useGlobalTheme from '/hooks/useGlobalTheme';
-import useLocales from '/hooks/useLocales';
-import { LANGUAGES } from '/lib/constant';
-import { CategoriesType } from '/store/slices/news';
-import type { NewsData } from '/types/CryptoCompareReturnType';
+import useGlobalTheme from '/hooks/useGlobalTheme'
+import useLocales from '/hooks/useLocales'
+import { LANGUAGES } from '/lib/constant'
+import { CategoriesType } from '/store/slices/news'
+import type { NewsData } from '/types/CryptoCompareReturnType'
 
-import GlobalIndicator from '/components/common/GlobalIndicator';
-import Image from '/components/common/Image';
-import Text from '/components/common/Text';
+import GlobalIndicator from '/components/common/GlobalIndicator'
+import Image from '/components/common/Image'
+import Text from '/components/common/Text'
 
-const { width } = Dimensions.get('window');
-const IMAGE_SIZE = 60;
+const { width } = Dimensions.get('window')
+const IMAGE_SIZE = 60
 type ItemProps = {
-  item: NewsData;
-  currentCategory: CategoriesType;
-};
+  item: NewsData
+  currentCategory: CategoriesType
+}
 
 const Item = ({ item, currentCategory }: ItemProps) => {
-  const { t } = useTranslation();
-  const { theme } = useGlobalTheme();
-  const { language, getDeviceLanguage } = useLocales();
-  const [title, setTitle] = useState(item.title);
-  const [content, setContent] = useState<string>(item.body);
-  const [didTranslate, setDidTranslate] = useState(false);
-  const [translateLoading, setTranslateLoading] = useState(false);
-  const deviceLanguage = getDeviceLanguage();
+  const { t } = useTranslation()
+  const { theme } = useGlobalTheme()
+  const { language, getDeviceLanguage } = useLocales()
+  const [title, setTitle] = useState(item.title)
+  const [content, setContent] = useState<string>(item.body)
+  const [didTranslate, setDidTranslate] = useState(false)
+  const [translateLoading, setTranslateLoading] = useState(false)
+  const deviceLanguage = getDeviceLanguage()
 
   const handleItemPress = () => {
     return WebBrowser.openBrowserAsync(item.url, {
       toolbarColor: theme.base.background.surface,
       enableBarCollapsing: true,
-    });
-  };
+    })
+  }
 
   const handleTranslatePress = () => {
     if (!didTranslate) {
-      setTranslateLoading(true);
+      setTranslateLoading(true)
       const translateTitle = translate(item.title, {
         tld: 'com',
         to: deviceLanguage,
-      });
+      })
       const translateContent = translate(item.body, {
         tld: 'com',
         to: deviceLanguage,
-      });
+      })
 
       Promise.all([translateTitle, translateContent])
         .then((res) => {
-          setTitle(res[0][0]);
-          setContent(res[1][0]);
-          setDidTranslate(true);
-          setTranslateLoading(false);
+          setTitle(res[0][0])
+          setContent(res[1][0])
+          setDidTranslate(true)
+          setTranslateLoading(false)
         })
-        .catch((e) => console.log('Error: google translate', e));
+        .catch((e) => console.log('Error: google translate', e))
     } else {
-      setTitle(item.title);
-      setContent(item.body);
-      setDidTranslate(false);
+      setTitle(item.title)
+      setContent(item.body)
+      setDidTranslate(false)
     }
-  };
+  }
 
   return (
     <Container
@@ -113,7 +113,7 @@ const Item = ({ item, currentCategory }: ItemProps) => {
                   </Text>
                 )}
               </CategoryWrap>
-            );
+            )
           })}
         </CategoriesWrap>
         <Text fontML numberOfLines={5} margin="10px 0 0 0">
@@ -144,39 +144,39 @@ const Item = ({ item, currentCategory }: ItemProps) => {
         </TranslateButton>
       </>
     </Container>
-  );
-};
+  )
+}
 
-export default Item;
+export default Item
 
 const Container = styled.TouchableHighlight`
   width: ${width}px;
   padding: ${({ theme }) => theme.content.spacing};
-`;
+`
 
 const FlexBox = styled.View`
   flex-direction: row;
   margin-top: 10px;
   justify-content: space-between;
-`;
+`
 
 const TitleWrap = styled.View`
   // 10 => margin-right value of title text
   width: ${({ theme }) =>
     width - parseInt(theme.content.spacing, 10) * 2 - IMAGE_SIZE - 10}px;
-`;
+`
 
 const CategoriesWrap = styled.View`
   flex-direction: row;
   margin-top: 5px;
-`;
+`
 
 const CategoryWrap = styled.View`
   padding: 3px 5px;
   border-radius: ${({ theme }) => theme.border.s};
   background-color: ${({ theme }) => theme.base.background[300]};
   margin-right: 5px;
-`;
+`
 
 const TranslateButton = styled.TouchableOpacity`
   flex-direction: row;
@@ -187,4 +187,4 @@ const TranslateButton = styled.TouchableOpacity`
   align-items: center;
   justify-content: center;
   align-self: baseline;
-`;
+`

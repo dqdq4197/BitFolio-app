@@ -1,36 +1,33 @@
-import React, { useMemo } from 'react';
-import { Dimensions, LayoutAnimation, UIManager, Platform } from 'react-native';
-import styled from 'styled-components/native';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import React, { useMemo } from 'react'
+import { Dimensions, LayoutAnimation, UIManager, Platform } from 'react-native'
+import styled from 'styled-components/native'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
 
-import useGlobalTheme from '/hooks/useGlobalTheme';
-import { useAppDispatch, useAppSelector } from '/hooks/useRedux';
-import { useChartState } from '/hooks/context/useChartContext';
-import {
-  changeChartInterval,
-  changeChartType,
-} from '/store/slices/baseSetting';
-import { CoinSvg } from '/lib/svg';
-import { CHART_TYPE } from '/lib/constant';
-import type { ChartType } from '/types/common';
+import useGlobalTheme from '/hooks/useGlobalTheme'
+import { useAppDispatch, useAppSelector } from '/hooks/useRedux'
+import { useChartState } from '/hooks/context/useChartContext'
+import { changeChartInterval, changeChartType } from '/store/slices/baseSetting'
+import { CoinSvg } from '/lib/svg'
+import { CHART_TYPE } from '/lib/constant'
+import type { ChartType } from '/types/common'
 
-import Text from '/components/common/Text';
+import Text from '/components/common/Text'
 
 if (Platform.OS === 'android') {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
-    UIManager.setLayoutAnimationEnabledExperimental(true);
+    UIManager.setLayoutAnimationEnabledExperimental(true)
   }
 }
 
-const { width } = Dimensions.get('window');
+const { width } = Dimensions.get('window')
 
 const ChartTab = () => {
-  const { theme } = useGlobalTheme();
-  const { interval, changeRate } = useChartState();
+  const { theme } = useGlobalTheme()
+  const { interval, changeRate } = useChartState()
   const { chartType, exchange, chartOptions } = useAppSelector(
-    state => state.baseSettingReducer
-  );
-  const dispatch = useAppDispatch();
+    (state) => state.baseSettingReducer
+  )
+  const dispatch = useAppDispatch()
 
   const handleTimeSelectorPress = (value: number | string) => {
     dispatch(
@@ -38,23 +35,23 @@ const ChartTab = () => {
         exchange,
         interval: value,
       })
-    );
-  };
+    )
+  }
 
   const color = useMemo(() => {
     if (!changeRate || changeRate >= 0) {
-      return theme.base.upColor;
+      return theme.base.upColor
     }
 
-    return theme.base.downColor;
-  }, [changeRate, theme]);
+    return theme.base.downColor
+  }, [changeRate, theme])
 
   const handleChartSelectorPress = (value: ChartType) => {
     LayoutAnimation.configureNext(
       LayoutAnimation.create(200, 'easeInEaseOut', 'opacity')
-    );
-    dispatch(changeChartType(value));
-  };
+    )
+    dispatch(changeChartType(value))
+  }
 
   return (
     <ChartTabWrap>
@@ -62,7 +59,7 @@ const ChartTab = () => {
         horizontal
         showsHorizontalScrollIndicator={false}
       >
-        {interval.map(frame => {
+        {interval.map((frame) => {
           return (
             <Selector
               key={frame.value}
@@ -82,7 +79,7 @@ const ChartTab = () => {
                 {frame.label}
               </Text>
             </Selector>
-          );
+          )
         })}
       </ChartTimeSelectorScrollView>
       <ChartSelectorWrap>
@@ -117,14 +114,14 @@ const ChartTab = () => {
         </Selector>
       </ChartSelectorWrap>
     </ChartTabWrap>
-  );
-};
+  )
+}
 
-export default ChartTab;
+export default ChartTab
 
 interface SelectorProps {
-  isSelected: boolean;
-  marginRightZero?: boolean;
+  isSelected: boolean
+  marginRightZero?: boolean
 }
 
 const ChartTabWrap = styled.View`
@@ -133,13 +130,13 @@ const ChartTabWrap = styled.View`
   width: ${width}px;
   padding: 0 ${({ theme }) => theme.content.spacing};
   margin-top: 3px;
-`;
+`
 
-const ChartTimeSelectorScrollView = styled.ScrollView``;
+const ChartTimeSelectorScrollView = styled.ScrollView``
 
 const ChartSelectorWrap = styled.View`
   flex-direction: row;
-`;
+`
 
 const Selector = styled.TouchableOpacity<SelectorProps>`
   margin-right: ${({ marginRightZero }) => (marginRightZero ? 0 : 10)}px;
@@ -149,4 +146,4 @@ const Selector = styled.TouchableOpacity<SelectorProps>`
   justify-content: center;
   background-color: ${({ theme, isSelected }) =>
     isSelected ? theme.base.background[300] : 'transparent'};
-`;
+`

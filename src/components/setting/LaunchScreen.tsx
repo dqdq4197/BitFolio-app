@@ -1,22 +1,22 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
+import React from 'react'
+import { useTranslation } from 'react-i18next'
 
-import { useAppSelector, useAppDispatch } from '/hooks/useRedux';
-import { changeLaunchScreen } from '/store/slices/baseSetting';
-import type { MainTabParamList } from '/types/navigation';
+import { useAppSelector, useAppDispatch } from '/hooks/useRedux'
+import { changeLaunchScreen } from '/store/slices/baseSetting'
+import type { MainTabParamList } from '/types/navigation'
 
-import SurfaceWrap from '/components/common/SurfaceWrap';
-import Select from '/components/common/Select';
-import Blank from './Blank';
+import SurfaceWrap from '/components/common/SurfaceWrap'
+import Select from '/components/common/Select'
+import Blank from './Blank'
 
 const LaunchScreen = () => {
-  const { t } = useTranslation();
-  const dispatch = useAppDispatch();
-  const { launchScreen } = useAppSelector(state => state.baseSettingReducer);
+  const { t } = useTranslation()
+  const dispatch = useAppDispatch()
+  const { launchScreen } = useAppSelector((state) => state.baseSettingReducer)
 
   const onLaunchScreenChange = (key: keyof MainTabParamList) => {
-    dispatch(changeLaunchScreen(key));
-  };
+    dispatch(changeLaunchScreen(key))
+  }
 
   return (
     <SurfaceWrap
@@ -45,7 +45,7 @@ const LaunchScreen = () => {
       </Select>
       <Blank />
     </SurfaceWrap>
-  );
-};
+  )
+}
 
-export default LaunchScreen;
+export default LaunchScreen

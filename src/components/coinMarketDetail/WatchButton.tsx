@@ -1,28 +1,28 @@
-import { useNavigation } from '@react-navigation/native';
-import React, { useCallback, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Alert, Dimensions } from 'react-native';
+import { useNavigation } from '@react-navigation/native'
+import React, { useCallback, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
+import { Alert, Dimensions } from 'react-native'
 
-import { useFeedBackAlertContext } from '/hooks/context/useFeedBackContext';
-import useGlobalTheme from '/hooks/useGlobalTheme';
-import { useAppDispatch, useAppSelector } from '/hooks/useRedux';
+import { useFeedBackAlertContext } from '/hooks/context/useFeedBackContext'
+import useGlobalTheme from '/hooks/useGlobalTheme'
+import { useAppDispatch, useAppSelector } from '/hooks/useRedux'
 import {
   addWatchingCoin,
   CoinType,
   unwatchingCoin,
-} from '/store/slices/portfolio';
-import { removeAllTransaction } from '/store/slices/transaction';
-import type { CoinDetailScreenProps } from '/types/navigation';
+} from '/store/slices/portfolio'
+import { removeAllTransaction } from '/store/slices/transaction'
+import type { CoinDetailScreenProps } from '/types/navigation'
 
-import AsyncButton from '/components/common/AsyncButton';
+import AsyncButton from '/components/common/AsyncButton'
 
 interface ButtonProps extends Omit<CoinType, 'state'> {
-  portfolioId?: string;
-  width?: number;
-  height?: number;
+  portfolioId?: string
+  width?: number
+  height?: number
 }
 
-const { width: DWidth } = Dimensions.get('window');
+const { width: DWidth } = Dimensions.get('window')
 
 const WatchButton = ({
   portfolioId,
@@ -33,38 +33,38 @@ const WatchButton = ({
   image,
   name,
 }: ButtonProps) => {
-  const { t } = useTranslation();
-  const dispatch = useAppDispatch();
-  const { theme, scheme } = useGlobalTheme();
-  const { openAlert: openFeedBackAlert } = useFeedBackAlertContext();
+  const { t } = useTranslation()
+  const dispatch = useAppDispatch()
+  const { theme, scheme } = useGlobalTheme()
+  const { openAlert: openFeedBackAlert } = useFeedBackAlertContext()
   const navigation =
-    useNavigation<CoinDetailScreenProps<'Overview'>['navigation']>();
-  const { portfolios, activeIndex } = useAppSelector(state => ({
+    useNavigation<CoinDetailScreenProps<'Overview'>['navigation']>()
+  const { portfolios, activeIndex } = useAppSelector((state) => ({
     portfolios: state.portfolioReducer.portfolios,
     activeIndex: state.portfolioReducer.activeIndex,
-  }));
+  }))
 
   const initailWidth = useMemo(() => {
-    return DWidth - parseInt(theme.content.spacing, 10) * 2;
-  }, [theme]);
+    return DWidth - parseInt(theme.content.spacing, 10) * 2
+  }, [theme])
 
   const isAlreadyWatch = useMemo(() => {
-    const { coins } = portfolios[activeIndex];
+    const { coins } = portfolios[activeIndex]
 
-    return coins.find(coin => coin.id === id) !== undefined;
-  }, [portfolios, activeIndex, id]);
+    return coins.find((coin) => coin.id === id) !== undefined
+  }, [portfolios, activeIndex, id])
 
   const handleWatchPress = useCallback(() => {
-    if (!id || !symbol || !image || !name) return;
+    if (!id || !symbol || !image || !name) return
 
-    const portfolioIdTemp = portfolioId || portfolios[activeIndex].id;
+    const portfolioIdTemp = portfolioId || portfolios[activeIndex].id
 
     const payload = {
       portfolioId: portfolioIdTemp,
       coin: { id, symbol, image, name },
-    };
+    }
 
-    dispatch(addWatchingCoin(payload));
+    dispatch(addWatchingCoin(payload))
     openFeedBackAlert({
       message: t(`coinDetail.added coin as a watch item to portfolio.`, {
         coin: symbol.toUpperCase(),
@@ -72,7 +72,7 @@ const WatchButton = ({
       severity: 'success',
       onPress: () =>
         navigation.navigate('Portfolio', { screen: 'PortfolioOverview' }),
-    });
+    })
   }, [
     id,
     symbol,
@@ -85,7 +85,7 @@ const WatchButton = ({
     openFeedBackAlert,
     t,
     navigation,
-  ]);
+  ])
 
   const openUnwatchAlert = useCallback(() => {
     openFeedBackAlert({
@@ -95,8 +95,8 @@ const WatchButton = ({
       severity: 'success',
       onPress: () =>
         navigation.navigate('Portfolio', { screen: 'PortfolioOverview' }),
-    });
-  }, [navigation, openFeedBackAlert, symbol, t]);
+    })
+  }, [navigation, openFeedBackAlert, symbol, t])
 
   const openAlert = useCallback(
     (portfolioId: string, coinId: string) => {
@@ -113,38 +113,38 @@ const WatchButton = ({
           {
             text: t(`coinDetail.unwatch`),
             onPress: () => {
-              const payload = { portfolioId, coinId };
+              const payload = { portfolioId, coinId }
 
-              dispatch(removeAllTransaction(payload));
-              dispatch(unwatchingCoin(payload));
-              openUnwatchAlert();
+              dispatch(removeAllTransaction(payload))
+              dispatch(unwatchingCoin(payload))
+              openUnwatchAlert()
             },
             style: 'destructive',
           },
         ],
         { cancelable: false }
-      );
+      )
     },
     [dispatch, openUnwatchAlert, t]
-  );
+  )
 
   const handleUnwatchPress = useCallback(() => {
-    if (!id) return;
+    if (!id) return
 
-    const { coins } = portfolios[activeIndex];
-    const portfolioIdTemp = portfolioId || portfolios[activeIndex].id;
-    const { state } = coins.find(coin => coin.id === id)!;
+    const { coins } = portfolios[activeIndex]
+    const portfolioIdTemp = portfolioId || portfolios[activeIndex].id
+    const { state } = coins.find((coin) => coin.id === id)!
 
     const payload = {
       portfolioId: portfolioIdTemp,
       coinId: id,
-    };
+    }
 
     if (state === 'trading') {
-      openAlert(portfolioIdTemp, id);
+      openAlert(portfolioIdTemp, id)
     } else {
-      dispatch(unwatchingCoin(payload));
-      openUnwatchAlert();
+      dispatch(unwatchingCoin(payload))
+      openUnwatchAlert()
     }
   }, [
     id,
@@ -154,7 +154,7 @@ const WatchButton = ({
     openAlert,
     dispatch,
     openUnwatchAlert,
-  ]);
+  ])
 
   return (
     <AsyncButton
@@ -172,7 +172,7 @@ const WatchButton = ({
         scheme === 'dark' ? theme.base.background[300] : theme.base.text[200]
       }
     />
-  );
-};
+  )
+}
 
-export default WatchButton;
+export default WatchButton

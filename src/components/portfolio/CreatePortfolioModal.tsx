@@ -1,40 +1,40 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Animated } from 'react-native';
-import { useTranslation } from 'react-i18next';
-import styled from 'styled-components/native';
-import { Ionicons, Octicons } from '@expo/vector-icons';
-import { baseTypes } from 'base-types';
+import React, { useState, useRef, useEffect } from 'react'
+import { Animated } from 'react-native'
+import { useTranslation } from 'react-i18next'
+import styled from 'styled-components/native'
+import { Ionicons, Octicons } from '@expo/vector-icons'
+import { baseTypes } from 'base-types'
 
-import useGlobalTheme from '/hooks/useGlobalTheme';
-import useLocales from '/hooks/useLocales';
-import { CURRENCIES } from '/lib/constant';
+import useGlobalTheme from '/hooks/useGlobalTheme'
+import useLocales from '/hooks/useLocales'
+import { CURRENCIES } from '/lib/constant'
 
 // import { createPortfolio } from '/store/slices/portfolio';
-import Text from '/components/common/Text';
-import ScrollCloseModal from '/components/common/ScrollCloseModal';
+import Text from '/components/common/Text'
+import ScrollCloseModal from '/components/common/ScrollCloseModal'
 
 type FormModalProps = {
-  visible: boolean;
-  setVisible: React.Dispatch<React.SetStateAction<boolean>>;
-};
+  visible: boolean
+  setVisible: React.Dispatch<React.SetStateAction<boolean>>
+}
 
 type TextFieldProps = {
-  title: string;
-  textSideComponent: React.ReactNode;
-  children: React.ReactNode;
-  marginTop?: number;
-  onPress?: () => void;
-};
+  title: string
+  textSideComponent: React.ReactNode
+  children: React.ReactNode
+  marginTop?: number
+  onPress?: () => void
+}
 
 type CurrencyModalProps = {
-  visible: boolean;
-  onModalClose: () => void;
+  visible: boolean
+  onModalClose: () => void
   currentCurrency: {
-    value: string;
-    iso: string;
-  };
-  onCurrencyChange: (value: string, iso: string) => void;
-};
+    value: string
+    iso: string
+  }
+  onCurrencyChange: (value: string, iso: string) => void
+}
 
 const TextField = ({
   title,
@@ -53,8 +53,8 @@ const TextField = ({
         <TextSideView>{textSideComponent}</TextSideView>
       </TextInputWrap>
     </>
-  );
-};
+  )
+}
 
 const CurrencyModal = ({
   visible,
@@ -62,41 +62,41 @@ const CurrencyModal = ({
   currentCurrency,
   onCurrencyChange,
 }: CurrencyModalProps) => {
-  const { theme } = useGlobalTheme();
-  const AnimateRef = useRef(new Animated.Value(0)).current;
-  const [isClosed, setIsClosed] = useState(true);
+  const { theme } = useGlobalTheme()
+  const AnimateRef = useRef(new Animated.Value(0)).current
+  const [isClosed, setIsClosed] = useState(true)
 
   useEffect(() => {
     if (visible) {
-      setIsClosed(false);
+      setIsClosed(false)
       Animated.timing(AnimateRef, {
         toValue: 0.5,
         duration: 300,
         useNativeDriver: true,
-      }).start();
+      }).start()
     } else {
       Animated.timing(AnimateRef, {
         toValue: 0,
         duration: 300,
         useNativeDriver: true,
       }).start(() => {
-        setIsClosed(true);
-      });
+        setIsClosed(true)
+      })
     }
-  }, [visible]);
+  }, [visible])
 
   const renderCurrencies = () => {
-    const rows = [];
+    const rows = []
     for (const currency in CURRENCIES) {
       const { name, iso, unicode, symbol } =
-        CURRENCIES[currency as baseTypes.Currency];
-      const value = `${name} - ${symbol}`;
+        CURRENCIES[currency as baseTypes.Currency]
+      const value = `${name} - ${symbol}`
       rows.push(
         <Row
           key={name}
           onPress={() => {
-            onModalClose();
-            onCurrencyChange(value, iso.toLocaleLowerCase());
+            onModalClose()
+            onCurrencyChange(value, iso.toLocaleLowerCase())
           }}
         >
           <ColView>
@@ -117,11 +117,11 @@ const CurrencyModal = ({
             }
           />
         </Row>
-      );
+      )
     }
 
-    return rows;
-  };
+    return rows
+  }
 
   return (
     <FadeInOutView
@@ -137,66 +137,66 @@ const CurrencyModal = ({
         </ModalContainer>
       </Modal>
     </FadeInOutView>
-  );
-};
+  )
+}
 
 const CreatePortfolioModal = ({ visible, setVisible }: FormModalProps) => {
-  const { t } = useTranslation();
-  const { theme } = useGlobalTheme();
-  const { currency } = useLocales();
-  const [ModalVisible, setModalVible] = useState(false);
+  const { t } = useTranslation()
+  const { theme } = useGlobalTheme()
+  const { currency } = useLocales()
+  const [ModalVisible, setModalVible] = useState(false)
   const [formData, setFormData] = useState({
     name: t('portfolio.new portfolio'),
     currency: {
       value: `${CURRENCIES[currency].name} - ${CURRENCIES[currency].symbol}`,
       iso: currency as string,
     },
-  });
+  })
 
   const handleNameChange = (text: string) => {
-    if (text.length > 20) return;
-    setFormData(prev => ({
+    if (text.length > 20) return
+    setFormData((prev) => ({
       ...prev,
       name: text,
-    }));
-  };
+    }))
+  }
 
   const handleCurrencyChange = (value: string, iso: string) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       currency: {
         value,
         iso,
       },
-    }));
-  };
+    }))
+  }
 
   const handleNameFocus = () => {
     if (formData.name === t('portfolio.new portfolio')) {
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
         name: '',
-      }));
+      }))
     }
-  };
+  }
 
   const handleNameBlur = () => {
-    const removedSpace = formData.name.replace(/\s/g, '');
+    const removedSpace = formData.name.replace(/\s/g, '')
     if (removedSpace === '') {
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
         name: t('portfolio.new portfolio'),
-      }));
+      }))
     }
-  };
+  }
 
   const onModalOpen = () => {
-    setModalVible(true);
-  };
+    setModalVible(true)
+  }
 
   const onModalClose = () => {
-    setModalVible(false);
-  };
+    setModalVible(false)
+  }
 
   const handleConfirmPress = () => {
     // const { name, currency } = formData;
@@ -207,7 +207,7 @@ const CreatePortfolioModal = ({ visible, setVisible }: FormModalProps) => {
     //   })
     // )
     // setVisible(false);
-  };
+  }
 
   return (
     <ScrollCloseModal
@@ -274,16 +274,16 @@ const CreatePortfolioModal = ({ visible, setVisible }: FormModalProps) => {
         </TextField>
       </Container>
     </ScrollCloseModal>
-  );
-};
+  )
+}
 
-export default CreatePortfolioModal;
+export default CreatePortfolioModal
 
-const Modal = styled.Modal``;
+const Modal = styled.Modal``
 
 const Container = styled.View`
   padding: 0 ${({ theme }) => theme.content.spacing};
-`;
+`
 
 const TextInputWrap = styled.TouchableOpacity`
   height: 40px;
@@ -294,7 +294,7 @@ const TextInputWrap = styled.TouchableOpacity`
   align-items: center;
   margin-top: 5px;
   padding: 0 10px;
-`;
+`
 
 const TextInput = styled.TextInput`
   width: 85%;
@@ -302,7 +302,7 @@ const TextInput = styled.TextInput`
   color: ${({ theme }) => theme.base.text[100]};
   font-weight: bold;
   font-size: ${({ theme }) => theme.size.font_ml};
-`;
+`
 
 const ConfirmButton = styled.TouchableOpacity`
   height: 45px;
@@ -311,12 +311,12 @@ const ConfirmButton = styled.TouchableOpacity`
   border-top-right-radius: ${({ theme }) => theme.border.l};
   align-items: center;
   justify-content: center;
-`;
+`
 
 const TextSideView = styled.View`
   width: 40px;
   align-items: flex-end;
-`;
+`
 
 const FadeInOutView = styled.View`
   position: absolute;
@@ -326,13 +326,13 @@ const FadeInOutView = styled.View`
   bottom: 0;
   background-color: black;
   opacity: 0.5;
-`;
+`
 
 const ModalContainer = styled.TouchableOpacity`
   flex: 1;
   background-color: transparent;
   justify-content: flex-end;
-`;
+`
 
 const ModalView = styled.TouchableOpacity`
   width: 100%;
@@ -340,7 +340,7 @@ const ModalView = styled.TouchableOpacity`
   background-color: ${({ theme }) => theme.base.background[200]};
   border-top-left-radius: ${({ theme }) => theme.border.ml};
   border-top-right-radius: ${({ theme }) => theme.border.ml};
-`;
+`
 
 const Row = styled.TouchableOpacity`
   flex-direction: row;
@@ -348,6 +348,6 @@ const Row = styled.TouchableOpacity`
   align-items: center;
   padding: 0 ${({ theme }) => theme.content.spacing};
   margin-top: 30px;
-`;
+`
 
-const ColView = styled.View``;
+const ColView = styled.View``

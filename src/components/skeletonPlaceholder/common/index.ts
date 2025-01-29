@@ -1,1 +1,1 @@
-export { default as CoinListSkeleton } from './CoinListSkeleton';
+export { default as CoinListSkeleton } from './CoinListSkeleton'
