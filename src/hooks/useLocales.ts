@@ -10,7 +10,7 @@ import type { CurrencyType } from '/types/common'
 type LanguageType = Exclude<baseTypes.Language, 'default'>
 
 const useLocales = () => {
-  const { currency } = useAppSelector((state) => state.baseSettingReducer)
+  const { currency } = useAppSelector(state => state.baseSettingReducer)
   const dispatch = useAppDispatch()
 
   const onCurrencyChange = useCallback(

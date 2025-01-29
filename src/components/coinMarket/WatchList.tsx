@@ -58,7 +58,7 @@ const WatchList = ({ onPressItem }: ListProps) => {
   const { t } = useTranslation()
   const { theme } = useGlobalTheme()
   const { currency } = useLocales()
-  const { watchList } = useAppSelector((state) => state.baseSettingReducer)
+  const { watchList } = useAppSelector(state => state.baseSettingReducer)
   const [newData, setNewData] = useState<CoinMarketReturn[]>([])
   const { data, isValidating } = useRequest<CoinMarketReturn[]>(
     CoinGecko.coin.markets({
@@ -78,8 +78,8 @@ const WatchList = ({ onPressItem }: ListProps) => {
       temp.sort((a, b) => watchList.indexOf(a.id) - watchList.indexOf(b.id))
       setNewData(temp)
     } else {
-      setNewData((prevState) =>
-        prevState.filter((coinId) => watchList.includes(coinId.id))
+      setNewData(prevState =>
+        prevState.filter(coinId => watchList.includes(coinId.id))
       )
     }
   }, [watchList, isValidating, data])

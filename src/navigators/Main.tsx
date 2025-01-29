@@ -15,11 +15,11 @@ const Tab = createBottomTabNavigator<MainTabParamList>()
 
 const Main = () => {
   const { t } = useTranslation()
-  const { launchScreen } = useAppSelector((state) => state.baseSettingReducer)
+  const { launchScreen } = useAppSelector(state => state.baseSettingReducer)
 
   return (
     <Tab.Navigator
-      tabBar={(props) => <TabBar {...props} />}
+      tabBar={props => <TabBar {...props} />}
       initialRouteName={launchScreen}
       screenOptions={{ headerShown: false }}
     >

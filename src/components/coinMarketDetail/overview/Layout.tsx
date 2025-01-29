@@ -24,7 +24,7 @@ const Layout = () => {
   const { id } = useCoinIdContext()
   const [refreshing, setRefreshing] = useState(false)
   const { portfolios, activeIndex } = useAppSelector(
-    (state) => ({
+    state => ({
       portfolios: state.portfolioReducer.portfolios,
       activeIndex: state.portfolioReducer.activeIndex,
     }),

@@ -41,7 +41,7 @@ const SetNotesView = ({
         <Text bold>{t('common.notes')}</Text>
         <NotePad
           ref={textInputRef}
-          onChangeText={(text) => setNotes(text)}
+          onChangeText={text => setNotes(text)}
           keyboardAppearance={scheme === 'dark' ? 'dark' : 'light'}
           multiline
           value={notes || ''}

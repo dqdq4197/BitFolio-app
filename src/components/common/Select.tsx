@@ -23,7 +23,7 @@ Select.Option = ({
 }: SelectOptionProps) => {
   return (
     <ThemeConsumer>
-      {(theme) => (
+      {theme => (
         <OptionContainer
           {...rest}
           underlayColor={theme.base.underlayColor[100]}

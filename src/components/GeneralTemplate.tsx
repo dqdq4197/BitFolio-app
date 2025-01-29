@@ -41,7 +41,7 @@ const Container = styled.SafeAreaView<ContainerProps>`
     return theme.base.background[100]
   }};
   height: ${height + 200}px;
-  /* padding-top: ${(props) =>
+  /* padding-top: ${props =>
     Platform.OS === 'android'
       ? `${StatusBar.currentHeight as number}px`
       : `${props.navHeight - STATUSBAR_DEFAULT_HEIGHT}px`}; */

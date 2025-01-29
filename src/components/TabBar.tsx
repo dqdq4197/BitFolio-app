@@ -112,6 +112,6 @@ const EachTabWrap = styled.TouchableOpacity`
 `
 
 const TabLabel = styled(Text)<TabLabelProps>`
-  color: ${(props) =>
+  color: ${props =>
     props.isFocused ? props.theme.base.text[100] : props.theme.base.text[400]};
 `

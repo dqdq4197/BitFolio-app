@@ -144,7 +144,7 @@ const ItemContainer = styled.TouchableHighlight<ContainerProps>`
   height: 60px;
   flex-direction: row;
   padding: 0 ${({ theme }) => theme.content.spacing};
-  ${(props) =>
+  ${props =>
     !props.NoneUnderLine &&
     css`
       border-bottom-width: 1px;
@@ -153,7 +153,7 @@ const ItemContainer = styled.TouchableHighlight<ContainerProps>`
 `
 
 const ItemColumn = styled.View<ColumnProps>`
-  flex: ${(props) => props.column};
+  flex: ${props => props.column};
   flex-direction: row;
   align-items: center;
   justify-content: ${({ justifyContent }) => justifyContent || 'center'};

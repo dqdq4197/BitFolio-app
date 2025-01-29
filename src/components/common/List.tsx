@@ -18,7 +18,7 @@ interface RowProps extends TouchableHighlightProps {
 List.Row = ({ left, right, isLinked = false, ...rest }: RowProps) => {
   return (
     <ThemeConsumer>
-      {(theme) => (
+      {theme => (
         <RowContainer {...rest} underlayColor={theme.base.underlayColor[100]}>
           <>
             <Text fontML bold>

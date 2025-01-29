@@ -70,7 +70,7 @@ const TypeSelectView = ({
     (width - parseInt(theme.content.spacing, 10) * 2 - 20) / 3
 
   useEffect(() => {
-    const index = transferTypes.findIndex((type) => type.key === transferType)
+    const index = transferTypes.findIndex(type => type.key === transferType)
     setTranslateX(index)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [transferType])
@@ -114,14 +114,14 @@ const TypeSelectView = ({
   }
 
   const onSwitchTransactionType = (type: string) => {
-    setFormData((prev) => ({
+    setFormData(prev => ({
       ...prev,
       type,
     }))
   }
 
   const onSwitchTransferType = (type: string) => {
-    setFormData((prev) => ({
+    setFormData(prev => ({
       ...prev,
       transferType: type,
     }))
@@ -130,7 +130,7 @@ const TypeSelectView = ({
   return (
     <Container height={height - FOOTER_HEIGHT - 70}>
       <TransactionTypeWrap>
-        {transactionTypes.map((type) => (
+        {transactionTypes.map(type => (
           <TransactionType
             key={type.key}
             activeOpacity={0.6}
@@ -166,7 +166,7 @@ const TypeSelectView = ({
           opacity,
         }}
       >
-        {transferTypes.map((type) => (
+        {transferTypes.map(type => (
           <TransferType
             key={type.key}
             width={TransferTypeWidth}

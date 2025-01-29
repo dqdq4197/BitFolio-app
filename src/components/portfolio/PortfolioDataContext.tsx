@@ -27,7 +27,7 @@ type ContextProps = {
 
 export function PortfolioDataProvider({ children }: ContextProps) {
   const { portfolios, activeIndex } = useAppSelector(
-    (state) => ({
+    state => ({
       portfolios: state.portfolioReducer.portfolios,
       activeIndex: state.portfolioReducer.activeIndex,
     }),
@@ -51,7 +51,7 @@ export function PortfolioDataProvider({ children }: ContextProps) {
     const temp: string[] = []
     const { coins } = portfolios[activeIndex]
 
-    coins.forEach((coin) => {
+    coins.forEach(coin => {
       if (!temp.includes(coin.id)) {
         temp.push(coin.id)
       }

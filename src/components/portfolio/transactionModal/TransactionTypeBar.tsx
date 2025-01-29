@@ -26,7 +26,7 @@ const TransactionTypeBar = ({
   const LabelWidth = (width - parseInt(theme.content.spacing, 10) * 2) / 3
 
   useEffect(() => {
-    const index = labels.findIndex((label) => label.toLowerCase() === type)
+    const index = labels.findIndex(label => label.toLowerCase() === type)
 
     setTranslateX(index)
   }, [type])
@@ -43,7 +43,7 @@ const TransactionTypeBar = ({
   return (
     <Container height={height}>
       <IndicatorWrap>
-        {labels.map((label) => (
+        {labels.map(label => (
           <Label
             key={label}
             width={LabelWidth}

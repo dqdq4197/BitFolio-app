@@ -234,7 +234,7 @@ export default function createFuzzyMatcher(
   // eslint-disable-next-line no-nested-ternary
   const glue = fuzzy ? FUZZY : ignoreSpace ? IGNORE_SPACE : ''
   const frontCharsPattern = frontChars
-    .map((char) =>
+    .map(char =>
       char.search(/[ㄱ-ㅎ]/) !== -1
         ? getInitialSearchRegExp(char)
         : escapeRegExp(char)

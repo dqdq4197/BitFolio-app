@@ -74,9 +74,9 @@ const EmailVerification = () => {
   }, [errorMessage, openAlert])
 
   useEffect(() => {
-    setTime((prev) => prev - 1)
+    setTime(prev => prev - 1)
     timer.current = setInterval(() => {
-      setTime((prev) => {
+      setTime(prev => {
         if (prev === 1 && timer.current) {
           clearInterval(timer.current)
           return RESENT_DELAY
@@ -94,7 +94,7 @@ const EmailVerification = () => {
   const onPressResendEmailText = async () => {
     await sendEmailVerification()
     habtics.impactAsync()
-    setTrigger((prev) => !prev)
+    setTrigger(prev => !prev)
   }
 
   return (

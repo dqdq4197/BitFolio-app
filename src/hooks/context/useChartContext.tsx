@@ -55,7 +55,7 @@ type ProviderProps = {
 const ChartContext = createContext<InitialData | undefined>(undefined)
 
 export const ChartDataProvider = ({ children }: ProviderProps) => {
-  const { exchange } = useAppSelector((state) => state.baseSettingReducer)
+  const { exchange } = useAppSelector(state => state.baseSettingReducer)
   const { id, symbol } = useCoinIdContext()
   const datumX = useSharedValue('-')
   const datumY = useSharedValue(['-', '-'])

@@ -50,13 +50,9 @@ const Cursor = ({ width, height, CURSOR_SIZE, PADDING }: CursorProps) => {
   } = useChartState()
 
   const getSvg = useMemo(() => {
-    const xDomain = [
-      ...points.map((d) => d[0]),
-      highestPoint[0],
-      lowestPoint[0],
-    ]
+    const xDomain = [...points.map(d => d[0]), highestPoint[0], lowestPoint[0]]
     const yDomain = [
-      ...points.map((d) => d[1]),
+      ...points.map(d => d[1]),
       highestPoint[1],
       lowestPoint[1],
       prevClosingPrice as number,
@@ -70,8 +66,8 @@ const Cursor = ({ width, height, CURSOR_SIZE, PADDING }: CursorProps) => {
       .range([height - PADDING * 2, 0])
     const d = shape
       .line<number[]>()
-      .x((p) => scaleX(p[0]))
-      .y((p) => scaleY(p[1]))
+      .x(p => scaleX(p[0]))
+      .y(p => scaleY(p[1]))
       .curve(shape.curveBasis)(points) as string
 
     return {

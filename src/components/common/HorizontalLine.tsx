@@ -14,7 +14,7 @@ export default HorizontalLine
 const Line = styled.View<LineProps>`
   border-bottom-color: ${({ theme }) => theme.base.background[200]};
   border-bottom-width: 1.5px;
-  ${(props) =>
+  ${props =>
     props.fullWidth &&
     css`
       margin: 0 -${props.theme.content.spacing};

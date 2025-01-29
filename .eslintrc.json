@@ -28,31 +28,15 @@
     "react/jsx-filename-extension": [
       1,
       {
-        "extensions": [
-          ".ts",
-          ".tsx"
-        ]
+        "extensions": [".ts", ".tsx"]
       }
     ],
-    "prettier/prettier": [
-      "error",
-      {
-        "singleQuote": true,
-        "trailingComma": "es5",
-        "arrowParens": "avoid",
-        "endOfLine": "auto"
-      }
-    ],
-    "react/function-component-definition": [
-      "off"
-    ],
+    "react/function-component-definition": ["off"],
     "no-param-reassign": [
       "error",
       {
         "props": true,
-        "ignorePropertyModificationsFor": [
-          "state"
-        ]
+        "ignorePropertyModificationsFor": ["state"]
       }
     ],
     // "react/jsx-no-useless-fragment": [2, { "allowExpressions": true }],
@@ -78,10 +62,7 @@
     "react/no-array-index-key": 0,
     "react/require-extension": 0,
     "global-require": 0,
-    "import/extensions": [
-      "error",
-      {"json": "always"}
-    ]
+    "import/extensions": ["error", { "json": "always" }]
   },
   "settings": {
     "import/resolver": {

@@ -35,7 +35,7 @@ const DynamicSizeText = ({
       'font_s',
       'font_xs',
     ]
-    const index = sizes.findIndex((size) => size === defaultSize)
+    const index = sizes.findIndex(size => size === defaultSize)
     const newSizes = sizes.slice(index)
     if (newSizes.length < 3) {
       while (newSizes.length < 3) {

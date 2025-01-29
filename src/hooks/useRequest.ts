@@ -44,7 +44,7 @@ export default function useRequest<Data = unknown, Error = unknown>(
   } = useSWR<AxiosResponse<Data>, AxiosError<Error> & ExtendErrorType>(
     request && JSON.stringify(request),
     () =>
-      axios(request!).catch((e) => {
+      axios(request!).catch(e => {
         const error = new Error(
           `!!Error => url: ${request?.url} fetching the data`
         ) as any

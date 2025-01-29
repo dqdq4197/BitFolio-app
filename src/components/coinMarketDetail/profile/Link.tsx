@@ -156,7 +156,7 @@ const Link = (props: LinkProps) => {
       parentPaddingZero
     >
       <HorizontalLine fullWidth />
-      {renderLink().map((row) => (
+      {renderLink().map(row => (
         <RowWrap key={row.title}>
           <RowComponent
             url={row.url}

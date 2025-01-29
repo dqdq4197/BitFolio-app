@@ -60,7 +60,7 @@ const HighMarketcap = () => {
   return (
     <FlatList
       data={data}
-      keyExtractor={(item) => item.id}
+      keyExtractor={item => item.id}
       contentContainerStyle={{
         backgroundColor: theme.base.background.surface,
       }}

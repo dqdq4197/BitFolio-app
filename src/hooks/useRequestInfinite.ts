@@ -53,7 +53,7 @@ export default function useRequestInfinite<Data = unknown, Error = unknown>(
     (request: any) => axios(JSON.parse(request)),
     {
       ...config,
-      fallbackData: fallbackData?.map((v) => ({
+      fallbackData: fallbackData?.map(v => ({
         status: 200,
         statusText: 'InitialData',
         config: {},
@@ -63,7 +63,7 @@ export default function useRequestInfinite<Data = unknown, Error = unknown>(
     }
   )
   return {
-    data: Array.isArray(response) ? response.map((res) => res.data) : undefined,
+    data: Array.isArray(response) ? response.map(res => res.data) : undefined,
     size,
     setSize,
     mutate,

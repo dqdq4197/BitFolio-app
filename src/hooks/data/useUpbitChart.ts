@@ -30,7 +30,7 @@ type TProps = {
 }
 const CANDLES_COUNT = 200
 
-const INTERVAL = Object.entries(CHART_TIME_INTERVAL).map((interval) => ({
+const INTERVAL = Object.entries(CHART_TIME_INTERVAL).map(interval => ({
   label: interval[0],
   value: interval[1],
 }))
@@ -40,7 +40,7 @@ const useUpbitChart = ({ symbol, enabled }: TProps) => {
   const lastCandleTimestampRef = useRef<number>(0)
   const latestAccVolumeRef = useRef<number>(0)
 
-  const { chartOptions } = useAppSelector((state) => state.baseSettingReducer)
+  const { chartOptions } = useAppSelector(state => state.baseSettingReducer)
   const [activeTradingPair, setActiveTradingPair] = useState('KRW')
 
   const timeFrame = useMemo(
@@ -131,7 +131,7 @@ const useUpbitChart = ({ symbol, enabled }: TProps) => {
          * useCallback으로인해 messageQueue state가 업데이트 되지않기때문에
          * 객체 따로 만들지않고 바로 prev를 꺼내 씀.
          */
-        setMessageQueue((prev) => {
+        setMessageQueue(prev => {
           const immutableData = prev.slice(1, prev.length - 1)
           const currentQueue = prev.slice(-1)[0]
           const updatedCurrentQueue = {
@@ -154,7 +154,7 @@ const useUpbitChart = ({ symbol, enabled }: TProps) => {
         lastCandleTimestampRef.current += timeFrame.diffTimestamp
       } else {
         // Todo. 500ms 버퍼에 쌓인 데이터중 가장 high, low price로 입력해주어야 할듯.
-        setMessageQueue((prev) => {
+        setMessageQueue(prev => {
           const immutableData = prev.slice(0, prev.length - 1)
           const currentQueue = prev.slice(-1)[0]
           const updatedCurrentQueue = {
@@ -233,11 +233,11 @@ const useUpbitChart = ({ symbol, enabled }: TProps) => {
     if (upbitAssets) {
       const uppercaseSymbol = symbol.toUpperCase()
       const pairs = upbitAssets
-        .filter((asset) => {
+        .filter(asset => {
           const [, from] = asset.market.split('-')
           return from === uppercaseSymbol
         })
-        .map((asset) => {
+        .map(asset => {
           const [to, from] = asset.market.split('-')
           return {
             label: `${to} / ${from}`,
@@ -299,7 +299,7 @@ const useUpbitChart = ({ symbol, enabled }: TProps) => {
   }, [messageQueue])
 
   return {
-    points: messageQueue.map((message) => [
+    points: messageQueue.map(message => [
       message.timestamp,
       message.trade_price,
     ]),
@@ -312,7 +312,7 @@ const useUpbitChart = ({ symbol, enabled }: TProps) => {
       message.low_price,
       message.trade_price,
     ]),
-    volumes: messageQueue.map((message) => [
+    volumes: messageQueue.map(message => [
       message.timestamp,
       message.candle_acc_trade_volume,
     ]),

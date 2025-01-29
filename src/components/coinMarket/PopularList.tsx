@@ -71,7 +71,7 @@ const PopularList = () => {
           paddingHorizontal: parseInt(theme.content.spacing, 10),
         }}
       >
-        {data.map((res) => {
+        {data.map(res => {
           return (
             <LinearGradient
               key={res.route}

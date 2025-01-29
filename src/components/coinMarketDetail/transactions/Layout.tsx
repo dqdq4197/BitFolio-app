@@ -38,8 +38,8 @@ const EmptyView = () => {
 const Layout = () => {
   const { t } = useTranslation()
   const { id, symbol } = useCoinIdContext()
-  const { transactions } = useAppSelector((state) => state.transactionReducer)
-  const { portfolios, activeIndex } = useAppSelector((state) => ({
+  const { transactions } = useAppSelector(state => state.transactionReducer)
+  const { portfolios, activeIndex } = useAppSelector(state => ({
     portfolios: state.portfolioReducer.portfolios,
     activeIndex: state.portfolioReducer.activeIndex,
   }))
@@ -56,7 +56,7 @@ const Layout = () => {
   useEffect(() => {
     // filteredData => null의 경우 로딩중 | length === 0인 경우 거래 내역이 없음
     const filteredTransactions = transactions
-      .filter((transaction) => transaction.coinId === id)
+      .filter(transaction => transaction.coinId === id)
       .slice()
 
     filteredTransactions.sort((a, b) => b.date - a.date)
@@ -68,7 +68,7 @@ const Layout = () => {
   const focusedTransactionData = useMemo(() => {
     if (filteredData && focusedTransactionId) {
       return filteredData.filter(
-        (transaction) => transaction.id === focusedTransactionId
+        transaction => transaction.id === focusedTransactionId
       )[0]
     }
   }, [filteredData, focusedTransactionId])
@@ -87,8 +87,7 @@ const Layout = () => {
 
   const wantChangeCoinState: boolean = useMemo(() => {
     return (
-      transactions.filter((transaction) => transaction.coinId === id).length ===
-      1
+      transactions.filter(transaction => transaction.coinId === id).length === 1
     )
   }, [id, transactions])
 

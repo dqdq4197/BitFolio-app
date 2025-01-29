@@ -89,7 +89,7 @@ const DefaultView = ({ data, searchesData, onPressItem }: DefaultViewProps) => {
             }}
           >
             {data ? (
-              searchesData.map((coin) => (
+              searchesData.map(coin => (
                 <SearchesItem
                   key={coin.id + coin.name}
                   item={coin}

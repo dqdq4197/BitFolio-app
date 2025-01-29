@@ -19,14 +19,14 @@ type TProps = {
   enabled: boolean
 }
 
-const INTERVAL = Object.entries(CHART_TIME_INTERVAL).map((interval) => ({
+const INTERVAL = Object.entries(CHART_TIME_INTERVAL).map(interval => ({
   label: interval[0],
   value: interval[1],
 }))
 
 export default ({ id, symbol, enabled }: TProps) => {
   const { currency, chartOptions } = useAppSelector(
-    (state) => state.baseSettingReducer
+    state => state.baseSettingReducer
   )
 
   const timeFrame = useMemo(
@@ -42,7 +42,7 @@ export default ({ id, symbol, enabled }: TProps) => {
     useState<CurrencyType>(currency)
 
   const tradingPairs = useMemo(() => {
-    return Object.entries(CURRENCIES).map((currency) => {
+    return Object.entries(CURRENCIES).map(currency => {
       const [key, asset] = currency
 
       return {

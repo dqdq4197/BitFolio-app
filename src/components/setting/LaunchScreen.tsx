@@ -12,7 +12,7 @@ import Blank from './Blank'
 const LaunchScreen = () => {
   const { t } = useTranslation()
   const dispatch = useAppDispatch()
-  const { launchScreen } = useAppSelector((state) => state.baseSettingReducer)
+  const { launchScreen } = useAppSelector(state => state.baseSettingReducer)
 
   const onLaunchScreenChange = (key: keyof MainTabParamList) => {
     dispatch(changeLaunchScreen(key))

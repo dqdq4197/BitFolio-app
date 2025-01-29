@@ -352,7 +352,7 @@ const StyledTextInput = styled.TextInput<TextInputProps>`
   color: white;
   /* background-color: rgba(255,255,255, .2); */
 
-  ${(props) => {
+  ${props => {
     switch (props.type) {
       case TYPES.QUOTE:
         return StyledQuote

@@ -51,7 +51,7 @@ const ScrollCloseModal = ({
 
   useEffect(() => {
     scrollY.removeAllListeners()
-    scrollY.addListener((v) => {
+    scrollY.addListener(v => {
       const { value } = v
 
       const offset = CIRCUMFERENCE - (CIRCUMFERENCE * -value) / 100

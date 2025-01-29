@@ -8,7 +8,7 @@ const useCurrencyFormat = (
   currentPrice: number,
   includeCurrencySymbol = true
 ): string => {
-  const { currency } = useAppSelector((state) => state.baseSettingReducer)
+  const { currency } = useAppSelector(state => state.baseSettingReducer)
   const [price, setPrice] = useState<number | string>('')
 
   useLayoutEffect(() => {

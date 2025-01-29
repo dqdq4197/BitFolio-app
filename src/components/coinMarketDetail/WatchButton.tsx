@@ -39,7 +39,7 @@ const WatchButton = ({
   const { openAlert: openFeedBackAlert } = useFeedBackAlertContext()
   const navigation =
     useNavigation<CoinDetailScreenProps<'Overview'>['navigation']>()
-  const { portfolios, activeIndex } = useAppSelector((state) => ({
+  const { portfolios, activeIndex } = useAppSelector(state => ({
     portfolios: state.portfolioReducer.portfolios,
     activeIndex: state.portfolioReducer.activeIndex,
   }))
@@ -51,7 +51,7 @@ const WatchButton = ({
   const isAlreadyWatch = useMemo(() => {
     const { coins } = portfolios[activeIndex]
 
-    return coins.find((coin) => coin.id === id) !== undefined
+    return coins.find(coin => coin.id === id) !== undefined
   }, [portfolios, activeIndex, id])
 
   const handleWatchPress = useCallback(() => {
@@ -133,7 +133,7 @@ const WatchButton = ({
 
     const { coins } = portfolios[activeIndex]
     const portfolioIdTemp = portfolioId || portfolios[activeIndex].id
-    const { state } = coins.find((coin) => coin.id === id)!
+    const { state } = coins.find(coin => coin.id === id)!
 
     const payload = {
       portfolioId: portfolioIdTemp,

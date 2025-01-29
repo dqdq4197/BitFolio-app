@@ -153,10 +153,10 @@ const StatisticsView = ({
       })
 
       const bestPerformerData = coinsData.find(
-        (coin) => coin.id === sortedCoins[0][0]
+        coin => coin.id === sortedCoins[0][0]
       )
       const worstPerformerData = coinsData.find(
-        (coin) => coin.id === sortedCoins.slice(-1)[0][0]
+        coin => coin.id === sortedCoins.slice(-1)[0][0]
       )
 
       const bestPerformerStats = sortedCoins[0][1]

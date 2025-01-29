@@ -58,7 +58,7 @@ const Item = ({ item, currentCategory }: ItemProps) => {
           />
         </FlexBox>
         <CategoriesWrap>
-          {item.categories.split('|').map((category) => {
+          {item.categories.split('|').map(category => {
             return (
               <CategoryWrap key={category}>
                 {category.toLowerCase() === currentCategory ? (

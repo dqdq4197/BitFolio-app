@@ -11,7 +11,7 @@ type IconProps = {
 }
 
 const WatchListIcon = ({ id }: IconProps) => {
-  const { watchList } = useAppSelector((state) => state.baseSettingReducer)
+  const { watchList } = useAppSelector(state => state.baseSettingReducer)
   const animationRef = useRef<LottieView>(null)
   const isFirstMount = useFirstMountState()
 

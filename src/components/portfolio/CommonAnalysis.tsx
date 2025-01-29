@@ -72,7 +72,7 @@ const CommonAnalysis = ({
   const dispatch = useAppDispatch()
   const { isLoading } = usePortfolioContext()
   const { mode, showValueMode } = useAppSelector(
-    (state) => ({
+    state => ({
       mode: state.portfolioReducer.portfolios[0].mode,
       showValueMode: state.portfolioReducer.portfolios[0].showValueMode,
     }),

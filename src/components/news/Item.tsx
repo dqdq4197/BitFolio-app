@@ -55,13 +55,13 @@ const Item = ({ item, currentCategory }: ItemProps) => {
       })
 
       Promise.all([translateTitle, translateContent])
-        .then((res) => {
+        .then(res => {
           setTitle(res[0][0])
           setContent(res[1][0])
           setDidTranslate(true)
           setTranslateLoading(false)
         })
-        .catch((e) => console.log('Error: google translate', e))
+        .catch(e => console.log('Error: google translate', e))
     } else {
       setTitle(item.title)
       setContent(item.body)
@@ -99,7 +99,7 @@ const Item = ({ item, currentCategory }: ItemProps) => {
           />
         </FlexBox>
         <CategoriesWrap>
-          {item.categories.split('|').map((category) => {
+          {item.categories.split('|').map(category => {
             return (
               <CategoryWrap key={category}>
                 {Array.isArray(currentCategory) &&

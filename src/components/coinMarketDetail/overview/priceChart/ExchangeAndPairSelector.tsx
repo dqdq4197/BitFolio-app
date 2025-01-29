@@ -19,7 +19,7 @@ const { width: DWidth } = Dimensions.get('window')
 
 const exchanges = Object.entries(EXCHANGES)
   .slice(0, 2)
-  .map((exchange) => ({
+  .map(exchange => ({
     label: exchange[1].label,
     value: exchange[0] as ExchangeType,
   }))
@@ -73,7 +73,7 @@ const ExchangeAndPairSelector = () => {
   )
 
   const onTradingPairChange = useCallback(
-    (value) => {
+    value => {
       if (activeTradingPair === value) return
       setActiveTradingPair(value)
       modalRef.current?.close()

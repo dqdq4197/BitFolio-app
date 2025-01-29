@@ -17,7 +17,7 @@ const VOLUME_HEIGHT = 50
 const { width: WIDTH } = Dimensions.get('window')
 
 const ChartContainer = () => {
-  const { chartType } = useAppSelector((state) => state.baseSettingReducer)
+  const { chartType } = useAppSelector(state => state.baseSettingReducer)
   return (
     <ChartDataProvider>
       <ExchangeAndPairSelector />

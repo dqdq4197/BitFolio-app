@@ -60,7 +60,7 @@ export const transactionSlice = createSlice({
       const { id } = action.payload
 
       state.transactions = state.transactions.filter(
-        (transaction) => transaction.id !== id
+        transaction => transaction.id !== id
       )
     },
     removeAllTransaction: (
@@ -70,7 +70,7 @@ export const transactionSlice = createSlice({
       const { coinId, portfolioId } = action.payload
 
       state.transactions = state.transactions.filter(
-        (transaction) =>
+        transaction =>
           transaction.portfolioId !== portfolioId ||
           transaction.coinId !== coinId
       )
@@ -96,7 +96,7 @@ export const transactionSlice = createSlice({
       } = action.payload
 
       const targetIndex = state.transactions.findIndex(
-        (transaction) => transaction.id === transactionId
+        transaction => transaction.id === transactionId
       )
 
       state.transactions[targetIndex] = {

@@ -43,7 +43,7 @@ type AssetRowProps = {
 
 const SortTab = ({ name, onPress, align = 'right', sortTypes }: TabProps) => {
   const { theme } = useGlobalTheme()
-  const { portfolios, activeIndex } = useAppSelector((state) => ({
+  const { portfolios, activeIndex } = useAppSelector(state => ({
     portfolios: state.portfolioReducer.portfolios,
     activeIndex: state.portfolioReducer.activeIndex,
   }))
@@ -109,7 +109,7 @@ const CoinListSheet = ({ coinsStats, portfolioTotalCosts }: SheetProps) => {
   const { t } = useTranslation()
   const dispatch = useAppDispatch()
   const { portfolio, activeIndex } = useAppSelector(
-    (state) => ({
+    state => ({
       portfolio: state.portfolioReducer.portfolios,
       activeIndex: state.portfolioReducer.activeIndex,
     }),
@@ -148,10 +148,10 @@ const CoinListSheet = ({ coinsStats, portfolioTotalCosts }: SheetProps) => {
         case 'price_desc':
           temp.sort((a, b) => {
             const aPrice = coinsData.find(
-              (coinData) => coinData.id === a.id
+              coinData => coinData.id === a.id
             )!.current_price
             const bPrice = coinsData.find(
-              (coinData) => coinData.id === b.id
+              coinData => coinData.id === b.id
             )!.current_price
 
             return assetSortType === 'price_asc'
@@ -260,7 +260,7 @@ const CoinListSheet = ({ coinsStats, portfolioTotalCosts }: SheetProps) => {
           onPress={sortBySymbol}
           sortTypes={['name_asc', 'name_desc']}
         />
-        {sortedCoins.map((coin) => (
+        {sortedCoins.map(coin => (
           <AssetRow
             key={coin.id}
             id={coin.id}
@@ -306,12 +306,12 @@ const CoinListSheet = ({ coinsStats, portfolioTotalCosts }: SheetProps) => {
               sortTypes={['allocation_asc', 'allocation_desc']}
             />
           </SortBarContainer>
-          {sortedCoins.map((coin) => {
+          {sortedCoins.map(coin => {
             const stats: CoinStatType | undefined | null = coinsStats
               ? coinsStats[coin.id]
               : undefined
             const coinData = coinsData?.find(
-              (coinData) => coinData.id === coin.id
+              coinData => coinData.id === coin.id
             )
 
             const priceStats = coinData

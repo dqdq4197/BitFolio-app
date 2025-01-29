@@ -38,7 +38,7 @@ export default ({
   willNotRequest = false,
 }: ParamsType) => {
   const { currency: localCurrency } = useAppSelector(
-    (state) => state.baseSettingReducer
+    state => state.baseSettingReducer
   )
 
   const getKey = (

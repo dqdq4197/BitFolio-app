@@ -155,14 +155,14 @@ const CreatePortfolioModal = ({ visible, setVisible }: FormModalProps) => {
 
   const handleNameChange = (text: string) => {
     if (text.length > 20) return
-    setFormData((prev) => ({
+    setFormData(prev => ({
       ...prev,
       name: text,
     }))
   }
 
   const handleCurrencyChange = (value: string, iso: string) => {
-    setFormData((prev) => ({
+    setFormData(prev => ({
       ...prev,
       currency: {
         value,
@@ -173,7 +173,7 @@ const CreatePortfolioModal = ({ visible, setVisible }: FormModalProps) => {
 
   const handleNameFocus = () => {
     if (formData.name === t('portfolio.new portfolio')) {
-      setFormData((prev) => ({
+      setFormData(prev => ({
         ...prev,
         name: '',
       }))
@@ -183,7 +183,7 @@ const CreatePortfolioModal = ({ visible, setVisible }: FormModalProps) => {
   const handleNameBlur = () => {
     const removedSpace = formData.name.replace(/\s/g, '')
     if (removedSpace === '') {
-      setFormData((prev) => ({
+      setFormData(prev => ({
         ...prev,
         name: t('portfolio.new portfolio'),
       }))

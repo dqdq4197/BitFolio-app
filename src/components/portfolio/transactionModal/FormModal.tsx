@@ -131,7 +131,7 @@ const FormModalLayout = ({
 }: FormModalProps) => {
   const { t } = useTranslation()
   const dispatch = useAppDispatch()
-  const { portfolios } = useAppSelector((state) => state.portfolioReducer)
+  const { portfolios } = useAppSelector(state => state.portfolioReducer)
   const { currency } = useLocales()
   const { theme } = useGlobalTheme()
   const titleAnimate = useRef(new Animated.Value(0)).current
@@ -239,10 +239,10 @@ const FormModalLayout = ({
 
   const isAlreadyHaveAsset = (): boolean => {
     const { coins } = portfolios.find(
-      (portfolio) => portfolio.id === portfolioId
+      portfolio => portfolio.id === portfolioId
     )!
 
-    return coins.find((coin) => coin.id === id) !== undefined
+    return coins.find(coin => coin.id === id) !== undefined
   }
 
   const handleAddTransactionPress = () => {

@@ -75,7 +75,7 @@ const Layout = () => {
     image: '',
     name: '',
   })
-  const { portfolios, activeIndex } = useAppSelector((state) => ({
+  const { portfolios, activeIndex } = useAppSelector(state => ({
     portfolios: state.portfolioReducer.portfolios,
     activeIndex: state.portfolioReducer.activeIndex,
   }))
@@ -95,7 +95,7 @@ const Layout = () => {
 
   const isAlreadyIncludeCoin = useCallback(
     (id: string): boolean => {
-      return portfolioCoins.find((coin) => coin.id === id) !== undefined
+      return portfolioCoins.find(coin => coin.id === id) !== undefined
     },
     [portfolioCoins]
   )
@@ -188,14 +188,14 @@ const Layout = () => {
 
     const regex = createFuzzyMatcher(text, {})
     const result = data.coins
-      .filter((coin) => {
+      .filter(coin => {
         return (
           regex.test(coin.name) ||
           regex.test(coin.id) ||
           regex.test(coin.symbol)
         )
       })
-      .map((coin) => {
+      .map(coin => {
         const coinName = highlightText(coin.name, regex, true)
         const coinSymbol = highlightText(coin.symbol, regex)
         return {

@@ -49,5 +49,5 @@ type WrapProps = {
 }
 
 const SparkLineWrap = styled.View<WrapProps>`
-  width: ${(props) => props.width}px;
+  width: ${props => props.width}px;
 `

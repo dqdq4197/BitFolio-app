@@ -93,7 +93,7 @@ const EnterDetailsView = ({
   // pricepercoin을 사용자가 설정했다면 요청x
 
   useEffect(() => {
-    const index = SETTINGS.findIndex((setting) => setting.key === focusedView)
+    const index = SETTINGS.findIndex(setting => setting.key === focusedView)
 
     if (hScrollViewRef.current) {
       hScrollViewRef.current.scrollTo({
@@ -107,11 +107,11 @@ const EnterDetailsView = ({
       const {
         market_data: { current_price },
       } = coinDetailData
-      setFormData((prev) => ({
+      setFormData(prev => ({
         ...prev,
         pricePerCoin: current_price,
       }))
-      setDummyFormData((prev) => ({
+      setDummyFormData(prev => ({
         ...prev,
         pricePerCoin: current_price,
       }))
@@ -162,7 +162,7 @@ const EnterDetailsView = ({
     if (historySnapshotData && !isPriceFixed) {
       if (historySnapshotData.market_data) {
         const { current_price } = historySnapshotData.market_data
-        setFormData((prev) => ({
+        setFormData(prev => ({
           ...prev,
           pricePerCoin: {
             ...current_price,
@@ -172,7 +172,7 @@ const EnterDetailsView = ({
             }),
           },
         }))
-        setDummyFormData((prev) => ({
+        setDummyFormData(prev => ({
           ...prev,
           pricePerCoin: {
             ...current_price,
@@ -183,13 +183,13 @@ const EnterDetailsView = ({
           },
         }))
       } else {
-        setFormData((prev) => ({
+        setFormData(prev => ({
           ...prev,
           pricePerCoin: {
             [currency]: 0,
           },
         }))
-        setDummyFormData((prev) => ({
+        setDummyFormData(prev => ({
           ...prev,
           pricePerCoin: {
             [currency]: 0,
@@ -207,7 +207,7 @@ const EnterDetailsView = ({
     const dummyKey = focusedView as 'quantity' | 'fee'
     const value = formData[dummyKey]
     if (value !== '0' && value.length > 0) {
-      setUnMountingList((prev) => ({
+      setUnMountingList(prev => ({
         ...prev,
         [dummyKey]: [value.length - 1, ...prev[dummyKey]],
       }))
@@ -220,19 +220,19 @@ const EnterDetailsView = ({
       const value = formData[dummyKey] as string
 
       if (key === 'backspace' && value !== '0') {
-        setFormData((prev) => ({
+        setFormData(prev => ({
           ...prev,
           [focusedView]:
             value.length === 1 ? '0' : value.slice(0, value.length - 1),
         }))
         setTimeout(() => {
-          setUnMountingList((prev) => ({
+          setUnMountingList(prev => ({
             ...prev,
             [dummyKey]: prev[dummyKey].filter(
-              (index) => value.length - 1 !== index
+              index => value.length - 1 !== index
             ),
           }))
-          setDummyFormData((prev) => ({
+          setDummyFormData(prev => ({
             ...prev,
             [focusedView]:
               prev[dummyKey].length === 1
@@ -247,11 +247,11 @@ const EnterDetailsView = ({
         if (value.includes('.') && value.split('.')[1].length > 6) return
         if (key === '.') {
           if (value.indexOf('.') === -1) {
-            setDummyFormData((prev) => ({
+            setDummyFormData(prev => ({
               ...prev,
               [focusedView]: value + key,
             }))
-            setFormData((prev) => ({
+            setFormData(prev => ({
               ...prev,
               [focusedView]: value + key,
             }))
@@ -259,20 +259,20 @@ const EnterDetailsView = ({
           return
         }
         if (value === '0') {
-          setDummyFormData((prev) => ({
+          setDummyFormData(prev => ({
             ...prev,
             [focusedView]: key,
           }))
-          setFormData((prev) => ({
+          setFormData(prev => ({
             ...prev,
             [focusedView]: key,
           }))
         } else {
-          setDummyFormData((prev) => ({
+          setDummyFormData(prev => ({
             ...prev,
             [focusedView]: value + key,
           }))
-          setFormData((prev) => ({
+          setFormData(prev => ({
             ...prev,
             [focusedView]: value + key,
           }))
@@ -283,12 +283,12 @@ const EnterDetailsView = ({
   )
 
   const onIsPriceFiexedChange = () => {
-    setIsPriceFixed((prev) => !prev)
+    setIsPriceFixed(prev => !prev)
   }
 
   const setDate = (date: number) => {
     // dd-mm-yyyy
-    setFormData((prev) => ({
+    setFormData(prev => ({
       ...prev,
       date,
     }))
@@ -299,7 +299,7 @@ const EnterDetailsView = ({
     const value = formData[dummyKey]![currency].toString()
 
     if (value !== '0' && value.length > 0) {
-      setUnMountingList((prev) => ({
+      setUnMountingList(prev => ({
         ...prev,
         [focusedView]: [value.length - 1, ...prev[dummyKey]],
       }))
@@ -314,7 +314,7 @@ const EnterDetailsView = ({
       const dummyKey = focusedView as 'pricePerCoin'
 
       if (key === 'backspace' && value !== '0') {
-        setFormData((prev) => ({
+        setFormData(prev => ({
           ...prev,
           [focusedView]: {
             [currency]:
@@ -322,13 +322,13 @@ const EnterDetailsView = ({
           },
         }))
         setTimeout(() => {
-          setUnMountingList((prev) => ({
+          setUnMountingList(prev => ({
             ...prev,
             [focusedView]: prev[dummyKey].filter(
-              (index) => value.length - 1 !== index
+              index => value.length - 1 !== index
             ),
           }))
-          setDummyFormData((prev) => ({
+          setDummyFormData(prev => ({
             ...prev,
             [focusedView]: {
               [currency]:
@@ -348,13 +348,13 @@ const EnterDetailsView = ({
         if (value.includes('.') && value.split('.')[1].length > 6) return
         if (key === '.') {
           if (value.indexOf('.') === -1) {
-            setDummyFormData((prev) => ({
+            setDummyFormData(prev => ({
               ...prev,
               [focusedView]: {
                 [currency]: value + key,
               },
             }))
-            setFormData((prev) => ({
+            setFormData(prev => ({
               ...prev,
               [focusedView]: {
                 [currency]: value + key,
@@ -364,26 +364,26 @@ const EnterDetailsView = ({
           return
         }
         if (value === '0') {
-          setDummyFormData((prev) => ({
+          setDummyFormData(prev => ({
             ...prev,
             [focusedView]: {
               [currency]: key,
             },
           }))
-          setFormData((prev) => ({
+          setFormData(prev => ({
             ...prev,
             [focusedView]: {
               [currency]: key,
             },
           }))
         } else {
-          setDummyFormData((prev) => ({
+          setDummyFormData(prev => ({
             ...prev,
             [focusedView]: {
               [currency]: value + key,
             },
           }))
-          setFormData((prev) => ({
+          setFormData(prev => ({
             ...prev,
             [focusedView]: {
               [currency]: value + key,
@@ -398,7 +398,7 @@ const EnterDetailsView = ({
   const setNotes = (text: string) => {
     if (text.length > NOTES_MAX_LENGTH) return
 
-    setFormData((prev) => ({
+    setFormData(prev => ({
       ...prev,
       notes: text,
     }))

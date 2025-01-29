@@ -52,7 +52,7 @@ const Layout = () => {
     animationEasing,
   } = useKeyboard()
   const textInputRef = useRef<TextInput>(null)
-  const { recentSearches } = useAppSelector((state) => state.baseSettingReducer)
+  const { recentSearches } = useAppSelector(state => state.baseSettingReducer)
   const [coins, setCoins] = useState<CoinsType[]>([])
   const [query, setQuery] = useState('')
   const [searchesData, setSearchesData] = useState<SearchCoin[]>([])
@@ -70,14 +70,14 @@ const Layout = () => {
 
   useEffect(() => {
     if (searchData) {
-      let filteredData = searchData?.coins.filter((coin) =>
+      let filteredData = searchData?.coins.filter(coin =>
         recentSearches.includes(coin.id)
       )
       filteredData = filteredData.sort(
         (a, b) => recentSearches.indexOf(a.id) - recentSearches.indexOf(b.id)
       )
       filteredData = filteredData.filter((coin, index) => {
-        const idx = filteredData.findIndex((res) => res.id === coin.id)
+        const idx = filteredData.findIndex(res => res.id === coin.id)
         return idx === index
       })
       setSearchesData(filteredData)
@@ -139,14 +139,14 @@ const Layout = () => {
     } else {
       const regex = createFuzzyMatcher(text, {})
       const result = searchData.coins
-        .filter((coin) => {
+        .filter(coin => {
           return (
             regex.test(coin.name) ||
             regex.test(coin.id) ||
             regex.test(coin.symbol)
           )
         })
-        .map((coin) => {
+        .map(coin => {
           const coinName = highlightText(coin.name, regex, true)
           const coinSymbol = highlightText(coin.symbol, regex)
 

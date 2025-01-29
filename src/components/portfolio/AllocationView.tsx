@@ -140,7 +140,7 @@ const AllocationView = ({ coins, tatalCosts, mode }: AllocationViewProps) => {
   if (!coins || !tatalCosts) return <></>
 
   const coinArr = Object.entries(coins)
-  const pieData = coinArr.map((coin) => {
+  const pieData = coinArr.map(coin => {
     const label = coin[0]
     const { holding_costs } = coin[1]
     return {
@@ -152,7 +152,7 @@ const AllocationView = ({ coins, tatalCosts, mode }: AllocationViewProps) => {
     }
   })
 
-  const legendData = coinArr.map((coin) => {
+  const legendData = coinArr.map(coin => {
     return {
       name: coin[1].symbol.toUpperCase(),
     }
@@ -183,7 +183,7 @@ const AllocationView = ({ coins, tatalCosts, mode }: AllocationViewProps) => {
                 return [
                   {
                     target: 'labels',
-                    mutation: (props) => {
+                    mutation: props => {
                       if (activeIndex === props.index) {
                         setActiveIndex(null)
                       } else {
@@ -218,7 +218,7 @@ const AllocationView = ({ coins, tatalCosts, mode }: AllocationViewProps) => {
                 return [
                   {
                     target: 'data',
-                    mutation: (props) => {
+                    mutation: props => {
                       if (activeIndex === props.index) {
                         setActiveIndex(null)
                       } else {

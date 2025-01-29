@@ -88,7 +88,7 @@ export const portfolioSlice = createSlice({
 
       const isAlreadyInclude =
         defaultPortfolio.coins.findIndex(
-          (portfolioCoin) => portfolioCoin.id === coin.id
+          portfolioCoin => portfolioCoin.id === coin.id
         ) !== -1
 
       if (isAlreadyInclude) return
@@ -106,10 +106,10 @@ export const portfolioSlice = createSlice({
       const { portfolios } = state
 
       const targetPortfolioIndex = portfolios.findIndex(
-        (portfolio) => portfolio.id === portfolioId
+        portfolio => portfolio.id === portfolioId
       )
       const targetPortfolio = portfolios[targetPortfolioIndex]
-      const coins = targetPortfolio.coins.filter((coin) => coin.id !== coinId)
+      const coins = targetPortfolio.coins.filter(coin => coin.id !== coinId)
 
       targetPortfolio.coins = coins
     },
@@ -117,7 +117,7 @@ export const portfolioSlice = createSlice({
       const { coinId, state: coinState } = action.payload
       const defaultPortfolio = state.portfolios[0]
       const coinIdx = defaultPortfolio.coins.findIndex(
-        (coin) => coin.id === coinId
+        coin => coin.id === coinId
       )
 
       defaultPortfolio.coins[coinIdx].state = coinState

@@ -118,13 +118,13 @@ const Table = styled.View`
 
 const Row = styled.View<RowProps>`
   flex-direction: row;
-  ${(props) =>
+  ${props =>
     props.top &&
     css`
       border-top-width: 1px;
       border-top-color: ${props.theme.base.background[300]};
     `}
-  ${(props) =>
+  ${props =>
     props.bottom &&
     css`
       border-bottom-width: 1px;
@@ -135,7 +135,7 @@ const Row = styled.View<RowProps>`
 const Col = styled.View<ColProps>`
   width: 50%;
   padding: 10px ${({ theme }) => theme.content.spacing};
-  ${(props) =>
+  ${props =>
     props.left &&
     css`
       border-left-width: 1px;

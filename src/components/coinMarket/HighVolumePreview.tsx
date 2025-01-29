@@ -35,7 +35,7 @@ const HighVolumePreview = ({ onPressItem }: ListProps) => {
       paddingBottomZero
       parentPaddingZero
     >
-      {data?.map((res) => {
+      {data?.map(res => {
         return <Item key={res.id} item={res} onPressItem={onPressItem} />
       })}
       <ShowAllButton route="CoinHighVolume" />

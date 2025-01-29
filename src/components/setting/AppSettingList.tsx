@@ -24,7 +24,7 @@ const AppSettingList = ({
   const { t } = useTranslation()
   const { scheme } = useGlobalTheme()
   const { language, currency } = useLocales()
-  const { launchScreen } = useAppSelector((state) => ({
+  const { launchScreen } = useAppSelector(state => ({
     launchScreen: state.baseSettingReducer.launchScreen,
   }))
 

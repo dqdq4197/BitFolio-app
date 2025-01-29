@@ -43,7 +43,7 @@ export function FeedBackAlertProvider({ children }: ProviderProps) {
   })
 
   const clearAlert = useCallback((feedbackType: FeedBackType) => {
-    setFeedbackTypes((prev) => ({ ...prev, [feedbackType]: null }))
+    setFeedbackTypes(prev => ({ ...prev, [feedbackType]: null }))
   }, [])
 
   const openAlert = useCallback(
@@ -55,7 +55,7 @@ export function FeedBackAlertProvider({ children }: ProviderProps) {
       severity,
     }: OpenAlertParams) => {
       const props = { message, duration, onPress, id: uuidv4(), severity }
-      setFeedbackTypes((prev) => ({ ...prev, [type]: props }))
+      setFeedbackTypes(prev => ({ ...prev, [type]: props }))
     },
     []
   )

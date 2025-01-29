@@ -100,7 +100,7 @@ const PortfolioAnalysisSheet = ({ portfolioStats }: SheetProps) => {
   const dispatch = useAppDispatch()
   const { isLoading } = usePortfolioContext()
   const { portfolio, activeIndex } = useAppSelector(
-    (state) => ({
+    state => ({
       portfolio: state.portfolioReducer.portfolios,
       activeIndex: state.portfolioReducer.activeIndex,
     }),

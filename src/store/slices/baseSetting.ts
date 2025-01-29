@@ -103,7 +103,7 @@ export const baseSettingSlice = createSlice({
       let newRecentlyViewed = []
       if (state.recentlyViewed.includes(payload)) {
         newRecentlyViewed = state.recentlyViewed.filter(
-          (coinId) => coinId !== payload
+          coinId => coinId !== payload
         )
         newRecentlyViewed = [...newRecentlyViewed, payload]
       } else {
@@ -116,7 +116,7 @@ export const baseSettingSlice = createSlice({
       const { payload } = action
       let newWatchList = []
       if (state.watchList.includes(payload)) {
-        newWatchList = state.watchList.filter((coinId) => coinId !== payload)
+        newWatchList = state.watchList.filter(coinId => coinId !== payload)
       } else {
         newWatchList = [...state.watchList, payload]
       }
@@ -124,7 +124,7 @@ export const baseSettingSlice = createSlice({
     },
     changeRecentSearches: (state, action: PayloadAction<string>) => {
       const temp = state.recentSearches.filter(
-        (coinId) => coinId !== action.payload
+        coinId => coinId !== action.payload
       )
       temp.unshift(action.payload)
       if (temp.length > 7) temp.pop()

@@ -92,9 +92,7 @@ const TabBar = ({
 
     return position.interpolate({
       inputRange,
-      outputRange: measures.map(
-        (measure) => measure.width / standardSize + 0.1
-      ),
+      outputRange: measures.map(measure => measure.width / standardSize + 0.1),
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputRange, measures, contentSize])
@@ -105,7 +103,7 @@ const TabBar = ({
     return position.interpolate({
       inputRange,
       outputRange: measures.map(
-        (measure) => measure.left - (standardSize - measure.width) / 2
+        measure => measure.left - (standardSize - measure.width) / 2
       ),
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -150,7 +148,7 @@ const TabBar = ({
 
             const opacity = position.interpolate({
               inputRange,
-              outputRange: inputRange.map((i) => (i === index ? 1 : 0.6)),
+              outputRange: inputRange.map(i => (i === index ? 1 : 0.6)),
             })
 
             return (

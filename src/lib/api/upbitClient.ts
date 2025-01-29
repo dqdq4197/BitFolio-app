@@ -22,7 +22,7 @@ export const upbitClient: UpBitClientType = {
       },
     }
   },
-  ticker: (params) => {
+  ticker: params => {
     let { markets } = params
     if (Array.isArray(markets)) {
       markets = markets.join(',')

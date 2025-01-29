@@ -458,7 +458,7 @@ const DefaultControlBar = () => {
         cancelButtonIndex,
         textStyle: { color: 'black' },
       },
-      async (buttonIndex) => {
+      async buttonIndex => {
         // Do something here depending on the button index selected
         if (buttonIndex === 0) {
           ;(async () => {
@@ -658,7 +658,7 @@ const Container = styled.View`
   background-color: ${({ theme }) => theme.base.background[200]};
 `
 const UtilsWrap = styled.View<UtilsWrapProps>`
-  flex: ${(props) => props.flex};
+  flex: ${props => props.flex};
   flex-direction: row;
 `
 const UtilBtn = styled.TouchableOpacity`

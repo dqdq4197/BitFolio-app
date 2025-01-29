@@ -37,7 +37,7 @@ const BottomModal = forwardRef(
     { children, snapPoints, bgColor, handleColor, ...props }: ModalProps,
     ref: React.Ref<BottomSheetModal>
   ) => {
-    const renderBackdrop = React.useCallback((props) => {
+    const renderBackdrop = React.useCallback(props => {
       /** Fix. https://github.com/gorhom/react-native-bottom-sheet/issues/779
        *  해당 이슈로 인해 임시로 PR이 완료될때까지 customBackdrop 사용
        *  PR이 완료되면 appearsOnIndex, disappearsOnIndex 값을 바꾸거나 제공하는 backdrop으로 대체.

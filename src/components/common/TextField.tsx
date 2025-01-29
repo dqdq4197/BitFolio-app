@@ -142,7 +142,7 @@ const TextField = forwardRef<TextInput, TextFieldProps>(
     })
 
     const handleSecureIconPress = () => {
-      setIsSecure((prev) => !prev)
+      setIsSecure(prev => !prev)
     }
 
     return (

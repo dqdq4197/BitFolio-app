@@ -69,18 +69,18 @@ const Container = styled.View<Props>`
     transparent ? 'transparent' : theme.base.background.surface};
   padding: ${({ theme }) =>
     `${theme.content.surfacePadding} ${theme.content.spacing}`};
-  ${(props) =>
+  ${props =>
     props.parentPaddingZero &&
     css`
       padding-left: 0;
       padding-right: 0;
     `}
-  ${(props) =>
+  ${props =>
     props.paddingBottomZero &&
     css`
       padding-bottom: 0;
     `}
-  ${(props) =>
+  ${props =>
     !props.marginTopZero &&
     css`
       margin-top: ${props.theme.content.blankSpacing};
@@ -89,12 +89,12 @@ const Container = styled.View<Props>`
 
 const TitleWrap = styled.View<Props>`
   flex-direction: row;
-  ${(props) =>
+  ${props =>
     !props.marginBottomZero &&
     css`
       margin-bottom: 20px;
     `}
-  ${(props) =>
+  ${props =>
     props.parentPaddingZero &&
     css`
       padding: 0 ${props.theme.content.spacing};

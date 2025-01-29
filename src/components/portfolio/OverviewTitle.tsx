@@ -23,7 +23,7 @@ const OverviewTitle = ({
   const { theme } = useGlobalTheme()
   const { currency } = useLocales()
   const { portfolio, activeIndex } = useAppSelector(
-    (state) => ({
+    state => ({
       portfolio: state.portfolioReducer.portfolios,
       activeIndex: state.portfolioReducer.activeIndex,
     }),

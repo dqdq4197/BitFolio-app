@@ -202,7 +202,7 @@ const LineChart = ({ WIDTH, HEIGHT, PADDING, VOLUME_HEIGHT }: ChartProps) => {
                   strokeDasharray: 3,
                 },
               }}
-              data={points.map((v) => [v[0], prevClosingPrice])}
+              data={points.map(v => [v[0], prevClosingPrice])}
               x={0}
               y={1}
               interpolation="linear"

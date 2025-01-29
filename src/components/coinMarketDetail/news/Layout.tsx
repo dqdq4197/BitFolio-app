@@ -54,7 +54,7 @@ const Layout = () => {
   return (
     <FlatList
       data={data[0].Data}
-      keyExtractor={(item) => item.id}
+      keyExtractor={item => item.id}
       contentContainerStyle={{
         backgroundColor: theme.base.background.surface,
       }}

@@ -33,7 +33,7 @@ const SettingsSelectionBar = ({
       }}
     >
       <SelectionBarWrap>
-        {SETTINGS.map((setting) => {
+        {SETTINGS.map(setting => {
           const isFocused = setting.key === focusedView
           return (
             <SelectionTab

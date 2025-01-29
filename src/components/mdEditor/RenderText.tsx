@@ -119,7 +119,7 @@ const RenderText = ({ type, children, index }: RenderTextProps) => {
     const { ENTER, BACKSPACE, LINEPOP } = ACTIONS
     // console.log(index, ':',type);
     while (i++ < 3) {
-      context = context.map((text) => {
+      context = context.map(text => {
         if (typeof text === 'string') {
           if (i === 1) return stringToLink(text)
           if (i === 2) return stringToItalic(text)

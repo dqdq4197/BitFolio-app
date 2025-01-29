@@ -93,7 +93,7 @@ export type PortfolioStatsType = {
 }
 
 const usePortfolioStats = ({ id, coinsData }: StatsProps) => {
-  const { transactions } = useAppSelector((state) => state.transactionReducer)
+  const { transactions } = useAppSelector(state => state.transactionReducer)
   const { currency } = useLocales()
   const [portfolioStats, setPortfolioStats] =
     useState<PortfolioStatsType | null>(null)
@@ -101,13 +101,13 @@ const usePortfolioStats = ({ id, coinsData }: StatsProps) => {
   useEffect(() => {
     if (coinsData) {
       const filteredTransactions = transactions.filter(
-        (transaction) => transaction.portfolioId === id
+        transaction => transaction.portfolioId === id
       )
       let coinStats: { [key: string]: CoinStatType } = {}
       const now = +new Date()
       const oneDay = 24 * 60 * 60 * 1000
 
-      filteredTransactions.forEach((transaction) => {
+      filteredTransactions.forEach(transaction => {
         const {
           coinId,
           fee,
@@ -118,7 +118,7 @@ const usePortfolioStats = ({ id, coinsData }: StatsProps) => {
           date,
           symbol,
         } = transaction
-        const coinData = coinsData.find((coin) => coin.id === coinId)
+        const coinData = coinsData.find(coin => coin.id === coinId)
         if (!coinData) return
 
         const pricePerUsd = pricePerCoin[currency] / pricePerCoin.usd
@@ -211,7 +211,7 @@ const usePortfolioStats = ({ id, coinsData }: StatsProps) => {
       let portfolio_change_24h = 0
       let portfolio_all_time_pl = 0
 
-      Object.keys(coinStats).forEach((key) => {
+      Object.keys(coinStats).forEach(key => {
         coinStats[key].holding_quantity =
           coinStats[key].order_quantity + coinStats[key].transfer_quantity
         coinStats[key].holding_costs =

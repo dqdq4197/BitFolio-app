@@ -24,7 +24,7 @@ const FiltersBar = () => {
   const { t } = useTranslation()
   const dispatch = useAppDispatch()
   const { feeds, categories } = useAppSelector(
-    (state) => ({
+    state => ({
       feeds: state.newsReducer.feeds,
       categories: state.newsReducer.categories,
     }),

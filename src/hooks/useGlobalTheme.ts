@@ -7,7 +7,7 @@ import { useAppSelector, useAppDispatch } from './useRedux'
 const useGlobarTheme = () => {
   const dispatch = useAppDispatch()
   const { localScheme, deviceScheme } = useAppSelector(
-    (state) => state.baseSettingReducer
+    state => state.baseSettingReducer
   )
 
   const scheme = useMemo(() => {

@@ -41,9 +41,9 @@ export default function TextStyle({ ...props }: TextStyleProps) {
 }
 
 const Text = styled.Text<TextStyleProps>`
-  margin: ${(props) => props.margin ?? 0};
-  padding: ${(props) => props.padding ?? 0};
-  ${(props) => props.lineHeight && `line-height: ${props.lineHeight}px`};
+  margin: ${props => props.margin ?? 0};
+  padding: ${props => props.padding ?? 0};
+  ${props => props.lineHeight && `line-height: ${props.lineHeight}px`};
 
   ${({
     color,

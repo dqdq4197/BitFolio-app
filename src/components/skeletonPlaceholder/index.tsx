@@ -78,7 +78,7 @@ function SkeletonPlaceholder({
 
   if (!layout?.width || !layout?.height) {
     return (
-      <View onLayout={(event) => setLayout(event.nativeEvent.layout)}>
+      <View onLayout={event => setLayout(event.nativeEvent.layout)}>
         {children}
       </View>
     )

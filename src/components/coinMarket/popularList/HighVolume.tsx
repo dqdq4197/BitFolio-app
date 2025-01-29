@@ -63,7 +63,7 @@ const HighVolume = () => {
   return (
     <FlatList
       data={data}
-      keyExtractor={(item) => item.id + item.name}
+      keyExtractor={item => item.id + item.name}
       contentContainerStyle={{
         backgroundColor: theme.base.background.surface,
       }}

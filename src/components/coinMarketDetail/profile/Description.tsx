@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react'
-import { LayoutAnimation, UIManager, Platform } from 'react-native'
-import styled from 'styled-components/native'
-import { useTranslation } from 'react-i18next'
-import * as WebBrowser from 'expo-web-browser'
 import { MaterialIcons } from '@expo/vector-icons'
+import * as WebBrowser from 'expo-web-browser'
+import React, { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { LayoutAnimation, Platform, UIManager } from 'react-native'
+import styled from 'styled-components/native'
 
 import useGlobalTheme from '/hooks/useGlobalTheme'
 
-import Text from '/components/common/Text'
-import Image from '/components/common/Image'
 import HorizontalLine from '/components/common/HorizontalLine'
+import Image from '/components/common/Image'
+import Text from '/components/common/Text'
 
 if (Platform.OS === 'android') {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -41,7 +41,7 @@ const Description = ({
     LayoutAnimation.configureNext(
       LayoutAnimation.create(200, 'easeInEaseOut', 'opacity')
     )
-    setIsShow((prev) => !prev)
+    setIsShow(prev => !prev)
   }
 
   useEffect(() => {

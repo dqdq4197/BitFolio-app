@@ -52,7 +52,7 @@ const NumericPad = ({
 
   return (
     <Container height={height}>
-      {KEYS.map((key) => {
+      {KEYS.map(key => {
         return (
           <Button
             height={height}
@@ -86,14 +86,14 @@ type StyledProps = {
 
 const Container = styled.View<StyledProps>`
   width: ${width - 32}px;
-  height: ${(props) => props.height}px;
+  height: ${props => props.height}px;
   flex-direction: row;
   flex-wrap: wrap;
 `
 
 const Button = styled.View<StyledProps>`
   width: ${(width - 32) / 3}px;
-  height: ${(props) => props.height / 4}px;
+  height: ${props => props.height / 4}px;
   align-items: center;
   justify-content: center;
 `

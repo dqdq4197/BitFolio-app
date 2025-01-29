@@ -87,7 +87,7 @@ const ItemContainer = styled.TouchableHighlight`
 `
 
 const ItemColumn = styled.View<ColumnProps>`
-  flex: ${(props) => props.column};
+  flex: ${props => props.column};
   flex-direction: row;
   align-items: center;
   justify-content: center;

@@ -29,7 +29,7 @@ const RecentlyViewedList = ({ onPressItem }: ListProps) => {
   const navigation =
     useNavigation<HomeScreenProps<'CoinMarketHome'>['navigation']>()
   const { currency } = useLocales()
-  const { recentlyViewed } = useAppSelector((state) => state.baseSettingReducer)
+  const { recentlyViewed } = useAppSelector(state => state.baseSettingReducer)
   const [newData, setNewData] = useState<CoinMarketReturn[]>([])
   const { data, isValidating } = useRequest<CoinMarketReturn[]>(
     CoinGecko.coin.markets({
@@ -48,8 +48,8 @@ const RecentlyViewedList = ({ onPressItem }: ListProps) => {
       )
       setNewData(temp)
     } else {
-      setNewData((prevState) =>
-        prevState.filter((coinId) => recentlyViewed.includes(coinId.id))
+      setNewData(prevState =>
+        prevState.filter(coinId => recentlyViewed.includes(coinId.id))
       )
     }
   }, [recentlyViewed, isValidating, data])
@@ -67,7 +67,7 @@ const RecentlyViewedList = ({ onPressItem }: ListProps) => {
           paddingHorizontal: parseInt(theme.content.spacing, 10),
         }}
       >
-        {newData?.map((coin) => {
+        {newData?.map(coin => {
           return (
             <Card
               key={coin.id}

@@ -73,17 +73,17 @@ const Losers = () => {
   return (
     <FlatList
       data={usdData.filter(
-        (coin) =>
+        coin =>
           coin.price_change_percentage_24h &&
           coin.total_volume >= 50000 &&
           coin.price_change_percentage_24h < 0
       )}
-      keyExtractor={(item) => item.id + item.symbol}
+      keyExtractor={item => item.id + item.symbol}
       contentContainerStyle={{
         backgroundColor: theme.base.background.surface,
       }}
       renderItem={({ item, index }) => {
-        const nowItem = data.filter((coin) => coin.id === item.id)[0]
+        const nowItem = data.filter(coin => coin.id === item.id)[0]
         if (!nowItem) return <></>
         return (
           <Item

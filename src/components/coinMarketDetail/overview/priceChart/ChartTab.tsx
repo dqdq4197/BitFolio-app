@@ -25,7 +25,7 @@ const ChartTab = () => {
   const { theme } = useGlobalTheme()
   const { interval, changeRate } = useChartState()
   const { chartType, exchange, chartOptions } = useAppSelector(
-    (state) => state.baseSettingReducer
+    state => state.baseSettingReducer
   )
   const dispatch = useAppDispatch()
 
@@ -59,7 +59,7 @@ const ChartTab = () => {
         horizontal
         showsHorizontalScrollIndicator={false}
       >
-        {interval.map((frame) => {
+        {interval.map(frame => {
           return (
             <Selector
               key={frame.value}

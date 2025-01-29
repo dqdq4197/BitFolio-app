@@ -25,7 +25,7 @@ const CategoryFilterModal = ({
   const { t } = useTranslation()
   const dispatch = useAppDispatch()
   const { theme } = useGlobalTheme()
-  const { categories } = useAppSelector((state) => state.newsReducer)
+  const { categories } = useAppSelector(state => state.newsReducer)
   const [categoriesTemp, setCategoriesTemp] = useState(categories)
 
   const handleSavePress = useCallback(() => {
@@ -43,15 +43,15 @@ const CategoryFilterModal = ({
         setCategoriesTemp(ALL_NEWS_CATEGORIES)
         return
       }
-      const isContain = categoriesTemp.findIndex((category) => category === key)
+      const isContain = categoriesTemp.findIndex(category => category === key)
 
       if (isContain === -1) {
-        setCategoriesTemp((prevState) => [...prevState, key])
+        setCategoriesTemp(prevState => [...prevState, key])
       } else if (categoriesTemp.length === 1) {
         setCategoriesTemp(ALL_NEWS_CATEGORIES)
       } else {
-        setCategoriesTemp((prevState) =>
-          (prevState as string[]).filter((category) => category !== key)
+        setCategoriesTemp(prevState =>
+          (prevState as string[]).filter(category => category !== key)
         )
       }
     }
@@ -102,7 +102,7 @@ const CategoryFilterModal = ({
             />
           </>
         </Row>
-        {CategoriesData.map((category) => {
+        {CategoriesData.map(category => {
           return (
             <Row
               key={category.categoryName}
@@ -120,7 +120,7 @@ const CategoryFilterModal = ({
                   color={
                     categoriesTemp !== ALL_NEWS_CATEGORIES &&
                     categoriesTemp.findIndex(
-                      (temp) => temp === category.categoryName
+                      temp => temp === category.categoryName
                     ) !== -1
                       ? theme.base.primaryColor
                       : 'transparent'

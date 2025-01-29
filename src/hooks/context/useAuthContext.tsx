@@ -48,7 +48,7 @@ export function AuthProvider({ children }: ProviderProps) {
    * 이메일 인증 완료하면 user.reload() 실행
    */
   useEffect(() => {
-    const subscriber = auth().onAuthStateChanged((user) => {
+    const subscriber = auth().onAuthStateChanged(user => {
       setCurrentUser(user)
 
       if (isLoading) {

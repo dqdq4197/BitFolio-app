@@ -66,7 +66,7 @@ const CoinMarketList = () => {
       <View>
         <FlatList
           data={data?.flat()}
-          keyExtractor={(item) => item.id}
+          keyExtractor={item => item.id}
           contentContainerStyle={{
             backgroundColor: theme.base.background.surface,
           }}

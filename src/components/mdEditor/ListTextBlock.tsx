@@ -254,7 +254,7 @@ const ListTextBlock = ({ text, style, listIndex, contentIndex }: ListProps) => {
         onKeyPress={handleInputKeyPress}
         onFocus={handleFocus}
         onSelectionChange={handleSelectionChange}
-        onEndEditing={(event) => {
+        onEndEditing={event => {
           textInputRef.current?.setNativeProps({
             start: text.length,
             end: text.length,
