@@ -1,14 +1,14 @@
-import React from 'react'
-import styled from 'styled-components/native'
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'
-import { useTranslation } from 'react-i18next'
 import { format } from 'date-fns'
-import { ko, enUS } from 'date-fns/locale'
+import { enUS, ko } from 'date-fns/locale'
+import React from 'react'
+import { useTranslation } from 'react-i18next'
+import styled from 'styled-components/native'
 
 import useGlobalTheme from '/hooks/useGlobalTheme'
 import useLocales from '/hooks/useLocales'
-import { TransactionType } from '/store/slices/transaction'
 import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat'
+import { TransactionType } from '/store/slices/transaction'
 
 import IncreaseDecreaseValue from '/components/common/IncreaseDecreaseValue'
 import Text from '/components/common/Text'
@@ -31,14 +31,14 @@ const TYPES: TypesType = {
   buy: {
     name: 'buy',
     icon: (color: string) => (
-      <Ionicons name="ios-arrow-down-circle-sharp" size={24} color={color} />
+      <Ionicons name="arrow-down-circle-sharp" size={24} color={color} />
     ),
     symbol: 'positive',
   },
   sell: {
     name: 'sell',
     icon: (color: string) => (
-      <Ionicons name="ios-arrow-up-circle-sharp" size={24} color={color} />
+      <Ionicons name="arrow-up-circle-sharp" size={24} color={color} />
     ),
     symbol: 'negative',
   },

@@ -1,36 +1,36 @@
+import { useActionSheet } from '@expo/react-native-action-sheet'
+import {
+  FontAwesome,
+  FontAwesome5,
+  Foundation,
+  Ionicons,
+  MaterialCommunityIcons,
+  MaterialIcons,
+  Octicons,
+} from '@expo/vector-icons'
+import { easeQuadOut } from 'd3-ease'
+import * as ImagePicker from 'expo-image-picker'
 import React, { useEffect, useRef, useState } from 'react'
 import {
-  Dimensions,
-  Platform,
-  Keyboard,
-  EmitterSubscription,
   Animated,
-  KeyboardEvent,
-  StatusBar,
+  Dimensions,
   Easing,
-  LayoutAnimation,
+  EmitterSubscription,
+  Keyboard,
+  KeyboardEvent,
+  Platform,
 } from 'react-native'
 import styled from 'styled-components/native'
-import * as ImagePicker from 'expo-image-picker'
-import { useActionSheet } from '@expo/react-native-action-sheet'
-import { MaterialIcons } from '@expo/vector-icons'
-import { MaterialCommunityIcons } from '@expo/vector-icons'
-import { FontAwesome } from '@expo/vector-icons'
-import { Foundation } from '@expo/vector-icons'
-import { FontAwesome5 } from '@expo/vector-icons'
-import { Ionicons } from '@expo/vector-icons'
-import { Octicons } from '@expo/vector-icons'
-import { TYPES, ACTIONS, unicodes } from '/lib/constant'
 import {
-  useMdEditorState,
-  useMdEditorDispatch,
-  ParagraphType,
-  ListType,
-  HeaderType,
-  QuoteType,
   ContentsType,
+  HeaderType,
+  ListType,
+  ParagraphType,
+  QuoteType,
+  useMdEditorDispatch,
+  useMdEditorState,
 } from '/hooks/context/useMdEditorContext'
-import { easeCubic, easeCubicIn, easeCubicOut, easeQuadOut } from 'd3-ease'
+import { ACTIONS, TYPES, unicodes } from '/lib/constant'
 
 const { width } = Dimensions.get('window')
 const CONTROLBAR_HEIGHT = 45
@@ -564,7 +564,7 @@ const DefaultControlBar = () => {
       </UtilsWrap>
       <UtilsWrap flex={1}>
         <UtilBtn onPress={handleImagePress}>
-          <Ionicons name="md-image" size={24} color="rgba(255,255,255, .7)" />
+          <Ionicons name="image" size={24} color="rgba(255,255,255, .7)" />
         </UtilBtn>
       </UtilsWrap>
     </>

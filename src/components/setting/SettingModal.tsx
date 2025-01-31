@@ -1,14 +1,14 @@
-import React, { useRef, useCallback, forwardRef } from 'react'
 import { BottomSheetModal } from '@gorhom/bottom-sheet'
+import React, { forwardRef, useCallback, useRef } from 'react'
 
 import useGlobalTheme from '/hooks/useGlobalTheme'
 
-import Modal from '/components/common/BottomSheetModal'
-import SettingRoot from './SettingRoot'
-import ScreenTheme from './ScreenTheme'
-import Language from './Language'
 import Currency from './Currency'
+import Language from './Language'
 import LaunchScreen from './LaunchScreen'
+import ScreenTheme from './ScreenTheme'
+import SettingRoot from './SettingRoot'
+import Modal from '/components/common/BottomSheetModal'
 
 const SettingButton = forwardRef<BottomSheetModal>((_props, ref) => {
   const { theme } = useGlobalTheme()

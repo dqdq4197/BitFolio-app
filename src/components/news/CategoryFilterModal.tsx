@@ -34,27 +34,24 @@ const CategoryFilterModal = ({
   }, [categoriesTemp, dispatch, setVisible])
 
   const handleRowPress = (key: string) => {
-    if (categoriesTemp === ALL_NEWS_CATEGORIES) {
-      if (key === ALL_NEWS_CATEGORIES) return
+    setCategoriesTemp(prevCategoriesTemp => {
+      const isAllSelected = prevCategoriesTemp === ALL_NEWS_CATEGORIES
+      const isKeyAll = key === ALL_NEWS_CATEGORIES
 
-      setCategoriesTemp([key])
-    } else {
-      if (key === ALL_NEWS_CATEGORIES) {
-        setCategoriesTemp(ALL_NEWS_CATEGORIES)
-        return
+      if (isAllSelected) {
+        return key === ALL_NEWS_CATEGORIES ? prevCategoriesTemp : [key]
       }
-      const isContain = categoriesTemp.findIndex(category => category === key)
 
-      if (isContain === -1) {
-        setCategoriesTemp(prevState => [...prevState, key])
-      } else if (categoriesTemp.length === 1) {
-        setCategoriesTemp(ALL_NEWS_CATEGORIES)
-      } else {
-        setCategoriesTemp(prevState =>
-          (prevState as string[]).filter(category => category !== key)
-        )
+      if (isKeyAll) {
+        return ALL_NEWS_CATEGORIES
       }
-    }
+
+      const nextCategories = prevCategoriesTemp.includes(key)
+        ? prevCategoriesTemp.filter(category => category !== key)
+        : [...prevCategoriesTemp, key]
+
+      return nextCategories.length > 0 ? nextCategories : ALL_NEWS_CATEGORIES
+    })
   }
 
   return (

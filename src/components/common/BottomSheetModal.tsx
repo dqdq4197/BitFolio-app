@@ -1,11 +1,11 @@
+import {
+  BottomSheetBackdrop,
+  BottomSheetModal,
+  BottomSheetModalProps,
+} from '@gorhom/bottom-sheet'
 import React, { forwardRef } from 'react'
 import { StyleProp, ViewStyle } from 'react-native'
 import styled, { css } from 'styled-components/native'
-import {
-  BottomSheetModal,
-  BottomSheetModalProps,
-  BottomSheetBackdrop,
-} from '@gorhom/bottom-sheet'
 
 type HandleProps = Pick<ModalProps, 'handleColor'>
 interface BackgroundProps extends Pick<ModalProps, 'bgColor'> {
@@ -32,11 +32,8 @@ const CustomBackground = ({ style, bgColor }: BackgroundProps) => {
   return <BackgroundView style={style} bgColor={bgColor} />
 }
 
-const BottomModal = forwardRef(
-  (
-    { children, snapPoints, bgColor, handleColor, ...props }: ModalProps,
-    ref: React.Ref<BottomSheetModal>
-  ) => {
+const BottomModal = forwardRef<BottomSheetModal, ModalProps>(
+  ({ children, snapPoints, bgColor, handleColor, ...props }, ref) => {
     const renderBackdrop = React.useCallback(props => {
       /** Fix. https://github.com/gorhom/react-native-bottom-sheet/issues/779
        *  해당 이슈로 인해 임시로 PR이 완료될때까지 customBackdrop 사용

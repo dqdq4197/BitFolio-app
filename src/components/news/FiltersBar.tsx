@@ -85,7 +85,7 @@ const FiltersBar = () => {
         <FeedFilterModal
           visible={feedsVisible}
           setVisible={setFeedsVisible}
-          Feeds={data.Data.Feeds}
+          Feeds={data.Data.Feeds.filter(feed => feed.lang === 'EN')}
         />
       )}
       {categoriesVisible && (

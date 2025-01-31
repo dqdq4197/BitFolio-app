@@ -61,23 +61,19 @@ const SortTab = ({ name, onPress, align = 'right', sortTypes }: TabProps) => {
       </CustomText>
       {(active === 0 || active === -1) && (
         <Ionicons
-          name="ios-chevron-down"
+          name="chevron-down"
           size={12}
           color={active === 0 ? theme.base.text[100] : theme.base.text[200]}
         />
       )}
       {active === 1 && (
-        <Ionicons
-          name="ios-chevron-up"
-          size={12}
-          color={theme.base.text[100]}
-        />
+        <Ionicons name="chevron-up" size={12} color={theme.base.text[100]} />
       )}
     </Tab>
   )
 }
 
-const AssetRow = ({ id, image, symbol, name }: AssetRowProps) => {
+const AssetRow = ({ id, image, symbol }: AssetRowProps) => {
   const navigation =
     useNavigation<PortfolioScreenProps<'PortfolioOverview'>['navigation']>()
 
