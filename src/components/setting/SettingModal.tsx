@@ -38,7 +38,6 @@ const SettingButton = forwardRef<BottomSheetModal>((_props, ref) => {
       <Modal
         key="main"
         ref={ref}
-        snapPoints={['70%']}
         bgColor={theme.base.background[100]}
         handleColor={theme.base.background.surface}
       >
@@ -52,7 +51,6 @@ const SettingButton = forwardRef<BottomSheetModal>((_props, ref) => {
       <Modal
         key="screen_theme"
         ref={screenThemeModalRef}
-        snapPoints={['45%']}
         bgColor={theme.base.background[100]}
         handleColor={theme.base.background.surface}
       >
@@ -61,7 +59,6 @@ const SettingButton = forwardRef<BottomSheetModal>((_props, ref) => {
       <Modal
         key="language"
         ref={languageModalRef}
-        snapPoints={['40%']}
         bgColor={theme.base.background[100]}
         handleColor={theme.base.background.surface}
       >
@@ -70,7 +67,6 @@ const SettingButton = forwardRef<BottomSheetModal>((_props, ref) => {
       <Modal
         key="currency"
         ref={currencyModalRef}
-        snapPoints={['50%']}
         bgColor={theme.base.background[100]}
         handleColor={theme.base.background.surface}
       >
@@ -79,7 +75,6 @@ const SettingButton = forwardRef<BottomSheetModal>((_props, ref) => {
       <Modal
         key="launch_screen"
         ref={launchScreenModalRef}
-        snapPoints={['45%']}
         bgColor={theme.base.background[100]}
         handleColor={theme.base.background.surface}
       >

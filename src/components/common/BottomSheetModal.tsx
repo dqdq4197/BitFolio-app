@@ -2,8 +2,10 @@ import {
   BottomSheetBackdrop,
   BottomSheetModal,
   BottomSheetModalProps,
+  BottomSheetView,
+  type BottomSheetBackdropProps,
 } from '@gorhom/bottom-sheet'
-import React, { forwardRef } from 'react'
+import React, { forwardRef, useCallback } from 'react'
 import { StyleProp, ViewStyle } from 'react-native'
 import styled, { css } from 'styled-components/native'
 
@@ -33,8 +35,8 @@ const CustomBackground = ({ style, bgColor }: BackgroundProps) => {
 }
 
 const BottomModal = forwardRef<BottomSheetModal, ModalProps>(
-  ({ children, snapPoints, bgColor, handleColor, ...props }, ref) => {
-    const renderBackdrop = React.useCallback(props => {
+  ({ children, bgColor, handleColor, ...props }, ref) => {
+    const renderBackdrop = useCallback((props: BottomSheetBackdropProps) => {
       /** Fix. https://github.com/gorhom/react-native-bottom-sheet/issues/779
        *  해당 이슈로 인해 임시로 PR이 완료될때까지 customBackdrop 사용
        *  PR이 완료되면 appearsOnIndex, disappearsOnIndex 값을 바꾸거나 제공하는 backdrop으로 대체.
@@ -51,7 +53,6 @@ const BottomModal = forwardRef<BottomSheetModal, ModalProps>(
     return (
       <BottomSheetModal
         ref={ref}
-        snapPoints={snapPoints}
         backdropComponent={renderBackdrop}
         backgroundComponent={({ style }) => (
           <CustomBackground style={style} bgColor={bgColor} />
@@ -69,7 +70,11 @@ const BottomModal = forwardRef<BottomSheetModal, ModalProps>(
         }}
         {...props}
       >
-        {children}
+        <BottomSheetView style={{ flex: 1 }}>
+          {typeof children === 'function'
+            ? children({ data: undefined })
+            : children}
+        </BottomSheetView>
       </BottomSheetModal>
     )
   }

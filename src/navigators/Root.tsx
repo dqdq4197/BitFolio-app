@@ -21,11 +21,6 @@ const RootNavigation = () => {
     <NavigationContainer theme={scheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Main" component={Main} />
-        {/* <Stack.Screen
-          name="Setting"
-          component={Setting}
-          options={{ presentation: 'modal', cardOverlayEnabled: true }}
-        /> */}
       </Stack.Navigator>
     </NavigationContainer>
   )

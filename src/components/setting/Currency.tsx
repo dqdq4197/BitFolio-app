@@ -1,13 +1,12 @@
-import React from 'react'
 import { baseTypes } from 'base-types'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 import useLocales from '/hooks/useLocales'
 import { CURRENCIES } from '/lib/constant'
 
-import SurfaceWrap from '/components/common/SurfaceWrap'
 import Select from '/components/common/Select'
-import Blank from './Blank'
+import SurfaceWrap from '/components/common/SurfaceWrap'
 
 const currencies = Object.entries(CURRENCIES)
 
@@ -39,7 +38,6 @@ const Currency = () => {
           )
         })}
       </Select>
-      <Blank />
     </SurfaceWrap>
   )
 }

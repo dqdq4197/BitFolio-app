@@ -3,9 +3,8 @@ import { useTranslation } from 'react-i18next'
 
 import useGlobalTheme from '/hooks/useGlobalTheme'
 
-import SurfaceWrap from '/components/common/SurfaceWrap'
 import Select from '/components/common/Select'
-import Blank from './Blank'
+import SurfaceWrap from '/components/common/SurfaceWrap'
 
 const ScreenTheme = () => {
   const { localScheme, onSchemeChange } = useGlobalTheme()
@@ -36,7 +35,6 @@ const ScreenTheme = () => {
           enabled={localScheme === 'default'}
         />
       </Select>
-      <Blank />
     </SurfaceWrap>
   )
 }

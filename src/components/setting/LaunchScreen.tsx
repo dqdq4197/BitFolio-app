@@ -1,13 +1,12 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { useAppSelector, useAppDispatch } from '/hooks/useRedux'
+import { useAppDispatch, useAppSelector } from '/hooks/useRedux'
 import { changeLaunchScreen } from '/store/slices/baseSetting'
 import type { MainTabParamList } from '/types/navigation'
 
-import SurfaceWrap from '/components/common/SurfaceWrap'
 import Select from '/components/common/Select'
-import Blank from './Blank'
+import SurfaceWrap from '/components/common/SurfaceWrap'
 
 const LaunchScreen = () => {
   const { t } = useTranslation()
@@ -43,7 +42,6 @@ const LaunchScreen = () => {
           enabled={launchScreen === 'News'}
         />
       </Select>
-      <Blank />
     </SurfaceWrap>
   )
 }

@@ -1,15 +1,15 @@
-import React, { useRef, useCallback } from 'react'
+import { Octicons } from '@expo/vector-icons'
+import { BottomSheetModal } from '@gorhom/bottom-sheet'
+import React, { useCallback, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Dimensions } from 'react-native'
 import styled, { css } from 'styled-components/native'
-import { BottomSheetModal } from '@gorhom/bottom-sheet'
-import { Octicons } from '@expo/vector-icons'
-import { useTranslation } from 'react-i18next'
 
+import { useChartState } from '/hooks/context/useChartContext'
 import useGlobalTheme from '/hooks/useGlobalTheme'
 import { useAppDispatch } from '/hooks/useRedux'
-import { useChartState } from '/hooks/context/useChartContext'
-import { changeChartExchange } from '/store/slices/baseSetting'
 import { EXCHANGES } from '/lib/constant'
+import { changeChartExchange } from '/store/slices/baseSetting'
 import type { ExchangeType } from '/types/common'
 
 import Modal from '/components/common/BottomSheetModal'
@@ -73,7 +73,7 @@ const ExchangeAndPairSelector = () => {
   )
 
   const onTradingPairChange = useCallback(
-    value => {
+    (value: string) => {
       if (activeTradingPair === value) return
       setActiveTradingPair(value)
       modalRef.current?.close()
@@ -112,7 +112,7 @@ const ExchangeAndPairSelector = () => {
       <Modal
         name="chart_exchage_pair"
         ref={modalRef}
-        snapPoints={['60%']}
+        snapPoints={['40%']}
         bgColor={theme.base.background.surface}
         handleColor={theme.base.background.surface}
       >
