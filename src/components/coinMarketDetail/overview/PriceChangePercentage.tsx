@@ -1,13 +1,13 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
+import { VictoryLabelProps } from 'victory'
 import {
+  VictoryAxis,
   VictoryBar,
   VictoryChart,
-  VictoryAxis,
   VictoryGroup,
   VictoryLabel,
 } from 'victory-native'
-import { VictoryLabelProps } from 'victory'
-import { useTranslation } from 'react-i18next'
 
 import useGlobalTheme from '/hooks/useGlobalTheme'
 import { digitToFixed } from '/lib/utils'
@@ -85,6 +85,7 @@ const PriceChangePercentage = ({
               },
             }}
             labels={({ datum }) => `${digitToFixed(datum.y, 2)}`}
+            labelComponent={<VictoryLabel />}
           />
           <VictoryBar
             labels={({ datum }) => `${datum.x}`}

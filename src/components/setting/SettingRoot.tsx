@@ -3,7 +3,6 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 import AppSettingList from './AppSettingList'
-import Blank from './Blank'
 import List from '/components/common/List'
 import SurfaceWrap from '/components/common/SurfaceWrap'
 
@@ -41,7 +40,6 @@ const SettingRoot = ({
         <List>
           <List.Row left={t('setting.app version')} right={APP_VERSION} />
         </List>
-        <Blank />
       </SurfaceWrap>
     </>
   )

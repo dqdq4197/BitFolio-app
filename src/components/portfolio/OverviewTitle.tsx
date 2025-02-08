@@ -47,7 +47,7 @@ const OverviewTitle = ({
       {mode === 'private' ? (
         <PrivateWrap>
           <Ionicons
-            name="md-eye-off-outline"
+            name="eye-off-outline"
             size={25}
             color={theme.base.text[200]}
           />

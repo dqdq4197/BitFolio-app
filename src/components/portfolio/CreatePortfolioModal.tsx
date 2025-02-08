@@ -1,17 +1,17 @@
-import React, { useState, useRef, useEffect } from 'react'
-import { Animated } from 'react-native'
-import { useTranslation } from 'react-i18next'
-import styled from 'styled-components/native'
 import { Ionicons, Octicons } from '@expo/vector-icons'
 import { baseTypes } from 'base-types'
+import React, { useEffect, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { Animated } from 'react-native'
+import styled from 'styled-components/native'
 
 import useGlobalTheme from '/hooks/useGlobalTheme'
 import useLocales from '/hooks/useLocales'
 import { CURRENCIES } from '/lib/constant'
 
 // import { createPortfolio } from '/store/slices/portfolio';
-import Text from '/components/common/Text'
 import ScrollCloseModal from '/components/common/ScrollCloseModal'
+import Text from '/components/common/Text'
 
 type FormModalProps = {
   visible: boolean
@@ -83,7 +83,7 @@ const CurrencyModal = ({
         setIsClosed(true)
       })
     }
-  }, [visible])
+  }, [AnimateRef, visible])
 
   const renderCurrencies = () => {
     const rows = []
@@ -262,7 +262,7 @@ const CreatePortfolioModal = ({ visible, setVisible }: FormModalProps) => {
           onPress={onModalOpen}
           textSideComponent={
             <Ionicons
-              name="ios-chevron-down"
+              name="chevron-down"
               size={20}
               color={theme.base.text[200]}
             />

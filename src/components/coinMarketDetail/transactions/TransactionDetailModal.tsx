@@ -1,44 +1,44 @@
-import React, {
-  forwardRef,
-  useMemo,
-  MutableRefObject,
-  useCallback,
-  useState,
-} from 'react'
 import {
-  NativeSyntheticEvent,
-  NativeScrollEvent,
-  Alert,
-  LayoutAnimation,
-  UIManager,
-  Platform,
-} from 'react-native'
-import { useTranslation } from 'react-i18next'
-import styled, { css } from 'styled-components/native'
+  Feather,
+  FontAwesome,
+  FontAwesome5,
+  MaterialCommunityIcons,
+  MaterialIcons,
+} from '@expo/vector-icons'
 import { BottomSheetModal } from '@gorhom/bottom-sheet'
 import { format } from 'date-fns'
-import { ko, enUS } from 'date-fns/locale'
+import { enUS, ko } from 'date-fns/locale'
+import React, {
+  MutableRefObject,
+  forwardRef,
+  useCallback,
+  useMemo,
+  useState,
+} from 'react'
+import { useTranslation } from 'react-i18next'
 import {
-  FontAwesome5,
-  FontAwesome,
-  MaterialIcons,
-  MaterialCommunityIcons,
-  Feather,
-} from '@expo/vector-icons'
+  Alert,
+  LayoutAnimation,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  Platform,
+  UIManager,
+} from 'react-native'
+import styled, { css } from 'styled-components/native'
 
-import useLocales from '/hooks/useLocales'
 import useGlobalTheme from '/hooks/useGlobalTheme'
+import useLocales from '/hooks/useLocales'
 import { useAppDispatch } from '/hooks/useRedux'
-import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat'
 import { digitToFixed } from '/lib/utils'
-import { TransactionType, removeTransaction } from '/store/slices/transaction'
+import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat'
 import { changeCoinState } from '/store/slices/portfolio'
+import { TransactionType, removeTransaction } from '/store/slices/transaction'
 
-import Modal from '/components/common/BottomSheetModal'
-import Text from '/components/common/Text'
-import SurfaceWrap from '/components/common/SurfaceWrap'
-import IncreaseDecreaseValue from '/components/common/IncreaseDecreaseValue'
 import EditButton from './EditTransactionButton'
+import Modal from '/components/common/BottomSheetModal'
+import IncreaseDecreaseValue from '/components/common/IncreaseDecreaseValue'
+import SurfaceWrap from '/components/common/SurfaceWrap'
+import Text from '/components/common/Text'
 
 if (Platform.OS === 'android') {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -192,11 +192,9 @@ const TransactionDetailModal = forwardRef<BottomSheetModal, DetailProps>(
                     <Text fontML>{t(`common.type`)}</Text>
                   </SubTitleWrap>
                   <Text fontML color100 bold>
-                    {t(
-                      `common.${
-                        data.type === 'transfer' ? data.transferType : data.type
-                      }`
-                    )}
+                    {data.type === 'transfer'
+                      ? t(`common.${data.type}`)
+                      : t(`common.${data.transferType}`)}
                   </Text>
                 </Row>
                 <Row>

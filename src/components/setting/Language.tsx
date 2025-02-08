@@ -3,19 +3,16 @@ import { useTranslation } from 'react-i18next'
 
 import useLocales from '/hooks/useLocales'
 
-import SurfaceWrap from '/components/common/SurfaceWrap'
 import Select from '/components/common/Select'
-import Blank from './Blank'
+import SurfaceWrap from '/components/common/SurfaceWrap'
 
 const Language = () => {
   const { language, onLanguageChange } = useLocales()
   const { t } = useTranslation()
 
-  console.log(language)
   return (
     <SurfaceWrap
       title={t(`setting.language settings`)}
-      flex={1}
       parentPaddingZero
       marginTopZero
       fontML
@@ -34,7 +31,6 @@ const Language = () => {
           enabled={language === 'ko'}
         />
       </Select>
-      <Blank />
     </SurfaceWrap>
   )
 }

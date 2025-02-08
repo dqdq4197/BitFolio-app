@@ -49,7 +49,7 @@ const HomeScreen = ({ navigation }: HomeScreenProps<'CoinMarketHome'>) => {
             onPress={() => navigation.navigate('CoinSearch')}
           />
           <Ionicons
-            name="md-settings-outline"
+            name="settings-outline"
             size={24}
             color={theme.base.text[200]}
             onPress={handleSettingPress}

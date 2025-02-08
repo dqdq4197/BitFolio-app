@@ -1,7 +1,7 @@
-import React from 'react'
-import { Dimensions } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import * as haptics from 'expo-haptics'
+import React from 'react'
+import { Dimensions } from 'react-native'
 import styled from 'styled-components/native'
 
 import useGlobalTheme from '/hooks/useGlobalTheme'
@@ -63,7 +63,7 @@ const NumericPad = ({
             <Text color100 fontXXL>
               {key === 'backspace' ? (
                 <Ionicons
-                  name="md-arrow-back"
+                  name="arrow-back"
                   size={28}
                   color={theme.base.text[200]}
                 />

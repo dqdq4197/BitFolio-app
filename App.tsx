@@ -1,59 +1,59 @@
 import {
   ActionSheetProvider,
   connectActionSheet,
-} from '@expo/react-native-action-sheet';
-import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
-import React, { useCallback, useEffect } from 'react';
-import { Appearance, LogBox } from 'react-native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { Provider } from 'react-redux';
-import { PersistGate } from 'redux-persist/integration/react';
-import { ThemeProvider } from 'styled-components';
+} from '@expo/react-native-action-sheet'
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
+import React, { useCallback, useEffect } from 'react'
+import { Appearance, LogBox } from 'react-native'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
+import { Provider } from 'react-redux'
+import { PersistGate } from 'redux-persist/integration/react'
+import { ThemeProvider } from 'styled-components'
 
-import { FeedBackAlertProvider } from '/hooks/context/useFeedBackContext';
-import useGlobalTheme from '/hooks/useGlobalTheme';
-import { useAppDispatch } from '/hooks/useRedux';
-import RootNavigation from '/navigators/Root';
-import { persistor, store } from '/store';
-import { changeDeviceScheme } from '/store/slices/baseSetting';
+import { FeedBackAlertProvider } from '/hooks/context/useFeedBackContext'
+import useGlobalTheme from '/hooks/useGlobalTheme'
+import { useAppDispatch } from '/hooks/useRedux'
+import RootNavigation from '/navigators/Root'
+import { persistor, store } from '/store'
+import { changeDeviceScheme } from '/store/slices/baseSetting'
 
-import AppLoader from '/components/AppLoader';
+import AppLoader from '/components/AppLoader'
 
 // import './src/config/firebase';
-import 'react-native-gesture-handler';
-import '/lib/lang/i18n';
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import '/lib/lang/i18n'
 
-LogBox.ignoreAllLogs();
+LogBox.ignoreAllLogs()
 
 const RootNavigationContainer = () => {
-  const timeout = React.useRef<NodeJS.Timeout | null>(null);
-  const { theme } = useGlobalTheme();
-  const dispatch = useAppDispatch();
+  const timeout = React.useRef<NodeJS.Timeout | null>(null)
+  const { theme } = useGlobalTheme()
+  const dispatch = useAppDispatch()
 
   const resetCurrentTimeout = useCallback(() => {
     if (timeout.current) {
-      clearTimeout(timeout.current);
+      clearTimeout(timeout.current)
     }
-  }, []);
+  }, [])
 
   const onColorSchemeChange = useCallback(
     (preferences: Appearance.AppearancePreferences) => {
-      resetCurrentTimeout();
+      resetCurrentTimeout()
       timeout.current = setTimeout(() => {
-        dispatch(changeDeviceScheme(preferences.colorScheme));
-      }, 500);
+        dispatch(changeDeviceScheme(preferences.colorScheme))
+      }, 500)
     },
     [dispatch, resetCurrentTimeout]
-  );
+  )
 
   useEffect(() => {
-    const { remove } = Appearance.addChangeListener(onColorSchemeChange);
+    const { remove } = Appearance.addChangeListener(onColorSchemeChange)
 
     return () => {
-      resetCurrentTimeout();
-      remove();
-    };
-  }, [onColorSchemeChange, resetCurrentTimeout]);
+      resetCurrentTimeout()
+      remove()
+    }
+  }, [onColorSchemeChange, resetCurrentTimeout])
 
   return (
     <ThemeProvider theme={theme}>
@@ -69,8 +69,8 @@ const RootNavigationContainer = () => {
         </BottomSheetModalProvider>
       </SafeAreaProvider>
     </ThemeProvider>
-  );
-};
+  )
+}
 
 function App() {
   return (
@@ -79,15 +79,17 @@ function App() {
         <RootNavigationContainer />
       </PersistGate>
     </Provider>
-  );
+  )
 }
 
-const ConnectedApp = connectActionSheet(App);
+const ConnectedApp = connectActionSheet(App)
 
 export default function AppContainer() {
   return (
-    <ActionSheetProvider>
-      <ConnectedApp />
-    </ActionSheetProvider>
-  );
+    <GestureHandlerRootView>
+      <ActionSheetProvider>
+        <ConnectedApp />
+      </ActionSheetProvider>
+    </GestureHandlerRootView>
+  )
 }

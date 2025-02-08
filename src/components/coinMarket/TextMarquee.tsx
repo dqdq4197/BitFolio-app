@@ -193,9 +193,9 @@ const TextMarquee = () => {
           borderRadius: 6,
         }}
       >
-        <Ionicons name="ios-chevron-down" size={20} color="white" />
+        <Ionicons name="chevron-down" size={20} color="white" />
       </LinearGradient>
-      <Modal key="market-global" ref={ModalRef} snapPoints={['50%']}>
+      <Modal key="market-global" ref={ModalRef}>
         <ModalContents
           cryptos={data.active_cryptocurrencies}
           exchanges={data.markets}

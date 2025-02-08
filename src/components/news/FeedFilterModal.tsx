@@ -35,27 +35,24 @@ const FeedFilterModal = ({
   }, [dispatch, feedsTemp, setVisible])
 
   const handleRowPress = (key: string) => {
-    if (feedsTemp === ALL_NEWS_FEEDS) {
-      if (key === ALL_NEWS_FEEDS) return
+    setFeedsTemp(prevFeedsTemp => {
+      const isAllSelected = prevFeedsTemp === ALL_NEWS_FEEDS
+      const isKeyAll = key === ALL_NEWS_FEEDS
 
-      setFeedsTemp([key])
-    } else {
-      if (key === ALL_NEWS_FEEDS) {
-        setFeedsTemp(ALL_NEWS_FEEDS)
-        return
+      if (isAllSelected) {
+        return isKeyAll ? prevFeedsTemp : [key]
       }
-      const isContain = feedsTemp.findIndex(feed => feed === key)
 
-      if (isContain === -1) {
-        setFeedsTemp(prevState => [...prevState, key])
-      } else if (feedsTemp.length === 1) {
-        setFeedsTemp(ALL_NEWS_FEEDS)
-      } else {
-        setFeedsTemp(prevState =>
-          (prevState as string[]).filter(category => category !== key)
-        )
+      if (isKeyAll) {
+        return ALL_NEWS_FEEDS
       }
-    }
+
+      const nextFeeds = prevFeedsTemp.includes(key)
+        ? prevFeedsTemp.filter(feed => feed !== key)
+        : [...prevFeedsTemp, key]
+
+      return nextFeeds.length > 0 ? nextFeeds : ALL_NEWS_FEEDS
+    })
   }
 
   return (

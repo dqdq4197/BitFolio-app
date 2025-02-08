@@ -15,12 +15,16 @@
       "url": "https://u.expo.dev/6d4899c7-afc3-472c-8299-a027f908ef57"
     },
     "userInterfaceStyle": "automatic",
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.bitfolio.cryptocurrencies.ios",
       "buildNumber": "1.0.10",
-      "associatedDomains": ["applinks:bitfolio.page.link"]
+      "associatedDomains": [
+        "applinks:bitfolio.page.link"
+      ]
     },
     "android": {
       "adaptiveIcon": {
@@ -49,7 +53,8 @@
             "useFrameworks": "static"
           }
         }
-      ]
+      ],
+      "expo-localization"
     ]
   }
 }

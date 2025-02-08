@@ -23,7 +23,7 @@ const OverviewScreen = ({ navigation }: StackScreenProps<any>) => {
     navigation.setOptions({
       headerRight: () => (
         <Ionicons
-          name="md-settings-outline"
+          name="settings-outline"
           size={24}
           color={theme.base.text[200]}
           onPress={handleSettingPress}
