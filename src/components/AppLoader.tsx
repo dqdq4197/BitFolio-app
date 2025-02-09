@@ -1,20 +1,23 @@
 import Constants from 'expo-constants'
 import * as SplashScreen from 'expo-splash-screen'
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type ReactNode,
+} from 'react'
 import { Animated, Image, StyleSheet } from 'react-native'
 import styled from 'styled-components/native'
 
 import { InitDataProvider } from '/hooks/context/useInitDataContext'
 
-type TProps = {
-  children: React.ReactNode
-}
-
+const { splash } = Constants.expoConfig ?? {}
 SplashScreen.preventAutoHideAsync().catch(() => {
   /* reloading the app might trigger some race conditions, ignore them */
 })
 
-const CustomSplashScreen = ({ children }: TProps) => {
+const CustomSplashScreen = ({ children }: Props) => {
   const animation = useRef(new Animated.Value(0)).current
   const opacity = useRef(new Animated.Value(1)).current
   const [isAppReady, setAppReady] = useState(false)
@@ -56,10 +59,7 @@ const CustomSplashScreen = ({ children }: TProps) => {
           style={[
             StyleSheet.absoluteFill,
             {
-              backgroundColor:
-                (Constants.manifest &&
-                  Constants.manifest.splash?.backgroundColor) ||
-                '#121212',
+              backgroundColor: splash?.backgroundColor || '#121212',
               opacity,
             },
           ]}
@@ -68,11 +68,8 @@ const CustomSplashScreen = ({ children }: TProps) => {
             style={{
               width: '100%',
               height: '100%',
-              resizeMode:
-                (Constants.manifest && Constants.manifest.splash?.resizeMode) ||
-                'contain',
+              resizeMode: splash?.resizeMode || 'contain',
             }}
-            // eslint-disable-next-line global-require
             source={require('../../assets/splash.png')}
             onLoadEnd={handleImageLoadEnd}
             fadeDuration={0}
@@ -83,7 +80,11 @@ const CustomSplashScreen = ({ children }: TProps) => {
   )
 }
 
-const AppLoader = ({ children }: TProps) => {
+interface Props {
+  children: ReactNode
+}
+
+const AppLoader = ({ children }: Props) => {
   return (
     <InitDataProvider>
       <CustomSplashScreen>{children}</CustomSplashScreen>
