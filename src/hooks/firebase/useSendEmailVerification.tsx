@@ -1,9 +1,9 @@
-import { useState, useCallback, useMemo, useEffect } from 'react'
-import { useTranslation } from 'react-i18next'
 import { FirebaseError } from '@firebase/util'
-import { FIREBASE_EMAIL_VERIFICATION_DYNAMICLINK, APP_BUNDLE_ID } from '@env'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { useAuthContext } from '/hooks/context/useAuthContext'
+import { expectUnreachable } from '/lib/utils/sweet'
 
 const useSendEmailVerification = () => {
   const { t } = useTranslation()
@@ -34,9 +34,13 @@ const useSendEmailVerification = () => {
     setErrorMessage(undefined)
     try {
       await currentUser.sendEmailVerification({
-        url: FIREBASE_EMAIL_VERIFICATION_DYNAMICLINK,
+        url:
+          process.env.EXPO_PUBLIC_FIREBASE_EMAIL_VERIFICATION_DYNAMICLINK ??
+          expectUnreachable(
+            'must exist email verification dynamic link in env file'
+          ),
         iOS: {
-          bundleId: APP_BUNDLE_ID,
+          bundleId: process.env.EXPO_PUBLIC_APP_BUNDLE_ID,
         },
       })
     } catch (error) {

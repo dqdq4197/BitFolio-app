@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { GOOGLE_PLATFROM_KEY } from '@env'
 
 import { TRANSLATE_PREFIX } from '/lib/constant'
 
@@ -20,7 +19,7 @@ export const Cryptocompare = {
         url: `/languages`,
         params: {
           ...params,
-          key: GOOGLE_PLATFROM_KEY,
+          key: process.env.EXPO_PUBLIC_GOOGLE_PLATFORM_KEY,
         },
       }
     },

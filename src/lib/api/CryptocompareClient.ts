@@ -1,10 +1,9 @@
 import axios from 'axios'
-import { APP_NAME, CRYPTOCOMPARE_API_KEY } from '@env'
 
 import {
-  CTYPTOCOMPARE_PATH_PREFIX,
-  CTYPTOCOMPARE_LANG,
   CTYPTOCOMPARE_API_VERSION,
+  CTYPTOCOMPARE_LANG,
+  CTYPTOCOMPARE_PATH_PREFIX,
 } from '/lib/constants/cryptocompare'
 
 export type LANG = (typeof CTYPTOCOMPARE_LANG)[keyof typeof CTYPTOCOMPARE_LANG]
@@ -25,9 +24,9 @@ export interface ArticleParams extends CommonParams {
 export const http = axios.create({
   baseURL: CTYPTOCOMPARE_PATH_PREFIX,
   headers: {
-    authorization: `Apikey ${CRYPTOCOMPARE_API_KEY}`,
+    authorization: `Apikey ${process.env.EXPO_PUBLIC_CRYPTOCOMPARE_API_KEY}`,
   },
-  params: { extraParams: APP_NAME },
+  params: { extraParams: process.env.EXPO_PUBLIC_APP_NAME },
 })
 
 export const Cryptocompare = {

@@ -13,8 +13,8 @@ npm-debug.*
 *.plist
 
 # env
-@types/env.d.ts
 .env
+.env*.local
 
 # testing
 coverage

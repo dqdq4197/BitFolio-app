@@ -1,22 +1,21 @@
-import React, { useLayoutEffect } from 'react'
-import { APP_VERSION } from '@env'
-import styled from 'styled-components/native'
-import { useTranslation } from 'react-i18next'
+import { MaterialIcons } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 import LottieView from 'lottie-react-native'
-import { MaterialIcons } from '@expo/vector-icons'
+import React, { useLayoutEffect } from 'react'
+import { useTranslation } from 'react-i18next'
+import styled from 'styled-components/native'
 
 import { useAuthContext } from '/hooks/context/useAuthContext'
 import useGlobalTheme from '/hooks/useGlobalTheme'
-import type { SettingScreenProps, SettingParamList } from '/types/navigation'
+import type { SettingParamList, SettingScreenProps } from '/types/navigation'
 
-import SurfaceWrap from '/components/common/SurfaceWrap'
+import AppSettingList from './AppSettingList'
+import LogoutButton from './LogoutButton'
+import List from '/components/common/List'
 import ScrollView from '/components/common/ScrollView'
 import Stack from '/components/common/Stack'
-import List from '/components/common/List'
+import SurfaceWrap from '/components/common/SurfaceWrap'
 import Text from '/components/common/Text'
-import LogoutButton from './LogoutButton'
-import AppSettingList from './AppSettingList'
 
 const Overview = () => {
   const { t } = useTranslation()
@@ -91,7 +90,10 @@ const Overview = () => {
       </SurfaceWrap>
       <SurfaceWrap title={t(`setting.support`)} parentPaddingZero fontML>
         <List>
-          <List.Row left={t('setting.app version')} right={APP_VERSION} />
+          <List.Row
+            left={t('setting.app version')}
+            right={process.env.EXPO_PUBLIC_APP_VERSION ?? ''}
+          />
         </List>
       </SurfaceWrap>
     </ScrollView>
