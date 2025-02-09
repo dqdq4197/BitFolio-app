@@ -1,4 +1,3 @@
-import { APP_VERSION } from '@env'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -38,7 +37,10 @@ const SettingRoot = ({
       </SurfaceWrap>
       <SurfaceWrap title={t(`setting.support`)} parentPaddingZero fontML>
         <List>
-          <List.Row left={t('setting.app version')} right={APP_VERSION} />
+          <List.Row
+            left={t('setting.app version')}
+            right={process.env.EXPO_PUBLIC_APP_VERSION ?? ''}
+          />
         </List>
       </SurfaceWrap>
     </>
