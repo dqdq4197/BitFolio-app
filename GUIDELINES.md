@@ -31,23 +31,11 @@ The api key has a limited usage.
 ```
 /BitFolio-app/.env
 
-APP_NAME=bitfolio
-APP_VERSION=1.0.0
+EXPO_PUBLIC_APP_NAME=bitfolio
+EXPO_PUBLIC_APP_VERSION=1.0.0
 
-CRYPTOCOMPARE_API_KEY=e113a4229ce5b75e3d091c98a15272458d178d93165351447a7b756ee7bb57e1
-COINGECKO_DEMO_API_KEY=CG-mqKD5C6enbF3xSKFKcfn52mg
-```
-
-```
-/BitFolio-app/@types/env.d.ts
-
-declare module '@env' {
-  export const APP_NAME: string
-  export const APP_VERSION: string
-
-  export const COINGECKO_DEMO_API_KEY: string;
-  export const CRYPTOCOMPARE_API_KEY: string
-}
+EXPO_PUBLIC_CRYPTOCOMPARE_API_KEY=e113a4229ce5b75e3d091c98a15272458d178d93165351447a7b756ee7bb57e1
+EXPO_PUBLIC_COINGECKO_DEMO_API_KEY=CG-mqKD5C6enbF3xSKFKcfn52mg
 ```
 
 ## Start Frontend Development Server

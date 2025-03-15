@@ -1,4 +1,3 @@
-import { COINGECKO_DEMO_API_KEY } from '@env'
 import axios from 'axios'
 import { baseTypes } from 'base-types'
 import _ from 'lodash'
@@ -93,7 +92,7 @@ const defaultParams: DefaultParamsType = {
 
 export const http = axios.create({
   baseURL: COINGECKO_PATH_PREFIX,
-  params: { x_cg_demo_api_key: COINGECKO_DEMO_API_KEY },
+  params: { x_cg_demo_api_key: process.env.EXPO_PUBLIC_COINGECKO_DEMO_API_KEY },
 })
 
 export const CoinGecko = {

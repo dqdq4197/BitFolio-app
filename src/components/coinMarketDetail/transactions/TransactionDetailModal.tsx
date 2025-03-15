@@ -193,8 +193,8 @@ const TransactionDetailModal = forwardRef<BottomSheetModal, DetailProps>(
                   </SubTitleWrap>
                   <Text fontML color100 bold>
                     {data.type === 'transfer'
-                      ? t(`common.${data.type}`)
-                      : t(`common.${data.transferType}`)}
+                      ? t(`common.${data.transferType}`)
+                      : t(`common.${data.type}`)}
                   </Text>
                 </Row>
                 <Row>

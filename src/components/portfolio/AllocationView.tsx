@@ -1,18 +1,18 @@
-import React, { useState, useMemo } from 'react'
+import { Merge } from 'mapped-types'
+import React, { useMemo, useState } from 'react'
 import { Dimensions } from 'react-native'
 import styled from 'styled-components/native'
-import { Merge } from 'mapped-types'
-import { VictoryPie, VictoryLegend, Slice } from 'victory-native'
+import { Slice, VictoryLegend, VictoryPie } from 'victory-native'
 
-import { CoinStatType } from '/hooks/usePortfolioStats'
 import useGlobalTheme from '/hooks/useGlobalTheme'
 import useLocales from '/hooks/useLocales'
-import { ModeType } from '/store/slices/portfolio'
+import { CoinStatType } from '/hooks/usePortfolioStats'
 import { convertUnits, digitToFixed } from '/lib/utils'
+import { ModeType } from '/store/slices/portfolio'
 
-import Text from '/components/common/Text'
-import IncreaseDecreaseValue from '/components/common/IncreaseDecreaseValue'
 import PrivatePlaceholder from './PrivatePlaceholder'
+import IncreaseDecreaseValue from '/components/common/IncreaseDecreaseValue'
+import Text from '/components/common/Text'
 
 const { width } = Dimensions.get('window')
 
@@ -35,7 +35,7 @@ const CustomLegendContainer = ({
   activeIndex,
   children,
 }: LegendContainerProps) => {
-  const [rect, ...svgs] = children[0]
+  const [_rect, ...svgs] = children
 
   const datas = useMemo(() => {
     const dataLength = svgs.length / 2
