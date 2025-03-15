@@ -13,9 +13,8 @@ import styled from 'styled-components/native'
 import { InitDataProvider } from '/hooks/context/useInitDataContext'
 
 const { splash } = Constants.expoConfig ?? {}
-SplashScreen.preventAutoHideAsync().catch(() => {
-  /* reloading the app might trigger some race conditions, ignore them */
-})
+
+SplashScreen.preventAutoHideAsync()
 
 const CustomSplashScreen = ({ children }: Props) => {
   const animation = useRef(new Animated.Value(0)).current
@@ -53,13 +52,13 @@ const CustomSplashScreen = ({ children }: Props) => {
   return (
     <Container>
       {isAppReady && children}
-      {!isSplashAnimationComplete && (
+      {!isSplashAnimationComplete && splash?.imageUrl && (
         <Animated.View
           pointerEvents="none"
           style={[
             StyleSheet.absoluteFill,
             {
-              backgroundColor: splash?.backgroundColor || '#121212',
+              backgroundColor: splash.backgroundColor || '#121212',
               opacity,
             },
           ]}
@@ -68,9 +67,9 @@ const CustomSplashScreen = ({ children }: Props) => {
             style={{
               width: '100%',
               height: '100%',
-              resizeMode: splash?.resizeMode || 'contain',
+              resizeMode: splash.resizeMode || 'contain',
             }}
-            source={require('../../assets/splash.png')}
+            source={{ uri: splash.imageUrl }}
             onLoadEnd={handleImageLoadEnd}
             fadeDuration={0}
           />
