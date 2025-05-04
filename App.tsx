@@ -20,10 +20,13 @@ import { changeDeviceScheme } from '/store/slices/baseSetting'
 import AppLoader from '/components/AppLoader'
 
 // import './src/config/firebase';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import '/lib/lang/i18n'
 
 LogBox.ignoreAllLogs()
+
+const queryClient = new QueryClient()
 
 const RootNavigationContainer = () => {
   const timeout = React.useRef<NodeJS.Timeout | null>(null)
@@ -56,19 +59,21 @@ const RootNavigationContainer = () => {
   }, [onColorSchemeChange, resetCurrentTimeout])
 
   return (
-    <ThemeProvider theme={theme}>
-      <SafeAreaProvider>
-        <BottomSheetModalProvider>
-          {/* <AuthProvider> */}
-          <AppLoader>
-            <FeedBackAlertProvider>
-              <RootNavigation />
-            </FeedBackAlertProvider>
-          </AppLoader>
-          {/* </AuthProvider> */}
-        </BottomSheetModalProvider>
-      </SafeAreaProvider>
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={theme}>
+        <SafeAreaProvider>
+          <BottomSheetModalProvider>
+            {/* <AuthProvider> */}
+            <AppLoader>
+              <FeedBackAlertProvider>
+                <RootNavigation />
+              </FeedBackAlertProvider>
+            </AppLoader>
+            {/* </AuthProvider> */}
+          </BottomSheetModalProvider>
+        </SafeAreaProvider>
+      </ThemeProvider>
+    </QueryClientProvider>
   )
 }
 

@@ -113,6 +113,10 @@ export interface SearchCategory {
   name: string
 }
 
+/**
+ * @deprecated
+ * Use `Search` instead
+ */
 export interface SearchCoin {
   id: string
   name: string
