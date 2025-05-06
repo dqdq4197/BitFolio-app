@@ -210,11 +210,6 @@ export const CoinGecko = {
         params,
       }
     },
-    searchTranding: () => {
-      return {
-        url: `/search/trending`,
-      }
-    },
     global: () => {
       return {
         url: `/global`,

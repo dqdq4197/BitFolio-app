@@ -134,29 +134,6 @@ export interface SearchExchange {
   large: string
 }
 
-export interface SearchTrandingReturn {
-  coins: SearchTrandingCoin[]
-  exchanges: any[]
-}
-
-export interface SearchTrandingCoin {
-  item: SearchTrandingCoinItem
-}
-
-export interface SearchTrandingCoinItem {
-  id: string
-  coin_id: number
-  name: string
-  symbol: string
-  market_cap_rank: number
-  thumb: string
-  small: string
-  large: string
-  slug: string
-  price_btc: number
-  score: number
-}
-
 export enum MarketType {
   Futures = 'futures',
   Spot = 'spot',
