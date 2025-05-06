@@ -149,7 +149,7 @@ type MatcherProps = {
 
 export default function createFuzzyMatcher(
   search: string,
-  { fuzzy = false, ignoreSpace = true }: MatcherProps
+  { fuzzy = false, ignoreSpace = true }: MatcherProps = {}
 ) {
   let frontChars = search.split('')
   const lastChar = frontChars.slice(-1)[0]

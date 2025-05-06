@@ -1,12 +1,12 @@
-import { Easing } from 'react-native-reanimated'
 import type { KeyboardEventEasing } from 'react-native'
+import { Easing } from 'react-native-reanimated'
+import { expectUnreachable } from './sweet'
 
 const getKeyboardAnimationConfigs = (
   easing: KeyboardEventEasing,
   duration: number
   // eslint-disable-next-line consistent-return
 ) => {
-  // eslint-disable-next-line default-case
   switch (easing) {
     case 'easeIn':
       return {
@@ -41,6 +41,8 @@ const getKeyboardAnimationConfigs = (
         restDisplacementThreshold: 10,
         restSpeedThreshold: 10,
       }
+    default:
+      expectUnreachable()
   }
 }
 

@@ -1,23 +1,21 @@
+import { Ionicons, MaterialIcons } from '@expo/vector-icons'
 import React, { forwardRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import { TextInput } from 'react-native'
 import styled from 'styled-components/native'
-import { useTranslation } from 'react-i18next'
-import { Ionicons, MaterialIcons } from '@expo/vector-icons'
 
 import useGlobalTheme from '/hooks/useGlobalTheme'
 
 import SurfaceTopView from '/components/common/SurfaceTopView'
 
 type SearchBarProps = {
-  isLoading: boolean
   onQueryChange: (text: string) => void
   query: string
-  coinsLength?: number
   onRemoveQuery: () => void
 }
 
 const SearchBar = forwardRef<TextInput, SearchBarProps>(
-  ({ isLoading, onQueryChange, query, coinsLength, onRemoveQuery }, ref) => {
+  ({ onQueryChange, query, onRemoveQuery }, ref) => {
     const { t } = useTranslation()
     const { scheme, theme } = useGlobalTheme()
 
@@ -33,7 +31,6 @@ const SearchBar = forwardRef<TextInput, SearchBarProps>(
             />
             <CustomTextInput
               ref={ref}
-              editable={!isLoading}
               keyboardAppearance={scheme === 'dark' ? 'dark' : 'light'}
               onChangeText={onQueryChange}
               value={query}

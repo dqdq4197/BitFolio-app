@@ -1,42 +1,23 @@
-import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
-import {
-  FlatList,
-  Platform,
-  TextInput,
-  Dimensions,
-  LayoutAnimation,
-  UIManager,
-} from 'react-native'
+import React, { useCallback, useRef, useState } from 'react'
+
+import type { SearchCoin } from '/types/coinGeckoReturnType'
+
 import { useHeaderHeight } from '@react-navigation/elements'
 import { useNavigation } from '@react-navigation/native'
-import Animated, { useAnimatedStyle, withSpring } from 'react-native-reanimated'
-
-import useGlobalTheme from '/hooks/useGlobalTheme'
-import useRequest from '/hooks/useRequest'
-import useKeyboard from '/hooks/useKeyboard'
-import { useAppDispatch, useAppSelector } from '/hooks/useRedux'
-import { useInitData } from '/hooks/context/useInitDataContext'
-import { changeRecentSearches } from '/store/slices/baseSetting'
-import { createFuzzyMatcher, getKeyboardAnimationConfigs } from '/lib/utils'
-import { CoinGecko, http } from '/lib/api/CoinGeckoClient'
-import type {
-  SearchTrandingReturn,
-  SearchCoin,
-} from '/types/coinGeckoReturnType'
-import type { HomeScreenProps } from '/types/navigation'
-
-import Text from '/components/common/Text'
-import GlobalIndicator from '/components/common/GlobalIndicator'
-import EmptyView from './EmptyView'
+import { keepPreviousData, useQuery } from '@tanstack/react-query'
+import { Dimensions, FlatList, Platform, type TextInput } from 'react-native'
 import DefaultView from './DefaultView'
+import EmptyView from './EmptyView'
+import ListFooter from './ListFooter'
 import SearchBar from './SearchBar'
-import Item from './Item'
-
-if (Platform.OS === 'android') {
-  if (UIManager.setLayoutAnimationEnabledExperimental) {
-    UIManager.setLayoutAnimationEnabledExperimental(true)
-  }
-}
+import SearchItem from './SearchItem'
+import GlobalIndicator from '/components/common/GlobalIndicator'
+import useDebounce from '/hooks/useDebounce'
+import useGlobalTheme from '/hooks/useGlobalTheme'
+import { useAppDispatch } from '/hooks/useRedux'
+import { searchQuery } from '/lib/queries/coinGecko'
+import { changeRecentSearches } from '/store/slices/baseSetting'
+import type { HomeScreenProps } from '/types/navigation'
 
 export interface CoinsType extends SearchCoin {
   highlightedName?: Array<string | React.ReactNode>
@@ -46,43 +27,32 @@ export interface CoinsType extends SearchCoin {
 const { height } = Dimensions.get('screen')
 
 const Layout = () => {
-  const {
-    height: animationKeyboardHeight,
-    animationDuration,
-    animationEasing,
-  } = useKeyboard()
-  const textInputRef = useRef<TextInput>(null)
-  const { recentSearches } = useAppSelector(state => state.baseSettingReducer)
-  const [coins, setCoins] = useState<CoinsType[]>([])
+  const searchBarRef = useRef<TextInput>(null)
   const [query, setQuery] = useState('')
-  const [searchesData, setSearchesData] = useState<SearchCoin[]>([])
+  const debouncedQuery = useDebounce(query, 300)
   const { theme } = useGlobalTheme()
   const navigation =
     useNavigation<HomeScreenProps<'CoinSearch'>['navigation']>()
   const headerHeight = useHeaderHeight()
   const dispatch = useAppDispatch()
-  const { coingeckoAssets: searchData, coingeckoIsLoading: isLoading } =
-    useInitData()
-  const { data: trandingData } = useRequest<SearchTrandingReturn>(
-    CoinGecko.coin.searchTranding(),
-    http
-  )
+  const {
+    data: searchData,
+    isFetching,
+    isFetched,
+  } = useQuery({
+    ...searchQuery({ query: debouncedQuery }),
+    placeholderData: keepPreviousData,
+  })
+  const { coins } = searchData ?? {}
 
-  useEffect(() => {
-    if (searchData) {
-      let filteredData = searchData?.coins.filter(coin =>
-        recentSearches.includes(coin.id)
-      )
-      filteredData = filteredData.sort(
-        (a, b) => recentSearches.indexOf(a.id) - recentSearches.indexOf(b.id)
-      )
-      filteredData = filteredData.filter((coin, index) => {
-        const idx = filteredData.findIndex(res => res.id === coin.id)
-        return idx === index
-      })
-      setSearchesData(filteredData)
-    }
-  }, [recentSearches, searchData])
+  const handleQueryChange = useCallback((text: string) => {
+    setQuery(text)
+  }, [])
+
+  const handleRemoveQuery = useCallback(() => {
+    setQuery('')
+    searchBarRef.current?.focus()
+  }, [])
 
   const handleItemPress = (id: string, symbol: string) => {
     navigation.navigate('CoinDetail', {
@@ -92,97 +62,9 @@ const Layout = () => {
     dispatch(changeRecentSearches(id))
   }
 
-  const highlightText = useCallback(
-    (text: string, regex: RegExp, bold?: boolean) => {
-      const match = text.match(regex)
-      let newLetters: any = []
-      if (match) {
-        const matchLetters = match[0]
-        const startIdx = text.indexOf(matchLetters)
-        const endIdx = startIdx + matchLetters.length
-        newLetters.push(text.substring(0, startIdx))
-        if (bold) {
-          newLetters.push(
-            <Text key={startIdx} primaryColor fontML bold>
-              {text.substring(startIdx, endIdx)}
-            </Text>
-          )
-        } else {
-          newLetters.push(
-            <Text key={startIdx} primaryColor fontML>
-              {text.substring(startIdx, endIdx)}
-            </Text>
-          )
-        }
-        newLetters.push(text.substring(endIdx, text.length))
-      } else {
-        newLetters = text
-      }
-      return newLetters
-    },
-    []
-  )
-
-  const handleQueryChange = (text: string) => {
-    LayoutAnimation.configureNext(
-      LayoutAnimation.create(
-        200,
-        LayoutAnimation.Types.easeInEaseOut,
-        LayoutAnimation.Properties.scaleY
-      )
-    )
-    setQuery(text)
-    if (!searchData) return
-
-    if (text === '') {
-      setCoins([])
-    } else {
-      const regex = createFuzzyMatcher(text, {})
-      const result = searchData.coins
-        .filter(coin => {
-          return (
-            regex.test(coin.name) ||
-            regex.test(coin.id) ||
-            regex.test(coin.symbol)
-          )
-        })
-        .map(coin => {
-          const coinName = highlightText(coin.name, regex, true)
-          const coinSymbol = highlightText(coin.symbol, regex)
-
-          return {
-            ...coin,
-            highlightedName: coinName,
-            highlightedSymbol: coinSymbol,
-          }
-        })
-
-      setCoins(result)
-    }
-  }
-
-  const onRemoveQuery = () => {
-    setQuery('')
-    setCoins([])
-    textInputRef.current?.focus()
-  }
-
-  const animationConfig = useMemo(() => {
-    return getKeyboardAnimationConfigs(
-      animationEasing.value,
-      animationDuration.value
-    )
-  }, [animationEasing, animationDuration])
-
-  const FooterHeight = useAnimatedStyle(() => {
-    return {
-      height: withSpring(animationKeyboardHeight.value, animationConfig),
-    }
-  }, [animationKeyboardHeight, animationConfig])
-
   return (
     <>
-      {!searchData && (
+      {isFetching && (
         <GlobalIndicator isLoaded={false} size="large" transparent />
       )}
       <FlatList
@@ -194,15 +76,13 @@ const Layout = () => {
           minHeight: height - headerHeight,
           backgroundColor: theme.base.background.surface,
         }}
-        ListFooterComponent={<Animated.View style={FooterHeight} />}
+        ListFooterComponent={<ListFooter />}
         ListHeaderComponent={
           <SearchBar
-            ref={textInputRef}
-            isLoading={isLoading}
-            onQueryChange={handleQueryChange}
+            ref={searchBarRef}
             query={query}
-            coinsLength={coins.length}
-            onRemoveQuery={onRemoveQuery}
+            onQueryChange={handleQueryChange}
+            onRemoveQuery={handleRemoveQuery}
           />
         }
         ListHeaderComponentStyle={{
@@ -210,20 +90,19 @@ const Layout = () => {
           backgroundColor: theme.base.background.surface,
         }}
         renderItem={({ item }) => (
-          <Item key={item.id} item={item} onPressItem={handleItemPress} />
+          <SearchItem
+            item={item}
+            keyword={debouncedQuery}
+            onPress={() => handleItemPress(item.id, item.symbol)}
+          />
         )}
         ListEmptyComponent={
-          query ? (
-            <EmptyView query={query} />
+          debouncedQuery && isFetched ? (
+            <EmptyView query={debouncedQuery} />
           ) : (
-            <DefaultView
-              data={trandingData?.coins}
-              searchesData={searchesData}
-              onPressItem={handleItemPress}
-            />
+            <DefaultView onPressItem={handleItemPress} />
           )
         }
-        initialNumToRender={7}
         stickyHeaderIndices={[0]}
       />
     </>
