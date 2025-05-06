@@ -1,73 +1,43 @@
 import { useHeaderHeight } from '@react-navigation/elements'
 import { useNavigation } from '@react-navigation/native'
-import React, {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react'
+import { keepPreviousData, useQuery } from '@tanstack/react-query'
+import React, { useCallback, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   Alert,
   Dimensions,
   FlatList,
-  LayoutAnimation,
   Platform,
-  TextInput,
-  UIManager,
+  type TextInput,
 } from 'react-native'
-import Animated, { useAnimatedStyle, withSpring } from 'react-native-reanimated'
-
-import useGlobalTheme from '/hooks/useGlobalTheme'
-import useKeyboard from '/hooks/useKeyboard'
-import useLocales from '/hooks/useLocales'
-import { useAppDispatch, useAppSelector } from '/hooks/useRedux'
-import useRequest from '/hooks/useRequest'
-import { CoinGecko, http } from '/lib/api/CoinGeckoClient'
-import { createFuzzyMatcher, getKeyboardAnimationConfigs } from '/lib/utils'
-import { addWatchingCoin } from '/store/slices/portfolio'
-import type { SearchCoin, SearchDataReturn } from '/types/coinGeckoReturnType'
-import type { PortfolioScreenProps } from '/types/navigation'
-
+import FormModal from '../transactionModal/FormModal'
 import EmptyView from '/components/coinSearch/EmptyView'
-import Item from '/components/coinSearch/Item'
+import ListFooter from '/components/coinSearch/ListFooter'
 import SearchBar from '/components/coinSearch/SearchBar'
+import SearchItem from '/components/coinSearch/SearchItem'
 import GlobalIndicator from '/components/common/GlobalIndicator'
-import Text from '/components/common/Text'
-import FormModal from '/components/portfolio/transactionModal/FormModal'
-import SearchItemListSkeleton from '/components/skeletonPlaceholder/SearchItemListSkeleton'
-
-if (Platform.OS === 'android') {
-  if (UIManager.setLayoutAnimationEnabledExperimental) {
-    UIManager.setLayoutAnimationEnabledExperimental(true)
-  }
-}
-
-export interface CoinsType extends SearchCoin {
-  highlightedName?: Array<string | React.ReactNode>
-  highlightedSymbol?: Array<string | React.ReactNode>
-}
+import useDebounce from '/hooks/useDebounce'
+import useGlobalTheme from '/hooks/useGlobalTheme'
+import { useAppDispatch, useAppSelector } from '/hooks/useRedux'
+import { searchQuery } from '/lib/queries/coinGecko'
+import {
+  addWatchingCoin,
+  type AddWatchingCoinProps,
+} from '/store/slices/portfolio'
+import type { PortfolioScreenProps } from '/types/navigation'
 
 const { height } = Dimensions.get('screen')
 
-const Layout = () => {
+function Layout() {
   const { t } = useTranslation()
-  const { language } = useLocales()
+  const dispatch = useAppDispatch()
   const { theme } = useGlobalTheme()
+  const headerHeight = useHeaderHeight()
   const navigation =
     useNavigation<PortfolioScreenProps<'AddNewCoin'>['navigation']>()
-  const headerHeight = useHeaderHeight()
-  const dispatch = useAppDispatch()
-  const {
-    height: animationKeyboardHeight,
-    animationDuration,
-    animationEasing,
-  } = useKeyboard()
-  const textInputRef = useRef<TextInput>(null)
-  const [coins, setCoins] = useState<CoinsType[]>([])
+  const searchBarRef = useRef<TextInput>(null)
   const [query, setQuery] = useState('')
+  const debouncedQuery = useDebounce(query, 300)
   const [visible, setVisible] = useState(false)
   const [modalInitialState, setModalInitialState] = useState({
     id: '',
@@ -80,18 +50,15 @@ const Layout = () => {
     activeIndex: state.portfolioReducer.activeIndex,
   }))
   const { id: portfolioId, coins: portfolioCoins } = portfolios[activeIndex]
-  const { data, isLoading } = useRequest<SearchDataReturn>(
-    CoinGecko.coin.search({ locale: language }),
-    http
-  )
-
-  useLayoutEffect(() => {
-    navigation.setOptions({ title: t(`portfolio.add coin`) })
-  }, [navigation, t])
-
-  useEffect(() => {
-    if (data) setCoins(data.coins)
-  }, [data])
+  const {
+    data: searchData,
+    isFetching,
+    isFetched,
+  } = useQuery({
+    ...searchQuery({ query: debouncedQuery }),
+    placeholderData: keepPreviousData,
+  })
+  const { coins } = searchData ?? {}
 
   const isAlreadyIncludeCoin = useCallback(
     (id: string): boolean => {
@@ -101,7 +68,9 @@ const Layout = () => {
   )
 
   const openAlert = useCallback(
-    (id: string, symbol: string, image: string, name: string) => {
+    (item: AddWatchingCoinProps['coin']) => {
+      const { id, symbol, image, name } = item
+
       Alert.alert(
         t(`portfolio.n.is already in your portfolio`, { n: symbol }),
         t(`portfolio.would you like to add a transaction to.n?`, { n: symbol }),
@@ -127,18 +96,18 @@ const Layout = () => {
   )
 
   const handleItemPress = useCallback(
-    (id: string, symbol: string, image: string, name: string) => {
+    (item: AddWatchingCoinProps['coin']) => {
       if (!portfolioId) return
 
-      if (isAlreadyIncludeCoin(id)) {
-        openAlert(id, symbol, image, name)
+      if (isAlreadyIncludeCoin(item.id)) {
+        openAlert(item)
         return
       }
 
       const payload = {
         portfolioId,
-        coin: { id, image, name, symbol },
-      }
+        coin: item,
+      } satisfies AddWatchingCoinProps
 
       dispatch(addWatchingCoin(payload))
       navigation.navigate('PortfolioOverview')
@@ -146,89 +115,20 @@ const Layout = () => {
     [dispatch, isAlreadyIncludeCoin, navigation, openAlert, portfolioId]
   )
 
-  const highlightText = (text: string, regex: RegExp, bold?: boolean) => {
-    const match = text.match(regex)
-    let newLetters: any = []
-    if (match) {
-      const matchLetters = match[0]
-      const startIdx = text.indexOf(matchLetters)
-      const endIdx = startIdx + matchLetters.length
-      newLetters.push(text.substring(0, startIdx))
-      if (bold) {
-        newLetters.push(
-          <Text key={startIdx} primaryColor fontML bold>
-            {text.substring(startIdx, endIdx)}
-          </Text>
-        )
-      } else {
-        newLetters.push(
-          <Text key={startIdx} primaryColor fontML>
-            {text.substring(startIdx, endIdx)}
-          </Text>
-        )
-      }
-      newLetters.push(text.substring(endIdx, text.length))
-    } else {
-      newLetters = text
-    }
-
-    return newLetters
-  }
-
-  const handleQueryChange = (text: string) => {
-    LayoutAnimation.configureNext(
-      LayoutAnimation.create(
-        200,
-        LayoutAnimation.Types.easeInEaseOut,
-        LayoutAnimation.Properties.scaleY
-      )
-    )
+  const handleQueryChange = useCallback((text: string) => {
     setQuery(text)
-    if (!data) return
+  }, [])
 
-    const regex = createFuzzyMatcher(text, {})
-    const result = data.coins
-      .filter(coin => {
-        return (
-          regex.test(coin.name) ||
-          regex.test(coin.id) ||
-          regex.test(coin.symbol)
-        )
-      })
-      .map(coin => {
-        const coinName = highlightText(coin.name, regex, true)
-        const coinSymbol = highlightText(coin.symbol, regex)
-        return {
-          ...coin,
-          highlightedName: coinName,
-          highlightedSymbol: coinSymbol,
-        }
-      })
-    setCoins(result)
-  }
-
-  const handleRemoveQuery = () => {
+  const handleRemoveQuery = useCallback(() => {
     setQuery('')
-    if (data) setCoins(data.coins)
-    textInputRef.current?.focus()
-  }
-
-  const animationConfig = useMemo(() => {
-    return getKeyboardAnimationConfigs(
-      animationEasing.value,
-      animationDuration.value
-    )
-  }, [animationEasing, animationDuration])
-
-  const FooterHeight = useAnimatedStyle(() => {
-    return {
-      height: withSpring(animationKeyboardHeight.value, animationConfig),
-    }
-  }, [animationKeyboardHeight, animationConfig])
+    searchBarRef.current?.focus()
+  }, [])
 
   return (
     <>
-      {!data && <GlobalIndicator isLoaded={false} size="large" transparent />}
+      {isFetching && (
+        <GlobalIndicator isLoaded={false} size="large" transparent />
+      )}
       <FlatList
         data={coins}
         keyExtractor={(item, index) => item.id + index + item.name}
@@ -238,13 +138,11 @@ const Layout = () => {
           minHeight: height - headerHeight,
           backgroundColor: theme.base.background.surface,
         }}
-        ListFooterComponent={<Animated.View style={FooterHeight} />}
+        ListFooterComponent={<ListFooter />}
         ListHeaderComponent={
           <SearchBar
-            ref={textInputRef}
-            isLoading={isLoading}
+            ref={searchBarRef}
             onQueryChange={handleQueryChange}
-            coinsLength={coins.length}
             onRemoveQuery={handleRemoveQuery}
             query={query}
           />
@@ -254,20 +152,19 @@ const Layout = () => {
           backgroundColor: theme.base.background.surface,
         }}
         renderItem={({ item }) => (
-          <Item item={item} onPressItem={handleItemPress} />
+          <SearchItem
+            item={item}
+            keyword={debouncedQuery}
+            onPress={() => handleItemPress({ ...item, image: item.large })}
+          />
         )}
         ListEmptyComponent={
-          data ? (
-            query ? (
-              <EmptyView query={query} />
-            ) : (
-              <></>
-            )
+          debouncedQuery && isFetched ? (
+            <EmptyView query={debouncedQuery} />
           ) : (
-            <SearchItemListSkeleton />
+            <></>
           )
         }
-        initialNumToRender={7}
         stickyHeaderIndices={[0]}
       />
       {visible && modalInitialState.id && (

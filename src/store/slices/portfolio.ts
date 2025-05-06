@@ -33,7 +33,7 @@ interface ChangeCoinStateAction extends Pick<CoinType, 'state'> {
   coinId: string
 }
 
-type AddWatchingCoinProps = {
+export type AddWatchingCoinProps = {
   portfolioId: string
   coin: {
     id: string

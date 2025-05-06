@@ -31,6 +31,7 @@ const SearchBar = forwardRef<TextInput, SearchBarProps>(
             />
             <CustomTextInput
               ref={ref}
+              autoFocus
               keyboardAppearance={scheme === 'dark' ? 'dark' : 'light'}
               onChangeText={onQueryChange}
               value={query}
