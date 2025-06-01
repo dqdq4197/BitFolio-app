@@ -2,7 +2,7 @@
   "expo": {
     "name": "bitfolio",
     "slug": "bitfolio",
-    "version": "1.0.8",
+    "version": "1.0.10",
     "orientation": "portrait",
     "icon": "./assets/bitfolio_icon.png",
     "splash": {
@@ -20,7 +20,13 @@
       "supportsTablet": false,
       "bundleIdentifier": "com.bitfolio.cryptocurrencies.ios",
       "buildNumber": "1.0.10",
-      "associatedDomains": ["applinks:bitfolio.page.link"]
+      "associatedDomains": [
+        "applinks:bitfolio.page.link",
+        "applinks:bitfolio.page.link"
+      ],
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
