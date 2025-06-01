@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react'
+import React, { forwardRef, ComponentRef } from 'react'
 import styled from 'styled-components/native'
 import Svg, { G, Circle } from 'react-native-svg'
 import { AntDesign } from '@expo/vector-icons'
@@ -12,7 +12,7 @@ type ButtonProps = {
   onModalClose: () => void
 }
 
-const CloseButton = forwardRef<any, ButtonProps>(
+const CloseButton = forwardRef<ComponentRef<typeof Circle>, ButtonProps>(
   ({ SIZE, STROKEWIDTH, RADIUS, CIRCUMFERENCE, onModalClose }, ref) => {
     const { theme, scheme } = useGlobalTheme()
 
@@ -25,7 +25,9 @@ const CloseButton = forwardRef<any, ButtonProps>(
               cx={SIZE / 2}
               cy={SIZE / 2}
               r={RADIUS}
+              fill="transparent"
               strokeWidth={STROKEWIDTH}
+              strokeDasharray={CIRCUMFERENCE}
             />
             <Circle
               ref={ref}
@@ -33,6 +35,7 @@ const CloseButton = forwardRef<any, ButtonProps>(
               cx={SIZE / 2}
               cy={SIZE / 2}
               r={RADIUS}
+              fill="transparent"
               strokeWidth={STROKEWIDTH}
               strokeDasharray={CIRCUMFERENCE}
             />

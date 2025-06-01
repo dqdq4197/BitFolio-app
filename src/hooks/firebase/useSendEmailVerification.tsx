@@ -14,18 +14,18 @@ const useSendEmailVerification = () => {
 
   // 1초마다 인증 완료 여부 체크.
   useEffect(() => {
-    let interval: NodeJS.Timer
     if (currentUser) {
       setVerified(currentUser.emailVerified)
-      interval = setInterval(async () => {
+      const interval = setInterval(async () => {
         await currentUser.reload()
         if (currentUser.emailVerified) {
           setVerified(true)
           clearInterval(interval)
         }
       }, 1000)
+
+      return () => clearInterval(interval)
     }
-    return () => clearInterval(interval)
   }, [currentUser])
 
   const sendEmailVerification = useCallback(async () => {
