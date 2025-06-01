@@ -6152,7 +6152,6 @@ __metadata:
     jest-expo: "npm:~51.0.4"
     ky: "npm:^1.8.1"
     lodash: "npm:4.17.21"
-    lottie-ios: "npm:^3.4.1"
     lottie-react-native: "npm:6.7.0"
     prettier: "npm:^2.5.1"
     react: "npm:18.2.0"
@@ -13282,13 +13281,6 @@ __metadata:
   bin:
     loose-envify: cli.js
   checksum: 10c0/655d110220983c1a4b9c0c679a2e8016d4b67f6e9c7b5435ff5979ecdb20d0813f4dec0a08674fcbdd4846a3f07edbb50a36811fd37930b94aaa0d9daceb017e
-  languageName: node
-  linkType: hard
-
-"lottie-ios@npm:^3.4.1":
-  version: 3.5.0
-  resolution: "lottie-ios@npm:3.5.0"
-  checksum: 10c0/1ce2ad4fadb8401a764ea29fb59d7e40746e20721586c90083824acb0e2bf7d6d41560c61e44b08a4be941c208d04eea7d96750526cc8be660eddb9d0f0b8a35
   languageName: node
   linkType: hard
 
