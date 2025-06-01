@@ -4,6 +4,7 @@ import {
   createStackNavigator,
   StackNavigationOptions,
 } from '@react-navigation/stack'
+import { MaterialIcons } from '@expo/vector-icons'
 
 import useGlobalTheme from '/hooks/useGlobalTheme'
 import type { NewsParamList } from '/types/navigation'
@@ -23,6 +24,13 @@ const News = () => {
         backgroundColor: theme.base.background.surface,
         shadowColor: 'transparent',
       },
+      headerBackImage: () => (
+        <MaterialIcons
+          name="arrow-back-ios-new"
+          size={24}
+          color={theme.base.text[100]}
+        />
+      ),
       headerTintColor: theme.base.text[100],
       headerBackTitleVisible: false,
       headerLeftContainerStyle: {

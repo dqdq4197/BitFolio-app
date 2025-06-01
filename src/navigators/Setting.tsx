@@ -5,6 +5,7 @@ import {
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Dimensions } from 'react-native'
+import { MaterialIcons } from '@expo/vector-icons'
 
 import useGlobalTheme from '/hooks/useGlobalTheme'
 import type { SettingParamList } from '/types/navigation'
@@ -39,6 +40,13 @@ const Setting = () => {
         backgroundColor: theme.base.background.surface,
         shadowColor: 'transparent',
       },
+      headerBackImage: () => (
+        <MaterialIcons
+          name="arrow-back-ios-new"
+          size={24}
+          color={theme.base.text[100]}
+        />
+      ),
       headerTintColor: theme.base.text[100],
       headerBackTitleVisible: false,
       headerLeftContainerStyle: {

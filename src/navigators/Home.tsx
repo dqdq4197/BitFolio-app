@@ -1,9 +1,9 @@
 import { createStackNavigator } from '@react-navigation/stack'
 import React from 'react'
 
+import { MaterialIcons } from '@expo/vector-icons'
 import useGlobalTheme from '/hooks/useGlobalTheme'
 import type { HomeParamList } from '/types/navigation'
-
 import CoinDetail from './CoinDetail'
 import {
   Gainers,
@@ -27,8 +27,15 @@ const Home = () => {
         title: '',
         headerStyle: {
           backgroundColor: theme.base.background.surface,
-          shadowColor: 'transparent', // theme.base.background[300]
+          shadowColor: 'transparent',
         },
+        headerBackImage: () => (
+          <MaterialIcons
+            name="arrow-back-ios-new"
+            size={24}
+            color={theme.base.text[100]}
+          />
+        ),
         headerTintColor: theme.base.text[100],
         headerBackTitleVisible: false,
         headerLeftContainerStyle: {
