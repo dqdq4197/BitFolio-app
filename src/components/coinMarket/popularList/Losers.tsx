@@ -113,6 +113,7 @@ const Losers = () => {
           refreshing={refreshing}
         />
       }
+      initialNumToRender={15}
       getItemLayout={(_data, index) => ({
         length: 60,
         offset: 60 * index,

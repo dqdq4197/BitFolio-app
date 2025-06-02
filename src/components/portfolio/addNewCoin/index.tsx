@@ -165,6 +165,7 @@ function Layout() {
             <></>
           )
         }
+        initialNumToRender={15}
         stickyHeaderIndices={[0]}
       />
       {visible && modalInitialState.id && (

@@ -103,6 +103,7 @@ const Layout = () => {
             <DefaultView onPressItem={handleItemPress} />
           )
         }
+        initialNumToRender={15}
         stickyHeaderIndices={[0]}
       />
     </>
