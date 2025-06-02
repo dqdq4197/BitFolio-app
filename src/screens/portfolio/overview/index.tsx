@@ -1,6 +1,5 @@
 import { Ionicons } from '@expo/vector-icons'
 import { BottomSheetModal } from '@gorhom/bottom-sheet'
-import { StackScreenProps } from '@react-navigation/stack'
 import React, { useCallback, useLayoutEffect, useRef } from 'react'
 
 import useGlobalTheme from '/hooks/useGlobalTheme'
@@ -10,8 +9,11 @@ import GeneralTemplate from '/components/GeneralTemplate'
 import Layout from '/components/portfolio/Layout'
 import { PortfolioDataProvider } from '/components/portfolio/PortfolioDataContext'
 import SettingModal from '/components/setting/SettingModal'
+import { PortfolioScreenProps } from '/types/navigation'
 
-const OverviewScreen = ({ navigation }: StackScreenProps<any>) => {
+const OverviewScreen = ({
+  navigation,
+}: PortfolioScreenProps<'PortfolioOverview'>) => {
   const { theme } = useGlobalTheme()
   const settingModalRef = useRef<BottomSheetModal>(null)
 
@@ -27,6 +29,7 @@ const OverviewScreen = ({ navigation }: StackScreenProps<any>) => {
           size={24}
           color={theme.base.text[200]}
           onPress={handleSettingPress}
+          suppressHighlighting
         />
       ),
     })

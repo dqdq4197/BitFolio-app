@@ -26,6 +26,7 @@ const OverviewScreen = ({ navigation }: NewsScreenProps<'NewsOverview'>) => {
           size={24}
           color={theme.base.text[200]}
           onPress={handleSettingPress}
+          suppressHighlighting
         />
       ),
     })

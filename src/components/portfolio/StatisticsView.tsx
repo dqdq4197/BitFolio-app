@@ -67,6 +67,7 @@ const SparkLine = ({ prices, isRising, oneDayAgoPrice }: SparkLineProps) => {
     <Svg width={XSIZE} height={YSIZE}>
       <Path
         d={path}
+        fill="none"
         stroke={
           isRising === null
             ? theme.base.text[200]

@@ -47,12 +47,14 @@ const HomeScreen = ({ navigation }: HomeScreenProps<'CoinMarketHome'>) => {
               marginRight: 20,
             }}
             onPress={() => navigation.navigate('CoinSearch')}
+            suppressHighlighting
           />
           <Ionicons
             name="settings-outline"
             size={24}
             color={theme.base.text[200]}
             onPress={handleSettingPress}
+            suppressHighlighting
           />
         </Wrap>
       ),
@@ -71,14 +73,14 @@ const HomeScreen = ({ navigation }: HomeScreenProps<'CoinMarketHome'>) => {
 
 export default HomeScreen
 
-const IconWrap = styled.TouchableOpacity`
-  width: 26px;
-  height: 26px;
-  border-radius: 20px;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid ${({ theme }) => theme.base.text[300]};
-`
+// const IconWrap = styled.TouchableOpacity`
+//   width: 26px;
+//   height: 26px;
+//   border-radius: 20px;
+//   align-items: center;
+//   justify-content: center;
+//   border: 1px solid ${({ theme }) => theme.base.text[300]};
+// `
 
 const Wrap = styled.View`
   flex-direction: row;
