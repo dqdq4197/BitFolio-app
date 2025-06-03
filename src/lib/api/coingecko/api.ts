@@ -4,7 +4,7 @@ import type { CoinsMarkets, Search, TrendingSearch } from './model'
 const coinGeckoClient = httpClient.extend({
   prefixUrl: 'https://api.coingecko.com/api',
   headers: {
-    x_cg_demo_api_key: process.env.EXPO_PUBLIC_COINGECKO_DEMO_API_KEY,
+    x_cg_demo_api_key: process.env.EXPO_PUBLIC_COINGECKO_API_KEY,
   },
 })
 

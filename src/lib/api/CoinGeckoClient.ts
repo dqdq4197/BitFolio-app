@@ -88,7 +88,7 @@ const defaultParams: DefaultParamsType = {
 
 export const http = axios.create({
   baseURL: COINGECKO_PATH_PREFIX,
-  params: { x_cg_demo_api_key: process.env.EXPO_PUBLIC_COINGECKO_DEMO_API_KEY },
+  params: { x_cg_demo_api_key: process.env.EXPO_PUBLIC_COINGECKO_API_KEY },
 })
 
 export const CoinGecko = {

@@ -19,7 +19,6 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.bitfolio.cryptocurrencies.ios",
-      "buildNumber": "1.0.10",
       "associatedDomains": [
         "applinks:bitfolio.page.link",
         "applinks:bitfolio.page.link"
