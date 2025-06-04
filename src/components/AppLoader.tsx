@@ -21,14 +21,13 @@ const CustomSplashScreen = ({ children }: Props) => {
   const opacity = useRef(new Animated.Value(1)).current
   const [isAppReady, setAppReady] = useState(false)
   const [isSplashAnimationComplete, setAnimationComplete] = useState(false)
-  // const { isLoading } = useAuthContext();
 
   // NOTE. 최소 2초 후 로드 & authenticated check가 로딩 중에는 splash 뷰를 보여줌.
   useEffect(() => {
     if (isAppReady) {
       Animated.timing(opacity, {
         toValue: 0,
-        duration: 200,
+        duration: 300,
         useNativeDriver: true,
       }).start(() => setAnimationComplete(true))
     }
@@ -52,7 +51,7 @@ const CustomSplashScreen = ({ children }: Props) => {
   return (
     <Container>
       {isAppReady && children}
-      {!isSplashAnimationComplete && splash?.imageUrl && (
+      {!isSplashAnimationComplete && splash?.image && (
         <Animated.View
           pointerEvents="none"
           style={[
@@ -69,7 +68,7 @@ const CustomSplashScreen = ({ children }: Props) => {
               height: '100%',
               resizeMode: splash.resizeMode || 'contain',
             }}
-            source={{ uri: splash.imageUrl }}
+            source={{ uri: splash.image }}
             onLoadEnd={handleImageLoadEnd}
             fadeDuration={0}
           />

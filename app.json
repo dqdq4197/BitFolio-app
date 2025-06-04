@@ -6,7 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/bitfolio_icon.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "https://github.com/dqdq4197/BitFolio-app/blob/master/assets/splash.png?raw=true",
       "resizeMode": "contain",
       "backgroundColor": "#121212"
     },
@@ -19,10 +19,7 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.bitfolio.cryptocurrencies.ios",
-      "associatedDomains": [
-        "applinks:bitfolio.page.link",
-        "applinks:bitfolio.page.link"
-      ],
+      "associatedDomains": ["applinks:bitfolio.page.link"],
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
