@@ -19,7 +19,6 @@ import { changeDeviceScheme } from '/store/slices/baseSetting'
 
 import AppLoader from '/components/AppLoader'
 
-// import './src/config/firebase';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import '/lib/lang/i18n'
