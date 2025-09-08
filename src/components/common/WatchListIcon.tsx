@@ -50,14 +50,10 @@ const WatchListIcon = ({ id }: IconProps) => {
         source={require('../../../assets/lottie/watchListIcon.json')}
         speed={2}
         style={{
-          width: 62,
-          height: 62,
-          transform: [
-            {
-              translateX: -8,
-            },
-            { translateY: -8 },
-          ],
+          width: 60,
+          height: 60,
+          top: -15,
+          left: -15,
         }}
         loop={false}
       />
@@ -68,6 +64,6 @@ const WatchListIcon = ({ id }: IconProps) => {
 export default WatchListIcon
 
 const Container = styled.Pressable`
-  width: 28px;
-  height: 35px;
+  width: 30px;
+  height: 30px;
 `
