@@ -7,7 +7,7 @@ import type { HomeParamList } from '/types/navigation'
 import CoinDetail from './CoinDetail'
 import {
   Gainers,
-  HighMarkeCap,
+  HighMarketCap,
   HighVolume,
   Losers,
   Main,
@@ -54,7 +54,7 @@ const Home = () => {
       <Stack.Screen name="CoinMarketHome" component={Main} />
       <Stack.Screen name="CoinDetail" component={CoinDetail} />
       <Stack.Screen name="NewCoin" component={NewCoin} />
-      <Stack.Screen name="CoinHighMarketCap" component={HighMarkeCap} />
+      <Stack.Screen name="CoinHighMarketCap" component={HighMarketCap} />
       <Stack.Screen name="CoinHighVolume" component={HighVolume} />
       <Stack.Screen name="Gainers" component={Gainers} />
       <Stack.Screen name="Losers" component={Losers} />

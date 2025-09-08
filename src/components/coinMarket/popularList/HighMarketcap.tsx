@@ -16,7 +16,7 @@ import FlatListHeader from './FlatListHeader'
 import Footer from './Footer'
 import Item from './Item'
 
-const HighMarketcap = () => {
+const HighMarketCap = () => {
   const { t } = useTranslation()
   const navigation =
     useNavigation<HomeScreenProps<'CoinHighMarketCap'>['navigation']>()
@@ -98,4 +98,4 @@ const HighMarketcap = () => {
   )
 }
 
-export default HighMarketcap
+export default HighMarketCap

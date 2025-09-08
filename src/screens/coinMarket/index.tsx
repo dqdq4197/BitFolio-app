@@ -1,5 +1,5 @@
 export { default as Gainers } from './gainers'
-export { default as HighMarkeCap } from './highMarketCap'
+export { default as HighMarketCap } from './highMarketCap'
 export { default as HighVolume } from './highVolume'
 export { default as Main } from './main'
 export { default as Losers } from './losers'
