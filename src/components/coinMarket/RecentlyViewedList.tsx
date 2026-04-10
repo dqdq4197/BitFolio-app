@@ -10,7 +10,7 @@ import { useAppSelector } from '/hooks/useRedux'
 import useRequest from '/hooks/useRequest'
 import { CoinGecko, http } from '/lib/api/CoinGeckoClient'
 import { digitToFixed } from '/lib/utils'
-import type { CoinMarketReturn } from '/types/coinGeckoReturnType'
+import type { CoinMarketReturn } from '/types/CoinGeckoReturnType'
 import type { HomeScreenProps } from '/types/navigation'
 
 import Image from '/components/common/Image'

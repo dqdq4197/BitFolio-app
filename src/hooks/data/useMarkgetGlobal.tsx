@@ -1,6 +1,6 @@
 import useRequest from '../useRequest'
 import { CoinGecko, http } from '/lib/api/CoinGeckoClient'
-import { GlobalReturn } from '/types/coinGeckoReturnType'
+import { GlobalReturn } from '/types/CoinGeckoReturnType'
 
 interface MarketGlobalProps {
   suspense?: boolean

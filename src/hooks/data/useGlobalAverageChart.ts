@@ -10,7 +10,7 @@ import { CURRENCIES } from '/lib/constant'
 import type {
   ChartDataReturn,
   HistoricalOhlcReturn,
-} from '/types/coinGeckoReturnType'
+} from '/types/CoinGeckoReturnType'
 import type { CurrencyType } from '/types/common'
 
 type TProps = {

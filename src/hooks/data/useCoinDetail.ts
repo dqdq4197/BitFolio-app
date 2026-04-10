@@ -1,6 +1,6 @@
 import useRequest from '../useRequest'
 import { CoinGecko, http } from '/lib/api/CoinGeckoClient'
-import type { CoinDetailDataReturn } from '/types/coinGeckoReturnType'
+import type { CoinDetailDataReturn } from '/types/CoinGeckoReturnType'
 
 type DetailDataProps = {
   id: string

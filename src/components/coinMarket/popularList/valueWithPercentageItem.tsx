@@ -6,7 +6,7 @@ import { Ionicons } from '@expo/vector-icons'
 import useCurrencyFormat from '/hooks/useCurrencyFormat'
 import useGlobalTheme from '/hooks/useGlobalTheme'
 import { digitToFixed } from '/lib/utils'
-import type { CoinMarketReturn } from '/types/coinGeckoReturnType'
+import type { CoinMarketReturn } from '/types/CoinGeckoReturnType'
 
 import Image from '/components/common/Image'
 import Text from '/components/common/Text'

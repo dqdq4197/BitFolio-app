@@ -10,7 +10,7 @@ import React, {
 import useCoinMarketData from '/hooks/data/useCoinMarketData'
 import { shallowEqual, useAppSelector } from '/hooks/useRedux'
 import { PortfolioType } from '/store/slices/portfolio'
-import type { CoinMarketReturn } from '/types/coinGeckoReturnType'
+import type { CoinMarketReturn } from '/types/CoinGeckoReturnType'
 
 interface ValueType extends Pick<PortfolioType, 'id' | 'coins'> {
   coinsData?: CoinMarketReturn[]

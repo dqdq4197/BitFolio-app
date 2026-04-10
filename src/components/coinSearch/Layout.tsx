@@ -1,6 +1,6 @@
 import React, { useCallback, useRef, useState } from 'react'
 
-import type { SearchCoin } from '/types/coinGeckoReturnType'
+import type { SearchCoin } from '/types/CoinGeckoReturnType'
 
 import { useHeaderHeight } from '@react-navigation/elements'
 import { useNavigation } from '@react-navigation/native'

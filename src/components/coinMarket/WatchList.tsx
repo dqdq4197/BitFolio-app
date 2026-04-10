@@ -10,7 +10,7 @@ import useLocales from '/hooks/useLocales'
 import { useAppSelector } from '/hooks/useRedux'
 import useRequest from '/hooks/useRequest'
 import { CoinGecko, http } from '/lib/api/CoinGeckoClient'
-import type { CoinMarketReturn } from '/types/coinGeckoReturnType'
+import type { CoinMarketReturn } from '/types/CoinGeckoReturnType'
 import type { HomeScreenProps } from '/types/navigation'
 
 import Item from './popularList/Item'

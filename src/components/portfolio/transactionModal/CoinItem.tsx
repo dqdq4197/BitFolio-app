@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components/native'
 
-import type { SearchCoin } from '/types/coinGeckoReturnType'
+import type { SearchCoin } from '/types/CoinGeckoReturnType'
 
 import Image from '/components/common/Image'
 import Text from '/components/common/Text'
