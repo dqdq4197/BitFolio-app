@@ -92,7 +92,11 @@ const ScrollCloseModal = ({
   )
 
   return (
-    <Modal animationType="slide" visible={visible}>
+    <Modal
+      animationType="slide"
+      presentationStyle="overFullScreen"
+      visible={visible}
+    >
       <Container behavior="padding">
         <HeaderView insetTop={insets.top}>
           {titleComponent || <Blank />}

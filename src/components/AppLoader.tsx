@@ -1,4 +1,3 @@
-import Constants from 'expo-constants'
 import * as SplashScreen from 'expo-splash-screen'
 import React, {
   useCallback,
@@ -11,8 +10,6 @@ import { Animated, Image, StyleSheet } from 'react-native'
 import styled from 'styled-components/native'
 
 import { InitDataProvider } from '/hooks/context/useInitDataContext'
-
-const { splash } = Constants.expoConfig ?? {}
 
 SplashScreen.preventAutoHideAsync()
 
@@ -51,24 +48,28 @@ const CustomSplashScreen = ({ children }: Props) => {
   return (
     <Container>
       {isAppReady && children}
-      {!isSplashAnimationComplete && splash?.image && (
+      {!isSplashAnimationComplete && (
         <Animated.View
           pointerEvents="none"
           style={[
             StyleSheet.absoluteFill,
             {
-              backgroundColor: splash.backgroundColor || '#121212',
+              backgroundColor: '#121212',
               opacity,
+              justifyContent: 'center',
+              alignItems: 'center',
             },
           ]}
         >
           <Image
             style={{
-              width: '100%',
+              width: 400,
               height: '100%',
-              resizeMode: splash.resizeMode || 'contain',
+              resizeMode: 'contain',
             }}
-            source={{ uri: splash.image }}
+            source={{
+              uri: 'https://github.com/dqdq4197/BitFolio-app/blob/master/assets/splash.png?raw=true',
+            }}
             onLoadEnd={handleImageLoadEnd}
             fadeDuration={0}
           />

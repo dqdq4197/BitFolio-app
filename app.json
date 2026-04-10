@@ -2,14 +2,9 @@
   "expo": {
     "name": "bitfolio",
     "slug": "bitfolio",
-    "version": "1.0.12",
+    "version": "1.0.15",
     "orientation": "portrait",
     "icon": "./assets/bitfolio_icon.png",
-    "splash": {
-      "image": "https://github.com/dqdq4197/BitFolio-app/blob/master/assets/splash.png?raw=true",
-      "resizeMode": "contain",
-      "backgroundColor": "#121212"
-    },
     "updates": {
       "fallbackToCacheTimeout": 0,
       "url": "https://u.expo.dev/6d4899c7-afc3-472c-8299-a027f908ef57"
@@ -24,6 +19,7 @@
         "ITSAppUsesNonExemptEncryption": false
       }
     },
+    "newArchEnabled": true,
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#121212"
@@ -44,6 +40,19 @@
       "policy": "sdkVersion"
     },
     "plugins": [
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#121212",
+          "image": "./assets/splash.png",
+          "dark": {
+            "image": "./assets/splash.png",
+            "backgroundColor": "#121212"
+          },
+          "imageWidth": 400,
+          "resizeMode": "contain"
+        }
+      ],
       [
         "expo-build-properties",
         {
