@@ -1,5 +1,5 @@
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
-import React, { useEffect, useLayoutEffect } from 'react'
+import { useEffect, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { CoinIdProvider } from '/hooks/context/useCoinIdContext'

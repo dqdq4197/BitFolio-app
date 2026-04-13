@@ -1,5 +1,4 @@
 import { createStackNavigator } from '@react-navigation/stack'
-import React from 'react'
 
 import { MaterialIcons } from '@expo/vector-icons'
 import useGlobalTheme from '/hooks/useGlobalTheme'

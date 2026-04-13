@@ -1,4 +1,3 @@
-import React from 'react'
 import { ActivityIndicator } from 'react-native'
 import styled, { css } from 'styled-components/native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'

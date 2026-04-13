@@ -1,4 +1,3 @@
-import React from 'react'
 
 import OverviewLayout from '/components/coinMarketDetail/overview/Layout'
 import AsyncBoundary from '/components/common/AsyncBoundary'

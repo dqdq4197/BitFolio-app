@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Animated } from 'react-native'
 import { useTranslation, Trans } from 'react-i18next'
 import { useNavigation } from '@react-navigation/native'

@@ -1,7 +1,6 @@
 import { formatDistance, fromUnixTime } from 'date-fns'
 import { enUS, ko } from 'date-fns/locale'
 import * as WebBrowser from 'expo-web-browser'
-import React from 'react'
 import { Dimensions } from 'react-native'
 import styled from 'styled-components/native'
 

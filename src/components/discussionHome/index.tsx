@@ -1,5 +1,4 @@
 import { useNavigation } from '@react-navigation/native'
-import React from 'react'
 
 import Text from '/components/common/Text'
 

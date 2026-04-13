@@ -1,7 +1,6 @@
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'
 import { format } from 'date-fns'
 import { enUS, ko } from 'date-fns/locale'
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components/native'
 

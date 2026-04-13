@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import styled from 'styled-components/native'
 import Text, { type TextStyleProps } from '/components/common/Text'
 import { createFuzzyMatcher } from '/lib/utils'

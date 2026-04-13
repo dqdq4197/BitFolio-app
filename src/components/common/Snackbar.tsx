@@ -1,6 +1,6 @@
 import { AntDesign, FontAwesome, FontAwesome5 } from '@expo/vector-icons'
 import { BlurView } from 'expo-blur'
-import React, { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Animated, TouchableOpacity } from 'react-native'
 import styled from 'styled-components/native'

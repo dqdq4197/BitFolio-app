@@ -1,4 +1,3 @@
-import React from 'react'
 import styled from 'styled-components/native'
 import Image from '/components/common/Image'
 import Text from '/components/common/Text'

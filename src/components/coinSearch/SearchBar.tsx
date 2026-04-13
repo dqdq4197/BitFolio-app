@@ -1,5 +1,5 @@
 import { Ionicons, MaterialIcons } from '@expo/vector-icons'
-import React, { forwardRef } from 'react'
+import { forwardRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { TextInput } from 'react-native'
 import styled from 'styled-components/native'

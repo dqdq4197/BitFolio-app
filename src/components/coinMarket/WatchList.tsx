@@ -1,6 +1,6 @@
 import { AntDesign } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { LayoutAnimation, Platform, UIManager } from 'react-native'
 import styled from 'styled-components/native'

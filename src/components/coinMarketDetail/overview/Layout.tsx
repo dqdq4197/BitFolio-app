@@ -1,5 +1,5 @@
 import { BlurView } from 'expo-blur'
-import React, { useCallback, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { Dimensions } from 'react-native'
 import styled from 'styled-components/native'
 

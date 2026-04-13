@@ -78,7 +78,7 @@
     "react-string-replace": "^0.4.4",
     "redux-devtools-extension": "^2.13.9",
     "redux-persist": "^6.0.0",
-    "styled-components": "^6",
+    "styled-components": "^5.2.1",
     "svg-path-properties": "^1.0.11",
     "swr": "^2.3.3",
     "text-decoding": "^1.0.0",

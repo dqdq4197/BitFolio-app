@@ -1,15 +1,15 @@
-import React, { forwardRef } from 'react'
+import { forwardRef } from 'react'
 import { TouchableOpacity, Animated } from 'react-native'
 import styled from 'styled-components/native'
 
-interface ITab {
+interface TabProps {
   label: string
   isFocused: boolean
-  opacity: Animated.AnimatedInterpolation
+  opacity: Animated.AnimatedInterpolation<number>
   onPress: () => void
 }
 
-const Tab = forwardRef<TouchableOpacity, ITab>(
+const Tab = forwardRef<typeof TouchableOpacity, TabProps>(
   ({ label, isFocused, opacity, onPress }, ref) => {
     return (
       <TabButton

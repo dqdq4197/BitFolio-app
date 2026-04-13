@@ -1,5 +1,5 @@
 import { useNavigation, useScrollToTop } from '@react-navigation/native'
-import React, { useCallback, useRef } from 'react'
+import { useCallback, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Animated, ScrollView } from 'react-native'
 

@@ -1,6 +1,5 @@
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { isEmpty } from 'lodash'
-import React from 'react'
 import { ScrollView } from 'react-native'
 import SearchesEmptyView from './SearchesEmptyView'
 import SearchesItem from './SearchesItem'

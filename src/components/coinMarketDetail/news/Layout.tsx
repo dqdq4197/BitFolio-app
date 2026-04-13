@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { FlatList } from 'react-native'
 
 import { useCoinIdContext } from '/hooks/context/useCoinIdContext'

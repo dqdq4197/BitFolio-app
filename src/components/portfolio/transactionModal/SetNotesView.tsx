@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Dimensions, Keyboard, TextInput } from 'react-native'
 import styled from 'styled-components/native'

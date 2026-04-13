@@ -1,4 +1,3 @@
-import React from 'react'
 
 import ChangePassword from '/components/auth/ChangePassword'
 import AsyncBoundary from '/components/common/AsyncBoundary'

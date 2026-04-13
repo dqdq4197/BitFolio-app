@@ -1,4 +1,3 @@
-import React from 'react'
 
 import DiscussionLayout from '/components/coinMarketDetail/discussion/Layout'
 import MarketListSkeleton from '/components/skeletonPlaceholder/MarketListSkeleton'

@@ -1,5 +1,5 @@
 import { BottomSheetModal } from '@gorhom/bottom-sheet'
-import React, { forwardRef, useCallback, useRef } from 'react'
+import { forwardRef, useCallback, useRef } from 'react'
 
 import useGlobalTheme from '/hooks/useGlobalTheme'
 

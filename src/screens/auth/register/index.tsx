@@ -1,4 +1,3 @@
-import React from 'react'
 
 import Register from '/components/auth/Register'
 import AsyncBoundary from '/components/common/AsyncBoundary'

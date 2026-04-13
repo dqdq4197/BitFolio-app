@@ -1,4 +1,4 @@
-import React, { forwardRef, ComponentRef } from 'react'
+import { forwardRef, ComponentRef } from 'react'
 import styled from 'styled-components/native'
 import Svg, { G, Circle } from 'react-native-svg'
 import { AntDesign } from '@expo/vector-icons'

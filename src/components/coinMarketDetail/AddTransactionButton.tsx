@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react'
+import { useState, useMemo } from 'react'
 import { Dimensions } from 'react-native'
 import { useTranslation } from 'react-i18next'
 

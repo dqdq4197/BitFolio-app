@@ -1,4 +1,3 @@
-import React from 'react'
 
 import NewsLayout from '/components/coinMarketDetail/news/Layout'
 import AsyncBoundary from '/components/common/AsyncBoundary'

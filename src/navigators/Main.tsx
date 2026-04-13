@@ -1,6 +1,5 @@
 import { FontAwesome, Fontisto, Ionicons } from '@expo/vector-icons'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { useAppSelector } from '/hooks/useRedux'

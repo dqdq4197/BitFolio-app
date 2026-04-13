@@ -5,7 +5,7 @@ import {
   BottomSheetView,
   type BottomSheetBackdropProps,
 } from '@gorhom/bottom-sheet'
-import React, { forwardRef, useCallback } from 'react'
+import { forwardRef, useCallback } from 'react'
 import { StyleProp, ViewStyle } from 'react-native'
 import styled, { css } from 'styled-components/native'
 

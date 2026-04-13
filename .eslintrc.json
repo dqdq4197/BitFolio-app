@@ -63,7 +63,9 @@
     "react/no-array-index-key": 0,
     "react/require-extension": 0,
     "global-require": 0,
-    "import/extensions": ["error", { "json": "always" }]
+    "import/extensions": ["error", { "json": "always" }],
+    "react/react-in-jsx-scope": 0,
+    "react/jsx-uses-react": 0
   },
   "settings": {
     "import/resolver": {

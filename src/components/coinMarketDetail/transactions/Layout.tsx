@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { Dimensions } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components/native'

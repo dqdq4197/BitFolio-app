@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { Dimensions, LayoutAnimation, UIManager, Platform } from 'react-native'
 import styled from 'styled-components/native'
 import { MaterialCommunityIcons } from '@expo/vector-icons'

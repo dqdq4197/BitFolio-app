@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef, useEffect } from 'react'
+import { useState, useCallback, useRef, useEffect } from 'react'
 import { Dimensions, Animated, Easing } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import { easeCubicOut } from 'd3-ease'

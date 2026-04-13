@@ -1,5 +1,4 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from 'react'
 
 import useCoinDetail from '/hooks/data/useCoinDetail'
 import useLocales from '/hooks/useLocales'

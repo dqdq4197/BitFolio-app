@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native'
-import React, { useCallback, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { Animated, FlatList, View } from 'react-native'
 
 import useAnimatedHeaderTitle from '/hooks/useAnimatedHeaderTitle'

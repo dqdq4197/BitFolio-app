@@ -1,6 +1,5 @@
 import { Ionicons } from '@expo/vector-icons'
 import * as haptics from 'expo-haptics'
-import React from 'react'
 import { Dimensions } from 'react-native'
 import styled from 'styled-components/native'
 

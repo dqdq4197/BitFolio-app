@@ -8,7 +8,7 @@ import {
 import { BottomSheetModal } from '@gorhom/bottom-sheet'
 import { format } from 'date-fns'
 import { enUS, ko } from 'date-fns/locale'
-import React, {
+import {
   MutableRefObject,
   forwardRef,
   useCallback,

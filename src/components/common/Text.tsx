@@ -1,4 +1,3 @@
-import React from 'react'
 import { TextProps, Animated } from 'react-native'
 import styled from 'styled-components/native'
 

@@ -1,6 +1,6 @@
 import { MaterialCommunityIcons, Octicons } from '@expo/vector-icons'
 import { useNavigation, useScrollToTop } from '@react-navigation/native'
-import React, { useCallback, useRef, useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Animated, ScrollView } from 'react-native'
 import styled from 'styled-components/native'

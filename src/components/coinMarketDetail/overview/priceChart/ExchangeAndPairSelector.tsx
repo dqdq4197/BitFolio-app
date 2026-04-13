@@ -1,6 +1,6 @@
 import { Octicons } from '@expo/vector-icons'
 import { BottomSheetModal } from '@gorhom/bottom-sheet'
-import React, { useCallback, useRef } from 'react'
+import { useCallback, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Dimensions } from 'react-native'
 import styled, { css } from 'styled-components/native'

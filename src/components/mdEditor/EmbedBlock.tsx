@@ -1,4 +1,3 @@
-import React from 'react'
 import styled from 'styled-components/native'
 import YoutubePlayer from 'react-native-youtube-iframe'
 import {

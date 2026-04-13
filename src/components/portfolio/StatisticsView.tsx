@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import { Dimensions } from 'react-native'
 import Svg, { Path, Line } from 'react-native-svg'
 import { useTranslation } from 'react-i18next'

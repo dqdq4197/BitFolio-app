@@ -1,4 +1,3 @@
-import React from 'react'
 import { SvgXml, XmlProps } from 'react-native-svg'
 
 interface BaseType {

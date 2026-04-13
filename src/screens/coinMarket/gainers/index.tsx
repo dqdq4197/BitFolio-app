@@ -1,4 +1,3 @@
-import React from 'react'
 
 import Gainers from '/components/coinMarket/popularList/Gainers'
 import AsyncBoundary from '/components/common/AsyncBoundary'

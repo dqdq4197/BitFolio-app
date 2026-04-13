@@ -1,5 +1,5 @@
 import { QueryErrorResetBoundary } from '@tanstack/react-query'
-import React, {
+import {
   forwardRef,
   type ComponentPropsWithoutRef,
   type ComponentRef,

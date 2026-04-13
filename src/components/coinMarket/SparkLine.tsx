@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import Svg, { Path } from 'react-native-svg'
 import styled from 'styled-components/native'
 

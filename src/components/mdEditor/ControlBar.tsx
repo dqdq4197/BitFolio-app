@@ -10,7 +10,7 @@ import {
 } from '@expo/vector-icons'
 import { easeQuadOut } from 'd3-ease'
 import * as ImagePicker from 'expo-image-picker'
-import React, { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import {
   Animated,
   Dimensions,

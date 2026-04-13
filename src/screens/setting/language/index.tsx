@@ -1,4 +1,3 @@
-import React from 'react'
 
 import GeneralTemplate from '/components/GeneralTemplate'
 import Language from '/components/setting/Language'

@@ -1,4 +1,3 @@
-import React from 'react'
 import { RefreshControl } from 'react-native'
 import useGlobalTheme from '/hooks/useGlobalTheme'
 

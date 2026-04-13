@@ -1,4 +1,3 @@
-import React from 'react'
 
 import EmailVerification from '/components/auth/EmailVerification'
 import AsyncBoundary from '/components/common/AsyncBoundary'

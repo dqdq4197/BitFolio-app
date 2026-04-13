@@ -1,5 +1,5 @@
 import { Merge } from 'mapped-types'
-import React, { useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Dimensions } from 'react-native'
 import styled from 'styled-components/native'
 import { Slice, VictoryLegend, VictoryPie } from 'victory-native'

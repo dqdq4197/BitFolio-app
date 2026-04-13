@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Dimensions, Animated } from 'react-native'
 import styled from 'styled-components/native'
 import DateTimePicker from '@react-native-community/datetimepicker'

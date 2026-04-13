@@ -1,4 +1,3 @@
-import React from 'react'
 import { Dimensions } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components/native'

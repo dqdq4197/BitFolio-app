@@ -1,5 +1,4 @@
 import { baseTypes } from 'base-types'
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 import useLocales from '/hooks/useLocales'

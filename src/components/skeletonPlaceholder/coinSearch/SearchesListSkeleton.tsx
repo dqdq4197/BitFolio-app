@@ -1,4 +1,3 @@
-import React from 'react'
 import SkeletonPlaceholder from '/components/skeletonPlaceholder'
 import useGlobalTheme from '/hooks/useGlobalTheme'
 

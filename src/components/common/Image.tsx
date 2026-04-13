@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { Image, Dimensions } from 'react-native'
 import styled, { css } from 'styled-components/native'
 

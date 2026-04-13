@@ -1,4 +1,3 @@
-import React from 'react'
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs'
 import styled from 'styled-components/native'
 import * as habtics from 'expo-haptics'

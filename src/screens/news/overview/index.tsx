@@ -1,6 +1,6 @@
 import { Ionicons } from '@expo/vector-icons'
 import { BottomSheetModal } from '@gorhom/bottom-sheet'
-import React, { useCallback, useLayoutEffect, useRef } from 'react'
+import { useCallback, useLayoutEffect, useRef } from 'react'
 
 import useGlobalTheme from '/hooks/useGlobalTheme'
 import type { NewsScreenProps } from '/types/navigation'

@@ -1,5 +1,5 @@
 import LottieView from 'lottie-react-native'
-import React, { useCallback, useEffect, useMemo, useRef } from 'react'
+import { useCallback, useEffect, useMemo, useRef } from 'react'
 import styled from 'styled-components/native'
 
 import useFirstMountState from '/hooks/useFirstMountState'

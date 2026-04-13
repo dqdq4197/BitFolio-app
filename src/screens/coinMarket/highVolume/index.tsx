@@ -1,4 +1,3 @@
-import React from 'react'
 
 import HighVolume from '/components/coinMarket/popularList/HighVolume'
 import AsyncBoundary from '/components/common/AsyncBoundary'

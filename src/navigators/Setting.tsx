@@ -2,7 +2,6 @@ import {
   createStackNavigator,
   StackNavigationOptions,
 } from '@react-navigation/stack'
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Dimensions } from 'react-native'
 import { MaterialIcons } from '@expo/vector-icons'

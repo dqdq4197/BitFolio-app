@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from 'react'
+import { PropsWithChildren } from 'react'
 import { TouchableHighlightProps } from 'react-native'
 import styled, { ThemeConsumer } from 'styled-components/native'
 import { MaterialIcons } from '@expo/vector-icons'

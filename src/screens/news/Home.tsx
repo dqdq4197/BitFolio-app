@@ -1,4 +1,3 @@
-import React from 'react'
 
 import AsyncBoundary from '/components/common/AsyncBoundary'
 import DiscussionHome from '/components/discussionHome'

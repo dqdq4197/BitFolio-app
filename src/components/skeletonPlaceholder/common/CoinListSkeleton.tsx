@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react'
+import { ReactElement } from 'react'
 import { Dimensions } from 'react-native'
 
 import useGlobalTheme from '/hooks/useGlobalTheme'

@@ -4,7 +4,7 @@ import * as shape from 'd3-shape'
 import { format } from 'date-fns'
 import { enUS, ko } from 'date-fns/locale'
 import * as Haptics from 'expo-haptics'
-import React, { useMemo } from 'react'
+import { useMemo } from 'react'
 import { Dimensions, StyleSheet } from 'react-native'
 import { Gesture, GestureDetector } from 'react-native-gesture-handler'
 import Animated, {
