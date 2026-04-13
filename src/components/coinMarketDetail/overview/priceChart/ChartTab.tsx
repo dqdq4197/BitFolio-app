@@ -64,7 +64,7 @@ const ChartTab = () => {
             <Selector
               key={frame.value}
               onPress={() => handleTimeSelectorPress(frame.value)}
-              isSelected={frame.value === chartOptions[exchange].interval}
+              $isSelected={frame.value === chartOptions[exchange].interval}
               activeOpacity={0.6}
             >
               <Text
@@ -84,7 +84,7 @@ const ChartTab = () => {
       </ChartTimeSelectorScrollView>
       <ChartSelectorWrap>
         <Selector
-          isSelected={chartType === CHART_TYPE.LINE}
+          $isSelected={chartType === CHART_TYPE.LINE}
           onPress={() => handleChartSelectorPress(CHART_TYPE.LINE)}
           activeOpacity={0.6}
         >
@@ -95,10 +95,10 @@ const ChartTab = () => {
           />
         </Selector>
         <Selector
-          isSelected={chartType === CHART_TYPE.CANDLESTICK}
+          $isSelected={chartType === CHART_TYPE.CANDLESTICK}
           onPress={() => handleChartSelectorPress(CHART_TYPE.CANDLESTICK)}
           activeOpacity={0.6}
-          marginRightZero
+          $marginRightZero
         >
           <CoinSvg
             name="candlestick"
@@ -120,8 +120,8 @@ const ChartTab = () => {
 export default ChartTab
 
 interface SelectorProps {
-  isSelected: boolean
-  marginRightZero?: boolean
+  $isSelected: boolean
+  $marginRightZero?: boolean
 }
 
 const ChartTabWrap = styled.View`
@@ -139,11 +139,11 @@ const ChartSelectorWrap = styled.View`
 `
 
 const Selector = styled.TouchableOpacity<SelectorProps>`
-  margin-right: ${({ marginRightZero }) => (marginRightZero ? 0 : 10)}px;
+  margin-right: ${({ $marginRightZero }) => ($marginRightZero ? 0 : 10)}px;
   padding: 5px 10px;
   border-radius: ${({ theme }) => theme.border.m};
   align-items: center;
   justify-content: center;
-  background-color: ${({ theme, isSelected }) =>
-    isSelected ? theme.base.background[300] : 'transparent'};
+  background-color: ${({ theme, $isSelected }) =>
+    $isSelected ? theme.base.background[300] : 'transparent'};
 `

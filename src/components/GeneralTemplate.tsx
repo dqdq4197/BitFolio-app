@@ -18,7 +18,7 @@ const GeneralTemplate = ({ children }: TemplateProps) => {
   const headerHeight = useHeaderHeight()
 
   return (
-    <Container navHeight={headerHeight}>
+    <Container $navHeight={headerHeight}>
       <StatusBar
         translucent
         animated
@@ -31,7 +31,7 @@ const GeneralTemplate = ({ children }: TemplateProps) => {
 }
 
 interface ContainerProps {
-  navHeight: number
+  $navHeight: number
 }
 
 // status bar 높이 빼주자 padding-top에
@@ -41,10 +41,10 @@ const Container = styled.SafeAreaView<ContainerProps>`
     return theme.base.background[100]
   }};
   height: ${height + 200}px;
-  /* padding-top: ${props =>
+  /* padding-top: ${({ $navHeight }) =>
     Platform.OS === 'android'
       ? `${StatusBar.currentHeight as number}px`
-      : `${props.navHeight - STATUSBAR_DEFAULT_HEIGHT}px`}; */
+      : `${$navHeight - STATUSBAR_DEFAULT_HEIGHT}px`}; */
 `
 
 export default GeneralTemplate

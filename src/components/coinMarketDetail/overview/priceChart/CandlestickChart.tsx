@@ -13,17 +13,17 @@ import useGlobalTheme from '/hooks/useGlobalTheme'
 import LoadBoundaryView from './LoadBoundaryView'
 
 interface ChartProps {
-  WIDTH: number
-  HEIGHT: number
-  PADDING: number
+  width: number
+  height: number
+  padding: number
 }
 
-const CandlesticChart = ({ WIDTH, HEIGHT, PADDING }: ChartProps) => {
+const CandlestickChart = ({ width, height, padding }: ChartProps) => {
   const { theme } = useGlobalTheme()
   const { candles, isLoading, error } = useChartState()
 
   return (
-    <ChartContainer WIDTH={WIDTH} HEIGHT={HEIGHT} PADDING={PADDING}>
+    <ChartContainer $width={width} $height={height} $padding={padding}>
       <LoadBoundaryView
         isLoading={isLoading}
         isNotFound={error?.status === 404}
@@ -31,12 +31,12 @@ const CandlesticChart = ({ WIDTH, HEIGHT, PADDING }: ChartProps) => {
       {!isLoading && (
         <VictoryChart
           theme={VictoryTheme.grayscale}
-          width={WIDTH + PADDING}
-          height={HEIGHT + PADDING}
+          width={width + padding}
+          height={height + padding}
           padding={{
-            top: PADDING,
-            right: PADDING,
-            bottom: PADDING,
+            top: padding,
+            right: padding,
+            bottom: padding,
           }}
           domainPadding={{ x: 25 }}
           scale={{ x: 'time', y: 'linear' }}
@@ -102,11 +102,17 @@ const CandlesticChart = ({ WIDTH, HEIGHT, PADDING }: ChartProps) => {
   )
 }
 
-export default CandlesticChart
+export default CandlestickChart
 
-const ChartContainer = styled.View<ChartProps>`
+type StyledChartProps = {
+  $width: number
+  $height: number
+  $padding: number
+}
+
+const ChartContainer = styled.View<StyledChartProps>`
   overflow: hidden;
   margin: 30px 0 20px;
-  width: ${({ WIDTH, PADDING }) => WIDTH + PADDING}px;
-  height: ${({ HEIGHT, PADDING }) => HEIGHT + PADDING}px;
+  width: ${({ $width, $padding }) => $width + $padding}px;
+  height: ${({ $height, $padding }) => $height + $padding}px;
 `

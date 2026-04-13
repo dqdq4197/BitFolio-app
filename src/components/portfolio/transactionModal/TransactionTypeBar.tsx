@@ -41,17 +41,17 @@ const TransactionTypeBar = ({
   }
 
   return (
-    <Container height={height}>
+    <Container $height={height}>
       <IndicatorWrap>
         {labels.map(label => (
           <Label
             key={label}
-            width={LabelWidth}
+            $width={LabelWidth}
             onPress={() => onSwitchTransactionType(label)}
             activeOpacity={0.6}
           >
             <CustomText
-              isFocused={label.toLowerCase() === type}
+              $isFocused={label.toLowerCase() === type}
               color100
               bold
               fontML
@@ -62,7 +62,7 @@ const TransactionTypeBar = ({
         ))}
         <Indicator
           as={Animated.View}
-          width={LabelWidth}
+          $width={LabelWidth}
           style={{
             transform: [
               {
@@ -79,19 +79,19 @@ const TransactionTypeBar = ({
 export default TransactionTypeBar
 
 type ContainerProps = {
-  height: number
+  $height: number
 }
 
 type LabelWidthType = {
-  width: number
+  $width: number
 }
 
 type TextProps = {
-  isFocused: boolean
+  $isFocused: boolean
 }
 
 const Container = styled.View<ContainerProps>`
-  height: ${({ height }) => height}px;
+  height: ${({ $height }) => $height}px;
   padding: 0 ${({ theme }) => theme.content.spacing} 12px;
 `
 
@@ -103,7 +103,7 @@ const IndicatorWrap = styled.View`
 `
 
 const Label = styled.TouchableOpacity<LabelWidthType>`
-  width: ${({ width }) => width}px;
+  width: ${({ $width }) => $width}px;
   height: 100%;
   z-index: 3;
   align-items: center;
@@ -111,7 +111,7 @@ const Label = styled.TouchableOpacity<LabelWidthType>`
 `
 const Indicator = styled.View<LabelWidthType>`
   position: absolute;
-  width: ${({ width }) => width}px;
+  width: ${({ $width }) => $width}px;
   height: 100%;
   background-color: ${({ theme }) => theme.base.background[400]};
   border-radius: ${({ theme }) => theme.border.m};
@@ -119,6 +119,6 @@ const Indicator = styled.View<LabelWidthType>`
 `
 
 const CustomText = styled(Text)<TextProps>`
-  color: ${({ theme, isFocused }) =>
-    isFocused ? theme.base.text[100] : theme.base.text[200]};
+  color: ${({ theme, $isFocused }) =>
+    $isFocused ? theme.base.text[100] : theme.base.text[200]};
 `

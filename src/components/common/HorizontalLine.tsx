@@ -4,18 +4,22 @@ type LineProps = {
   fullWidth?: boolean
 }
 
+type StyledLineProps = {
+  $fullWidth?: boolean
+}
+
 const HorizontalLine = ({ fullWidth = false }: LineProps) => {
-  return <Line fullWidth={fullWidth} />
+  return <Line $fullWidth={fullWidth} />
 }
 
 export default HorizontalLine
 
-const Line = styled.View<LineProps>`
+const Line = styled.View<StyledLineProps>`
   border-bottom-color: ${({ theme }) => theme.base.background[200]};
   border-bottom-width: 1.5px;
-  ${props =>
-    props.fullWidth &&
+  ${({ $fullWidth, theme }) =>
+    $fullWidth &&
     css`
-      margin: 0 -${props.theme.content.spacing};
+      margin: 0 -${theme.content.spacing};
     `}
 `

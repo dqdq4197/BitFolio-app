@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import { TextProps, Animated } from 'react-native'
 import styled from 'styled-components/native'
 
@@ -32,47 +33,146 @@ export interface TextStyleProps extends TextProps {
   right?: boolean
   underline?: boolean
   italic?: boolean
-  children?: any
+  children?: ReactNode
 }
 
-export default function TextStyle({ ...props }: TextStyleProps) {
-  return <Text {...props}>{props.children}</Text>
+type StyledTextProps = {
+  $margin?: string
+  $padding?: string
+  $color?: string
+  $lineHeight?: number
+  $color100?: boolean
+  $color300?: boolean
+  $color400?: boolean
+  $error?: boolean
+  $primaryColor?: boolean
+  $dark100?: boolean
+  $light100?: boolean
+  $removeColor?: boolean
+  $fontXXXL?: boolean
+  $fontXXL?: boolean
+  $fontXL?: boolean
+  $fontX?: boolean
+  $fontL?: boolean
+  $fontML?: boolean
+  $fontM?: boolean
+  $fontS?: boolean
+  $fontXS?: boolean
+  $light?: boolean
+  $bold?: boolean
+  $heavy?: boolean
+  $black?: boolean
+  $center?: boolean
+  $right?: boolean
+  $underline?: boolean
+  $italic?: boolean
 }
 
-const Text = styled.Text<TextStyleProps>`
-  margin: ${props => props.margin ?? 0};
-  padding: ${props => props.padding ?? 0};
-  ${props => props.lineHeight && `line-height: ${props.lineHeight}px`};
+export default function TextStyle({
+  margin,
+  padding,
+  color,
+  lineHeight,
+  color100,
+  color300,
+  color400,
+  error,
+  primaryColor,
+  dark100,
+  light100,
+  removeColor,
+  fontXXXL,
+  fontXXL,
+  fontXL,
+  fontX,
+  fontL,
+  fontML,
+  fontM,
+  fontS,
+  fontXS,
+  light,
+  bold,
+  heavy,
+  black,
+  center,
+  right,
+  underline,
+  italic,
+  children,
+  ...rest
+}: TextStyleProps) {
+  return (
+    <Text
+      $margin={margin}
+      $padding={padding}
+      $color={color}
+      $lineHeight={lineHeight}
+      $color100={color100}
+      $color300={color300}
+      $color400={color400}
+      $error={error}
+      $primaryColor={primaryColor}
+      $dark100={dark100}
+      $light100={light100}
+      $removeColor={removeColor}
+      $fontXXXL={fontXXXL}
+      $fontXXL={fontXXL}
+      $fontXL={fontXL}
+      $fontX={fontX}
+      $fontL={fontL}
+      $fontML={fontML}
+      $fontM={fontM}
+      $fontS={fontS}
+      $fontXS={fontXS}
+      $light={light}
+      $bold={bold}
+      $heavy={heavy}
+      $black={black}
+      $center={center}
+      $right={right}
+      $underline={underline}
+      $italic={italic}
+      {...rest}
+    >
+      {children}
+    </Text>
+  )
+}
+
+const Text = styled.Text<StyledTextProps>`
+  margin: ${({ $margin }) => $margin ?? 0};
+  padding: ${({ $padding }) => $padding ?? 0};
+  ${({ $lineHeight }) => $lineHeight && `line-height: ${$lineHeight}px`};
 
   ${({
-    color,
-    color100,
-    color300,
-    color400,
-    error,
-    primaryColor,
-    removeColor,
-    dark100,
-    light100,
+    $color,
+    $color100,
+    $color300,
+    $color400,
+    $error,
+    $primaryColor,
+    $removeColor,
+    $dark100,
+    $light100,
     theme,
   }) => {
-    if (color) return `color: ${color}`
+    if ($color) return `color: ${$color}`
     switch (true) {
-      case color100:
+      case $color100:
         return `color: ${theme.base.text[100]}`
-      case color300:
+      case $color300:
         return `color: ${theme.base.text[300]}`
-      case color400:
+      case $color400:
         return `color: ${theme.base.text[400]}`
-      case primaryColor:
+      case $primaryColor:
         return `color: ${theme.base.primaryColor}`
-      case removeColor:
+      case $removeColor:
         return `color: ${theme.base.removeColor}`
-      case dark100:
+      case $dark100:
         return `color: ${theme.base.dark100}`
-      case light100:
+      case $light100:
         return `color: ${theme.base.light100}`
-      case error:
+      case $error:
         return `color: ${theme.base.error}`
       default:
         return `color: ${theme.base.text[200]}`
@@ -80,35 +180,35 @@ const Text = styled.Text<TextStyleProps>`
   }}
 
   ${({
-    fontXXXL,
-    fontXXL,
-    fontXL,
-    fontX,
-    fontL,
-    fontML,
-    fontM,
-    fontS,
-    fontXS,
+    $fontXXXL,
+    $fontXXL,
+    $fontXL,
+    $fontX,
+    $fontL,
+    $fontML,
+    $fontM,
+    $fontS,
+    $fontXS,
     theme,
   }) => {
     switch (true) {
-      case fontXXXL:
+      case $fontXXXL:
         return `font-size: ${theme.size.font_xxxl}`
-      case fontXXL:
+      case $fontXXL:
         return `font-size: ${theme.size.font_xxl}`
-      case fontXL:
+      case $fontXL:
         return `font-size: ${theme.size.font_xl}`
-      case fontX:
+      case $fontX:
         return `font-size: ${theme.size.font_x}`
-      case fontL:
+      case $fontL:
         return `font-size: ${theme.size.font_l}`
-      case fontML:
+      case $fontML:
         return `font-size: ${theme.size.font_ml}`
-      case fontM:
+      case $fontM:
         return `font-size: ${theme.size.font_m}`
-      case fontS:
+      case $fontS:
         return `font-size: ${theme.size.font_s}`
-      case fontXS:
+      case $fontXS:
         return `font-size: ${theme.size.font_xs}`
 
       default:
@@ -116,15 +216,15 @@ const Text = styled.Text<TextStyleProps>`
     }
   }}
 
-  ${({ light, bold, heavy, black }) => {
+  ${({ $light, $bold, $heavy, $black }) => {
     switch (true) {
-      case light:
+      case $light:
         return `font-weight: 200`
-      case bold:
+      case $bold:
         return `font-weight: 600`
-      case heavy:
+      case $heavy:
         return `font-weight: 700`
-      case black:
+      case $black:
         return `font-weight: 900`
 
       default:
@@ -132,11 +232,11 @@ const Text = styled.Text<TextStyleProps>`
     }
   }}
 
-  ${({ center, right }) => {
+  ${({ $center, $right }) => {
     switch (true) {
-      case center:
+      case $center:
         return `text-align: center`
-      case right:
+      case $right:
         return `text-align: right`
 
       default:
@@ -144,12 +244,12 @@ const Text = styled.Text<TextStyleProps>`
     }
   }}
 
-  ${({ italic, underline }) => {
+  ${({ $italic, $underline }) => {
     // eslint-disable-next-line default-case
     switch (true) {
-      case italic:
+      case $italic:
         return `font-style: italic`
-      case underline:
+      case $underline:
         return `text-decoration-line: underline`
 
       default:

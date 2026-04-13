@@ -34,7 +34,7 @@ const Item = ({ item, onPressItem }: ItemProps) => {
     >
       <>
         <ItemColumn
-          column={1.3}
+          $column={1.3}
           style={{
             justifyContent: 'flex-start',
           }}
@@ -49,10 +49,10 @@ const Item = ({ item, onPressItem }: ItemProps) => {
             <Text>{symbol.toUpperCase()}</Text>
           </NameWrap>
         </ItemColumn>
-        <ItemColumn column={1}>
+        <ItemColumn $column={1}>
           <SparkLine isRising={isRising} prices={item.sparkline_in_7d.price} />
         </ItemColumn>
-        <ItemColumn column={1}>
+        <ItemColumn $column={1}>
           <View style={{ width: '100%' }}>
             <Text fontML color100 right>
               {currencyFormat({
@@ -75,7 +75,7 @@ const Item = ({ item, onPressItem }: ItemProps) => {
 export default React.memo(Item)
 
 type ColumnProps = {
-  column: number
+  $column: number
 }
 
 const ItemContainer = styled.TouchableHighlight`
@@ -87,7 +87,7 @@ const ItemContainer = styled.TouchableHighlight`
 `
 
 const ItemColumn = styled.View<ColumnProps>`
-  flex: ${props => props.column};
+  flex: ${({ $column }) => $column};
   flex-direction: row;
   align-items: center;
   justify-content: center;

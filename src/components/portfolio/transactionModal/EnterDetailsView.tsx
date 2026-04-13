@@ -405,7 +405,7 @@ const EnterDetailsView = ({
   }
 
   return (
-    <Container height={VIEW_HEIGHT}>
+    <Container $height={VIEW_HEIGHT}>
       <HorizontalScrollView
         ref={hScrollViewRef}
         horizontal
@@ -486,11 +486,11 @@ const EnterDetailsView = ({
 export default EnterDetailsView
 
 type ContainerProps = {
-  height: number
+  $height: number
 }
 
 const Container = styled.View<ContainerProps>`
-  height: ${({ height }) => height}px;
+  height: ${({ $height }) => $height}px;
   justify-content: space-between;
 `
 

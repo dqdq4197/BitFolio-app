@@ -50,12 +50,12 @@ const NumericPad = ({
   }
 
   return (
-    <Container height={height}>
+    <Container $height={height}>
       {KEYS.map(key => {
         return (
           <Button
-            height={height}
             key={key}
+            $height={height}
             onTouchStart={handleButtonTouchStart}
             onTouchEnd={() => handleButtonTouchEnd(key)}
           >
@@ -80,19 +80,19 @@ const NumericPad = ({
 export default NumericPad
 
 type StyledProps = {
-  height: number
+  $height: number
 }
 
 const Container = styled.View<StyledProps>`
   width: ${width - 32}px;
-  height: ${props => props.height}px;
+  height: ${({ $height }) => $height}px;
   flex-direction: row;
   flex-wrap: wrap;
 `
 
 const Button = styled.View<StyledProps>`
   width: ${(width - 32) / 3}px;
-  height: ${props => props.height / 4}px;
+  height: ${({ $height }) => $height / 4}px;
   align-items: center;
   justify-content: center;
 `

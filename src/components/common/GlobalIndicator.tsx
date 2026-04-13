@@ -20,7 +20,7 @@ const GlobalIndicator = ({
 
   if (isLoaded) return <></>
   return (
-    <IndicatorWrap transparent={transparent}>
+    <IndicatorWrap $transparent={transparent}>
       <ActivityIndicator size={size} color={theme.base.text[100]} />
     </IndicatorWrap>
   )
@@ -29,7 +29,7 @@ const GlobalIndicator = ({
 export default GlobalIndicator
 
 type WrapProps = {
-  transparent: boolean
+  $transparent: boolean
 }
 
 const IndicatorWrap = styled.View<WrapProps>`
@@ -39,8 +39,8 @@ const IndicatorWrap = styled.View<WrapProps>`
   height: 100%;
   align-items: center;
   justify-content: center;
-  background-color: ${({ theme, transparent }) =>
-    transparent ? 'transparent' : theme.base.background[200]};
+  background-color: ${({ theme, $transparent }) =>
+    $transparent ? 'transparent' : theme.base.background[200]};
   left: 0;
   z-index: 111;
 `

@@ -405,7 +405,7 @@ const FormModalLayout = ({
             <Image uri={image} height={23} width={23} />
             <ScrollTextView
               horizontal
-              maxWidth={width / 2}
+              $maxWidth={width / 2}
               showsHorizontalScrollIndicator={false}
             >
               <Text color100 bold fontX margin="0 0 0 7px">
@@ -414,7 +414,7 @@ const FormModalLayout = ({
             </ScrollTextView>
             <ScrollTextView
               horizontal
-              maxWidth={width / 4}
+              $maxWidth={width / 4}
               showsHorizontalScrollIndicator={false}
             >
               <Text bold fontML margin="0 0 0 10px">
@@ -505,7 +505,7 @@ const FormModalLayout = ({
 export default FormModalLayout
 
 type ScrollTextViewProps = {
-  maxWidth: number
+  $maxWidth: number
 }
 
 const TitleWrap = styled.View`
@@ -518,7 +518,7 @@ const Title = styled.View`
 `
 
 const ScrollTextView = styled.ScrollView<ScrollTextViewProps>`
-  max-width: ${({ maxWidth }) => maxWidth}px;
+  max-width: ${({ $maxWidth }) => $maxWidth}px;
 `
 
 const BackButtonWrap = styled.TouchableOpacity``

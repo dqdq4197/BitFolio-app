@@ -1,4 +1,3 @@
-
 import GeneralTemplate from '/components/GeneralTemplate'
 import VLaunchScreen from '/components/setting/LaunchScreen'
 

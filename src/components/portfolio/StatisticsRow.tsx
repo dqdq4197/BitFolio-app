@@ -52,7 +52,7 @@ const Skeleton = React.memo(() => {
 })
 
 const Col = ({ width, children, isLoading }: ColProps) => {
-  return <ColWrap width={width}>{isLoading ? <Skeleton /> : children}</ColWrap>
+  return <ColWrap $width={width}>{isLoading ? <Skeleton /> : children}</ColWrap>
 }
 
 const StatisticsRow = ({
@@ -246,7 +246,7 @@ const StatisticsRow = ({
           {currencyFormat({ value: rate })}%
         </Text>
         <AllocationBar>
-          <AllocationIndicator rate={rate} />
+          <AllocationIndicator $rate={rate} />
         </AllocationBar>
       </>
     )
@@ -281,8 +281,8 @@ const Container = styled.TouchableOpacity`
   height: 60px;
 `
 
-const ColWrap = styled.View<{ width: number }>`
-  width: ${({ width }) => width}px;
+const ColWrap = styled.View<{ $width: number }>`
+  width: ${({ $width }) => $width}px;
   align-items: flex-end;
   justify-content: center;
 `
@@ -306,10 +306,10 @@ const AllocationBar = styled.View`
   overflow: hidden;
 `
 
-const AllocationIndicator = styled.View<{ rate: number }>`
+const AllocationIndicator = styled.View<{ $rate: number }>`
   position: absolute;
   top: 0;
-  width: ${({ rate }) => rate}%;
+  width: ${({ $rate }) => $rate}%;
   height: 100%;
   background-color: ${({ theme }) => theme.base.text[200]};
 `

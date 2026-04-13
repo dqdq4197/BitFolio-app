@@ -1,4 +1,3 @@
-
 import Gainers from '/components/coinMarket/popularList/Gainers'
 import AsyncBoundary from '/components/common/AsyncBoundary'
 import GeneralTemplate from '/components/GeneralTemplate'

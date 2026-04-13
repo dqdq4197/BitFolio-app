@@ -28,7 +28,7 @@ type ItemProps = {
     | 'market_cap_change_percentage_24h'
     | 'price_change_percentage_24h'
   onPressItem: (id: string, symbol: string) => void
-  NoneUnderLine?: boolean
+  noneUnderLine?: boolean
 }
 
 interface ValueProps {
@@ -75,7 +75,7 @@ const Item = ({
   index,
   valueKey,
   percentageKey,
-  NoneUnderLine = false,
+  noneUnderLine = false,
   onPressItem,
 }: ItemProps) => {
   const { currency } = useLocales()
@@ -86,15 +86,15 @@ const Item = ({
     <ItemContainer
       onPress={() => onPressItem(item.id, item.symbol)}
       underlayColor={theme.base.underlayColor[100]}
-      NoneUnderLine={NoneUnderLine}
+      $noneUnderLine={noneUnderLine}
     >
       <>
-        <ItemColumn column={0.35} justifyContent="flex-start">
+        <ItemColumn $column={0.35} $justifyContent="flex-start">
           <Text fontM color100 bold>
             {index + 1}
           </Text>
         </ItemColumn>
-        <ItemColumn column={1.4} justifyContent="flex-start">
+        <ItemColumn $column={1.4} $justifyContent="flex-start">
           <ImageWrap>
             <Image uri={item.image} width={30} height={30} />
           </ImageWrap>
@@ -105,7 +105,7 @@ const Item = ({
             <Text>{symbol.toUpperCase()}</Text>
           </NameWrap>
         </ItemColumn>
-        <ItemColumn column={1.2}>
+        <ItemColumn $column={1.2}>
           {percentageKey ? (
             <ValueWithPercentage
               value={item[valueKey]}
@@ -116,7 +116,7 @@ const Item = ({
             <OnlyValue value={item[valueKey]} currency={currency} />
           )}
         </ItemColumn>
-        <ItemColumn column={0.5} justifyContent="flex-end">
+        <ItemColumn $column={0.5} $justifyContent="flex-end">
           <WatchListIcon id={item.id} />
         </ItemColumn>
       </>
@@ -127,12 +127,12 @@ const Item = ({
 export default React.memo(Item)
 
 type ContainerProps = {
-  NoneUnderLine: boolean
+  $noneUnderLine: boolean
 }
 
 type ColumnProps = {
-  column: number
-  justifyContent?: 'flex-end' | 'flex-start' | 'center'
+  $column: number
+  $justifyContent?: 'flex-end' | 'flex-start' | 'center'
 }
 
 /* height값 바꿀 시 주의
@@ -144,8 +144,9 @@ const ItemContainer = styled.TouchableHighlight<ContainerProps>`
   height: 60px;
   flex-direction: row;
   padding: 0 ${({ theme }) => theme.content.spacing};
-  ${props =>
-    !props.NoneUnderLine &&
+
+  ${({ $noneUnderLine }) =>
+    !$noneUnderLine &&
     css`
       border-bottom-width: 1px;
       border-bottom-color: ${({ theme }) => theme.base.background[300]};
@@ -153,10 +154,10 @@ const ItemContainer = styled.TouchableHighlight<ContainerProps>`
 `
 
 const ItemColumn = styled.View<ColumnProps>`
-  flex: ${props => props.column};
+  flex: ${({ $column }) => $column};
   flex-direction: row;
   align-items: center;
-  justify-content: ${({ justifyContent }) => justifyContent || 'center'};
+  justify-content: ${({ $justifyContent }) => $justifyContent || 'center'};
 `
 
 const NameWrap = styled.View`

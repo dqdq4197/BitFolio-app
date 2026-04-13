@@ -61,7 +61,7 @@ const ModalContents = ({
         fontS
       />
       <Table>
-        <Row top>
+        <Row $top>
           <Col>
             <Title>
               <Text fontM bold>
@@ -74,7 +74,7 @@ const ModalContents = ({
               {AddSeparator(marketcap)}
             </Text>
           </Col>
-          <Col left>
+          <Col $left>
             <Title>
               <Text fontM bold>
                 {`${t('common.n.hour', { n: 24 })} ${t(
@@ -87,7 +87,7 @@ const ModalContents = ({
             </Text>
           </Col>
         </Row>
-        <Row top bottom>
+        <Row $top $bottom>
           <Col>
             <Title>
               <Text fontM bold>
@@ -98,7 +98,7 @@ const ModalContents = ({
               {AddSeparator(cryptos)}
             </Text>
           </Col>
-          <Col left>
+          <Col $left>
             <Title>
               <Text fontM bold>
                 {t('common.exchanges')}
@@ -109,7 +109,7 @@ const ModalContents = ({
             </Text>
           </Col>
         </Row>
-        <Row top bottom>
+        <Row $top $bottom>
           <Col>
             <Title>
               <Text fontM bold>
@@ -123,7 +123,7 @@ const ModalContents = ({
               %
             </Text>
           </Col>
-          <Col left>
+          <Col $left>
             <Title>
               <Text fontM bold>
                 {`ETH ${t('common.dominance')}`}
@@ -214,12 +214,12 @@ const TextMarquee = () => {
 export default TextMarquee
 
 type RowProps = {
-  top?: boolean
-  bottom?: boolean
+  $top?: boolean
+  $bottom?: boolean
 }
 
 type ColProps = {
-  left?: boolean
+  $left?: boolean
 }
 
 const Container = styled.TouchableOpacity`
@@ -237,28 +237,31 @@ const Table = styled.View`
 
 const Row = styled.View<RowProps>`
   flex-direction: row;
-  ${props =>
-    props.top &&
+
+  ${({ $top, theme }) =>
+    $top &&
     css`
       border-top-width: 1px;
-      border-top-color: ${props.theme.base.background[300]};
+      border-top-color: ${theme.base.background[300]};
     `}
-  ${props =>
-    props.bottom &&
+
+  ${({ $bottom, theme }) =>
+    $bottom &&
     css`
       border-bottom-width: 1px;
-      border-bottom-color: ${props.theme.base.background[300]};
+      border-bottom-color: ${theme.base.background[300]};
     `}
 `
 
 const Col = styled.View<ColProps>`
   width: 50%;
   padding: 10px ${({ theme }) => theme.content.spacing};
-  ${props =>
-    props.left &&
+
+  ${({ $left, theme }) =>
+    $left &&
     css`
       border-left-width: 1px;
-      border-left-color: ${props.theme.base.background[300]};
+      border-left-color: ${theme.base.background[300]};
     `}
 `
 

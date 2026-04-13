@@ -38,7 +38,6 @@ type AssetRowProps = {
   id: string
   image: string
   symbol: string
-  name: string
 }
 
 const SortTab = ({ name, onPress, align = 'right', sortTypes }: TabProps) => {
@@ -51,11 +50,11 @@ const SortTab = ({ name, onPress, align = 'right', sortTypes }: TabProps) => {
   const active = sortTypes.indexOf(assetSortType)
 
   return (
-    <Tab align={align} onPress={onPress} activeOpacity={0.6}>
+    <Tab $align={align} onPress={onPress} activeOpacity={0.6}>
       <CustomText
         margin="0 2px 0 0"
         heavy
-        isActive={active === 0 || active === 1}
+        $isActive={active === 0 || active === 1}
       >
         {name}
       </CustomText>
@@ -261,7 +260,6 @@ const CoinListSheet = ({ coinsStats, portfolioTotalCosts }: SheetProps) => {
             key={coin.id}
             id={coin.id}
             image={coin.image}
-            name={coin.name}
             symbol={coin.symbol}
           />
         ))}
@@ -351,7 +349,7 @@ const CoinListSheet = ({ coinsStats, portfolioTotalCosts }: SheetProps) => {
 export default CoinListSheet
 
 type TextProps = {
-  isActive: boolean
+  $isActive: boolean
 }
 
 const Container = styled.View`
@@ -382,16 +380,16 @@ const AssetIdWrap = styled.View`
   width: ${COL_WIDTH - 40}px;
 `
 
-const Tab = styled.TouchableOpacity<{ align: 'right' | 'left' }>`
+const Tab = styled.TouchableOpacity<{ $align: 'right' | 'left' }>`
   width: ${COL_WIDTH}px;
   height: 25px;
   flex-direction: row;
   align-items: center;
-  justify-content: ${({ align }) =>
-    align === 'left' ? 'flex-start' : 'flex-end'};
+  justify-content: ${({ $align }) =>
+    $align === 'left' ? 'flex-start' : 'flex-end'};
 `
 
 const CustomText = styled(Text)<TextProps>`
-  color: ${({ theme, isActive }) =>
-    isActive ? theme.base.text[100] : theme.base.text[200]};
+  color: ${({ theme, $isActive }) =>
+    $isActive ? theme.base.text[100] : theme.base.text[200]};
 `

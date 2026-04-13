@@ -41,9 +41,9 @@ const CustomImage = ({
   // cache -> ios 전용
   return (
     <StyledImageWrap
-      borderRedius={borderRedius}
-      width={updatedWidth}
-      height={updatedHeight}
+      $borderRadius={borderRedius}
+      $width={updatedWidth}
+      $height={updatedHeight}
     >
       <Image
         source={{
@@ -65,20 +65,22 @@ const CustomImage = ({
 export default CustomImage
 
 type WrapProps = {
-  borderRedius?: BorderRadius
-  width: number
-  height: number
+  $borderRadius?: BorderRadius
+  $width: number
+  $height: number
 }
 
 const StyledImageWrap = styled.View<WrapProps>`
-  ${({ width, height }) => css`
-    width: ${width}px;
-    height: ${height}px;
-  `}
-  ${({ theme, borderRedius }) =>
-    borderRedius &&
-    css`
-      border-radius: ${theme.border[borderRedius]};
-    `}
   overflow: hidden;
+
+  ${({ $width, $height }) => css`
+    width: ${$width}px;
+    height: ${$height}px;
+  `}
+
+  ${({ theme, $borderRadius }) =>
+    $borderRadius &&
+    css`
+      border-radius: ${theme.border[$borderRadius]};
+    `}
 `

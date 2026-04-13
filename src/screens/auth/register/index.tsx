@@ -1,4 +1,3 @@
-
 import Register from '/components/auth/Register'
 import AsyncBoundary from '/components/common/AsyncBoundary'
 import GeneralTemplate from '/components/GeneralTemplate'

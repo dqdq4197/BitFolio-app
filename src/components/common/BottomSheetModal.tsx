@@ -9,11 +9,6 @@ import { forwardRef, useCallback } from 'react'
 import { StyleProp, ViewStyle } from 'react-native'
 import styled, { css } from 'styled-components/native'
 
-type HandleProps = Pick<ModalProps, 'handleColor'>
-interface BackgroundProps extends Pick<ModalProps, 'bgColor'> {
-  style: StyleProp<ViewStyle>
-}
-
 interface ModalProps extends BottomSheetModalProps {
   bgColor?: string
   handleColor?: string
@@ -21,17 +16,20 @@ interface ModalProps extends BottomSheetModalProps {
 
 const $black = '#000'
 
-const Handle = ({ handleColor }: HandleProps) => {
+const Handle = ({ handleColor }: Pick<ModalProps, 'handleColor'>) => {
   return (
-    <HandleContainer handleColor={handleColor}>
+    <HandleContainer $handleColor={handleColor}>
       <LeftIndicator />
       <RightIndicator />
     </HandleContainer>
   )
 }
 
-const CustomBackground = ({ style, bgColor }: BackgroundProps) => {
-  return <BackgroundView style={style} bgColor={bgColor} />
+const CustomBackground = ({
+  style,
+  bgColor,
+}: Pick<ModalProps, 'bgColor'> & { style: StyleProp<ViewStyle> }) => {
+  return <BackgroundView style={style} $bgColor={bgColor} />
 }
 
 const BottomModal = forwardRef<BottomSheetModal, ModalProps>(
@@ -82,19 +80,19 @@ const BottomModal = forwardRef<BottomSheetModal, ModalProps>(
 
 export default BottomModal
 
-const BackgroundView = styled.View<Pick<ModalProps, 'bgColor'>>`
-  background-color: ${({ theme, bgColor }) =>
-    bgColor || theme.base.background[200]};
+const BackgroundView = styled.View<{ $bgColor?: string }>`
+  background-color: ${({ theme, $bgColor }) =>
+    $bgColor || theme.base.background[200]};
   border-top-left-radius: ${({ theme }) => theme.border.l};
   border-top-right-radius: ${({ theme }) => theme.border.l};
 `
 
-const HandleContainer = styled.View<Pick<ModalProps, 'handleColor'>>`
+const HandleContainer = styled.View<{ $handleColor?: string }>`
   align-content: center;
   align-items: center;
   justify-content: center;
-  background-color: ${({ theme, handleColor }) =>
-    handleColor || theme.base.background[200]};
+  background-color: ${({ theme, $handleColor }) =>
+    $handleColor || theme.base.background[200]};
   padding: 20px 0;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;

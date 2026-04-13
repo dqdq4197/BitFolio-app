@@ -1,4 +1,3 @@
-
 import AsyncBoundary from '/components/common/AsyncBoundary'
 import DiscussionHome from '/components/discussionHome'
 import GeneralTemplate from '/components/GeneralTemplate'

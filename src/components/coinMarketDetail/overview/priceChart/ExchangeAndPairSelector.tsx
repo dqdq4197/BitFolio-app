@@ -98,12 +98,12 @@ const ExchangeAndPairSelector = () => {
   return (
     <>
       <Container onPress={handleSelectorPress} activeOpacity={0.8}>
-        <Selector borderPosition="left">
+        <Selector $borderPosition="left">
           <Text bold color={theme.base.dark100}>
             {translatedExchange(EXCHANGES[exchange].label)}
           </Text>
         </Selector>
-        <Selector borderPosition="right">
+        <Selector $borderPosition="right">
           <Text bold color={theme.base.dark100}>
             {`${activeTradingPair.toUpperCase()} / ${symbol.toUpperCase()}`}
           </Text>
@@ -130,7 +130,7 @@ const ExchangeAndPairSelector = () => {
             </Col>
           </Title>
           <ListView>
-            <ExchagesView>
+            <ExchangesView>
               {exchanges.map(({ label, value }) => (
                 <Row
                   key={value}
@@ -139,7 +139,7 @@ const ExchangeAndPairSelector = () => {
                   onPress={() => onExchangeChange(value)}
                 />
               ))}
-            </ExchagesView>
+            </ExchangesView>
             <PairsView>
               {tradingPairs.map(({ label, value }) => (
                 <Row
@@ -160,7 +160,7 @@ const ExchangeAndPairSelector = () => {
 export default ExchangeAndPairSelector
 
 type SelectorType = {
-  borderPosition: 'left' | 'right'
+  $borderPosition: 'left' | 'right'
 }
 
 const Container = styled.TouchableOpacity`
@@ -179,14 +179,16 @@ const Selector = styled.View<SelectorType>`
   background-color: #252933;
   align-items: center;
   justify-content: center;
-  ${({ borderPosition }) =>
-    borderPosition === 'left' &&
+
+  ${({ $borderPosition }) =>
+    $borderPosition === 'left' &&
     css`
       border-top-left-radius: ${({ theme }) => theme.border.l};
       border-bottom-left-radius: ${({ theme }) => theme.border.l};
     `}
-  ${({ borderPosition }) =>
-    borderPosition === 'right' &&
+
+  ${({ $borderPosition }) =>
+    $borderPosition === 'right' &&
     css`
       border-top-right-radius: ${({ theme }) => theme.border.l};
       border-bottom-right-radius: ${({ theme }) => theme.border.l};
@@ -212,7 +214,7 @@ const Col = styled.View`
   padding: 0 ${({ theme }) => theme.content.spacing};
 `
 
-const ExchagesView = styled.View`
+const ExchangesView = styled.View`
   flex: 1;
   border-right-color: ${({ theme }) => theme.base.background[200]};
   border-right-width: 1px;

@@ -6,7 +6,7 @@ import { CHART_TYPE } from '/lib/constant'
 
 import ExchangeAndPairSelector from './ExchangeAndPairSelector'
 import PriceAndDate from './PriceAndDate'
-import CandlesticChart from './CandlesticChart'
+import CandlestickChart from './CandlestickChart'
 import LineChart from './LineChart'
 import ChartTab from './ChartTab'
 
@@ -22,7 +22,7 @@ const ChartContainer = () => {
       <ExchangeAndPairSelector />
       <PriceAndDate />
       {chartType === CHART_TYPE.CANDLESTICK ? (
-        <CandlesticChart HEIGHT={HEIGHT} PADDING={PADDING} WIDTH={WIDTH} />
+        <CandlestickChart width={WIDTH} height={HEIGHT} padding={PADDING} />
       ) : (
         <LineChart
           HEIGHT={HEIGHT}

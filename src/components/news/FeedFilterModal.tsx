@@ -83,7 +83,7 @@ const FeedFilterModal = ({
         <Row
           underlayColor={theme.base.underlayColor[100]}
           onPress={() => handleRowPress(ALL_NEWS_FEEDS)}
-          isActive={feedsTemp === ALL_NEWS_FEEDS}
+          $isActive={feedsTemp === ALL_NEWS_FEEDS}
         >
           <>
             <Text color100 heavy margin="0 0 0 10px">
@@ -106,7 +106,7 @@ const FeedFilterModal = ({
               key={feed.key}
               underlayColor={theme.base.underlayColor[200]}
               onPress={() => handleRowPress(feed.key)}
-              isActive={feedsTemp !== ALL_NEWS_FEEDS}
+              $isActive={feedsTemp !== ALL_NEWS_FEEDS}
             >
               <>
                 <NameWrap>
@@ -142,7 +142,7 @@ const FeedFilterModal = ({
 export default FeedFilterModal
 
 type RowProps = {
-  isActive: boolean
+  $isActive: boolean
 }
 
 const Container = styled.View`
@@ -161,7 +161,7 @@ const Row = styled.TouchableHighlight<RowProps>`
   padding: 0 ${({ theme }) => theme.content.spacing};
   border-bottom-width: 1px;
   border-bottom-color: ${({ theme }) => theme.base.background[300]};
-  opacity: ${({ isActive }) => (isActive ? 1 : 0.6)};
+  opacity: ${({ $isActive }) => ($isActive ? 1 : 0.6)};
 `
 
 const NameWrap = styled.View`

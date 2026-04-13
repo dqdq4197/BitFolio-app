@@ -119,11 +119,8 @@ const AnimatedText = ({
   return (
     <CustomText
       as={Animated.Text}
-      style={Object.assign({
-        transform: [{ translateY }],
-        opacity,
-      })}
-      totalLength={totalLength}
+      style={{ transform: [{ translateY }], opacity }}
+      $totalLength={totalLength}
       {...textStyleProps}
     >
       {(integerLength - index) % 3 === 1 && integerLength - index > 3
@@ -160,7 +157,7 @@ const RollingText = ({
 export default RollingText
 
 type TextProps = {
-  totalLength: number
+  $totalLength: number
 }
 
 const Container = styled.View`
@@ -169,8 +166,8 @@ const Container = styled.View`
 
 const CustomText = styled(Text)<TextProps>`
   color: ${({ theme }) => theme.base.text[100]};
-  ${({ totalLength, theme }) => {
-    switch (totalLength) {
+  ${({ $totalLength, theme }) => {
+    switch ($totalLength) {
       case 0:
       case 1:
       case 2:

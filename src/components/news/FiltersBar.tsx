@@ -65,7 +65,7 @@ const FiltersBar = () => {
           size={18}
           color={activeReset ? theme.base.removeColor : theme.base.text[300]}
         />
-        <CustomText isActive={activeReset} margin="0 0 0 5px" bold>
+        <CustomText $isActive={activeReset} margin="0 0 0 5px" bold>
           {t(`news.reset filter`)}
         </CustomText>
       </Button>
@@ -102,7 +102,7 @@ const FiltersBar = () => {
 export default FiltersBar
 
 type TextProps = {
-  isActive: boolean
+  $isActive: boolean
 }
 
 const Container = styled.ScrollView`
@@ -112,8 +112,8 @@ const Container = styled.ScrollView`
 `
 
 const CustomText = styled(Text)<TextProps>`
-  color: ${({ theme, isActive }) =>
-    isActive ? theme.base.removeColor : theme.base.text[300]};
+  color: ${({ theme, $isActive }) =>
+    $isActive ? theme.base.removeColor : theme.base.text[300]};
 `
 
 const Button = styled.TouchableOpacity`

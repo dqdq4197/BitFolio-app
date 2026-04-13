@@ -1,4 +1,3 @@
-
 import NewsLayout from '/components/coinMarketDetail/news/Layout'
 import AsyncBoundary from '/components/common/AsyncBoundary'
 import { NewsArticleListSkeleton } from '/components/skeletonPlaceholder/news'

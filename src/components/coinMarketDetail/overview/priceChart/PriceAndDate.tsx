@@ -149,7 +149,7 @@ const PriceAndDate = () => {
           {!isLoading ? (
             isCursorActive ? (
               <DatumYChangePercentageText
-                changeStatus={changeStatus}
+                $changeStatus={changeStatus}
                 text={datumYChangePercentageWithSign}
               />
             ) : (
@@ -174,7 +174,7 @@ const PriceAndDate = () => {
 export default PriceAndDate
 
 type PercentageTextProps = {
-  changeStatus: chartType.changeStatus
+  $changeStatus: chartType.changeStatus
 }
 
 const Container = styled.View`
@@ -210,10 +210,10 @@ const DatumYDecimalText = styled(ReText)`
 const DatumYChangePercentageText = styled(ReText)<PercentageTextProps>`
   font-size: ${({ theme }) => theme.size.font_ml};
   font-weight: 700;
-  color: ${({ changeStatus, theme }) =>
-    changeStatus === 'FALL'
+  color: ${({ $changeStatus, theme }) =>
+    $changeStatus === 'FALL'
       ? theme.base.downColor
-      : changeStatus === 'RISE'
+      : $changeStatus === 'RISE'
       ? theme.base.upColor
       : theme.base.text[200]};
 `

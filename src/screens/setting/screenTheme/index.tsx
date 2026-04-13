@@ -1,4 +1,3 @@
-
 import GeneralTemplate from '/components/GeneralTemplate'
 import ScreenTheme from '/components/setting/ScreenTheme'
 

@@ -33,7 +33,7 @@ const Stats = ({
   return (
     <SurfaceWrap title={t('coinDetail.statistic')} fontL parentPaddingZero>
       <Table>
-        <Row top>
+        <Row $top>
           <Col>
             <Title>
               <Text>{t('coinDetail.rank')}</Text>
@@ -42,7 +42,7 @@ const Stats = ({
               {rank || '--'}
             </Text>
           </Col>
-          <Col left>
+          <Col $left>
             <Title>
               <Text>{t('coinDetail.market cap')}</Text>
             </Title>
@@ -51,7 +51,7 @@ const Stats = ({
             </Text>
           </Col>
         </Row>
-        <Row top>
+        <Row $top>
           <Col>
             <Title>
               <Text>{t('coinDetail.algorithm')}</Text>
@@ -60,7 +60,7 @@ const Stats = ({
               {hashingAlgorithm || '--'}
             </Text>
           </Col>
-          <Col left>
+          <Col $left>
             <Title>
               <Text>{t('coinDetail.total volume')}(24h)</Text>
             </Title>
@@ -69,7 +69,7 @@ const Stats = ({
             </Text>
           </Col>
         </Row>
-        <Row top bottom>
+        <Row $top $bottom>
           <Col>
             <Title>
               <Text>{t('coinDetail.launched date')}</Text>
@@ -78,7 +78,7 @@ const Stats = ({
               {genesis_date || '--'}
             </Text>
           </Col>
-          <Col left>
+          <Col $left>
             <Title>
               <Text>
                 {t('coinDetail.circulating supply')}
@@ -103,12 +103,12 @@ const Stats = ({
 export default Stats
 
 type RowProps = {
-  top?: boolean
-  bottom?: boolean
+  $top?: boolean
+  $bottom?: boolean
 }
 
 type ColProps = {
-  left?: boolean
+  $left?: boolean
 }
 
 const Table = styled.View`
@@ -117,28 +117,30 @@ const Table = styled.View`
 
 const Row = styled.View<RowProps>`
   flex-direction: row;
-  ${props =>
-    props.top &&
+
+  ${({ theme, $top }) =>
+    $top &&
     css`
       border-top-width: 1px;
-      border-top-color: ${props.theme.base.background[300]};
+      border-top-color: ${theme.base.background[300]};
     `}
-  ${props =>
-    props.bottom &&
+
+  ${({ theme, $bottom }) =>
+    $bottom &&
     css`
       border-bottom-width: 1px;
-      border-bottom-color: ${props.theme.base.background[300]};
+      border-bottom-color: ${theme.base.background[300]};
     `}
 `
 
 const Col = styled.View<ColProps>`
   width: 50%;
   padding: 10px ${({ theme }) => theme.content.spacing};
-  ${props =>
-    props.left &&
+  ${({ theme, $left }) =>
+    $left &&
     css`
       border-left-width: 1px;
-      border-left-color: ${props.theme.base.background[300]};
+      border-left-color: ${theme.base.background[300]};
     `}
 `
 

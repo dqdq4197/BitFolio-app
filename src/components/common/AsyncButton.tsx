@@ -34,17 +34,17 @@ const AsyncButton = ({
 
   return (
     <Container
-      borderPosition={borderPosition}
-      width={width}
-      height={height}
-      isDisabled={isDisabled}
+      $borderPosition={borderPosition}
+      $width={width}
+      $height={height}
+      $isDisabled={isDisabled}
       disabled={isDisabled}
       activeOpacity={0.6}
-      initialBgColor={initialBgColor}
+      $initialBgColor={initialBgColor}
       onPress={onPress}
-      bottomInset={hasNotch ? bottom : 0}
+      $bottomInset={hasNotch ? bottom : 0}
     >
-      <CustomText {...textStyle} isDisabled={isDisabled} bold>
+      <CustomText {...textStyle} $isDisabled={isDisabled} bold>
         {text}
       </CustomText>
       {isLoading ? (
@@ -58,47 +58,62 @@ const AsyncButton = ({
 
 export default AsyncButton
 
-type ContainerProps = Pick<
-  AsyncButtonProps,
-  'borderPosition' | 'height' | 'isDisabled' | 'width' | 'initialBgColor'
-> & {
-  bottomInset: number
+type ContainerProps = {
+  $borderPosition?: Array<'top' | 'bottom'>
+  $height: number
+  $isDisabled: boolean
+  $width?: number
+  $initialBgColor?: string
+  $bottomInset: number
 }
 
-type TextProps = Pick<AsyncButtonProps, 'isDisabled'>
+type TextProps = {
+  $isDisabled: boolean
+}
 
 const Container = styled.TouchableOpacity<ContainerProps>`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  ${({ borderPosition }) =>
-    borderPosition?.includes('top') &&
+
+  ${({ $borderPosition }) =>
+    $borderPosition?.includes('top') &&
     css`
       border-top-left-radius: ${({ theme }) => theme.border.l};
       border-top-right-radius: ${({ theme }) => theme.border.l};
     `}
-  ${({ borderPosition }) =>
-    borderPosition?.includes('bottom') &&
+
+  ${({ $borderPosition }) =>
+    $borderPosition?.includes('bottom') &&
     css`
       border-bottom-left-radius: ${({ theme }) => theme.border.l};
       border-bottom-right-radius: ${({ theme }) => theme.border.l};
     `}
-  ${({ theme, height, isDisabled, width, initialBgColor, bottomInset }) => css`
-    width: ${width ? `${width}px` : '100%'};
-    height: ${height + (bottomInset - 20 > 0 ? bottomInset - 20 : 0)}px;
-    background-color: ${isDisabled
+
+  ${({
+    theme,
+    $height,
+    $isDisabled,
+    $width,
+    $initialBgColor,
+    $bottomInset,
+  }) => css`
+    width: ${$width ? `${$width}px` : '100%'};
+    height: ${$height + ($bottomInset - 20 > 0 ? $bottomInset - 20 : 0)}px;
+    background-color: ${$isDisabled
       ? theme.dark
         ? theme.base.background[400]
         : theme.base.background[500]
-      : initialBgColor || theme.base.primaryColor};
+      : $initialBgColor || theme.base.primaryColor};
   `}
-  padding-bottom: ${({ bottomInset }) =>
-    bottomInset - 20 > 0 ? bottomInset - 20 : 0}px;
+  
+  padding-bottom: ${({ $bottomInset }) =>
+    $bottomInset - 20 > 0 ? $bottomInset - 20 : 0}px;
 `
 
 const CustomText = styled(Text)<TextProps>`
-  color: ${({ isDisabled }) =>
-    isDisabled ? 'rgba(255,255,255,0.6)' : 'rgba(255,255,255,1)'};
+  color: ${({ $isDisabled }) =>
+    $isDisabled ? 'rgba(255,255,255,0.6)' : 'rgba(255,255,255,1)'};
 `
 
 const IndicatorWarp = styled.View`

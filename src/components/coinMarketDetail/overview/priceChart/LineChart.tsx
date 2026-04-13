@@ -157,10 +157,10 @@ const LineChart = ({ WIDTH, HEIGHT, PADDING, VOLUME_HEIGHT }: ChartProps) => {
 
   return (
     <ChartContainer
-      WIDTH={WIDTH}
-      HEIGHT={HEIGHT}
-      PADDING={PADDING}
-      VOLUME_HEIGHT={VOLUME_HEIGHT}
+      $width={WIDTH}
+      $height={HEIGHT}
+      $padding={PADDING}
+      $volumeHeight={VOLUME_HEIGHT}
     >
       <LoadBoundaryView
         isLoading={isLoading}
@@ -327,10 +327,10 @@ const LineChart = ({ WIDTH, HEIGHT, PADDING, VOLUME_HEIGHT }: ChartProps) => {
             )}
           </VictoryChart>
           <CursorContainer
-            WIDTH={WIDTH}
-            HEIGHT={HEIGHT}
-            PADDING={PADDING}
-            VOLUME_HEIGHT={VOLUME_HEIGHT}
+            $width={WIDTH}
+            $height={HEIGHT}
+            $padding={PADDING}
+            $volumeHeight={VOLUME_HEIGHT}
           >
             <Cursor
               width={WIDTH - CONTENT_SPACING * 2}
@@ -384,21 +384,28 @@ const LineChart = ({ WIDTH, HEIGHT, PADDING, VOLUME_HEIGHT }: ChartProps) => {
 
 export default LineChart
 
-const ChartContainer = styled.View<ChartProps>`
+type StyledChartProps = {
+  $width: number
+  $height: number
+  $padding: number
+  $volumeHeight: number
+}
+
+const ChartContainer = styled.View<StyledChartProps>`
   overflow: hidden;
   margin-top: 30px;
-  width: ${({ WIDTH, PADDING }) => WIDTH + PADDING}px;
-  height: ${({ HEIGHT, PADDING, VOLUME_HEIGHT }) =>
-    HEIGHT + PADDING + VOLUME_HEIGHT}px;
+  width: ${({ $width, $padding }) => $width + $padding}px;
+  height: ${({ $height, $padding, $volumeHeight }) =>
+    $height + $padding + $volumeHeight}px;
   align-items: center;
 `
 
-const CursorContainer = styled.View<ChartProps>`
+const CursorContainer = styled.View<StyledChartProps>`
   position: absolute;
   overflow: hidden;
-  width: ${({ WIDTH, PADDING }) => WIDTH + PADDING - CONTENT_SPACING * 2}px;
-  height: ${({ HEIGHT, VOLUME_HEIGHT, PADDING }) =>
-    HEIGHT + VOLUME_HEIGHT - PADDING}px;
+  width: ${({ $width, $padding }) => $width + $padding - CONTENT_SPACING * 2}px;
+  height: ${({ $height, $volumeHeight, $padding }) =>
+    $height + $volumeHeight - $padding}px;
   z-index: 2;
   align-items: center;
 `

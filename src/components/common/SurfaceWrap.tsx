@@ -26,16 +26,16 @@ const SurfaceWrap = ({
 }: TitleWrapProps) => {
   return (
     <Container
-      paddingBottomZero={paddingBottomZero}
-      parentPaddingZero={parentPaddingZero}
-      marginTopZero={marginTopZero}
-      transparent={transparent}
-      flex={flex}
+      $paddingBottomZero={paddingBottomZero}
+      $parentPaddingZero={parentPaddingZero}
+      $marginTopZero={marginTopZero}
+      $transparent={transparent}
+      $flex={flex}
     >
       {title && (
         <TitleWrap
-          marginBottomZero={marginBottomZero}
-          parentPaddingZero={parentPaddingZero}
+          $marginBottomZero={marginBottomZero}
+          $parentPaddingZero={parentPaddingZero}
         >
           {typeof title === 'string' ? (
             <Text fontL color100 bold {...textStyles}>
@@ -53,50 +53,54 @@ const SurfaceWrap = ({
 
 export default SurfaceWrap
 
-type Props = Pick<
-  TitleWrapProps,
-  | 'paddingBottomZero'
-  | 'parentPaddingZero'
-  | 'marginTopZero'
-  | 'marginBottomZero'
-  | 'transparent'
-  | 'flex'
->
+type StyledProps = {
+  $paddingBottomZero?: boolean
+  $parentPaddingZero?: boolean
+  $marginTopZero?: boolean
+  $marginBottomZero?: boolean
+  $transparent?: boolean
+  $flex?: CSSProperties['flex']
+}
 
-const Container = styled.View<Props>`
-  ${({ flex }) => flex && `flex: ${flex}`}
-  background-color: ${({ theme, transparent }) =>
-    transparent ? 'transparent' : theme.base.background.surface};
+const Container = styled.View<StyledProps>`
+  ${({ $flex }) => $flex && `flex: ${$flex}`}
+  background-color: ${({ theme, $transparent }) =>
+    $transparent ? 'transparent' : theme.base.background.surface};
   padding: ${({ theme }) =>
     `${theme.content.surfacePadding} ${theme.content.spacing}`};
-  ${props =>
-    props.parentPaddingZero &&
+
+  ${({ $parentPaddingZero }) =>
+    $parentPaddingZero &&
     css`
       padding-left: 0;
       padding-right: 0;
     `}
-  ${props =>
-    props.paddingBottomZero &&
+
+  ${({ $paddingBottomZero }) =>
+    $paddingBottomZero &&
     css`
       padding-bottom: 0;
     `}
-  ${props =>
-    !props.marginTopZero &&
+
+  ${({ $marginTopZero, theme }) =>
+    !$marginTopZero &&
     css`
-      margin-top: ${props.theme.content.blankSpacing};
+      margin-top: ${theme.content.blankSpacing};
     `}
 `
 
-const TitleWrap = styled.View<Props>`
+const TitleWrap = styled.View<StyledProps>`
   flex-direction: row;
-  ${props =>
-    !props.marginBottomZero &&
+
+  ${({ $marginBottomZero }) =>
+    !$marginBottomZero &&
     css`
       margin-bottom: 20px;
     `}
-  ${props =>
-    props.parentPaddingZero &&
+
+  ${({ $parentPaddingZero, theme }) =>
+    $parentPaddingZero &&
     css`
-      padding: 0 ${props.theme.content.spacing};
+      padding: 0 ${theme.content.spacing};
     `}
 `

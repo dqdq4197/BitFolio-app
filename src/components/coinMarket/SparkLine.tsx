@@ -34,7 +34,7 @@ const SparkLine = ({ prices, isRising }: SparkLineProps) => {
   }, [isRising, theme])
 
   return (
-    <SparkLineWrap width={XSIZE}>
+    <SparkLineWrap $width={XSIZE}>
       <Svg height={YSIZE} width={XSIZE}>
         <Path d={path} stroke={strokeColor} fill="transparent" />
       </Svg>
@@ -45,9 +45,9 @@ const SparkLine = ({ prices, isRising }: SparkLineProps) => {
 export default SparkLine
 
 type WrapProps = {
-  width: number
+  $width: number
 }
 
 const SparkLineWrap = styled.View<WrapProps>`
-  width: ${props => props.width}px;
+  width: ${({ $width }) => $width}px;
 `

@@ -103,7 +103,7 @@ const WatchList = ({ onPressItem }: ListProps) => {
               valueKey="current_price"
               percentageKey="price_change_percentage_24h"
               onPressItem={onPressItem}
-              NoneUnderLine
+              noneUnderLine
             />
           )
         })

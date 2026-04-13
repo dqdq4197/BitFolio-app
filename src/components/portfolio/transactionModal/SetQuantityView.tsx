@@ -30,7 +30,7 @@ const SetQuantityView = ({
   const { currency } = useLocales()
 
   return (
-    <Container height={height}>
+    <Container $height={height}>
       <TotalPriceView>
         <Text bold color100 fontML>
           Total Price
@@ -76,12 +76,12 @@ const SetQuantityView = ({
 export default SetQuantityView
 
 type ContainerType = {
-  height: number
+  $height: number
 }
 
 const Container = styled.View<ContainerType>`
   width: ${width}px;
-  height: ${({ height }) => height}px;
+  height: ${({ $height }) => $height}px;
   justify-content: space-around;
   align-items: center;
   padding: 0 ${({ theme }) => theme.content.spacing};

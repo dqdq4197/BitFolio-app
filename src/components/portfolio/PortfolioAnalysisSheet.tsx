@@ -56,11 +56,11 @@ const Tab = ({ tabKey, title, icon, isActive, onPress }: TabProps) => {
   return (
     <TabButton
       activeOpacity={0.6}
-      isActive={isActive}
+      $isActive={isActive}
       onPress={() => onPress(tabKey)}
     >
       <IconWrap>{icon}</IconWrap>
-      <CustomText color100 bold fontML isActive={isActive}>
+      <CustomText color100 bold fontML $isActive={isActive}>
         {title}
       </CustomText>
     </TabButton>
@@ -236,7 +236,7 @@ const PortfolioAnalysisSheet = ({ portfolioStats }: SheetProps) => {
           underlayColor={theme.base.background[300]}
           onPress={handleHideButtonPress}
         >
-          <Arrow isHide={isHide}>
+          <Arrow $isHide={isHide}>
             <MaterialIcons
               name="arrow-back-ios"
               size={24}
@@ -252,11 +252,11 @@ const PortfolioAnalysisSheet = ({ portfolioStats }: SheetProps) => {
 export default PortfolioAnalysisSheet
 
 type HideType = {
-  isHide: boolean
+  $isHide: boolean
 }
 
 type ButtonProps = {
-  isActive: boolean
+  $isActive: boolean
 }
 
 const TabContainer = styled.View`
@@ -274,10 +274,10 @@ const TabButton = styled.TouchableOpacity<ButtonProps>`
   border-radius: ${({ theme }) => theme.border.ml};
   align-items: center;
   justify-content: center;
-  background-color: ${({ theme, isActive }) =>
-    isActive ? theme.base.background[300] : theme.base.background[200]};
-  ${({ theme, isActive }) =>
-    isActive && `border: 1px solid ${theme.base.primaryColor}`};
+  background-color: ${({ theme, $isActive }) =>
+    $isActive ? theme.base.background[300] : theme.base.background[200]};
+  ${({ theme, $isActive }) =>
+    $isActive && `border: 1px solid ${theme.base.primaryColor}`};
 `
 
 const IconWrap = styled.View`
@@ -298,14 +298,14 @@ const HideButton = styled.TouchableHighlight`
 `
 
 const Arrow = styled.View<HideType>`
-  top: ${({ isHide }) => (isHide ? -2 : 6)}px;
-  transform: ${({ isHide }) => (isHide ? `rotate(270deg)` : `rotate(90deg)`)}
+  top: ${({ $isHide }) => ($isHide ? -2 : 6)}px;
+  transform: ${({ $isHide }) => ($isHide ? `rotate(270deg)` : `rotate(90deg)`)}
     scaleX(1.5);
 `
 
 const CustomText = styled(Text)<ButtonProps>`
-  color: ${({ theme, isActive }) =>
-    isActive ? theme.base.text[100] : theme.base.text[200]};
+  color: ${({ theme, $isActive }) =>
+    $isActive ? theme.base.text[100] : theme.base.text[200]};
 `
 
 const EmptyViewContainer = styled.View`

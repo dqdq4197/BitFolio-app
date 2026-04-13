@@ -1,4 +1,3 @@
-
 import ChangePassword from '/components/auth/ChangePassword'
 import AsyncBoundary from '/components/common/AsyncBoundary'
 import GeneralTemplate from '/components/GeneralTemplate'

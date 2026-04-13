@@ -60,9 +60,9 @@ const CustomLegendContainer = ({
             key={index}
             onPress={() => events.onPress()}
             activeOpacity={0.6}
-            isActive={activeIndex === index}
+            $isActive={activeIndex === index}
           >
-            <Point size={size} fill={style.fill} />
+            <Point $size={size} $fill={style.fill} />
             <Text bold>{text}</Text>
           </Legend>
         )
@@ -280,12 +280,12 @@ const AllocationView = ({ coins, tatalCosts, mode }: AllocationViewProps) => {
 export default AllocationView
 
 type LegendProps = {
-  isActive: boolean
+  $isActive: boolean
 }
 
 type PointProps = {
-  size: number
-  fill: string
+  $size: number
+  $fill: string
 }
 
 const Container = styled.View`
@@ -305,18 +305,18 @@ const Legend = styled.TouchableOpacity<LegendProps>`
   flex-direction: row;
   align-items: center;
   margin: 2px;
-  background-color: ${({ theme, isActive }) =>
-    isActive ? theme.base.background[300] : 'transparent'};
+  background-color: ${({ theme, $isActive }) =>
+    $isActive ? theme.base.background[300] : 'transparent'};
   padding: 7px 8px;
   border-radius: ${({ theme }) => theme.border.m};
 `
 
 const Point = styled.View<PointProps>`
-  ${({ size, fill }) => `
-    width: ${size * 2}px;
-    height: ${size * 2}px;
-    border-radius: ${size}px;
-    background-color: ${fill};
+  ${({ $size, $fill }) => `
+    width: ${$size * 2}px;
+    height: ${$size * 2}px;
+    border-radius: ${$size}px;
+    background-color: ${$fill};
   `};
   margin-right: 10px;
 `

@@ -27,12 +27,12 @@ const ValueWithPercentageItem = ({ item, index, onPressItem }: ItemProps) => {
 
   return (
     <ItemContainer onPress={() => onPressItem(item.id)}>
-      <ItemColumn column={0.2} justifyContent="flex-start">
+      <ItemColumn $column={0.2} $justifyContent="flex-start">
         <Text fontML color100 bold>
           {index + 1}
         </Text>
       </ItemColumn>
-      <ItemColumn column={1.3} justifyContent="flex-start">
+      <ItemColumn $column={1.3} $justifyContent="flex-start">
         <ImageWrap>
           <Image uri={item.image} width={30} height={30} />
         </ImageWrap>
@@ -43,7 +43,7 @@ const ValueWithPercentageItem = ({ item, index, onPressItem }: ItemProps) => {
           <Text>{symbol.toUpperCase()}</Text>
         </NameWrap>
       </ItemColumn>
-      <ItemColumn column={1.2}>
+      <ItemColumn $column={1.2}>
         <View>
           <Text fontML color100 right>
             {price}
@@ -55,7 +55,7 @@ const ValueWithPercentageItem = ({ item, index, onPressItem }: ItemProps) => {
           />
         </View>
       </ItemColumn>
-      <ItemColumn column={0.5} justifyContent="flex-end">
+      <ItemColumn $column={0.5} $justifyContent="flex-end">
         <Ionicons name="heart-sharp" size={28} color={theme.base.text[200]} />
       </ItemColumn>
     </ItemContainer>
@@ -65,8 +65,8 @@ const ValueWithPercentageItem = ({ item, index, onPressItem }: ItemProps) => {
 export default React.memo(ValueWithPercentageItem)
 
 type ColumnProps = {
-  column: number
-  justifyContent?: 'flex-end' | 'flex-start' | 'center'
+  $column: number
+  $justifyContent?: 'flex-end' | 'flex-start' | 'center'
 }
 
 const ItemContainer = styled.TouchableOpacity`
@@ -79,10 +79,10 @@ const ItemContainer = styled.TouchableOpacity`
 `
 
 const ItemColumn = styled.View<ColumnProps>`
-  flex: ${props => props.column};
+  flex: ${({ $column }) => $column};
   flex-direction: row;
   align-items: center;
-  justify-content: ${({ justifyContent }) => justifyContent || 'center'};
+  justify-content: ${({ $justifyContent }) => $justifyContent || 'center'};
 `
 
 const NameWrap = styled.View`

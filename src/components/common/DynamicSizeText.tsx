@@ -47,7 +47,7 @@ const DynamicSizeText = ({
   }, [defaultSize])
 
   return (
-    <CustomText {...props} strLength={children.length} sizeArr={sizeArr}>
+    <CustomText {...props} $strLength={children.length} $sizeArr={sizeArr}>
       {children}
     </CustomText>
   )
@@ -56,13 +56,13 @@ const DynamicSizeText = ({
 export default DynamicSizeText
 
 type CustomTextProps = {
-  strLength: number
-  sizeArr: sizeArrType
+  $strLength: number
+  $sizeArr: sizeArrType
 }
 
 const CustomText = styled(Text)<CustomTextProps>`
-  ${({ strLength, theme, sizeArr }) => {
-    switch (strLength) {
+  ${({ $strLength, theme, $sizeArr }) => {
+    switch ($strLength) {
       case 0:
       case 1:
       case 2:
@@ -76,14 +76,14 @@ const CustomText = styled(Text)<CustomTextProps>`
       case 10:
       case 11:
       case 12:
-        return `font-size: ${theme.size[sizeArr[0]]}`
+        return `font-size: ${theme.size[$sizeArr[0]]}`
       case 13:
       case 14:
       case 15:
-        return `font-size: ${theme.size[sizeArr[1]]}`
+        return `font-size: ${theme.size[$sizeArr[1]]}`
 
       default:
-        return `font-size: ${theme.size[sizeArr[2]]}`
+        return `font-size: ${theme.size[$sizeArr[2]]}`
     }
   }}
 `

@@ -1,10 +1,4 @@
-import {
-  useState,
-  useRef,
-  forwardRef,
-  useEffect,
-  useCallback,
-} from 'react'
+import { useState, useRef, forwardRef, useEffect, useCallback } from 'react'
 import {
   TextInputProps,
   Animated,
@@ -146,7 +140,7 @@ const TextField = forwardRef<TextInput, TextFieldProps>(
     }
 
     return (
-      <Container marginBottom={marginBottom}>
+      <Container $marginBottom={marginBottom}>
         <Text
           as={Animated.Text}
           color100
@@ -191,10 +185,12 @@ const TextField = forwardRef<TextInput, TextFieldProps>(
 
 export default TextField
 
-type ContainerProps = Pick<TextFieldProps, 'marginBottom'>
+type ContainerProps = {
+  $marginBottom?: number
+}
 
 const Container = styled.View<ContainerProps>`
-  margin-bottom: ${({ marginBottom }) => marginBottom || 0}px;
+  margin-bottom: ${({ $marginBottom }) => $marginBottom || 0}px;
 `
 
 const TextInputWrapper = styled.View`

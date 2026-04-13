@@ -1,4 +1,3 @@
-
 import HighVolume from '/components/coinMarket/popularList/HighVolume'
 import AsyncBoundary from '/components/common/AsyncBoundary'
 import GeneralTemplate from '/components/GeneralTemplate'

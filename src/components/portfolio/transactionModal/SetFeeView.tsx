@@ -19,7 +19,7 @@ const SetFeeView = ({ fee, unMountingList, height }: PricePerCoinViewProps) => {
   const { currency } = useLocales()
 
   return (
-    <Container height={height}>
+    <Container $height={height}>
       <Text fontXL bold margin="0 5px 0 0">
         {getCurrencySymbol(currency)}
       </Text>
@@ -31,20 +31,14 @@ const SetFeeView = ({ fee, unMountingList, height }: PricePerCoinViewProps) => {
 export default SetFeeView
 
 type ContainerType = {
-  height: number
+  $height: number
 }
 
 const Container = styled.View<ContainerType>`
   flex-direction: row;
   width: ${width}px;
-  height: ${({ height }) => height}px;
+  height: ${({ $height }) => $height}px;
   justify-content: center;
   align-items: center;
   padding: 0 ${({ theme }) => theme.content.spacing};
-`
-
-const View = styled.View`
-  flex-direction: row;
-  justify-content: center;
-  align-items: flex-end;
 `

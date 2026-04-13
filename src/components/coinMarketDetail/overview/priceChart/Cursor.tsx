@@ -179,7 +179,7 @@ const Cursor = ({ width, height, CURSOR_SIZE, PADDING }: CursorProps) => {
       >
         <CursorWrap
           as={Animated.View}
-          CURSOR_SIZE={CURSOR_SIZE}
+          cursorSize={CURSOR_SIZE}
           style={animatedStyle}
         >
           <CursorLine />
@@ -192,12 +192,14 @@ const Cursor = ({ width, height, CURSOR_SIZE, PADDING }: CursorProps) => {
 
 export default Cursor
 
-type WrapProps = Pick<CursorProps, 'CURSOR_SIZE'>
+type WrapProps = {
+  cursorSize: number
+}
 
 const CursorWrap = styled.View<WrapProps>`
-  width: ${({ CURSOR_SIZE }) => CURSOR_SIZE}px;
-  height: ${({ CURSOR_SIZE }) => CURSOR_SIZE}px;
-  border-radius: ${({ CURSOR_SIZE }) => CURSOR_SIZE / 2}px;
+  width: ${({ cursorSize }) => cursorSize}px;
+  height: ${({ cursorSize }) => cursorSize}px;
+  border-radius: ${({ cursorSize }) => cursorSize / 2}px;
   border-width: 3px;
   border-color: ${({ theme }) => theme.base.text[200]};
   justify-content: center;

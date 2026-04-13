@@ -1,7 +1,9 @@
 import { useState, useEffect, useRef } from 'react'
 import { Dimensions, Animated } from 'react-native'
 import styled from 'styled-components/native'
-import DateTimePicker from '@react-native-community/datetimepicker'
+import DateTimePicker, {
+  type DateTimePickerEvent,
+} from '@react-native-community/datetimepicker'
 import { format } from 'date-fns'
 import { ko, enUS } from 'date-fns/locale'
 
@@ -56,7 +58,7 @@ const SetDateView = ({ height, date, isFocused, setDate }: DateViewProps) => {
     }
   }, [isFocused, opacity, translateY])
 
-  const onChange = (event: any, selectedDate?: Date) => {
+  const onChange = (_event: DateTimePickerEvent, selectedDate?: Date) => {
     const currentDate = selectedDate || date
     setDate(+currentDate)
   }
@@ -66,7 +68,7 @@ const SetDateView = ({ height, date, isFocused, setDate }: DateViewProps) => {
   }
 
   return (
-    <Container height={height}>
+    <Container $height={height}>
       <PickerSelectionWrap>
         <Wrapper
           activeOpacity={0.6}
@@ -136,12 +138,12 @@ const SetDateView = ({ height, date, isFocused, setDate }: DateViewProps) => {
 export default SetDateView
 
 type ContainerType = {
-  height: number
+  $height: number
 }
 
 const Container = styled.View<ContainerType>`
   width: ${width}px;
-  height: ${({ height }) => height}px;
+  height: ${({ $height }) => $height}px;
   padding: 16px ${({ theme }) => theme.content.spacing} 0;
 `
 

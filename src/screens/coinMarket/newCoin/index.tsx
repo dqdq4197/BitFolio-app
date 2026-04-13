@@ -1,4 +1,3 @@
-
 import AsyncBoundary from '/components/common/AsyncBoundary'
 import GeneralTemplate from '/components/GeneralTemplate'
 import NewCoin from '/components/coinMarket/popularList/NewCoin'

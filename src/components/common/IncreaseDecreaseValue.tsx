@@ -38,7 +38,7 @@ const IncreaseDecreaseValue = ({
   }, [value, isCurrencyFormat, currency])
 
   return (
-    <CustomText value={value} {...props}>
+    <CustomText $value={value} {...props}>
       {value === null
         ? '--'
         : value > 0
@@ -50,13 +50,13 @@ const IncreaseDecreaseValue = ({
 
 export default IncreaseDecreaseValue
 
-const CustomText = styled(Text)<ValueProps>`
-  color: ${({ theme, value }) =>
-    value === null
+const CustomText = styled(Text)<{ $value: number | null }>`
+  color: ${({ theme, $value }) =>
+    $value === null
       ? theme.base.text[200]
-      : value > 0
+      : $value > 0
       ? theme.base.upColor
-      : value === 0
+      : $value === 0
       ? theme.base.text[200]
       : theme.base.downColor};
 `

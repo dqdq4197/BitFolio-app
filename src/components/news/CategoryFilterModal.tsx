@@ -82,7 +82,7 @@ const CategoryFilterModal = ({
         <Row
           underlayColor={theme.base.underlayColor[100]}
           onPress={() => handleRowPress(ALL_NEWS_CATEGORIES)}
-          isActive={categoriesTemp === ALL_NEWS_CATEGORIES}
+          $isActive={categoriesTemp === ALL_NEWS_CATEGORIES}
         >
           <>
             <Text color100 heavy margin="0 0 0 10px">
@@ -105,7 +105,7 @@ const CategoryFilterModal = ({
               key={category.categoryName}
               underlayColor={theme.base.underlayColor[100]}
               onPress={() => handleRowPress(category.categoryName)}
-              isActive={categoriesTemp !== ALL_NEWS_CATEGORIES}
+              $isActive={categoriesTemp !== ALL_NEWS_CATEGORIES}
             >
               <>
                 <Text color100 heavy margin="0 0 0 10px">
@@ -135,7 +135,7 @@ const CategoryFilterModal = ({
 export default CategoryFilterModal
 
 type RowProps = {
-  isActive: boolean
+  $isActive: boolean
 }
 
 const Container = styled.View`
@@ -154,5 +154,5 @@ const Row = styled.TouchableHighlight<RowProps>`
   padding: 0 ${({ theme }) => theme.content.spacing};
   border-bottom-width: 1px;
   border-bottom-color: ${({ theme }) => theme.base.background[300]};
-  opacity: ${({ isActive }) => (isActive ? 1 : 0.6)};
+  opacity: ${({ $isActive }) => ($isActive ? 1 : 0.6)};
 `

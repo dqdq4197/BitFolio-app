@@ -29,9 +29,9 @@ const SetPricePerCoinView = ({
   const { currency } = useLocales()
 
   return (
-    <Container height={height}>
+    <Container $height={height}>
       <View />
-      <PriceView height={height}>
+      <PriceView $height={height}>
         <Text fontXL bold margin="0 5px 0 0">
           {getCurrencySymbol(currency)}
         </Text>
@@ -49,11 +49,11 @@ const SetPricePerCoinView = ({
       </PriceView>
       <PriceFixedButton
         activeOpacity={0.6}
-        isPriceFixed={isPriceFixed}
+        $isPriceFixed={isPriceFixed}
         onPress={onIsPriceFiexedChange}
       >
-        <Circle isPriceFixed={isPriceFixed} />
-        <CustomText isPriceFixed={isPriceFixed} fontL>
+        <Circle $isPriceFixed={isPriceFixed} />
+        <CustomText $isPriceFixed={isPriceFixed} fontL>
           {t(`portfolio.fixing the price`)}
         </CustomText>
       </PriceFixedButton>
@@ -64,16 +64,16 @@ const SetPricePerCoinView = ({
 export default SetPricePerCoinView
 
 type HeightProps = {
-  height: number
+  $height: number
 }
 
 type PriceFixedProps = {
-  isPriceFixed: boolean
+  $isPriceFixed: boolean
 }
 
 const Container = styled.View<HeightProps>`
   width: ${width}px;
-  height: ${({ height }) => height}px;
+  height: ${({ $height }) => $height}px;
   align-items: center;
   padding: 0 ${({ theme }) => theme.content.spacing};
 `
@@ -81,7 +81,7 @@ const Container = styled.View<HeightProps>`
 const PriceView = styled.View<HeightProps>`
   flex-direction: row;
   align-items: center;
-  height: ${({ height }) => height - 60}px;
+  height: ${({ $height }) => $height - 60}px;
 `
 
 const PriceFixedButton = styled.TouchableOpacity<PriceFixedProps>`
@@ -89,8 +89,8 @@ const PriceFixedButton = styled.TouchableOpacity<PriceFixedProps>`
   height: 30px;
   align-items: center;
   justify-content: center;
-  background-color: ${({ isPriceFixed, theme }) =>
-    isPriceFixed ? 'rgb(77, 81, 100)' : theme.base.background[400]};
+  background-color: ${({ $isPriceFixed, theme }) =>
+    $isPriceFixed ? 'rgb(77, 81, 100)' : theme.base.background[400]};
   border-radius: ${({ theme }) => theme.border.m};
   padding: 5px 10px;
 `
@@ -99,8 +99,8 @@ const Circle = styled.View<PriceFixedProps>`
   width: 16px;
   height: 16px;
   border-radius: 8px;
-  background-color: ${({ isPriceFixed, theme }) =>
-    isPriceFixed ? theme.base.primaryColor : 'rgb(119, 120, 122)'};
+  background-color: ${({ $isPriceFixed, theme }) =>
+    $isPriceFixed ? theme.base.primaryColor : 'rgb(119, 120, 122)'};
   margin-right: 8px;
 `
 
@@ -111,8 +111,8 @@ const View = styled.View`
 `
 
 const CustomText = styled(Text)<PriceFixedProps>`
-  color: ${({ theme, isPriceFixed }) =>
-    isPriceFixed
+  color: ${({ theme, $isPriceFixed }) =>
+    $isPriceFixed
       ? theme.dark
         ? theme.base.text[100]
         : theme.base.dark100

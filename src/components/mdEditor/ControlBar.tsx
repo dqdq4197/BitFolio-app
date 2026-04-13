@@ -488,7 +488,7 @@ const DefaultControlBar = () => {
                   // aspect: [4, 3],
                   // quality: 1,
                 })
-                if (!result.cancelled) {
+                if (!result.canceled) {
                   const { uri, width, height } = result
                   const newContext = {
                     type: IMAGE,
@@ -529,7 +529,7 @@ const DefaultControlBar = () => {
 
   return (
     <>
-      <UtilsWrap flex={5}>
+      <UtilsWrap $flex={5}>
         <UtilBtn onPress={handleHeaderPress}>
           <MaterialIcons
             name="text-fields"
@@ -562,7 +562,7 @@ const DefaultControlBar = () => {
           <Octicons name="mention" size={24} color="rgba(255,255,255, .7)" />
         </UtilBtn>
       </UtilsWrap>
-      <UtilsWrap flex={1}>
+      <UtilsWrap $flex={1}>
         <UtilBtn onPress={handleImagePress}>
           <Ionicons name="image" size={24} color="rgba(255,255,255, .7)" />
         </UtilBtn>
@@ -648,7 +648,7 @@ const ControlBar = ({ selecting }: ControlBarProps) => {
 export default ControlBar
 
 interface UtilsWrapProps {
-  flex: number
+  $flex: number
 }
 const Container = styled.View`
   flex-direction: row;
@@ -658,7 +658,7 @@ const Container = styled.View`
   background-color: ${({ theme }) => theme.base.background[200]};
 `
 const UtilsWrap = styled.View<UtilsWrapProps>`
-  flex: ${props => props.flex};
+  flex: ${({ $flex }) => $flex};
   flex-direction: row;
 `
 const UtilBtn = styled.TouchableOpacity`

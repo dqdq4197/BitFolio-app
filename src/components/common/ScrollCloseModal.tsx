@@ -98,7 +98,7 @@ const ScrollCloseModal = ({
       visible={visible}
     >
       <Container behavior="padding">
-        <HeaderView insetTop={insets.top}>
+        <HeaderView $insetTop={insets.top}>
           {titleComponent || <Blank />}
           <CircleCloseButton
             SIZE={SIZE}
@@ -115,7 +115,7 @@ const ScrollCloseModal = ({
           keyboardDismissMode="on-drag"
           onScroll={handleScroll}
           scrollEventThrottle={1}
-          footerHeight={footerHeight}
+          $footerHeight={footerHeight}
           onScrollEndDrag={handleScrollEndDrag}
         >
           {children}
@@ -130,7 +130,7 @@ const ScrollCloseModal = ({
 export default ScrollCloseModal
 
 type ScrollViewProps = {
-  footerHeight: number
+  $footerHeight: number
 }
 
 const Modal = styled.Modal``
@@ -140,18 +140,18 @@ const Container = styled.KeyboardAvoidingView`
   background-color: ${({ theme }) => theme.base.background.surface};
 `
 
-const HeaderView = styled.View<{ insetTop: number }>`
+const HeaderView = styled.View<{ $insetTop: number }>`
   flex-direction: row;
   justify-content: space-between;
   margin-bottom: 16px;
-  padding: ${({ insetTop, theme }) => `
-    ${insetTop + 10}px ${theme.content.spacing} 0
+  padding: ${({ $insetTop, theme }) => `
+    ${$insetTop + 10}px ${theme.content.spacing} 0
   `};
 `
 
 const ScrollView = styled.ScrollView<ScrollViewProps>`
   width: 100%;
-  padding-bottom: ${({ footerHeight }) => footerHeight}px;
+  padding-bottom: ${({ $footerHeight }) => $footerHeight}px;
 `
 
 const Blank = styled.View``

@@ -36,7 +36,7 @@ const SetNotesView = ({
   }, [isFocused])
 
   return (
-    <Container height={height}>
+    <Container $height={height}>
       <NotePadWrap>
         <Text bold>{t('common.notes')}</Text>
         <NotePad
@@ -59,12 +59,12 @@ const SetNotesView = ({
 export default SetNotesView
 
 type ContainerType = {
-  height: number
+  $height: number
 }
 
 const Container = styled.View<ContainerType>`
   width: ${width}px;
-  height: ${({ height }) => height}px;
+  height: ${({ $height }) => $height}px;
   padding: 16px ${({ theme }) => theme.content.spacing};
 `
 

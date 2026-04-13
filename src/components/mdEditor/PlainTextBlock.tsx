@@ -334,7 +334,7 @@ const PlainTextBlock = ({ index, type, payload }: PlainTextProps) => {
       onKeyPress={handleInputKeyPress}
       onSelectionChange={handleSelectionChange}
       onFocus={handleFocus}
-      type={type}
+      $type={type}
     >
       <RenderText type={type} index={index}>
         {payload.text}
@@ -346,14 +346,14 @@ const PlainTextBlock = ({ index, type, payload }: PlainTextProps) => {
 export default PlainTextBlock
 
 interface TextInputProps {
-  type: string
+  $type: string
 }
 const StyledTextInput = styled.TextInput<TextInputProps>`
   color: white;
   /* background-color: rgba(255,255,255, .2); */
 
-  ${props => {
-    switch (props.type) {
+  ${({ $type }) => {
+    switch ($type) {
       case TYPES.QUOTE:
         return StyledQuote
       case TYPES.HEADER:

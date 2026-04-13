@@ -17,7 +17,7 @@ const CloseButton = forwardRef<ComponentRef<typeof Circle>, ButtonProps>(
     const { theme, scheme } = useGlobalTheme()
 
     return (
-      <Conatiner size={SIZE} style={{ width: SIZE, height: SIZE }}>
+      <Container $size={SIZE} style={{ width: SIZE, height: SIZE }}>
         <Svg width={SIZE} height={SIZE}>
           <G rotation="-90" origin={SIZE / 2}>
             <Circle
@@ -52,18 +52,18 @@ const CloseButton = forwardRef<ComponentRef<typeof Circle>, ButtonProps>(
             }
           />
         </Icon>
-      </Conatiner>
+      </Container>
     )
   }
 )
 
 export default CloseButton
 
-const Conatiner = styled.View<{ size: number }>`
+const Container = styled.View<{ $size: number }>`
   align-items: center;
   justify-content: center;
   background-color: ${({ theme }) => theme.base.background.surface};
-  border-radius: ${({ size }) => size / 2}px;
+  border-radius: ${({ $size }) => $size / 2}px;
 `
 
 const Icon = styled.TouchableOpacity`

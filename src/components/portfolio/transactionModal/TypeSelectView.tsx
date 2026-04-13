@@ -128,14 +128,14 @@ const TypeSelectView = ({
   }
 
   return (
-    <Container height={height - FOOTER_HEIGHT - 70}>
+    <Container $height={height - FOOTER_HEIGHT - 70}>
       <TransactionTypeWrap>
         {transactionTypes.map(type => (
           <TransactionType
             key={type.key}
             activeOpacity={0.6}
-            width={TransactionTypeWidth}
-            isSelected={type.key === transactionType}
+            $width={TransactionTypeWidth}
+            $isSelected={type.key === transactionType}
             onPress={() => onSwitchTransactionType(type.key)}
           >
             {type.icon(
@@ -144,7 +144,7 @@ const TypeSelectView = ({
                 : theme.base.text[300]
             )}
             <CustomText
-              isSelected={type.key === transactionType}
+              $isSelected={type.key === transactionType}
               margin="0 0 0 5px"
               color100
               bold
@@ -169,7 +169,7 @@ const TypeSelectView = ({
         {transferTypes.map(type => (
           <TransferType
             key={type.key}
-            width={TransferTypeWidth}
+            $width={TransferTypeWidth}
             onPress={() => onSwitchTransferType(type.key)}
             activeOpacity={0.6}
           >
@@ -179,7 +179,7 @@ const TypeSelectView = ({
                 : theme.base.text[300]
             )}
             <CustomText
-              isSelected={type.key === transferType}
+              $isSelected={type.key === transferType}
               margin="0 0 0 5px"
               color100
               bold
@@ -191,7 +191,7 @@ const TypeSelectView = ({
         ))}
         <Indicator
           as={Animated.View}
-          width={TransferTypeWidth}
+          $width={TransferTypeWidth}
           style={{
             transform: [
               {
@@ -208,20 +208,20 @@ const TypeSelectView = ({
 export default TypeSelectView
 
 type ContainerProps = {
-  height: number
+  $height: number
 }
 
 type TypeProps = {
-  width: number
-  isSelected?: boolean
+  $width: number
+  $isSelected?: boolean
 }
 
 type TextProps = {
-  isSelected: boolean
+  $isSelected: boolean
 }
 
 const Container = styled.View<ContainerProps>`
-  height: ${({ height }) => height}px;
+  height: ${({ $height }) => $height}px;
   padding: 0 ${({ theme }) => theme.content.spacing};
   justify-content: center;
 `
@@ -234,15 +234,15 @@ const TransactionTypeWrap = styled.View`
 
 const TransactionType = styled.TouchableOpacity<TypeProps>`
   height: 100%;
-  width: ${({ width }) => width}px;
+  width: ${({ $width }) => $width}px;
   background-color: ${({ theme }) => theme.base.background[300]};
   align-items: center;
   justify-content: center;
   border-radius: ${({ theme }) => theme.border.ml};
   border-width: 1px;
   border-style: solid;
-  border-color: ${({ theme, isSelected }) =>
-    isSelected ? theme.base.primaryColor : 'transparent'};
+  border-color: ${({ theme, $isSelected }) =>
+    $isSelected ? theme.base.primaryColor : 'transparent'};
 `
 
 const TransferTypeWrap = styled.View`
@@ -255,7 +255,7 @@ const TransferTypeWrap = styled.View`
 
 const TransferType = styled.TouchableOpacity<TypeProps>`
   flex-direction: row;
-  width: ${({ width }) => width}px;
+  width: ${({ $width }) => $width}px;
   height: 100%;
   align-items: center;
   justify-content: center;
@@ -263,7 +263,7 @@ const TransferType = styled.TouchableOpacity<TypeProps>`
 
 const Indicator = styled.View<TypeProps>`
   position: absolute;
-  width: ${({ width }) => width}px;
+  width: ${({ $width }) => $width}px;
   height: 100%;
   background-color: ${({ theme }) => theme.base.background[400]};
   border-radius: ${({ theme }) => theme.border.m};
@@ -271,6 +271,6 @@ const Indicator = styled.View<TypeProps>`
 `
 
 const CustomText = styled(Text)<TextProps>`
-  color: ${({ theme, isSelected }) =>
-    isSelected ? theme.base.text[100] : theme.base.text[300]};
+  color: ${({ theme, $isSelected }) =>
+    $isSelected ? theme.base.text[100] : theme.base.text[300]};
 `
