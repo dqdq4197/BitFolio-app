@@ -156,26 +156,26 @@ const Text = styled.Text<StyledTextProps>`
     $light100,
     theme,
   }) => {
-    if ($color) return `color: ${$color}`
+    if ($color) return `color: ${$color};`
     switch (true) {
       case $color100:
-        return `color: ${theme.base.text[100]}`
+        return `color: ${theme.base.text[100]};`
       case $color300:
-        return `color: ${theme.base.text[300]}`
+        return `color: ${theme.base.text[300]};`
       case $color400:
-        return `color: ${theme.base.text[400]}`
+        return `color: ${theme.base.text[400]};`
       case $primaryColor:
-        return `color: ${theme.base.primaryColor}`
+        return `color: ${theme.base.primaryColor};`
       case $removeColor:
-        return `color: ${theme.base.removeColor}`
+        return `color: ${theme.base.removeColor};`
       case $dark100:
-        return `color: ${theme.base.dark100}`
+        return `color: ${theme.base.dark100};`
       case $light100:
-        return `color: ${theme.base.light100}`
+        return `color: ${theme.base.light100};`
       case $error:
-        return `color: ${theme.base.error}`
+        return `color: ${theme.base.error};`
       default:
-        return `color: ${theme.base.text[200]}`
+        return `color: ${theme.base.text[200]};`
     }
   }}
 
@@ -193,54 +193,54 @@ const Text = styled.Text<StyledTextProps>`
   }) => {
     switch (true) {
       case $fontXXXL:
-        return `font-size: ${theme.size.font_xxxl}`
+        return `font-size: ${theme.size.font_xxxl};`
       case $fontXXL:
-        return `font-size: ${theme.size.font_xxl}`
+        return `font-size: ${theme.size.font_xxl};`
       case $fontXL:
-        return `font-size: ${theme.size.font_xl}`
+        return `font-size: ${theme.size.font_xl};`
       case $fontX:
-        return `font-size: ${theme.size.font_x}`
+        return `font-size: ${theme.size.font_x};`
       case $fontL:
-        return `font-size: ${theme.size.font_l}`
+        return `font-size: ${theme.size.font_l};`
       case $fontML:
-        return `font-size: ${theme.size.font_ml}`
+        return `font-size: ${theme.size.font_ml};`
       case $fontM:
-        return `font-size: ${theme.size.font_m}`
+        return `font-size: ${theme.size.font_m};`
       case $fontS:
-        return `font-size: ${theme.size.font_s}`
+        return `font-size: ${theme.size.font_s};`
       case $fontXS:
-        return `font-size: ${theme.size.font_xs}`
+        return `font-size: ${theme.size.font_xs};`
 
       default:
-        return `font-size: ${theme.size.font_m}`
+        return `font-size: ${theme.size.font_m};`
     }
   }}
 
   ${({ $light, $bold, $heavy, $black }) => {
     switch (true) {
       case $light:
-        return `font-weight: 200`
+        return `font-weight: 200;`
       case $bold:
-        return `font-weight: 600`
+        return `font-weight: 600;`
       case $heavy:
-        return `font-weight: 700`
+        return `font-weight: 700;`
       case $black:
-        return `font-weight: 900`
+        return `font-weight: 900;`
 
       default:
-        return `font-weight: 400`
+        return `font-weight: 400;`
     }
   }}
 
   ${({ $center, $right }) => {
     switch (true) {
       case $center:
-        return `text-align: center`
+        return `text-align: center;`
       case $right:
-        return `text-align: right`
+        return `text-align: right;`
 
       default:
-        return `text-align: left`
+        return `text-align: left;`
     }
   }}
 
@@ -248,9 +248,9 @@ const Text = styled.Text<StyledTextProps>`
     // eslint-disable-next-line default-case
     switch (true) {
       case $italic:
-        return `font-style: italic`
+        return `font-style: italic;`
       case $underline:
-        return `text-decoration-line: underline`
+        return `text-decoration-line: underline;`
 
       default:
         return ``

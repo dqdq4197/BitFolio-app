@@ -4,7 +4,7 @@ import { changeLocalScheme, LocalSchemeType } from '/store/slices/baseSetting'
 import { darkTheme, lightTheme } from '../lib/themeStyles'
 import { useAppSelector, useAppDispatch } from './useRedux'
 
-const useGlobarTheme = () => {
+const useGlobalTheme = () => {
   const dispatch = useAppDispatch()
   const { localScheme, deviceScheme } = useAppSelector(
     state => state.baseSettingReducer
@@ -30,4 +30,4 @@ const useGlobarTheme = () => {
   }
 }
 
-export default useGlobarTheme
+export default useGlobalTheme

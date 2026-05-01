@@ -1,5 +1,6 @@
 import { Octicons } from '@expo/vector-icons'
 import React, { useCallback, useState } from 'react'
+import { View } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components/native'
 
@@ -84,7 +85,14 @@ const CategoryFilterModal = ({
           onPress={() => handleRowPress(ALL_NEWS_CATEGORIES)}
           $isActive={categoriesTemp === ALL_NEWS_CATEGORIES}
         >
-          <>
+          <View
+            style={{
+              flex: 1,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
             <Text color100 heavy margin="0 0 0 10px">
               {t(`news.all news categories`)}
             </Text>
@@ -97,7 +105,7 @@ const CategoryFilterModal = ({
                   : 'transparent'
               }
             />
-          </>
+          </View>
         </Row>
         {CategoriesData.map(category => {
           return (
@@ -107,7 +115,14 @@ const CategoryFilterModal = ({
               onPress={() => handleRowPress(category.categoryName)}
               $isActive={categoriesTemp !== ALL_NEWS_CATEGORIES}
             >
-              <>
+              <View
+                style={{
+                  flex: 1,
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}
+              >
                 <Text color100 heavy margin="0 0 0 10px">
                   {category.categoryName}
                 </Text>
@@ -123,7 +138,7 @@ const CategoryFilterModal = ({
                       : 'transparent'
                   }
                 />
-              </>
+              </View>
             </Row>
           )
         })}

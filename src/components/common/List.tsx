@@ -1,5 +1,5 @@
 import { PropsWithChildren } from 'react'
-import { TouchableHighlightProps } from 'react-native'
+import { View, TouchableHighlightProps } from 'react-native'
 import styled, { ThemeConsumer } from 'styled-components/native'
 import { MaterialIcons } from '@expo/vector-icons'
 
@@ -20,7 +20,14 @@ List.Row = ({ left, right, isLinked = false, ...rest }: RowProps) => {
     <ThemeConsumer>
       {theme => (
         <RowContainer {...rest} underlayColor={theme.base.underlayColor[100]}>
-          <>
+          <View
+            style={{
+              flex: 1,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
             <Text fontML bold>
               {left}
             </Text>
@@ -36,7 +43,7 @@ List.Row = ({ left, right, isLinked = false, ...rest }: RowProps) => {
                 />
               )}
             </RightWrap>
-          </>
+          </View>
         </RowContainer>
       )}
     </ThemeConsumer>

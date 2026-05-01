@@ -8,6 +8,7 @@ import {
   Dimensions,
   FlatList,
   Platform,
+  View,
   type TextInput,
 } from 'react-native'
 import FormModal from '../transactionModal/FormModal'
@@ -125,7 +126,7 @@ function Layout() {
   }, [])
 
   return (
-    <>
+    <View style={{ flex: 1 }}>
       {isFetching && (
         <GlobalIndicator isLoaded={false} size="large" transparent />
       )}
@@ -182,7 +183,7 @@ function Layout() {
           }
         />
       )}
-    </>
+    </View>
   )
 }
 

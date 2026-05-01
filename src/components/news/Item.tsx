@@ -4,7 +4,7 @@ import { enUS, ko } from 'date-fns/locale'
 import * as WebBrowser from 'expo-web-browser'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Dimensions } from 'react-native'
+import { Dimensions, View } from 'react-native'
 import styled from 'styled-components/native'
 import translate from 'translate-google-api'
 
@@ -75,7 +75,7 @@ const Item = ({ item, currentCategory }: ItemProps) => {
       onPress={handleItemPress}
       underlayColor={theme.base.background[300]}
     >
-      <>
+      <View>
         {translateLoading && (
           <GlobalIndicator isLoaded={false} size="small" transparent />
         )}
@@ -142,7 +142,7 @@ const Item = ({ item, currentCategory }: ItemProps) => {
               : t(`news.see original`)}
           </Text>
         </TranslateButton>
-      </>
+      </View>
     </Container>
   )
 }

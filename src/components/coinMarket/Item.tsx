@@ -32,7 +32,7 @@ const Item = ({ item, onPressItem }: ItemProps) => {
       onPress={() => onPressItem(item.id, item.symbol)}
       underlayColor={theme.base.underlayColor[100]}
     >
-      <>
+      <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
         <ItemColumn
           $column={1.3}
           style={{
@@ -67,7 +67,7 @@ const Item = ({ item, onPressItem }: ItemProps) => {
             />
           </View>
         </ItemColumn>
-      </>
+      </View>
     </ItemContainer>
   )
 }

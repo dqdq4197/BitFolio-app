@@ -2,7 +2,7 @@ import { AntDesign } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { LayoutAnimation, Platform, UIManager } from 'react-native'
+import { LayoutAnimation, Platform, UIManager, View } from 'react-native'
 import styled from 'styled-components/native'
 
 import useGlobalTheme from '/hooks/useGlobalTheme'
@@ -42,14 +42,14 @@ const EmptyWatchListView = () => {
       onPress={handleItemPress}
       underlayColor={theme.base.underlayColor[100]}
     >
-      <>
+      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
         <AddItemIcon>
           <AntDesign name="plus" size={24} color={theme.base.primaryColor} />
         </AddItemIcon>
         <Text fontML bold margin="0 0 0 15px">
           {t('coinMarketHome.add coins')}
         </Text>
-      </>
+      </View>
     </AddItemContainer>
   )
 }
@@ -118,8 +118,6 @@ export default WatchList
 
 const AddItemContainer = styled.TouchableHighlight`
   height: 60px;
-  flex-direction: row;
-  align-items: center;
   padding: 0 ${({ theme }) => theme.content.spacing};
 `
 

@@ -63,13 +63,13 @@ const Circle = styled.View<CircleProps>`
   ${({ $color100, $color300, $color400, theme }) => {
     switch (true) {
       case $color100:
-        return `background-color: ${theme.base.text[100]}`
+        return `background-color: ${theme.base.text[100]};`
       case $color300:
-        return `background-color: ${theme.base.text[300]}`
+        return `background-color: ${theme.base.text[300]};`
       case $color400:
-        return `background-color: ${theme.base.text[400]}`
+        return `background-color: ${theme.base.text[400]};`
       default:
-        return `background-color: ${theme.base.text[200]}`
+        return `background-color: ${theme.base.text[200]};`
     }
   }}
 `

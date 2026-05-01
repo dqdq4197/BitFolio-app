@@ -10,6 +10,7 @@
 - **API**: CoinGecko, CryptoCompare
 - **인증**: Firebase Auth
 - **린터**: ESLint (airbnb + react-native/all + @typescript-eslint)
+- **패키지 매니저**: yarn
 
 ## 경로 alias
 

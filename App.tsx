@@ -3,8 +3,8 @@ import {
   connectActionSheet,
 } from '@expo/react-native-action-sheet'
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
-import React, { useCallback, useEffect } from 'react'
-import { Appearance, LogBox } from 'react-native'
+import React, { useEffect } from 'react'
+import { LogBox, useColorScheme } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
@@ -28,34 +28,13 @@ LogBox.ignoreAllLogs()
 const queryClient = new QueryClient()
 
 const RootNavigationContainer = () => {
-  const timeout = React.useRef<NodeJS.Timeout | null>(null)
   const { theme } = useGlobalTheme()
   const dispatch = useAppDispatch()
-
-  const resetCurrentTimeout = useCallback(() => {
-    if (timeout.current) {
-      clearTimeout(timeout.current)
-    }
-  }, [])
-
-  const onColorSchemeChange = useCallback(
-    (preferences: Appearance.AppearancePreferences) => {
-      resetCurrentTimeout()
-      timeout.current = setTimeout(() => {
-        dispatch(changeDeviceScheme(preferences.colorScheme))
-      }, 500)
-    },
-    [dispatch, resetCurrentTimeout]
-  )
+  const colorScheme = useColorScheme()
 
   useEffect(() => {
-    const { remove } = Appearance.addChangeListener(onColorSchemeChange)
-
-    return () => {
-      resetCurrentTimeout()
-      remove()
-    }
-  }, [onColorSchemeChange, resetCurrentTimeout])
+    dispatch(changeDeviceScheme(colorScheme))
+  }, [colorScheme, dispatch])
 
   return (
     <QueryClientProvider client={queryClient}>

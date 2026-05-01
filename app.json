@@ -10,16 +10,19 @@
       "url": "https://u.expo.dev/6d4899c7-afc3-472c-8299-a027f908ef57"
     },
     "userInterfaceStyle": "automatic",
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.bitfolio.cryptocurrencies.ios",
-      "associatedDomains": ["applinks:bitfolio.page.link"],
+      "associatedDomains": [
+        "applinks:bitfolio.page.link"
+      ],
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
     },
-    "newArchEnabled": true,
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#121212"
@@ -61,7 +64,9 @@
           }
         }
       ],
-      "expo-localization"
+      "expo-localization",
+      "expo-web-browser",
+      "@react-native-community/datetimepicker"
     ]
   }
 }

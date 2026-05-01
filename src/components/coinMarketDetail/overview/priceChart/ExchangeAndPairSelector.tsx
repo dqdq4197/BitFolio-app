@@ -2,7 +2,7 @@ import { Octicons } from '@expo/vector-icons'
 import { BottomSheetModal } from '@gorhom/bottom-sheet'
 import { useCallback, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Dimensions } from 'react-native'
+import { Dimensions, View } from 'react-native'
 import styled, { css } from 'styled-components/native'
 
 import { useChartState } from '/hooks/context/useChartContext'
@@ -38,14 +38,21 @@ const Row = ({ onPress, title, enabled }: RowProps) => {
       onPress={onPress}
       underlayColor={theme.base.underlayColor[100]}
     >
-      <>
+      <View
+        style={{
+          flex: 1,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}
+      >
         <Text bold>{title}</Text>
         <Octicons
           name="check"
           size={24}
           color={enabled ? theme.base.primaryColor : 'transparent'}
         />
-      </>
+      </View>
     </RowContainer>
   )
 }

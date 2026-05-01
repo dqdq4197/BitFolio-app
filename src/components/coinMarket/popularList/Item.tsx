@@ -1,5 +1,5 @@
 import React from 'react'
-import { Dimensions } from 'react-native'
+import { Dimensions, View } from 'react-native'
 import styled, { css } from 'styled-components/native'
 import { baseTypes } from 'base-types'
 
@@ -88,7 +88,7 @@ const Item = ({
       underlayColor={theme.base.underlayColor[100]}
       $noneUnderLine={noneUnderLine}
     >
-      <>
+      <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
         <ItemColumn $column={0.35} $justifyContent="flex-start">
           <Text fontM color100 bold>
             {index + 1}
@@ -119,7 +119,7 @@ const Item = ({
         <ItemColumn $column={0.5} $justifyContent="flex-end">
           <WatchListIcon id={item.id} />
         </ItemColumn>
-      </>
+      </View>
     </ItemContainer>
   )
 }

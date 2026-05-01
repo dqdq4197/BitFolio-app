@@ -5,7 +5,6 @@ import Text, { TextStyleProps } from '/components/common/Text'
 
 interface TitleWrapProps extends TextStyleProps {
   title?: string | React.ReactNode
-  children?: React.ReactNode
   paddingBottomZero?: boolean
   parentPaddingZero?: boolean
   marginTopZero?: boolean
@@ -63,11 +62,16 @@ type StyledProps = {
 }
 
 const Container = styled.View<StyledProps>`
-  ${({ $flex }) => $flex && `flex: ${$flex}`}
   background-color: ${({ theme, $transparent }) =>
     $transparent ? 'transparent' : theme.base.background.surface};
   padding: ${({ theme }) =>
     `${theme.content.surfacePadding} ${theme.content.spacing}`};
+
+  ${({ $flex }) =>
+    $flex &&
+    css`
+      flex: ${$flex};
+    `}
 
   ${({ $parentPaddingZero }) =>
     $parentPaddingZero &&

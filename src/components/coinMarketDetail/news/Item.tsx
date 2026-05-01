@@ -1,7 +1,7 @@
 import { formatDistance, fromUnixTime } from 'date-fns'
 import { enUS, ko } from 'date-fns/locale'
 import * as WebBrowser from 'expo-web-browser'
-import { Dimensions } from 'react-native'
+import { Dimensions, View } from 'react-native'
 import styled from 'styled-components/native'
 
 import useGlobalTheme from '/hooks/useGlobalTheme'
@@ -36,7 +36,7 @@ const Item = ({ item, currentCategory }: ItemProps) => {
       onPress={handleItemPress}
       underlayColor={theme.base.background[300]}
     >
-      <>
+      <View>
         <Text fontS>
           {`${formatDistance(fromUnixTime(item.published_on), new Date(), {
             addSuffix: true,
@@ -76,7 +76,7 @@ const Item = ({ item, currentCategory }: ItemProps) => {
         <Text fontML numberOfLines={5} margin="10px 0 0 0">
           {item.body}
         </Text>
-      </>
+      </View>
     </Container>
   )
 }

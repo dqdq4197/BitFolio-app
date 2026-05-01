@@ -1,4 +1,4 @@
-import { Dimensions } from 'react-native'
+import { Dimensions, View } from 'react-native'
 import styled from 'styled-components/native'
 
 import useGlobalTheme from '/hooks/useGlobalTheme'
@@ -32,7 +32,14 @@ const SearchItem = (props: Props) => {
         underlayColor={theme.base.underlayColor[100]}
         onPress={onPress}
       >
-        <>
+        <View
+          style={{
+            flex: 1,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >
           <Col>
             {index !== undefined && (
               <Text fontML margin="0 20px 0 0">
@@ -53,7 +60,7 @@ const SearchItem = (props: Props) => {
           <RankWrap>
             <Text>{`#${market_cap_rank}`}</Text>
           </RankWrap>
-        </>
+        </View>
       </Container>
     </Animated.View>
   )

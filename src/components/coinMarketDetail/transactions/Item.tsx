@@ -2,6 +2,7 @@ import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'
 import { format } from 'date-fns'
 import { enUS, ko } from 'date-fns/locale'
 import { useTranslation } from 'react-i18next'
+import { View } from 'react-native'
 import styled from 'styled-components/native'
 
 import useGlobalTheme from '/hooks/useGlobalTheme'
@@ -69,7 +70,7 @@ const Item = ({ data, symbol, onItemPress }: ItemProps) => {
       onPress={() => onItemPress(data.id)}
       underlayColor={theme.base.background[300]}
     >
-      <>
+      <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
         <TypeWrap>
           {TYPES[type].icon(theme.base.text[200])}
           <TypeValue>
@@ -109,7 +110,7 @@ const Item = ({ data, symbol, onItemPress }: ItemProps) => {
             bold
           />
         </QuantityWrap>
-      </>
+      </View>
     </Container>
   )
 }

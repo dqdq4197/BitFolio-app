@@ -1,5 +1,6 @@
 import { Octicons } from '@expo/vector-icons'
 import React, { useCallback, useState } from 'react'
+import { View } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components/native'
 
@@ -85,7 +86,14 @@ const FeedFilterModal = ({
           onPress={() => handleRowPress(ALL_NEWS_FEEDS)}
           $isActive={feedsTemp === ALL_NEWS_FEEDS}
         >
-          <>
+          <View
+            style={{
+              flex: 1,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
             <Text color100 heavy margin="0 0 0 10px">
               {t(`news.all news feeds`)}
             </Text>
@@ -98,7 +106,7 @@ const FeedFilterModal = ({
                   : 'transparent'
               }
             />
-          </>
+          </View>
         </Row>
         {FeedsData.map(feed => {
           return (
@@ -108,7 +116,14 @@ const FeedFilterModal = ({
               onPress={() => handleRowPress(feed.key)}
               $isActive={feedsTemp !== ALL_NEWS_FEEDS}
             >
-              <>
+              <View
+                style={{
+                  flex: 1,
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}
+              >
                 <NameWrap>
                   <Image
                     width={25}
@@ -130,7 +145,7 @@ const FeedFilterModal = ({
                       : 'transparent'
                   }
                 />
-              </>
+              </View>
             </Row>
           )
         })}

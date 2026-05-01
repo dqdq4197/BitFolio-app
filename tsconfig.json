@@ -4,15 +4,9 @@
     "jsx": "react-native",
     "baseUrl": "./",
     "paths": {
-      "/*": [
-        "./src/*",
-      ]
+      "/*": ["./src/*"]
     },
-    "lib": [
-      "dom",
-      "esnext"
-    ],
-    "moduleResolution": "node",
+    "lib": ["dom", "esnext"],
     "noEmit": true,
     "skipLibCheck": true,
     "resolveJsonModule": true,

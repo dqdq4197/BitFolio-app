@@ -175,17 +175,17 @@ const CustomText = styled(Text)<TextProps>`
       case 4:
       case 5:
       case 6:
-        return `font-size: ${theme.size.font_xxxl}`
+        return `font-size: ${theme.size.font_xxxl};`
       case 7:
       case 8:
       case 9:
-        return `font-size: ${theme.size.font_xxl}`
+        return `font-size: ${theme.size.font_xxl};`
       case 10:
       case 11:
       case 12:
-        return `font-size: ${theme.size.font_xl}`
+        return `font-size: ${theme.size.font_xl};`
       default:
-        return `font-size: ${theme.size.font_x}`
+        return `font-size: ${theme.size.font_x};`
     }
   }}
 `

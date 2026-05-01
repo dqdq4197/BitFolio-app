@@ -2,6 +2,7 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable default-case */
 import React, { useCallback } from 'react'
+import { View } from 'react-native'
 import styled from 'styled-components/native'
 import { useTranslation } from 'react-i18next'
 import * as WebBrowser from 'expo-web-browser'
@@ -50,7 +51,14 @@ const RowComponent = ({ url, title, icon, color }: RowComponentProps) => {
       }}
       underlayColor={theme.base.background[300]}
     >
-      <>
+      <View
+        style={{
+          flex: 1,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}
+      >
         <TitleWrap>
           {icon}
           <Text fontML margin="0 0 0 20px">
@@ -58,7 +66,7 @@ const RowComponent = ({ url, title, icon, color }: RowComponentProps) => {
           </Text>
         </TitleWrap>
         <MaterialIcons name="arrow-forward-ios" size={20} color={color} />
-      </>
+      </View>
     </Row>
   )
 }
