@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useMemo } from 'react'
+import React, { createContext, use, useMemo } from 'react'
 
 import useRequest from '/hooks/useRequest'
 import { upbitClient, http as upbitHttp } from '/lib/api/upbitClient'
@@ -30,15 +30,11 @@ export function InitDataProvider({ children }: ProviderProps) {
     [upbitIsLoading, upbitMarketData]
   )
 
-  return (
-    <InitDataContext.Provider value={initialData}>
-      {children}
-    </InitDataContext.Provider>
-  )
+  return <InitDataContext value={initialData}>{children}</InitDataContext>
 }
 
 export function useInitData() {
-  const context = useContext(InitDataContext)
+  const context = use(InitDataContext)
   if (!context) {
     throw new Error(`InitDataContext is undefined`)
   }

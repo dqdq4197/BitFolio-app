@@ -1,9 +1,8 @@
 import {
   Suspense,
-  forwardRef,
   useImperativeHandle,
   useRef,
-  type PropsWithoutRef,
+  type Ref,
   type ReactElement,
   type SuspenseProps,
 } from 'react'
@@ -21,13 +20,13 @@ export interface AsyncBoundarySharedProps
   >
 }
 
-const AsyncBoundary = forwardRef<
-  { reset(): void },
-  PropsWithoutRef<AsyncBoundarySharedProps>
->(function AsyncBoundary(props, resetRef): ReactElement {
-  const { loadingFallback, errorFallback, children, ...errorBoundaryProps } =
-    props
-
+function AsyncBoundary({
+  ref: resetRef,
+  loadingFallback,
+  errorFallback,
+  children,
+  ...errorBoundaryProps
+}: AsyncBoundarySharedProps & { ref?: Ref<{ reset(): void }> }): ReactElement {
   const ref = useRef<ErrorBoundary>(null)
   useImperativeHandle(
     resetRef,
@@ -48,6 +47,6 @@ const AsyncBoundary = forwardRef<
       <Suspense fallback={loadingFallback}>{children}</Suspense>
     </ErrorBoundary>
   )
-})
+}
 
 export default AsyncBoundary

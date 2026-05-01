@@ -1,9 +1,4 @@
-import React, {
-  useState,
-  useLayoutEffect,
-  createContext,
-  useContext,
-} from 'react'
+import React, { useState, useLayoutEffect, createContext, use } from 'react'
 import reactStringReplace from 'react-string-replace'
 import styled, { css } from 'styled-components/native'
 import 'react-native-get-random-values'
@@ -64,7 +59,7 @@ const stringToBold = (child: string) => {
 }
 
 const MarkerText = ({ child }: TextProps) => {
-  const type = useContext(TypeContext)
+  const type = use(TypeContext)
   let content = stringToLink(
     unicodes.TEXT_MARKER + child + unicodes.TEXT_MARKER
   )
@@ -73,7 +68,7 @@ const MarkerText = ({ child }: TextProps) => {
 }
 
 const LinkText = ({ child }: TextProps) => {
-  const type = useContext(TypeContext)
+  const type = use(TypeContext)
   let content = stringToItalic(unicodes.TEXT_LINK + child + unicodes.TEXT_LINK)
 
   return (
@@ -84,7 +79,7 @@ const LinkText = ({ child }: TextProps) => {
 }
 
 const ItalicText = ({ child }: TextProps) => {
-  const type = useContext(TypeContext)
+  const type = use(TypeContext)
   let content = stringToBold(
     unicodes.TEXT_ITALIC + child + unicodes.TEXT_ITALIC
   )
@@ -97,7 +92,7 @@ const ItalicText = ({ child }: TextProps) => {
 }
 
 const BoldText = ({ child }: TextProps) => {
-  const type = useContext(TypeContext)
+  const type = use(TypeContext)
   return (
     <DefaultText type={type as string} bold>
       {unicodes.TEXT_BOLD + child + unicodes.TEXT_BOLD}
@@ -140,9 +135,9 @@ const RenderText = ({ type, children, index }: RenderTextProps) => {
   }, [children, index])
 
   return (
-    <TypeContext.Provider value={type}>
+    <TypeContext value={type}>
       <DefaultText type={type}>{children}</DefaultText>
-    </TypeContext.Provider>
+    </TypeContext>
   )
 }
 

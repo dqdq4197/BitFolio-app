@@ -1,16 +1,14 @@
 import { QueryErrorResetBoundary } from '@tanstack/react-query'
-import {
-  forwardRef,
-  type ComponentPropsWithoutRef,
-  type ComponentRef,
-} from 'react'
+import { type Ref } from 'react'
 
-import AsyncBoundary from './AsyncBoundaryV2'
+import AsyncBoundary, { type AsyncBoundarySharedProps } from './AsyncBoundaryV2'
 
-const QueryAsyncBoundary = forwardRef<
-  ComponentRef<typeof AsyncBoundary>,
-  ComponentPropsWithoutRef<typeof AsyncBoundary>
->(function QueryAsyncBoundary({ resetKeys, onReset, ...props }, resetRef) {
+function QueryAsyncBoundary({
+  resetKeys,
+  onReset,
+  ref: resetRef,
+  ...props
+}: AsyncBoundarySharedProps & { ref?: Ref<{ reset(): void }> }) {
   return (
     <QueryErrorResetBoundary key={(resetKeys ?? []).join()}>
       {({ reset }) => (
@@ -25,6 +23,6 @@ const QueryAsyncBoundary = forwardRef<
       )}
     </QueryErrorResetBoundary>
   )
-})
+}
 
 export default QueryAsyncBoundary

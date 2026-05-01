@@ -10,7 +10,7 @@ import {
   Animated,
   ScrollView,
   Dimensions,
-  TouchableOpacity,
+  View,
   LayoutChangeEvent,
 } from 'react-native'
 import styled from 'styled-components/native'
@@ -38,8 +38,8 @@ const TabBar = ({
   const [measures, setMeasures] = useState<TabMeasureType[] | null | undefined>(
     null
   )
-  const tabRefs = useRef<RefObject<TouchableOpacity>[]>(
-    Array.from({ length: state.routes.length }, () => createRef())
+  const tabRefs = useRef<RefObject<View | null>[]>(
+    Array.from({ length: state.routes.length }, () => createRef<View>())
   ).current
 
   useEffect(() => {
@@ -49,7 +49,7 @@ const TabBar = ({
       tabRefs.forEach((ref, _, array) => {
         ref.current?.measureLayout(
           scrollViewRef.current as any,
-          (left, top, width, height) => {
+          (left: number, top: number, width: number, height: number) => {
             temp.push({ left, top, width, height })
 
             if (temp.length === array.length) {

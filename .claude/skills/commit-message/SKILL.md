@@ -68,6 +68,7 @@ Default to Conventional Commits unless the project clearly uses a different form
 - Explain motivation, not mechanics
 - Wrap at 72 characters
 - Separate from subject with a blank line
+- write in Korean
 
 **Footer:**
 

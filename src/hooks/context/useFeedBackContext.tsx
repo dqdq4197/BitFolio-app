@@ -1,7 +1,7 @@
 import React, {
   createContext,
   useCallback,
-  useContext,
+  use,
   useMemo,
   useState,
 } from 'react'
@@ -68,7 +68,7 @@ export function FeedBackAlertProvider({ children }: ProviderProps) {
   )
 
   return (
-    <FeedBackAlertContext.Provider value={value}>
+    <FeedBackAlertContext value={value}>
       {feedbackTypes.snackbar && (
         <Snackbar
           materials={feedbackTypes.snackbar}
@@ -76,12 +76,12 @@ export function FeedBackAlertProvider({ children }: ProviderProps) {
         />
       )}
       {children}
-    </FeedBackAlertContext.Provider>
+    </FeedBackAlertContext>
   )
 }
 
 export function useFeedBackAlertContext() {
-  const context = useContext(FeedBackAlertContext)
+  const context = use(FeedBackAlertContext)
   if (!context) {
     throw new Error(`FeedBackAlertContext is undefined`)
   }

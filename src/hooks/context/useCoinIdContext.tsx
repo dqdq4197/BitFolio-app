@@ -1,4 +1,4 @@
-import React, { createContext, useContext } from 'react'
+import React, { createContext, use } from 'react'
 
 const CoinIdContext = createContext<ValueType | undefined>(undefined)
 
@@ -13,13 +13,11 @@ type ProviderProps = {
 }
 
 export function CoinIdProvider({ value, children }: ProviderProps) {
-  return (
-    <CoinIdContext.Provider value={value}>{children}</CoinIdContext.Provider>
-  )
+  return <CoinIdContext value={value}>{children}</CoinIdContext>
 }
 
 export function useCoinIdContext() {
-  const context = useContext(CoinIdContext)
+  const context = use(CoinIdContext)
   if (!context) {
     throw new Error(`CoinIdContext is undefined`)
   }

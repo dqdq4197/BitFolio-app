@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useMemo, useState } from 'react'
+import React, { createContext, use, useMemo, useState } from 'react'
 import Animated, { useSharedValue } from 'react-native-reanimated'
 
 import { useCoinIdContext } from './useCoinIdContext'
@@ -110,15 +110,11 @@ export const ChartDataProvider = ({ children }: ProviderProps) => {
     [asyncDatas, cursorStates, exchange, id, symbol]
   )
 
-  return (
-    <ChartContext.Provider value={initialData}>
-      {children}
-    </ChartContext.Provider>
-  )
+  return <ChartContext value={initialData}>{children}</ChartContext>
 }
 
 export function useChartState() {
-  const context = useContext(ChartContext)
+  const context = use(ChartContext)
   if (!context) {
     throw new Error(`Chart Context is undefined`)
   }

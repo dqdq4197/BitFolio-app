@@ -1,11 +1,5 @@
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth'
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react'
+import React, { createContext, use, useEffect, useMemo, useState } from 'react'
 
 const AuthContext = createContext<ValueType | undefined>(undefined)
 
@@ -67,13 +61,11 @@ export function AuthProvider({ children }: ProviderProps) {
     [currentUser, isLoading]
   )
 
-  return (
-    <AuthContext.Provider value={initialData}>{children}</AuthContext.Provider>
-  )
+  return <AuthContext value={initialData}>{children}</AuthContext>
 }
 
 export function useAuthContext() {
-  const context = useContext(AuthContext)
+  const context = use(AuthContext)
   if (!context) {
     throw new Error(`AuthContext is undefined`)
   }

@@ -5,7 +5,7 @@ import {
   BottomSheetView,
   type BottomSheetBackdropProps,
 } from '@gorhom/bottom-sheet'
-import { forwardRef, useCallback } from 'react'
+import { type Ref, useCallback } from 'react'
 import { StyleProp, ViewStyle } from 'react-native'
 import styled, { css } from 'styled-components/native'
 
@@ -32,51 +32,55 @@ const CustomBackground = ({
   return <BackgroundView style={style} $bgColor={bgColor} />
 }
 
-const BottomModal = forwardRef<BottomSheetModal, ModalProps>(
-  ({ children, bgColor, handleColor, ...props }, ref) => {
-    const renderBackdrop = useCallback((props: BottomSheetBackdropProps) => {
-      /** Fix. https://github.com/gorhom/react-native-bottom-sheet/issues/779
-       *  해당 이슈로 인해 임시로 PR이 완료될때까지 customBackdrop 사용
-       *  PR이 완료되면 appearsOnIndex, disappearsOnIndex 값을 바꾸거나 제공하는 backdrop으로 대체.
-       */
-      return (
-        <BottomSheetBackdrop
-          {...props}
-          appearsOnIndex={0}
-          disappearsOnIndex={-1}
-        />
-      )
-    }, [])
-
+function BottomModal({
+  children,
+  bgColor,
+  handleColor,
+  ref,
+  ...props
+}: ModalProps & { ref?: Ref<BottomSheetModal> }) {
+  const renderBackdrop = useCallback((props: BottomSheetBackdropProps) => {
+    /** Fix. https://github.com/gorhom/react-native-bottom-sheet/issues/779
+     *  해당 이슈로 인해 임시로 PR이 완료될때까지 customBackdrop 사용
+     *  PR이 완료되면 appearsOnIndex, disappearsOnIndex 값을 바꾸거나 제공하는 backdrop으로 대체.
+     */
     return (
-      <BottomSheetModal
-        ref={ref}
-        backdropComponent={renderBackdrop}
-        backgroundComponent={({ style }) => (
-          <CustomBackground style={style} bgColor={bgColor} />
-        )}
-        handleComponent={() => <Handle handleColor={handleColor} />}
-        style={{
-          shadowColor: $black,
-          shadowOffset: {
-            width: 0,
-            height: 6,
-          },
-          shadowOpacity: 0.37,
-          shadowRadius: 7.49,
-          elevation: 12,
-        }}
+      <BottomSheetBackdrop
         {...props}
-      >
-        <BottomSheetView style={{ flex: 1 }}>
-          {typeof children === 'function'
-            ? children({ data: undefined })
-            : children}
-        </BottomSheetView>
-      </BottomSheetModal>
+        appearsOnIndex={0}
+        disappearsOnIndex={-1}
+      />
     )
-  }
-)
+  }, [])
+
+  return (
+    <BottomSheetModal
+      ref={ref}
+      backdropComponent={renderBackdrop}
+      backgroundComponent={({ style }) => (
+        <CustomBackground style={style} bgColor={bgColor} />
+      )}
+      handleComponent={() => <Handle handleColor={handleColor} />}
+      style={{
+        shadowColor: $black,
+        shadowOffset: {
+          width: 0,
+          height: 6,
+        },
+        shadowOpacity: 0.37,
+        shadowRadius: 7.49,
+        elevation: 12,
+      }}
+      {...props}
+    >
+      <BottomSheetView style={{ flex: 1 }}>
+        {typeof children === 'function'
+          ? children({ data: undefined })
+          : children}
+      </BottomSheetView>
+    </BottomSheetModal>
+  )
+}
 
 export default BottomModal
 

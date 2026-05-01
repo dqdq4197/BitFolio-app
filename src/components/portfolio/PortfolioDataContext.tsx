@@ -1,11 +1,5 @@
 import { AxiosResponse } from 'axios'
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react'
+import React, { createContext, use, useEffect, useMemo, useState } from 'react'
 
 import useCoinMarketData from '/hooks/data/useCoinMarketData'
 import { shallowEqual, useAppSelector } from '/hooks/useRedux'
@@ -78,15 +72,11 @@ export function PortfolioDataProvider({ children }: ContextProps) {
     [activeIndex, coinsData, initLoading, isLoading, mutate, portfolios]
   )
 
-  return (
-    <PortfolioContext.Provider value={value}>
-      {children}
-    </PortfolioContext.Provider>
-  )
+  return <PortfolioContext value={value}>{children}</PortfolioContext>
 }
 
 export function usePortfolioContext() {
-  const context = useContext(PortfolioContext)
+  const context = use(PortfolioContext)
   if (!context) {
     throw new Error(`Portfolio Context is undefined`)
   }

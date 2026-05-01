@@ -1,5 +1,5 @@
-import { forwardRef } from 'react'
-import { TouchableOpacity, Animated } from 'react-native'
+import { type Ref } from 'react'
+import { View, Animated } from 'react-native'
 import styled from 'styled-components/native'
 
 interface TabProps {
@@ -9,25 +9,29 @@ interface TabProps {
   onPress: () => void
 }
 
-const Tab = forwardRef<typeof TouchableOpacity, TabProps>(
-  ({ label, isFocused, opacity, onPress }, ref) => {
-    return (
-      <TabButton
-        ref={ref}
-        accessible
-        accessibilityRole="button"
-        accessibilityState={isFocused ? { selected: true } : {}}
-        accessibilityLabel={label}
-        activeOpacity={0.6}
-        onPress={onPress}
-      >
-        <TabText as={Animated.Text} style={{ opacity }}>
-          {label}
-        </TabText>
-      </TabButton>
-    )
-  }
-)
+function Tab({
+  label,
+  isFocused,
+  opacity,
+  onPress,
+  ref,
+}: TabProps & { ref?: Ref<View> }) {
+  return (
+    <TabButton
+      ref={ref}
+      accessible
+      accessibilityRole="button"
+      accessibilityState={isFocused ? { selected: true } : {}}
+      accessibilityLabel={label}
+      activeOpacity={0.6}
+      onPress={onPress}
+    >
+      <TabText as={Animated.Text} style={{ opacity }}>
+        {label}
+      </TabText>
+    </TabButton>
+  )
+}
 
 export default Tab
 

@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react'
+import React from 'react'
 import { Platform, ScrollViewProps, Animated, ScrollView } from 'react-native'
 import styled from 'styled-components/native'
 
@@ -14,16 +14,14 @@ interface CustomProps extends ScrollViewProps {
   as?: Animated.AnimatedComponent<typeof ScrollView>
 }
 
-const CustomScrollView = forwardRef<RefType, CustomProps>(
-  ({ ...props }, ref) => {
-    return (
-      <Container ref={ref} {...props}>
-        <SurfaceTopView />
-        {props.children}
-      </Container>
-    )
-  }
-)
+function CustomScrollView({ ref, ...props }: CustomProps & { ref?: RefType }) {
+  return (
+    <Container ref={ref} {...props}>
+      <SurfaceTopView />
+      {props.children}
+    </Container>
+  )
+}
 
 export default CustomScrollView
 

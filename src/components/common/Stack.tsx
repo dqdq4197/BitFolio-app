@@ -2,7 +2,6 @@ import React, {
   Children,
   cloneElement,
   CSSProperties,
-  forwardRef,
   PropsWithChildren,
 } from 'react'
 import { View, ViewProps } from 'react-native'
@@ -67,7 +66,10 @@ function conditionalStyling(
   return `${key}: ${value}${prefix || ''}`
 }
 
-const Stack = forwardRef<View, PropsWithChildren<StackProps>>((props, ref) => {
+function Stack({
+  ref,
+  ...props
+}: PropsWithChildren<StackProps> & { ref?: React.Ref<View> }) {
   const {
     direction,
     divider,
@@ -143,7 +145,7 @@ const Stack = forwardRef<View, PropsWithChildren<StackProps>>((props, ref) => {
       {divider ? joinChildren(children, divider) : children}
     </Container>
   )
-})
+}
 
 export default Stack
 

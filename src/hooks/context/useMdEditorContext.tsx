@@ -1,4 +1,4 @@
-import React, { useReducer, useContext, createContext } from 'react'
+import React, { useReducer, use, createContext } from 'react'
 import { TYPES, unicodes, ACTIONS, style } from '/lib/constant'
 
 export type InlineStyleType = {
@@ -454,16 +454,16 @@ export function MdEditorProvider({ children }: ProviderProps) {
   }
 
   return (
-    <MdEditorStateContext.Provider value={state}>
-      <MdEditorDispatchHandlerContext.Provider value={handlers}>
+    <MdEditorStateContext value={state}>
+      <MdEditorDispatchHandlerContext value={handlers}>
         {children}
-      </MdEditorDispatchHandlerContext.Provider>
-    </MdEditorStateContext.Provider>
+      </MdEditorDispatchHandlerContext>
+    </MdEditorStateContext>
   )
 }
 
 export function useMdEditorState() {
-  const context = useContext(MdEditorStateContext)
+  const context = use(MdEditorStateContext)
   if (!context) {
     throw new Error(`MdEditorStateContext is undefined`)
   }
@@ -471,7 +471,7 @@ export function useMdEditorState() {
 }
 
 export function useMdEditorDispatch() {
-  const context = useContext(MdEditorDispatchHandlerContext)
+  const context = use(MdEditorDispatchHandlerContext)
   if (!context) {
     throw new Error(`MdEditorDispatchContext is undefined`)
   }
