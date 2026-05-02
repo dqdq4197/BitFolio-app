@@ -2068,9 +2068,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@gorhom/bottom-sheet@npm:^5.0.6":
-  version: 5.0.6
-  resolution: "@gorhom/bottom-sheet@npm:5.0.6"
+"@gorhom/bottom-sheet@https://github.com/PedroAugustoRamalhoDuarte/react-native-bottom-sheet#2f16dea12c4ce927240b3a42b418e6f2dcd15267":
+  version: 6.0.0-alpha.0
+  resolution: "@gorhom/bottom-sheet@https://github.com/PedroAugustoRamalhoDuarte/react-native-bottom-sheet.git#commit=2f16dea12c4ce927240b3a42b418e6f2dcd15267"
   dependencies:
     "@gorhom/portal": "npm:1.0.14"
     invariant: "npm:^2.2.4"
@@ -2080,13 +2080,14 @@ __metadata:
     react: "*"
     react-native: "*"
     react-native-gesture-handler: ">=2.16.1"
-    react-native-reanimated: ">=3.16.0"
+    react-native-reanimated: ">=3.16.0 || >=4.0.0"
+    react-native-worklets: ">=0.5.1"
   peerDependenciesMeta:
     "@types/react":
       optional: true
     "@types/react-native":
       optional: true
-  checksum: 10c0/99eb540c13d13d3da844cdf598fa6b7db962088b3570d25ef3a77788a1388adf6e9b3f2f90f3bca8503041348e33a052ad0e8bb602796735368c6ca2810959a4
+  checksum: 10c0/e20dc084798bea37eaf5df9a4c9298027f5c75204b5dea2458c8b4e03dc8edb608d0272a296e02b4f013e01334271bf5bdc5e0b8a6c186def7037091e1d0e4bc
   languageName: node
   linkType: hard
 
@@ -4418,7 +4419,7 @@ __metadata:
     "@coingecko/coingecko-typescript": "npm:^3.1.0"
     "@expo/react-native-action-sheet": "npm:^3.8.0"
     "@expo/webpack-config": "npm:^19.0.0"
-    "@gorhom/bottom-sheet": "npm:^5.0.6"
+    "@gorhom/bottom-sheet": "https://github.com/PedroAugustoRamalhoDuarte/react-native-bottom-sheet#2f16dea12c4ce927240b3a42b418e6f2dcd15267"
     "@react-native-async-storage/async-storage": "npm:2.2.0"
     "@react-native-community/datetimepicker": "npm:8.4.4"
     "@react-native-masked-view/masked-view": "npm:0.3.2"
@@ -4489,7 +4490,7 @@ __metadata:
     react-native-gesture-handler: "npm:~2.28.0"
     react-native-get-random-values: "npm:~1.11.0"
     react-native-pager-view: "npm:6.9.1"
-    react-native-reanimated: "npm:~4.1.1"
+    react-native-reanimated: "npm:4.1.1"
     react-native-redash: "npm:^18.1.5"
     react-native-safe-area-context: "npm:~5.6.0"
     react-native-screens: "npm:~4.16.0"
@@ -13677,17 +13678,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-reanimated@npm:~4.1.1":
-  version: 4.1.7
-  resolution: "react-native-reanimated@npm:4.1.7"
+"react-native-reanimated@npm:4.1.1":
+  version: 4.1.1
+  resolution: "react-native-reanimated@npm:4.1.1"
   dependencies:
     react-native-is-edge-to-edge: "npm:^1.2.1"
-    semver: "npm:^7.7.2"
+    semver: "npm:7.7.2"
   peerDependencies:
+    "@babel/core": ^7.0.0-0
     react: "*"
-    react-native: 0.78 - 0.82
-    react-native-worklets: 0.5 - 0.8
-  checksum: 10c0/8edee93c770ac1073edb4b05cd26b8410fcf3b72e06dc955d5eeafe7c88b1ab1dae2e9beb5b0b4a4138a0ea1015f8d7bc8c41c259bca4f88e08cbaa7ab83bcb8
+    react-native: "*"
+    react-native-worklets: ">=0.5.0"
+  checksum: 10c0/867a71792b55d4a56fd90f57e7cb56a6d5ff4a0b5a4c7876a4b540679ffaf17618dd3136f19e61a1e950172551892d1d8fde5a739747b03aff8c43550be7fe03
   languageName: node
   linkType: hard
 
@@ -14653,7 +14655,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"semver@npm:^7.5.3, semver@npm:^7.7.2":
+"semver@npm:^7.5.3":
   version: 7.7.4
   resolution: "semver@npm:7.7.4"
   bin:

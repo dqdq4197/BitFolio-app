@@ -16,7 +16,7 @@
   "dependencies": {
     "@coingecko/coingecko-typescript": "^3.1.0",
     "@expo/react-native-action-sheet": "^3.8.0",
-    "@gorhom/bottom-sheet": "^5.0.6",
+    "@gorhom/bottom-sheet": "https://github.com/PedroAugustoRamalhoDuarte/react-native-bottom-sheet#2f16dea12c4ce927240b3a42b418e6f2dcd15267",
     "@react-native-async-storage/async-storage": "2.2.0",
     "@react-native-community/datetimepicker": "8.4.4",
     "@react-native-masked-view/masked-view": "0.3.2",
@@ -60,7 +60,7 @@
     "react-native-gesture-handler": "~2.28.0",
     "react-native-get-random-values": "~1.11.0",
     "react-native-pager-view": "6.9.1",
-    "react-native-reanimated": "~4.1.1",
+    "react-native-reanimated": "4.1.1",
     "react-native-redash": "^18.1.5",
     "react-native-safe-area-context": "~5.6.0",
     "react-native-screens": "~4.16.0",
