@@ -1,14 +1,11 @@
-import GeneralTemplate from '/components/GeneralTemplate'
 import Editor from '/components/mdEditor/Editor'
 import { MdEditorProvider } from '/hooks/context/useMdEditorContext'
 
 const EditorScreen = () => {
   return (
-    <GeneralTemplate>
-      <MdEditorProvider>
-        <Editor />
-      </MdEditorProvider>
-    </GeneralTemplate>
+    <MdEditorProvider>
+      <Editor />
+    </MdEditorProvider>
   )
 }
 

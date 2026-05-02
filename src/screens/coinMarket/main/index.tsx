@@ -8,7 +8,6 @@ import type { HomeScreenProps } from '/types/navigation'
 
 import Layout from '/components/coinMarket/Layout'
 import AsyncBoundary from '/components/common/AsyncBoundary'
-import GeneralTemplate from '/components/GeneralTemplate'
 import SettingModal from '/components/setting/SettingModal'
 import { CoinHomeSkeleton } from '/components/skeletonPlaceholder/coinMarketHome'
 // import { IconSvg } from '/lib/svg';
@@ -62,12 +61,10 @@ const HomeScreen = ({ navigation }: HomeScreenProps<'CoinMarketHome'>) => {
   }, [handleSettingPress, navigation, theme])
 
   return (
-    <GeneralTemplate>
-      <AsyncBoundary skeleton={<CoinHomeSkeleton />}>
-        <SettingModal ref={settingModalRef} />
-        <Layout />
-      </AsyncBoundary>
-    </GeneralTemplate>
+    <AsyncBoundary skeleton={<CoinHomeSkeleton />}>
+      <SettingModal ref={settingModalRef} />
+      <Layout />
+    </AsyncBoundary>
   )
 }
 

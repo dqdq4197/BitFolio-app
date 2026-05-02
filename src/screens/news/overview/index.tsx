@@ -6,7 +6,6 @@ import useGlobalTheme from '/hooks/useGlobalTheme'
 import type { NewsScreenProps } from '/types/navigation'
 
 import AsyncBoundary from '/components/common/AsyncBoundary'
-import GeneralTemplate from '/components/GeneralTemplate'
 import Overview from '/components/news/Overview'
 import SettingModal from '/components/setting/SettingModal'
 
@@ -33,12 +32,10 @@ const OverviewScreen = ({ navigation }: NewsScreenProps<'NewsOverview'>) => {
   }, [handleSettingPress, navigation, theme])
 
   return (
-    <GeneralTemplate>
-      <AsyncBoundary>
-        <SettingModal ref={settingModalRef} />
-        <Overview />
-      </AsyncBoundary>
-    </GeneralTemplate>
+    <AsyncBoundary>
+      <SettingModal ref={settingModalRef} />
+      <Overview />
+    </AsyncBoundary>
   )
 }
 

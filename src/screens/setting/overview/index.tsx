@@ -1,12 +1,7 @@
-import GeneralTemplate from '/components/GeneralTemplate'
 import Overview from '/components/setting/Overview'
 
 const OverviewScreen = () => {
-  return (
-    <GeneralTemplate>
-      <Overview />
-    </GeneralTemplate>
-  )
+  return <Overview />
 }
 
 export default OverviewScreen

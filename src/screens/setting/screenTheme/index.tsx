@@ -1,12 +1,7 @@
-import GeneralTemplate from '/components/GeneralTemplate'
 import ScreenTheme from '/components/setting/ScreenTheme'
 
 const ScreenThemeScreen = () => {
-  return (
-    <GeneralTemplate>
-      <ScreenTheme />
-    </GeneralTemplate>
-  )
+  return <ScreenTheme />
 }
 
 export default ScreenThemeScreen

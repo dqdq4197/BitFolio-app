@@ -1,12 +1,7 @@
-import GeneralTemplate from '/components/GeneralTemplate'
 import Currency from '/components/setting/Currency'
 
 const CurrencyScreen = () => {
-  return (
-    <GeneralTemplate>
-      <Currency />
-    </GeneralTemplate>
-  )
+  return <Currency />
 }
 
 export default CurrencyScreen

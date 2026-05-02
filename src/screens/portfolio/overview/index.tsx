@@ -5,7 +5,6 @@ import { useCallback, useLayoutEffect, useRef } from 'react'
 import useGlobalTheme from '/hooks/useGlobalTheme'
 
 import AsyncBoundary from '/components/common/AsyncBoundary'
-import GeneralTemplate from '/components/GeneralTemplate'
 import Layout from '/components/portfolio/Layout'
 import { PortfolioDataProvider } from '/components/portfolio/PortfolioDataContext'
 import SettingModal from '/components/setting/SettingModal'
@@ -36,14 +35,12 @@ const OverviewScreen = ({
   }, [handleSettingPress, navigation, theme])
 
   return (
-    <GeneralTemplate>
-      <AsyncBoundary>
-        <SettingModal ref={settingModalRef} />
-        <PortfolioDataProvider>
-          <Layout />
-        </PortfolioDataProvider>
-      </AsyncBoundary>
-    </GeneralTemplate>
+    <AsyncBoundary>
+      <SettingModal ref={settingModalRef} />
+      <PortfolioDataProvider>
+        <Layout />
+      </PortfolioDataProvider>
+    </AsyncBoundary>
   )
 }
 
