@@ -484,7 +484,7 @@ const DefaultControlBar = () => {
                 await ImagePicker.requestMediaLibraryPermissionsAsync()
               if (status === 'granted') {
                 let result = await ImagePicker.launchImageLibraryAsync({
-                  mediaTypes: ImagePicker.MediaTypeOptions.All,
+                  mediaTypes: ['images', 'videos'],
                   // aspect: [4, 3],
                   // quality: 1,
                 })

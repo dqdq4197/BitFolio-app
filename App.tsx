@@ -34,19 +34,16 @@ const RootNavigationContainer = () => {
   const colorScheme = useColorScheme()
 
   useEffect(() => {
-    dispatch(changeDeviceScheme(colorScheme))
+    dispatch(
+      changeDeviceScheme(colorScheme === 'unspecified' ? 'dark' : colorScheme)
+    )
   }, [colorScheme, dispatch])
 
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
         <SafeAreaProvider>
-          <StatusBar
-            translucent
-            animated
-            backgroundColor="transparent"
-            style={scheme === 'dark' ? 'light' : 'dark'}
-          />
+          <StatusBar animated style={scheme === 'dark' ? 'light' : 'dark'} />
           <BottomSheetModalProvider>
             {/* <AuthProvider> */}
             <AppLoader>
