@@ -488,8 +488,8 @@ const DefaultControlBar = () => {
                   // aspect: [4, 3],
                   // quality: 1,
                 })
-                if (!result.canceled) {
-                  const { uri, width, height } = result
+                if (!result.canceled && result.assets?.length) {
+                  const { uri, width, height } = result.assets[0]
                   const newContext = {
                     type: IMAGE,
                     payload: {

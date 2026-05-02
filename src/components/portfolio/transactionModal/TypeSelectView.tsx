@@ -21,13 +21,13 @@ const transactionTypes = [
   {
     key: 'buy',
     icon: (color: string) => (
-      <AntDesign name="swapleft" size={24} color={color} />
+      <AntDesign name="swap-left" size={24} color={color} />
     ),
   },
   {
     key: 'sell',
     icon: (color: string) => (
-      <AntDesign name="swapright" size={24} color={color} />
+      <AntDesign name="swap-right" size={24} color={color} />
     ),
   },
   {
@@ -42,13 +42,13 @@ const transferTypes = [
   {
     key: 'transfer in',
     icon: (color: string) => (
-      <AntDesign name="arrowdown" size={18} color={color} />
+      <AntDesign name="arrow-down" size={18} color={color} />
     ),
   },
   {
     key: 'transfer out',
     icon: (color: string) => (
-      <AntDesign name="arrowup" size={18} color={color} />
+      <AntDesign name="arrow-up" size={18} color={color} />
     ),
   },
 ]

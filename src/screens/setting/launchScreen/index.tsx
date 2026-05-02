@@ -1,12 +1,7 @@
-import GeneralTemplate from '/components/GeneralTemplate'
 import VLaunchScreen from '/components/setting/LaunchScreen'
 
 const LaunchScreen = () => {
-  return (
-    <GeneralTemplate>
-      <VLaunchScreen />
-    </GeneralTemplate>
-  )
+  return <VLaunchScreen />
 }
 
 export default LaunchScreen

@@ -1,6 +1,6 @@
 import { PropsWithChildren } from 'react'
 import { View, TouchableHighlightProps } from 'react-native'
-import styled, { ThemeConsumer } from 'styled-components/native'
+import styled, { ThemeConsumer, useTheme } from 'styled-components/native'
 import { MaterialIcons } from '@expo/vector-icons'
 
 import Text from './Text'
@@ -15,42 +15,40 @@ interface RowProps extends TouchableHighlightProps {
   isLinked?: boolean
 }
 
-List.Row = ({ left, right, isLinked = false, ...rest }: RowProps) => {
+function ListRow({ left, right, isLinked = false, ...rest }: RowProps) {
+  const theme = useTheme()
+
   return (
-    <ThemeConsumer>
-      {theme => (
-        <RowContainer {...rest} underlayColor={theme.base.underlayColor[100]}>
-          <View
-            style={{
-              flex: 1,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}
-          >
-            <Text fontML bold>
-              {left}
-            </Text>
-            <RightWrap>
-              <Text bold color300>
-                {right}
-              </Text>
-              {isLinked && (
-                <MaterialIcons
-                  name="keyboard-arrow-right"
-                  size={20}
-                  color={theme.base.text[200]}
-                />
-              )}
-            </RightWrap>
-          </View>
-        </RowContainer>
-      )}
-    </ThemeConsumer>
+    <RowContainer {...rest} underlayColor={theme.base.underlayColor[100]}>
+      <View
+        style={{
+          flex: 1,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}
+      >
+        <Text fontML bold>
+          {left}
+        </Text>
+        <RightWrap>
+          <Text bold color300>
+            {right}
+          </Text>
+          {isLinked && (
+            <MaterialIcons
+              name="keyboard-arrow-right"
+              size={20}
+              color={theme.base.text[200]}
+            />
+          )}
+        </RightWrap>
+      </View>
+    </RowContainer>
   )
 }
 
-export default List
+export default Object.assign(List, { Row: ListRow })
 
 const ListContainer = styled.View``
 const RowContainer = styled.TouchableHighlight`

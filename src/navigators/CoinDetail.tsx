@@ -14,7 +14,6 @@ import type {
 
 import TabBar from '/components/coinMarketDetail/TabBar'
 import WatchListIcon from '/components/common/WatchListIcon'
-import GeneralTemplate from '/components/GeneralTemplate'
 import {
   News,
   Overview,
@@ -45,36 +44,35 @@ const CoinDetail = ({ route, navigation }: HomeScreenProps<'CoinDetail'>) => {
   }, [dispatch, id])
 
   return (
-    <GeneralTemplate>
-      <CoinIdProvider value={{ id, symbol }}>
-        <Tab.Navigator
-          sceneContainerStyle={{
-            backgroundColor: theme.base.background[100],
-          }}
-          tabBar={props => <TabBar {...props} />}
-          initialRouteName={screen || 'Overview'}
-        >
-          <Tab.Screen
-            name="Overview"
-            options={{ tabBarLabel: t('coinDetail.overview') }}
-            component={Overview}
-          />
-          <Tab.Screen
-            name="Profile"
-            options={{ tabBarLabel: t('coinDetail.profile') }}
-            component={Profile}
-          />
-          <Tab.Screen
-            name="News"
-            options={{ tabBarLabel: t('coinDetail.news') }}
-            component={News}
-          />
-          <Tab.Screen
-            name="Transactions"
-            options={{ tabBarLabel: t('coinDetail.transactions') }}
-            component={Transactions}
-          />
-          {/* <Tab.Screen
+    <CoinIdProvider value={{ id, symbol }}>
+      <Tab.Navigator
+        sceneContainerStyle={{
+          backgroundColor: theme.base.background[100],
+        }}
+        tabBar={props => <TabBar {...props} />}
+        initialRouteName={screen || 'Overview'}
+      >
+        <Tab.Screen
+          name="Overview"
+          options={{ tabBarLabel: t('coinDetail.overview') }}
+          component={Overview}
+        />
+        <Tab.Screen
+          name="Profile"
+          options={{ tabBarLabel: t('coinDetail.profile') }}
+          component={Profile}
+        />
+        <Tab.Screen
+          name="News"
+          options={{ tabBarLabel: t('coinDetail.news') }}
+          component={News}
+        />
+        <Tab.Screen
+          name="Transactions"
+          options={{ tabBarLabel: t('coinDetail.transactions') }}
+          component={Transactions}
+        />
+        {/* <Tab.Screen
             name="Notice"
             options={{ tabBarLabel: t('coinDetail.notice') }}
             component={Notice}
@@ -84,9 +82,8 @@ const CoinDetail = ({ route, navigation }: HomeScreenProps<'CoinDetail'>) => {
             options={{ tabBarLabel: t('coinDetail.discussion') }}
             component={Discussion}
           /> */}
-        </Tab.Navigator>
-      </CoinIdProvider>
-    </GeneralTemplate>
+      </Tab.Navigator>
+    </CoinIdProvider>
   )
 }
 

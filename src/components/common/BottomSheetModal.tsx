@@ -5,7 +5,7 @@ import {
   BottomSheetView,
   type BottomSheetBackdropProps,
 } from '@gorhom/bottom-sheet'
-import { type Ref, useCallback } from 'react'
+import { type Ref, type ReactNode, useCallback } from 'react'
 import { StyleProp, ViewStyle } from 'react-native'
 import styled, { css } from 'styled-components/native'
 
@@ -74,9 +74,11 @@ function BottomModal({
       {...props}
     >
       <BottomSheetView style={{ flex: 1 }}>
-        {typeof children === 'function'
-          ? children({ data: undefined })
-          : children}
+        {
+          (typeof children === 'function'
+            ? children({ data: undefined })
+            : children) as ReactNode
+        }
       </BottomSheetView>
     </BottomSheetModal>
   )

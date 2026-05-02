@@ -5,10 +5,11 @@ import {
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 import React, { useEffect } from 'react'
 import { LogBox, useColorScheme } from 'react-native'
+import { StatusBar } from 'expo-status-bar'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
-import { ThemeProvider } from 'styled-components'
+import { ThemeProvider } from 'styled-components/native'
 
 import { FeedBackAlertProvider } from '/hooks/context/useFeedBackContext'
 import useGlobalTheme from '/hooks/useGlobalTheme'
@@ -28,7 +29,7 @@ LogBox.ignoreAllLogs()
 const queryClient = new QueryClient()
 
 const RootNavigationContainer = () => {
-  const { theme } = useGlobalTheme()
+  const { scheme, theme } = useGlobalTheme()
   const dispatch = useAppDispatch()
   const colorScheme = useColorScheme()
 
@@ -40,6 +41,12 @@ const RootNavigationContainer = () => {
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
         <SafeAreaProvider>
+          <StatusBar
+            translucent
+            animated
+            backgroundColor="transparent"
+            style={scheme === 'dark' ? 'light' : 'dark'}
+          />
           <BottomSheetModalProvider>
             {/* <AuthProvider> */}
             <AppLoader>

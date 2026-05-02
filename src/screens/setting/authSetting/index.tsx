@@ -1,4 +1,3 @@
-import GeneralTemplate from '/components/GeneralTemplate'
 import Currency from '/components/setting/Currency'
 
 /**
@@ -8,11 +7,7 @@ import Currency from '/components/setting/Currency'
  * 프로필 사진 변경
  */
 const AuthSettingScreen = () => {
-  return (
-    <GeneralTemplate>
-      <Currency />
-    </GeneralTemplate>
-  )
+  return <Currency />
 }
 
 export default AuthSettingScreen

@@ -1,12 +1,7 @@
-import GeneralTemplate from '/components/GeneralTemplate'
 import Language from '/components/setting/Language'
 
 const LanguageScreen = () => {
-  return (
-    <GeneralTemplate>
-      <Language />
-    </GeneralTemplate>
-  )
+  return <Language />
 }
 
 export default LanguageScreen
