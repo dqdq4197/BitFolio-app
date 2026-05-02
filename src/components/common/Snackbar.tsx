@@ -23,7 +23,7 @@ const Icon = ({ severity }: Pick<AlertProps, 'severity'>) => {
     case 'error':
       return (
         <AntDesign
-          name="closecircle"
+          name="close-circle"
           size={20}
           color={theme.pallete.error.main}
         />
@@ -47,7 +47,7 @@ const Icon = ({ severity }: Pick<AlertProps, 'severity'>) => {
     default:
       return (
         <AntDesign
-          name="checkcircle"
+          name="check-circle"
           size={20}
           color={theme.pallete.success.main}
         />
@@ -59,7 +59,7 @@ const Snackbar = ({ materials, clearAlert }: SanckbarProps) => {
   const { id, message, severity, duration, onPress } = materials
   const opacity = useRef(new Animated.Value(0)).current
   const translateY = useRef(new Animated.Value(-10)).current
-  const timeout = useRef<NodeJS.Timeout | null>(null)
+  const timeout = useRef<number | null>(null)
   const { scheme } = useGlobalTheme()
 
   const resetCurrentTimeout = useCallback(() => {

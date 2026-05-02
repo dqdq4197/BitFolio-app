@@ -1,4 +1,4 @@
-import { type ComponentRef } from 'react'
+import { type Ref } from 'react'
 import styled from 'styled-components/native'
 import Svg, { G, Circle } from 'react-native-svg'
 import { AntDesign } from '@expo/vector-icons'
@@ -19,7 +19,7 @@ function CloseButton({
   CIRCUMFERENCE,
   onModalClose,
   ref,
-}: ButtonProps & { ref?: ComponentRef<typeof Circle> }) {
+}: ButtonProps & { ref?: Ref<Circle> }) {
   const { theme, scheme } = useGlobalTheme()
 
   return (
@@ -49,7 +49,7 @@ function CloseButton({
       </Svg>
       <Icon onPress={onModalClose}>
         <AntDesign
-          name="closecircle"
+          name="close-circle"
           size={SIZE - 6}
           color={
             scheme === 'light'

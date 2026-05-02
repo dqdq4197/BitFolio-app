@@ -32,7 +32,7 @@ const EmailVerification = () => {
   const { openAlert } = useFeedBackAlertContext()
   const animationRef = useRef<LottieView>(null)
   const progress = useRef(new Animated.Value(0)).current
-  const timer = useRef<NodeJS.Timer | null>(null)
+  const timer = useRef<number | null>(null)
   const [time, setTime] = useState(RESENT_DELAY)
   const [trigger, setTrigger] = useState(false)
   const { errorMessage, sendEmailVerification, verified } =

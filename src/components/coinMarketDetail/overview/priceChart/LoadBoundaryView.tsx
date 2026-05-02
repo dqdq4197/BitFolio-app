@@ -21,7 +21,7 @@ const LoadBoundaryView = ({ isNotFound, isLoading }: BoundaryProps) => {
   if (isNotFound) {
     return (
       <NotFoundViewContainer>
-        <AntDesign name="frowno" size={34} color={theme.base.text[300]} />
+        <AntDesign name="frown" size={34} color={theme.base.text[300]} />
         <Text center lineHeight={30}>
           {t(`coinDetail.not found fst`)}
         </Text>
