@@ -1,2 +1,2 @@
-export { default as AddNewCoin } from './addNewCoin'
+export { default as AddNewCoin } from './add-new-coin'
 export { default as Overview } from './overview'

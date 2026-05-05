@@ -1,0 +1,11 @@
+import { useTranslation } from 'react-i18next'
+
+import List from '@/components/common/list'
+
+const AuthSetting = () => {
+  const { t } = useTranslation()
+
+  return <List></List>
+}
+
+export default AuthSetting

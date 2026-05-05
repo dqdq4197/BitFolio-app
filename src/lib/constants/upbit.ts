@@ -1,4 +1,4 @@
-import { t } from '@/lib/utils/mappedType'
+import { t } from '@/lib/utils/mapped-type'
 
 const UPBIT_API_VERSION = '1'
 const UPBIT_BASE = 'https://api.upbit.com/'

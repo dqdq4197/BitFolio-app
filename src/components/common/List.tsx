@@ -3,7 +3,7 @@ import { View, TouchableHighlightProps } from 'react-native'
 import styled, { ThemeConsumer, useTheme } from 'styled-components/native'
 import { MaterialIcons } from '@expo/vector-icons'
 
-import Text from './Text'
+import Text from './text'
 
 const List = ({ children }: PropsWithChildren<unknown>) => {
   return <ListContainer>{children}</ListContainer>

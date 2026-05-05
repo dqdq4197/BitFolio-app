@@ -1,3 +1,3 @@
-export type { CoinsMarkets } from './CoinsMarkets'
-export type { Search } from './Search'
-export type { TrendingSearch } from './TrendingSearch'
+export type { CoinsMarkets } from './coins-markets'
+export type { Search } from './search'
+export type { TrendingSearch } from './trending-search'

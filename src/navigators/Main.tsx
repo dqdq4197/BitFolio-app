@@ -2,13 +2,13 @@ import { FontAwesome, Fontisto, Ionicons } from '@expo/vector-icons'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { useTranslation } from 'react-i18next'
 
-import { useAppSelector } from '@/hooks/useRedux'
+import { useAppSelector } from '@/hooks/use-redux'
 import type { MainTabParamList } from '@/types/navigation'
 
-import Home from './Home'
-import News from './News'
-import Portfolio from './Portfolio'
-import TabBar from '@/components/TabBar'
+import Home from './home'
+import News from './news'
+import Portfolio from './portfolio'
+import TabBar from '@/components/tab-bar'
 
 const Tab = createBottomTabNavigator<MainTabParamList>()
 

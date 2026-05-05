@@ -16,7 +16,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2'
 
 import reducers from './reducers'
-import migrations from './persistMigrations'
+import migrations from './persist-migrations'
 
 const rootReducer = combineReducers({ ...reducers })
 type ReducersState = ReturnType<typeof rootReducer>

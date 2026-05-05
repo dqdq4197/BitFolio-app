@@ -1,4 +1,4 @@
-import Currency from '@/components/setting/Currency'
+import Currency from '@/components/setting/currency'
 
 const CurrencyScreen = () => {
   return <Currency />

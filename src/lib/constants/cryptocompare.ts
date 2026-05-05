@@ -1,4 +1,4 @@
-import { t } from '@/lib/utils/mappedType'
+import { t } from '@/lib/utils/mapped-type'
 
 export const CTYPTOCOMPARE_API_VERSION = 'v2'
 const CTYPTOCOMPARE_BASE = 'https://min-api.cryptocompare.com/data/'

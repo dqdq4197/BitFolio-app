@@ -1,18 +1,18 @@
-export type { CoinMarket } from './CoinMarket'
-export { CoinOrder } from './CoinOrder'
-export { PriceChangePercentage } from './PriceChangePercentage'
-export type { SearchCoin } from './SearchCoin'
-export type { SearchExchange } from './SearchExchange'
-export type { SearchCategory, SearchIcos, SearchNFT } from './SearchIcos'
-export { ShowMaxType } from './ShowMaxType'
+export type { CoinMarket } from './coin-market'
+export { CoinOrder } from './coin-order'
+export { PriceChangePercentage } from './price-change-percentage'
+export type { SearchCoin } from './search-coin'
+export type { SearchExchange } from './search-exchange'
+export type { SearchCategory, SearchIcos, SearchNFT } from './search-icos'
+export { ShowMaxType } from './show-max-type'
 export type {
   MarketCapChangePercentage24h,
   TrendingCategory,
   TrendingCategoryData,
-} from './TrendingCategory'
+} from './trending-category'
 export type {
   PriceChangePercentage24h,
   TrendingCoin,
   TrendingCoinData,
-} from './TrendingCoin'
-export type { TrendingNFT, TrendingNFTData } from './TrendingNFT'
+} from './trending-coin'
+export type { TrendingNFT, TrendingNFTData } from './trending-nft'

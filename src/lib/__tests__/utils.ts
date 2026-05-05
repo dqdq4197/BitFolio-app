@@ -5,7 +5,7 @@ import {
   AddSeparator,
   exponentToNumber,
   currencyFormat,
-} from '../utils/currencyFormat'
+} from '../utils/currency-format'
 import { digitToFixed, convertUnits } from '../utils'
 import { CURRENCIES } from '../constant'
 

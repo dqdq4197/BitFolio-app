@@ -1,7 +1,7 @@
-import baseSettingReducer from './slices/baseSetting'
+import baseSettingReducer from './slices/base-setting'
 import portfolioReducer from './slices/portfolio'
 import transactionReducer from './slices/transaction'
-import globalStateReducer from './slices/globalState'
+import globalStateReducer from './slices/global-state'
 import newsReducer from './slices/news'
 
 export interface ApplicationState {

@@ -1,4 +1,4 @@
-import { httpClient } from '../httpClient'
+import { httpClient } from '../http-client'
 import type { CoinsMarkets, Search, TrendingSearch } from './model'
 
 const coinGeckoClient = httpClient.extend({

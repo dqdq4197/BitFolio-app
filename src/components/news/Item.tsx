@@ -8,15 +8,15 @@ import { Dimensions, View } from 'react-native'
 import styled from 'styled-components/native'
 import translate from 'translate-google-api'
 
-import useGlobalTheme from '@/hooks/useGlobalTheme'
-import useLocales from '@/hooks/useLocales'
+import useGlobalTheme from '@/hooks/use-global-theme'
+import useLocales from '@/hooks/use-locales'
 import { LANGUAGES } from '@/lib/constant'
 import { CategoriesType } from '@/store/slices/news'
-import type { NewsData } from '@/types/CryptoCompareReturnType'
+import type { NewsData } from '@/types/crypto-compare-return-type'
 
-import GlobalIndicator from '@/components/common/GlobalIndicator'
-import Image from '@/components/common/Image'
-import Text from '@/components/common/Text'
+import GlobalIndicator from '@/components/common/global-indicator'
+import Image from '@/components/common/image'
+import Text from '@/components/common/text'
 
 const { width } = Dimensions.get('window')
 const IMAGE_SIZE = 60

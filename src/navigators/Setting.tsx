@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { Dimensions } from 'react-native'
 import { MaterialIcons } from '@expo/vector-icons'
 
-import useGlobalTheme from '@/hooks/useGlobalTheme'
+import useGlobalTheme from '@/hooks/use-global-theme'
 import type { SettingParamList } from '@/types/navigation'
 
 import {

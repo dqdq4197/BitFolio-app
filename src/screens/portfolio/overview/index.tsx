@@ -2,12 +2,12 @@ import { Ionicons } from '@expo/vector-icons'
 import { BottomSheetModal } from '@gorhom/bottom-sheet'
 import { useCallback, useLayoutEffect, useRef } from 'react'
 
-import useGlobalTheme from '@/hooks/useGlobalTheme'
+import useGlobalTheme from '@/hooks/use-global-theme'
 
-import AsyncBoundary from '@/components/common/AsyncBoundary'
-import Layout from '@/components/portfolio/Layout'
-import { PortfolioDataProvider } from '@/components/portfolio/PortfolioDataContext'
-import SettingModal from '@/components/setting/SettingModal'
+import AsyncBoundary from '@/components/common/async-boundary'
+import Layout from '@/components/portfolio/layout'
+import { PortfolioDataProvider } from '@/components/portfolio/portfolio-data-context'
+import SettingModal from '@/components/setting/setting-modal'
 import { PortfolioScreenProps } from '@/types/navigation'
 
 const OverviewScreen = ({

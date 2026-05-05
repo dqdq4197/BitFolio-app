@@ -5,7 +5,7 @@ import {
 } from '@react-navigation/stack'
 import { MaterialIcons } from '@expo/vector-icons'
 
-import useGlobalTheme from '@/hooks/useGlobalTheme'
+import useGlobalTheme from '@/hooks/use-global-theme'
 import type { NewsParamList } from '@/types/navigation'
 
 import { Overview } from '@/screens/news'

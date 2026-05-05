@@ -1,4 +1,4 @@
-import Language from '@/components/setting/Language'
+import Language from '@/components/setting/language'
 
 const LanguageScreen = () => {
   return <Language />

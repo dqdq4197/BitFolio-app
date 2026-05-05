@@ -5,10 +5,10 @@ import {
 } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 
-import useGlobalTheme from '@/hooks/useGlobalTheme'
+import useGlobalTheme from '@/hooks/use-global-theme'
 import type { RootStackParamList } from '@/types/navigation'
 
-import Main from './Main'
+import Main from './main'
 // import Setting from './Setting';
 
 const Stack = createStackNavigator<RootStackParamList>()

@@ -1,6 +1,6 @@
 import { baseTypes } from 'base-types'
 
-import { t } from '@/lib/utils/mappedType'
+import { t } from '@/lib/utils/mapped-type'
 import type { ExchangeType } from '@/types/common'
 
 // ----- BASE CONST ----------------

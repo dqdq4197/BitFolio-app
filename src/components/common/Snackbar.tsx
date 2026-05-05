@@ -5,11 +5,11 @@ import { useTranslation } from 'react-i18next'
 import { Animated, TouchableOpacity } from 'react-native'
 import styled from 'styled-components/native'
 
-import type { AlertProps } from '@/hooks/context/useFeedBackContext'
-import useGlobalTheme from '@/hooks/useGlobalTheme'
+import type { AlertProps } from '@/hooks/context/use-feed-back-context'
+import useGlobalTheme from '@/hooks/use-global-theme'
 
-import Stack from './Stack'
-import Text from './Text'
+import Stack from './stack'
+import Text from './text'
 
 interface SanckbarProps {
   materials: AlertProps

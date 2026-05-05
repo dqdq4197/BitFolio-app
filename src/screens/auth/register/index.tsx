@@ -1,5 +1,5 @@
-import Register from '@/components/auth/Register'
-import AsyncBoundary from '@/components/common/AsyncBoundary'
+import Register from '@/components/auth/register'
+import AsyncBoundary from '@/components/common/async-boundary'
 
 const RegisterScreen = () => {
   return (

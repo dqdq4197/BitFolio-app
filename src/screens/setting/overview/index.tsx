@@ -1,4 +1,4 @@
-import Overview from '@/components/setting/Overview'
+import Overview from '@/components/setting/overview'
 
 const OverviewScreen = () => {
   return <Overview />

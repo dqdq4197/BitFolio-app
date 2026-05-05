@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { Image, Dimensions } from 'react-native'
 import styled, { css } from 'styled-components/native'
 
-import GlobalIndicator from './GlobalIndicator'
+import GlobalIndicator from './global-indicator'
 
 type BorderRadius = 'm' | 's'
 type ImageType = {

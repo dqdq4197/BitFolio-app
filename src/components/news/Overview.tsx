@@ -12,23 +12,23 @@ import {
 } from 'react-native'
 import styled from 'styled-components/native'
 
-import useNewsArticles from '@/hooks/data/useNewsArticles'
-import useAnimatedHeaderTitle from '@/hooks/useAnimatedHeaderTitle'
-import useGlobalTheme from '@/hooks/useGlobalTheme'
-import { useAppDispatch, useAppSelector } from '@/hooks/useRedux'
+import useNewsArticles from '@/hooks/data/use-news-articles'
+import useAnimatedHeaderTitle from '@/hooks/use-animated-header-title'
+import useGlobalTheme from '@/hooks/use-global-theme'
+import { useAppDispatch, useAppSelector } from '@/hooks/use-redux'
 import {
   changeSortOrder,
   NewsStateType,
   SortOrderType,
 } from '@/store/slices/news'
-import type { NewsData } from '@/types/CryptoCompareReturnType'
+import type { NewsData } from '@/types/crypto-compare-return-type'
 
-import FiltersBar from './FiltersBar'
-import Item from './Item'
-import CustomRefreshControl from '@/components/common/CustomRefreshControl'
-import SurfaceTopView from '@/components/common/SurfaceTopView'
-import Text from '@/components/common/Text'
-import { NewsArticleListSkeleton } from '@/components/skeletonPlaceholder/news'
+import FiltersBar from './filters-bar'
+import Item from './item'
+import CustomRefreshControl from '@/components/common/custom-refresh-control'
+import SurfaceTopView from '@/components/common/surface-top-view'
+import Text from '@/components/common/text'
+import { NewsArticleListSkeleton } from '@/components/skeleton-placeholder/news'
 
 if (Platform.OS === 'android') {
   if (UIManager.setLayoutAnimationEnabledExperimental) {

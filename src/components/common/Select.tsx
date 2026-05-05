@@ -3,7 +3,7 @@ import { View, TouchableHighlightProps } from 'react-native'
 import styled, { useTheme } from 'styled-components/native'
 import { Octicons } from '@expo/vector-icons'
 
-import Text from './Text'
+import Text from './text'
 
 const Select = ({ children }: PropsWithChildren<unknown>) => {
   return <SelectContainer>{children}</SelectContainer>

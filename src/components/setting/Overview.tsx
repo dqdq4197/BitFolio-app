@@ -5,17 +5,17 @@ import { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components/native'
 
-import { useAuthContext } from '@/hooks/context/useAuthContext'
-import useGlobalTheme from '@/hooks/useGlobalTheme'
+import { useAuthContext } from '@/hooks/context/use-auth-context'
+import useGlobalTheme from '@/hooks/use-global-theme'
 import type { SettingParamList, SettingScreenProps } from '@/types/navigation'
 
-import AppSettingList from './AppSettingList'
-import LogoutButton from './LogoutButton'
-import List from '@/components/common/List'
-import ScrollView from '@/components/common/ScrollView'
-import Stack from '@/components/common/Stack'
-import SurfaceWrap from '@/components/common/SurfaceWrap'
-import Text from '@/components/common/Text'
+import AppSettingList from './app-setting-list'
+import LogoutButton from './logout-button'
+import List from '@/components/common/list'
+import ScrollView from '@/components/common/scroll-view'
+import Stack from '@/components/common/stack'
+import SurfaceWrap from '@/components/common/surface-wrap'
+import Text from '@/components/common/text'
 
 const Overview = () => {
   const { t } = useTranslation()
