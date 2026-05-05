@@ -2,10 +2,10 @@ import styled, { css } from 'styled-components/native'
 import { useTranslation } from 'react-i18next'
 import { baseTypes } from 'base-types'
 
-import { convertUnits } from '/lib/utils'
+import { convertUnits } from '@/lib/utils'
 
-import Text from '/components/common/Text'
-import SurfaceWrap from '/components/common/SurfaceWrap'
+import Text from '@/components/common/Text'
+import SurfaceWrap from '@/components/common/SurfaceWrap'
 
 type StatsProps = {
   rank: number

@@ -1,9 +1,9 @@
-import { CANDLE_PERIODICITY } from '/lib/constants/upbit'
+import { CANDLE_PERIODICITY } from '@/lib/constants/upbit'
 import type {
   ChartTimeIntervalType,
   CandlePeriodicityType,
   CandleMinuteUnitType,
-} from '/types/upbit'
+} from '@/types/upbit'
 
 export const intervalToTimeFrame = (interval: ChartTimeIntervalType) => {
   if (typeof interval === 'number') {

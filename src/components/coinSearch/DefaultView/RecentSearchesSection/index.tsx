@@ -3,10 +3,10 @@ import { isEmpty } from 'lodash'
 import { ScrollView } from 'react-native'
 import SearchesEmptyView from './SearchesEmptyView'
 import SearchesItem from './SearchesItem'
-import useGlobalTheme from '/hooks/useGlobalTheme'
-import useLocales from '/hooks/useLocales'
-import { useAppSelector } from '/hooks/useRedux'
-import { coinsMarketsQuery } from '/lib/queries/coinGecko'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
+import useLocales from '@/hooks/useLocales'
+import { useAppSelector } from '@/hooks/useRedux'
+import { coinsMarketsQuery } from '@/lib/queries/coinGecko'
 
 interface Props {
   onPressItem: (id: string, symbol: string) => void

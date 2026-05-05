@@ -1,5 +1,5 @@
 import styled from 'styled-components/native'
-import Text from '/components/common/Text'
+import Text from '@/components/common/Text'
 
 const ImageBlock = () => {
   return (

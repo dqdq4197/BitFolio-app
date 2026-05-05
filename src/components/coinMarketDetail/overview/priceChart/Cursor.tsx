@@ -14,15 +14,15 @@ import Animated, {
 import { getYForX, parse } from 'react-native-redash'
 import styled from 'styled-components/native'
 
-import { useChartState } from '/hooks/context/useChartContext'
-import useLocales from '/hooks/useLocales'
-import { CHANGE_STATE } from '/lib/constant'
-import { digitToFixed } from '/lib/utils'
+import { useChartState } from '@/hooks/context/useChartContext'
+import useLocales from '@/hooks/useLocales'
+import { CHANGE_STATE } from '@/lib/constant'
+import { digitToFixed } from '@/lib/utils'
 import {
   AddSeparator,
   exponentToNumber,
   getOnlyDecimal,
-} from '/lib/utils/currencyFormat'
+} from '@/lib/utils/currencyFormat'
 
 const { height: DHeight } = Dimensions.get('window')
 

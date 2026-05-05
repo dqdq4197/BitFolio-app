@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-import { UPBIT_PATH_PREFIX } from '/lib/constants/upbit'
-import { UpBitClientType } from '/types/upbit'
+import { UPBIT_PATH_PREFIX } from '@/lib/constants/upbit'
+import { UpBitClientType } from '@/types/upbit'
 
 export const http = axios.create({
   baseURL: UPBIT_PATH_PREFIX,

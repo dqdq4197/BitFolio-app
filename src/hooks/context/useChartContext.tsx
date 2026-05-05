@@ -2,12 +2,16 @@ import React, { createContext, use, useMemo, useState } from 'react'
 import Animated, { useSharedValue } from 'react-native-reanimated'
 
 import { useCoinIdContext } from './useCoinIdContext'
-import useGlobalAverageChart from '/hooks/data/useGlobalAverageChart'
-import useUpbitChart from '/hooks/data/useUpbitChart'
-import { useAppSelector } from '/hooks/useRedux'
-import type { ExtendErrorType } from '/hooks/useRequest'
-import { CHANGE_STATE } from '/lib/constant'
-import type { ChangeStatusType, ExchangeType, TStreamType } from '/types/common'
+import useGlobalAverageChart from '@/hooks/data/useGlobalAverageChart'
+import useUpbitChart from '@/hooks/data/useUpbitChart'
+import { useAppSelector } from '@/hooks/useRedux'
+import type { ExtendErrorType } from '@/hooks/useRequest'
+import { CHANGE_STATE } from '@/lib/constant'
+import type {
+  ChangeStatusType,
+  ExchangeType,
+  TStreamType,
+} from '@/types/common'
 
 // * 중요
 // isLoading이 false일 경우 모든 데이터가 정상적으로 load되어있어야함

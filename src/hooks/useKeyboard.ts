@@ -8,7 +8,7 @@ import {
 } from 'react-native'
 import { useSharedValue } from 'react-native-reanimated'
 
-import { KEYBOARD_STATE } from '/lib/constant'
+import { KEYBOARD_STATE } from '@/lib/constant'
 
 const KEYBOARD_EVENT_MAPPER = {
   KEYBOARD_SHOW: Platform.select({

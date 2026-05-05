@@ -3,18 +3,18 @@ import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Alert, Dimensions } from 'react-native'
 
-import { useFeedBackAlertContext } from '/hooks/context/useFeedBackContext'
-import useGlobalTheme from '/hooks/useGlobalTheme'
-import { useAppDispatch, useAppSelector } from '/hooks/useRedux'
+import { useFeedBackAlertContext } from '@/hooks/context/useFeedBackContext'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
+import { useAppDispatch, useAppSelector } from '@/hooks/useRedux'
 import {
   addWatchingCoin,
   CoinType,
   unwatchingCoin,
-} from '/store/slices/portfolio'
-import { removeAllTransaction } from '/store/slices/transaction'
-import type { CoinDetailScreenProps } from '/types/navigation'
+} from '@/store/slices/portfolio'
+import { removeAllTransaction } from '@/store/slices/transaction'
+import type { CoinDetailScreenProps } from '@/types/navigation'
 
-import AsyncButton from '/components/common/AsyncButton'
+import AsyncButton from '@/components/common/AsyncButton'
 
 interface ButtonProps extends Omit<CoinType, 'state'> {
   portfolioId?: string

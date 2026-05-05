@@ -1,14 +1,14 @@
 import { Dimensions, View } from 'react-native'
 import styled from 'styled-components/native'
 
-import useGlobalTheme from '/hooks/useGlobalTheme'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
 
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated'
 import HighlightedText from './HighlightedText'
-import Image from '/components/common/Image'
-import Text from '/components/common/Text'
-import type { SearchCoin } from '/lib/api/coingecko/model/common'
-import type { TrendingCoinItem } from '/lib/api/coingecko/model/common/TrendingCoin'
+import Image from '@/components/common/Image'
+import Text from '@/components/common/Text'
+import type { SearchCoin } from '@/lib/api/coingecko/model/common'
+import type { TrendingCoinItem } from '@/lib/api/coingecko/model/common/TrendingCoin'
 
 interface Props {
   index?: number

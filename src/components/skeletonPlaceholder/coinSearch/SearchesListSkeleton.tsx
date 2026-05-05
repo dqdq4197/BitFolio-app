@@ -1,5 +1,5 @@
-import SkeletonPlaceholder from '/components/skeletonPlaceholder'
-import useGlobalTheme from '/hooks/useGlobalTheme'
+import SkeletonPlaceholder from '@/components/skeletonPlaceholder'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
 
 function SearchesListSkeleton() {
   const { theme } = useGlobalTheme()

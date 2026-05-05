@@ -5,8 +5,8 @@ import { useTranslation } from 'react-i18next'
 import { Animated, TouchableOpacity } from 'react-native'
 import styled from 'styled-components/native'
 
-import type { AlertProps } from '/hooks/context/useFeedBackContext'
-import useGlobalTheme from '/hooks/useGlobalTheme'
+import type { AlertProps } from '@/hooks/context/useFeedBackContext'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
 
 import Stack from './Stack'
 import Text from './Text'

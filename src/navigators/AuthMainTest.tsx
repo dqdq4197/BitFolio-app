@@ -1,4 +1,4 @@
-import AsyncBoundary from '/components/common/AsyncBoundary'
+import AsyncBoundary from '@/components/common/AsyncBoundary'
 
 /**
  * @Deprecated

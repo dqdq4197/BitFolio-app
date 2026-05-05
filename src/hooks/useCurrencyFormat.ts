@@ -1,8 +1,8 @@
 import { useState, useLayoutEffect } from 'react'
 
-import { useAppSelector } from '/hooks/useRedux'
-import { krwFormat, digitToFixed } from '/lib/utils'
-import { getCurrencySymbol } from '/lib/utils/currencyFormat'
+import { useAppSelector } from '@/hooks/useRedux'
+import { krwFormat, digitToFixed } from '@/lib/utils'
+import { getCurrencySymbol } from '@/lib/utils/currencyFormat'
 
 const useCurrencyFormat = (
   currentPrice: number,

@@ -2,7 +2,7 @@ import { type Ref } from 'react'
 import styled from 'styled-components/native'
 import Svg, { G, Circle } from 'react-native-svg'
 import { AntDesign } from '@expo/vector-icons'
-import useGlobalTheme from '/hooks/useGlobalTheme'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
 
 type ButtonProps = {
   SIZE: number

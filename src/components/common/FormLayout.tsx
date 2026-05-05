@@ -3,7 +3,7 @@ import { Platform } from 'react-native'
 import styled from 'styled-components/native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
-import useGlobalTheme from '/hooks/useGlobalTheme'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
 
 type LayoutProps = {
   stickyFooterComponent: React.ReactNode

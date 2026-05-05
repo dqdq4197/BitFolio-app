@@ -1,5 +1,5 @@
-import ko from '/lib/lang/ko/translation.json'
-import en from '/lib/lang/en/translation.json'
+import ko from '@/lib/lang/ko/translation.json'
+import en from '@/lib/lang/en/translation.json'
 
 declare module 'translate-google-api' {
   type params = {

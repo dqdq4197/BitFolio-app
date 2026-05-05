@@ -1,6 +1,6 @@
 import { useSuspenseQuery } from '@tanstack/react-query'
 import SearchItem from '../../SearchItem'
-import { trendingSearchQuery } from '/lib/queries/coinGecko'
+import { trendingSearchQuery } from '@/lib/queries/coinGecko'
 
 interface Props {
   onPressItem: (id: string, symbol: string) => void

@@ -13,11 +13,11 @@ import {
   ParagraphType,
   EmbedType,
   ListType,
-} from '/hooks/context/useMdEditorContext'
-import useGlobalTheme from '/hooks/useGlobalTheme'
+} from '@/hooks/context/useMdEditorContext'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
 
 import RenderText from './RenderText'
-import { TYPES, ACTIONS } from '/lib/constant'
+import { TYPES, ACTIONS } from '@/lib/constant'
 
 interface PlainTextProps {
   index: number

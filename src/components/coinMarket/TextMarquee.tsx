@@ -7,17 +7,17 @@ import { useTranslation } from 'react-i18next'
 import TextTicker from 'react-native-text-ticker'
 import styled, { css } from 'styled-components/native'
 
-import useMarkgetglobar from '/hooks/data/useMarkgetGlobal'
-import useGlobalTheme from '/hooks/useGlobalTheme'
-import useLocales from '/hooks/useLocales'
-import { convertUnits } from '/lib/utils'
-import { AddSeparator, currencyFormat } from '/lib/utils/currencyFormat'
+import useMarkgetglobar from '@/hooks/data/useMarkgetGlobal'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
+import useLocales from '@/hooks/useLocales'
+import { convertUnits } from '@/lib/utils'
+import { AddSeparator, currencyFormat } from '@/lib/utils/currencyFormat'
 
-import Modal from '/components/common/BottomSheetModal'
-import DateFormatText from '/components/common/DateFormatText'
-import SurfaceWrap from '/components/common/SurfaceWrap'
-import Text from '/components/common/Text'
-import { MarqueeTextSkeleton } from '/components/skeletonPlaceholder/coinMarketHome'
+import Modal from '@/components/common/BottomSheetModal'
+import DateFormatText from '@/components/common/DateFormatText'
+import SurfaceWrap from '@/components/common/SurfaceWrap'
+import Text from '@/components/common/Text'
+import { MarqueeTextSkeleton } from '@/components/skeletonPlaceholder/coinMarketHome'
 
 type ModalProps = {
   cryptos: number

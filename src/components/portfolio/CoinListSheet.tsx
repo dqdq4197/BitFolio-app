@@ -5,18 +5,18 @@ import { useTranslation } from 'react-i18next'
 import { Dimensions, ScrollView, View } from 'react-native'
 import styled from 'styled-components/native'
 
-import useGlobalTheme from '/hooks/useGlobalTheme'
-import { CoinStatType } from '/hooks/usePortfolioStats'
-import { shallowEqual, useAppDispatch, useAppSelector } from '/hooks/useRedux'
-import { changeSortType, CoinType, SortType } from '/store/slices/portfolio'
-import type { PortfolioScreenProps } from '/types/navigation'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
+import { CoinStatType } from '@/hooks/usePortfolioStats'
+import { shallowEqual, useAppDispatch, useAppSelector } from '@/hooks/useRedux'
+import { changeSortType, CoinType, SortType } from '@/store/slices/portfolio'
+import type { PortfolioScreenProps } from '@/types/navigation'
 
 import { usePortfolioContext } from './PortfolioDataContext'
 import StatisticsRow from './StatisticsRow'
 import FormModal from './transactionModal/FormModal'
-import DynamicSizeText from '/components/common/DynamicSizeText'
-import Image from '/components/common/Image'
-import Text from '/components/common/Text'
+import DynamicSizeText from '@/components/common/DynamicSizeText'
+import Image from '@/components/common/Image'
+import Text from '@/components/common/Text'
 
 const { width } = Dimensions.get('window')
 const CONTENT_PADDING = 16

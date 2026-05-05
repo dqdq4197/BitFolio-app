@@ -1,9 +1,9 @@
 import { Dimensions } from 'react-native'
 
-import useGlobalTheme from '/hooks/useGlobalTheme'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
 
-import SkeletonPlaceholder from '/components/skeletonPlaceholder'
-import { CoinListSkeleton } from '/components/skeletonPlaceholder/common'
+import SkeletonPlaceholder from '@/components/skeletonPlaceholder'
+import { CoinListSkeleton } from '@/components/skeletonPlaceholder/common'
 
 const { width } = Dimensions.get('window')
 

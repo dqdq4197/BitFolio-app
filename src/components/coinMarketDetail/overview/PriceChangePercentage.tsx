@@ -8,10 +8,10 @@ import {
   VictoryLabel,
 } from 'victory-native'
 
-import useGlobalTheme from '/hooks/useGlobalTheme'
-import { digitToFixed } from '/lib/utils'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
+import { digitToFixed } from '@/lib/utils'
 
-import SurfaceWrap from '/components/common/SurfaceWrap'
+import SurfaceWrap from '@/components/common/SurfaceWrap'
 
 const PADDING = 30
 

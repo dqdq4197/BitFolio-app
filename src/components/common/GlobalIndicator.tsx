@@ -1,7 +1,7 @@
 import { ActivityIndicator, Dimensions } from 'react-native'
 import styled from 'styled-components/native'
 
-import useGlobalTheme from '/hooks/useGlobalTheme'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
 
 const { width } = Dimensions.get('window')
 

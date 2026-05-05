@@ -1,8 +1,8 @@
 import { useMemo } from 'react'
 import styled from 'styled-components/native'
-import Text, { type TextStyleProps } from '/components/common/Text'
-import { createFuzzyMatcher } from '/lib/utils'
-import { splitKeywordByMatcher } from '/lib/utils/splitKeywordByMatcher'
+import Text, { type TextStyleProps } from '@/components/common/Text'
+import { createFuzzyMatcher } from '@/lib/utils'
+import { splitKeywordByMatcher } from '@/lib/utils/splitKeywordByMatcher'
 
 interface Props extends TextStyleProps {
   value: string

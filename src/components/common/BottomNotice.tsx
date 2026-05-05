@@ -4,11 +4,11 @@ import styled from 'styled-components/native'
 import * as WebBrowser from 'expo-web-browser'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 
-import { PRIVACY_POLICY_EN, PRIVACY_POLICY_KO } from '/lib/constant'
-import useGlobalTheme from '/hooks/useGlobalTheme'
-import useLocales from '/hooks/useLocales'
+import { PRIVACY_POLICY_EN, PRIVACY_POLICY_KO } from '@/lib/constant'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
+import useLocales from '@/hooks/useLocales'
 
-import Text from '/components/common/Text'
+import Text from '@/components/common/Text'
 
 const { width } = Dimensions.get('window')
 

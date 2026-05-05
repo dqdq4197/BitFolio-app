@@ -5,11 +5,11 @@ import { useTranslation } from 'react-i18next'
 import { LayoutAnimation, Platform, UIManager } from 'react-native'
 import styled from 'styled-components/native'
 
-import useGlobalTheme from '/hooks/useGlobalTheme'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
 
-import HorizontalLine from '/components/common/HorizontalLine'
-import Image from '/components/common/Image'
-import Text from '/components/common/Text'
+import HorizontalLine from '@/components/common/HorizontalLine'
+import Image from '@/components/common/Image'
+import Text from '@/components/common/Text'
 
 if (Platform.OS === 'android') {
   if (UIManager.setLayoutAnimationEnabledExperimental) {

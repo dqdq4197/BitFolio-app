@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import { PAPAGO_PREFIX } from '/lib/constant'
+import { PAPAGO_PREFIX } from '@/lib/constant'
 
 type PapageParams = {
   query: string

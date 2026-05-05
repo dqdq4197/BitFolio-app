@@ -1,8 +1,8 @@
 /* eslint-disable no-nested-ternary */
 import { useEffect, useState } from 'react'
-import useLocales from '/hooks/useLocales'
-import { useAppSelector } from '/hooks/useRedux'
-import type { CoinMarketReturn } from '/types/CoinGeckoReturnType'
+import useLocales from '@/hooks/useLocales'
+import { useAppSelector } from '@/hooks/useRedux'
+import type { CoinMarketReturn } from '@/types/CoinGeckoReturnType'
 
 const { hasOwnProperty } = Object.prototype
 

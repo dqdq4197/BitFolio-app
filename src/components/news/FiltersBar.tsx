@@ -3,21 +3,21 @@ import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components/native'
 
-import useGlobalTheme from '/hooks/useGlobalTheme'
-import { shallowEqual, useAppDispatch, useAppSelector } from '/hooks/useRedux'
-import useRequest from '/hooks/useRequest'
-import { Cryptocompare, http } from '/lib/api/CryptocompareClient'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
+import { shallowEqual, useAppDispatch, useAppSelector } from '@/hooks/useRedux'
+import useRequest from '@/hooks/useRequest'
+import { Cryptocompare, http } from '@/lib/api/CryptocompareClient'
 import {
   ALL_NEWS_CATEGORIES,
   ALL_NEWS_FEEDS,
   resetFilters,
-} from '/store/slices/news'
-import type { FeedAndCategoryReturn } from '/types/CryptoCompareReturnType'
+} from '@/store/slices/news'
+import type { FeedAndCategoryReturn } from '@/types/CryptoCompareReturnType'
 
 import CategoryFilterModal from './CategoryFilterModal'
 import FeedFilterModal from './FeedFilterModal'
-import Text from '/components/common/Text'
-import { FiltersBarSkeleton } from '/components/skeletonPlaceholder/news'
+import Text from '@/components/common/Text'
+import { FiltersBarSkeleton } from '@/components/skeletonPlaceholder/news'
 
 const FiltersBar = () => {
   const { theme } = useGlobalTheme()

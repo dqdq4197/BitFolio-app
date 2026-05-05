@@ -3,18 +3,18 @@ import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components/native'
 
-import useLocales from '/hooks/useLocales'
-import { CoinStatType } from '/hooks/usePortfolioStats'
-import { digitToFixed } from '/lib/utils'
-import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat'
-import { CoinType, ModeType } from '/store/slices/portfolio'
-import type { PortfolioScreenProps } from '/types/navigation'
+import useLocales from '@/hooks/useLocales'
+import { CoinStatType } from '@/hooks/usePortfolioStats'
+import { digitToFixed } from '@/lib/utils'
+import { currencyFormat, getCurrencySymbol } from '@/lib/utils/currencyFormat'
+import { CoinType, ModeType } from '@/store/slices/portfolio'
+import type { PortfolioScreenProps } from '@/types/navigation'
 
 import PrivatePlaceholder from './PrivatePlaceholder'
-import DynamicSizeText from '/components/common/DynamicSizeText'
-import IncreaseDecreaseValue from '/components/common/IncreaseDecreaseValue'
-import Text from '/components/common/Text'
-import SkeletonPlaceholder from '/components/skeletonPlaceholder'
+import DynamicSizeText from '@/components/common/DynamicSizeText'
+import IncreaseDecreaseValue from '@/components/common/IncreaseDecreaseValue'
+import Text from '@/components/common/Text'
+import SkeletonPlaceholder from '@/components/skeletonPlaceholder'
 
 type RowProps = {
   COL_WIDTH: number

@@ -1,14 +1,14 @@
 import { Ionicons } from '@expo/vector-icons'
 import styled from 'styled-components/native'
 
-import useGlobalTheme from '/hooks/useGlobalTheme'
-import useLocales from '/hooks/useLocales'
-import { shallowEqual, useAppSelector } from '/hooks/useRedux'
-import { convertUnits, digitToFixed } from '/lib/utils'
-import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
+import useLocales from '@/hooks/useLocales'
+import { shallowEqual, useAppSelector } from '@/hooks/useRedux'
+import { convertUnits, digitToFixed } from '@/lib/utils'
+import { currencyFormat, getCurrencySymbol } from '@/lib/utils/currencyFormat'
 
-import IncreaseDecreaseValue from '/components/common/IncreaseDecreaseValue'
-import Text from '/components/common/Text'
+import IncreaseDecreaseValue from '@/components/common/IncreaseDecreaseValue'
+import Text from '@/components/common/Text'
 
 type TitleProps = {
   total_balance?: number

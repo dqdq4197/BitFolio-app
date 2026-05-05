@@ -1,5 +1,5 @@
-import AsyncBoundary from '/components/common/AsyncBoundary'
-import Layout from '/components/portfolio/addNewCoin'
+import AsyncBoundary from '@/components/common/AsyncBoundary'
+import Layout from '@/components/portfolio/addNewCoin'
 
 const AddNewCoinScreen = () => {
   return (

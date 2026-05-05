@@ -1,5 +1,5 @@
-import ChangePassword from '/components/auth/ChangePassword'
-import AsyncBoundary from '/components/common/AsyncBoundary'
+import ChangePassword from '@/components/auth/ChangePassword'
+import AsyncBoundary from '@/components/common/AsyncBoundary'
 
 const ChangePasswordScreen = () => {
   return (

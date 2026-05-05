@@ -1,7 +1,7 @@
 import styled from 'styled-components/native'
-import Image from '/components/common/Image'
-import Text from '/components/common/Text'
-import type { CoinMarket } from '/lib/api/coingecko/model/common'
+import Image from '@/components/common/Image'
+import Text from '@/components/common/Text'
+import type { CoinMarket } from '@/lib/api/coingecko/model/common'
 
 interface Props {
   coinMarket: CoinMarket

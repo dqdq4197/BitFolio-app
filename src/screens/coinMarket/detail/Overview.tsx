@@ -1,6 +1,6 @@
-import OverviewLayout from '/components/coinMarketDetail/overview/Layout'
-import AsyncBoundary from '/components/common/AsyncBoundary'
-import { OverviewSkeleton } from '/components/skeletonPlaceholder/coinMarketDetail'
+import OverviewLayout from '@/components/coinMarketDetail/overview/Layout'
+import AsyncBoundary from '@/components/common/AsyncBoundary'
+import { OverviewSkeleton } from '@/components/skeletonPlaceholder/coinMarketDetail'
 
 const Overview = () => {
   return (

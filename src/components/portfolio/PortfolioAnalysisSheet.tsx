@@ -14,21 +14,21 @@ import {
 } from 'react-native'
 import styled from 'styled-components/native'
 
-import useGlobalTheme from '/hooks/useGlobalTheme'
-import { PortfolioStatsType } from '/hooks/usePortfolioStats'
-import { shallowEqual, useAppDispatch, useAppSelector } from '/hooks/useRedux'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
+import { PortfolioStatsType } from '@/hooks/usePortfolioStats'
+import { shallowEqual, useAppDispatch, useAppSelector } from '@/hooks/useRedux'
 import {
   ActiveTabType,
   changeAnalysisActiveTab,
   onHideAnalysisSheet,
-} from '/store/slices/portfolio'
+} from '@/store/slices/portfolio'
 
 import AllocationView from './AllocationView'
 import CommonAnalysis from './CommonAnalysis'
 import { usePortfolioContext } from './PortfolioDataContext'
 import StatisticsView from './StatisticsView'
-import SurfaceWrap from '/components/common/SurfaceWrap'
-import Text from '/components/common/Text'
+import SurfaceWrap from '@/components/common/SurfaceWrap'
+import Text from '@/components/common/Text'
 
 if (Platform.OS === 'android') {
   if (UIManager.setLayoutAnimationEnabledExperimental) {

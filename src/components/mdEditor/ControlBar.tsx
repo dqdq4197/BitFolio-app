@@ -29,8 +29,8 @@ import {
   QuoteType,
   useMdEditorDispatch,
   useMdEditorState,
-} from '/hooks/context/useMdEditorContext'
-import { ACTIONS, TYPES, unicodes } from '/lib/constant'
+} from '@/hooks/context/useMdEditorContext'
+import { ACTIONS, TYPES, unicodes } from '@/lib/constant'
 
 const { width } = Dimensions.get('window')
 const CONTROLBAR_HEIGHT = 45

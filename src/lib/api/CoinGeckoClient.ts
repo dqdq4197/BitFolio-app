@@ -3,8 +3,8 @@ import { baseTypes } from 'base-types'
 import _ from 'lodash'
 import { ModifyPartial } from 'mapped-types'
 
-import { COINGECKO_PATH_PREFIX, ORDER } from '/lib/constants/coingecko'
-import { ChartTimeIntervalType } from '/types/coingecko'
+import { COINGECKO_PATH_PREFIX, ORDER } from '@/lib/constants/coingecko'
+import { ChartTimeIntervalType } from '@/types/coingecko'
 
 export type ORDER = (typeof ORDER)[keyof typeof ORDER]
 

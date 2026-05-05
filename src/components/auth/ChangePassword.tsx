@@ -2,11 +2,11 @@ import { useEffect } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 
-import { VALIDATIONS } from '/lib/constant'
+import { VALIDATIONS } from '@/lib/constant'
 
-import AsyncButton from '/components/common/AsyncButton'
-import FormLayout from '/components/common/FormLayout'
-import TextField from '/components/common/TextField'
+import AsyncButton from '@/components/common/AsyncButton'
+import FormLayout from '@/components/common/FormLayout'
+import TextField from '@/components/common/TextField'
 
 const SUBMIT_BUTTON_HEIGHT = 50
 

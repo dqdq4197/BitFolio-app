@@ -3,10 +3,10 @@ import { useTranslation } from 'react-i18next'
 import { useNavigation } from '@react-navigation/native'
 import { MaterialIcons } from '@expo/vector-icons'
 
-import useGlobalTheme from '/hooks/useGlobalTheme'
-import type { HomeParamList, HomeScreenProps } from '/types/navigation'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
+import type { HomeParamList, HomeScreenProps } from '@/types/navigation'
 
-import Text from '/components/common/Text'
+import Text from '@/components/common/Text'
 
 type ButtonProps = {
   route: keyof Pick<HomeParamList, 'CoinHighMarketCap' | 'CoinHighVolume'>

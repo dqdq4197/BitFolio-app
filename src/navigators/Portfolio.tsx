@@ -1,11 +1,11 @@
 import { createStackNavigator } from '@react-navigation/stack'
 
 import { MaterialIcons } from '@expo/vector-icons'
-import useGlobalTheme from '/hooks/useGlobalTheme'
-import type { PortfolioParamList } from '/types/navigation'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
+import type { PortfolioParamList } from '@/types/navigation'
 
 import CoinDetail from './CoinDetail'
-import { AddNewCoin, Overview } from '/screens/portfolio'
+import { AddNewCoin, Overview } from '@/screens/portfolio'
 
 const Stack = createStackNavigator<PortfolioParamList>()
 

@@ -4,15 +4,15 @@ import { Dimensions } from 'react-native'
 import styled from 'styled-components/native'
 import { Slice, VictoryLegend, VictoryPie } from 'victory-native'
 
-import useGlobalTheme from '/hooks/useGlobalTheme'
-import useLocales from '/hooks/useLocales'
-import { CoinStatType } from '/hooks/usePortfolioStats'
-import { convertUnits, digitToFixed } from '/lib/utils'
-import { ModeType } from '/store/slices/portfolio'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
+import useLocales from '@/hooks/useLocales'
+import { CoinStatType } from '@/hooks/usePortfolioStats'
+import { convertUnits, digitToFixed } from '@/lib/utils'
+import { ModeType } from '@/store/slices/portfolio'
 
 import PrivatePlaceholder from './PrivatePlaceholder'
-import IncreaseDecreaseValue from '/components/common/IncreaseDecreaseValue'
-import Text from '/components/common/Text'
+import IncreaseDecreaseValue from '@/components/common/IncreaseDecreaseValue'
+import Text from '@/components/common/Text'
 
 const { width } = Dimensions.get('window')
 

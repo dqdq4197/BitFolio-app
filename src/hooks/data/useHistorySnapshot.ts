@@ -3,8 +3,8 @@ import {
   CoinGecko,
   http,
   HistorySnapshotParams,
-} from '/lib/api/CoinGeckoClient'
-import { CoinHistorySnapshotReturn } from '/types/CoinGeckoReturnType'
+} from '@/lib/api/CoinGeckoClient'
+import { CoinHistorySnapshotReturn } from '@/types/CoinGeckoReturnType'
 
 interface SearchDataProps extends HistorySnapshotParams, Config {
   id: string

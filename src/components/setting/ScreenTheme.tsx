@@ -1,9 +1,9 @@
 import { useTranslation } from 'react-i18next'
 
-import useGlobalTheme from '/hooks/useGlobalTheme'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
 
-import Select from '/components/common/Select'
-import SurfaceWrap from '/components/common/SurfaceWrap'
+import Select from '@/components/common/Select'
+import SurfaceWrap from '@/components/common/SurfaceWrap'
 
 const ScreenTheme = () => {
   const { localScheme, onSchemeChange } = useGlobalTheme()

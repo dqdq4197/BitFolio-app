@@ -2,24 +2,24 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import { useEffect, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { CoinIdProvider } from '/hooks/context/useCoinIdContext'
-import useGlobalTheme from '/hooks/useGlobalTheme'
-import { useAppDispatch } from '/hooks/useRedux'
-import { changeRecentlyViewed } from '/store/slices/baseSetting'
+import { CoinIdProvider } from '@/hooks/context/useCoinIdContext'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
+import { useAppDispatch } from '@/hooks/useRedux'
+import { changeRecentlyViewed } from '@/store/slices/baseSetting'
 import type {
   CoinDetailParamList,
   CoinDetailParams,
   HomeScreenProps,
-} from '/types/navigation'
+} from '@/types/navigation'
 
-import TabBar from '/components/coinMarketDetail/TabBar'
-import WatchListIcon from '/components/common/WatchListIcon'
+import TabBar from '@/components/coinMarketDetail/TabBar'
+import WatchListIcon from '@/components/common/WatchListIcon'
 import {
   News,
   Overview,
   Profile,
   Transactions,
-} from '/screens/coinMarket/detail'
+} from '@/screens/coinMarket/detail'
 
 const Tab = createMaterialTopTabNavigator<CoinDetailParamList>()
 

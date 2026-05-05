@@ -2,10 +2,10 @@ import { useState } from 'react'
 import styled from 'styled-components/native'
 import { useTranslation } from 'react-i18next'
 
-import Text from '/components/common/Text'
+import Text from '@/components/common/Text'
 import FormModal, {
   InitialDataType,
-} from '/components/portfolio/transactionModal/FormModal'
+} from '@/components/portfolio/transactionModal/FormModal'
 
 type ButtonProps = {
   id: string

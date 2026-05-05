@@ -1,6 +1,6 @@
 import { Dimensions } from 'react-native'
 
-import SkeletonPlaceholder from '/components/skeletonPlaceholder'
+import SkeletonPlaceholder from '@/components/skeletonPlaceholder'
 
 const PADDING = 32
 const { width } = Dimensions.get('window')

@@ -4,12 +4,12 @@ import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components/native'
 
-import useGlobalTheme from '/hooks/useGlobalTheme'
-import { CoinSvg } from '/lib/svg'
-import type { HomeParamList, HomeScreenProps } from '/types/navigation'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
+import { CoinSvg } from '@/lib/svg'
+import type { HomeParamList, HomeScreenProps } from '@/types/navigation'
 
-import SurfaceWrap from '/components/common/SurfaceWrap'
-import Text from '/components/common/Text'
+import SurfaceWrap from '@/components/common/SurfaceWrap'
+import Text from '@/components/common/Text'
 
 const ICON_SIZE = 50
 

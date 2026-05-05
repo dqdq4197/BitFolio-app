@@ -1,11 +1,11 @@
 import { useTranslation } from 'react-i18next'
 
-import { useAppDispatch, useAppSelector } from '/hooks/useRedux'
-import { changeLaunchScreen } from '/store/slices/baseSetting'
-import type { MainTabParamList } from '/types/navigation'
+import { useAppDispatch, useAppSelector } from '@/hooks/useRedux'
+import { changeLaunchScreen } from '@/store/slices/baseSetting'
+import type { MainTabParamList } from '@/types/navigation'
 
-import Select from '/components/common/Select'
-import SurfaceWrap from '/components/common/SurfaceWrap'
+import Select from '@/components/common/Select'
+import SurfaceWrap from '@/components/common/SurfaceWrap'
 
 const LaunchScreen = () => {
   const { t } = useTranslation()

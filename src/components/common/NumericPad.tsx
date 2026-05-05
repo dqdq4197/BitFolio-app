@@ -3,9 +3,9 @@ import * as haptics from 'expo-haptics'
 import { Dimensions } from 'react-native'
 import styled from 'styled-components/native'
 
-import useGlobalTheme from '/hooks/useGlobalTheme'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
 
-import Text from '/components/common/Text'
+import Text from '@/components/common/Text'
 
 const { width } = Dimensions.get('window')
 const KEYS = [

@@ -3,20 +3,20 @@ import { Dimensions, View } from 'react-native'
 import styled, { css } from 'styled-components/native'
 import { baseTypes } from 'base-types'
 
-import type { CoinMarketReturn } from '/types/CoinGeckoReturnType'
-import { digitToFixed, convertUnits } from '/lib/utils'
+import type { CoinMarketReturn } from '@/types/CoinGeckoReturnType'
+import { digitToFixed, convertUnits } from '@/lib/utils'
 import {
   currencyFormat,
   getCurrencySymbol,
   exponentToNumber,
-} from '/lib/utils/currencyFormat'
-import useLocales from '/hooks/useLocales'
-import useGlobalTheme from '/hooks/useGlobalTheme'
+} from '@/lib/utils/currencyFormat'
+import useLocales from '@/hooks/useLocales'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
 
-import Image from '/components/common/Image'
-import Text from '/components/common/Text'
-import WatchListIcon from '/components/common/WatchListIcon'
-import IncreaseDecreaseValue from '/components/common/IncreaseDecreaseValue'
+import Image from '@/components/common/Image'
+import Text from '@/components/common/Text'
+import WatchListIcon from '@/components/common/WatchListIcon'
+import IncreaseDecreaseValue from '@/components/common/IncreaseDecreaseValue'
 
 const { width } = Dimensions.get('window')
 

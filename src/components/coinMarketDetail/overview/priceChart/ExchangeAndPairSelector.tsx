@@ -5,15 +5,15 @@ import { useTranslation } from 'react-i18next'
 import { Dimensions, View } from 'react-native'
 import styled, { css } from 'styled-components/native'
 
-import { useChartState } from '/hooks/context/useChartContext'
-import useGlobalTheme from '/hooks/useGlobalTheme'
-import { useAppDispatch } from '/hooks/useRedux'
-import { EXCHANGES } from '/lib/constant'
-import { changeChartExchange } from '/store/slices/baseSetting'
-import type { ExchangeType } from '/types/common'
+import { useChartState } from '@/hooks/context/useChartContext'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
+import { useAppDispatch } from '@/hooks/useRedux'
+import { EXCHANGES } from '@/lib/constant'
+import { changeChartExchange } from '@/store/slices/baseSetting'
+import type { ExchangeType } from '@/types/common'
 
-import Modal from '/components/common/BottomSheetModal'
-import Text from '/components/common/Text'
+import Modal from '@/components/common/BottomSheetModal'
+import Text from '@/components/common/Text'
 
 const { width: DWidth } = Dimensions.get('window')
 

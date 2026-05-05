@@ -3,12 +3,12 @@ import { useEffect } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 
-import { VALIDATIONS } from '/lib/constant'
-import type { SettingScreenProps } from '/types/navigation'
+import { VALIDATIONS } from '@/lib/constant'
+import type { SettingScreenProps } from '@/types/navigation'
 
-import AsyncButton from '/components/common/AsyncButton'
-import FormLayout from '/components/common/FormLayout'
-import TextField from '/components/common/TextField'
+import AsyncButton from '@/components/common/AsyncButton'
+import FormLayout from '@/components/common/FormLayout'
+import TextField from '@/components/common/TextField'
 
 const SUBMIT_BUTTON_HEIGTH = 50
 

@@ -13,11 +13,11 @@ import {
   Feather,
 } from '@expo/vector-icons'
 
-import useGlobalTheme from '/hooks/useGlobalTheme'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
 
-import SurfaceWrap from '/components/common/SurfaceWrap'
-import Text from '/components/common/Text'
-import HorizontalLine from '/components/common/HorizontalLine'
+import SurfaceWrap from '@/components/common/SurfaceWrap'
+import Text from '@/components/common/Text'
+import HorizontalLine from '@/components/common/HorizontalLine'
 
 const TWITTER_PREFIX = 'https://twitter.com/'
 const FACEBOOK_PREFIX = 'https://www.facebook.com/'

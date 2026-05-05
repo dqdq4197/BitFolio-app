@@ -5,17 +5,17 @@ import { chartType } from 'base-types'
 import { ReText } from 'react-native-redash'
 import styled from 'styled-components/native'
 
-import { useChartState } from '/hooks/context/useChartContext'
-import { digitToFixed } from '/lib/utils'
+import { useChartState } from '@/hooks/context/useChartContext'
+import { digitToFixed } from '@/lib/utils'
 import {
   AddSeparator,
   exponentToNumber,
   getOnlyDecimal,
   getCurrencySymbol,
-} from '/lib/utils/currencyFormat'
+} from '@/lib/utils/currencyFormat'
 
-import Text from '/components/common/Text'
-import IncreaseDecreaseValue from '/components/common/IncreaseDecreaseValue'
+import Text from '@/components/common/Text'
+import IncreaseDecreaseValue from '@/components/common/IncreaseDecreaseValue'
 
 const DATE_HEIGHT = 20
 

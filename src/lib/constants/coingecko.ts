@@ -1,4 +1,4 @@
-import { t } from '/lib/utils/mappedType'
+import { t } from '@/lib/utils/mappedType'
 
 const COINGECKO_API_VERSION = '3'
 const COINGECKO_BASE = 'https://api.coingecko.com/api/'

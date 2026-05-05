@@ -3,7 +3,7 @@ import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react'
 import { Animated, Image, StyleSheet } from 'react-native'
 import styled from 'styled-components/native'
 
-import { InitDataProvider } from '/hooks/context/useInitDataContext'
+import { InitDataProvider } from '@/hooks/context/useInitDataContext'
 
 SplashScreen.preventAutoHideAsync()
 

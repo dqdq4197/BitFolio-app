@@ -3,15 +3,18 @@ import { Dimensions, LayoutAnimation, UIManager, Platform } from 'react-native'
 import styled from 'styled-components/native'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 
-import useGlobalTheme from '/hooks/useGlobalTheme'
-import { useAppDispatch, useAppSelector } from '/hooks/useRedux'
-import { useChartState } from '/hooks/context/useChartContext'
-import { changeChartInterval, changeChartType } from '/store/slices/baseSetting'
-import { CoinSvg } from '/lib/svg'
-import { CHART_TYPE } from '/lib/constant'
-import type { ChartType } from '/types/common'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
+import { useAppDispatch, useAppSelector } from '@/hooks/useRedux'
+import { useChartState } from '@/hooks/context/useChartContext'
+import {
+  changeChartInterval,
+  changeChartType,
+} from '@/store/slices/baseSetting'
+import { CoinSvg } from '@/lib/svg'
+import { CHART_TYPE } from '@/lib/constant'
+import type { ChartType } from '@/types/common'
 
-import Text from '/components/common/Text'
+import Text from '@/components/common/Text'
 
 if (Platform.OS === 'android') {
   if (UIManager.setLayoutAnimationEnabledExperimental) {

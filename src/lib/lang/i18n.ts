@@ -8,7 +8,7 @@ import { head } from 'lodash'
 import { expectUnreachable } from '../utils/sweet'
 import translationEN from './en/translation.json'
 import translationKO from './ko/translation.json'
-import { LANGUAGE_STORAGE_KEY } from '/lib/constant'
+import { LANGUAGE_STORAGE_KEY } from '@/lib/constant'
 
 export const resources = {
   en: {

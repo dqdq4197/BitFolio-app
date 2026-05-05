@@ -7,8 +7,8 @@ import {
   VictoryTheme,
 } from 'victory-native'
 
-import { useChartState } from '/hooks/context/useChartContext'
-import useGlobalTheme from '/hooks/useGlobalTheme'
+import { useChartState } from '@/hooks/context/useChartContext'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
 
 import LoadBoundaryView from './LoadBoundaryView'
 

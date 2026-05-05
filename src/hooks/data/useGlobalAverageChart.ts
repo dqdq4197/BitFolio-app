@@ -3,15 +3,15 @@ import { useState, useEffect, useMemo } from 'react'
 import useRequest from '../useRequest'
 import { useAppSelector } from '../useRedux'
 import useCoinDetail from './useCoinDetail'
-import { CoinGecko, http } from '/lib/api/CoinGeckoClient'
-import filteredPriceData from '/lib/utils/filteredPriceData'
-import { CHART_TIME_INTERVAL } from '/lib/constants/coingecko'
-import { CURRENCIES } from '/lib/constant'
+import { CoinGecko, http } from '@/lib/api/CoinGeckoClient'
+import filteredPriceData from '@/lib/utils/filteredPriceData'
+import { CHART_TIME_INTERVAL } from '@/lib/constants/coingecko'
+import { CURRENCIES } from '@/lib/constant'
 import type {
   ChartDataReturn,
   HistoricalOhlcReturn,
-} from '/types/CoinGeckoReturnType'
-import type { CurrencyType } from '/types/common'
+} from '@/types/CoinGeckoReturnType'
+import type { CurrencyType } from '@/types/common'
 
 type TProps = {
   id: string

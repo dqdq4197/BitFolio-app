@@ -1,11 +1,11 @@
 import { baseTypes } from 'base-types'
 import { useTranslation } from 'react-i18next'
 
-import useLocales from '/hooks/useLocales'
-import { CURRENCIES } from '/lib/constant'
+import useLocales from '@/hooks/useLocales'
+import { CURRENCIES } from '@/lib/constant'
 
-import Select from '/components/common/Select'
-import SurfaceWrap from '/components/common/SurfaceWrap'
+import Select from '@/components/common/Select'
+import SurfaceWrap from '@/components/common/SurfaceWrap'
 
 const currencies = Object.entries(CURRENCIES)
 

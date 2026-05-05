@@ -5,10 +5,10 @@ import {
 } from '@react-navigation/stack'
 import { MaterialIcons } from '@expo/vector-icons'
 
-import useGlobalTheme from '/hooks/useGlobalTheme'
-import type { NewsParamList } from '/types/navigation'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
+import type { NewsParamList } from '@/types/navigation'
 
-import { Overview } from '/screens/news'
+import { Overview } from '@/screens/news'
 
 const Stack = createStackNavigator<NewsParamList>()
 const { width } = Dimensions.get('window')

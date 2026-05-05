@@ -11,18 +11,16 @@ import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 import { ThemeProvider } from 'styled-components/native'
 
-import { FeedBackAlertProvider } from '/hooks/context/useFeedBackContext'
-import useGlobalTheme from '/hooks/useGlobalTheme'
-import { useAppDispatch } from '/hooks/useRedux'
-import RootNavigation from '/navigators/Root'
-import { persistor, store } from '/store'
-import { changeDeviceScheme } from '/store/slices/baseSetting'
-
-import AppLoader from '/components/AppLoader'
-
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
-import '/lib/lang/i18n'
+import { changeDeviceScheme } from '@/store/slices/baseSetting'
+import AppLoader from '@/components/AppLoader'
+import { persistor, store } from '@/store'
+import RootNavigation from '@/navigators/Root'
+import { useAppDispatch } from '@/hooks/useRedux'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
+import { FeedBackAlertProvider } from '@/hooks/context/useFeedBackContext'
+import '@/lib/lang/i18n'
 
 LogBox.ignoreAllLogs()
 

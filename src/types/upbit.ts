@@ -5,8 +5,8 @@ import {
   MARKET_WARNING,
   MARKET_STATE,
   ASC_BID,
-} from '/lib/constants/upbit'
-import type { TStreamType, ChangeStatusType } from '/types/common'
+} from '@/lib/constants/upbit'
+import type { TStreamType, ChangeStatusType } from '@/types/common'
 
 // 전역 const type
 

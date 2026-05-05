@@ -1,7 +1,7 @@
 import { queryOptions } from '@tanstack/react-query'
 import { isEmpty } from 'lodash'
-import { search } from '/lib/api/coingecko/api'
-import type { Search } from '/lib/api/coingecko/model'
+import { search } from '@/lib/api/coingecko/api'
+import type { Search } from '@/lib/api/coingecko/model'
 
 const searchQuery = (params: Search.Request) =>
   queryOptions({

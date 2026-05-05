@@ -12,20 +12,20 @@ import {
   type TextInput,
 } from 'react-native'
 import FormModal from '../transactionModal/FormModal'
-import EmptyView from '/components/coinSearch/EmptyView'
-import ListFooter from '/components/coinSearch/ListFooter'
-import SearchBar from '/components/coinSearch/SearchBar'
-import SearchItem from '/components/coinSearch/SearchItem'
-import GlobalIndicator from '/components/common/GlobalIndicator'
-import useDebounce from '/hooks/useDebounce'
-import useGlobalTheme from '/hooks/useGlobalTheme'
-import { useAppDispatch, useAppSelector } from '/hooks/useRedux'
-import { searchQuery } from '/lib/queries/coinGecko'
+import EmptyView from '@/components/coinSearch/EmptyView'
+import ListFooter from '@/components/coinSearch/ListFooter'
+import SearchBar from '@/components/coinSearch/SearchBar'
+import SearchItem from '@/components/coinSearch/SearchItem'
+import GlobalIndicator from '@/components/common/GlobalIndicator'
+import useDebounce from '@/hooks/useDebounce'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
+import { useAppDispatch, useAppSelector } from '@/hooks/useRedux'
+import { searchQuery } from '@/lib/queries/coinGecko'
 import {
   addWatchingCoin,
   type AddWatchingCoinProps,
-} from '/store/slices/portfolio'
-import type { PortfolioScreenProps } from '/types/navigation'
+} from '@/store/slices/portfolio'
+import type { PortfolioScreenProps } from '@/types/navigation'
 
 const { height } = Dimensions.get('screen')
 

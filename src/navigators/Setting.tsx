@@ -6,8 +6,8 @@ import { useTranslation } from 'react-i18next'
 import { Dimensions } from 'react-native'
 import { MaterialIcons } from '@expo/vector-icons'
 
-import useGlobalTheme from '/hooks/useGlobalTheme'
-import type { SettingParamList } from '/types/navigation'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
+import type { SettingParamList } from '@/types/navigation'
 
 import {
   ChangePassword,
@@ -15,7 +15,7 @@ import {
   ForgotPassword,
   Login,
   Register,
-} from '/screens/auth'
+} from '@/screens/auth'
 import {
   AuthSetting,
   Currency,
@@ -23,7 +23,7 @@ import {
   LaunchScreen,
   Overview,
   ScreenTheme,
-} from '/screens/setting'
+} from '@/screens/setting'
 
 const Stack = createStackNavigator<SettingParamList>()
 const { width } = Dimensions.get('window')

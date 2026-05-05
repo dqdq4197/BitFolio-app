@@ -4,9 +4,9 @@ import {
   EmbedType,
   useMdEditorDispatch,
   useMdEditorState,
-} from '/hooks/context/useMdEditorContext'
-import { TYPES, ACTIONS } from '/lib/constant'
-import useGlobalTheme from '/hooks/useGlobalTheme'
+} from '@/hooks/context/useMdEditorContext'
+import { TYPES, ACTIONS } from '@/lib/constant'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
 
 type EmbedAreaProps = {
   content: EmbedType

@@ -3,14 +3,14 @@ import { View, Dimensions } from 'react-native'
 import styled from 'styled-components/native'
 import { Ionicons } from '@expo/vector-icons'
 
-import useCurrencyFormat from '/hooks/useCurrencyFormat'
-import useGlobalTheme from '/hooks/useGlobalTheme'
-import { digitToFixed } from '/lib/utils'
-import type { CoinMarketReturn } from '/types/CoinGeckoReturnType'
+import useCurrencyFormat from '@/hooks/useCurrencyFormat'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
+import { digitToFixed } from '@/lib/utils'
+import type { CoinMarketReturn } from '@/types/CoinGeckoReturnType'
 
-import Image from '/components/common/Image'
-import Text from '/components/common/Text'
-import IncreaseDecreaseValue from '/components/common/IncreaseDecreaseValue'
+import Image from '@/components/common/Image'
+import Text from '@/components/common/Text'
+import IncreaseDecreaseValue from '@/components/common/IncreaseDecreaseValue'
 
 type ItemProps = {
   item: CoinMarketReturn

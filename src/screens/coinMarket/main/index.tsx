@@ -3,14 +3,14 @@ import { BottomSheetModal } from '@gorhom/bottom-sheet'
 import { useCallback, useLayoutEffect, useRef } from 'react'
 import styled from 'styled-components/native'
 
-import useGlobalTheme from '/hooks/useGlobalTheme'
-import type { HomeScreenProps } from '/types/navigation'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
+import type { HomeScreenProps } from '@/types/navigation'
 
-import Layout from '/components/coinMarket/Layout'
-import AsyncBoundary from '/components/common/AsyncBoundary'
-import SettingModal from '/components/setting/SettingModal'
-import { CoinHomeSkeleton } from '/components/skeletonPlaceholder/coinMarketHome'
-// import { IconSvg } from '/lib/svg';
+import Layout from '@/components/coinMarket/Layout'
+import AsyncBoundary from '@/components/common/AsyncBoundary'
+import SettingModal from '@/components/setting/SettingModal'
+import { CoinHomeSkeleton } from '@/components/skeletonPlaceholder/coinMarketHome'
+// import { IconSvg } from '@/lib/svg';
 
 const HomeScreen = ({ navigation }: HomeScreenProps<'CoinMarketHome'>) => {
   const settingModalRef = useRef<BottomSheetModal>(null)

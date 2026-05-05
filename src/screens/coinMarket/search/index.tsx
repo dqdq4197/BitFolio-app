@@ -1,5 +1,5 @@
-import Layout from '/components/coinSearch/Layout'
-import AsyncBoundary from '/components/common/AsyncBoundary'
+import Layout from '@/components/coinSearch/Layout'
+import AsyncBoundary from '@/components/common/AsyncBoundary'
 
 const SearchScreen = () => {
   return (

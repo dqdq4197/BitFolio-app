@@ -2,7 +2,7 @@ import React from 'react'
 import { format } from 'date-fns'
 import { ko, enUS } from 'date-fns/locale'
 
-import useLocales from '/hooks/useLocales'
+import useLocales from '@/hooks/useLocales'
 
 import Text, { TextStyleProps } from './Text'
 

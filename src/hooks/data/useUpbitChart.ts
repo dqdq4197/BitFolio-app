@@ -4,25 +4,25 @@ import { v4 as uuidv4 } from 'uuid'
 import { throttle } from 'lodash'
 
 import useRequest from '../useRequest'
-import { useInitData } from '/hooks/context/useInitDataContext'
-import { useAppSelector } from '/hooks/useRedux'
-import { upbitClient, http } from '/lib/api/upbitClient'
+import { useInitData } from '@/hooks/context/useInitDataContext'
+import { useAppSelector } from '@/hooks/useRedux'
+import { upbitClient, http } from '@/lib/api/upbitClient'
 
-import { intervalToTimeFrame } from '/lib/utils/upbit'
+import { intervalToTimeFrame } from '@/lib/utils/upbit'
 import {
   CHART_TIME_INTERVAL,
   CANDLE_PERIODICITY,
   UPBIT_WEBSOCKET_PREFIX,
-} from '/lib/constants/upbit'
-import { STREAM_TYPE } from '/lib/constant'
+} from '@/lib/constants/upbit'
+import { STREAM_TYPE } from '@/lib/constant'
 import type {
   CandleReturn,
   RealTimeTickerReturn,
   RCandlesCommon,
   CandleMinuteUnitType,
   SanpshotTickerReturn,
-} from '/types/upbit'
-import type { TStreamType } from '/types/common'
+} from '@/types/upbit'
+import type { TStreamType } from '@/types/common'
 
 type TProps = {
   symbol: string

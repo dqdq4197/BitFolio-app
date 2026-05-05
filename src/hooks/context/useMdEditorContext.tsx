@@ -1,5 +1,5 @@
 import React, { useReducer, use, createContext } from 'react'
-import { TYPES, unicodes, ACTIONS, style } from '/lib/constant'
+import { TYPES, unicodes, ACTIONS, style } from '@/lib/constant'
 
 export type InlineStyleType = {
   start: number

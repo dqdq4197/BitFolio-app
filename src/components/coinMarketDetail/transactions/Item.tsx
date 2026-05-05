@@ -5,13 +5,13 @@ import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 import styled from 'styled-components/native'
 
-import useGlobalTheme from '/hooks/useGlobalTheme'
-import useLocales from '/hooks/useLocales'
-import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat'
-import { TransactionType } from '/store/slices/transaction'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
+import useLocales from '@/hooks/useLocales'
+import { currencyFormat, getCurrencySymbol } from '@/lib/utils/currencyFormat'
+import { TransactionType } from '@/store/slices/transaction'
 
-import IncreaseDecreaseValue from '/components/common/IncreaseDecreaseValue'
-import Text from '/components/common/Text'
+import IncreaseDecreaseValue from '@/components/common/IncreaseDecreaseValue'
+import Text from '@/components/common/Text'
 
 type ItemProps = {
   data: TransactionType

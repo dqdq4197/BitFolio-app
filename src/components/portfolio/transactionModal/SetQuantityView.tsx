@@ -1,11 +1,11 @@
 import { Dimensions } from 'react-native'
 import styled from 'styled-components/native'
 
-import useLocales from '/hooks/useLocales'
-import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat'
+import useLocales from '@/hooks/useLocales'
+import { currencyFormat, getCurrencySymbol } from '@/lib/utils/currencyFormat'
 
-import Text from '/components/common/Text'
-import RollingText from '/components/common/RollingText'
+import Text from '@/components/common/Text'
+import RollingText from '@/components/common/RollingText'
 import { FocusedView } from './FormModal'
 
 const { width } = Dimensions.get('window')

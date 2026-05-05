@@ -4,15 +4,15 @@ import { Controller, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components/native'
 
-import { useFeedBackAlertContext } from '/hooks/context/useFeedBackContext'
-import { useSignInWithEmailAndPassword } from '/hooks/firebase'
-import { VALIDATIONS } from '/lib/constant'
-import type { SettingScreenProps } from '/types/navigation'
+import { useFeedBackAlertContext } from '@/hooks/context/useFeedBackContext'
+import { useSignInWithEmailAndPassword } from '@/hooks/firebase'
+import { VALIDATIONS } from '@/lib/constant'
+import type { SettingScreenProps } from '@/types/navigation'
 
-import AsyncButton from '/components/common/AsyncButton'
-import FormLayout from '/components/common/FormLayout'
-import Text from '/components/common/Text'
-import TextField from '/components/common/TextField'
+import AsyncButton from '@/components/common/AsyncButton'
+import FormLayout from '@/components/common/FormLayout'
+import Text from '@/components/common/Text'
+import TextField from '@/components/common/TextField'
 
 const SUBMIT_BUTTON_HEIGTH = 50
 

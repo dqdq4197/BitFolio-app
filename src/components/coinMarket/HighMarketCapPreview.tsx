@@ -1,11 +1,11 @@
 import { useTranslation } from 'react-i18next'
 
-import useRequest from '/hooks/useRequest'
-import useLocales from '/hooks/useLocales'
-import type { CoinMarketReturn } from '/types/CoinGeckoReturnType'
-import { CoinGecko, http } from '/lib/api/CoinGeckoClient'
+import useRequest from '@/hooks/useRequest'
+import useLocales from '@/hooks/useLocales'
+import type { CoinMarketReturn } from '@/types/CoinGeckoReturnType'
+import { CoinGecko, http } from '@/lib/api/CoinGeckoClient'
 
-import SurfaceWrap from '/components/common/SurfaceWrap'
+import SurfaceWrap from '@/components/common/SurfaceWrap'
 import Item from './Item'
 import ShowAllButton from './ShowAllButton'
 

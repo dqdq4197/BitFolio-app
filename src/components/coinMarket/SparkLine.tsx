@@ -2,8 +2,8 @@ import { useMemo } from 'react'
 import Svg, { Path } from 'react-native-svg'
 import styled from 'styled-components/native'
 
-import useSparkLineModel from '/hooks/useSparkLineModel'
-import useGlobalTheme from '/hooks/useGlobalTheme'
+import useSparkLineModel from '@/hooks/useSparkLineModel'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
 
 type SparkLineProps = {
   prices: number[]

@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components/native'
-import Text from '/components/common/Text'
+import Text from '@/components/common/Text'
 
 function SearchesEmptyView() {
   const { t } = useTranslation()

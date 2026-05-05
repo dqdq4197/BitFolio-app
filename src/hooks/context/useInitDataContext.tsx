@@ -1,8 +1,8 @@
 import React, { createContext, use, useMemo } from 'react'
 
-import useRequest from '/hooks/useRequest'
-import { upbitClient, http as upbitHttp } from '/lib/api/upbitClient'
-import type { MarketReturn } from '/types/upbit'
+import useRequest from '@/hooks/useRequest'
+import { upbitClient, http as upbitHttp } from '@/lib/api/upbitClient'
+import type { MarketReturn } from '@/types/upbit'
 
 type InitialData = {
   upbitAssets?: MarketReturn[]

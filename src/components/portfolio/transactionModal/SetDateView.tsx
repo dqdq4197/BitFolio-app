@@ -7,10 +7,10 @@ import DateTimePicker, {
 import { format } from 'date-fns'
 import { ko, enUS } from 'date-fns/locale'
 
-import useGlobalTheme from '/hooks/useGlobalTheme'
-import useLocales from '/hooks/useLocales'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
+import useLocales from '@/hooks/useLocales'
 
-import Text from '/components/common/Text'
+import Text from '@/components/common/Text'
 
 const { width } = Dimensions.get('window')
 

@@ -1,6 +1,6 @@
-import Gainers from '/components/coinMarket/popularList/Gainers'
-import AsyncBoundary from '/components/common/AsyncBoundary'
-import { TopListSkeleton } from '/components/skeletonPlaceholder/coinMarketHome'
+import Gainers from '@/components/coinMarket/popularList/Gainers'
+import AsyncBoundary from '@/components/common/AsyncBoundary'
+import { TopListSkeleton } from '@/components/skeletonPlaceholder/coinMarketHome'
 
 const GainersScreen = () => {
   return (

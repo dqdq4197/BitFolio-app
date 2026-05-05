@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import { TRANSLATE_PREFIX } from '/lib/constant'
+import { TRANSLATE_PREFIX } from '@/lib/constant'
 
 interface LangugesParams {
   target: string

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import type { MainTabParamList } from '/types/navigation'
+import type { MainTabParamList } from '@/types/navigation'
 
 interface GlobalStateProps {
   activeTabName: keyof MainTabParamList

@@ -3,10 +3,10 @@ import { useTranslation } from 'react-i18next'
 import styled from 'styled-components/native'
 import RecentSearchesSection from './RecentSearchesSection'
 import TrendingSearchListSection from './TrendingSearchListSection'
-import QueryAsyncBoundary from '/components/common/QueryAsyncBoundary'
-import SurfaceWrap from '/components/common/SurfaceWrap'
-import SearchListSkeleton from '/components/skeletonPlaceholder/SearchItemListSkeleton'
-import { SearchesListSkeleton } from '/components/skeletonPlaceholder/coinSearch'
+import QueryAsyncBoundary from '@/components/common/QueryAsyncBoundary'
+import SurfaceWrap from '@/components/common/SurfaceWrap'
+import SearchListSkeleton from '@/components/skeletonPlaceholder/SearchItemListSkeleton'
+import { SearchesListSkeleton } from '@/components/skeletonPlaceholder/coinSearch'
 
 interface Props {
   onPressItem: (id: string, symbol: string) => void

@@ -1,9 +1,9 @@
 import { ReactElement } from 'react'
 
-import useGlobalTheme from '/hooks/useGlobalTheme'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
 
-import SkeletonPlaceholder from '/components/skeletonPlaceholder'
-import { CoinListSkeleton } from '/components/skeletonPlaceholder/common'
+import SkeletonPlaceholder from '@/components/skeletonPlaceholder'
+import { CoinListSkeleton } from '@/components/skeletonPlaceholder/common'
 
 const CoinHomeSkeleton = (): ReactElement => {
   const { theme } = useGlobalTheme()

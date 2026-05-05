@@ -14,13 +14,13 @@
 
 ## 경로 alias
 
-`/` 가 `src/` 를 가리킨다.
+`@` 가 `src/` 를 가리킨다.
 
 ```
-/hooks/...       → src/hooks/
-/components/...  → src/components/
-/screens/...     → src/screens/
-/store/...       → src/store/
-/lib/...         → src/lib/
-/types/...       → src/types/
+@/hooks/...       → src/hooks/
+@/components/...  → src/components/
+@/screens/...     → src/screens/
+@/store/...       → src/store/
+@/lib/...         → src/lib/
+@/types/...       → src/types/
 ```

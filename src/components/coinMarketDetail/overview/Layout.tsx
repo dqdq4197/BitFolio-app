@@ -3,19 +3,19 @@ import { useCallback, useState } from 'react'
 import { Dimensions } from 'react-native'
 import styled from 'styled-components/native'
 
-import { useCoinIdContext } from '/hooks/context/useCoinIdContext'
-import useCoinDetail from '/hooks/data/useCoinDetail'
-import useGlobalTheme from '/hooks/useGlobalTheme'
-import useLocales from '/hooks/useLocales'
-import { shallowEqual, useAppSelector } from '/hooks/useRedux'
+import { useCoinIdContext } from '@/hooks/context/useCoinIdContext'
+import useCoinDetail from '@/hooks/data/useCoinDetail'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
+import useLocales from '@/hooks/useLocales'
+import { shallowEqual, useAppSelector } from '@/hooks/useRedux'
 
 import AddTransactionButton from '../AddTransactionButton'
 import WatchButton from '../WatchButton'
 import PriceChangePercentage from './PriceChangePercentage'
 import ChartContainer from './priceChart/ChartContainer'
 import Stats from './Stats'
-import CustomRefreshControl from '/components/common/CustomRefreshControl'
-import ScrollView from '/components/common/ScrollView'
+import CustomRefreshControl from '@/components/common/CustomRefreshControl'
+import ScrollView from '@/components/common/ScrollView'
 
 const { width } = Dimensions.get('window')
 

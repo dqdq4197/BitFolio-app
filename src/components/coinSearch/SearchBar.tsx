@@ -4,9 +4,9 @@ import { useTranslation } from 'react-i18next'
 import { TextInput } from 'react-native'
 import styled from 'styled-components/native'
 
-import useGlobalTheme from '/hooks/useGlobalTheme'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
 
-import SurfaceTopView from '/components/common/SurfaceTopView'
+import SurfaceTopView from '@/components/common/SurfaceTopView'
 
 type SearchBarProps = {
   onQueryChange: (text: string) => void

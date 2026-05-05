@@ -4,7 +4,7 @@ import {
   EXCHANGE,
   CURRENCY,
   CHART_TYPE,
-} from '/lib/constant'
+} from '@/lib/constant'
 
 export type TStreamType = (typeof STREAM_TYPE)[keyof typeof STREAM_TYPE]
 

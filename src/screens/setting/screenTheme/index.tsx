@@ -1,4 +1,4 @@
-import ScreenTheme from '/components/setting/ScreenTheme'
+import ScreenTheme from '@/components/setting/ScreenTheme'
 
 const ScreenThemeScreen = () => {
   return <ScreenTheme />

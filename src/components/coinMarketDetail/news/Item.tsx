@@ -4,12 +4,12 @@ import * as WebBrowser from 'expo-web-browser'
 import { Dimensions, View } from 'react-native'
 import styled from 'styled-components/native'
 
-import useGlobalTheme from '/hooks/useGlobalTheme'
-import useLocales from '/hooks/useLocales'
-import type { NewsData } from '/types/CryptoCompareReturnType'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
+import useLocales from '@/hooks/useLocales'
+import type { NewsData } from '@/types/CryptoCompareReturnType'
 
-import Image from '/components/common/Image'
-import Text from '/components/common/Text'
+import Image from '@/components/common/Image'
+import Text from '@/components/common/Text'
 
 const { width } = Dimensions.get('window')
 const IMAGE_SIZE = 60

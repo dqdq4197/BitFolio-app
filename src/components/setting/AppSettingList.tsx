@@ -1,11 +1,11 @@
 import { useTranslation } from 'react-i18next'
 
-import { useAppSelector } from '/hooks/useRedux'
-import useGlobalTheme from '/hooks/useGlobalTheme'
-import useLocales from '/hooks/useLocales'
-import { CURRENCIES } from '/lib/constant'
+import { useAppSelector } from '@/hooks/useRedux'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
+import useLocales from '@/hooks/useLocales'
+import { CURRENCIES } from '@/lib/constant'
 
-import List from '/components/common/List'
+import List from '@/components/common/List'
 
 interface SettingListProps {
   onScreenThemePress: () => void

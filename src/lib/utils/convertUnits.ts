@@ -1,7 +1,7 @@
 import { baseTypes } from 'base-types'
 
 import krwFormat from './krwFormat'
-import { CURRENCIES } from '/lib/constant'
+import { CURRENCIES } from '@/lib/constant'
 
 /**
  * @param  {number} num num to format

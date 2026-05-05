@@ -5,13 +5,13 @@ import { useTranslation } from 'react-i18next'
 import { Animated } from 'react-native'
 import styled from 'styled-components/native'
 
-import useGlobalTheme from '/hooks/useGlobalTheme'
-import useLocales from '/hooks/useLocales'
-import { CURRENCIES } from '/lib/constant'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
+import useLocales from '@/hooks/useLocales'
+import { CURRENCIES } from '@/lib/constant'
 
-// import { createPortfolio } from '/store/slices/portfolio';
-import ScrollCloseModal from '/components/common/ScrollCloseModal'
-import Text from '/components/common/Text'
+// import { createPortfolio } from '@/store/slices/portfolio';
+import ScrollCloseModal from '@/components/common/ScrollCloseModal'
+import Text from '@/components/common/Text'
 
 type FormModalProps = {
   visible: boolean

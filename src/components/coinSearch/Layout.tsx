@@ -1,6 +1,6 @@
 import React, { useCallback, useRef, useState } from 'react'
 
-import type { SearchCoin } from '/types/CoinGeckoReturnType'
+import type { SearchCoin } from '@/types/CoinGeckoReturnType'
 
 import { useHeaderHeight } from '@react-navigation/elements'
 import { useNavigation } from '@react-navigation/native'
@@ -11,13 +11,13 @@ import EmptyView from './EmptyView'
 import ListFooter from './ListFooter'
 import SearchBar from './SearchBar'
 import SearchItem from './SearchItem'
-import GlobalIndicator from '/components/common/GlobalIndicator'
-import useDebounce from '/hooks/useDebounce'
-import useGlobalTheme from '/hooks/useGlobalTheme'
-import { useAppDispatch } from '/hooks/useRedux'
-import { searchQuery } from '/lib/queries/coinGecko'
-import { changeRecentSearches } from '/store/slices/baseSetting'
-import type { HomeScreenProps } from '/types/navigation'
+import GlobalIndicator from '@/components/common/GlobalIndicator'
+import useDebounce from '@/hooks/useDebounce'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
+import { useAppDispatch } from '@/hooks/useRedux'
+import { searchQuery } from '@/lib/queries/coinGecko'
+import { changeRecentSearches } from '@/store/slices/baseSetting'
+import type { HomeScreenProps } from '@/types/navigation'
 
 export interface CoinsType extends SearchCoin {
   highlightedName?: Array<string | React.ReactNode>

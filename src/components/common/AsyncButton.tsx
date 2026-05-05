@@ -2,7 +2,7 @@ import { ActivityIndicator } from 'react-native'
 import styled, { css } from 'styled-components/native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
-import useGlobalTheme from '/hooks/useGlobalTheme'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
 import Text, { TextStyleProps } from './Text'
 
 export interface AsyncButtonProps extends TextStyleProps {

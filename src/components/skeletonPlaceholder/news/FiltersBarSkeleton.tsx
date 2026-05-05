@@ -1,6 +1,6 @@
-import SkeletonPlaceholder from '/components/skeletonPlaceholder'
+import SkeletonPlaceholder from '@/components/skeletonPlaceholder'
 
-import useGlobalTheme from '/hooks/useGlobalTheme'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
 
 const FiltersBarSkeleton = () => {
   const { theme } = useGlobalTheme()

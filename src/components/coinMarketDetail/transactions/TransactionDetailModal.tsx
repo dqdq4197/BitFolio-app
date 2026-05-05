@@ -26,19 +26,19 @@ import {
 } from 'react-native'
 import styled, { css } from 'styled-components/native'
 
-import useGlobalTheme from '/hooks/useGlobalTheme'
-import useLocales from '/hooks/useLocales'
-import { useAppDispatch } from '/hooks/useRedux'
-import { digitToFixed } from '/lib/utils'
-import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat'
-import { changeCoinState } from '/store/slices/portfolio'
-import { TransactionType, removeTransaction } from '/store/slices/transaction'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
+import useLocales from '@/hooks/useLocales'
+import { useAppDispatch } from '@/hooks/useRedux'
+import { digitToFixed } from '@/lib/utils'
+import { currencyFormat, getCurrencySymbol } from '@/lib/utils/currencyFormat'
+import { changeCoinState } from '@/store/slices/portfolio'
+import { TransactionType, removeTransaction } from '@/store/slices/transaction'
 
 import EditButton from './EditTransactionButton'
-import Modal from '/components/common/BottomSheetModal'
-import IncreaseDecreaseValue from '/components/common/IncreaseDecreaseValue'
-import SurfaceWrap from '/components/common/SurfaceWrap'
-import Text from '/components/common/Text'
+import Modal from '@/components/common/BottomSheetModal'
+import IncreaseDecreaseValue from '@/components/common/IncreaseDecreaseValue'
+import SurfaceWrap from '@/components/common/SurfaceWrap'
+import Text from '@/components/common/Text'
 
 if (Platform.OS === 'android') {
   if (UIManager.setLayoutAnimationEnabledExperimental) {

@@ -6,8 +6,8 @@ import {
   EmbedType,
   ListType,
   ImageType,
-} from '/hooks/context/useMdEditorContext'
-import { TYPES } from '/lib/constant'
+} from '@/hooks/context/useMdEditorContext'
+import { TYPES } from '@/lib/constant'
 
 import ControlBar from './ControlBar'
 import KeyboardAwareScrollView from './KeyboardAwareScrollView'

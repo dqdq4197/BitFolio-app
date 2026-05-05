@@ -1,7 +1,7 @@
 import styled from 'styled-components/native'
 
-import Text from '/components/common/Text'
-import SurfaceTopView from '/components/common/SurfaceTopView'
+import Text from '@/components/common/Text'
+import SurfaceTopView from '@/components/common/SurfaceTopView'
 
 type HeaderProps = {
   title: string

@@ -1,5 +1,5 @@
-import ForgotPassword from '/components/auth/ForgotPassword'
-import AsyncBoundary from '/components/common/AsyncBoundary'
+import ForgotPassword from '@/components/auth/ForgotPassword'
+import AsyncBoundary from '@/components/common/AsyncBoundary'
 
 const ForgotPasswordScreen = () => {
   return (

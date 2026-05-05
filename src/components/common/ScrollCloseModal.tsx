@@ -4,7 +4,7 @@ import styled from 'styled-components/native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import * as Haptics from 'expo-haptics'
 
-import CircleCloseButton from '/components/common/CircleCloseButton'
+import CircleCloseButton from '@/components/common/CircleCloseButton'
 
 const SIZE = 35
 const STROKEWIDTH = 2

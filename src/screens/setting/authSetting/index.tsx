@@ -1,4 +1,4 @@
-import Currency from '/components/setting/Currency'
+import Currency from '@/components/setting/Currency'
 
 /**
  * 비밀 번호 변경

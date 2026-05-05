@@ -10,9 +10,9 @@ import {
 import styled from 'styled-components/native'
 import { Ionicons } from '@expo/vector-icons'
 
-import useGlobalTheme from '/hooks/useGlobalTheme'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
 
-import Text from '/components/common/Text'
+import Text from '@/components/common/Text'
 
 interface TextFieldProps extends TextInputProps {
   label: string

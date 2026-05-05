@@ -1,16 +1,16 @@
 import { useCallback, useEffect, useState } from 'react'
 import { FlatList } from 'react-native'
 
-import { useCoinIdContext } from '/hooks/context/useCoinIdContext'
-import useNewsArticles from '/hooks/data/useNewsArticles'
-import useGlobalTheme from '/hooks/useGlobalTheme'
-import useRequest from '/hooks/useRequest'
-import { Cryptocompare, http } from '/lib/api/CryptocompareClient'
-import type { CategoryReturn } from '/types/CryptoCompareReturnType'
+import { useCoinIdContext } from '@/hooks/context/useCoinIdContext'
+import useNewsArticles from '@/hooks/data/useNewsArticles'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
+import useRequest from '@/hooks/useRequest'
+import { Cryptocompare, http } from '@/lib/api/CryptocompareClient'
+import type { CategoryReturn } from '@/types/CryptoCompareReturnType'
 
 import Header from './Header'
 import Item from './Item'
-import CustomRefreshControl from '/components/common/CustomRefreshControl'
+import CustomRefreshControl from '@/components/common/CustomRefreshControl'
 
 const Layout = () => {
   const { theme } = useGlobalTheme()

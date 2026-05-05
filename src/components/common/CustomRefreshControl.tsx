@@ -1,5 +1,5 @@
 import { RefreshControl } from 'react-native'
-import useGlobalTheme from '/hooks/useGlobalTheme'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
 
 type ControlProps = {
   onRefresh: () => void

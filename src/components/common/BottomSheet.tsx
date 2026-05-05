@@ -4,7 +4,7 @@ import BottomSheet, {
   BottomSheetView,
 } from '@gorhom/bottom-sheet'
 
-import Text from '/components/common/Text'
+import Text from '@/components/common/Text'
 
 type SheetProps = BottomSheetProps
 

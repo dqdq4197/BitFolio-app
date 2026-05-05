@@ -2,9 +2,9 @@ import LottieView from 'lottie-react-native'
 import { useCallback, useEffect, useMemo, useRef } from 'react'
 import styled from 'styled-components/native'
 
-import useFirstMountState from '/hooks/useFirstMountState'
-import { useAppDispatch, useAppSelector } from '/hooks/useRedux'
-import { changeWatchList } from '/store/slices/baseSetting'
+import useFirstMountState from '@/hooks/useFirstMountState'
+import { useAppDispatch, useAppSelector } from '@/hooks/useRedux'
+import { changeWatchList } from '@/store/slices/baseSetting'
 
 type IconProps = {
   id: string

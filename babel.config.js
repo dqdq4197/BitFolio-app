@@ -6,7 +6,7 @@ module.exports = function (api) {
       [
         'module-resolver',
         {
-          root: ['./src'],
+          root: ['./'],
           extensions: [
             '.js',
             '.jsx',
@@ -16,6 +16,9 @@ module.exports = function (api) {
             '.android.js',
             'svg',
           ],
+          alias: {
+            '@': './src',
+          },
         },
       ],
       'babel-plugin-styled-components',

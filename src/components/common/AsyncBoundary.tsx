@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react'
 import { ErrorBoundary, FallbackProps } from 'react-error-boundary'
 import styled from 'styled-components/native'
-import Text from '/components/common/Text'
+import Text from '@/components/common/Text'
 
 interface SkeletonType {
   skeleton?: React.ReactNode

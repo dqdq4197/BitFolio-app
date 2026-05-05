@@ -4,15 +4,15 @@ import { View } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components/native'
 
-import useGlobalTheme from '/hooks/useGlobalTheme'
-import { useAppDispatch, useAppSelector } from '/hooks/useRedux'
-import { ALL_NEWS_FEEDS, changeFeeds } from '/store/slices/news'
-import type { FeedAndCategoryData } from '/types/CryptoCompareReturnType'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
+import { useAppDispatch, useAppSelector } from '@/hooks/useRedux'
+import { ALL_NEWS_FEEDS, changeFeeds } from '@/store/slices/news'
+import type { FeedAndCategoryData } from '@/types/CryptoCompareReturnType'
 
-import AsyncButton from '/components/common/AsyncButton'
-import Image from '/components/common/Image'
-import ScrollCloseModal from '/components/common/ScrollCloseModal'
-import Text from '/components/common/Text'
+import AsyncButton from '@/components/common/AsyncButton'
+import Image from '@/components/common/Image'
+import ScrollCloseModal from '@/components/common/ScrollCloseModal'
+import Text from '@/components/common/Text'
 
 interface ModalType extends Pick<FeedAndCategoryData, 'Feeds'> {
   visible: boolean

@@ -2,18 +2,18 @@ import { useNavigation } from '@react-navigation/native'
 import { useCallback, useState } from 'react'
 import { Animated, FlatList, View } from 'react-native'
 
-import useAnimatedHeaderTitle from '/hooks/useAnimatedHeaderTitle'
-import useGlobalTheme from '/hooks/useGlobalTheme'
-import useLocales from '/hooks/useLocales'
-import useRequestInfinite from '/hooks/useRequestInfinite'
-import { CoinGecko, http } from '/lib/api/CoinGeckoClient'
-import type { CoinMarketReturn } from '/types/CoinGeckoReturnType'
-import type { HomeScreenProps } from '/types/navigation'
+import useAnimatedHeaderTitle from '@/hooks/useAnimatedHeaderTitle'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
+import useLocales from '@/hooks/useLocales'
+import useRequestInfinite from '@/hooks/useRequestInfinite'
+import { CoinGecko, http } from '@/lib/api/CoinGeckoClient'
+import type { CoinMarketReturn } from '@/types/CoinGeckoReturnType'
+import type { HomeScreenProps } from '@/types/navigation'
 
 import Item from './Item'
 import PopularList from './PopularList'
-import CustomRefreshControl from '/components/common/CustomRefreshControl'
-import MarketListSkeleton from '/components/skeletonPlaceholder/MarketListSkeleton'
+import CustomRefreshControl from '@/components/common/CustomRefreshControl'
+import MarketListSkeleton from '@/components/skeletonPlaceholder/MarketListSkeleton'
 
 /**
  * @deprecated

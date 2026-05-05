@@ -1,8 +1,8 @@
 import { createStackNavigator } from '@react-navigation/stack'
 
 import { MaterialIcons } from '@expo/vector-icons'
-import useGlobalTheme from '/hooks/useGlobalTheme'
-import type { HomeParamList } from '/types/navigation'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
+import type { HomeParamList } from '@/types/navigation'
 import CoinDetail from './CoinDetail'
 import {
   Gainers,
@@ -12,7 +12,7 @@ import {
   Main,
   NewCoin,
   Search,
-} from '/screens/coinMarket'
+} from '@/screens/coinMarket'
 
 const Stack = createStackNavigator<HomeParamList>()
 

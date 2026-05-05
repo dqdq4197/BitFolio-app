@@ -1,7 +1,7 @@
 import React, { CSSProperties } from 'react'
 import styled, { css } from 'styled-components/native'
 
-import Text, { TextStyleProps } from '/components/common/Text'
+import Text, { TextStyleProps } from '@/components/common/Text'
 
 interface TitleWrapProps extends TextStyleProps {
   title?: string | React.ReactNode

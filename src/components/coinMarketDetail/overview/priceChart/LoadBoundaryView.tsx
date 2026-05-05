@@ -2,10 +2,10 @@ import styled from 'styled-components/native'
 import { useTranslation } from 'react-i18next'
 import { AntDesign } from '@expo/vector-icons'
 
-import useGlobalTheme from '/hooks/useGlobalTheme'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
 
-import Text from '/components/common/Text'
-import GlobalIndicator from '/components/common/GlobalIndicator'
+import Text from '@/components/common/Text'
+import GlobalIndicator from '@/components/common/GlobalIndicator'
 
 type BoundaryProps = {
   isNotFound: boolean

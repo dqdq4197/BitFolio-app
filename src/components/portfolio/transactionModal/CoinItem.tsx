@@ -1,9 +1,9 @@
 import styled from 'styled-components/native'
 
-import type { SearchCoin } from '/types/CoinGeckoReturnType'
+import type { SearchCoin } from '@/types/CoinGeckoReturnType'
 
-import Image from '/components/common/Image'
-import Text from '/components/common/Text'
+import Image from '@/components/common/Image'
+import Text from '@/components/common/Text'
 
 type ItemProps = {
   item: SearchCoin

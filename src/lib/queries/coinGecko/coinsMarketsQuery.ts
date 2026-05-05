@@ -1,8 +1,8 @@
 import { queryOptions } from '@tanstack/react-query'
 import { isArray, isNil, omitBy } from 'lodash'
-import { coinsMarkets } from '/lib/api/coingecko/api'
-import type { CoinsMarkets } from '/lib/api/coingecko/model'
-import type { PriceChangePercentage } from '/lib/api/coingecko/model/common'
+import { coinsMarkets } from '@/lib/api/coingecko/api'
+import type { CoinsMarkets } from '@/lib/api/coingecko/model'
+import type { PriceChangePercentage } from '@/lib/api/coingecko/model/common'
 
 interface Params
   extends Omit<CoinsMarkets.Request, 'ids' | 'price_change_percentage'> {

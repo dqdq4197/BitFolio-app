@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { baseTypes } from 'base-types'
 
-import { CHART_TYPE, EXCHANGE, CURRENCY } from '/lib/constant'
-import type { ChartTimeIntervalType as UpbitInterval } from '/types/upbit'
-import type { ChartTimeIntervalType as CoingeckoInterval } from '/types/coingecko'
-import type { ChartTimeIntervalType as BinanceInterval } from '/types/binance'
-import type { ExchangeType, CurrencyType, ChartType } from '/types/common'
-import type { MainTabParamList } from '/types/navigation'
+import { CHART_TYPE, EXCHANGE, CURRENCY } from '@/lib/constant'
+import type { ChartTimeIntervalType as UpbitInterval } from '@/types/upbit'
+import type { ChartTimeIntervalType as CoingeckoInterval } from '@/types/coingecko'
+import type { ChartTimeIntervalType as BinanceInterval } from '@/types/binance'
+import type { ExchangeType, CurrencyType, ChartType } from '@/types/common'
+import type { MainTabParamList } from '@/types/navigation'
 
 type DeviceSchemeType = Exclude<baseTypes.Theme, 'default'>
 export type LocalSchemeType = Extract<

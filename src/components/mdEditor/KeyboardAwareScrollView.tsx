@@ -11,7 +11,7 @@ import {
 } from 'react-native'
 import styled from 'styled-components/native'
 import { useHeaderHeight } from '@react-navigation/elements'
-import { TAB_BAR_HEIGHT } from '/lib/constant'
+import { TAB_BAR_HEIGHT } from '@/lib/constant'
 
 const { height } = Dimensions.get('window')
 

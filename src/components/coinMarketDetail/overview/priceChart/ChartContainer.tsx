@@ -1,8 +1,8 @@
 import { Dimensions } from 'react-native'
 
-import { ChartDataProvider } from '/hooks/context/useChartContext'
-import { useAppSelector } from '/hooks/useRedux'
-import { CHART_TYPE } from '/lib/constant'
+import { ChartDataProvider } from '@/hooks/context/useChartContext'
+import { useAppSelector } from '@/hooks/useRedux'
+import { CHART_TYPE } from '@/lib/constant'
 
 import ExchangeAndPairSelector from './ExchangeAndPairSelector'
 import PriceAndDate from './PriceAndDate'

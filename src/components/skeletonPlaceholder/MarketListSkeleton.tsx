@@ -1,6 +1,6 @@
 import { Dimensions } from 'react-native'
 
-import useGlobalTheme from '/hooks/useGlobalTheme'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
 
 import SkeletonPlaceholder from '.'
 

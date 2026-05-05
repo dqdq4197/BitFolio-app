@@ -4,8 +4,8 @@ import { useNavigation } from '@react-navigation/native'
 import { MaterialIcons } from '@expo/vector-icons'
 import auth from '@react-native-firebase/auth'
 
-import useGlobalTheme from '/hooks/useGlobalTheme'
-import type { SettingScreenProps } from '/types/navigation'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
+import type { SettingScreenProps } from '@/types/navigation'
 
 const LogoutButton = () => {
   const { t } = useTranslation()

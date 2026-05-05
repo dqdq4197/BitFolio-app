@@ -1,5 +1,5 @@
-import Editor from '/components/mdEditor/Editor'
-import { MdEditorProvider } from '/hooks/context/useMdEditorContext'
+import Editor from '@/components/mdEditor/Editor'
+import { MdEditorProvider } from '@/hooks/context/useMdEditorContext'
 
 const EditorScreen = () => {
   return (

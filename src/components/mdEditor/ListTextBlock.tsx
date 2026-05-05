@@ -8,14 +8,14 @@ import {
   TextInputSubmitEditingEventData,
 } from 'react-native'
 import styled from 'styled-components/native'
-import useGlobalTheme from '/hooks/useGlobalTheme'
-import { unicodes, ACTIONS, TYPES } from '/lib/constant'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
+import { unicodes, ACTIONS, TYPES } from '@/lib/constant'
 import {
   useMdEditorState,
   useMdEditorDispatch,
   ListType,
   ParagraphType,
-} from '/hooks/context/useMdEditorContext'
+} from '@/hooks/context/useMdEditorContext'
 import RenderText from './RenderText'
 
 interface ListProps {

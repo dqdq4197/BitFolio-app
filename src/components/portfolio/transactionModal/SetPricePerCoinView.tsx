@@ -2,11 +2,11 @@ import { Dimensions } from 'react-native'
 import styled from 'styled-components/native'
 import { useTranslation } from 'react-i18next'
 
-import useLocales from '/hooks/useLocales'
-import { getCurrencySymbol } from '/lib/utils/currencyFormat'
+import useLocales from '@/hooks/useLocales'
+import { getCurrencySymbol } from '@/lib/utils/currencyFormat'
 
-import Text from '/components/common/Text'
-import RollingText from '/components/common/RollingText'
+import Text from '@/components/common/Text'
+import RollingText from '@/components/common/RollingText'
 
 const { width } = Dimensions.get('window')
 

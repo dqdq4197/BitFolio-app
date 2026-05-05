@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import styled from 'styled-components/native'
 
-import useLocales from '/hooks/useLocales'
-import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat'
+import useLocales from '@/hooks/useLocales'
+import { currencyFormat, getCurrencySymbol } from '@/lib/utils/currencyFormat'
 
 import Text, { TextStyleProps } from './Text'
 

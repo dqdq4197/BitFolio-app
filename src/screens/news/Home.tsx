@@ -1,5 +1,5 @@
-import AsyncBoundary from '/components/common/AsyncBoundary'
-import DiscussionHome from '/components/discussionHome'
+import AsyncBoundary from '@/components/common/AsyncBoundary'
+import DiscussionHome from '@/components/discussionHome'
 
 const HomeScreen = () => {
   return (

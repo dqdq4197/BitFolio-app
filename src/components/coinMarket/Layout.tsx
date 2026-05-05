@@ -3,8 +3,8 @@ import { useCallback, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Animated, ScrollView } from 'react-native'
 
-import useAnimatedHeaderTitle from '/hooks/useAnimatedHeaderTitle'
-import type { HomeScreenProps } from '/types/navigation'
+import useAnimatedHeaderTitle from '@/hooks/useAnimatedHeaderTitle'
+import type { HomeScreenProps } from '@/types/navigation'
 
 import HighMarketCapPreview from './HighMarketCapPreview'
 import HighVolumePreview from './HighVolumePreview'
@@ -12,9 +12,9 @@ import PopularList from './PopularList'
 import RecentlyViewedList from './RecentlyViewedList'
 import TextMarquee from './TextMarquee'
 import WatchList from './WatchList'
-import BottomNotice from '/components/common/BottomNotice'
-import CustomScrollView from '/components/common/ScrollView'
-import SurfaceWrap from '/components/common/SurfaceWrap'
+import BottomNotice from '@/components/common/BottomNotice'
+import CustomScrollView from '@/components/common/ScrollView'
+import SurfaceWrap from '@/components/common/SurfaceWrap'
 
 const Layout = () => {
   const { t } = useTranslation()

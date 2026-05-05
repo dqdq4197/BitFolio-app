@@ -5,12 +5,12 @@ import { useNavigation } from '@react-navigation/native'
 import LottieView from 'lottie-react-native'
 import * as habtics from 'expo-haptics'
 
-import { useFeedBackAlertContext } from '/hooks/context/useFeedBackContext'
-import { useSendEmailVerification } from '/hooks/firebase'
-import { useAuthContext } from '/hooks/context/useAuthContext'
-import type { SettingScreenProps } from '/types/navigation'
+import { useFeedBackAlertContext } from '@/hooks/context/useFeedBackContext'
+import { useSendEmailVerification } from '@/hooks/firebase'
+import { useAuthContext } from '@/hooks/context/useAuthContext'
+import type { SettingScreenProps } from '@/types/navigation'
 
-import { Text, Stack } from '/components/common'
+import { Text, Stack } from '@/components/common'
 
 const RESENT_DELAY = 60
 

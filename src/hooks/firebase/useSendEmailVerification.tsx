@@ -2,8 +2,8 @@ import { FirebaseError } from '@firebase/util'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { useAuthContext } from '/hooks/context/useAuthContext'
-import { expectUnreachable } from '/lib/utils/sweet'
+import { useAuthContext } from '@/hooks/context/useAuthContext'
+import { expectUnreachable } from '@/lib/utils/sweet'
 
 const useSendEmailVerification = () => {
   const { t } = useTranslation()

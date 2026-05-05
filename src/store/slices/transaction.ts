@@ -4,7 +4,7 @@ import { createSlice, PayloadAction, nanoid } from '@reduxjs/toolkit'
 import {
   FormData,
   SubmitNumericData,
-} from '/components/portfolio/transactionModal/FormModal'
+} from '@/components/portfolio/transactionModal/FormModal'
 
 type RemoveAllTransactionProps = {
   portfolioId: string

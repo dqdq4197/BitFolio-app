@@ -3,10 +3,10 @@ import styled from 'styled-components/native'
 import * as habtics from 'expo-haptics'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
-import { TAB_BAR_HEIGHT } from '/lib/constant'
-import useGlobalTheme from '/hooks/useGlobalTheme'
+import { TAB_BAR_HEIGHT } from '@/lib/constant'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
 
-import Text from '/components/common/Text'
+import Text from '@/components/common/Text'
 
 const TabBar = ({ descriptors, state, navigation }: BottomTabBarProps) => {
   const { routes, index } = state

@@ -12,23 +12,23 @@ import {
 } from 'react-native'
 import styled from 'styled-components/native'
 
-import useNewsArticles from '/hooks/data/useNewsArticles'
-import useAnimatedHeaderTitle from '/hooks/useAnimatedHeaderTitle'
-import useGlobalTheme from '/hooks/useGlobalTheme'
-import { useAppDispatch, useAppSelector } from '/hooks/useRedux'
+import useNewsArticles from '@/hooks/data/useNewsArticles'
+import useAnimatedHeaderTitle from '@/hooks/useAnimatedHeaderTitle'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
+import { useAppDispatch, useAppSelector } from '@/hooks/useRedux'
 import {
   changeSortOrder,
   NewsStateType,
   SortOrderType,
-} from '/store/slices/news'
-import type { NewsData } from '/types/CryptoCompareReturnType'
+} from '@/store/slices/news'
+import type { NewsData } from '@/types/CryptoCompareReturnType'
 
 import FiltersBar from './FiltersBar'
 import Item from './Item'
-import CustomRefreshControl from '/components/common/CustomRefreshControl'
-import SurfaceTopView from '/components/common/SurfaceTopView'
-import Text from '/components/common/Text'
-import { NewsArticleListSkeleton } from '/components/skeletonPlaceholder/news'
+import CustomRefreshControl from '@/components/common/CustomRefreshControl'
+import SurfaceTopView from '@/components/common/SurfaceTopView'
+import Text from '@/components/common/Text'
+import { NewsArticleListSkeleton } from '@/components/skeletonPlaceholder/news'
 
 if (Platform.OS === 'android') {
   if (UIManager.setLayoutAnimationEnabledExperimental) {

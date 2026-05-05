@@ -9,7 +9,7 @@ import {
 import styled from 'styled-components/native'
 import { easeQuadOut } from 'd3-ease'
 
-import Text, { TextStyleProps } from '/components/common/Text'
+import Text, { TextStyleProps } from '@/components/common/Text'
 
 if (Platform.OS === 'android') {
   if (UIManager.setLayoutAnimationEnabledExperimental) {

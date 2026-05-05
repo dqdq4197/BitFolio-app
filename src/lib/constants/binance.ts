@@ -1,4 +1,4 @@
-import { t } from '/lib/utils/mappedType'
+import { t } from '@/lib/utils/mappedType'
 
 export const CHART_TIME_INTERVAL = t({
   '1m': '1m',

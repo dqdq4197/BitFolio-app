@@ -4,7 +4,7 @@ import {
   CTYPTOCOMPARE_API_VERSION,
   CTYPTOCOMPARE_LANG,
   CTYPTOCOMPARE_PATH_PREFIX,
-} from '/lib/constants/cryptocompare'
+} from '@/lib/constants/cryptocompare'
 
 export type LANG = (typeof CTYPTOCOMPARE_LANG)[keyof typeof CTYPTOCOMPARE_LANG]
 

@@ -19,10 +19,10 @@ import {
   VictoryScatter,
 } from 'victory-native/'
 
-import { useChartState } from '/hooks/context/useChartContext'
-import useGlobalTheme from '/hooks/useGlobalTheme'
-import { CONTENT_SPACING } from '/lib/constant'
-import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat'
+import { useChartState } from '@/hooks/context/useChartContext'
+import useGlobalTheme from '@/hooks/useGlobalTheme'
+import { CONTENT_SPACING } from '@/lib/constant'
+import { currencyFormat, getCurrencySymbol } from '@/lib/utils/currencyFormat'
 
 import Cursor from './Cursor'
 import LoadBoundaryView from './LoadBoundaryView'

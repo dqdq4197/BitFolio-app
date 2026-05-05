@@ -2,21 +2,21 @@ import * as habtics from 'expo-haptics'
 import { useTranslation } from 'react-i18next'
 import styled from 'styled-components/native'
 
-import useLocales from '/hooks/useLocales'
-import { shallowEqual, useAppDispatch, useAppSelector } from '/hooks/useRedux'
-import { convertUnits, digitToFixed } from '/lib/utils'
-import { currencyFormat, getCurrencySymbol } from '/lib/utils/currencyFormat'
+import useLocales from '@/hooks/useLocales'
+import { shallowEqual, useAppDispatch, useAppSelector } from '@/hooks/useRedux'
+import { convertUnits, digitToFixed } from '@/lib/utils'
+import { currencyFormat, getCurrencySymbol } from '@/lib/utils/currencyFormat'
 import {
   changeMode,
   changeShowValueMode,
   ModeType,
-} from '/store/slices/portfolio'
+} from '@/store/slices/portfolio'
 
 import { usePortfolioContext } from './PortfolioDataContext'
 import PrivatePlaceholder from './PrivatePlaceholder'
-import IncreaseDecreaseValue from '/components/common/IncreaseDecreaseValue'
-import Text from '/components/common/Text'
-import SkeletonPlaceholder from '/components/skeletonPlaceholder'
+import IncreaseDecreaseValue from '@/components/common/IncreaseDecreaseValue'
+import Text from '@/components/common/Text'
+import SkeletonPlaceholder from '@/components/skeletonPlaceholder'
 
 type AnalysisProps = {
   total_balance?: number

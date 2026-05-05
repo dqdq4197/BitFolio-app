@@ -1,9 +1,9 @@
 import { useTranslation } from 'react-i18next'
 
-import useLocales from '/hooks/useLocales'
+import useLocales from '@/hooks/useLocales'
 
-import Select from '/components/common/Select'
-import SurfaceWrap from '/components/common/SurfaceWrap'
+import Select from '@/components/common/Select'
+import SurfaceWrap from '@/components/common/SurfaceWrap'
 
 const Language = () => {
   const { language, onLanguageChange } = useLocales()
