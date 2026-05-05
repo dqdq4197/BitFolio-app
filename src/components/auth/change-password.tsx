@@ -29,10 +29,6 @@ const ChangePassword = () => {
     setTimeout(() => setFocus('email'), 500)
   }, [setFocus])
 
-  const onSubmit = (data: any) => {
-    console.log(data)
-  }
-
   return (
     <FormLayout
       stickyFooterComponent={
@@ -41,7 +37,7 @@ const ChangePassword = () => {
           text={t(`auth.login`)}
           isDisabled={!watch().email.length}
           isLoading={false}
-          onPress={handleSubmit(onSubmit)}
+          onPress={handleSubmit(console.log)}
           height={SUBMIT_BUTTON_HEIGHT}
           borderPosition={['top']}
         />

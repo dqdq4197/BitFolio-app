@@ -9,7 +9,7 @@ import Animated, {
 } from 'react-native-reanimated'
 import { Circle } from 'react-native-svg'
 import styled from 'styled-components/native'
-import { VictoryScatterProps } from 'victory'
+import { VictoryScatterProps, type VictoryLabelProps } from 'victory'
 import {
   VictoryAxis,
   VictoryBar,
@@ -78,35 +78,37 @@ const AnimatedScatter = ({ x, y, size, fill }: AnimatedScatterProps) => {
   )
 }
 
-const BaseLineLabel = React.memo((props: any) => {
-  const { theme } = useGlobalTheme()
-  const x = 0
-  const y = props.scale.y(props.y)
-  const { isCursorActive } = props
+const BaseLineLabel = React.memo(
+  (props: { isCursorActive: boolean; scale: any } & VictoryLabelProps) => {
+    const { theme } = useGlobalTheme()
+    const x = 0
+    const y = props.scale.y(props.y)
+    const { isCursorActive } = props
 
-  return (
-    <VictoryLabel
-      {...props}
-      x={x}
-      y={y}
-      style={{
-        fill: isCursorActive ? theme.base.text[200] : 'transparent',
-        fontSize: parseInt(theme.size.font_s, 10),
-      }}
-      backgroundStyle={{
-        fill: isCursorActive ? theme.base.background.surface : 'transparent',
-        borderRadius: 100,
-      }}
-      textAnchor="start"
-      backgroundPadding={{
-        left: 10,
-        right: 10,
-        top: 5,
-        bottom: 5,
-      }}
-    />
-  )
-})
+    return (
+      <VictoryLabel
+        {...props}
+        x={x}
+        y={y}
+        style={{
+          fill: isCursorActive ? theme.base.text[200] : 'transparent',
+          fontSize: parseInt(theme.size.font_s, 10),
+        }}
+        backgroundStyle={{
+          fill: isCursorActive ? theme.base.background.surface : 'transparent',
+          borderRadius: 100,
+        }}
+        textAnchor="start"
+        backgroundPadding={{
+          left: 10,
+          right: 10,
+          top: 5,
+          bottom: 5,
+        }}
+      />
+    )
+  }
+)
 
 const CustomLabel = (props: any) => {
   const { isCursorActive, color, text, x, y, dy, width } = props

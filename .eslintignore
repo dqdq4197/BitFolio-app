@@ -1,9 +1,8 @@
 babel.config.*
 
-
 # 임시 개발 보류 
-*/components/mdEditor
-*/hooks/context/useMdEditorContext.tsx
+md-editor
+*/hooks/context/use-md-editor-context.tsx
 
 # Deprecations
 */components/setting/SettingRoot.tsx

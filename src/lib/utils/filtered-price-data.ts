@@ -32,28 +32,26 @@ const filteredPriceData = (
   timeInterval *= 60 * 1000
   let tempTime = 0
   const pricesResult = []
-  const marketcapsResult = []
+  const marketCapsResult = []
   const volumesResult = []
 
   for (let i = 0; i < prices.length; i += 1) {
-    if (i === 0) {
-      pricesResult.push(prices[0])
-      marketcapsResult.push(market_caps[0])
-      volumesResult.push(total_volumes[0])
-      tempTime = prices[0][0]
-      continue
-    }
+    const isFirst = i === 0
+    const isLast = i === prices.length - 1
 
-    if (prices.length - 1 === i) {
+    if (isFirst) {
       pricesResult.push(prices[i])
-      marketcapsResult.push(market_caps[i])
+      marketCapsResult.push(market_caps[i])
+      volumesResult.push(total_volumes[i])
+      tempTime = prices[i][0]
+    } else if (isLast) {
+      pricesResult.push(prices[i])
+      marketCapsResult.push(market_caps[i])
       volumesResult.push(total_volumes[i])
       break
-    }
-
-    if (prices[i][0] >= tempTime + timeInterval) {
+    } else if (prices[i][0] >= tempTime + timeInterval) {
       pricesResult.push(prices[i])
-      marketcapsResult.push(market_caps[i])
+      marketCapsResult.push(market_caps[i])
       volumesResult.push(total_volumes[i])
       tempTime = prices[i][0]
     }
@@ -67,7 +65,7 @@ const filteredPriceData = (
 
   return {
     prices: pricesResult,
-    market_caps: marketcapsResult,
+    market_caps: marketCapsResult,
     total_volumes: volumesResult,
   }
 }

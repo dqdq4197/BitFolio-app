@@ -231,18 +231,28 @@ const FormModalLayout = ({
         ]).start()
       })
     }
-  }, [transitioning])
+  }, [
+    activePage,
+    firstPageAnimate,
+    firstPageOpacity,
+    secondPageAnimate,
+    secondPageOpacity,
+    titleAnimate,
+    transitioning,
+  ])
 
   const onSwitchFocusView = useCallback((key: FocusedView) => {
     setFocusedView(key)
   }, [])
 
-  const isAlreadyHaveAsset = (): boolean => {
-    const { coins } = portfolios.find(
-      portfolio => portfolio.id === portfolioId
-    )!
+  const isAlreadyHasAsset = (): boolean => {
+    const portfolio = portfolios.find(portfolio => portfolio.id === portfolioId)
 
-    return coins.find(coin => coin.id === id) !== undefined
+    if (!portfolio) {
+      return false
+    }
+
+    return portfolio.coins.find(coin => coin.id === id) !== undefined
   }
 
   const handleAddTransactionPress = () => {
@@ -262,7 +272,7 @@ const FormModalLayout = ({
     if (transactionId) {
       dispatch(editTransaction({ transactionId, formData: convertedFormData }))
     } else {
-      if (!isAlreadyHaveAsset()) {
+      if (!isAlreadyHasAsset()) {
         const payload = {
           portfolioId,
           coin: {
@@ -316,24 +326,20 @@ const FormModalLayout = ({
     const feeRate = fee / current_price[currency]
     const pricePerCoinRate = pricePerCoin / current_price[currency]
 
-    let newValue: FormData<SubmitNumericData> | FormData<NumericData> | any = {
-      ...formData,
-      fee: {},
-    }
-
-    for (const currency in current_price) {
-      newValue = {
-        ...formData,
+    const newValue = Object.entries(current_price).reduce(
+      (acc, [currency, price]) => ({
+        ...acc,
         fee: {
-          ...newValue.fee,
-          [currency]: current_price[currency] * feeRate,
+          ...acc.fee,
+          [currency]: price * feeRate,
         },
         pricePerCoin: {
-          ...newValue.pricePerCoin,
-          [currency]: current_price[currency] * pricePerCoinRate,
+          ...acc.pricePerCoin,
+          [currency]: price * pricePerCoinRate,
         },
-      }
-    }
+      }),
+      { ...formData, fee: {} }
+    )
 
     return newValue as FormData<SubmitNumericData>
   }

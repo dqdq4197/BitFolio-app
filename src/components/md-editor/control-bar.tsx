@@ -10,7 +10,7 @@ import {
 } from '@expo/vector-icons'
 import { easeQuadOut } from 'd3-ease'
 import * as ImagePicker from 'expo-image-picker'
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import {
   Animated,
   Dimensions,
@@ -39,9 +39,9 @@ interface ControlBarProps {
   selecting: boolean
 }
 
-const SelectionContorlBar = () => {
+const SelectionControlBar = () => {
   const {
-    focusState: { index, action },
+    focusState: { index },
     contentStorage,
     selection: { start, end },
   } = useMdEditorState()
@@ -105,7 +105,6 @@ const DefaultControlBar = () => {
     IMAGE,
   } = TYPES
   const handlers = useMdEditorDispatch()
-  const [image, setImage] = useState<any>(null)
   const { showActionSheetWithOptions } = useActionSheet()
 
   const convertListToOther = (otherContext: ContentsType) => {
@@ -157,8 +156,8 @@ const DefaultControlBar = () => {
         currentContext.type = PARAGRAPH
         return handlers.updateCurrentLine(currentContext, index)
       case EMBED:
-        return
-      case LIST:
+        return null
+      case LIST: {
         const {
           payload: { items },
         } = currentContext as ListType
@@ -169,6 +168,7 @@ const DefaultControlBar = () => {
           },
         }
         return convertListToOther(newContext)
+      }
       default:
         currentContext.type = HEADER
         return handlers.updateCurrentLine(currentContext, index)
@@ -183,8 +183,8 @@ const DefaultControlBar = () => {
         currentContext.type = PARAGRAPH
         return handlers.updateCurrentLine(currentContext, index)
       case EMBED:
-        return
-      case LIST:
+        return null
+      case LIST: {
         const {
           payload: { items },
         } = currentContext as ListType
@@ -195,6 +195,7 @@ const DefaultControlBar = () => {
           },
         }
         return convertListToOther(newContext)
+      }
       default:
         currentContext.type = QUOTE
         return handlers.updateCurrentLine(currentContext, index)
@@ -299,9 +300,9 @@ const DefaultControlBar = () => {
             })
           }
           handlers.mergeNextLineWithCurrentLine(newContext as ListType[], index)
-          restItems.length
-            ? handlers.focusActionReset(index + 1)
-            : handlers.focusActionReset(index)
+
+          handlers.focusActionReset(restItems.length ? index + 1 : index)
+
           handlers.updateListFocusIndex(0)
         } else {
           const curItem = curItems[listFocusIndex]
@@ -406,7 +407,7 @@ const DefaultControlBar = () => {
   const handleDelimiterPress = () => {
     const nextContext = contentStorage[index + 1]
 
-    let newContext = [
+    const newContext = [
       {
         type: DELIMITER,
         payload: {},
@@ -466,13 +467,11 @@ const DefaultControlBar = () => {
               const { status } =
                 await ImagePicker.requestCameraPermissionsAsync()
               if (status === 'granted') {
-                let result = await ImagePicker.launchCameraAsync({
-                  allowsEditing: true,
-                })
+                // const result = await ImagePicker.launchCameraAsync({
+                //   allowsEditing: true,
+                // })
               } else {
-                alert(
-                  'Sorry, we need camera roll permissions to make this work!'
-                )
+                // 'Sorry, we need camera roll permissions to make this work!'
               }
             }
           })()
@@ -483,7 +482,7 @@ const DefaultControlBar = () => {
               const { status } =
                 await ImagePicker.requestMediaLibraryPermissionsAsync()
               if (status === 'granted') {
-                let result = await ImagePicker.launchImageLibraryAsync({
+                const result = await ImagePicker.launchImageLibraryAsync({
                   mediaTypes: ['images', 'videos'],
                   // aspect: [4, 3],
                   // quality: 1,
@@ -516,9 +515,7 @@ const DefaultControlBar = () => {
                   )
                 }
               } else {
-                alert(
-                  'Sorry, we need camera roll permissions to make this work!'
-                )
+                // 'Sorry, we need camera roll permissions to make this work!'
               }
             }
           })()
@@ -573,6 +570,36 @@ const DefaultControlBar = () => {
 
 const ControlBar = ({ selecting }: ControlBarProps) => {
   const topValue = useRef(new Animated.Value(0)).current
+
+  const updateKeyboardSpace = useCallback(
+    (event: KeyboardEvent) => {
+      const keyboardHeight = event.startCoordinates?.height
+      if (keyboardHeight) {
+        Animated.timing(topValue, {
+          toValue: -keyboardHeight,
+          duration: event.duration,
+          delay: 0,
+          easing: Easing.in(easeQuadOut),
+          useNativeDriver: true,
+        }).start()
+      }
+    },
+    [topValue]
+  )
+
+  const resetKeyboardSpace = useCallback(
+    (event: KeyboardEvent) => {
+      Animated.timing(topValue, {
+        toValue: 0,
+        duration: event.duration,
+        delay: 0,
+        easing: Easing.in(easeQuadOut),
+        useNativeDriver: true,
+      }).start()
+    },
+    [topValue]
+  )
+
   useEffect(() => {
     let keyboardWillShowEvent: EmitterSubscription
     let keyboardWillHideEvent: EmitterSubscription
@@ -601,33 +628,10 @@ const ControlBar = ({ selecting }: ControlBarProps) => {
 
     return () => {
       // keyboard event 해제
-      keyboardWillShowEvent && keyboardWillShowEvent.remove()
-      keyboardWillHideEvent && keyboardWillHideEvent.remove()
+      keyboardWillShowEvent.remove()
+      keyboardWillHideEvent.remove()
     }
-  }, [])
-
-  const updateKeyboardSpace = (event: KeyboardEvent) => {
-    const keyboardHeight = event.startCoordinates?.height
-    if (keyboardHeight) {
-      Animated.timing(topValue, {
-        toValue: -keyboardHeight,
-        duration: event.duration,
-        delay: 0,
-        easing: Easing.in(easeQuadOut),
-        useNativeDriver: true,
-      }).start()
-    }
-  }
-
-  const resetKeyboardSpace = (event: KeyboardEvent) => {
-    Animated.timing(topValue, {
-      toValue: 0,
-      duration: event.duration,
-      delay: 0,
-      easing: Easing.in(easeQuadOut),
-      useNativeDriver: true,
-    }).start()
-  }
+  }, [resetKeyboardSpace, updateKeyboardSpace])
 
   return (
     <Container
@@ -640,7 +644,7 @@ const ControlBar = ({ selecting }: ControlBarProps) => {
         ],
       }}
     >
-      {selecting ? <SelectionContorlBar /> : <DefaultControlBar />}
+      {selecting ? <SelectionControlBar /> : <DefaultControlBar />}
     </Container>
   )
 }

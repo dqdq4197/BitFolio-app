@@ -4,7 +4,7 @@ import { getLocales } from 'expo-localization'
 import i18n, { LanguageDetectorAsyncModule } from 'i18next'
 import { initReactI18next } from 'react-i18next'
 
-import { head } from 'lodash'
+import { head, noop } from 'lodash'
 import { expectUnreachable } from '../utils/sweet'
 import translationEN from './en/translation.json'
 import translationKO from './ko/translation.json'
@@ -38,9 +38,9 @@ export const getDeviceLanguage = () => {
 }
 
 const languageDetector: LanguageDetectorAsyncModule = {
-  init: () => {},
+  init: noop,
   type: 'languageDetector',
-  async: true, // flags below detection to be async
+  async: true,
   detect: async (callback: (lng: string) => void) => {
     const userLang = await AsyncStorage.getItem(LANGUAGE_STORAGE_KEY)
 
@@ -51,7 +51,7 @@ const languageDetector: LanguageDetectorAsyncModule = {
 
     callback(deviceLang)
   },
-  cacheUserLanguage: () => {},
+  cacheUserLanguage: noop,
 }
 
 const options = {

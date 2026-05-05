@@ -46,6 +46,8 @@ const TabBar = ({
     if (scrollViewRef.current && !measures) {
       const temp: TabMeasureType[] = []
 
+      if (scrollViewRef.current === null) return
+
       tabRefs.forEach((ref, _, array) => {
         ref.current?.measureLayout(
           scrollViewRef.current as any,

@@ -45,7 +45,7 @@ const Description = ({
   }
 
   useEffect(() => {
-    const regExp = new RegExp(/<a[\s]+([^>]+)>((?:.(?!\<\/a\>))*.)<\/a>/, 'g')
+    const regExp = /<a[\s]+([^>]+)>((?:.(?!<\/a>))*.)<\/a>/g
     const match = content.split(regExp)
     const replacedText = []
     for (let i = 0; i < match.length; i += 1) {

@@ -23,12 +23,7 @@ type ChangePercentageType = {
   percentage_1y?: number
 }
 
-const NegativeAwareTickLabel = ({
-  datum,
-  y,
-  dy,
-  ...rest
-}: VictoryLabelProps) => {
+const NegativeAwareTickLabel = ({ datum, ...rest }: VictoryLabelProps) => {
   return (
     <VictoryLabel
       datum={datum}

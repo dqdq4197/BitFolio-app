@@ -1,10 +1,8 @@
-import { useNavigation } from '@react-navigation/native'
 import { useEffect } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 
 import { VALIDATIONS } from '@/lib/constant'
-import type { SettingScreenProps } from '@/types/navigation'
 
 import AsyncButton from '@/components/common/async-button'
 import FormLayout from '@/components/common/form-layout'
@@ -14,8 +12,6 @@ const SUBMIT_BUTTON_HEIGTH = 50
 
 const ForgotPassword = () => {
   const { t } = useTranslation()
-  const navigation =
-    useNavigation<SettingScreenProps<'ForgotPassword'>['navigation']>()
   const {
     control,
     handleSubmit,
@@ -33,14 +29,6 @@ const ForgotPassword = () => {
     setTimeout(() => setFocus('email'), 500)
   }, [setFocus])
 
-  const onSubmit = (data: any) => {
-    console.log(data)
-  }
-
-  const moveToRegisterScreen = () => {
-    navigation.navigate('Register')
-  }
-
   return (
     <FormLayout
       stickyFooterComponent={
@@ -49,7 +37,7 @@ const ForgotPassword = () => {
           text={t(`auth.login`)}
           isDisabled={!watch().email.length}
           isLoading={false}
-          onPress={handleSubmit(onSubmit)}
+          onPress={handleSubmit(console.log)}
           height={SUBMIT_BUTTON_HEIGTH}
           borderPosition={['top']}
         />

@@ -45,25 +45,24 @@ export const Cryptocompare = {
      * @param {string} params.extraParams The name of your application (we recommend you send it) [ Min length - 1] [ Max length - 2000] [ Default - NotAvailable]
      * @returns {ReturnObject}
      */
-    articles: (params: ArticleParams) => {
-      if (Array.isArray(params.categories)) {
-        if (params.categories.length === 0) {
-          delete params.categories
-        } else {
-          params.categories = params.categories.join(',')
-        }
-      }
+    articles: ({ categories, feeds, ...rest }: ArticleParams) => {
+      const resolvedCategories =
+        Array.isArray(categories) && categories.length > 0
+          ? categories.join(',')
+          : undefined
 
-      if (Array.isArray(params.feeds)) {
-        if (params.feeds.length === 0) {
-          delete params.feeds
-        } else {
-          params.feeds = params.feeds.join(',')
-        }
-      }
+      const resolvedFeeds =
+        Array.isArray(feeds) && feeds.length > 0 ? feeds.join(',') : undefined
+
       return {
         url: `${CTYPTOCOMPARE_API_VERSION}/news/`,
-        params,
+        params: {
+          ...rest,
+          ...(resolvedCategories !== undefined && {
+            categories: resolvedCategories,
+          }),
+          ...(resolvedFeeds !== undefined && { feeds: resolvedFeeds }),
+        },
       }
     },
     /**
