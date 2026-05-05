@@ -17,9 +17,9 @@ const PortfolioStack = () => {
       screenOptions={{
         title: '',
         headerStyle: {
-          backgroundColor: theme.base.background.surface,
           shadowColor: 'transparent',
         },
+        headerBackButtonDisplayMode: 'minimal',
         headerBackImage: () => (
           <MaterialIcons
             name="arrow-back-ios-new"
@@ -27,8 +27,6 @@ const PortfolioStack = () => {
             color={theme.base.text[100]}
           />
         ),
-        headerTintColor: theme.base.text[100],
-        headerBackTitleVisible: false,
         headerLeftContainerStyle: {
           paddingLeft: 10,
         },

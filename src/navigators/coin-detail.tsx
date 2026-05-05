@@ -46,9 +46,6 @@ const CoinDetail = ({ route, navigation }: HomeScreenProps<'CoinDetail'>) => {
   return (
     <CoinIdProvider value={{ id, symbol }}>
       <Tab.Navigator
-        sceneContainerStyle={{
-          backgroundColor: theme.base.background[100],
-        }}
         tabBar={props => <TabBar {...props} />}
         initialRouteName={screen || 'Overview'}
       >

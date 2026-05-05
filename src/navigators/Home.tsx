@@ -36,7 +36,7 @@ const Home = () => {
           />
         ),
         headerTintColor: theme.base.text[100],
-        headerBackTitleVisible: false,
+        headerBackButtonDisplayMode: 'minimal',
         headerLeftContainerStyle: {
           paddingLeft: 10,
         },
