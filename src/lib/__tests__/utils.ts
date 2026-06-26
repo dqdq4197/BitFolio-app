@@ -56,6 +56,7 @@ describe('currencyFormat & converter utils testing', () => {
     ).toBe('₩10000.12')
     expect(currencyFormat({ value: -0.00005, prefix: '$' })).toBe('-$0.00005')
     expect(currencyFormat({ value: -2.04, prefix: '$' })).toBe('-$2.04')
+    expect(currencyFormat({ value: null, prefix: '₩' })).toBe('')
   })
 
   it('return digit to fixed', () => {

@@ -1,7 +1,7 @@
 import { PAIR_CURRENCIES } from '../constant'
 
 type CurrencyFormat = {
-  value: string | number
+  value: string | number | null | undefined
   prefix?: string
   zeroMask?: string
   includeSeparator?: boolean
@@ -135,6 +135,10 @@ export function currencyFormat({
   prefix,
   includeSeparator = true,
 }: CurrencyFormat): string {
+  if (value === null || value === undefined || value === '') {
+    return ''
+  }
+
   const numStr = typeof value === 'number' ? value.toString() : value
   // eslint-disable-next-line prefer-const
   let [intPart, decimalPart] = numStr.split('.')
